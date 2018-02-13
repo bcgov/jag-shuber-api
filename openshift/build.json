@@ -1,0 +1,95 @@
+{
+    "kind": "Template",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "shuber-api-build",
+        "creationTimestamp": null
+    },
+    "objects": [
+        {
+            "kind": "BuildConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${API_SERVICE_NAME}",
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "${API_SERVICE_NAME}"
+                }
+            },
+            "spec": {
+                "triggers": [
+                    {
+                        "type": "ConfigChange"
+                    }
+                ],
+                "runPolicy": "Serial",
+                "source": {
+                    "type": "Git",
+                    "git": {
+                        "uri": "${SOURCE_REPOSITORY_URL}",
+                        "ref": "${SOURCE_REPOSITORY_REF}"
+                    },
+                    "contextDir": "${CONTEXT_DIR}"
+                },
+                "strategy": {
+                    "type": "Docker",
+                    "dockerStrategy": {}
+                },
+                "output": {
+                    "to": {
+                        "kind": "ImageStreamTag",
+                        "name": "${API_SERVICE_NAME}:latest"
+                    }
+                },
+                "resources": {},
+                "postCommit": {},
+                "nodeSelector": null,
+                "successfulBuildsHistoryLimit": 5,
+                "failedBuildsHistoryLimit": 5
+            },
+            "status": {
+                "lastVersion": 0
+            }
+        },
+        {
+            "kind": "ImageStream",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${API_SERVICE_NAME}",
+                "generation": 1,
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "${API_SERVICE_NAME}"
+                }
+            }
+        }
+    ],
+    "parameters": [
+        {
+            "name": "API_SERVICE_NAME",
+            "displayName": "Api Service Name",
+            "description": "The name of the API Service to be built.",
+            "value": "shuber-api",
+            "required": true
+        },
+        {
+            "name": "SOURCE_REPOSITORY_URL",
+            "displayName": "Git Repository URL",
+            "required": true,
+            "description": "The URL of the repository with your application source code.",
+            "value": "https://github.com/bcgov/jag-shuber-api"
+        },
+        {
+            "name": "SOURCE_REPOSITORY_REF",
+            "displayName": "Git Reference",
+            "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch.",
+            "value": "master"
+        },
+        {
+            "name": "CONTEXT_DIR",
+            "displayName": "Context Directory",
+            "description": "Set this to the relative path to your project if it is not in the root of your repository.",
+            "value":"openshift/postgrest"
+        }
+    ]
+}
