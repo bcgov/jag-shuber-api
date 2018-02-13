@@ -1,44 +1,15 @@
-# Application Name
-Description of the application. 
+# SHUBER API
+This project represents the API for the Sheriff Scheduling (Shuber) application.
 
 ## Technology Stack Used
 
-## Third-Party Products/Libraries used and the the License they are covert by
-
-## Project Status
-
-## Documnentation
-
-GitHub Pages (https://guides.github.com/features/pages/) are a neat way to document you application/project.
-
-## Security
-
-Authentication, Authorization, Policies, etc
-
-## Files in this repository
-
-```
-docs/           - Project Documentation
-└── images        
-└── icons         
-
-openshift/      - OpenShift-specific files
-├── scripts     - helper scripts
-└── templates   - application templates
-```
-
-## Deployment (Local Development)
-
-* Developer Workstation Requirements/Setup
-* Application Specific Setup
+- Openshift
+- Postgres
+- [PostgREST](www.postgrest.com)
 
 ## Deployment (OpenShift)
 
-See (openshift/Readme.md)
-
-## Getting Help or Reporting an Issue
-
-To report bugs/issues/feature requests, please file an [issue](https://github.com/BCDevOps/opendev-template/issues/).
+See [openshift/Readme.md](openshift/Readme.md)
 
 ## How to Contribute
 

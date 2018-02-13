@@ -1,0 +1,127 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="carol.geisler (generated)" id="1517979154936-1">
+        <createTable schemaName="${PGRST_DB_SCHEMA}" tableName="Assignment">
+            <column autoIncrement="true" name="Assignment ID" type="SERIAL">
+                <constraints primaryKey="true" primaryKeyName="Key2"/>
+            </column>
+            <column name="Assignment Type Code" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Assigned_Status" type="VARCHAR(20)"/>
+            <column name="Sheriffs Required Count" type="BIGINT"/>
+            <column defaultValueBoolean="false" name="Template Flag" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueBoolean="true" name="Block Assignment Flag" remarks="Long term (specifically when further integration with the hub is in place and various specific assignments are being fed electronically), we are anticipating that a sheriff may be scheduled to do a block of a given type of work section (e.g. AM shift in courtroom 102, or 2.5 hours of document service) that covers more than one specific assignment, Until that time, the system may only track sheriff assignments at the block level.  If this flag is true, this assignment corresponds to a full block." type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Assignment Block ID" type="BIGINT"/>
+            <column name="Assignment Date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Estimated Duration Minutes" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Scheduled Start Time" type="TIME WITHOUT TIME ZONE"/>
+            <column name="Scheduled End Time" type="TIME WITHOUT TIME ZONE"/>
+            <column name="Org Unit ID" type="BIGINT"/>
+            <column name="Location ID" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1517979154936-2">
+        <createTable schemaName="${PGRST_DB_SCHEMA}" tableName="Assignment Type">
+            <column name="Assignment Type Code" type="VARCHAR">
+                <constraints nullable="false" />                
+            </column>
+            <column name="Description" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Work Section Code" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1517979154936-3">
+        <createTable schemaName="${PGRST_DB_SCHEMA}" tableName="Sheriff">
+            <column name="Badge No" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Name" type="VARCHAR"/>
+            <column name="Location ID" type="BIGINT"/>
+            <column name="Rank" type="VARCHAR(50)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1517979154936-4">
+        <createTable schemaName="${PGRST_DB_SCHEMA}" tableName="Sheriff Assignment XRef">
+            <column name="Badge No" type="VARCHAR"/>
+            <column name="Assignment ID" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="Status" type="VARCHAR(20)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1517979154936-5">
+        <addPrimaryKey schemaName="${PGRST_DB_SCHEMA}" columnNames="Assignment Type Code" constraintName="Key3" tableName="Assignment Type"/>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1517979154936-6">
+        <addPrimaryKey schemaName="${PGRST_DB_SCHEMA}" columnNames="Assignment ID" constraintName="SHER_ASSN_PK" tableName="Sheriff Assignment XRef"/>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1517979154936-7">
+        <addPrimaryKey schemaName="${PGRST_DB_SCHEMA}" columnNames="Badge No" constraintName="SHF_PK" tableName="Sheriff"/>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1517979154936-8">
+        <addForeignKeyConstraint 
+            baseColumnNames="Assignment ID" 
+            baseTableName="Sheriff Assignment XRef"
+            baseTableSchemaName="${PGRST_DB_SCHEMA}" 
+            constraintName="assigned to" 
+            deferrable="false" 
+            initiallyDeferred="false" 
+            onDelete="NO ACTION" 
+            onUpdate="NO ACTION" 
+            referencedColumnNames="Assignment ID" 
+            referencedTableName="Assignment"
+            referencedTableSchemaName="${PGRST_DB_SCHEMA}"/>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1517979154936-9">
+        <addForeignKeyConstraint 
+            baseColumnNames="Badge No" 
+            baseTableName="Sheriff Assignment XRef" 
+            baseTableSchemaName="${PGRST_DB_SCHEMA}" 
+            constraintName="has assigned" 
+            deferrable="false" 
+            initiallyDeferred="false" 
+            onDelete="NO ACTION" 
+            onUpdate="NO ACTION" 
+            referencedColumnNames="Badge No" 
+            referencedTableName="Sheriff"
+            referencedTableSchemaName="${PGRST_DB_SCHEMA}" />
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1517979154936-10">
+        <addForeignKeyConstraint 
+            baseColumnNames="Assignment Type Code" 
+            baseTableName="Assignment" 
+            baseTableSchemaName="${PGRST_DB_SCHEMA}" 
+            constraintName="has type" 
+            deferrable="false" 
+            initiallyDeferred="false" 
+            onDelete="NO ACTION" 
+            onUpdate="NO ACTION" 
+            referencedColumnNames="Assignment Type Code" 
+            referencedTableName="Assignment Type"
+            referencedTableSchemaName="${PGRST_DB_SCHEMA}"/>
+    </changeSet>
+    <changeSet author="Colter McQuay" id="11">
+        <sql>
+            GRANT SELECT ON ALL TABLES IN SCHEMA "${PGRST_DB_SCHEMA}" TO "${PGRST_DB_ANON_ROLE}";
+        </sql>
+        <rollback>
+            <sql>
+                REVOKE SELECT ON ALL TABLES IN SCHEMA "${PGRST_DB_SCHEMA}" FROM "${PGRST_DB_ANON_ROLE}";
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
