@@ -7,7 +7,7 @@
 # sed -i 's/${PGRST_DB_ANON_ROLE}/'"$PGRST_DB_ANON_ROLE"'/g' $DB_ROLES_FILE
 
 liquibase \
---classpath=/root/liquibase/lib \
+--classpath=/liquibase/liquibase/lib \
 --driver=org.postgresql.Driver \
 --changeLogFile=/database/db.changelog-master.xml \
 --url="jdbc:postgresql://postgres:$POSTGRES_SERVICE_PORT/$POSTGRES_DATABASE" \
