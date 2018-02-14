@@ -8,15 +8,16 @@ RUN apt-get -qq update && \
 
 # Install liquibase && postgres driver
 RUN BUILD_DEPS="curl" && \
+    LIQUIBASE_ROOT="/liquibase" && \
     apt-get -qq update && \
     apt-get -qq install -y --no-install-recommends $BUILD_DEPS && \
     cd /tmp && \
-    mkdir ~/liquibase && \
+    mkdir $LIQUIBASE_ROOT && \
     curl -SLo liquibase.tar.gz https://github.com/liquibase/liquibase/releases/download/liquibase-parent-3.5.3/liquibase-3.5.3-bin.tar.gz && \  
-    tar -xzf liquibase.tar.gz -C ~/liquibase && \
-    ln -s ~/liquibase/liquibase /usr/local/bin && \
+    tar -xzf liquibase.tar.gz -C $LIQUIBASE_ROOT && \
+    ln -s $LIQUIBASE_ROOT/liquibase /usr/local/bin && \
     curl -SLO https://jdbc.postgresql.org/download/postgresql-42.2.1.jre7.jar && \
-    mv postgresql-42.2.1.jre7.jar ~/liquibase/lib && \
+    mv postgresql-42.2.1.jre7.jar $LIQUIBASE_ROOT/lib && \
     cd / && \
     apt-get -qq purge --auto-remove -y $BUILD_DEPS && \
     apt-get -qq clean && \
