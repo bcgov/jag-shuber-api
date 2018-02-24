@@ -15,16 +15,16 @@ import javax.persistence.TemporalType;
 public abstract class AbstractTypeCode<T> extends AbstractAuditableVersionable implements TypeCode<T>, Effective {
 	/** Effective date. First day in effect. */
 	@Temporal(TemporalType.DATE)
-	@Column(name = "EFFECTIVE_DATE", nullable=false, insertable=true, updatable=true)
+	@Column(name = "EFFECTIVE_DATE", nullable = false, insertable = true, updatable = true)
 	protected Date effectiveDate;
 	
 	/** Expiry Date. Last day in effect. If null there is no expiry date. */
 	@Temporal(TemporalType.DATE)
-	@Column(name = "EXPIRY_DATE", nullable=true, insertable=true, updatable=true)
+	@Column(name = "EXPIRY_DATE", nullable = true, insertable = true, updatable = true)
 	protected Date expiryDate;
 
 	/** Description and/or label. */
-	@Column(name = "DESCRIPTION", nullable=false, insertable=true, updatable=true, length=100)
+	@Column(name = "DESCRIPTION", nullable = false, insertable = true, updatable = true, length = 100)
 	protected String description;
 	
 	

@@ -115,7 +115,7 @@ public class SheriffHateoasController {
 	 */
 	@GetMapping("/sheriffs")
 	public HttpEntity<HateoasList<JsonSheriff>> getSheriffs() {
-		List<Sheriff> s = sheriffSchedulerService.getSherrifs();
+		List<Sheriff> s = sheriffSchedulerService.getSheriffs();
 		
 		HateoasList<JsonSheriff> sheriffs = this.getJsonSheriffs(s);
 		return ResponseEntity.ok(sheriffs);

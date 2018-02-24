@@ -16,7 +16,7 @@ public interface SheriffSchedulerService {
 	 * 
 	 * @return
 	 */
-	List<Sheriff> getSherrifs();
+	List<Sheriff> getSheriffs();
 
 	/**
 	 * 

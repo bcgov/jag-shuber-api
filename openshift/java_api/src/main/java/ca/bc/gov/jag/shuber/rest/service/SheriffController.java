@@ -107,7 +107,7 @@ public class SheriffController {
 	 */
 	@GetMapping("/sheriffs")
 	public HttpEntity<List<Sheriff>> getSheriffs() {
-		List<Sheriff> sheriffs = sheriffSchedulerService.getSherrifs();
+		List<Sheriff> sheriffs = sheriffSchedulerService.getSheriffs();
 		
 		return ResponseEntity.ok(sheriffs);
 	}

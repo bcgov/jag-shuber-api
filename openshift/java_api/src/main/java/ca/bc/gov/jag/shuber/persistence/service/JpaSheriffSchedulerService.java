@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
  * 
  * @author michael.gabelmann
  */
+@Primary
 @Service
 public class JpaSheriffSchedulerService implements SheriffSchedulerService {
 	/** Logger. */
@@ -34,7 +36,7 @@ public class JpaSheriffSchedulerService implements SheriffSchedulerService {
 	
 	@Override
 	@Transactional(readOnly=true)
-	public List<Sheriff> getSherrifs() {
+	public List<Sheriff> getSheriffs() {
 		return sheriffDao.findAll();
 	}
 	

@@ -55,7 +55,7 @@ Thumbs.db
 # maven files
 #---------------------------
 target/
-
+.scannerwork/
 
 # ant files
 #---------------------------
