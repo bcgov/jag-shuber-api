@@ -1,25 +1,17 @@
-package ca.bc.gov.jag.shuber.persistence.service;
+package ca.bc.gov.jag.shuber.service;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
-import org.springframework.test.context.junit4.SpringRunner;
 
+import ca.bc.gov.jag.shuber.AbstractTest;
 import ca.bc.gov.jag.shuber.persistence.dao.SheriffDAO;
 import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
 
@@ -29,34 +21,18 @@ import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
  * 
  * @author michael.gabelmann
  */
-@RunWith(SpringRunner.class)
-public class SheriffSchedulerServiceTest {
-	@TestConfiguration
-	static class SheriffSchedulerServiceConfig {
-		
-		@Bean
-		public SheriffSchedulerService getSheriffSchedulerService() {
-			return new JpaSheriffSchedulerService();
-		}
-	}
-	
-	@Autowired
-	private SheriffSchedulerService sheriffSchedulerService;
-	
-	@MockBean
+public class SheriffSchedulerServiceTest extends AbstractTest {
 	private SheriffDAO sheriffDao;
+	private SheriffSchedulerService sheriffSchedulerService;
 	
 	//Data fields
 	private List<Sheriff> records;
 	private List<Sheriff> sorted;
 	private Sheriff s1;
 	private Sheriff s2;
-	private Date now;
 	
-	
-	@Before
-	public void setUp() {
-		now = new Date();
+	@Override
+	public void beforeTest() {
 		records = new ArrayList<>();
 		sorted = new ArrayList<>();
 		
@@ -69,10 +45,6 @@ public class SheriffSchedulerServiceTest {
 		records.add(s2);
 		records.add(s1);	
 		
-		Mockito.when(sheriffDao.findByBadgeNo("badgeNo2")).thenReturn(s2);
-		Mockito.when(sheriffDao.findAll()).thenReturn(records);
-		Mockito.when(sheriffDao.findById(s1.getSheriffId())).thenReturn(Optional.of(s1));
-		
 		//not ideal, but lambdas blow up
 		sorted.add(s1); 
 		sorted.add(s2);
@@ -81,15 +53,20 @@ public class SheriffSchedulerServiceTest {
 		//sorted.sort(Comparator.comparing(Sheriff::getName));
 		//Collections.sort(sorted, (a, b) -> a.getName().compareTo(b.getName()));
 		
+		sheriffDao = Mockito.mock(SheriffDAO.class);
+		sheriffSchedulerService = new JpaSheriffSchedulerService(sheriffDao);
+		
+		Mockito.when(sheriffDao.findByBadgeNo("badgeNo2")).thenReturn(s2);
+		Mockito.when(sheriffDao.findAll()).thenReturn(records);
+		Mockito.when(sheriffDao.findById(s1.getSheriffId())).thenReturn(Optional.of(s1));
 		Mockito.when(sheriffDao.findAll(Sort.by(Order.asc("name")))).thenReturn(sorted).thenReturn(records);
 	}
 	
+	@Override
+	public void afterTest() {
+		
+	}
 
-//TODO: implement these
-//	Sheriff createSheriff(Sheriff sheriff);
-//	void deleteSheriff(Sheriff sheriff);
-	
-	
 	@Test
 	public void test1_getSheriffs() {
 		List<Sheriff> s = sheriffSchedulerService.getSheriffs();
@@ -136,7 +113,9 @@ public class SheriffSchedulerServiceTest {
 		Assert.assertNull(s);
 	}
 	
-	//TODO: createSheriff
-	//TODO: deleteSheriff
+//TODO: implement these
+//	Sheriff createSheriff(Sheriff sheriff);
+//	void deleteSheriff(Sheriff sheriff);
+	
 	
 }

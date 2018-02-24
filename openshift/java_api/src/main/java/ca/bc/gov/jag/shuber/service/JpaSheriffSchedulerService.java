@@ -1,4 +1,4 @@
-package ca.bc.gov.jag.shuber.persistence.service;
+package ca.bc.gov.jag.shuber.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,13 +7,11 @@ import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ca.bc.gov.jag.shuber.Application;
 import ca.bc.gov.jag.shuber.persistence.dao.SheriffDAO;
 import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
 
@@ -21,18 +19,22 @@ import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
  * 
  * @author michael.gabelmann
  */
-@Primary
 @Service
 public class JpaSheriffSchedulerService implements SheriffSchedulerService {
 	/** Logger. */
-	private static final Logger log = LogManager.getLogger(Application.class);
+	private static final Logger log = LogManager.getLogger(JpaSheriffSchedulerService.class);
+
+	/** Sheriff repository. */
+	private final SheriffDAO sheriffDao;
 	
-//	@Autowired
-//	private AssignmentDAO assignmentDao;
-	
+	/**
+	 * Constructor.
+	 * @param sheriffDao
+	 */
 	@Autowired
-	private SheriffDAO sheriffDao;
-	
+	public JpaSheriffSchedulerService(SheriffDAO sheriffDao) {
+		this.sheriffDao = sheriffDao;
+	}
 	
 	@Override
 	@Transactional(readOnly=true)
@@ -69,4 +71,5 @@ public class JpaSheriffSchedulerService implements SheriffSchedulerService {
 	public void deleteSheriff(Sheriff sheriff) {
 		sheriffDao.delete(sheriff);
 	}
+	
 }

@@ -1,4 +1,4 @@
-package ca.bc.gov.jag.shuber.rest.service;
+package ca.bc.gov.jag.shuber.rest.controller;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -29,8 +29,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
-import ca.bc.gov.jag.shuber.persistence.service.SheriffSchedulerService;
 import ca.bc.gov.jag.shuber.rest.dto.HateoasList;
+import ca.bc.gov.jag.shuber.service.SheriffSchedulerService;
 
 /**
  * 

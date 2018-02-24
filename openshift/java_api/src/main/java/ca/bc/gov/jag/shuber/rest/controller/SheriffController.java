@@ -1,4 +1,4 @@
-package ca.bc.gov.jag.shuber.rest.service;
+package ca.bc.gov.jag.shuber.rest.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -7,7 +7,6 @@ import java.util.UUID;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
-import ca.bc.gov.jag.shuber.persistence.service.SheriffSchedulerService;
+import ca.bc.gov.jag.shuber.service.SheriffSchedulerService;
 
 /**
  * Endpoint for handling REST services for a Sheriff
@@ -106,7 +105,7 @@ public class SheriffController {
 	 * @return
 	 */
 	@GetMapping("/sheriffs")
-	public HttpEntity<List<Sheriff>> getSheriffs() {
+	public ResponseEntity<List<Sheriff>> getSheriffs() {
 		List<Sheriff> sheriffs = sheriffSchedulerService.getSheriffs();
 		
 		return ResponseEntity.ok(sheriffs);
@@ -118,7 +117,7 @@ public class SheriffController {
 	 * @return
 	 */
 	@GetMapping("/sheriffs/search")
-	public HttpEntity<Sheriff> findSheriffByBadgeNo(@RequestParam(value="badgeNo") String badgeNo) {
+	public ResponseEntity<Sheriff> findSheriffByBadgeNo(@RequestParam(value="badgeNo") String badgeNo) {
 		Sheriff sheriff = sheriffSchedulerService.getSheriffByBadgeNo(badgeNo);
 		
 		if (sheriff == null) {

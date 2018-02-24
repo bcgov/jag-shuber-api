@@ -1,4 +1,4 @@
-package ca.bc.gov.jag.shuber.persistence.service;
+package ca.bc.gov.jag.shuber.service;
 
 import java.util.List;
 import java.util.Optional;
