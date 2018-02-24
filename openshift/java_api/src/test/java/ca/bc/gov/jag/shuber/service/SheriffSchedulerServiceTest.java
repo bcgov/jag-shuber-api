@@ -5,11 +5,17 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.platform.runner.JUnitPlatform;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Order;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.bc.gov.jag.shuber.AbstractTest;
 import ca.bc.gov.jag.shuber.persistence.dao.SheriffDAO;
@@ -21,6 +27,8 @@ import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
  * 
  * @author michael.gabelmann
  */
+@RunWith(JUnitPlatform.class)
+@ExtendWith(SpringExtension.class)
 public class SheriffSchedulerServiceTest extends AbstractTest {
 	private SheriffDAO sheriffDao;
 	private SheriffSchedulerService sheriffSchedulerService;
@@ -31,8 +39,9 @@ public class SheriffSchedulerServiceTest extends AbstractTest {
 	private Sheriff s1;
 	private Sheriff s2;
 	
+	@BeforeEach
 	@Override
-	public void beforeTest() {
+	protected void beforeTest() {
 		records = new ArrayList<>();
 		sorted = new ArrayList<>();
 		
@@ -62,8 +71,9 @@ public class SheriffSchedulerServiceTest extends AbstractTest {
 		Mockito.when(sheriffDao.findAll(Sort.by(Order.asc("name")))).thenReturn(sorted).thenReturn(records);
 	}
 	
+	@AfterEach
 	@Override
-	public void afterTest() {
+	protected void afterTest() {
 		
 	}
 
@@ -71,46 +81,46 @@ public class SheriffSchedulerServiceTest extends AbstractTest {
 	public void test1_getSheriffs() {
 		List<Sheriff> s = sheriffSchedulerService.getSheriffs();
 		
-		Assert.assertNotNull(s);
-		Assert.assertTrue(s.size() == 2);
+		Assertions.assertNotNull(s);
+		Assertions.assertTrue(s.size() == 2);
 	}
 	
 	@Test
 	public void test1_getSheriffsSortedByName() {
 		List<Sheriff> results = sheriffSchedulerService.getSheriffsSortedByName();
 		
-		Assert.assertNotNull(results);
-		Assert.assertTrue(results.size() == 2);
-		Assert.assertEquals("lastName1, firstName1", results.get(0).getName());
-		Assert.assertEquals("lastName2, firstName2", results.get(1).getName());
+		Assertions.assertNotNull(results);
+		Assertions.assertTrue(results.size() == 2);
+		Assertions.assertEquals("lastName1, firstName1", results.get(0).getName());
+		Assertions.assertEquals("lastName2, firstName2", results.get(1).getName());
 	}
 	
 	@Test
 	public void test1_getSheriffById() {
 		UUID id = s1.getSheriffId();
 		Optional<Sheriff> result = sheriffSchedulerService.getSheriffById(id);
-		Assert.assertTrue(result.isPresent());
+		Assertions.assertTrue(result.isPresent());
 	}
 	
 	@Test
 	public void test2_getSheriffById() {
 		UUID id = UUID.randomUUID();
 		Optional<Sheriff> result = sheriffSchedulerService.getSheriffById(id);
-		Assert.assertFalse(result.isPresent());
+		Assertions.assertFalse(result.isPresent());
 	}
 	
 	@Test
 	public void test1_getSheriffByBadgeNo() {
 		String badgeNo = "badgeNo2";
 		Sheriff s = sheriffSchedulerService.getSheriffByBadgeNo(badgeNo);
-		Assert.assertEquals(s2, s);
+		Assertions.assertEquals(s2, s);
 	}
 	
 	@Test
 	public void test2_getSheriffByBadgeNo() {
 		String badgeNo = "doesnotexist";
 		Sheriff s = sheriffSchedulerService.getSheriffByBadgeNo(badgeNo);
-		Assert.assertNull(s);
+		Assertions.assertNull(s);
 	}
 	
 //TODO: implement these

@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.UUID;
 
 import org.hamcrest.Matchers;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -28,12 +30,13 @@ public class SheriffControllerTest extends AbstractControllerTest {
     
     private List<Sheriff> records;
     
-    
+    @BeforeEach
     @Override
 	public void beforeTest() {
 		records = new ArrayList<>();
 	}
     
+    @AfterEach
 	@Override
 	public void afterTest() {
 
@@ -45,9 +48,8 @@ public class SheriffControllerTest extends AbstractControllerTest {
 		@PathVariable(value="id") String id,
 		@Valid @RequestBody Sheriff record) {*/
     //public ResponseEntity<Sheriff> deleteSheriff(@PathVariable(value="id") String id) {
-    //public ResponseEntity<List<Sheriff>> getSheriffs() {
-    //public ResponseEntity<Sheriff> findSheriffByBadgeNo(@RequestParam(value="badgeNo") String badgeNo) {
-    
+   
+	
     @Test
     public void test1_createSheriff() {
     		
@@ -67,4 +69,24 @@ public class SheriffControllerTest extends AbstractControllerTest {
     		      .andExpect(MockMvcResultMatchers.jsonPath("$[0].badgeNo", Matchers.is(s1.getBadgeNo())));
     }
     
+    @Test
+    public void test1_findSheriffByBadgeNo() throws Exception {
+    		Sheriff s1 = new Sheriff(UUID.randomUUID(),"badgeNo1", "createdBy", "updatedBy", now, now, 0);
+    		
+    		Mockito.when(sheriffSchedulerService.getSheriffByBadgeNo("badgeNo1")).thenReturn(s1);
+    		
+    		mvc.perform(MockMvcRequestBuilders.get("/api/sheriffs/search")
+    			  .param("badgeNo", "badgeNo1")
+  		      .contentType(MediaType.APPLICATION_JSON))
+  		      .andExpect(MockMvcResultMatchers.status().isOk())
+  		      .andExpect(MockMvcResultMatchers.jsonPath("badgeNo", Matchers.is(s1.getBadgeNo())));
+    }
+    
+    @Test
+    public void test2_findSheriffByBadgeNo() throws Exception {
+    		mvc.perform(MockMvcRequestBuilders.get("/api/sheriffs/search")
+    			  .param("badgeNo", "doesnotexist")
+  		      .contentType(MediaType.APPLICATION_JSON))
+  		      .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+    }
 }

@@ -117,7 +117,7 @@ public class SheriffController {
 	 * @return
 	 */
 	@GetMapping("/sheriffs/search")
-	public ResponseEntity<Sheriff> findSheriffByBadgeNo(@RequestParam(value="badgeNo") String badgeNo) {
+	public ResponseEntity<Sheriff> getSheriffByBadgeNo(@RequestParam(value="badgeNo") String badgeNo) {
 		Sheriff sheriff = sheriffSchedulerService.getSheriffByBadgeNo(badgeNo);
 		
 		if (sheriff == null) {

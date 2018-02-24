@@ -3,8 +3,10 @@ package ca.bc.gov.jag.shuber.persistence.dao;
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.bc.gov.jag.shuber.persistence.MockAuditorAware;
@@ -21,13 +23,14 @@ public class SheriffDAOTest extends AbstractDAOTest {
 	/** Sheriff record. */
 	private Sheriff s;
 	
-	
+	@BeforeEach
 	@Override
 	public void beforeTest() {
 		s = new Sheriff(null, "M12345", "test", "test", now, now, 0);
 		entityManager.persistAndFlush(s);
 	}
 
+	@AfterEach
 	@Override
 	public void afterTest() {
 		
@@ -36,18 +39,18 @@ public class SheriffDAOTest extends AbstractDAOTest {
 	@Test
 	public void testFindAll() {
 		List<Sheriff> records = sheriffDAO.findAll();
-		Assert.assertTrue(records.size() == 1);
+		Assertions.assertTrue(records.size() == 1);
 	}
 
 	@Test
 	public void testCount() {
-		Assert.assertEquals(1, sheriffDAO.count());
+		Assertions.assertEquals(1, sheriffDAO.count());
 	}
 	
 	@Test
 	public void testDelete() {
 		sheriffDAO.delete(s);
-		Assert.assertTrue(sheriffDAO.findAll().size() == 0);
+		Assertions.assertTrue(sheriffDAO.findAll().size() == 0);
 	}
 
 	@Test
@@ -56,7 +59,7 @@ public class SheriffDAOTest extends AbstractDAOTest {
 		
 		Sheriff s = new Sheriff(id, "M44532", "test", "test", now, now, 0);
 		sheriffDAO.save(s);
-		Assert.assertTrue(sheriffDAO.count() == 2);
+		Assertions.assertTrue(sheriffDAO.count() == 2);
 	}
 	
 	@Test
@@ -65,12 +68,12 @@ public class SheriffDAOTest extends AbstractDAOTest {
 		s.setBadgeNo("T32423");
 		sheriffDAO.save(s);
 		
-		Assert.assertNotNull(s.getSheriffId());
-		Assert.assertEquals(MockAuditorAware.USER, s.getCreatedBy());
-		Assert.assertEquals(MockAuditorAware.USER, s.getUpdatedBy());
-		Assert.assertNotNull(s.getCreatedDtm());
-		Assert.assertNotNull(s.getUpdatedDtm());
-		Assert.assertEquals(0, s.getRevisionCount());
+		Assertions.assertNotNull(s.getSheriffId());
+		Assertions.assertEquals(MockAuditorAware.USER, s.getCreatedBy());
+		Assertions.assertEquals(MockAuditorAware.USER, s.getUpdatedBy());
+		Assertions.assertNotNull(s.getCreatedDtm());
+		Assertions.assertNotNull(s.getUpdatedDtm());
+		Assertions.assertEquals(0, s.getRevisionCount());
 	}
 	
 }
