@@ -13,41 +13,41 @@ import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
 public interface SheriffSchedulerService {
 
 	/**
-	 * 
-	 * @return
+	 * Get all sheriffs.
+	 * @return records
 	 */
 	List<Sheriff> getSheriffs();
 
 	/**
-	 * 
-	 * @return
+	 * Get all sheriffs sorted by name.
+	 * @return records
 	 */
 	List<Sheriff> getSheriffsSortedByName();
 
 	/**
-	 * 
-	 * @param id
-	 * @return
+	 * Get sheriff by id.
+	 * @param id unique id
+	 * @return value
 	 */
 	Optional<Sheriff> getSheriffById(UUID id);
 
 	/**
-	 * 
-	 * @param badgeNo
-	 * @return
+	 * Get sheriff by badge number.
+	 * @param badgeNo badge number
+	 * @return value
 	 */
-	Sheriff getSheriffByBadgeNo(String badgeNo);
+	Optional<Sheriff> getSheriffByBadgeNo(String badgeNo);
 
 	/**
-	 * 
-	 * @param sheriff
-	 * @return
+	 * Create a sheriff record
+	 * @param sheriff record to create
+	 * @return record
 	 */
 	Sheriff createSheriff(Sheriff sheriff);
 
 	/**
-	 * 
-	 * @param sheriff
+	 * Delete a sheriff.
+	 * @param sheriff record to delete
 	 */
 	void deleteSheriff(Sheriff sheriff);
 

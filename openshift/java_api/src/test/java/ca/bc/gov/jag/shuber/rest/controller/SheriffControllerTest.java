@@ -2,6 +2,7 @@ package ca.bc.gov.jag.shuber.rest.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.hamcrest.Matchers;
@@ -73,7 +74,7 @@ public class SheriffControllerTest extends AbstractControllerTest {
     public void test1_findSheriffByBadgeNo() throws Exception {
     		Sheriff s1 = new Sheriff(UUID.randomUUID(),"badgeNo1", "createdBy", "updatedBy", now, now, 0);
     		
-    		Mockito.when(sheriffSchedulerService.getSheriffByBadgeNo("badgeNo1")).thenReturn(s1);
+    		Mockito.when(sheriffSchedulerService.getSheriffByBadgeNo("badgeNo1")).thenReturn(Optional.of(s1));
     		
     		mvc.perform(MockMvcRequestBuilders.get("/api/sheriffs/search")
     			  .param("badgeNo", "badgeNo1")

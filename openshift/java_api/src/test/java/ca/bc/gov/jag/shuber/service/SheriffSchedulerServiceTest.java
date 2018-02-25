@@ -112,15 +112,15 @@ public class SheriffSchedulerServiceTest extends AbstractTest {
 	@Test
 	public void test1_getSheriffByBadgeNo() {
 		String badgeNo = "badgeNo2";
-		Sheriff s = sheriffSchedulerService.getSheriffByBadgeNo(badgeNo);
-		Assertions.assertEquals(s2, s);
+		Optional<Sheriff> s = sheriffSchedulerService.getSheriffByBadgeNo(badgeNo);
+		Assertions.assertEquals(s2, s.get());
 	}
 	
 	@Test
 	public void test2_getSheriffByBadgeNo() {
 		String badgeNo = "doesnotexist";
-		Sheriff s = sheriffSchedulerService.getSheriffByBadgeNo(badgeNo);
-		Assertions.assertNull(s);
+		Optional<Sheriff> s = sheriffSchedulerService.getSheriffByBadgeNo(badgeNo);
+		Assertions.assertFalse(s.isPresent());
 	}
 	
 //TODO: implement these

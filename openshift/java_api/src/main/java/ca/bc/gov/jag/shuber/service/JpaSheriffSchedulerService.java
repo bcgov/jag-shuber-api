@@ -56,8 +56,9 @@ public class JpaSheriffSchedulerService implements SheriffSchedulerService {
 
 	@Override
 	@Transactional(readOnly=true)
-	public Sheriff getSheriffByBadgeNo(String badgeNo) {
-		return sheriffDao.findByBadgeNo(badgeNo);
+	public Optional<Sheriff> getSheriffByBadgeNo(String badgeNo) {
+		Sheriff s = sheriffDao.findByBadgeNo(badgeNo);
+		return s != null ? Optional.of(s) : Optional.empty();
 	}
 	
 	@Override

@@ -128,14 +128,14 @@ public class SheriffHateoasController {
 	 */
 	@GetMapping("/sheriffs/search")
 	public HttpEntity<JsonSheriff> findSheriffByBadgeNo(@RequestParam(value="badgeNo") String badgeNo) {
-		Sheriff s = sheriffSchedulerService.getSheriffByBadgeNo(badgeNo);
+		Optional<Sheriff> s = sheriffSchedulerService.getSheriffByBadgeNo(badgeNo);
 		
-		if (s == null) {
-			return ResponseEntity.notFound().build();
+		if (s.isPresent()) {
+			JsonSheriff js = getJsonSheriff(s.get());
+			return new ResponseEntity<>(js, HttpStatus.OK);
 			
 		} else {
-			JsonSheriff js = getJsonSheriff(s);
-			return new ResponseEntity<>(js, HttpStatus.OK);
+			return ResponseEntity.notFound().build();
 		}
 	}
 	

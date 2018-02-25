@@ -39,8 +39,8 @@ public class Application {
 			log.debug("done");
 		}
 
-		//NOTE: if you don't do this spring doesn't shut down your app (it's in a new thread)
-		//ctx.close();
+		//NOTE: spring doesn't shut down your app (it's in a new thread)
+		
 	}
 
 	@Bean

@@ -5,7 +5,7 @@ import java.util.Date;
 import javax.annotation.PostConstruct;
 
 /**
- * 
+ * Base class for JUnit tests.
  * @author michael.gabelmann
  */
 public abstract class AbstractTest {
