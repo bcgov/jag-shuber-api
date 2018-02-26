@@ -1,4 +1,4 @@
-package ca.bc.gov.jag.shuber.rest.service;
+package ca.bc.gov.jag.shuber.rest.controller;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -29,8 +29,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
-import ca.bc.gov.jag.shuber.persistence.service.SheriffSchedulerService;
 import ca.bc.gov.jag.shuber.rest.dto.HateoasList;
+import ca.bc.gov.jag.shuber.service.SheriffSchedulerService;
 
 /**
  * 
@@ -115,7 +115,7 @@ public class SheriffHateoasController {
 	 */
 	@GetMapping("/sheriffs")
 	public HttpEntity<HateoasList<JsonSheriff>> getSheriffs() {
-		List<Sheriff> s = sheriffSchedulerService.getSherrifs();
+		List<Sheriff> s = sheriffSchedulerService.getSheriffs();
 		
 		HateoasList<JsonSheriff> sheriffs = this.getJsonSheriffs(s);
 		return ResponseEntity.ok(sheriffs);
@@ -128,14 +128,14 @@ public class SheriffHateoasController {
 	 */
 	@GetMapping("/sheriffs/search")
 	public HttpEntity<JsonSheriff> findSheriffByBadgeNo(@RequestParam(value="badgeNo") String badgeNo) {
-		Sheriff s = sheriffSchedulerService.getSheriffByBadgeNo(badgeNo);
+		Optional<Sheriff> s = sheriffSchedulerService.getSheriffByBadgeNo(badgeNo);
 		
-		if (s == null) {
-			return ResponseEntity.notFound().build();
+		if (s.isPresent()) {
+			JsonSheriff js = getJsonSheriff(s.get());
+			return new ResponseEntity<>(js, HttpStatus.OK);
 			
 		} else {
-			JsonSheriff js = getJsonSheriff(s);
-			return new ResponseEntity<>(js, HttpStatus.OK);
+			return ResponseEntity.notFound().build();
 		}
 	}
 	

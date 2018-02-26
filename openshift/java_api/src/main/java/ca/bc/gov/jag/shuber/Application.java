@@ -1,10 +1,7 @@
 package ca.bc.gov.jag.shuber;
 
-import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -12,9 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
-
-import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
-import ca.bc.gov.jag.shuber.persistence.service.SheriffSchedulerService;
 
 /**
  *
@@ -29,10 +23,6 @@ public class Application {
 	@Value("${app.acronym}")
 	private String applicationAcronym;
 	
-	@Autowired
-	private SheriffSchedulerService sheriffSchedulerService;
-	
-	
 	/**
 	 * Main entry point used by Spring Boot to initialize the application.
 	 * @param args application arguments
@@ -40,20 +30,21 @@ public class Application {
 	public static void main(final String[] args) {
 		ConfigurableApplicationContext ctx = SpringApplication.run(Application.class, args);
 
-		log.debug("done");
+		if (log.isDebugEnabled()) {
+			String[] names = ctx.getBeanDefinitionNames();
+			for (String name : names) {
+				log.debug("bean name=" + name);
+			}
+			
+			log.debug("done");
+		}
 
-		//NOTE: if you don't do this spring doesn't shut down your app (it's in a new thread)
-		//ctx.close();
+		//NOTE: spring doesn't shut down your app (it's in a new thread)
+		
 	}
 
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
-		return args -> {
-			List<Sheriff> sheriffs = sheriffSchedulerService.getSheriffsSortedByName();
-					
-			for (Sheriff sheriff : sheriffs) {
-				log.debug(sheriff.getSheriffId() + ", name=" + sheriff.getName());
-			}
-		};
+		return args -> log.debug("application started");
 	}
 }

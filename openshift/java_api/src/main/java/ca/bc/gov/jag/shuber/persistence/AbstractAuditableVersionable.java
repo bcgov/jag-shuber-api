@@ -15,39 +15,40 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
- *
+ * <p>All objects that are auditable extend this class. Fields are read-only. The java persistence
+ * layer handles the setting of them based on the authenticated user and the time of the 
+ * transaction. Revision count is used to determine if someone else has modified the record and it
+ * is stale.</p>
+ * 
  * @author michael.gabelmann
  */
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(value = {"createdBy", "updatedBy", "createdDtm", "updatedDtm", "revisionCount"}, allowGetters = true)
 public abstract class AbstractAuditableVersionable implements Auditable, Versionable {
 	/** Who created the record. */
-	@JsonIgnore
 	@CreatedBy
-	@Column(name = "CREATED_BY", nullable=false, insertable=true, updatable=false, length=32)
+	@Column(name = "CREATED_BY", nullable = false, insertable = true, updatable = false, length = 32)
 	protected String createdBy;
 	
 	/** Who updated the record. */
-	@JsonIgnore
 	@LastModifiedBy
-	@Column(name = "UPDATED_BY", nullable=false, insertable=true, updatable=true, length=32)
+	@Column(name = "UPDATED_BY", nullable = false, insertable = true, updatable = true, length = 32)
 	protected String updatedBy;
 	
 	/** Date/time record created. */
-	@JsonIgnore
 	@CreatedDate
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "CREATED_DTM", nullable=false, insertable=true, updatable=false)
+	@Column(name = "CREATED_DTM", nullable = false, insertable = true, updatable = false)
 	protected Date createdDtm;
 
 	/** Date/time record updated. */
-	@JsonIgnore
 	@LastModifiedDate
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "UPDATED_DTM", nullable=false, insertable=true, updatable=true)
+	@Column(name = "UPDATED_DTM", nullable = false, insertable = true, updatable = true)
 	protected Date updatedDtm;
 	
 	/** 
@@ -55,7 +56,7 @@ public abstract class AbstractAuditableVersionable implements Auditable, Version
 	 * has been modified by another source. If this occurs the record is stale and needs to be reloaded.
 	 */
 	@Version
-	@Column(name = "REVISION_COUNT", nullable=false, insertable=true, updatable=true, precision=10, scale=0)
+	@Column(name = "REVISION_COUNT", nullable = false, insertable = true, updatable = true, precision = 10, scale = 0)
 	protected long revisionCount;
 	
 	

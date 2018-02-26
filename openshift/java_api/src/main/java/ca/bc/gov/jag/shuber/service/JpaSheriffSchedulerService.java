@@ -1,4 +1,4 @@
-package ca.bc.gov.jag.shuber.persistence.service;
+package ca.bc.gov.jag.shuber.service;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,7 +12,6 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ca.bc.gov.jag.shuber.Application;
 import ca.bc.gov.jag.shuber.persistence.dao.SheriffDAO;
 import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
 
@@ -23,18 +22,23 @@ import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
 @Service
 public class JpaSheriffSchedulerService implements SheriffSchedulerService {
 	/** Logger. */
-	private static final Logger log = LogManager.getLogger(Application.class);
+	private static final Logger log = LogManager.getLogger(JpaSheriffSchedulerService.class);
+
+	/** Sheriff repository. */
+	private final SheriffDAO sheriffDao;
 	
-//	@Autowired
-//	private AssignmentDAO assignmentDao;
-	
+	/**
+	 * Constructor.
+	 * @param sheriffDao
+	 */
 	@Autowired
-	private SheriffDAO sheriffDao;
-	
+	public JpaSheriffSchedulerService(SheriffDAO sheriffDao) {
+		this.sheriffDao = sheriffDao;
+	}
 	
 	@Override
 	@Transactional(readOnly=true)
-	public List<Sheriff> getSherrifs() {
+	public List<Sheriff> getSheriffs() {
 		return sheriffDao.findAll();
 	}
 	
@@ -52,8 +56,9 @@ public class JpaSheriffSchedulerService implements SheriffSchedulerService {
 
 	@Override
 	@Transactional(readOnly=true)
-	public Sheriff getSheriffByBadgeNo(String badgeNo) {
-		return sheriffDao.findByBadgeNo(badgeNo);
+	public Optional<Sheriff> getSheriffByBadgeNo(String badgeNo) {
+		Sheriff s = sheriffDao.findByBadgeNo(badgeNo);
+		return s != null ? Optional.of(s) : Optional.empty();
 	}
 	
 	@Override
@@ -67,4 +72,5 @@ public class JpaSheriffSchedulerService implements SheriffSchedulerService {
 	public void deleteSheriff(Sheriff sheriff) {
 		sheriffDao.delete(sheriff);
 	}
+	
 }
