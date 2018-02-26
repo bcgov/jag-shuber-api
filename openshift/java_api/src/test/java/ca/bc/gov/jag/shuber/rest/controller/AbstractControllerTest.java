@@ -4,6 +4,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -15,6 +16,9 @@ import ca.bc.gov.jag.shuber.AbstractTest;
  */
 @RunWith(JUnitPlatform.class)
 @ExtendWith(SpringExtension.class)
+@TestPropertySource(
+	locations = "classpath:application-unit.properties"
+)
 abstract class AbstractControllerTest extends AbstractTest {
 	@Autowired
     protected MockMvc mvc;

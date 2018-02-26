@@ -9,6 +9,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.bc.gov.jag.shuber.AbstractTest;
@@ -23,10 +25,13 @@ import ca.bc.gov.jag.shuber.persistence.MockAuditorAware;
 @RunWith(JUnitPlatform.class)
 @ExtendWith(SpringExtension.class)
 @DataJpaTest(
-	//excludeFilters = @Filter(Service.class), 
 	includeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = MockAuditorAware.class)
 )
 @EnableJpaAuditing(auditorAwareRef = "mockAuditorAware")
+@TestPropertySource(
+	locations = "classpath:application-unit.properties"
+)
+@ActiveProfiles("unit")
 abstract class AbstractDAOTest extends AbstractTest {
 	@Autowired
     protected TestEntityManager entityManager;
