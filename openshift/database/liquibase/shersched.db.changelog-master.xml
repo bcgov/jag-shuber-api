@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="Carol Geisler" id="Tag_00_Empty">
+    	<tagDatabase tag="00_EmptyDB"/>
+    </changeSet>
+    <include file="C:/Users/carol.geisler/Documents/Justice/Liquibase/shersched.db.changelog-roles.xml"/>
+    <changeSet author="Carol Geisler" id="Tag_01_RolesOnly">
+    	<tagDatabase tag="00_RolesOnlyDB"/>
+    </changeSet>
+    <include file="C:/Users/carol.geisler/Documents/Justice/Liquibase/shersched.db.changelog.xml"/>
+</databaseChangeLog>
