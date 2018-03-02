@@ -11,7 +11,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 /**
- *
+ * Entry point for running the Spring application.
  * @author michael.gabelmann
  */
 @SpringBootApplication
@@ -33,10 +33,10 @@ public class Application {
 		if (log.isDebugEnabled()) {
 			String[] names = ctx.getBeanDefinitionNames();
 			for (String name : names) {
-				log.debug("bean name=" + name);
+				//log.debug("bean name=" + name);
 			}
 			
-			log.debug("done");
+			log.debug("initialization complete");
 		}
 
 		//NOTE: spring doesn't shut down your app (it's in a new thread)
@@ -47,4 +47,5 @@ public class Application {
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 		return args -> log.debug("application started");
 	}
+
 }
