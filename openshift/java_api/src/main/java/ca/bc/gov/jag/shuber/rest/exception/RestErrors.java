@@ -1,5 +1,6 @@
 package ca.bc.gov.jag.shuber.rest.exception;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -13,7 +14,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * 
  * @author michael.gabelmann
  */
-public final class RestErrors {
+public final class RestErrors implements Serializable {
+	/** UID. */
+	private static final long serialVersionUID = 1L;
+
 	/** Current date/time. */
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
 	private LocalDateTime datetime;
@@ -34,8 +38,8 @@ public final class RestErrors {
 
 	/**
 	 * Constructor.
-	 * @param globalErrors
-	 * @param fieldErrors
+	 * @param globalErrors list of global errors
+	 * @param fieldErrors list of field errors
 	 */
 	public RestErrors(List<RestGlobalError> globalErrors, List<RestFieldError> fieldErrors) {
 		this.datetime = LocalDateTime.now();

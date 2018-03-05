@@ -24,12 +24,12 @@ public class RestFieldError extends RestGlobalError implements Serializable {
 
 	/** 
 	 * Constructor.
-	 * @param objectName
-	 * @param code
-	 * @param defaultMessage
-	 * @param localizedMessage
-	 * @param field
-	 * @param rejectedValue
+	 * @param objectName name of object
+	 * @param code message key
+	 * @param defaultMessage non localized message
+	 * @param localizedMessage localized message
+	 * @param field field that failed validation
+	 * @param rejectedValue value that failed validation
 	 */
 	public RestFieldError(
 		String objectName, 

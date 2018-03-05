@@ -63,7 +63,7 @@ public class SheriffControllerTest extends AbstractControllerTest {
 		
 		Mockito.when(sheriffSchedulerService.getSheriffs()).thenReturn(records);
     		
-    		mvc.perform(MockMvcRequestBuilders.get("/api/sheriffs")
+    		mvc.perform(MockMvcRequestBuilders.get("/api/custom/sheriffs")
     		      .contentType(MediaType.APPLICATION_JSON))
     		      .andExpect(MockMvcResultMatchers.status().isOk())
     		      .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(1)))
@@ -76,7 +76,7 @@ public class SheriffControllerTest extends AbstractControllerTest {
     		
     		Mockito.when(sheriffSchedulerService.getSheriffByBadgeNo("badgeNo1")).thenReturn(Optional.of(s1));
     		
-    		mvc.perform(MockMvcRequestBuilders.get("/api/sheriffs/search")
+    		mvc.perform(MockMvcRequestBuilders.get("/api/custom/sheriffs/search")
     			  .param("badgeNo", "badgeNo1")
   		      .contentType(MediaType.APPLICATION_JSON))
   		      .andExpect(MockMvcResultMatchers.status().isOk())
@@ -85,7 +85,7 @@ public class SheriffControllerTest extends AbstractControllerTest {
     
     @Test
     public void test2_findSheriffByBadgeNo() throws Exception {
-    		mvc.perform(MockMvcRequestBuilders.get("/api/sheriffs/search")
+    		mvc.perform(MockMvcRequestBuilders.get("/api/custom/sheriffs/search")
     			  .param("badgeNo", "doesnotexist")
   		      .contentType(MediaType.APPLICATION_JSON))
   		      .andExpect(MockMvcResultMatchers.status().is4xxClientError());

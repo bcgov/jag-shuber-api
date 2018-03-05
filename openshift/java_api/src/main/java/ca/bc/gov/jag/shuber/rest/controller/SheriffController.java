@@ -28,7 +28,7 @@ import ca.bc.gov.jag.shuber.service.SheriffSchedulerService;
  * @see ca.bc.gov.jag.shuber.persistence.model.Sheriff
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/custom")
 public class SheriffController {
 	
 	@Autowired

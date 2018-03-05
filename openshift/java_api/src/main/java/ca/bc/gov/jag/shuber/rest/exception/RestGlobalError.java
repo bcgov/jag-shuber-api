@@ -30,10 +30,10 @@ public class RestGlobalError implements Serializable {
 	
 	/**
 	 * Constructor.
-	 * @param objectName
-	 * @param code
-	 * @param defaultMessage
-	 * @param localizedMessage
+	 * @param objectName name of object
+	 * @param code message key
+	 * @param defaultMessage non localized message
+	 * @param localizedMessage localized message
 	 */
 	public RestGlobalError(String objectName, String code, String defaultMessage, String localizedMessage) {
 		this.objectName = objectName;

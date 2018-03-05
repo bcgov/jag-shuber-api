@@ -25,7 +25,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 /**
  * Make error messages more meaningful. To disable simply comment out the {@code @ControllerAdvice} 
- * annotation.
+ * annotation. This will return to Springs validation and event handling.
  * 
  * <pre>
  * Default Spring error message format:
@@ -92,8 +92,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 			log.debug("Handling errors from Validation, message=" + e.getMessage());
 		}
 		
-		RestErrors ve = this.getValidationErrors(errors.getGlobalErrors(), errors.getFieldErrors());
-		ve.setException(e);
+		RestErrors ve = this.getValidationErrors(errors.getGlobalErrors(), errors.getFieldErrors(), e);
 		
 		return new ResponseEntity<>(ve, new HttpHeaders(), HttpStatus.PARTIAL_CONTENT);
 	}
@@ -111,24 +110,28 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 			log.debug("Handling errors from @Valid/@Validated, message=" + ex.getMessage());
 		}
 		
-		RestErrors ve = this.getValidationErrors(bindingResult.getGlobalErrors(), bindingResult.getFieldErrors());
-		ve.setException(ex);
+		RestErrors ve = this.getValidationErrors(bindingResult.getGlobalErrors(), bindingResult.getFieldErrors(), ex);
 		
 		return new ResponseEntity<>(ve, HttpStatus.UNPROCESSABLE_ENTITY);
 	}
 	
-	
 	/**
-	 * Helper method.
-	 * @param globalErrors
-	 * @param fieldErrors
-	 * @return
+	 * Helper method that maps errors to our custom objects.
+	 * @param globalErrors global errors
+	 * @param fieldErrors field errors
+	 * @param e exception
+	 * @return errors
 	 */
-	private RestErrors getValidationErrors(List<ObjectError> globalErrors, List<FieldError> fieldErrors) {
+	private RestErrors getValidationErrors(
+		List<ObjectError> globalErrors, 
+		List<FieldError> fieldErrors,
+		Exception e) {
+		
 		if (fieldErrors == null) fieldErrors = new ArrayList<>();
 		if (globalErrors == null) globalErrors = new ArrayList<>();
 		
 		if (log.isDebugEnabled()) {
+			//log errors received
 			globalErrors.stream().forEach(f -> log.debug("globalError=" + f.toString()));
 			fieldErrors.stream().forEach(f -> log.debug("fieldError=" + f.toString()));
 		}
@@ -153,7 +156,10 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 				fieldError.getRejectedValue()))
 			.collect(Collectors.toList());
 		
-		return new RestErrors(ge, fe);
+		RestErrors re = new RestErrors(ge, fe);
+		re.setException(e);
+		
+		return re;
 	}
 	
 }
