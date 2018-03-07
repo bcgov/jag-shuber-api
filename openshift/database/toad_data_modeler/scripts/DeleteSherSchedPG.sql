@@ -1,36 +1,60 @@
 /*
 Created: 05/01/2018
-Modified: 16/02/2018
+Modified: 07/03/2018
 Model: PostgreSQL 9.5
 Database: PostgreSQL 9.5
 */
 
 
-
-
 -- Drop relationships section -------------------------------------------------
 
-ALTER TABLE shersched.courtroom DROP CONSTRAINT IF EXISTS crtrm_crths_fk
+ALTER TABLE assignment_template DROP CONSTRAINT IF EXISTS astm_rcur_fk
 ;
-ALTER TABLE shersched.courthouse DROP CONSTRAINT IF EXISTS crths_regn_fk
+ALTER TABLE shift_template DROP CONSTRAINT IF EXISTS sftm_rcur_fk
 ;
-ALTER TABLE shersched.assignment_block DROP CONSTRAINT IF EXISTS asntblk_wksct_fk
+ALTER TABLE assignment_template DROP CONSTRAINT IF EXISTS astm_wksc_fk
 ;
-ALTER TABLE shersched.assignment_block DROP CONSTRAINT IF EXISTS asntblk_shft_fk
+ALTER TABLE assignment_template DROP CONSTRAINT IF EXISTS astm_sftm_fk
 ;
-ALTER TABLE shersched.assignment_type_code DROP CONSTRAINT IF EXISTS asnttp_wksct_fk
+ALTER TABLE assignment DROP CONSTRAINT IF EXISTS asnt_astm_fk
 ;
-ALTER TABLE shersched.shift DROP CONSTRAINT IF EXISTS shft_shrf_fk
+ALTER TABLE shift_template DROP CONSTRAINT IF EXISTS sftm_wksc_fk
 ;
-ALTER TABLE shersched.assignment_qualification_xref DROP CONSTRAINT IF EXISTS asntqlfx_asnt_fk
+ALTER TABLE shift DROP CONSTRAINT IF EXISTS shft_wksc_fk
 ;
-ALTER TABLE shersched.assignment_qualification_xref DROP CONSTRAINT IF EXISTS asntqlfx_qlf_fk
+ALTER TABLE shift DROP CONSTRAINT IF EXISTS shft_sftm_fk
 ;
-ALTER TABLE shersched.sheriff_qualification_xref DROP CONSTRAINT IF EXISTS shrfqlfx_qlf_fk
+ALTER TABLE assignment_stream DROP CONSTRAINT IF EXISTS astr_cths_fk
 ;
-ALTER TABLE shersched.sheriff_qualification_xref DROP CONSTRAINT IF EXISTS shrfqlfx_shrf_fk
+ALTER TABLE shift DROP CONSTRAINT IF EXISTS shft_cths_fk
 ;
-ALTER TABLE shersched.assignment DROP CONSTRAINT IF EXISTS asnt_asnttp_fk
+ALTER TABLE sheriff DROP CONSTRAINT IF EXISTS shrf_cths_fk
+;
+ALTER TABLE assignment DROP CONSTRAINT IF EXISTS asnt_astr_fk
+;
+ALTER TABLE assignment_stream DROP CONSTRAINT IF EXISTS astr_ascd_fk
+;
+ALTER TABLE courtroom DROP CONSTRAINT IF EXISTS ctrm_cths_fk
+;
+ALTER TABLE courthouse DROP CONSTRAINT IF EXISTS cths_rloc_fk
+;
+ALTER TABLE location DROP CONSTRAINT IF EXISTS loc_lccd_fk
+;
+ALTER TABLE assignment DROP CONSTRAINT IF EXISTS asnt_wksc_fk
+;
+ALTER TABLE assignment DROP CONSTRAINT IF EXISTS asnt_shft_fk
+;
+ALTER TABLE assignment_code DROP CONSTRAINT IF EXISTS ascd_wksc_fk
+;
+ALTER TABLE region DROP CONSTRAINT IF EXISTS regn_loc_fk
+;
+ALTER TABLE courthouse DROP CONSTRAINT IF EXISTS cths_loc_fk
+;
+ALTER TABLE courtroom DROP CONSTRAINT IF EXISTS ctrm_loc_fk
+;
+ALTER TABLE location DROP CONSTRAINT IF EXISTS loc_ploc_fk
+;
+ALTER TABLE shift DROP CONSTRAINT IF EXISTS shft_shrf_fk
 ;
 
 
@@ -38,107 +62,141 @@ ALTER TABLE shersched.assignment DROP CONSTRAINT IF EXISTS asnt_asnttp_fk
 
 -- Drop keys for tables section -------------------------------------------------
 
-ALTER TABLE shersched.region DROP CONSTRAINT IF EXISTS regn_pk
+ALTER TABLE assignment_template DROP CONSTRAINT IF EXISTS astm_pk
 ;
-ALTER TABLE shersched.work_section_code DROP CONSTRAINT IF EXISTS wksct_pk
+ALTER TABLE shift_template DROP CONSTRAINT IF EXISTS sftm_pk
 ;
-ALTER TABLE shersched.shift DROP CONSTRAINT IF EXISTS shft_pk
+ALTER TABLE shift_template DROP CONSTRAINT IF EXISTS sftm_uk
 ;
-ALTER TABLE shersched.courtroom DROP CONSTRAINT IF EXISTS crtrm_pk
+ALTER TABLE days_bitmap_code DROP CONSTRAINT IF EXISTS dbmp_pk
 ;
-ALTER TABLE shersched.courthouse DROP CONSTRAINT IF EXISTS crths_pk
+ALTER TABLE recurrence DROP CONSTRAINT IF EXISTS recr_pk
 ;
-ALTER TABLE shersched.assignment_qualification_xref DROP CONSTRAINT IF EXISTS asntqlfx_pk
+ALTER TABLE assignment_stream DROP CONSTRAINT IF EXISTS astr_pk
 ;
-ALTER TABLE shersched.assignment_qualification_xref DROP CONSTRAINT IF EXISTS asntqlfx_uk
+ALTER TABLE location_code DROP CONSTRAINT IF EXISTS lccd_pk
 ;
-ALTER TABLE shersched.sheriff_qualification_xref DROP CONSTRAINT IF EXISTS shrfqlfx_pk
+ALTER TABLE region DROP CONSTRAINT IF EXISTS regn_pk
 ;
-ALTER TABLE shersched.assignment_block DROP CONSTRAINT IF EXISTS asntblk_pk
+ALTER TABLE location DROP CONSTRAINT IF EXISTS loc_pk
 ;
-ALTER TABLE shersched.qualification DROP CONSTRAINT IF EXISTS qlf_pk
+ALTER TABLE work_section_code DROP CONSTRAINT IF EXISTS wksc_pk
 ;
-ALTER TABLE shersched.assignment_type_code DROP CONSTRAINT IF EXISTS asnttp_pk
+ALTER TABLE shift DROP CONSTRAINT IF EXISTS shft_pk
 ;
-ALTER TABLE shersched.assignment DROP CONSTRAINT IF EXISTS asnt_pk
+ALTER TABLE courtroom DROP CONSTRAINT IF EXISTS ctrm_pk
 ;
-ALTER TABLE shersched.sheriff DROP CONSTRAINT IF EXISTS shrf_pk
+ALTER TABLE courthouse DROP CONSTRAINT IF EXISTS cths_pk
 ;
-ALTER TABLE shersched.sheriff DROP CONSTRAINT IF EXISTS shrf_badge_uk
+ALTER TABLE assignment DROP CONSTRAINT IF EXISTS asnt_pk
+;
+ALTER TABLE assignment_code DROP CONSTRAINT IF EXISTS ascd_pk
+;
+ALTER TABLE sheriff DROP CONSTRAINT IF EXISTS shrf_pk
+;
+ALTER TABLE sheriff DROP CONSTRAINT IF EXISTS shrf_bdgn_uk
+;
+ALTER TABLE sheriff DROP CONSTRAINT IF EXISTS shrf_usrd_uk
 ;
 
 
 -- Drop indexes section -------------------------------------------------
 
-DROP INDEX IF EXISTS shersched.ix_shft_shrf_fk
+DROP INDEX IF EXISTS ix_astm_pk
 ;
-DROP INDEX IF EXISTS shersched.ix_relationship27
+DROP INDEX IF EXISTS ix_astm_wksc_fk
 ;
-DROP INDEX IF EXISTS shersched.IX_Relationship3
+DROP INDEX IF EXISTS ix_astm_astr_fk
 ;
-DROP INDEX IF EXISTS shersched.ix_relationship19
+DROP INDEX IF EXISTS ix_astm_sftm_fk
 ;
-DROP INDEX IF EXISTS shersched.IX_Relationship2
+DROP INDEX IF EXISTS ix_astm_rcur_fk
 ;
-DROP INDEX IF EXISTS shersched.IX_asntqlfx_qlf_pk
+DROP INDEX IF EXISTS ix_sftm_cths_fk
 ;
-DROP INDEX IF EXISTS shersched.IX_asntqlfx_asnt_fk
+DROP INDEX IF EXISTS ix_sftm_wksc_fk
 ;
-DROP INDEX IF EXISTS shersched.ix_relationship22
+DROP INDEX IF EXISTS ix_sftm_rcur_fk
 ;
-DROP INDEX IF EXISTS shersched.ix_assgnblk_wksct_fk
+DROP INDEX IF EXISTS ix_astr_ascd_fk
 ;
-DROP INDEX IF EXISTS shersched.IX_Relationship1
+DROP INDEX IF EXISTS ix_astr_cths_fk
 ;
-DROP INDEX IF EXISTS shersched.ix_relationship36
+DROP INDEX IF EXISTS ix_loc_ploc_fk
 ;
-DROP INDEX IF EXISTS shersched.ix_relationship4
+DROP INDEX IF EXISTS ix_loc_lccd_fk
 ;
-DROP INDEX IF EXISTS shersched.ix_relationship25
+DROP INDEX IF EXISTS ix_shft_shrf_fk
 ;
-DROP INDEX IF EXISTS shersched.ix_relationship29
+DROP INDEX IF EXISTS ix_shft_cths_fk
 ;
-DROP INDEX IF EXISTS shersched.ix_relationship35
+DROP INDEX IF EXISTS ix_shft_sftm_fk
 ;
-DROP INDEX IF EXISTS shersched.ix_relationship28
+DROP INDEX IF EXISTS ix_shft_wksc_fk
+;
+DROP INDEX IF EXISTS ix_ctrm_cloc_fk
+;
+DROP INDEX IF EXISTS ix_cths_orgu_fk
+;
+DROP INDEX IF EXISTS ix_cths_rloc_fk
+;
+DROP INDEX IF EXISTS ix_cths_loc_fk
+;
+DROP INDEX IF EXISTS ix_asnt_shft_pk
+;
+DROP INDEX IF EXISTS ix_asnt_wksc_fk
+;
+DROP INDEX IF EXISTS ix_asnt_astr_fk
+;
+DROP INDEX IF EXISTS ix_asnt_astm_fk
+;
+DROP INDEX IF EXISTS ix_ascd_wksc_fk
+;
+DROP INDEX IF EXISTS ix_shrf_cths_fk
 ;
 
 
 -- Drop tables section ---------------------------------------------------
 
-DROP TABLE IF EXISTS shersched.region
+DROP TABLE IF EXISTS days_bitmap_code
 ;
-DROP TABLE IF EXISTS shersched.work_section_code
+DROP TABLE IF EXISTS recurrence
 ;
-DROP TABLE IF EXISTS shersched.shift
+DROP TABLE IF EXISTS assignment_stream
 ;
-DROP TABLE IF EXISTS shersched.courtroom
+DROP TABLE IF EXISTS location_code
 ;
-DROP TABLE IF EXISTS shersched.courthouse
+DROP TABLE IF EXISTS region
 ;
-DROP TABLE IF EXISTS shersched.assignment_qualification_xref
+DROP TABLE IF EXISTS location
 ;
-DROP TABLE IF EXISTS shersched.sheriff_qualification_xref
+DROP TABLE IF EXISTS work_section_code
 ;
-DROP TABLE IF EXISTS shersched.assignment_block
+DROP TABLE IF EXISTS shift_template
 ;
-DROP TABLE IF EXISTS shersched.qualification
+DROP TABLE IF EXISTS shift
 ;
-DROP TABLE IF EXISTS shersched.assignment_type_code
+DROP TABLE IF EXISTS courtroom
 ;
-DROP TABLE IF EXISTS shersched.assignment
+DROP TABLE IF EXISTS courthouse
 ;
-DROP TABLE IF EXISTS shersched.sheriff
+DROP TABLE IF EXISTS assignment_template
+;
+DROP TABLE IF EXISTS assignment
+;
+DROP TABLE IF EXISTS assignment_code
+;
+DROP TABLE IF EXISTS sheriff
 ;
 
 -- Drop schemas section --------------------------------------------------- 
 
-DROP SCHEMA IF EXISTS shersched
+DROP SCHEMA IF EXISTS tdm_shersched
 ;
 
 -- Drop roles section --------------------------------------------------- 
 
-DROP ROLE IF EXISTS shersched
+DROP ROLE IF EXISTS tdm_shersched
 ;
 
 -- Grant permissions section -------------------------------------------------
