@@ -1,34 +1,34 @@
 /*
 Created: 05/01/2018
-Modified: 16/02/2018
+Modified: 07/03/2018
 Model: PostgreSQL 9.5
 Database: PostgreSQL 9.5
 */
 
-
-
-
+/*
 -- Create roles section -------------------------------------------------
 
-CREATE ROLE shersched
+CREATE ROLE tdm_shersched
 ;
 
 -- Create schemas section -------------------------------------------------
 
-CREATE SCHEMA shersched
-;
+CREATE SCHEMA tdm_shersched AUTHORIZATION tdm_shersched
+;*/
 
 -- Create tables section -------------------------------------------------
 
 -- Table shersched.sheriff
 
-CREATE TABLE shersched.sheriff(
+CREATE TABLE sheriff(
  sheriff_id UUID NOT NULL,
  badge_no Character varying(20) NOT NULL,
- name Character varying(100),
- default_location_id UUID,
+ location_id UUID,
+ userid Character varying(20) NOT NULL,
+ first_name Character varying(100),
+ last_name Bigint,
  rank Character varying(50),
- org_unit_id UUID,
+ image_url Character varying(200),
  created_by Character varying(32) NOT NULL,
  updated_by Character varying(32) NOT NULL,
  created_dtm Timestamp with time zone NOT NULL,
@@ -37,70 +37,31 @@ CREATE TABLE shersched.sheriff(
 )
 ;
 
-COMMENT ON TABLE shersched.sheriff IS 'SHERIFF captures information related to a Sheriff and their profile.'
+COMMENT ON TABLE sheriff IS 'SHERIFF captures information related to a Sheriff and their profile.'
+;
+COMMENT ON COLUMN sheriff.image_url IS 'TBD how to store a Sheriff photo'
 ;
 
 -- Create indexes for table shersched.sheriff
 
-CREATE INDEX ix_relationship35 ON shersched.sheriff (default_location_id)
-;
-
-CREATE INDEX ix_relationship28 ON shersched.sheriff (org_unit_id)
+CREATE INDEX ix_shrf_cths_fk ON sheriff (location_id)
 ;
 
 -- Add keys for table shersched.sheriff
 
-ALTER TABLE shersched.sheriff ADD CONSTRAINT shrf_pk PRIMARY KEY (sheriff_id)
+ALTER TABLE sheriff ADD CONSTRAINT shrf_pk PRIMARY KEY (sheriff_id)
 ;
 
-ALTER TABLE shersched.sheriff ADD CONSTRAINT shrf_badge_uk UNIQUE (badge_no)
+ALTER TABLE sheriff ADD CONSTRAINT shrf_bdgn_uk UNIQUE (badge_no)
 ;
 
--- Table shersched.assignment
-
-CREATE TABLE shersched.assignment(
- assignment_id UUID NOT NULL,
- assignment_type_code Character varying(20) NOT NULL,
- assigned_status_code Character varying(20),
- sheriffs_required_count Bigint,
- template_flag Character varying(1) DEFAULT 'N' NOT NULL,
- block_assignment_flag Character(1) DEFAULT 'Y' NOT NULL,
- assignment_date Date NOT NULL,
- estimated_duration_minutes Bigint NOT NULL,
- scheduled_start_time Time,
- scheduled_end_time Time,
- org_unit_id UUID,
- location_id UUID,
- created_by Character varying(32) NOT NULL,
- updated_by Character varying(32) NOT NULL,
- created_dtm Timestamp with time zone NOT NULL,
- updated_dtm Timestamp with time zone NOT NULL,
- revision_count Numeric(10,0) NOT NULL
-)
-;
-COMMENT ON COLUMN shersched.assignment.block_assignment_flag IS 'Long term (specifically when further integration with the hub is in place and various specific assignments are being fed electronically), we are anticipating that a sheriff may be scheduled to do a block of a given type of work section (e.g. AM shift in courtroom 102, or 2.5 hours of document service) that covers more than one specific assignment, Until that time, the system may only track sheriff assignments at the block level.  If this flag is true, this assignment corresponds to a full block. '
+ALTER TABLE sheriff ADD CONSTRAINT shrf_usrd_uk UNIQUE (userid)
 ;
 
--- Create indexes for table shersched.assignment
+-- Table shersched.assignment_code
 
-CREATE INDEX ix_relationship4 ON shersched.assignment (assignment_type_code)
-;
-
-CREATE INDEX ix_relationship25 ON shersched.assignment (org_unit_id)
-;
-
-CREATE INDEX ix_relationship29 ON shersched.assignment (location_id)
-;
-
--- Add keys for table shersched.assignment
-
-ALTER TABLE shersched.assignment ADD CONSTRAINT asnt_pk PRIMARY KEY (assignment_id)
-;
-
--- Table shersched.assignment_type_code
-
-CREATE TABLE shersched.assignment_type_code(
- assignment_type_code Character varying(20) NOT NULL,
+CREATE TABLE assignment_code(
+ assignment_code Character varying(20) NOT NULL,
  description Character varying NOT NULL,
  work_section_code Character varying(20),
  effective_date Date NOT NULL,
@@ -113,45 +74,21 @@ CREATE TABLE shersched.assignment_type_code(
 )
 ;
 
--- Create indexes for table shersched.assignment_type_code
+-- Create indexes for table shersched.assignment_code
 
-CREATE INDEX ix_relationship36 ON shersched.assignment_type_code (work_section_code)
+CREATE INDEX ix_ascd_wksc_fk ON assignment_code (work_section_code)
 ;
 
--- Add keys for table shersched.assignment_type_code
+-- Add keys for table shersched.assignment_code
 
-ALTER TABLE shersched.assignment_type_code ADD CONSTRAINT asnttp_pk PRIMARY KEY (assignment_type_code)
+ALTER TABLE assignment_code ADD CONSTRAINT ascd_pk PRIMARY KEY (assignment_code)
 ;
 
--- Table shersched.qualification
+-- Table shersched.assignment
 
-CREATE TABLE shersched.qualification(
- qualification_id UUID NOT NULL,
- qualification_type_code Character varying(20) NOT NULL,
- required_for_all_flag Character(1) DEFAULT 'N' NOT NULL,
- created_by Character varying(32) NOT NULL,
- updated_by Character varying(32) NOT NULL,
- created_dtm Timestamp with time zone NOT NULL,
- updated_dtm Timestamp with time zone NOT NULL,
- revision_count Numeric(10,0) NOT NULL
-)
-;
-
--- Create indexes for table shersched.qualification
-
-CREATE INDEX IX_Relationship1 ON shersched.qualification (qualification_type_code)
-;
-
--- Add keys for table shersched.qualification
-
-ALTER TABLE shersched.qualification ADD CONSTRAINT qlf_pk PRIMARY KEY (qualification_id)
-;
-
--- Table shersched.assignment_block
-
-CREATE TABLE shersched.assignment_block(
- assignment_block_id UUID NOT NULL,
- fixed_start_flag Character(1) DEFAULT 'Y' NOT NULL,
+CREATE TABLE assignment(
+ assignment_id UUID NOT NULL,
+ fixed_start_flag Character varying(1) DEFAULT 'Y' NOT NULL,
  start_hour Integer,
  length_hours Numeric,
  shift_id Integer,
@@ -160,75 +97,76 @@ CREATE TABLE shersched.assignment_block(
  updated_by Character varying(32) NOT NULL,
  created_dtm Timestamp with time zone NOT NULL,
  updated_dtm Timestamp with time zone NOT NULL,
- revision_count Numeric(10,0) NOT NULL
+ revision_count Numeric(10,0) NOT NULL,
+ assignment_stream_id UUID,
+ assignment_template_id UUID
 )
 ;
 
--- Create indexes for table shersched.assignment_block
+-- Create indexes for table shersched.assignment
 
-CREATE INDEX ix_relationship22 ON shersched.assignment_block (shift_id)
+CREATE INDEX ix_asnt_shft_pk ON assignment (shift_id)
 ;
 
-CREATE INDEX ix_assgnblk_wksct_fk ON shersched.assignment_block (work_section_code)
+CREATE INDEX ix_asnt_wksc_fk ON assignment (work_section_code)
 ;
 
--- Add keys for table shersched.assignment_block
-
-ALTER TABLE shersched.assignment_block ADD CONSTRAINT asntblk_pk PRIMARY KEY (assignment_block_id)
+CREATE INDEX ix_asnt_astr_fk ON assignment (assignment_stream_id)
 ;
 
--- Table shersched.sheriff_qualification_xref
+CREATE INDEX ix_asnt_astm_fk ON assignment (assignment_template_id)
+;
 
-CREATE TABLE shersched.sheriff_qualification_xref(
- sheriff_id UUID NOT NULL,
- qualification_id UUID NOT NULL,
- expiry_date Date,
+-- Add keys for table shersched.assignment
+
+ALTER TABLE assignment ADD CONSTRAINT asnt_pk PRIMARY KEY (assignment_id)
+;
+
+-- Table shersched.assignment_template
+
+CREATE TABLE assignment_template(
+ assignment_template_id UUID NOT NULL,
+ fixed_start_flag Character varying(1) DEFAULT 'Y' NOT NULL,
+ start_hour Integer,
+ length_hours Numeric,
+ shift_id Integer,
+ work_section_code Character varying(20),
  created_by Character varying(32) NOT NULL,
  updated_by Character varying(32) NOT NULL,
  created_dtm Timestamp with time zone NOT NULL,
  updated_dtm Timestamp with time zone NOT NULL,
- revision_count Numeric(10,0) NOT NULL
+ revision_count Numeric(10,0) NOT NULL,
+ assignment_stream_id UUID,
+ shift_template_id Integer,
+ recurrence_id UUID
 )
 ;
 
--- Add keys for table shersched.sheriff_qualification_xref
+-- Create indexes for table shersched.assignment_template
 
-ALTER TABLE shersched.sheriff_qualification_xref ADD CONSTRAINT shrfqlfx_pk PRIMARY KEY (qualification_id,sheriff_id)
+CREATE INDEX ix_astm_pk ON assignment_template (shift_id)
 ;
 
--- Table shersched.assignment_qualification_xref
-
-CREATE TABLE shersched.assignment_qualification_xref(
- assignment_qualification_xref_id UUID NOT NULL,
- qualification_id UUID NOT NULL,
- assignment_id UUID NOT NULL,
- created_by Character varying(32) NOT NULL,
- updated_by Character varying(32) NOT NULL,
- created_dtm Timestamp with time zone NOT NULL,
- updated_dtm Timestamp with time zone NOT NULL,
- revision_count Numeric(10,0) NOT NULL
-)
+CREATE INDEX ix_astm_wksc_fk ON assignment_template (work_section_code)
 ;
 
--- Create indexes for table shersched.assignment_qualification_xref
-
-CREATE INDEX IX_asntqlfx_qlf_pk ON shersched.assignment_qualification_xref (qualification_id)
+CREATE INDEX ix_astm_astr_fk ON assignment_template (assignment_stream_id)
 ;
 
-CREATE INDEX IX_asntqlfx_asnt_fk ON shersched.assignment_qualification_xref (assignment_id)
+CREATE INDEX ix_astm_sftm_fk ON assignment_template (shift_template_id)
 ;
 
--- Add keys for table shersched.assignment_qualification_xref
-
-ALTER TABLE shersched.assignment_qualification_xref ADD CONSTRAINT asntqlfx_pk PRIMARY KEY (assignment_qualification_xref_id)
+CREATE INDEX ix_astm_rcur_fk ON assignment_template (recurrence_id)
 ;
 
-ALTER TABLE shersched.assignment_qualification_xref ADD CONSTRAINT asntqlfx_uk UNIQUE (assignment_id,qualification_id)
+-- Add keys for table shersched.assignment_template
+
+ALTER TABLE assignment_template ADD CONSTRAINT astm_pk PRIMARY KEY (assignment_template_id)
 ;
 
 -- Table shersched.courthouse
 
-CREATE TABLE shersched.courthouse(
+CREATE TABLE courthouse(
  location_id UUID NOT NULL,
  courthouse_type_code Character varying NOT NULL,
  org_unit_id UUID NOT NULL,
@@ -244,20 +182,23 @@ CREATE TABLE shersched.courthouse(
 
 -- Create indexes for table shersched.courthouse
 
-CREATE INDEX ix_relationship19 ON shersched.courthouse (org_unit_id)
+CREATE INDEX ix_cths_orgu_fk ON courthouse (org_unit_id)
 ;
 
-CREATE INDEX IX_Relationship2 ON shersched.courthouse (region_location_id)
+CREATE INDEX ix_cths_rloc_fk ON courthouse (region_location_id)
+;
+
+CREATE INDEX ix_cths_loc_fk ON courthouse (location_id)
 ;
 
 -- Add keys for table shersched.courthouse
 
-ALTER TABLE shersched.courthouse ADD CONSTRAINT crths_pk PRIMARY KEY (location_id)
+ALTER TABLE courthouse ADD CONSTRAINT cths_pk PRIMARY KEY (location_id)
 ;
 
 -- Table shersched.courtroom
 
-CREATE TABLE shersched.courtroom(
+CREATE TABLE courtroom(
  location_id UUID NOT NULL,
  room_number Character varying(20) NOT NULL,
  courthouse_location_id UUID,
@@ -271,24 +212,63 @@ CREATE TABLE shersched.courtroom(
 
 -- Create indexes for table shersched.courtroom
 
-CREATE INDEX IX_Relationship3 ON shersched.courtroom (courthouse_location_id)
+CREATE INDEX ix_ctrm_cloc_fk ON courtroom (courthouse_location_id)
 ;
 
 -- Add keys for table shersched.courtroom
 
-ALTER TABLE shersched.courtroom ADD CONSTRAINT crtrm_pk PRIMARY KEY (location_id)
+ALTER TABLE courtroom ADD CONSTRAINT ctrm_pk PRIMARY KEY (location_id)
 ;
 
 -- Table shersched.shift
 
-CREATE TABLE shersched.shift(
+CREATE TABLE shift(
  shift_id Serial NOT NULL,
  shift_status Character varying,
- shift_date Date,
- shift_start_time Time,
- rotation_template_flag Character(1) DEFAULT 'N' NOT NULL,
- org_unit_id UUID,
+ shift_start_time Timestamp,
+ shift_end_time Timestamp,
  sheriff_id UUID,
+ location_id UUID,
+ shift_template_id Integer,
+ created_by Character varying(32) NOT NULL,
+ updated_by Character varying(32) NOT NULL,
+ created_dtm Timestamp with time zone NOT NULL,
+ updated_dtm Timestamp with time zone NOT NULL,
+ revision_count Numeric(10,0) NOT NULL,
+ Attribute1 Bigint,
+ work_section_code Character varying(20)
+)
+;
+
+-- Create indexes for table shersched.shift
+
+CREATE INDEX ix_shft_shrf_fk ON shift (sheriff_id)
+;
+
+CREATE INDEX ix_shft_cths_fk ON shift (location_id)
+;
+
+CREATE INDEX ix_shft_sftm_fk ON shift (shift_template_id)
+;
+
+CREATE INDEX ix_shft_wksc_fk ON shift (work_section_code)
+;
+
+-- Add keys for table shersched.shift
+
+ALTER TABLE shift ADD CONSTRAINT shft_pk PRIMARY KEY (shift_id)
+;
+
+-- Table shersched.shift_template
+
+CREATE TABLE shift_template(
+ shift_template_id Serial NOT NULL,
+ location_id UUID NOT NULL,
+ rotation_sequence Integer NOT NULL,
+ work_section_code Character varying(20),
+ shift_start_time Time,
+ shift_end_time Time,
+ recurrence_id UUID,
  created_by Character varying(32) NOT NULL,
  updated_by Character varying(32) NOT NULL,
  created_dtm Timestamp with time zone NOT NULL,
@@ -297,22 +277,28 @@ CREATE TABLE shersched.shift(
 )
 ;
 
--- Create indexes for table shersched.shift
+-- Create indexes for table shersched.shift_template
 
-CREATE INDEX ix_shft_shrf_fk ON shersched.shift (sheriff_id)
+CREATE INDEX ix_sftm_cths_fk ON shift_template (location_id)
 ;
 
-CREATE INDEX ix_relationship27 ON shersched.shift (org_unit_id)
+CREATE INDEX ix_sftm_wksc_fk ON shift_template (work_section_code)
 ;
 
--- Add keys for table shersched.shift
+CREATE INDEX ix_sftm_rcur_fk ON shift_template (recurrence_id)
+;
 
-ALTER TABLE shersched.shift ADD CONSTRAINT shft_pk PRIMARY KEY (shift_id)
+-- Add keys for table shersched.shift_template
+
+ALTER TABLE shift_template ADD CONSTRAINT sftm_pk PRIMARY KEY (shift_template_id)
+;
+
+ALTER TABLE shift_template ADD CONSTRAINT sftm_uk UNIQUE (location_id,rotation_sequence)
 ;
 
 -- Table shersched.work_section_code
 
-CREATE TABLE shersched.work_section_code(
+CREATE TABLE work_section_code(
  work_section_code Character varying(20) NOT NULL,
  work_section_description Character varying(100),
  effective_date Date NOT NULL,
@@ -327,12 +313,45 @@ CREATE TABLE shersched.work_section_code(
 
 -- Add keys for table shersched.work_section_code
 
-ALTER TABLE shersched.work_section_code ADD CONSTRAINT wksct_pk PRIMARY KEY (work_section_code)
+ALTER TABLE work_section_code ADD CONSTRAINT wksc_pk PRIMARY KEY (work_section_code)
+;
+
+-- Table location
+
+CREATE TABLE location(
+ location_id UUID NOT NULL,
+ location_type_code Character varying(20),
+ parent_location_id UUID,
+ location_name Character varying NOT NULL,
+ description Character varying,
+ address Character varying,
+ created_by Character varying(32) NOT NULL,
+ updated_by Character varying(32) NOT NULL,
+ created_dtm Timestamp with time zone NOT NULL,
+ updated_dtm Timestamp with time zone NOT NULL,
+ revision_count Numeric(10,0) NOT NULL
+)
+;
+
+COMMENT ON TABLE location IS 'LOCATION is a generalization of physical locations that are needed for scheduling.  Subtypes include Region, Courthouse and Courtroom. Generally, locations refer to where a Sheriff is executing their duties.'
+;
+
+-- Create indexes for table location
+
+CREATE INDEX ix_loc_ploc_fk ON location (parent_location_id)
+;
+
+CREATE INDEX ix_loc_lccd_fk ON location (location_type_code)
+;
+
+-- Add keys for table location
+
+ALTER TABLE location ADD CONSTRAINT loc_pk PRIMARY KEY (location_id)
 ;
 
 -- Table shersched.region
 
-CREATE TABLE shersched.region(
+CREATE TABLE region(
  location_id UUID NOT NULL,
  geometry Polygon,
  created_by Character varying(32) NOT NULL,
@@ -345,41 +364,171 @@ CREATE TABLE shersched.region(
 
 -- Add keys for table shersched.region
 
-ALTER TABLE shersched.region ADD CONSTRAINT regn_pk PRIMARY KEY (location_id)
+ALTER TABLE region ADD CONSTRAINT regn_pk PRIMARY KEY (location_id)
+;
+
+-- Table location_code
+
+CREATE TABLE location_code(
+ location_code Character varying(20) NOT NULL,
+ description Character varying(200) NOT NULL,
+ effective_date Date NOT NULL,
+ expiry_date Date,
+ created_by Character varying(32) NOT NULL,
+ updated_by Character varying(32) NOT NULL,
+ created_dtm Timestamp with time zone NOT NULL,
+ updated_dtm Timestamp with time zone NOT NULL,
+ revision_count Numeric(10,0) NOT NULL
+)
+;
+
+-- Add keys for table location_code
+
+ALTER TABLE location_code ADD CONSTRAINT lccd_pk PRIMARY KEY (location_code)
+;
+
+-- Table assignment_stream
+
+CREATE TABLE assignment_stream(
+ assignment_stream_id UUID NOT NULL,
+ org_unit_id UUID NOT NULL,
+ location_id UUID NOT NULL,
+ assignment_type_code Character varying(20),
+ created_by Character varying(32) NOT NULL,
+ updated_by Character varying(32) NOT NULL,
+ created_dtm Timestamp with time zone NOT NULL,
+ updated_dtm Timestamp with time zone NOT NULL,
+ revision_count Numeric(10,0) NOT NULL
+)
+;
+
+-- Create indexes for table assignment_stream
+
+CREATE INDEX ix_astr_ascd_fk ON assignment_stream (assignment_type_code)
+;
+
+CREATE INDEX ix_astr_cths_fk ON assignment_stream (location_id)
+;
+
+-- Add keys for table assignment_stream
+
+ALTER TABLE assignment_stream ADD CONSTRAINT astr_pk PRIMARY KEY (assignment_stream_id)
+;
+
+-- Table recurrence
+
+CREATE TABLE recurrence(
+ recurrence_id UUID NOT NULL,
+ start_time Time,
+ end_time Time,
+ recurrence_days_bitmap Bigint NOT NULL,
+ created_by Character varying(32) NOT NULL,
+ updated_by Character varying(32) NOT NULL,
+ created_dtm Timestamp with time zone NOT NULL,
+ updated_dtm Timestamp with time zone NOT NULL,
+ revision_count Numeric(10,0) NOT NULL
+)
+;
+
+-- Add keys for table recurrence
+
+ALTER TABLE recurrence ADD CONSTRAINT recr_pk PRIMARY KEY (recurrence_id)
+;
+
+-- Table days_bitmap_code
+
+CREATE TABLE days_bitmap_code(
+ bitmap_set Character varying(50) NOT NULL,
+ day_sequence Integer NOT NULL,
+ day_label Character varying(50) NOT NULL,
+ bitmap_value Bigint NOT NULL,
+ description Character varying(200) NOT NULL,
+ effective_date Date NOT NULL,
+ expiry_date Date,
+ created_by Character varying(32) NOT NULL,
+ updated_by Character varying(32) NOT NULL,
+ created_dtm Timestamp with time zone NOT NULL,
+ updated_dtm Timestamp with time zone NOT NULL,
+ revision_count Numeric(10,0) NOT NULL
+)
+;
+
+-- Add keys for table days_bitmap_code
+
+ALTER TABLE days_bitmap_code ADD CONSTRAINT dbmp_pk PRIMARY KEY (bitmap_set,day_sequence)
 ;
 -- Create foreign keys (relationships) section ------------------------------------------------- 
 
-ALTER TABLE shersched.assignment ADD CONSTRAINT asnt_asnttp_fk FOREIGN KEY (assignment_type_code) REFERENCES shersched.assignment_type_code (assignment_type_code) ON DELETE NO ACTION ON UPDATE NO ACTION
+ALTER TABLE shift ADD CONSTRAINT shft_shrf_fk FOREIGN KEY (sheriff_id) REFERENCES sheriff (sheriff_id) ON DELETE NO ACTION ON UPDATE NO ACTION
 ;
 
-ALTER TABLE shersched.sheriff_qualification_xref ADD CONSTRAINT shrfqlfx_shrf_fk FOREIGN KEY (sheriff_id) REFERENCES shersched.sheriff (sheriff_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+ALTER TABLE location ADD CONSTRAINT loc_ploc_fk FOREIGN KEY (parent_location_id) REFERENCES location (location_id) ON DELETE NO ACTION ON UPDATE NO ACTION
 ;
 
-ALTER TABLE shersched.sheriff_qualification_xref ADD CONSTRAINT shrfqlfx_qlf_fk FOREIGN KEY (qualification_id) REFERENCES shersched.qualification (qualification_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+ALTER TABLE courtroom ADD CONSTRAINT ctrm_loc_fk FOREIGN KEY (location_id) REFERENCES location (location_id) ON DELETE NO ACTION ON UPDATE NO ACTION
 ;
 
-ALTER TABLE shersched.assignment_qualification_xref ADD CONSTRAINT asntqlfx_qlf_fk FOREIGN KEY (qualification_id) REFERENCES shersched.qualification (qualification_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+ALTER TABLE courthouse ADD CONSTRAINT cths_loc_fk FOREIGN KEY (location_id) REFERENCES location (location_id) ON DELETE NO ACTION ON UPDATE NO ACTION
 ;
 
-ALTER TABLE shersched.assignment_qualification_xref ADD CONSTRAINT asntqlfx_asnt_fk FOREIGN KEY (assignment_id) REFERENCES shersched.assignment (assignment_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+ALTER TABLE region ADD CONSTRAINT regn_loc_fk FOREIGN KEY (location_id) REFERENCES location (location_id) ON DELETE NO ACTION ON UPDATE NO ACTION
 ;
 
-ALTER TABLE shersched.shift ADD CONSTRAINT shft_shrf_fk FOREIGN KEY (sheriff_id) REFERENCES shersched.sheriff (sheriff_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+ALTER TABLE assignment_code ADD CONSTRAINT ascd_wksc_fk FOREIGN KEY (work_section_code) REFERENCES work_section_code (work_section_code) ON DELETE NO ACTION ON UPDATE NO ACTION
 ;
 
-ALTER TABLE shersched.assignment_type_code ADD CONSTRAINT asnttp_wksct_fk FOREIGN KEY (work_section_code) REFERENCES shersched.work_section_code (work_section_code) ON DELETE NO ACTION ON UPDATE NO ACTION
+ALTER TABLE assignment ADD CONSTRAINT asnt_shft_fk FOREIGN KEY (shift_id) REFERENCES shift (shift_id) ON DELETE NO ACTION ON UPDATE NO ACTION
 ;
 
-ALTER TABLE shersched.assignment_block ADD CONSTRAINT asntblk_shft_fk FOREIGN KEY (shift_id) REFERENCES shersched.shift (shift_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+ALTER TABLE assignment ADD CONSTRAINT asnt_wksc_fk FOREIGN KEY (work_section_code) REFERENCES work_section_code (work_section_code) ON DELETE NO ACTION ON UPDATE NO ACTION
 ;
 
-ALTER TABLE shersched.assignment_block ADD CONSTRAINT asntblk_wksct_fk FOREIGN KEY (work_section_code) REFERENCES shersched.work_section_code (work_section_code) ON DELETE NO ACTION ON UPDATE NO ACTION
+ALTER TABLE location ADD CONSTRAINT loc_lccd_fk FOREIGN KEY (location_type_code) REFERENCES location_code (location_code) ON DELETE NO ACTION ON UPDATE NO ACTION
 ;
 
-ALTER TABLE shersched.courthouse ADD CONSTRAINT crths_regn_fk FOREIGN KEY (region_location_id) REFERENCES shersched.region (location_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+ALTER TABLE courthouse ADD CONSTRAINT cths_rloc_fk FOREIGN KEY (region_location_id) REFERENCES region (location_id) ON DELETE NO ACTION ON UPDATE NO ACTION
 ;
 
-ALTER TABLE shersched.courtroom ADD CONSTRAINT crtrm_crths_fk FOREIGN KEY (courthouse_location_id) REFERENCES shersched.courthouse (location_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+ALTER TABLE courtroom ADD CONSTRAINT ctrm_cths_fk FOREIGN KEY (courthouse_location_id) REFERENCES courthouse (location_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+;
+
+ALTER TABLE assignment_stream ADD CONSTRAINT astr_ascd_fk FOREIGN KEY (assignment_type_code) REFERENCES assignment_code (assignment_code) ON DELETE NO ACTION ON UPDATE NO ACTION
+;
+
+ALTER TABLE assignment ADD CONSTRAINT asnt_astr_fk FOREIGN KEY (assignment_stream_id) REFERENCES assignment_stream (assignment_stream_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+;
+
+ALTER TABLE sheriff ADD CONSTRAINT shrf_cths_fk FOREIGN KEY (location_id) REFERENCES courthouse (location_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+;
+
+ALTER TABLE shift ADD CONSTRAINT shft_cths_fk FOREIGN KEY (location_id) REFERENCES courthouse (location_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+;
+
+ALTER TABLE assignment_stream ADD CONSTRAINT astr_cths_fk FOREIGN KEY (location_id) REFERENCES courthouse (location_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+;
+
+ALTER TABLE shift ADD CONSTRAINT shft_sftm_fk FOREIGN KEY (shift_template_id) REFERENCES shift_template (shift_template_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+;
+
+ALTER TABLE shift ADD CONSTRAINT shft_wksc_fk FOREIGN KEY (work_section_code) REFERENCES work_section_code (work_section_code) ON DELETE NO ACTION ON UPDATE NO ACTION
+;
+
+ALTER TABLE shift_template ADD CONSTRAINT sftm_wksc_fk FOREIGN KEY (work_section_code) REFERENCES work_section_code (work_section_code) ON DELETE NO ACTION ON UPDATE NO ACTION
+;
+
+ALTER TABLE assignment ADD CONSTRAINT asnt_astm_fk FOREIGN KEY (assignment_template_id) REFERENCES assignment_template (assignment_template_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+;
+
+ALTER TABLE assignment_template ADD CONSTRAINT astm_sftm_fk FOREIGN KEY (shift_template_id) REFERENCES shift_template (shift_template_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+;
+
+ALTER TABLE assignment_template ADD CONSTRAINT astm_wksc_fk FOREIGN KEY (work_section_code) REFERENCES work_section_code (work_section_code) ON DELETE NO ACTION ON UPDATE NO ACTION
+;
+
+ALTER TABLE shift_template ADD CONSTRAINT sftm_rcur_fk FOREIGN KEY (recurrence_id) REFERENCES recurrence (recurrence_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+;
+
+ALTER TABLE assignment_template ADD CONSTRAINT astm_rcur_fk FOREIGN KEY (recurrence_id) REFERENCES recurrence (recurrence_id) ON DELETE NO ACTION ON UPDATE NO ACTION
 ;
 
 
