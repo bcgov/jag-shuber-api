@@ -39,7 +39,7 @@ public class SheriffController {
 		
 		Sheriff sheriff = new Sheriff();
 		sheriff.setBadgeNo(record.getBadgeNo());
-		sheriff.setName(record.getName());
+		//sheriff.setName(record.getName());
 		sheriff.setRank(record.getRank());
 		
 		sheriff = sheriffSchedulerService.createSheriff(sheriff);
@@ -78,7 +78,7 @@ public class SheriffController {
 		
 		Sheriff sheriff = op.get();
 		sheriff.setBadgeNo(record.getBadgeNo());
-		sheriff.setName(record.getName());
+		//sheriff.setName(record.getName());
 		sheriff.setRank(record.getRank());
 		
 		sheriff = sheriffSchedulerService.createSheriff(sheriff);

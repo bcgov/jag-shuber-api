@@ -62,5 +62,5 @@ public class SheriffCreateUpdateValidator implements Validator {
 			errors.rejectValue("badgeNo", "error.validation.exists.Sheriff.badgeNo", new Object[] {s.getBadgeNo()}, "Badge number already exists.");
 		}
 	}
-	
+
 }
