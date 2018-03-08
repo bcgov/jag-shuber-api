@@ -64,7 +64,7 @@ ALTER TABLE sheriff ADD CONSTRAINT shrf_usrd_uk UNIQUE (userid)
 
 CREATE TABLE assignment_code(
  assignment_code Character varying(20) NOT NULL,
- description Character varying NOT NULL,
+ description Character varying(200) NOT NULL,
  work_section_code Character varying(20),
  effective_date Date NOT NULL,
  expiry_date Date,
@@ -91,8 +91,8 @@ ALTER TABLE assignment_code ADD CONSTRAINT ascd_pk PRIMARY KEY (assignment_code)
 CREATE TABLE assignment(
  assignment_id UUID NOT NULL,
  fixed_start_flag Character varying(1) DEFAULT 'Y' NOT NULL,
- start_hour Numeric(2,0),
- length_hours Numeric(2,0),
+ start_time Timestamp with time zone,
+ end_time Timestamp with time zone,
  shift_id UUID,
  work_section_code Character varying(20),
  created_by Character varying(32) NOT NULL,
@@ -129,8 +129,8 @@ ALTER TABLE assignment ADD CONSTRAINT asnt_pk PRIMARY KEY (assignment_id)
 CREATE TABLE assignment_template(
  assignment_template_id UUID NOT NULL,
  fixed_start_flag Character varying(1) DEFAULT 'Y' NOT NULL,
- start_hour Numeric(2,0),
- length_hours Numeric(2,0),
+ start_time Time with time zone,
+ end_time Time with time zone,
  shift_id UUID,
  work_section_code Character varying(20),
  created_by Character varying(32) NOT NULL,
@@ -227,8 +227,8 @@ ALTER TABLE courtroom ADD CONSTRAINT ctrm_pk PRIMARY KEY (location_id)
 CREATE TABLE shift(
  shift_id UUID NOT NULL,
  shift_status Character varying,
- shift_start_time Timestamp,
- shift_end_time Timestamp,
+ start_time Timestamp with time zone,
+ end_time Timestamp with time zone,
  sheriff_id UUID,
  location_id UUID,
  shift_template_id UUID,
@@ -237,7 +237,6 @@ CREATE TABLE shift(
  created_dtm Timestamp with time zone NOT NULL,
  updated_dtm Timestamp with time zone NOT NULL,
  revision_count Numeric(10,0) NOT NULL,
- Attribute1 Bigint,
  work_section_code Character varying(20)
 )
 ;
@@ -268,8 +267,8 @@ CREATE TABLE shift_template(
  location_id UUID NOT NULL,
  rotation_sequence Integer NOT NULL,
  work_section_code Character varying(20),
- shift_start_time Time,
- shift_end_time Time,
+ start_time Time with time zone,
+ end_time Time with time zone,
  recurrence_id UUID,
  created_by Character varying(32) NOT NULL,
  updated_by Character varying(32) NOT NULL,
@@ -302,7 +301,7 @@ ALTER TABLE shift_template ADD CONSTRAINT sftm_uk UNIQUE (location_id,rotation_s
 
 CREATE TABLE work_section_code(
  work_section_code Character varying(20) NOT NULL,
- work_section_description Character varying(100),
+ work_section_description Character varying(200) NOT NULL,
  effective_date Date NOT NULL,
  expiry_date Date,
  created_by Character varying(32) NOT NULL,
@@ -324,7 +323,7 @@ CREATE TABLE location(
  location_id UUID NOT NULL,
  location_type_code Character varying(20),
  parent_location_id UUID,
- location_name Character varying NOT NULL,
+ location_name Character varying(200) NOT NULL,
  description Character varying,
  address Character varying,
  created_by Character varying(32) NOT NULL,
@@ -421,8 +420,8 @@ ALTER TABLE assignment_stream ADD CONSTRAINT astr_pk PRIMARY KEY (assignment_str
 
 CREATE TABLE recurrence(
  recurrence_id UUID NOT NULL,
- start_time Time,
- end_time Time,
+ start_time Time with time zone,
+ end_time Time with time zone,
  recurrence_days_bitmap Bigint NOT NULL,
  created_by Character varying(32) NOT NULL,
  updated_by Character varying(32) NOT NULL,
