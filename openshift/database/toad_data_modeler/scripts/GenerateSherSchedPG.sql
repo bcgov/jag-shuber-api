@@ -58,32 +58,6 @@ ALTER TABLE sheriff ADD CONSTRAINT shrf_bdgn_uk UNIQUE (badge_no)
 ALTER TABLE sheriff ADD CONSTRAINT shrf_usrd_uk UNIQUE (userid)
 ;
 
--- Table shersched.assignment_code
-
-CREATE TABLE assignment_code(
- assignment_code Character varying(20) NOT NULL,
- description Character varying(200) NOT NULL,
- work_section_code Character varying(20),
- effective_date Date NOT NULL,
- expiry_date Date,
- created_by Character varying(32) NOT NULL,
- updated_by Character varying(32) NOT NULL,
- created_dtm Timestamp with time zone NOT NULL,
- updated_dtm Timestamp with time zone NOT NULL,
- revision_count Numeric(10,0) NOT NULL
-)
-;
-
--- Create indexes for table shersched.assignment_code
-
-CREATE INDEX ix_ascd_wksc_fk ON assignment_code (work_section_code)
-;
-
--- Add keys for table shersched.assignment_code
-
-ALTER TABLE assignment_code ADD CONSTRAINT ascd_pk PRIMARY KEY (assignment_code)
-;
-
 -- Table shersched.duty
 
 CREATE TABLE duty(
@@ -389,7 +363,7 @@ CREATE TABLE assignment_stream(
  assignment_stream_id UUID NOT NULL,
  org_unit_id UUID NOT NULL,
  location_id UUID NOT NULL,
- assignment_type_code Character varying(20),
+ work_section_code Character varying(20),
  created_by Character varying(32) NOT NULL,
  updated_by Character varying(32) NOT NULL,
  created_dtm Timestamp with time zone NOT NULL,
@@ -400,10 +374,10 @@ CREATE TABLE assignment_stream(
 
 -- Create indexes for table assignment_stream
 
-CREATE INDEX ix_astr_ascd_fk ON assignment_stream (assignment_type_code)
+CREATE INDEX ix_astr_cths_fk ON assignment_stream (location_id)
 ;
 
-CREATE INDEX ix_astr_cths_fk ON assignment_stream (location_id)
+CREATE INDEX ix_astr_wksc_fk ON assignment_stream (work_section_code)
 ;
 
 -- Add keys for table assignment_stream
@@ -470,9 +444,6 @@ ALTER TABLE courthouse ADD CONSTRAINT cths_loc_fk FOREIGN KEY (location_id) REFE
 ALTER TABLE region ADD CONSTRAINT regn_loc_fk FOREIGN KEY (location_id) REFERENCES location (location_id) ON DELETE NO ACTION ON UPDATE NO ACTION
 ;
 
-ALTER TABLE assignment_code ADD CONSTRAINT ascd_wksc_fk FOREIGN KEY (work_section_code) REFERENCES work_section_code (work_section_code) ON DELETE NO ACTION ON UPDATE NO ACTION
-;
-
 ALTER TABLE duty ADD CONSTRAINT duty_shft_fk FOREIGN KEY (shift_id) REFERENCES shift (shift_id) ON DELETE NO ACTION ON UPDATE NO ACTION
 ;
 
@@ -486,9 +457,6 @@ ALTER TABLE courthouse ADD CONSTRAINT cths_rloc_fk FOREIGN KEY (region_location_
 ;
 
 ALTER TABLE courtroom ADD CONSTRAINT ctrm_cths_fk FOREIGN KEY (courthouse_location_id) REFERENCES courthouse (location_id) ON DELETE NO ACTION ON UPDATE NO ACTION
-;
-
-ALTER TABLE assignment_stream ADD CONSTRAINT astr_ascd_fk FOREIGN KEY (assignment_type_code) REFERENCES assignment_code (assignment_code) ON DELETE NO ACTION ON UPDATE NO ACTION
 ;
 
 ALTER TABLE duty ADD CONSTRAINT duty_astr_fk FOREIGN KEY (assignment_stream_id) REFERENCES assignment_stream (assignment_stream_id) ON DELETE NO ACTION ON UPDATE NO ACTION
@@ -525,6 +493,9 @@ ALTER TABLE shift_template ADD CONSTRAINT sftm_rcur_fk FOREIGN KEY (recurrence_i
 ;
 
 ALTER TABLE duty_template ADD CONSTRAINT dttm_rcur_fk FOREIGN KEY (recurrence_id) REFERENCES recurrence (recurrence_id) ON DELETE NO ACTION ON UPDATE NO ACTION
+;
+
+ALTER TABLE assignment_stream ADD CONSTRAINT astr_wksc_fk FOREIGN KEY (work_section_code) REFERENCES work_section_code (work_section_code) ON DELETE NO ACTION ON UPDATE NO ACTION
 ;
 
 
