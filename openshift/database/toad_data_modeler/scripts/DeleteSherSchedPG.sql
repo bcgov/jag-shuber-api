@@ -1,6 +1,6 @@
 /*
 Created: 05/01/2018
-Modified: 07/03/2018
+Modified: 08/03/2018
 Model: PostgreSQL 9.5
 Database: PostgreSQL 9.5
 */
@@ -8,15 +8,15 @@ Database: PostgreSQL 9.5
 
 -- Drop relationships section -------------------------------------------------
 
-ALTER TABLE assignment_template DROP CONSTRAINT IF EXISTS astm_rcur_fk
+ALTER TABLE duty_template DROP CONSTRAINT IF EXISTS dttm_rcur_fk
 ;
 ALTER TABLE shift_template DROP CONSTRAINT IF EXISTS sftm_rcur_fk
 ;
-ALTER TABLE assignment_template DROP CONSTRAINT IF EXISTS astm_wksc_fk
+ALTER TABLE duty_template DROP CONSTRAINT IF EXISTS dttm_wksc_fk
 ;
-ALTER TABLE assignment_template DROP CONSTRAINT IF EXISTS astm_sftm_fk
+ALTER TABLE duty_template DROP CONSTRAINT IF EXISTS dttm_sftm_fk
 ;
-ALTER TABLE assignment DROP CONSTRAINT IF EXISTS asnt_astm_fk
+ALTER TABLE duty DROP CONSTRAINT IF EXISTS duty_dttm_fk
 ;
 ALTER TABLE shift_template DROP CONSTRAINT IF EXISTS sftm_wksc_fk
 ;
@@ -30,7 +30,7 @@ ALTER TABLE shift DROP CONSTRAINT IF EXISTS shft_cths_fk
 ;
 ALTER TABLE sheriff DROP CONSTRAINT IF EXISTS shrf_cths_fk
 ;
-ALTER TABLE assignment DROP CONSTRAINT IF EXISTS asnt_astr_fk
+ALTER TABLE duty DROP CONSTRAINT IF EXISTS duty_astr_fk
 ;
 ALTER TABLE assignment_stream DROP CONSTRAINT IF EXISTS astr_ascd_fk
 ;
@@ -40,9 +40,9 @@ ALTER TABLE courthouse DROP CONSTRAINT IF EXISTS cths_rloc_fk
 ;
 ALTER TABLE location DROP CONSTRAINT IF EXISTS loc_lccd_fk
 ;
-ALTER TABLE assignment DROP CONSTRAINT IF EXISTS asnt_wksc_fk
+ALTER TABLE duty DROP CONSTRAINT IF EXISTS duty_wksc_fk
 ;
-ALTER TABLE assignment DROP CONSTRAINT IF EXISTS asnt_shft_fk
+ALTER TABLE duty DROP CONSTRAINT IF EXISTS duty_shft_fk
 ;
 ALTER TABLE assignment_code DROP CONSTRAINT IF EXISTS ascd_wksc_fk
 ;
@@ -62,7 +62,7 @@ ALTER TABLE shift DROP CONSTRAINT IF EXISTS shft_shrf_fk
 
 -- Drop keys for tables section -------------------------------------------------
 
-ALTER TABLE assignment_template DROP CONSTRAINT IF EXISTS astm_pk
+ALTER TABLE duty_template DROP CONSTRAINT IF EXISTS dttm_pk
 ;
 ALTER TABLE shift_template DROP CONSTRAINT IF EXISTS sftm_pk
 ;
@@ -88,7 +88,7 @@ ALTER TABLE courtroom DROP CONSTRAINT IF EXISTS ctrm_pk
 ;
 ALTER TABLE courthouse DROP CONSTRAINT IF EXISTS cths_pk
 ;
-ALTER TABLE assignment DROP CONSTRAINT IF EXISTS asnt_pk
+ALTER TABLE duty DROP CONSTRAINT IF EXISTS duty_pk
 ;
 ALTER TABLE assignment_code DROP CONSTRAINT IF EXISTS ascd_pk
 ;
@@ -102,15 +102,15 @@ ALTER TABLE sheriff DROP CONSTRAINT IF EXISTS shrf_usrd_uk
 
 -- Drop indexes section -------------------------------------------------
 
-DROP INDEX IF EXISTS ix_astm_pk
+DROP INDEX IF EXISTS ix_dttm_pk
 ;
-DROP INDEX IF EXISTS ix_astm_wksc_fk
+DROP INDEX IF EXISTS ix_dttm_wksc_fk
 ;
-DROP INDEX IF EXISTS ix_astm_astr_fk
+DROP INDEX IF EXISTS ix_dttm_astr_fk
 ;
-DROP INDEX IF EXISTS ix_astm_sftm_fk
+DROP INDEX IF EXISTS ix_dttm_sftm_fk
 ;
-DROP INDEX IF EXISTS ix_astm_rcur_fk
+DROP INDEX IF EXISTS ix_dttm_rcur_fk
 ;
 DROP INDEX IF EXISTS ix_sftm_cths_fk
 ;
@@ -142,13 +142,13 @@ DROP INDEX IF EXISTS ix_cths_rloc_fk
 ;
 DROP INDEX IF EXISTS ix_cths_loc_fk
 ;
-DROP INDEX IF EXISTS ix_asnt_shft_pk
+DROP INDEX IF EXISTS ix_duty_shft_pk
 ;
-DROP INDEX IF EXISTS ix_asnt_wksc_fk
+DROP INDEX IF EXISTS ix_duty_wksc_fk
 ;
-DROP INDEX IF EXISTS ix_asnt_astr_fk
+DROP INDEX IF EXISTS ix_duty_astr_fk
 ;
-DROP INDEX IF EXISTS ix_asnt_astm_fk
+DROP INDEX IF EXISTS ix_duty_dttm_fk
 ;
 DROP INDEX IF EXISTS ix_ascd_wksc_fk
 ;
@@ -180,9 +180,9 @@ DROP TABLE IF EXISTS courtroom
 ;
 DROP TABLE IF EXISTS courthouse
 ;
-DROP TABLE IF EXISTS assignment_template
+DROP TABLE IF EXISTS duty_template
 ;
-DROP TABLE IF EXISTS assignment
+DROP TABLE IF EXISTS duty
 ;
 DROP TABLE IF EXISTS assignment_code
 ;
