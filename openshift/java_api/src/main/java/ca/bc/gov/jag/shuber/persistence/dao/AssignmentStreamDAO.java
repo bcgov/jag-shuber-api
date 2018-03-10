@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
  * <p>Domain data access object for database table assignment_stream.
  *
  * @author hbm2dao
- * @version 346
+ * @version 352
  * @see ca.bc.gov.jag.shuber.persistence.model.AssignmentStream
  */
 @Repository

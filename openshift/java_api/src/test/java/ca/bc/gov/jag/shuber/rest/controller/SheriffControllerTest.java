@@ -58,7 +58,7 @@ public class SheriffControllerTest extends AbstractControllerTest {
     
     @Test
     public void test1_getSheriffs() throws Exception {
-    		Sheriff s1 = new Sheriff(UUID.randomUUID(),"badgeNo1", "createdBy", "updatedBy", now, now, 0);
+    		Sheriff s1 = new Sheriff(UUID.randomUUID(),"badgeNo1", "userId1", "createdBy", "updatedBy", now, now, 0);
     		records.add(s1);	
 		
 		Mockito.when(sheriffSchedulerService.getSheriffs()).thenReturn(records);
@@ -72,7 +72,7 @@ public class SheriffControllerTest extends AbstractControllerTest {
     
     @Test
     public void test1_findSheriffByBadgeNo() throws Exception {
-    		Sheriff s1 = new Sheriff(UUID.randomUUID(),"badgeNo1", "createdBy", "updatedBy", now, now, 0);
+    		Sheriff s1 = new Sheriff(UUID.randomUUID(),"badgeNo1", "userId1", "createdBy", "updatedBy", now, now, 0);
     		
     		Mockito.when(sheriffSchedulerService.getSheriffByBadgeNo("badgeNo1")).thenReturn(Optional.of(s1));
     		

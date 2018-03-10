@@ -25,7 +25,7 @@ import org.hibernate.annotations.GenericGenerator;
  * <p>Domain model for database table recurrence.
  *
  * @author hbm2java
- * @version 344
+ * @version 352
  */
 @Entity
 @Table(name = "recurrence"
@@ -51,16 +51,16 @@ public class Recurrence extends AbstractAuditableVersionable implements Serializ
     private Date endTime;
 
     @NotNull
-    @Column(name = "recurrence_days_bitmap", nullable = false)
+    @Column(name = "recurrence_days_bitmap", nullable = false, precision = 10, scale = 0)
     private long recurrenceDaysBitmap;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recurrence")
-    private List<AssignmentTemplate> assignmentTemplates = new ArrayList<AssignmentTemplate>(0);
+    private List<ShiftTemplate> shiftTemplates = new ArrayList<ShiftTemplate>(0);
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recurrence")
-    private List<ShiftTemplate> shiftTemplates = new ArrayList<ShiftTemplate>(0);
+    private List<DutyTemplate> dutyTemplates = new ArrayList<DutyTemplate>(0);
     /** No args constructor. */
     public Recurrence() {}
 
@@ -93,8 +93,8 @@ public class Recurrence extends AbstractAuditableVersionable implements Serializ
             Date createdDtm,
             Date updatedDtm,
             long revisionCount,
-            List<AssignmentTemplate> assignmentTemplates,
-            List<ShiftTemplate> shiftTemplates) {
+            List<ShiftTemplate> shiftTemplates,
+            List<DutyTemplate> dutyTemplates) {
         this.recurrenceId = recurrenceId;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -104,8 +104,8 @@ public class Recurrence extends AbstractAuditableVersionable implements Serializ
         this.createdDtm = createdDtm;
         this.updatedDtm = updatedDtm;
         this.revisionCount = revisionCount;
-        this.assignmentTemplates = assignmentTemplates;
         this.shiftTemplates = shiftTemplates;
+        this.dutyTemplates = dutyTemplates;
     }
 
     public UUID getRecurrenceId() {
@@ -140,19 +140,19 @@ public class Recurrence extends AbstractAuditableVersionable implements Serializ
         this.recurrenceDaysBitmap = recurrenceDaysBitmap;
     }
 
-    public List<AssignmentTemplate> getAssignmentTemplates() {
-        return this.assignmentTemplates;
-    }
-
-    public void setAssignmentTemplates(List<AssignmentTemplate> assignmentTemplates) {
-        this.assignmentTemplates = assignmentTemplates;
-    }
-
     public List<ShiftTemplate> getShiftTemplates() {
         return this.shiftTemplates;
     }
 
     public void setShiftTemplates(List<ShiftTemplate> shiftTemplates) {
         this.shiftTemplates = shiftTemplates;
+    }
+
+    public List<DutyTemplate> getDutyTemplates() {
+        return this.dutyTemplates;
+    }
+
+    public void setDutyTemplates(List<DutyTemplate> dutyTemplates) {
+        this.dutyTemplates = dutyTemplates;
     }
 }

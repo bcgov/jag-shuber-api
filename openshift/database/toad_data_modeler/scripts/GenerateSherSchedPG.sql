@@ -66,13 +66,13 @@ CREATE TABLE duty(
  end_time Timestamp with time zone,
  shift_id UUID,
  work_section_code Character varying(20),
+ assignment_stream_id UUID,
+ assignment_template_id UUID
  created_by Character varying(32) NOT NULL,
  updated_by Character varying(32) NOT NULL,
  created_dtm Timestamp with time zone NOT NULL,
  updated_dtm Timestamp with time zone NOT NULL,
  revision_count Numeric(10,0) NOT NULL,
- assignment_stream_id UUID,
- assignment_template_id UUID
 )
 ;
 

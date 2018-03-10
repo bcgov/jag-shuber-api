@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 
 import ca.bc.gov.jag.shuber.persistence.dao.SheriffDAO;
 import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
@@ -19,10 +20,19 @@ public class SheriffCreateUpdateValidator implements Validator {
 	/** Sheriff data access object. */
 	private SheriffDAO sheriffDao;
 	
-	/** Constructor. */
+	/** Bean validator. */
+	private SpringValidatorAdapter validator;
+	
+	
+	/**
+	 * Constructor.
+	 * @param sheriffDao 
+	 * @param validator
+	 */
 	@Autowired
-	public SheriffCreateUpdateValidator(SheriffDAO sheriffDao) {
+	public SheriffCreateUpdateValidator(SheriffDAO sheriffDao, SpringValidatorAdapter validator) {
 		this.sheriffDao = sheriffDao;
+		this.validator = validator;
 	}
 	
 	@Override
@@ -34,12 +44,6 @@ public class SheriffCreateUpdateValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		Sheriff s = (Sheriff) target;
 		
-		//global error example
-		//errors.reject("error.record.exists", null, "Record exists");
-		
-		//field error example
-		//errors.rejectValue("badgeNo", "error.record.exists.Sheriff.badgeNo", new Object[] {s.getBadgeNo()}, "Badge number already exists.");
-		
 		/* TYPES OF VALIDATION:
 		 * 
 		 * NOTE: REQUIRED FIELDS (can be handled via annotations on the entity)
@@ -49,17 +53,25 @@ public class SheriffCreateUpdateValidator implements Validator {
 		 * 
 		 * NOTE: Spring adds the Entity and Field to the given property for you, 
 		 *       so "error.validation.exists" becomes "error.validation.exists.Sheriff.badgeNo"
+		 *       
+		 * global error example:
+		 * errors.reject("error.validation.exists", null, "Record exists");
+		 * 
+		 * field error example:
+		 * errors.rejectValue("badgeNo", "error.validation.exists", new Object[] {s.getBadgeNo()}, "Badge number already exists.");
 		 */
 		
-		//NOTE: alternatively you could use @NotEmpty, @NotNull, etc.
-		if (s.getBadgeNo() == null || s.getBadgeNo().trim().equals("")) {
-			errors.rejectValue("badgeNo", "error.validation.required", "Badge Number is required");
+		//validate the bean
+		this.validator.validate(s, errors);
+		
+		if (errors.hasErrors()) {
+			return;
 		}
 		
 		Sheriff tmp = sheriffDao.findByBadgeNo(s.getBadgeNo());
 		boolean exists = tmp != null;
 		if (exists) {
-			errors.rejectValue("badgeNo", "error.validation.exists.Sheriff.badgeNo", new Object[] {s.getBadgeNo()}, "Badge number already exists.");
+			errors.rejectValue("badgeNo", "error.validation.exists", new Object[] {s.getBadgeNo()}, "Badge number already exists.");
 		}
 	}
 

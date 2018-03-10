@@ -1,7 +1,7 @@
 package ca.bc.gov.jag.shuber.persistence.model;
 
-import ca.bc.gov.jag.shuber.persistence.AbstractAuditableVersionable;
 import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotEmpty;
@@ -14,10 +14,10 @@ import javax.validation.constraints.Size;
  * <p>Domain model for database table days_bitmap_code.
  *
  * @author hbm2java
- * @version 344
+ * @version 352
  */
 @Embeddable
-public class DaysBitmapCodeId extends AbstractAuditableVersionable implements Serializable {
+public class DaysBitmapCodeId implements Serializable {
 
     /** UID. */
     private static final long serialVersionUID = 1L;

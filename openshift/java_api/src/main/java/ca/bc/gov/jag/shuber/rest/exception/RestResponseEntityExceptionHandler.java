@@ -3,7 +3,11 @@ package ca.bc.gov.jag.shuber.rest.exception;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,6 +17,8 @@ import org.springframework.data.rest.core.RepositoryConstraintViolationException
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
@@ -74,14 +80,14 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 	
 	
 	/**
-	 * Handle errors  thrown by {@code Validator}
+	 * Handle errors  thrown by {@code Validator}.
 	 * @param e exception
 	 * @param request web request
 	 * @return response
 	 * @see org.springframework.validation.Validator
 	 */
 	@ExceptionHandler(RepositoryConstraintViolationException.class)
-	public ResponseEntity<Object> handleValidationException(
+	public ResponseEntity<Object> handleRepositoryConstraintViolationException(
 		Exception e, 
 		WebRequest request) {
 		
@@ -89,10 +95,73 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		Errors errors = rcve.getErrors();
 
 		if (log.isDebugEnabled()) {
-			log.debug("Handling errors from Validation, message=" + e.getMessage());
+			log.debug("Handling errors from Validator, message=" + e.getMessage());
 		}
 		
 		RestErrors ve = this.getValidationErrors(errors.getGlobalErrors(), errors.getFieldErrors(), e);
+		
+		return new ResponseEntity<>(ve, new HttpHeaders(), HttpStatus.PARTIAL_CONTENT);
+	}
+	
+	/**
+	 * If we didn't implement a validator for an Entity or the validator is 
+	 * not validating the correct type (save/update/delete), then Hibernate/Spring 
+	 * will throw these errors when it tries to persist the object.
+	 * 
+	 * <pre>
+	 *	List of constraint violations:[
+	 *	ConstraintViolationImpl{
+	 *		interpolatedMessage='must not be empty', 
+	 *		propertyPath=badgeNo, 
+	 *		rootBeanClass=class ca.bc.gov.jag.shuber.persistence.model.Sheriff, 
+	 *		messageTemplate='{javax.validation.constraints.NotEmpty.message}'
+	 *	}
+	 *	ConstraintViolationImpl{
+	 *		interpolatedMessage='must not be empty', 
+	 *		propertyPath=userid, 
+	 *		rootBeanClass=class ca.bc.gov.jag.shuber.persistence.model.Sheriff, 
+	 *		messageTemplate='{javax.validation.constraints.NotEmpty.message}'
+	 *	}
+	 * </pre>
+	 * 
+	 * @param e exception
+	 * @param request web request
+	 * @return response
+	 */
+	@ExceptionHandler(TransactionSystemException.class)
+	public ResponseEntity<Object> handleTransactionSystemException(
+		Exception e, 
+		WebRequest request) {
+		
+		TransactionSystemException tse = (TransactionSystemException) e;
+		Throwable rc = tse.getRootCause();	
+		RestErrors ve = null;
+		
+		if (log.isDebugEnabled()) {
+			log.debug("Handling errors from Validation annotations checked by Hibernate, message=" + e.getMessage());
+		}
+
+		if (rc != null && rc instanceof ConstraintViolationException) {
+			ConstraintViolationException cve = (ConstraintViolationException) rc;
+			Set<ConstraintViolation<?>> violations = cve.getConstraintViolations();
+			List<FieldError> fieldErrors = new ArrayList<>();
+			
+			for (ConstraintViolation<?> violation : violations) {
+				String objectName = violation.getRootBean().getClass().getName();
+				String field = violation.getPropertyPath().toString();
+				Object rejectedValue = violation.getInvalidValue();
+				String[] codes = new String[]{"error.validation.constraint"};
+				Object[] arguments = null;
+				String defaultMessage = violation.getMessage();
+				
+				fieldErrors.add(new FieldError(objectName, field, rejectedValue, false, codes, arguments, defaultMessage));
+			}
+			
+			ve = this.getValidationErrors(null, fieldErrors, e);
+			
+		} else {
+			ve = this.getValidationErrors(null, null, tse);
+		}
 		
 		return new ResponseEntity<>(ve, new HttpHeaders(), HttpStatus.PARTIAL_CONTENT);
 	}

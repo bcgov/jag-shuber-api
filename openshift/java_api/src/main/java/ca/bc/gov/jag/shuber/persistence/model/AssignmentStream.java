@@ -25,7 +25,7 @@ import org.hibernate.annotations.GenericGenerator;
  * <p>Domain model for database table assignment_stream.
  *
  * @author hbm2java
- * @version 344
+ * @version 352
  */
 @Entity
 @Table(name = "assignment_stream"
@@ -42,14 +42,14 @@ public class AssignmentStream extends AbstractAuditableVersionable implements Se
     @Column(name = "assignment_stream_id", nullable = false, updatable = false)
     private UUID assignmentStreamId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "assignment_type_code")
-    private AssignmentCode assignmentCode;
-
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "location_id", nullable = false)
     private Courthouse courthouse;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "work_section_code")
+    private WorkSectionCode workSectionCode;
 
     @NotNull
     @Column(name = "org_unit_id", nullable = false)
@@ -57,7 +57,7 @@ public class AssignmentStream extends AbstractAuditableVersionable implements Se
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "assignmentStream")
-    private List<Assignment> assignments = new ArrayList<Assignment>(0);
+    private List<Duty> duties = new ArrayList<Duty>(0);
     /** No args constructor. */
     public AssignmentStream() {}
 
@@ -84,25 +84,25 @@ public class AssignmentStream extends AbstractAuditableVersionable implements Se
     /** All args constructor. */
     public AssignmentStream(
             UUID assignmentStreamId,
-            AssignmentCode assignmentCode,
             Courthouse courthouse,
+            WorkSectionCode workSectionCode,
             UUID orgUnitId,
             String createdBy,
             String updatedBy,
             Date createdDtm,
             Date updatedDtm,
             long revisionCount,
-            List<Assignment> assignments) {
+            List<Duty> duties) {
         this.assignmentStreamId = assignmentStreamId;
-        this.assignmentCode = assignmentCode;
         this.courthouse = courthouse;
+        this.workSectionCode = workSectionCode;
         this.orgUnitId = orgUnitId;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.createdDtm = createdDtm;
         this.updatedDtm = updatedDtm;
         this.revisionCount = revisionCount;
-        this.assignments = assignments;
+        this.duties = duties;
     }
 
     public UUID getAssignmentStreamId() {
@@ -113,20 +113,20 @@ public class AssignmentStream extends AbstractAuditableVersionable implements Se
         this.assignmentStreamId = assignmentStreamId;
     }
 
-    public AssignmentCode getAssignmentCode() {
-        return this.assignmentCode;
-    }
-
-    public void setAssignmentCode(AssignmentCode assignmentCode) {
-        this.assignmentCode = assignmentCode;
-    }
-
     public Courthouse getCourthouse() {
         return this.courthouse;
     }
 
     public void setCourthouse(Courthouse courthouse) {
         this.courthouse = courthouse;
+    }
+
+    public WorkSectionCode getWorkSectionCode() {
+        return this.workSectionCode;
+    }
+
+    public void setWorkSectionCode(WorkSectionCode workSectionCode) {
+        this.workSectionCode = workSectionCode;
     }
 
     public UUID getOrgUnitId() {
@@ -137,11 +137,11 @@ public class AssignmentStream extends AbstractAuditableVersionable implements Se
         this.orgUnitId = orgUnitId;
     }
 
-    public List<Assignment> getAssignments() {
-        return this.assignments;
+    public List<Duty> getDuties() {
+        return this.duties;
     }
 
-    public void setAssignments(List<Assignment> assignments) {
-        this.assignments = assignments;
+    public void setDuties(List<Duty> duties) {
+        this.duties = duties;
     }
 }

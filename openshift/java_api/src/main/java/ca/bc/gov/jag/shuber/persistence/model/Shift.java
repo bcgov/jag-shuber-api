@@ -18,6 +18,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -27,7 +28,7 @@ import org.hibernate.annotations.GenericGenerator;
  * <p>Domain model for database table shift.
  *
  * @author hbm2java
- * @version 344
+ * @version 352
  */
 @Entity
 @Table(name = "shift"
@@ -44,8 +45,9 @@ public class Shift extends AbstractAuditableVersionable implements Serializable 
     @Column(name = "shift_id", nullable = false, updatable = false)
     private UUID shiftId;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id")
+    @JoinColumn(name = "location_id", nullable = false)
     private Courthouse courthouse;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -60,36 +62,35 @@ public class Shift extends AbstractAuditableVersionable implements Serializable 
     @JoinColumn(name = "work_section_code")
     private WorkSectionCode workSectionCode;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "start_time", length = 35)
+    private Date startTime;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "end_time", length = 35)
+    private Date endTime;
+
     @Size(min = 0, max = 255)
     @Column(name = "shift_status")
     private String shiftStatus;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "shift_start_time", length = 29)
-    private Date shiftStartTime;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "shift_end_time", length = 29)
-    private Date shiftEndTime;
-
-    @Column(name = "attribute1")
-    private Long attribute1;
-
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shift")
-    private List<Assignment> assignments = new ArrayList<Assignment>(0);
+    private List<Duty> duties = new ArrayList<Duty>(0);
     /** No args constructor. */
     public Shift() {}
 
     /** Required args constructor. */
     public Shift(
             UUID shiftId,
+            Courthouse courthouse,
             String createdBy,
             String updatedBy,
             Date createdDtm,
             Date updatedDtm,
             long revisionCount) {
         this.shiftId = shiftId;
+        this.courthouse = courthouse;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.createdDtm = createdDtm;
@@ -104,31 +105,29 @@ public class Shift extends AbstractAuditableVersionable implements Serializable 
             Sheriff sheriff,
             ShiftTemplate shiftTemplate,
             WorkSectionCode workSectionCode,
+            Date startTime,
+            Date endTime,
             String shiftStatus,
-            Date shiftStartTime,
-            Date shiftEndTime,
             String createdBy,
             String updatedBy,
             Date createdDtm,
             Date updatedDtm,
             long revisionCount,
-            Long attribute1,
-            List<Assignment> assignments) {
+            List<Duty> duties) {
         this.shiftId = shiftId;
         this.courthouse = courthouse;
         this.sheriff = sheriff;
         this.shiftTemplate = shiftTemplate;
         this.workSectionCode = workSectionCode;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.shiftStatus = shiftStatus;
-        this.shiftStartTime = shiftStartTime;
-        this.shiftEndTime = shiftEndTime;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.createdDtm = createdDtm;
         this.updatedDtm = updatedDtm;
         this.revisionCount = revisionCount;
-        this.attribute1 = attribute1;
-        this.assignments = assignments;
+        this.duties = duties;
     }
 
     public UUID getShiftId() {
@@ -171,6 +170,22 @@ public class Shift extends AbstractAuditableVersionable implements Serializable 
         this.workSectionCode = workSectionCode;
     }
 
+    public Date getStartTime() {
+        return this.startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return this.endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
     public String getShiftStatus() {
         return this.shiftStatus;
     }
@@ -179,35 +194,11 @@ public class Shift extends AbstractAuditableVersionable implements Serializable 
         this.shiftStatus = shiftStatus;
     }
 
-    public Date getShiftStartTime() {
-        return this.shiftStartTime;
+    public List<Duty> getDuties() {
+        return this.duties;
     }
 
-    public void setShiftStartTime(Date shiftStartTime) {
-        this.shiftStartTime = shiftStartTime;
-    }
-
-    public Date getShiftEndTime() {
-        return this.shiftEndTime;
-    }
-
-    public void setShiftEndTime(Date shiftEndTime) {
-        this.shiftEndTime = shiftEndTime;
-    }
-
-    public Long getAttribute1() {
-        return this.attribute1;
-    }
-
-    public void setAttribute1(Long attribute1) {
-        this.attribute1 = attribute1;
-    }
-
-    public List<Assignment> getAssignments() {
-        return this.assignments;
-    }
-
-    public void setAssignments(List<Assignment> assignments) {
-        this.assignments = assignments;
+    public void setDuties(List<Duty> duties) {
+        this.duties = duties;
     }
 }

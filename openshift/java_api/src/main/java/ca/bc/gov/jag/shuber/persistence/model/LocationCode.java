@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
  * <p>Domain model for database table location_code.
  *
  * @author hbm2java
- * @version 344
+ * @version 352
  */
 @Entity
 @Table(name = "location_code"

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
  * <p>Domain data access object for database table location_code.
  *
  * @author hbm2dao
- * @version 346
+ * @version 352
  * @see ca.bc.gov.jag.shuber.persistence.model.LocationCode
  */
 @Repository

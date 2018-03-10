@@ -21,7 +21,7 @@ import javax.validation.constraints.Size;
  * <p>Domain model for database table days_bitmap_code.
  *
  * @author hbm2java
- * @version 344
+ * @version 352
  */
 @Entity
 @Table(name = "days_bitmap_code"

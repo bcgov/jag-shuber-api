@@ -27,7 +27,7 @@ import org.hibernate.annotations.GenericGenerator;
  * <p>Domain model for database table location.
  *
  * @author hbm2java
- * @version 344
+ * @version 352
  */
 @Entity
 @Table(name = "location"
@@ -53,16 +53,16 @@ public class Location extends AbstractAuditableVersionable implements Serializab
     private LocationCode locationCode;
 
     @NotEmpty
-    @Size(min = 1, max = 255)
-    @Column(name = "location_name", nullable = false)
+    @Size(min = 1, max = 200)
+    @Column(name = "location_name", nullable = false, length = 200)
     private String locationName;
 
-    @Size(min = 0, max = 255)
-    @Column(name = "description")
+    @Size(min = 0, max = 200)
+    @Column(name = "description", length = 200)
     private String description;
 
-    @Size(min = 0, max = 255)
-    @Column(name = "address")
+    @Size(min = 0, max = 200)
+    @Column(name = "address", length = 200)
     private String address;
 
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "location")

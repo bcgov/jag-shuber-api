@@ -23,7 +23,7 @@ import javax.validation.constraints.Size;
  * <p>Domain model for database table work_section_code.
  *
  * @author hbm2java
- * @version 344
+ * @version 352
  */
 @Entity
 @Table(name = "work_section_code"
@@ -39,8 +39,8 @@ public class WorkSectionCode extends AbstractAuditableVersionable implements Ser
     @Column(name = "work_section_code", nullable = false, updatable = false, length = 20)
     private String workSectionCode;
 
-    @Size(min = 0, max = 100)
-    @Column(name = "work_section_description", length = 100)
+    @Size(min = 0, max = 200)
+    @Column(name = "work_section_description", length = 200)
     private String workSectionDescription;
 
     @NotNull
@@ -54,11 +54,7 @@ public class WorkSectionCode extends AbstractAuditableVersionable implements Ser
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "workSectionCode")
-    private List<Assignment> assignments = new ArrayList<Assignment>(0);
-
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "workSectionCode")
-    private List<AssignmentCode> assignmentCodes = new ArrayList<AssignmentCode>(0);
+    private List<DutyTemplate> dutyTemplates = new ArrayList<DutyTemplate>(0);
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "workSectionCode")
@@ -66,11 +62,15 @@ public class WorkSectionCode extends AbstractAuditableVersionable implements Ser
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "workSectionCode")
-    private List<AssignmentTemplate> assignmentTemplates = new ArrayList<AssignmentTemplate>(0);
+    private List<AssignmentStream> assignmentStreams = new ArrayList<AssignmentStream>(0);
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "workSectionCode")
     private List<Shift> shifts = new ArrayList<Shift>(0);
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "workSectionCode")
+    private List<Duty> duties = new ArrayList<Duty>(0);
     /** No args constructor. */
     public WorkSectionCode() {}
 
@@ -103,11 +103,11 @@ public class WorkSectionCode extends AbstractAuditableVersionable implements Ser
             Date createdDtm,
             Date updatedDtm,
             long revisionCount,
-            List<Assignment> assignments,
-            List<AssignmentCode> assignmentCodes,
+            List<DutyTemplate> dutyTemplates,
             List<ShiftTemplate> shiftTemplates,
-            List<AssignmentTemplate> assignmentTemplates,
-            List<Shift> shifts) {
+            List<AssignmentStream> assignmentStreams,
+            List<Shift> shifts,
+            List<Duty> duties) {
         this.workSectionCode = workSectionCode;
         this.workSectionDescription = workSectionDescription;
         this.effectiveDate = effectiveDate;
@@ -117,11 +117,11 @@ public class WorkSectionCode extends AbstractAuditableVersionable implements Ser
         this.createdDtm = createdDtm;
         this.updatedDtm = updatedDtm;
         this.revisionCount = revisionCount;
-        this.assignments = assignments;
-        this.assignmentCodes = assignmentCodes;
+        this.dutyTemplates = dutyTemplates;
         this.shiftTemplates = shiftTemplates;
-        this.assignmentTemplates = assignmentTemplates;
+        this.assignmentStreams = assignmentStreams;
         this.shifts = shifts;
+        this.duties = duties;
     }
 
     public String getWorkSectionCode() {
@@ -156,20 +156,12 @@ public class WorkSectionCode extends AbstractAuditableVersionable implements Ser
         this.expiryDate = expiryDate;
     }
 
-    public List<Assignment> getAssignments() {
-        return this.assignments;
+    public List<DutyTemplate> getDutyTemplates() {
+        return this.dutyTemplates;
     }
 
-    public void setAssignments(List<Assignment> assignments) {
-        this.assignments = assignments;
-    }
-
-    public List<AssignmentCode> getAssignmentCodes() {
-        return this.assignmentCodes;
-    }
-
-    public void setAssignmentCodes(List<AssignmentCode> assignmentCodes) {
-        this.assignmentCodes = assignmentCodes;
+    public void setDutyTemplates(List<DutyTemplate> dutyTemplates) {
+        this.dutyTemplates = dutyTemplates;
     }
 
     public List<ShiftTemplate> getShiftTemplates() {
@@ -180,12 +172,12 @@ public class WorkSectionCode extends AbstractAuditableVersionable implements Ser
         this.shiftTemplates = shiftTemplates;
     }
 
-    public List<AssignmentTemplate> getAssignmentTemplates() {
-        return this.assignmentTemplates;
+    public List<AssignmentStream> getAssignmentStreams() {
+        return this.assignmentStreams;
     }
 
-    public void setAssignmentTemplates(List<AssignmentTemplate> assignmentTemplates) {
-        this.assignmentTemplates = assignmentTemplates;
+    public void setAssignmentStreams(List<AssignmentStream> assignmentStreams) {
+        this.assignmentStreams = assignmentStreams;
     }
 
     public List<Shift> getShifts() {
@@ -194,5 +186,13 @@ public class WorkSectionCode extends AbstractAuditableVersionable implements Ser
 
     public void setShifts(List<Shift> shifts) {
         this.shifts = shifts;
+    }
+
+    public List<Duty> getDuties() {
+        return this.duties;
+    }
+
+    public void setDuties(List<Duty> duties) {
+        this.duties = duties;
     }
 }

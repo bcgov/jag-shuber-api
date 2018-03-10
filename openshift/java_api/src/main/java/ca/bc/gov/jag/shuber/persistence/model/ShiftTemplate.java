@@ -27,7 +27,7 @@ import org.hibernate.annotations.GenericGenerator;
  * <p>Domain model for database table shift_template.
  *
  * @author hbm2java
- * @version 344
+ * @version 352
  */
 @Entity
 @Table(name = "shift_template"
@@ -61,16 +61,16 @@ public class ShiftTemplate extends AbstractAuditableVersionable implements Seria
     private int rotationSequence;
 
     @Temporal(TemporalType.TIME)
-    @Column(name = "shift_start_time", length = 15)
-    private Date shiftStartTime;
+    @Column(name = "start_time", length = 21)
+    private Date startTime;
 
     @Temporal(TemporalType.TIME)
-    @Column(name = "shift_end_time", length = 15)
-    private Date shiftEndTime;
+    @Column(name = "end_time", length = 21)
+    private Date endTime;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shiftTemplate")
-    private List<AssignmentTemplate> assignmentTemplates = new ArrayList<AssignmentTemplate>(0);
+    private List<DutyTemplate> dutyTemplates = new ArrayList<DutyTemplate>(0);
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shiftTemplate")
@@ -105,28 +105,28 @@ public class ShiftTemplate extends AbstractAuditableVersionable implements Seria
             WorkSectionCode workSectionCode,
             UUID locationId,
             int rotationSequence,
-            Date shiftStartTime,
-            Date shiftEndTime,
+            Date startTime,
+            Date endTime,
             String createdBy,
             String updatedBy,
             Date createdDtm,
             Date updatedDtm,
             long revisionCount,
-            List<AssignmentTemplate> assignmentTemplates,
+            List<DutyTemplate> dutyTemplates,
             List<Shift> shifts) {
         this.shiftTemplateId = shiftTemplateId;
         this.recurrence = recurrence;
         this.workSectionCode = workSectionCode;
         this.locationId = locationId;
         this.rotationSequence = rotationSequence;
-        this.shiftStartTime = shiftStartTime;
-        this.shiftEndTime = shiftEndTime;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.createdDtm = createdDtm;
         this.updatedDtm = updatedDtm;
         this.revisionCount = revisionCount;
-        this.assignmentTemplates = assignmentTemplates;
+        this.dutyTemplates = dutyTemplates;
         this.shifts = shifts;
     }
 
@@ -170,28 +170,28 @@ public class ShiftTemplate extends AbstractAuditableVersionable implements Seria
         this.rotationSequence = rotationSequence;
     }
 
-    public Date getShiftStartTime() {
-        return this.shiftStartTime;
+    public Date getStartTime() {
+        return this.startTime;
     }
 
-    public void setShiftStartTime(Date shiftStartTime) {
-        this.shiftStartTime = shiftStartTime;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public Date getShiftEndTime() {
-        return this.shiftEndTime;
+    public Date getEndTime() {
+        return this.endTime;
     }
 
-    public void setShiftEndTime(Date shiftEndTime) {
-        this.shiftEndTime = shiftEndTime;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
-    public List<AssignmentTemplate> getAssignmentTemplates() {
-        return this.assignmentTemplates;
+    public List<DutyTemplate> getDutyTemplates() {
+        return this.dutyTemplates;
     }
 
-    public void setAssignmentTemplates(List<AssignmentTemplate> assignmentTemplates) {
-        this.assignmentTemplates = assignmentTemplates;
+    public void setDutyTemplates(List<DutyTemplate> dutyTemplates) {
+        this.dutyTemplates = dutyTemplates;
     }
 
     public List<Shift> getShifts() {

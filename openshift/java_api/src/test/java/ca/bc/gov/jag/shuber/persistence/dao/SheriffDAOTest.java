@@ -26,7 +26,7 @@ public class SheriffDAOTest extends AbstractDAOTest {
 	@BeforeEach
 	@Override
 	public void beforeTest() {
-		s = new Sheriff(null, "M12345", "test", "test", now, now, 0);
+		s = new Sheriff(null, "M12345", "userId", "test", "test", now, now, 0);
 		entityManager.persistAndFlush(s);
 	}
 
@@ -57,7 +57,7 @@ public class SheriffDAOTest extends AbstractDAOTest {
 	public void testClientCreatedId() {
 		UUID id = UUID.randomUUID();
 		
-		Sheriff s = new Sheriff(id, "M44532", "test", "test", now, now, 0);
+		Sheriff s = new Sheriff(id, "M44532", "userId2", "test", "test", now, now, 0);
 		sheriffDAO.save(s);
 		Assertions.assertTrue(sheriffDAO.count() == 2);
 	}
@@ -66,9 +66,12 @@ public class SheriffDAOTest extends AbstractDAOTest {
 	public void testMockAuditorAware() {
 		Sheriff s = new Sheriff();
 		s.setBadgeNo("T32423");
+		s.setUserid("userId");
 		sheriffDAO.save(s);
 		
 		Assertions.assertNotNull(s.getSheriffId());
+		Assertions.assertNotNull(s.getUserid());
+		
 		Assertions.assertEquals(MockAuditorAware.USER, s.getCreatedBy());
 		Assertions.assertEquals(MockAuditorAware.USER, s.getUpdatedBy());
 		Assertions.assertNotNull(s.getCreatedDtm());

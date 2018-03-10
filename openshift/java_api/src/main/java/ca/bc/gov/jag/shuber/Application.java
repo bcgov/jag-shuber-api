@@ -36,7 +36,7 @@ public class Application {
 				//log.debug("bean name=" + name);
 			}
 			
-			log.debug("initialization complete");
+			log.debug("startup complete");
 		}
 
 		//NOTE: spring doesn't shut down your app (it's in a new thread)
