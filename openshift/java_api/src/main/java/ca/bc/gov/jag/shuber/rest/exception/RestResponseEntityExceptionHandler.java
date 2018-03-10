@@ -17,7 +17,6 @@ import org.springframework.data.rest.core.RepositoryConstraintViolationException
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
@@ -81,6 +80,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 	
 	/**
 	 * Handle errors  thrown by {@code Validator}.
+	 * 
 	 * @param e exception
 	 * @param request web request
 	 * @return response
@@ -141,7 +141,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 			log.debug("Handling errors from Validation annotations checked by Hibernate, message=" + e.getMessage());
 		}
 
-		if (rc != null && rc instanceof ConstraintViolationException) {
+		if (rc instanceof ConstraintViolationException) {
 			ConstraintViolationException cve = (ConstraintViolationException) rc;
 			Set<ConstraintViolation<?>> violations = cve.getConstraintViolations();
 			List<FieldError> fieldErrors = new ArrayList<>();
@@ -150,11 +150,12 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 				String objectName = violation.getRootBean().getClass().getName();
 				String field = violation.getPropertyPath().toString();
 				Object rejectedValue = violation.getInvalidValue();
-				String[] codes = new String[]{"error.validation.constraint"};
+				boolean bindingFailure = false;
+				String[] codes = new String[] {"error.validation.constraint"};
 				Object[] arguments = null;
 				String defaultMessage = violation.getMessage();
 				
-				fieldErrors.add(new FieldError(objectName, field, rejectedValue, false, codes, arguments, defaultMessage));
+				fieldErrors.add(new FieldError(objectName, field, rejectedValue, bindingFailure, codes, arguments, defaultMessage));
 			}
 			
 			ve = this.getValidationErrors(null, fieldErrors, e);
@@ -186,6 +187,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 	
 	/**
 	 * Helper method that maps errors to our custom objects.
+	 * 
 	 * @param globalErrors global errors
 	 * @param fieldErrors field errors
 	 * @param e exception

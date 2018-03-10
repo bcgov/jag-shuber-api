@@ -35,8 +35,6 @@ public class Application {
 			for (String name : names) {
 				//log.debug("bean name=" + name);
 			}
-			
-			log.debug("startup complete");
 		}
 
 		//NOTE: spring doesn't shut down your app (it's in a new thread)

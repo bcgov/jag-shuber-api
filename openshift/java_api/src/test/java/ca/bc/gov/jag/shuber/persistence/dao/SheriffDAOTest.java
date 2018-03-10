@@ -10,6 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.bc.gov.jag.shuber.persistence.MockAuditorAware;
+import ca.bc.gov.jag.shuber.persistence.model.Courthouse;
+import ca.bc.gov.jag.shuber.persistence.model.Location;
+import ca.bc.gov.jag.shuber.persistence.model.ModelUtil;
 import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
 
 /**
@@ -26,7 +29,8 @@ public class SheriffDAOTest extends AbstractDAOTest {
 	@BeforeEach
 	@Override
 	public void beforeTest() {
-		s = new Sheriff(null, "M12345", "userId", "test", "test", now, now, 0);
+		s = ModelUtil.getSheriff("M5000", "userId1");
+		
 		entityManager.persistAndFlush(s);
 	}
 
@@ -56,8 +60,9 @@ public class SheriffDAOTest extends AbstractDAOTest {
 	@Test
 	public void testClientCreatedId() {
 		UUID id = UUID.randomUUID();
+		Sheriff s = ModelUtil.getSheriff("M5001", "userId2");
+		s.setSheriffId(id);
 		
-		Sheriff s = new Sheriff(id, "M44532", "userId2", "test", "test", now, now, 0);
 		sheriffDAO.save(s);
 		Assertions.assertTrue(sheriffDAO.count() == 2);
 	}
@@ -77,6 +82,23 @@ public class SheriffDAOTest extends AbstractDAOTest {
 		Assertions.assertNotNull(s.getCreatedDtm());
 		Assertions.assertNotNull(s.getUpdatedDtm());
 		Assertions.assertEquals(0, s.getRevisionCount());
+	}
+	
+	@Test
+	public void getSheriffsByCourthouseId() {
+		Location location = ModelUtil.getLocation("Victoria");
+		Courthouse courthouse = ModelUtil.getCourthouse(location, "COURTHOUSE", UUID.randomUUID());
+		
+		entityManager.persistAndFlush(location);
+		entityManager.persistAndFlush(courthouse);
+		
+		s.setCourthouse(courthouse);
+		entityManager.persistAndFlush(s);
+		
+		List<Sheriff> records = sheriffDAO.getSheriffs(courthouse.getLocationId());
+		
+		Assertions.assertNotNull(records);
+		Assertions.assertTrue(records.size() == 1);
 	}
 	
 }

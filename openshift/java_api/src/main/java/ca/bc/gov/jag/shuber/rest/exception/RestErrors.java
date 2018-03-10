@@ -20,7 +20,7 @@ public final class RestErrors implements Serializable {
 
 	/** Current date/time. */
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd hh:mm:ss")
-	private LocalDateTime datetime;
+	private transient LocalDateTime datetime;
 	
 	/** Exception that triggered this. */
 	private String exception;
