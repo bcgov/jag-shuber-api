@@ -48,7 +48,7 @@ public class SheriffHateoasController {
 		
 		Sheriff sheriff = new Sheriff();
 		sheriff.setBadgeNo(record.getBadgeNo());
-		sheriff.setName(record.getName());
+		//sheriff.setName(record.getName());
 		sheriff.setRank(record.getRank());
 		
 		sheriffSchedulerService.createSheriff(sheriff);
@@ -87,7 +87,7 @@ public class SheriffHateoasController {
 		
 		Sheriff tmp = op.get();
 		tmp.setBadgeNo(record.getBadgeNo());
-		tmp.setName(record.getName());
+		//tmp.setName(record.getName());
 		tmp.setRank(record.getRank());
 		
 		Sheriff s = sheriffSchedulerService.createSheriff(tmp);
@@ -164,7 +164,7 @@ public class SheriffHateoasController {
 			js = new JsonSheriff();
 			js.sheriffId = s.getSheriffId().toString();
 			js.badgeNo = s.getBadgeNo();
-			js.name = s.getName();
+			//js.name = s.getName();
 			js.rank = s.getRank();
 			
 			js.add(linkTo(methodOn(SheriffHateoasController.class).getSheriffById(js.sheriffId)).withSelfRel());

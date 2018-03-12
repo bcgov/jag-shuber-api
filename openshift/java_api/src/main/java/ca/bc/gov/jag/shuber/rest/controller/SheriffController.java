@@ -28,7 +28,7 @@ import ca.bc.gov.jag.shuber.service.SheriffSchedulerService;
  * @see ca.bc.gov.jag.shuber.persistence.model.Sheriff
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/custom")
 public class SheriffController {
 	
 	@Autowired
@@ -39,7 +39,9 @@ public class SheriffController {
 		
 		Sheriff sheriff = new Sheriff();
 		sheriff.setBadgeNo(record.getBadgeNo());
-		sheriff.setName(record.getName());
+		sheriff.setUserid(record.getUserid());
+		sheriff.setLastName(record.getLastName());
+		sheriff.setFirstName(record.getFirstName());
 		sheriff.setRank(record.getRank());
 		
 		sheriff = sheriffSchedulerService.createSheriff(sheriff);
@@ -78,7 +80,9 @@ public class SheriffController {
 		
 		Sheriff sheriff = op.get();
 		sheriff.setBadgeNo(record.getBadgeNo());
-		sheriff.setName(record.getName());
+		sheriff.setUserid(record.getUserid());
+		sheriff.setLastName(record.getLastName());
+		sheriff.setFirstName(record.getFirstName());
 		sheriff.setRank(record.getRank());
 		
 		sheriff = sheriffSchedulerService.createSheriff(sheriff);

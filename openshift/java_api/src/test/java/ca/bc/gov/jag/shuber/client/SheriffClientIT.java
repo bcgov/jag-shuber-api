@@ -6,8 +6,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -20,9 +18,6 @@ import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
 public class SheriffClientIT extends AbstractIT {
 	/** Logger. */
 	private static final Logger log = LogManager.getLogger(SheriffClientIT.class);
-	
-	@Autowired
-	private TestRestTemplate restTemplate;
 	
 	@BeforeEach
 	@Override

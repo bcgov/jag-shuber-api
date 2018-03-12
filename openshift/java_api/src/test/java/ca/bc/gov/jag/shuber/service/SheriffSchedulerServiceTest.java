@@ -45,14 +45,16 @@ public class SheriffSchedulerServiceTest extends AbstractTest {
 		records = new ArrayList<>();
 		sorted = new ArrayList<>();
 		
-		s1 = new Sheriff(UUID.randomUUID(),"badgeNo1", "createdBy", "updatedBy", now, now, 0);
-		s1.setName("lastName1, firstName1");
+		s1 = new Sheriff(UUID.randomUUID(),"badgeNo1", "userId1", "createdBy", "updatedBy", now, now, 0);
+		s1.setLastName("lastName1");
+		s1.setFirstName("firstName1");
 		
-		s2 = new Sheriff(UUID.randomUUID(),"badgeNo2", "createdBy", "updatedBy", now, now, 0);
-		s2.setName("lastName2, firstName2");
+		s2 = new Sheriff(UUID.randomUUID(),"badgeNo2", "userId2", "createdBy", "updatedBy", now, now, 0);
+		s2.setLastName("lastName2");
+		s2.setFirstName("firstName2");
 		
 		records.add(s2);
-		records.add(s1);	
+		records.add(s1);
 		
 		//not ideal, but lambdas blow up
 		sorted.add(s1); 
