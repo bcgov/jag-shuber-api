@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -58,6 +59,7 @@ public class SheriffDAOTest extends AbstractDAOTest {
 	}
 
 	@Test
+	@DisplayName("Test that id can be pre-populated for a create")
 	public void testClientCreatedId() {
 		UUID id = UUID.randomUUID();
 		Sheriff s = ModelUtil.getSheriff("M5001", "userId2");
@@ -65,9 +67,11 @@ public class SheriffDAOTest extends AbstractDAOTest {
 		
 		sheriffDAO.save(s);
 		Assertions.assertTrue(sheriffDAO.count() == 2);
+		Assertions.assertEquals(id, s.getSheriffId());
 	}
 	
 	@Test
+	@DisplayName("Ensure that the audit fields are populated on creation")
 	public void testMockAuditorAware() {
 		Sheriff s = new Sheriff();
 		s.setBadgeNo("T32423");
@@ -85,7 +89,8 @@ public class SheriffDAOTest extends AbstractDAOTest {
 	}
 	
 	@Test
-	public void getSheriffsByCourthouseId() {
+	@DisplayName("Find sheriffs for a given courthose.")
+	public void test1_getSheriffsByCourthouseId() {
 		Location location = ModelUtil.getLocation("Victoria");
 		Courthouse courthouse = ModelUtil.getCourthouse(location, "COURTHOUSE", UUID.randomUUID());
 		
@@ -100,5 +105,5 @@ public class SheriffDAOTest extends AbstractDAOTest {
 		Assertions.assertNotNull(records);
 		Assertions.assertTrue(records.size() == 1);
 	}
-	
+
 }

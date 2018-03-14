@@ -8,13 +8,11 @@ Database: PostgreSQL 9.5
 
 -- Create roles section -------------------------------------------------
 
-CREATE ROLE tdm_shersched
-;
+-- CREATE ROLE shersched;
 
 -- Create schemas section -------------------------------------------------
 
-CREATE SCHEMA tdm_shersched AUTHORIZATION tdm_shersched
-;
+-- CREATE SCHEMA shersched AUTHORIZATION shersched;
 
 -- Create tables section -------------------------------------------------
 
@@ -67,12 +65,12 @@ CREATE TABLE duty(
  shift_id UUID,
  work_section_code Character varying(20),
  assignment_stream_id UUID,
- assignment_template_id UUID
+ assignment_template_id UUID,
  created_by Character varying(32) NOT NULL,
  updated_by Character varying(32) NOT NULL,
  created_dtm Timestamp with time zone NOT NULL,
  updated_dtm Timestamp with time zone NOT NULL,
- revision_count Numeric(10,0) NOT NULL,
+ revision_count Numeric(10,0) NOT NULL
 )
 ;
 
@@ -270,7 +268,7 @@ ALTER TABLE shift_template ADD CONSTRAINT sftm_uk UNIQUE (location_id,rotation_s
 
 CREATE TABLE work_section_code(
  work_section_code Character varying(20) NOT NULL,
- work_section_description Character varying(200),
+ description Character varying(200),
  effective_date Date NOT NULL,
  expiry_date Date,
  created_by Character varying(32) NOT NULL,
