@@ -3,7 +3,6 @@ package ca.bc.gov.jag.shuber.rest.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
@@ -16,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import ca.bc.gov.jag.shuber.persistence.model.ModelUtil;
 import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
 import ca.bc.gov.jag.shuber.service.SheriffSchedulerService;
 
@@ -58,7 +58,7 @@ public class SheriffControllerTest extends AbstractControllerTest {
     
     @Test
     public void test1_getSheriffs() throws Exception {
-    		Sheriff s1 = new Sheriff(UUID.randomUUID(),"badgeNo1", "userId1", "createdBy", "updatedBy", now, now, 0);
+    		Sheriff s1 = ModelUtil.getSheriff("badgeNo1", "userId1");
     		records.add(s1);	
 		
 		Mockito.when(sheriffSchedulerService.getSheriffs()).thenReturn(records);
@@ -72,7 +72,7 @@ public class SheriffControllerTest extends AbstractControllerTest {
     
     @Test
     public void test1_findSheriffByBadgeNo() throws Exception {
-    		Sheriff s1 = new Sheriff(UUID.randomUUID(),"badgeNo1", "userId1", "createdBy", "updatedBy", now, now, 0);
+    		Sheriff s1 = ModelUtil.getSheriff("badgeNo1", "userId1");
     		
     		Mockito.when(sheriffSchedulerService.getSheriffByBadgeNo("badgeNo1")).thenReturn(Optional.of(s1));
     		
@@ -90,4 +90,5 @@ public class SheriffControllerTest extends AbstractControllerTest {
   		      .contentType(MediaType.APPLICATION_JSON))
   		      .andExpect(MockMvcResultMatchers.status().is4xxClientError());
     }
+    
 }

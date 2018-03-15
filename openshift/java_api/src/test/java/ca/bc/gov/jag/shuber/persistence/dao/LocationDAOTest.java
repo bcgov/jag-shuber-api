@@ -42,7 +42,7 @@ public class LocationDAOTest extends AbstractDAOTest {
 	@Override
 	protected void afterTest() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Test

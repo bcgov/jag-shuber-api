@@ -65,18 +65,19 @@ public class Location extends AbstractAuditableVersionable implements Serializab
     @Column(name = "address", length = 200)
     private String address;
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "location")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "location")
     private Courtroom courtroom;
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "location")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "location")
     private Courthouse courthouse;
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "location")
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "location")
     private Region region;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "location")
     private List<Location> locations = new ArrayList<Location>(0);
+    
     /** No args constructor. */
     public Location() {}
 
