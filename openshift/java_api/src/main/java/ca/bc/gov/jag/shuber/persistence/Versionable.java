@@ -1,7 +1,7 @@
 package ca.bc.gov.jag.shuber.persistence;
 
 /**
- *
+ * Ensure that concurrent changes are handled properly.
  * @author michael.gabelmann
  */
 public interface Versionable {

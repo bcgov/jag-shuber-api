@@ -27,16 +27,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
  */
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = {"createdBy", "updatedBy", "createdDtm", "updatedDtm", "revisionCount"}, allowGetters = true)
+@JsonIgnoreProperties(
+	value = {"createdBy", "updatedBy", "createdDtm", "updatedDtm", "revisionCount"}, 
+	allowGetters = true
+)
 public abstract class AbstractAuditableVersionable implements Auditable, Versionable {
 	/** Who created the record. */
 	@CreatedBy
-	@Column(name = "CREATED_BY", nullable = false, insertable = true, updatable = false, length = 32)
+	@Column(name = "CREATED_BY", nullable = false, length = 32, insertable = true, updatable = false)
 	protected String createdBy;
 	
 	/** Who updated the record. */
 	@LastModifiedBy
-	@Column(name = "UPDATED_BY", nullable = false, insertable = true, updatable = true, length = 32)
+	@Column(name = "UPDATED_BY", nullable = false, length = 32, insertable = true, updatable = true)
 	protected String updatedBy;
 	
 	/** Date/time record created. */
@@ -56,7 +59,7 @@ public abstract class AbstractAuditableVersionable implements Auditable, Version
 	 * has been modified by another source. If this occurs the record is stale and needs to be reloaded.
 	 */
 	@Version
-	@Column(name = "REVISION_COUNT", nullable = false, insertable = true, updatable = true, precision = 10, scale = 0)
+	@Column(name = "REVISION_COUNT", nullable = false, precision = 10, scale = 0, insertable = true, updatable = true)
 	protected long revisionCount;
 	
 	

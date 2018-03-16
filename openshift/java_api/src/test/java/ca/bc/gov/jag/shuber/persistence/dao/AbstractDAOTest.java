@@ -20,6 +20,7 @@ import ca.bc.gov.jag.shuber.persistence.MockAuditorAware;
  * Base class for Repository unit tests. These utilize an in-memory 
  * database and all transactions are rolled back after they are tested
  * by default.
+ * 
  * @author michael.gabelmann
  */
 @RunWith(JUnitPlatform.class)

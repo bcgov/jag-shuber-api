@@ -1,19 +1,27 @@
 package ca.bc.gov.jag.shuber.persistence;
 
 /**
-*
-* @author michael.gabelmann
-*/
-public interface TypeCode<T> {
+ * Describes code tables.
+ * 
+ * @author michael.gabelmann
+ */
+public interface TypeCode {
 	/**
-	 * Get code.
+	 * Get code. 
 	 * @return code
 	 */
-	T getCode();
+	String getTypeCode();
 	
 	/**
-	 * Set code.
-	 * @param code value
+	 * Get description.
+	 * @return description
 	 */
-	void setCode(T code);
+	String getDescription();
+	
+	/**
+	 * Set description.
+	 * @param description description
+	 */
+	void setDescription(String description);
+	
 }
