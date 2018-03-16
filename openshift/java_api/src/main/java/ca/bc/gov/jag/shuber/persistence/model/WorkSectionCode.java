@@ -14,8 +14,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import ca.bc.gov.jag.shuber.persistence.AbstractTypeCode;
 
 /**
@@ -40,25 +38,26 @@ public class WorkSectionCode extends AbstractTypeCode implements Serializable {
     @Column(name = "work_section_code", nullable = false, updatable = false, length = 20)
     private String workSectionCode;
 
-    @JsonIgnore
+    //@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "workSectionCode")
     private List<DutyTemplate> dutyTemplates = new ArrayList<DutyTemplate>(0);
 
-    @JsonIgnore
+    //@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "workSectionCode")
     private List<ShiftTemplate> shiftTemplates = new ArrayList<ShiftTemplate>(0);
 
-    @JsonIgnore
+    //@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "workSectionCode")
     private List<AssignmentStream> assignmentStreams = new ArrayList<AssignmentStream>(0);
 
-    @JsonIgnore
+    //@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "workSectionCode")
     private List<Shift> shifts = new ArrayList<Shift>(0);
 
-    @JsonIgnore
+    //@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "workSectionCode")
     private List<Duty> duties = new ArrayList<Duty>(0);
+    
     /** No args constructor. */
     public WorkSectionCode() {}
 

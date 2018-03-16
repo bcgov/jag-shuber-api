@@ -20,9 +20,6 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import ca.bc.gov.jag.shuber.persistence.AbstractAuditableVersionable;
 
 /**

@@ -1,6 +1,5 @@
 package ca.bc.gov.jag.shuber.persistence.dao;
 
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,10 +33,18 @@ public interface ShiftDAO extends JpaRepository<Shift, UUID> {
 	 * @param locationId location
 	 * @return records
 	 */
-	@Query("SELECT s FROM Shift s WHERE s.startTime >= :startDate AND s.endTime <= :endDate AND s.courthouse.locationId = :locationId")
+	@Query(
+		value="SELECT s.* " + 
+			  "FROM shift s " + 
+			  "WHERE s.start_time >= to_date(:startDate,'yyyy-MM-dd') " + 
+			  "AND s.end_time <= to_date(:endDate,'yyyy-MM-dd') " + 
+			  "AND s.location_id = :locationId",
+		//value="SELECT s FROM Shift s WHERE s.startTime >= :startDate AND s.endTime <= :endDate AND s.courthouse.locationId = :locationId",
+		nativeQuery=true
+	)
 	List<Shift> getShifts(
-		@DateTimeFormat(iso=ISO.DATE) @Param("startDate") Date startDate, 
-		@DateTimeFormat(iso=ISO.DATE) @Param("endDate") Date endDate, 
+		@DateTimeFormat(iso=ISO.DATE) @Param("startDate") String startDate, 
+		@DateTimeFormat(iso=ISO.DATE) @Param("endDate") String endDate, 
 		@Param("locationId") UUID locationId);
-	
+
 }

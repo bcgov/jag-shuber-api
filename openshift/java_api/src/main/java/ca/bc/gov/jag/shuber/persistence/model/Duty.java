@@ -62,6 +62,7 @@ public class Duty extends AbstractAuditableVersionable implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "end_time", length = 35)
     private Date endTime;
+    
     /** No args constructor. */
     public Duty() {}
 

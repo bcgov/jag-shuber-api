@@ -24,8 +24,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import ca.bc.gov.jag.shuber.persistence.AbstractAuditableVersionable;
 
 /**

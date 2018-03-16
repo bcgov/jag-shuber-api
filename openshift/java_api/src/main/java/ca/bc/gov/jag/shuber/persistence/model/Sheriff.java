@@ -78,9 +78,10 @@ public class Sheriff extends AbstractAuditableVersionable implements Serializabl
     @Column(name = "image_url", length = 200)
     private String imageUrl;
 
-    @JsonIgnore
+    //@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sheriff")
     private List<Shift> shifts = new ArrayList<Shift>(0);
+    
     /** No args constructor. */
     public Sheriff() {}
 

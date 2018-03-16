@@ -14,8 +14,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import ca.bc.gov.jag.shuber.persistence.AbstractTypeCode;
 
 /**
@@ -40,7 +38,7 @@ public class LocationCode extends AbstractTypeCode implements Serializable {
     @Column(name = "location_code", nullable = false, updatable = false, length = 20)
     private String locationCode;
 
-    @JsonIgnore
+    //@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "locationCode")
     private List<Location> locations = new ArrayList<Location>(0);
     
