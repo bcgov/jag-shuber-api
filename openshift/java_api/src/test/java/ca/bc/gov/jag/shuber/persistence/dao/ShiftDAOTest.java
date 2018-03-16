@@ -57,8 +57,8 @@ public class ShiftDAOTest extends AbstractDAOTest {
 		shift.setEndTime(end);
 		entityManager.persistAndFlush(shift);
 		
-		Date searchStartDate = DateUtil.getDate(2018, Calendar.JANUARY, 1);
-		Date searchEndDate = DateUtil.getDate(2018, Calendar.JANUARY, 2);
+		String searchStartDate = "2018-01-01";
+		String searchEndDate = "2018-01-02";
 		List<Shift> records = shiftDAO.getShifts(searchStartDate, searchEndDate, location.getLocationId());
 		
 		Assertions.assertNotNull(records);
@@ -74,8 +74,8 @@ public class ShiftDAOTest extends AbstractDAOTest {
 		shift.setEndTime(end);
 		entityManager.persistAndFlush(shift);
 		
-		Date searchStartDate = DateUtil.getDate(2018, Calendar.JANUARY, 2);
-		Date searchEndDate = DateUtil.getDate(2018, Calendar.JANUARY, 3);
+		String searchStartDate = "2018-01-02";
+		String searchEndDate = "2018-01-03";
 		List<Shift> records = shiftDAO.getShifts(searchStartDate, searchEndDate, location.getLocationId());
 		
 		Assertions.assertNotNull(records);
@@ -91,8 +91,8 @@ public class ShiftDAOTest extends AbstractDAOTest {
 		shift.setEndTime(end);
 		entityManager.persistAndFlush(shift);
 		
-		Date searchStartDate = DateUtil.getDate(2018, Calendar.JANUARY, 1);
-		Date searchEndDate = DateUtil.getDate(2018, Calendar.JANUARY, 3);
+		String searchStartDate = "2018-01-01";
+		String searchEndDate = "2018-01-03";
 		List<Shift> records = shiftDAO.getShifts(searchStartDate, searchEndDate, location.getLocationId());
 		
 		Assertions.assertNotNull(records);
