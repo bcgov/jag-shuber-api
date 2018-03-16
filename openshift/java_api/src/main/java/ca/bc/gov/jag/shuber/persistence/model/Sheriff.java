@@ -21,8 +21,6 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import ca.bc.gov.jag.shuber.persistence.AbstractAuditableVersionable;
 
 /**
@@ -78,7 +76,6 @@ public class Sheriff extends AbstractAuditableVersionable implements Serializabl
     @Column(name = "image_url", length = 200)
     private String imageUrl;
 
-    //@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sheriff")
     private List<Shift> shifts = new ArrayList<Shift>(0);
     

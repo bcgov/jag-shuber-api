@@ -76,7 +76,6 @@ public class Shift extends AbstractAuditableVersionable implements Serializable 
     @Column(name = "shift_status")
     private String shiftStatus;
 
-    //@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shift")
     private List<Duty> duties = new ArrayList<Duty>(0);
     

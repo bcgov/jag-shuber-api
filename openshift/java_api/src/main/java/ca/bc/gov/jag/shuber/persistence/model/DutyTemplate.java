@@ -68,7 +68,6 @@ public class DutyTemplate extends AbstractAuditableVersionable implements Serial
     @Column(name = "assignment_stream_id")
     private UUID assignmentStreamId;
 
-    //@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "dutyTemplate")
     private List<Duty> duties = new ArrayList<Duty>(0);
     

@@ -37,4 +37,5 @@ public interface SheriffDAO extends JpaRepository<Sheriff, UUID> {
 	 */
 	@Query("SELECT s FROM Sheriff s WHERE s.courthouse.locationId = :locationId")
 	List<Sheriff> getSheriffs(@Param("locationId") UUID courthouseId);
+	
 }

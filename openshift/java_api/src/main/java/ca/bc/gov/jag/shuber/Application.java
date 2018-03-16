@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 
 /**
  * Entry point for running the Spring application.
+ * 
  * @author michael.gabelmann
  */
 @SpringBootApplication

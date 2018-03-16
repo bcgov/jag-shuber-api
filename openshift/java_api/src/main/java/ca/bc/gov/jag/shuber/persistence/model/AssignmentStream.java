@@ -57,7 +57,6 @@ public class AssignmentStream extends AbstractAuditableVersionable implements Se
     @Column(name = "org_unit_id", nullable = false)
     private UUID orgUnitId;
 
-    //@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "assignmentStream")
     private List<Duty> duties = new ArrayList<Duty>(0);
     
