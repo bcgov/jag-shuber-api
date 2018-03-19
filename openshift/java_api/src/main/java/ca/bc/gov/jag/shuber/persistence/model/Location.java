@@ -75,8 +75,7 @@ public class Location extends AbstractAuditableVersionable implements Serializab
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "location")
     private Region region;
-
-    //@JsonIgnore
+    
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "location")
     private List<Location> locations = new ArrayList<Location>(0);
     

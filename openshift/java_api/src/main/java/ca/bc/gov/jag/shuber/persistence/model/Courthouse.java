@@ -74,19 +74,15 @@ public class Courthouse extends AbstractAuditableVersionable implements Serializ
     @Column(name = "geometry")
     private UUID geometry;
 
-    //@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "courthouse")
     private List<Courtroom> courtrooms = new ArrayList<Courtroom>(0);
 
-    //@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "courthouse")
     private List<Shift> shifts = new ArrayList<Shift>(0);
 
-    //@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "courthouse")
     private List<Sheriff> sheriffs = new ArrayList<Sheriff>(0);
 
-    //@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "courthouse")
     private List<AssignmentStream> assignmentStreams = new ArrayList<AssignmentStream>(0);
     

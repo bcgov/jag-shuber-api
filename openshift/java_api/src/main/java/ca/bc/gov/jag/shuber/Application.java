@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Bean;
 
 /**
  * Entry point for running the Spring application.
+ * 
  * @author michael.gabelmann
  */
 @SpringBootApplication
@@ -22,6 +23,7 @@ public class Application {
 	/** Inject application acronym using Spring. */
 	@Value("${app.acronym}")
 	private String applicationAcronym;
+	
 	
 	/**
 	 * Main entry point used by Spring Boot to initialize the application.
@@ -43,7 +45,7 @@ public class Application {
 
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
-		return args -> log.debug("application started");
+		return args -> log.debug(applicationAcronym + " started");
 	}
 
 }

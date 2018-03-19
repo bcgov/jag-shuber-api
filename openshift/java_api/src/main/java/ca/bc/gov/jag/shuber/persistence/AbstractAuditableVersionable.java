@@ -28,8 +28,10 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(
-	value = {"createdBy", "updatedBy", "createdDtm", "updatedDtm", "revisionCount"}, 
-	allowGetters = true
+	value = {"createdBy", "updatedBy", "createdDtm", "updatedDtm"}, 
+	allowGetters = false,
+	allowSetters = false,
+	ignoreUnknown = true
 )
 public abstract class AbstractAuditableVersionable implements Auditable, Versionable {
 	/** Who created the record. */

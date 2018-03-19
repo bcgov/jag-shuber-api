@@ -56,11 +56,9 @@ public class Recurrence extends AbstractAuditableVersionable implements Serializ
     @Column(name = "recurrence_days_bitmap", nullable = false, precision = 10, scale = 0)
     private long recurrenceDaysBitmap;
 
-    //@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recurrence")
     private List<ShiftTemplate> shiftTemplates = new ArrayList<ShiftTemplate>(0);
 
-    //@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recurrence")
     private List<DutyTemplate> dutyTemplates = new ArrayList<DutyTemplate>(0);
     

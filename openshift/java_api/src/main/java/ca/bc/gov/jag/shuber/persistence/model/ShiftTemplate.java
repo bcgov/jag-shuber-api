@@ -69,12 +69,10 @@ public class ShiftTemplate extends AbstractAuditableVersionable implements Seria
     @Temporal(TemporalType.TIME)
     @Column(name = "end_time", length = 21)
     private Date endTime;
-
-    //@JsonIgnore
+    
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shiftTemplate")
     private List<DutyTemplate> dutyTemplates = new ArrayList<DutyTemplate>(0);
-
-    //@JsonIgnore
+    
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "shiftTemplate")
     private List<Shift> shifts = new ArrayList<Shift>(0);
     

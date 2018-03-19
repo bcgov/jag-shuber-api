@@ -38,7 +38,6 @@ public class LocationCode extends AbstractTypeCode implements Serializable {
     @Column(name = "location_code", nullable = false, updatable = false, length = 20)
     private String locationCode;
 
-    //@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "locationCode")
     private List<Location> locations = new ArrayList<Location>(0);
     

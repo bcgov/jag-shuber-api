@@ -57,7 +57,6 @@ public class Region extends AbstractAuditableVersionable implements Serializable
     @Column(name = "geometry")
     private UUID geometry;
 
-    //@JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "region")
     private List<Courthouse> courthouses = new ArrayList<Courthouse>(0);
     

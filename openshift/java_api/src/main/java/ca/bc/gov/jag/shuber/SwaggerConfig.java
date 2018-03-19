@@ -1,5 +1,7 @@
 package ca.bc.gov.jag.shuber;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -27,6 +29,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  */
 //@Import({ SpringDataRestConfiguration.class, BeanValidatorPluginsConfiguration.class })
 public class SwaggerConfig {
+	/** Logger. */
+	private static final Logger log = LogManager.getLogger(SwaggerConfig.class);
 	
 	@Bean 
 	public Docket api() { 
