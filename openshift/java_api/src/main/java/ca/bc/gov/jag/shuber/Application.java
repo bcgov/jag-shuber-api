@@ -24,6 +24,7 @@ public class Application {
 	@Value("${app.acronym}")
 	private String applicationAcronym;
 	
+	
 	/**
 	 * Main entry point used by Spring Boot to initialize the application.
 	 * @param args application arguments
@@ -44,7 +45,7 @@ public class Application {
 
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
-		return args -> log.debug("application started");
+		return args -> log.debug(applicationAcronym + " started");
 	}
 
 }
