@@ -1,8 +1,8 @@
 -- set schema
-SET search_path TO shersched;
+SET search_path TO ${POSTGRES_SCHEMA};
 
 -- allow create of UUIDs
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+-- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 
 -- WORK_SECTION_CODE
@@ -24,5 +24,5 @@ INSERT INTO work_section_code(
     
 
 -- select all work section codes
-SELECT w.* FROM work_section_code w;
+-- SELECT w.* FROM work_section_code w;
  

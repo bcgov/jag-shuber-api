@@ -1,11 +1,11 @@
 
-set POSTGRES_USER=postgres
-set POSTGRES_PASS=admin
+set POSTGRES_USER=shersched
+set POSTGRES_PASS=password
 
 set POSTGRES_URL=localhost
 set POSTGRES_PORT=5432
 set POSTGRES_DATABASE=appdb
-set POSTGRES_SCHEMA=api
+set POSTGRES_SCHEMA=shersched
 set POSTGRES_ANON_ROLE=web_anon
 
 liquibase^

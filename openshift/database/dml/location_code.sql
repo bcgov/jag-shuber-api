@@ -1,8 +1,8 @@
 -- set schema
-SET search_path TO shersched;
+SET search_path TO ${POSTGRES_SCHEMA};
 
 -- allow create of UUIDs
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+-- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 
 -- LOCATION_CODE
@@ -20,4 +20,4 @@ INSERT INTO location_code(
 
 
 -- select all location codes
-SELECT lc.* FROM location_code lc;
+-- SELECT lc.* FROM location_code lc;

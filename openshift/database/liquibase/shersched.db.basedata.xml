@@ -1,0 +1,101 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    
+    <!-- LOAD CODE TABLES DATA -->
+    <changeSet author="Michael Gabelmann" id="basedata_01">
+        <sqlFile path="../dml/location_code.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback>
+            <sql>
+                SET search_path TO ${POSTGRES_SCHEMA};
+                DELETE lc.* FROM location_code lc;
+            </sql>
+        </rollback>
+    </changeSet>
+    
+    <changeSet author="Michael Gabelmann" id="basedata_02">
+        <sqlFile path="../dml/work_section_code.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback>
+            <sql>
+                SET search_path TO ${POSTGRES_SCHEMA};
+                DELETE wsc.* FROM work_section_code wsc;
+            </sql>
+        </rollback>
+    </changeSet>
+    
+    
+    <!-- REQUIRED TABLE DATA -->
+    <changeSet author="Michael Gabelmann" id="basedata_03">
+        <sqlFile path="../dml/region.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback>
+            <sql>
+                SET search_path TO ${POSTGRES_SCHEMA};
+                DELETE r.* FROM region r;
+                DELETE l.* FROM location l WHERE l.location_type_code = 'REGION';
+            </sql>
+        </rollback>
+    </changeSet>
+    
+    <changeSet author="Michael Gabelmann" id="basedata_04">
+        <sqlFile path="../dml/courthouse.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback>
+            <sql>
+                SET search_path TO ${POSTGRES_SCHEMA};
+                DELETE c.* FROM courthouse c;
+                DELETE l.* FROM location l WHERE l.location_type_code = 'COURTHOUSE';
+            </sql>
+        </rollback>
+    </changeSet>
+    
+    <changeSet author="Michael Gabelmann" id="basedata_05">
+        <sqlFile path="../dml/courtroom.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback>
+            <sql>
+                SET search_path TO ${POSTGRES_SCHEMA};
+                DELETE c.* FROM courtroom c;
+                DELETE l.* FROM location l WHERE l.location_type_code = 'COURTROOM';
+            </sql>
+        </rollback>
+    </changeSet>
+    
+    
+    <!-- OPTIONAL DATA -->
+    <changeSet author="Michael Gabelmann" id="basedata_06">
+        <sqlFile path="../dml/sheriff.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback>
+            <sql>
+                SET search_path TO ${POSTGRES_SCHEMA};
+                DELETE s.* FROM sheriff s;
+            </sql>
+        </rollback>
+    </changeSet>
+    
+    <changeSet author="Michael Gabelmann" id="basedata_07">
+        <sqlFile path="../dml/shift.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback>
+            <sql>
+                SET search_path TO ${POSTGRES_SCHEMA};
+                DELETE s.* FROM shift s;
+            </sql>
+        </rollback>
+    </changeSet>
+    
+</databaseChangeLog>

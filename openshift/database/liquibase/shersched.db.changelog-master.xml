@@ -5,12 +5,23 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
          http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    
+    <!-- CREATE DB -->
     <changeSet author="Carol Geisler" id="Tag_00_Empty">
     	<tagDatabase tag="00_EmptyDB"/>
     </changeSet>
-    <include file="C:/Users/carol.geisler/Documents/Justice/Liquibase/shersched.db.changelog-roles.xml"/>
+    <include file="shersched.db.changelog-roles.xml"/>
+    
+    <!-- create roles, etc. -->
     <changeSet author="Carol Geisler" id="Tag_01_RolesOnly">
     	<tagDatabase tag="00_RolesOnlyDB"/>
     </changeSet>
-    <include file="C:/Users/carol.geisler/Documents/Justice/Liquibase/shersched.db.changelog.xml"/>
+    <include file="shersched.db.changelog-ddl.xml"/>
+    
+    <!-- populate required data for tables -->
+    <changeSet author="Michael Gabelmann" id="Tag_02_BaseData">
+    	<tagDatabase tag="00_BaseDataDB"/>
+    </changeSet>
+    <include file="shersched.db.basedata.xml"/>
+     
 </databaseChangeLog>

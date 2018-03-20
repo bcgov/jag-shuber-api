@@ -1,8 +1,8 @@
 -- set schema
-SET search_path TO shersched;
+SET search_path TO ${POSTGRES_SCHEMA};
 
 -- allow create of UUIDs
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+-- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 
 -- LOCATION
@@ -186,4 +186,4 @@ INSERT INTO courthouse (location_id,courthouse_type_code,org_unit_id,geometry,re
     
 
 -- select all courthouses
-SELECT c.* FROM courthouse c;
+-- SELECT c.* FROM courthouse c;

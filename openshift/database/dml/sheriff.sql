@@ -1,8 +1,8 @@
 -- set schema
-SET search_path TO shersched;
+SET search_path TO ${POSTGRES_SCHEMA};
 
 -- allow create of UUIDs
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+-- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 
 -- SHERIFF
@@ -15,4 +15,4 @@ INSERT INTO sheriff (sheriff_id,badge_no,location_id,userid,first_name,last_name
 
 
 -- select all sheriffs
-SELECT s.* FROM shersched.sheriff s;
+-- SELECT s.* FROM shersched.sheriff s;

@@ -1,8 +1,8 @@
 -- set schema
-SET search_path TO shersched;
+SET search_path TO ${POSTGRES_SCHEMA};
 
 -- allow create of UUIDs
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+-- CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 
 -- LOCATION
@@ -22,4 +22,4 @@ INSERT INTO region (location_id,geometry,created_by,updated_by,created_dtm,updat
 
 
 -- select all regions
-SELECT r.* FROM region r;
+-- SELECT r.* FROM region r;
