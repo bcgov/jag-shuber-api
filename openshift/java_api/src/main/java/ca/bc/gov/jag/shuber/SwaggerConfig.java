@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -11,13 +12,8 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.DocExpansion;
-import springfox.documentation.swagger.web.ModelRendering;
-import springfox.documentation.swagger.web.OperationsSorter;
-import springfox.documentation.swagger.web.TagsSorter;
-import springfox.documentation.swagger.web.UiConfiguration;
-import springfox.documentation.swagger.web.UiConfigurationBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
@@ -28,6 +24,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @see https://github.com/springfox/springfox/issues/1957
  */
 //@Import({ SpringDataRestConfiguration.class, BeanValidatorPluginsConfiguration.class })
+//@Import({ SpringDataRestConfiguration.class})
 public class SwaggerConfig {
 	/** Logger. */
 	private static final Logger log = LogManager.getLogger(SwaggerConfig.class);
@@ -42,7 +39,8 @@ public class SwaggerConfig {
 			.build().apiInfo(getApiInfo());
 	}
 	
-	@Bean
+//NOTE: commenting this for testin 2.7.0 version
+/*	@Bean
 	public UiConfiguration uiConfig() {
 		return UiConfigurationBuilder
 			.builder()
@@ -60,7 +58,7 @@ public class SwaggerConfig {
 			.tagsSorter(TagsSorter.ALPHA)
 			.validatorUrl(null)
 			.build();
-	}	
+	}	*/
 	
 	/**
 	 * Get API Info.

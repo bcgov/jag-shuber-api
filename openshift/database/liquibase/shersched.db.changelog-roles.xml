@@ -17,40 +17,18 @@
         </rollback>
     </changeSet>
 
-    <changeSet author="Colter McQuay" id="roles_02">
+    <changeSet author="Michael Gabelmann" id="roles_02">
         <sql>
-            CREATE ROLE "${POSTGRES_ANON_ROLE}" WITH NOLOGIN;            
+            CREATE USER ${POSTGRES_APP_USER} WITH PASSWORD '${POSTGRES_APP_PASS}';
         </sql>
         <rollback>
             <sql>
-                DROP ROLE "${POSTGRES_ANON_ROLE}";
-            </sql>
-        </rollback>
-    </changeSet>
-    
-    <changeSet author="Colter McQuay" id="roles_03">
-        <sql>
-            GRANT "${POSTGRES_ANON_ROLE}" TO "${POSTGRES_USER}";
-        </sql>
-        <rollback>
-            <sql>
-                REVOKE "${POSTGRES_ANON_ROLE}" FROM "${POSTGRES_USER}";
+                DROP USER IF EXISTS ${POSTGRES_APP_USER};
             </sql>
         </rollback>
     </changeSet>
 
-    <changeSet author="Colter McQuay" id="roles_04">
-        <sql>
-            GRANT USAGE ON SCHEMA "${POSTGRES_SCHEMA}" TO "${POSTGRES_ANON_ROLE}";
-        </sql>
-        <rollback>
-            <sql>
-                REVOKE USAGE ON SCHEMA "${POSTGRES_SCHEMA}" FROM "${POSTGRES_ANON_ROLE}";
-            </sql>
-        </rollback>
-    </changeSet>
-
-    <changeSet author="Michael Gabelmann" id="roles_05">
+    <changeSet author="Michael Gabelmann" id="roles_03">
         <sql>
             CREATE EXTENSION IF NOT EXISTS "uuid-ossp" SCHEMA ${POSTGRES_SCHEMA};
         </sql>
