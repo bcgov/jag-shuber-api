@@ -19,21 +19,28 @@
             "spec": {
                 "triggers": [
                     {
-                        "type": "ConfigChange"
+                        "type": "ImageChange",
+                        "ImageChange": {}
                     }
                 ],
                 "runPolicy": "Serial",
                 "source": {
                     "type": "Git",
                     "git": {
-                        "uri": "${SOURCE_REPOSITORY_URL}",
-                        "ref": "${SOURCE_REPOSITORY_REF}"
+                        "uri": "${GIT_URL}",
+                        "ref": "${GIT_REF}"
                     },
                     "contextDir": "${CONTEXT_DIR}"
                 },
                 "strategy": {
-                    "type": "Docker",
-                    "dockerStrategy": {}
+                    "type": "Source",
+                    "sourceStrategy": {
+                        "incremental": true,
+                        "from": {
+                            "kind": "ImageStreamTag",
+                            "name": "${API_BUILDER_IMAGE}:latest"
+                        }
+                    }
                 },
                 "output": {
                     "to": {
@@ -73,14 +80,21 @@
             "required": true
         },
         {
-            "name": "SOURCE_REPOSITORY_URL",
+            "name": "API_BUILDER_IMAGE",
+            "displayName": "Api Builder Image",
+            "description": "The container to use for building the api",
+            "value": "api-builder-image",
+            "required": true
+        },
+        {
+            "name": "GIT_URL",
             "displayName": "Git Repository URL",
             "required": true,
             "description": "The URL of the repository with your application source code.",
             "value": "https://github.com/bcgov/jag-shuber-api"
         },
         {
-            "name": "SOURCE_REPOSITORY_REF",
+            "name": "GIT_REF",
             "displayName": "Git Reference",
             "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch.",
             "value": "master"
@@ -89,7 +103,7 @@
             "name": "CONTEXT_DIR",
             "displayName": "Context Directory",
             "description": "Set this to the relative path to your project if it is not in the root of your repository.",
-            "value":"openshift/postgrest"
+            "value": "openshift/java_api"
         }
     ]
 }

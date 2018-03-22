@@ -8,7 +8,7 @@ Database: PostgreSQL 9.5
 
 -- Create roles section -------------------------------------------------
 
--- CREATE ROLE shersched;
+-- CREATE USER shersched;
 
 -- Create schemas section -------------------------------------------------
 
