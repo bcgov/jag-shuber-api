@@ -28,7 +28,19 @@
         </rollback>
     </changeSet>
 
+    
     <changeSet author="Michael Gabelmann" id="roles_03">
+        <sql>
+            GRANT USAGE ON SCHEMA "${POSTGRES_SCHEMA}" TO "${POSTGRES_APP_USER}";
+        </sql>
+        <rollback>
+            <sql>
+                REVOKE USAGE ON SCHEMA "${POSTGRES_SCHEMA}" FROM "${POSTGRES_APP_USER}";
+            </sql>
+        </rollback>
+    </changeSet>
+    
+    <changeSet author="Michael Gabelmann" id="roles_04">
         <sql>
             CREATE EXTENSION IF NOT EXISTS "uuid-ossp" SCHEMA ${POSTGRES_SCHEMA};
         </sql>
