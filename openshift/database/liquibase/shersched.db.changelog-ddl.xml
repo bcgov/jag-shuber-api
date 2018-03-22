@@ -660,13 +660,12 @@
     <!-- Grant access for user on all tables in the schema -->
     <changeSet author="Michael Gabelmann" id="roles_04">
         <sql>
-            GRANT SELECT,INSERT,UPDATE,DELETE ON ALL TABLES IN SCHEMA "${POSTGRES_SCHEMA}" TO "${POSTGRES_APP_USER}";
+            GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA "${POSTGRES_SCHEMA}" TO "${POSTGRES_APP_USER}";
         </sql>
         <rollback>
             <sql>
-                REVOKE ALL ON ALL TABLES IN SCHEMA "${POSTGRES_SCHEMA}" FROM "${POSTGRES_APP_USER}";
+                REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA "${POSTGRES_SCHEMA}" FROM "${POSTGRES_APP_USER}";
             </sql>
         </rollback>
     </changeSet>
-    
 </databaseChangeLog>
