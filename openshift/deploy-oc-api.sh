@@ -13,7 +13,7 @@ if [ "$delete" == "y" ]; then
     oc delete all --all
 fi
 
-params="-p API_NAMESPACE=tools"
+params="-p API_IMAGE_NAMESPACE=tools"
 #params=""
 
 if [ "$ok" == "y" ]; then
