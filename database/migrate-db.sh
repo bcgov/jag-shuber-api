@@ -19,5 +19,3 @@ liquibase --driver=org.postgresql.Driver \
           -DPOSTGRES_APP_PASS=$POSTGRES_APP_PASS \
           -DPOSTGRES_CATALOG=$POSTGRES_CATALOG \
           -DPOSTGRES_SCHEMA=$POSTGRES_SCHEMA
-
-echo "Finished running Liquibase"
