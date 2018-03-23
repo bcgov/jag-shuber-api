@@ -8,8 +8,10 @@ export POSTGRES_HOST="postgres"
 # Postgres admin user is 'postgres'
 export POSTGRES_ADMIN_USER="postgres"
 
+cd "${SCRIPTDIR}/liquibase/"
+
 liquibase --driver=org.postgresql.Driver \
-          --changeLogFile=${SCRIPTDIR}/liquibase/shersched.db.changelog-master.xml \
+          --changeLogFile=shersched.db.changelog-master.xml \
           --url="jdbc:postgresql://$POSTGRES_HOST:$POSTGRES_SERVICE_PORT/$POSTGRES_DATABASE" \
           --username=$POSTGRES_ADMIN_USER \
           --password=$POSTGRES_ADMIN_PASSWORD \
@@ -19,3 +21,5 @@ liquibase --driver=org.postgresql.Driver \
           -DPOSTGRES_APP_PASS=$POSTGRES_APP_PASS \
           -DPOSTGRES_CATALOG=$POSTGRES_CATALOG \
           -DPOSTGRES_SCHEMA=$POSTGRES_SCHEMA
+
+
