@@ -16,6 +16,24 @@
     },
     "objects": [
         {
+            "kind": "Secret",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${API_SERVICE_NAME}",
+                "annotations": {
+                    "template.openshift.io/expose-user": "{.data['api-user']}",
+                    "template.openshift.io/expose-password": "{.data['api-password']}"
+                },
+                "labels": {
+                    "app": "${API_SERVICE_NAME}"
+                }
+            },
+            "stringData": {
+                "api-user": "${API_DATABASE_USER}",
+                "api-password": "${API_DATABASE_PASS}"
+            }
+        },
+        {
             "kind": "Service",
             "apiVersion": "v1",
             "metadata": {
@@ -77,26 +95,34 @@
                                         }
                                     },
                                     {
-                                        "name": "POSTGRES_USER",
+                                        "name": "POSTGRES_APP_USER",
                                         "valueFrom": {
                                             "secretKeyRef": {
-                                                "name": "${DATABASE_SERVICE_NAME}",
-                                                "key": "database-user"
+                                                "name": "${API_SERVICE_NAME}",
+                                                "key": "api-user"
                                             }
                                         }
                                     },
                                     {
-                                        "name": "POSTGRES_PASSWORD",
+                                        "name": "POSTGRES_APP_PASS",
                                         "valueFrom": {
                                             "secretKeyRef": {
-                                                "name": "${DATABASE_SERVICE_NAME}",
-                                                "key": "database-password"
+                                                "name": "${API_SERVICE_NAME}",
+                                                "key": "api-password"
                                             }
                                         }
                                     },
                                     {
-                                        "name": "API_SCHEMA",
-                                        "value": "${API_SCHEMA}"
+                                        "name": "POSTGRES_DEFAULT_SCHEMA",
+                                        "value": "${DATABASE_DEFAULT_SCHEMA}"
+                                    },
+                                    {
+                                        "name": "POSTGRES_CATALOG",
+                                        "value": "${POSTGRES_API_CATALOG}"
+                                    },
+                                    {
+                                        "name": "POSTGRES_SCHEMA",
+                                        "value": "${API_DATABASE_SCHEMA}"
                                     }
                                 ],
                                 "containerName": "${API_SERVICE_NAME}"
@@ -119,8 +145,8 @@
                             ],
                             "from": {
                                 "kind": "ImageStreamTag",
-                                "name": "${API_IMAGE_NAME}:latest",
-                                "namespace": "${API_NAMESPACE}"
+                                "name": "${API_IMAGE_STREAM}:latest",
+                                "namespace": "${API_IMAGE_NAMESPACE}"
                             }
                         }
                     },
@@ -161,24 +187,24 @@
                                         }
                                     },
                                     {
-                                        "name": "API_SCHEMA",
-                                        "value": "${API_SCHEMA}"
+                                        "name": "API_DATABASE_SCHEMA",
+                                        "value": "${API_DATABASE_SCHEMA}"
                                     },
                                     {
-                                        "name": "POSTGRES_USER",
+                                        "name": "API_DATABASE_USER",
                                         "valueFrom": {
                                             "secretKeyRef": {
-                                                "name": "${DATABASE_SERVICE_NAME}",
-                                                "key": "database-user"
+                                                "name": "${API_SERVICE_NAME}",
+                                                "key": "api-user"
                                             }
                                         }
                                     },
                                     {
-                                        "name": "POSTGRES_PASSWORD",
+                                        "name": "API_DATABASE_USER_PASSWORD",
                                         "valueFrom": {
                                             "secretKeyRef": {
-                                                "name": "${DATABASE_SERVICE_NAME}",
-                                                "key": "database-password"
+                                                "name": "${API_SERVICE_NAME}",
+                                                "key": "api-password"
                                             }
                                         }
                                     },
@@ -334,7 +360,7 @@
                             "from": {
                                 "kind": "ImageStreamTag",
                                 "name": "postgresql:${POSTGRESQL_VERSION}",
-                                "namespace": "${NAMESPACE}"
+                                "namespace": "${DATABASE_IMAGE_NAMESPACE}"
                             },
                             "lastTriggeredImage": ""
                         }
@@ -464,16 +490,16 @@
     ],
     "parameters": [
         {
-            "name": "API_NAMESPACE",
-            "displayName": "Api Namespace",
-            "description": "The OpenShift Namespace where the Api ImageStream resides.",
+            "name": "API_IMAGE_NAMESPACE",
+            "displayName": "Api ImageStream Project",
+            "description": "The OpenShift Project where the Api ImageStream resides.",
             "required": true,
             "value":"jag-shuber-tools"
         },
         {
-            "name": "API_IMAGE_NAME",
-            "displayName": "Api Image Name",
-            "description": "The name of the image within the Api Namespace where the Api imagestream resides.",
+            "name": "API_IMAGE_STREAM",
+            "displayName": "Api Image Stream",
+            "description": "The name of the API image stream.",
             "required": true,
             "value":"shuber-api"
         },
@@ -485,18 +511,33 @@
             "required": true
         },
         {
-            "name": "API_SCHEMA",
-            "displayName": "API Schema",
+            "name": "API_DATABASE_SCHEMA",
+            "displayName": "API Database Schema",
             "description": "Name of the schema to be used by the Api.",
-            "value": "api",
+            "value": "shersched",
             "required": true
         },
         {
-            "name": "API_ANONYMOUS_ROLE",
-            "displayName": "API Anonymous Role",
-            "description": "The name of the Web Anonymous role to create for the api.",
+            "name": "API_DATABASE_CATALOG",
+            "displayName": "API Database Catalog",
+            "description": "Name of the database catalog to be used by the Api.",
+            "value": "appdb",
+            "required": true
+        },
+        {
+            "name": "API_DATABASE_USER",
+            "displayName": "API Database User",
+            "description": "The name of the database role/user to create for the api.",
             "required": true,
-            "value": "web_anon"
+            "value": "shersched"
+        },
+        {
+            "name": "API_DATABASE_PASS",
+            "displayName": "API Database User Password",
+            "description": "The password for the database user to be used by the api.",
+            "generate": "expression",
+            "from": "[a-zA-Z0-9]{16}",
+            "required": true
         },
         {
             "name": "API_MEMORY_LIMIT",
@@ -513,7 +554,7 @@
             "required": true
         },
         {
-            "name": "NAMESPACE",
+            "name": "DATABASE_IMAGE_NAMESPACE",
             "displayName": "Namespace",
             "description": "The OpenShift Namespace where the ImageStream resides.",
             "value": "openshift"
@@ -523,6 +564,13 @@
             "displayName": "Database Service Name",
             "description": "The name of the OpenShift Service exposed for the database.",
             "value": "postgres",
+            "required": true
+        },
+        {
+            "name": "DATABASE_DEFAULT_SCHEMA",
+            "displayName": "Default database schema",
+            "description": "The default schema to use in the database",
+            "value": "public",
             "required": true
         },
         {
