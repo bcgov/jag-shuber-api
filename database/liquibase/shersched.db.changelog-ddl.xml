@@ -1,0 +1,671 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+    
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-1">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="assignment_stream">
+            <column name="assignment_stream_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="org_unit_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="work_section_code" type="VARCHAR(20)"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-2">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courthouse">
+            <column name="location_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="courthouse_type_code" type="VARCHAR">
+                <constraints nullable="false"/>
+            </column>
+            <column name="org_unit_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="geometry" type="POINT"/>
+            <column name="region_location_id" type="UUID"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-3">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courtroom">
+            <column name="location_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="room_number" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="courthouse_location_id" type="UUID"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-4">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="days_bitmap_code">
+            <column name="bitmap_set" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="day_sequence" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="day_label" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bitmap_value" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="effective_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiry_date" type="date"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-5">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty">
+            <column name="duty_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_time" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="end_time" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="shift_id" type="UUID"/>
+            <column name="work_section_code" type="VARCHAR(20)"/>
+            <column name="assignment_stream_id" type="UUID"/>
+            <column name="assignment_template_id" type="UUID"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-6">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_template">
+            <column name="duty_template_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_time" type="TIME WITH TIME ZONE"/>
+            <column name="end_time" type="TIME WITH TIME ZONE"/>
+            <column name="shift_template_id" type="UUID"/>
+            <column name="work_section_code" type="VARCHAR(20)"/>
+            <column name="recurrence_id" type="UUID"/>
+            <column name="assignment_stream_id" type="UUID"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-7">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" remarks="LOCATION is a generalization of physical locations that are needed for scheduling.  Subtypes include Region, Courthouse and Courtroom. Generally, locations refer to where a Sheriff is executing their duties." tableName="location">
+            <column name="location_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location_type_code" type="VARCHAR(20)"/>
+            <column name="parent_location_id" type="UUID"/>
+            <column name="location_name" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(200)"/>
+            <column name="address" type="VARCHAR(200)"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-8">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="location_code">
+            <column name="location_code" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="effective_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiry_date" type="date"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-9">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="recurrence">
+            <column name="recurrence_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_time" type="TIME WITHOUT TIME ZONE"/>
+            <column name="end_time" type="TIME WITHOUT TIME ZONE"/>
+            <column name="recurrence_days_bitmap" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-10">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="region">
+            <column name="location_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="geometry" type="POLYGON"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-11">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" remarks="SHERIFF captures information related to a Sheriff and their profile." tableName="sheriff">
+            <column name="sheriff_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="badge_no" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location_id" type="UUID"/>
+            <column name="userid" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(100)"/>
+            <column name="last_name" type="VARCHAR(100)"/>
+            <column name="rank" type="VARCHAR(50)"/>
+            <column name="image_url" remarks="TBD how to store a Sheriff photo" type="VARCHAR(200)"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-12">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="shift">
+            <column name="shift_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="shift_template_id" type="UUID"/>
+            <column name="sheriff_id" type="UUID"/>
+            <column name="work_section_code" type="VARCHAR(20)"/>
+            <column name="start_time" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="end_time" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="shift_status" type="VARCHAR"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-13">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="shift_template">
+            <column name="shift_template_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="rotation_sequence" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="work_section_code" type="VARCHAR(20)"/>
+            <column name="start_time" type="TIME WITH TIME ZONE"/>
+            <column name="end_time" type="TIME WITH TIME ZONE"/>
+            <column name="recurrence_id" type="UUID"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-14">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="work_section_code">
+            <column name="work_section_code" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(200)"/>
+            <column name="effective_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiry_date" type="date"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-15">
+        <addPrimaryKey columnNames="assignment_stream_id" constraintName="astr_pk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="assignment_stream"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-16">
+        <addPrimaryKey columnNames="location_id" constraintName="cths_pk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courthouse"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-17">
+        <addPrimaryKey columnNames="location_id" constraintName="ctrm_pk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courtroom"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-18">
+        <addPrimaryKey columnNames="bitmap_set, day_sequence" constraintName="dbmp_pk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="days_bitmap_code"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-19">
+        <addPrimaryKey columnNames="duty_template_id" constraintName="dttm_pk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_template"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-20">
+        <addPrimaryKey columnNames="duty_id" constraintName="duty_pk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-21">
+        <addPrimaryKey columnNames="location_code" constraintName="lccd_pk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="location_code"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-22">
+        <addPrimaryKey columnNames="location_id" constraintName="loc_pk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="location"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-23">
+        <addPrimaryKey columnNames="recurrence_id" constraintName="recr_pk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="recurrence"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-24">
+        <addPrimaryKey columnNames="location_id" constraintName="regn_pk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="region"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-25">
+        <addPrimaryKey columnNames="shift_template_id" constraintName="sftm_pk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="shift_template"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-26">
+        <addPrimaryKey columnNames="shift_id" constraintName="shft_pk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="shift"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-27">
+        <addPrimaryKey columnNames="sheriff_id" constraintName="shrf_pk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-28">
+        <addPrimaryKey columnNames="work_section_code" constraintName="wksc_pk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="work_section_code"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-29">
+        <addUniqueConstraint columnNames="location_id, rotation_sequence" constraintName="sftm_uk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="shift_template"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-30">
+        <addUniqueConstraint columnNames="badge_no" constraintName="shrf_bdgn_uk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-31">
+        <addUniqueConstraint columnNames="userid" constraintName="shrf_usrd_uk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff"/>
+    </changeSet>
+    
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-32">
+        <createIndex indexName="ix_astr_cths_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="assignment_stream">
+            <column name="location_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-33">
+        <createIndex indexName="ix_astr_wksc_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="assignment_stream">
+            <column name="work_section_code"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-34">
+        <createIndex indexName="ix_cths_orgu_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courthouse">
+            <column name="org_unit_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-35">
+        <createIndex indexName="ix_cths_rloc_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courthouse">
+            <column name="region_location_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-36">
+        <createIndex indexName="ix_ctrm_cloc_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courtroom">
+            <column name="courthouse_location_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-37">
+        <createIndex indexName="ix_dttm_astr_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_template">
+            <column name="assignment_stream_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-38">
+        <createIndex indexName="ix_dttm_rcur_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_template">
+            <column name="recurrence_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-39">
+        <createIndex indexName="ix_dttm_sftm_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_template">
+            <column name="shift_template_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-40">
+        <createIndex indexName="ix_dttm_wksc_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_template">
+            <column name="work_section_code"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-41">
+        <createIndex indexName="ix_duty_astr_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty">
+            <column name="assignment_stream_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-42">
+        <createIndex indexName="ix_duty_dttm_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty">
+            <column name="assignment_template_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-43">
+        <createIndex indexName="ix_duty_shft_pk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty">
+            <column name="shift_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-44">
+        <createIndex indexName="ix_duty_wksc_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty">
+            <column name="work_section_code"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-45">
+        <createIndex indexName="ix_loc_lccd_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="location">
+            <column name="location_type_code"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-46">
+        <createIndex indexName="ix_loc_ploc_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="location">
+            <column name="parent_location_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-47">
+        <createIndex indexName="ix_sftm_cths_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="shift_template">
+            <column name="location_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-48">
+        <createIndex indexName="ix_sftm_rcur_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="shift_template">
+            <column name="recurrence_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-49">
+        <createIndex indexName="ix_sftm_wksc_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="shift_template">
+            <column name="work_section_code"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-50">
+        <createIndex indexName="ix_shft_cths_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="shift">
+            <column name="location_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-51">
+        <createIndex indexName="ix_shft_sftm_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="shift">
+            <column name="shift_template_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-52">
+        <createIndex indexName="ix_shft_shrf_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="shift">
+            <column name="sheriff_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-53">
+        <createIndex indexName="ix_shft_wksc_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="shift">
+            <column name="work_section_code"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-54">
+        <createIndex indexName="ix_shrf_cths_fk" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff">
+            <column name="location_id"/>
+        </createIndex>
+    </changeSet>
+    
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-55">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="location_id" baseTableName="assignment_stream" constraintName="astr_cths_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="location_id" referencedTableName="courthouse"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-56">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="work_section_code" baseTableName="assignment_stream" constraintName="astr_wksc_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="work_section_code" referencedTableName="work_section_code"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-57">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="location_id" baseTableName="courthouse" constraintName="cths_loc_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="location_id" referencedTableName="location"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-58">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="region_location_id" baseTableName="courthouse" constraintName="cths_rloc_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="location_id" referencedTableName="region"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-59">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="courthouse_location_id" baseTableName="courtroom" constraintName="ctrm_cths_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="location_id" referencedTableName="courthouse"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-60">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="location_id" baseTableName="courtroom" constraintName="ctrm_loc_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="location_id" referencedTableName="location"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-61">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="recurrence_id" baseTableName="duty_template" constraintName="dttm_rcur_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="recurrence_id" referencedTableName="recurrence"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-62">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="shift_template_id" baseTableName="duty_template" constraintName="dttm_sftm_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="shift_template_id" referencedTableName="shift_template"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-63">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="work_section_code" baseTableName="duty_template" constraintName="dttm_wksc_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="work_section_code" referencedTableName="work_section_code"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-64">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="assignment_stream_id" baseTableName="duty" constraintName="duty_astr_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="assignment_stream_id" referencedTableName="assignment_stream"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-65">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="assignment_template_id" baseTableName="duty" constraintName="duty_dttm_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="duty_template_id" referencedTableName="duty_template"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-66">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="shift_id" baseTableName="duty" constraintName="duty_shft_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="shift_id" referencedTableName="shift"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-67">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="work_section_code" baseTableName="duty" constraintName="duty_wksc_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="work_section_code" referencedTableName="work_section_code"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-68">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="location_type_code" baseTableName="location" constraintName="loc_lccd_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="location_code" referencedTableName="location_code"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-69">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="parent_location_id" baseTableName="location" constraintName="loc_ploc_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="location_id" referencedTableName="location"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-70">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="location_id" baseTableName="region" constraintName="regn_loc_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="location_id" referencedTableName="location"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-71">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="recurrence_id" baseTableName="shift_template" constraintName="sftm_rcur_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="recurrence_id" referencedTableName="recurrence"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-72">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="work_section_code" baseTableName="shift_template" constraintName="sftm_wksc_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="work_section_code" referencedTableName="work_section_code"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-73">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="location_id" baseTableName="shift" constraintName="shft_cths_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="location_id" referencedTableName="courthouse"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-74">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="shift_template_id" baseTableName="shift" constraintName="shft_sftm_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="shift_template_id" referencedTableName="shift_template"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-75">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="sheriff_id" baseTableName="shift" constraintName="shft_shrf_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="sheriff_id" referencedTableName="sheriff"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-76">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="work_section_code" baseTableName="shift" constraintName="shft_wksc_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="work_section_code" referencedTableName="work_section_code"/>
+    </changeSet>
+    <changeSet author="michael.gabelmann (generated)" id="1521486122124-77">
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="location_id" baseTableName="sheriff" constraintName="shrf_cths_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="location_id" referencedTableName="courthouse"/>
+    </changeSet>
+    
+    
+    <!-- Grant access for user on all tables in the schema -->
+    <changeSet author="Michael Gabelmann" id="roles_04">
+        <sql>
+            GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA "${POSTGRES_SCHEMA}" TO "${POSTGRES_APP_USER}";
+        </sql>
+        <rollback>
+            <sql>
+                REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA "${POSTGRES_SCHEMA}" FROM "${POSTGRES_APP_USER}";
+            </sql>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
