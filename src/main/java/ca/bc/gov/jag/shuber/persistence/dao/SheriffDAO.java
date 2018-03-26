@@ -28,14 +28,14 @@ public interface SheriffDAO extends JpaRepository<Sheriff, UUID> {
 	 * @param badgeNo badge number
 	 * @return record
 	 */
-	Sheriff findByBadgeNo(String badgeNo);
+	Sheriff findByBadgeNo(@Param("badgeNo") String badgeNo);
 	
 	/**
 	 * Find sheriffs for given courthouse.
-	 * @param courthouseId
+	 * @param locationId courthouse
 	 * @return records
 	 */
 	@Query("SELECT s FROM Sheriff s WHERE s.courthouse.locationId = :locationId")
-	List<Sheriff> getSheriffs(@Param("locationId") UUID courthouseId);
+	List<Sheriff> getSheriffsByCourthouse(@Param("locationId") UUID locationId);
 	
 }

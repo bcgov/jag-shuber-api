@@ -7,10 +7,12 @@ import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
 
@@ -35,6 +37,7 @@ public class SheriffClientIT extends AbstractIT {
 	}
 	
 	@Test
+	@DisplayName("Get all sheriffs")
 	public void test1_getSheriffs() {
 		ResponseEntity<SheriffResources> response = restTemplate.getForEntity("/api/sheriffs", SheriffResources.class);
 		Collection<Sheriff> results = response.getBody().getContent();	
@@ -47,6 +50,24 @@ public class SheriffClientIT extends AbstractIT {
 		}
 	}
 
+	@Test
+	@DisplayName("Find sheriff by badge number")
+	public void test1_findByBadgeNo() {		
+		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("/api/custom/sheriffs/search/getByBadgeNo").queryParam("badgeNo", "BN10000");
+		ResponseEntity<Sheriff> response = restTemplate.getForEntity(builder.toUriString(), Sheriff.class);
+		Sheriff s1 = response.getBody();
+		
+		Assertions.assertNotNull(s1);
+	}
+	
+	@Test
+	@DisplayName("Find sheriffs by courthouse")
+	public void test1_getByCourthouse() {
+		//path=/api/custom/sheriffs/search/getByCourthouse
+		Assertions.fail("not implemented yet");
+	}
+
+	
 	/** helper class. */
 	static class SheriffResources extends Resources<Sheriff> {}
 

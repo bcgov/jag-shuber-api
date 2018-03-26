@@ -46,7 +46,7 @@ public class LocationDAOTest extends AbstractDAOTest {
 	}
 
 	@Test
-	@DisplayName("Ensure that courthouse mapping works")
+	@DisplayName("Ensure that courthouse mapping works, auto generation forgot annotation")
 	public void getLocation() {
 		Optional<Location> record = locationDAO.findById(loc.getLocationId());
 		

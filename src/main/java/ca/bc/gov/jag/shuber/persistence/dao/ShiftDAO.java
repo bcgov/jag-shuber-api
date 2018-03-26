@@ -39,7 +39,6 @@ public interface ShiftDAO extends JpaRepository<Shift, UUID> {
 			  "WHERE s.start_time >= to_date(:startDate,'yyyy-MM-dd') " + 
 			  "AND s.end_time <= to_date(:endDate,'yyyy-MM-dd') " + 
 			  "AND s.location_id = :locationId",
-		//value="SELECT s FROM Shift s WHERE s.startTime >= :startDate AND s.endTime <= :endDate AND s.courthouse.locationId = :locationId",
 		nativeQuery=true
 	)
 	List<Shift> getShifts(

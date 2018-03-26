@@ -42,17 +42,20 @@ public class SheriffDAOTest extends AbstractDAOTest {
 	}
 
 	@Test
+	@DisplayName("Find all sheriffs")
 	public void testFindAll() {
 		List<Sheriff> records = sheriffDAO.findAll();
 		Assertions.assertTrue(records.size() == 1);
 	}
 
 	@Test
+	@DisplayName("Get count of all sheriffs")
 	public void testCount() {
 		Assertions.assertEquals(1, sheriffDAO.count());
 	}
 	
 	@Test
+	@DisplayName("Delete a sheriff")
 	public void testDelete() {
 		sheriffDAO.delete(s);
 		Assertions.assertTrue(sheriffDAO.findAll().size() == 0);
@@ -100,7 +103,7 @@ public class SheriffDAOTest extends AbstractDAOTest {
 		s.setCourthouse(courthouse);
 		entityManager.persistAndFlush(s);
 		
-		List<Sheriff> records = sheriffDAO.getSheriffs(courthouse.getLocationId());
+		List<Sheriff> records = sheriffDAO.getSheriffsByCourthouse(courthouse.getLocationId());
 		
 		Assertions.assertNotNull(records);
 		Assertions.assertTrue(records.size() == 1);

@@ -19,7 +19,7 @@ import javax.validation.constraints.Size;
 @Embeddable
 public class DaysBitmapCodeId implements Serializable {
 
-    /** UID. */
+	/** UID. */
     private static final long serialVersionUID = 1L;
 
     @NotEmpty
@@ -61,4 +61,31 @@ public class DaysBitmapCodeId implements Serializable {
     		return bitmapSet + "_" + daySequence;
     }
     
+    @Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((bitmapSet == null) ? 0 : bitmapSet.hashCode());
+		result = prime * result + daySequence;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DaysBitmapCodeId other = (DaysBitmapCodeId) obj;
+		if (bitmapSet == null) {
+			if (other.bitmapSet != null)
+				return false;
+		} else if (!bitmapSet.equals(other.bitmapSet))
+			return false;
+		if (daySequence != other.daySequence)
+			return false;
+		return true;
+	}
 }
