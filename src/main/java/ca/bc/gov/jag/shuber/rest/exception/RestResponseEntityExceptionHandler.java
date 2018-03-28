@@ -100,7 +100,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		
 		RestErrors ve = this.getValidationErrors(errors.getGlobalErrors(), errors.getFieldErrors(), e);
 		
-		return new ResponseEntity<>(ve, new HttpHeaders(), HttpStatus.PARTIAL_CONTENT);
+		return new ResponseEntity<>(ve, new HttpHeaders(), HttpStatus.BAD_REQUEST);
 	}
 	
 	/**
@@ -164,7 +164,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 			ve = this.getValidationErrors(null, null, tse);
 		}
 		
-		return new ResponseEntity<>(ve, new HttpHeaders(), HttpStatus.PARTIAL_CONTENT);
+		return new ResponseEntity<>(ve, new HttpHeaders(), HttpStatus.BAD_REQUEST);
 	}
 	
 	@Override
@@ -222,7 +222,11 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 				fieldError.getObjectName(),
 				fieldError.getCode(),
 				fieldError.getDefaultMessage(),
-				messageSource.getMessage(fieldError.getCode(), fieldError.getArguments(), Locale.ENGLISH),
+				
+				//NOTE: set to null since this is blowing up in some cases
+				//messageSource.getMessage(fieldError.getCode(), fieldError.getArguments(), Locale.ENGLISH),
+				null,
+				
 				fieldError.getField(),
 				fieldError.getRejectedValue()))
 			.collect(Collectors.toList());

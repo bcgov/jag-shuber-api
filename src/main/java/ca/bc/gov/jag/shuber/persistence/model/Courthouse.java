@@ -64,8 +64,8 @@ public class Courthouse extends AbstractAuditableVersionable implements Serializ
 
     @NotEmpty
     @Size(min = 1, max = 255)
-    @Column(name = "courthouse_type_code", nullable = false)
-    private String courthouseTypeCode;
+    @Column(name = "courthouse_code", nullable = false)
+    private String courthouseCode;
 
     @NotNull
     @Column(name = "org_unit_id", nullable = false)
@@ -100,7 +100,7 @@ public class Courthouse extends AbstractAuditableVersionable implements Serializ
             Date updatedDtm,
             long revisionCount) {
         this.location = location;
-        this.courthouseTypeCode = courthouseTypeCode;
+        this.courthouseCode = courthouseCode;
         this.orgUnitId = orgUnitId;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
@@ -113,7 +113,7 @@ public class Courthouse extends AbstractAuditableVersionable implements Serializ
     public Courthouse(
             Location location,
             Region region,
-            String courthouseTypeCode,
+            String courthouseCode,
             UUID orgUnitId,
             UUID geometry,
             String createdBy,
@@ -127,7 +127,7 @@ public class Courthouse extends AbstractAuditableVersionable implements Serializ
             List<AssignmentStream> assignmentStreams) {
         this.location = location;
         this.region = region;
-        this.courthouseTypeCode = courthouseTypeCode;
+        this.courthouseCode = courthouseCode;
         this.orgUnitId = orgUnitId;
         this.geometry = geometry;
         this.createdBy = createdBy;
@@ -165,12 +165,12 @@ public class Courthouse extends AbstractAuditableVersionable implements Serializ
         this.region = region;
     }
 
-    public String getCourthouseTypeCode() {
-        return this.courthouseTypeCode;
+    public String getCourthouseCode() {
+        return this.courthouseCode;
     }
 
-    public void setCourthouseTypeCode(String courthouseTypeCode) {
-        this.courthouseTypeCode = courthouseTypeCode;
+    public void setCourthouseCode(String courthouseTypeCode) {
+        this.courthouseCode = courthouseTypeCode;
     }
 
     public UUID getOrgUnitId() {

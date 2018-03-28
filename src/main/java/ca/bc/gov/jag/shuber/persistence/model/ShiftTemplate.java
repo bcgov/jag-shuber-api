@@ -54,6 +54,7 @@ public class ShiftTemplate extends AbstractAuditableVersionable implements Seria
     @JoinColumn(name = "work_section_code")
     private WorkSectionCode workSectionCode;
 
+    //FIXME: I think this should be Courthouse?
     @NotNull
     @Column(name = "location_id", nullable = false)
     private UUID locationId;

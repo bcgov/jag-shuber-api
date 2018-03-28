@@ -51,7 +51,7 @@ public class Location extends AbstractAuditableVersionable implements Serializab
     private Location location;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "location_type_code")
+    @JoinColumn(name = "location_code")
     private LocationCode locationCode;
 
     @NotEmpty

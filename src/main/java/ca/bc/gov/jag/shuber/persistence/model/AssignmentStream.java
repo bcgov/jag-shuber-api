@@ -60,7 +60,10 @@ public class AssignmentStream extends AbstractAuditableVersionable implements Se
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "assignmentStream")
     private List<Duty> duties = new ArrayList<Duty>(0);
     
-    /** No args constructor. */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "assignmentStream")
+    private List<DutyTemplate> dutyTemplates = new ArrayList<DutyTemplate>(0);
+
+	/** No args constructor. */
     public AssignmentStream() {}
 
     /** Required args constructor. */
@@ -146,4 +149,12 @@ public class AssignmentStream extends AbstractAuditableVersionable implements Se
     public void setDuties(List<Duty> duties) {
         this.duties = duties;
     }
+    
+    public List<DutyTemplate> getDutyTemplates() {
+		return dutyTemplates;
+	}
+
+	public void setDutyTemplates(List<DutyTemplate> dutyTemplates) {
+		this.dutyTemplates = dutyTemplates;
+	}
 }

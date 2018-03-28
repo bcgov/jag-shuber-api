@@ -43,7 +43,7 @@ public class CourthouseClientIT extends AbstractIT {
 		Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
 		
 		for (Courthouse c : results) {
-			log.debug("Courthouse = " + c.getCourthouseTypeCode());
+			log.debug("Courthouse = " + c.getCourthouseCode());
 		}
 	}
 

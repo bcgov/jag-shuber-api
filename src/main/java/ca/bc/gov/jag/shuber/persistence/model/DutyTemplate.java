@@ -57,16 +57,17 @@ public class DutyTemplate extends AbstractAuditableVersionable implements Serial
     @JoinColumn(name = "work_section_code")
     private WorkSectionCode workSectionCode;
 
-    @Temporal(TemporalType.TIME)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "assignment_stream_id")
+    private AssignmentStream assignmentStream;
+
+	@Temporal(TemporalType.TIME)
     @Column(name = "start_time", length = 21)
     private Date startTime;
 
     @Temporal(TemporalType.TIME)
     @Column(name = "end_time", length = 21)
     private Date endTime;
-
-    @Column(name = "assignment_stream_id")
-    private UUID assignmentStreamId;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "dutyTemplate")
     private List<Duty> duties = new ArrayList<Duty>(0);
@@ -96,9 +97,9 @@ public class DutyTemplate extends AbstractAuditableVersionable implements Serial
             Recurrence recurrence,
             ShiftTemplate shiftTemplate,
             WorkSectionCode workSectionCode,
+            AssignmentStream assignmentStream,
             Date startTime,
             Date endTime,
-            UUID assignmentStreamId,
             String createdBy,
             String updatedBy,
             Date createdDtm,
@@ -109,9 +110,9 @@ public class DutyTemplate extends AbstractAuditableVersionable implements Serial
         this.recurrence = recurrence;
         this.shiftTemplate = shiftTemplate;
         this.workSectionCode = workSectionCode;
+        this.assignmentStream = assignmentStream;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.assignmentStreamId = assignmentStreamId;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.createdDtm = createdDtm;
@@ -152,6 +153,14 @@ public class DutyTemplate extends AbstractAuditableVersionable implements Serial
         this.workSectionCode = workSectionCode;
     }
 
+    public AssignmentStream getAssignmentStream() {
+		return assignmentStream;
+	}
+
+	public void setAssignmentStream(AssignmentStream assignmentStream) {
+		this.assignmentStream = assignmentStream;
+	}
+    
     public Date getStartTime() {
         return this.startTime;
     }
@@ -166,14 +175,6 @@ public class DutyTemplate extends AbstractAuditableVersionable implements Serial
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
-    }
-
-    public UUID getAssignmentStreamId() {
-        return this.assignmentStreamId;
-    }
-
-    public void setAssignmentStreamId(UUID assignmentStreamId) {
-        this.assignmentStreamId = assignmentStreamId;
     }
 
     public List<Duty> getDuties() {

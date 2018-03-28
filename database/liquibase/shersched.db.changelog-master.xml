@@ -22,5 +22,10 @@
     	<tagDatabase tag="00_BaseDataDB"/>
     </changeSet>
     <include file="shersched.db.basedata.xml"/>
-     
+
+    <changeSet author="Michael Gabelmann" id="Tag_03_TableUpdates">
+    	<tagDatabase tag="00_TableUpdates"/>
+    </changeSet>
+    <include file="shersched.db.changelog-01.xml"/>
+    
 </databaseChangeLog>

@@ -1,11 +1,14 @@
 package ca.bc.gov.jag.shuber.rest.validation;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
 
+import ca.bc.gov.jag.shuber.Application;
 import ca.bc.gov.jag.shuber.persistence.dao.SheriffDAO;
 import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
 
@@ -17,6 +20,9 @@ import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
  */
 @Component("beforeCreateSheriffValidator")
 public class SheriffCreateUpdateValidator implements Validator {
+	/** Logger. */
+	private static final Logger log = LogManager.getLogger(SheriffCreateUpdateValidator.class);
+	
 	/** Sheriff data access object. */
 	private SheriffDAO sheriffDao;
 	
@@ -60,6 +66,10 @@ public class SheriffCreateUpdateValidator implements Validator {
 		 * field error example:
 		 * errors.rejectValue("badgeNo", "error.validation.exists", new Object[] {s.getBadgeNo()}, "Badge number already exists.");
 		 */
+		
+		if (log.isDebugEnabled()) {
+			log.debug("valiating sheriff record");
+		}
 		
 		//validate the bean
 		this.validator.validate(s, errors);
