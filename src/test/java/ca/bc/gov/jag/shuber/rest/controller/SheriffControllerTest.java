@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -48,42 +49,48 @@ public class SheriffControllerTest extends AbstractControllerTest {
     @Test
     @DisplayName("Find a sheriff by a badge number that exists")
     public void test1_findSheriffByBadgeNo() throws Exception {
-    		Sheriff s1 = ModelUtil.getSheriff("badgeNo1", "userId1");
+    		Assertions.fail("TODO");
     		
-    		Mockito.when(sheriffService.getSheriffByBadgeNo("badgeNo1")).thenReturn(Optional.of(s1));
-    		
-    		mvc.perform(MockMvcRequestBuilders.get(SheriffController.PATH + SheriffController.GET_SHERIFFBYBADGENO)
-    			  .param("badgeNo", "badgeNo1")
-  		      .contentType(MediaType.APPLICATION_JSON))
-  		      .andExpect(MockMvcResultMatchers.status().isOk())
-  		      .andExpect(MockMvcResultMatchers.jsonPath("badgeNo", Matchers.is(s1.getBadgeNo())));
+//    		Sheriff s1 = ModelUtil.getSheriff("badgeNo1", "userId1");
+//    		
+//    		Mockito.when(sheriffService.getSheriffByBadgeNo("badgeNo1")).thenReturn(Optional.of(s1));
+//    		
+//    		mvc.perform(MockMvcRequestBuilders.get(SheriffController.PATH + SheriffController.GET_SHERIFFBYBADGENO)
+//    			  .param("badgeNo", "badgeNo1")
+//  		      .contentType(MediaType.APPLICATION_JSON))
+//  		      .andExpect(MockMvcResultMatchers.status().isOk())
+//  		      .andExpect(MockMvcResultMatchers.jsonPath("badgeNo", Matchers.is(s1.getBadgeNo())));
     }
     
     @Test
     @DisplayName("Find a sheriff by a badge number that does not exist")
     public void test2_findSheriffByBadgeNo() throws Exception {
-    		mvc.perform(MockMvcRequestBuilders.get(SheriffController.PATH + SheriffController.GET_SHERIFFBYBADGENO)
-    			  .param("badgeNo", "doesnotexist")
-  		      .contentType(MediaType.APPLICATION_JSON))
-  		      .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+    		Assertions.fail("TODO");
+    	
+//    		mvc.perform(MockMvcRequestBuilders.get(SheriffController.PATH + SheriffController.GET_SHERIFFBYBADGENO)
+//    			  .param("badgeNo", "doesnotexist")
+//  		      .contentType(MediaType.APPLICATION_JSON))
+//  		      .andExpect(MockMvcResultMatchers.status().is4xxClientError());
     }
     
     @Test
     @DisplayName("Find sheriffs for a given courthouse")
     public void test1_getSheriffsByCourthouse() throws Exception {
-    		Sheriff s1 = ModelUtil.getSheriff("badgeNo1", "userId1");
-    		UUID locationId1 = UUID.randomUUID();
-    		
-    		List<Sheriff> records = new ArrayList<>();
-    		records.add(s1);
-    		
-    		Mockito.when(sheriffService.getSheriffsByCourthouse(locationId1)).thenReturn(records);
-    		
-    		mvc.perform(MockMvcRequestBuilders.get(SheriffController.PATH + SheriffController.GET_SHERIFFBYCOURTHOUSE)
-    			.param("locationId", locationId1.toString())
-    			.contentType(MediaType.APPLICATION_JSON))
-    			.andExpect(MockMvcResultMatchers.status().isOk())
-    			.andExpect(MockMvcResultMatchers.jsonPath("$[0].badgeNo", Matchers.is(s1.getBadgeNo())));
+    		Assertions.fail("TODO");
+    	
+//    		Sheriff s1 = ModelUtil.getSheriff("badgeNo1", "userId1");
+//    		UUID locationId1 = UUID.randomUUID();
+//    		
+//    		List<Sheriff> records = new ArrayList<>();
+//    		records.add(s1);
+//    		
+//    		Mockito.when(sheriffService.getSheriffsByCourthouse(locationId1)).thenReturn(records);
+//    		
+//    		mvc.perform(MockMvcRequestBuilders.get(SheriffController.PATH + SheriffController.GET_SHERIFFBYCOURTHOUSE)
+//    			.param("locationId", locationId1.toString())
+//    			.contentType(MediaType.APPLICATION_JSON))
+//    			.andExpect(MockMvcResultMatchers.status().isOk())
+//    			.andExpect(MockMvcResultMatchers.jsonPath("$[0].badgeNo", Matchers.is(s1.getBadgeNo())));
     }
     
 }

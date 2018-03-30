@@ -1,17 +1,11 @@
 package ca.bc.gov.jag.shuber.service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import ca.bc.gov.jag.shuber.persistence.dao.SheriffDAO;
-import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
 
 /**
  * 
@@ -32,18 +26,6 @@ public class JpaSheriffService implements SheriffService {
 	@Autowired
 	public JpaSheriffService(SheriffDAO sheriffDao) {
 		this.sheriffDao = sheriffDao;
-	}
-	
-	@Override
-	@Transactional(readOnly=true)
-	public Optional<Sheriff> getSheriffByBadgeNo(String badgeNo) {
-		Sheriff s = sheriffDao.findByBadgeNo(badgeNo);
-		return s != null ? Optional.of(s) : Optional.empty();
-	}
-
-	@Override
-	public List<Sheriff> getSheriffsByCourthouse(UUID locationId) {
-		return sheriffDao.getSheriffsByCourthouse(locationId);
 	}
 	
 }

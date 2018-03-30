@@ -1,8 +1,6 @@
 package ca.bc.gov.jag.shuber.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
@@ -13,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.bc.gov.jag.shuber.AbstractTest;
@@ -43,41 +40,37 @@ public class SheriffServiceTest extends AbstractTest {
 	@BeforeEach
 	@Override
 	protected void beforeTest() {
-		records = new ArrayList<>();
-		
-		s1 = new Sheriff(UUID.randomUUID(),"badgeNo1", "userId1", "createdBy", "updatedBy", now, now, 0);
-		s1.setLastName("lastName1");
-		s1.setFirstName("firstName1");
-		
-		s2 = new Sheriff(UUID.randomUUID(),"badgeNo2", "userId2", "createdBy", "updatedBy", now, now, 0);
-		s2.setLastName("lastName2");
-		s2.setFirstName("firstName2");
-		
-		records.add(s2);
-		records.add(s1);
-		
-		courthouseId1 = UUID.randomUUID();
-		courthouseId2 = UUID.randomUUID();
-		
-		//sorted = new ArrayList<>();
-		//not ideal, but lambdas blow up
-		//sorted.add(s1); 
-		//sorted.add(s2);
-		
-		//NOTE: both these blow up with a NPE. why?
-		//sorted.sort(Comparator.comparing(Sheriff::getName));
-		//Collections.sort(sorted, (a, b) -> a.getName().compareTo(b.getName()));
-		
-		sheriffDao = Mockito.mock(SheriffDAO.class);
-		sheriffService = new JpaSheriffService(sheriffDao);
-		
-		Mockito.when(sheriffDao.findByBadgeNo("badgeNo2")).thenReturn(s2);
-		Mockito.when(sheriffDao.getSheriffsByCourthouse(courthouseId1)).thenReturn(records);
-		Mockito.when(sheriffDao.getSheriffsByCourthouse(courthouseId2)).thenReturn(new ArrayList<Sheriff>());
-		
-		//Mockito.when(sheriffDao.findAll()).thenReturn(records);
-		//Mockito.when(sheriffDao.findById(s1.getSheriffId())).thenReturn(Optional.of(s1));
-		//Mockito.when(sheriffDao.findAll(Sort.by(Order.asc("name")))).thenReturn(sorted).thenReturn(records);
+//		records = new ArrayList<>();
+//		
+//		s1 = new Sheriff(UUID.randomUUID(),"badgeNo1", "userId1", "createdBy", "updatedBy", now, now, 0);
+//		s1.setLastName("lastName1");
+//		s1.setFirstName("firstName1");
+//		
+//		s2 = new Sheriff(UUID.randomUUID(),"badgeNo2", "userId2", "createdBy", "updatedBy", now, now, 0);
+//		s2.setLastName("lastName2");
+//		s2.setFirstName("firstName2");
+//		
+//		records.add(s2);
+//		records.add(s1);
+//		
+//		courthouseId1 = UUID.randomUUID();
+//		courthouseId2 = UUID.randomUUID();
+//		
+//		//sorted = new ArrayList<>();
+//		//not ideal, but lambdas blow up
+//		//sorted.add(s1); 
+//		//sorted.add(s2);
+//		
+//		//NOTE: both these blow up with a NPE. why?
+//		//sorted.sort(Comparator.comparing(Sheriff::getName));
+//		//Collections.sort(sorted, (a, b) -> a.getName().compareTo(b.getName()));
+//		
+//		sheriffDao = Mockito.mock(SheriffDAO.class);
+//		sheriffService = new JpaSheriffService(sheriffDao);
+//		
+//		Mockito.when(sheriffDao.findByBadgeNo("badgeNo2")).thenReturn(s2);
+//		Mockito.when(sheriffDao.getSheriffsByCourthouse(courthouseId1)).thenReturn(records);
+//		Mockito.when(sheriffDao.getSheriffsByCourthouse(courthouseId2)).thenReturn(new ArrayList<Sheriff>());
 	}
 	
 	@AfterEach
@@ -89,33 +82,41 @@ public class SheriffServiceTest extends AbstractTest {
 	@Test
 	@DisplayName("Search for sheriff by badge number that exists")
 	public void test1_getSheriffByBadgeNo() {
-		String badgeNo = "badgeNo2";
-		Optional<Sheriff> s = sheriffService.getSheriffByBadgeNo(badgeNo);
-		Assertions.assertEquals(s2, s.get());
+		Assertions.fail("TODO");
+		
+//		String badgeNo = "badgeNo2";
+//		Optional<Sheriff> s = sheriffService.getSheriffByBadgeNo(badgeNo);
+//		Assertions.assertEquals(s2, s.get());
 	}
 	
 	@Test
 	@DisplayName("Search for sheriff by badge number that does not exist")
 	public void test2_getSheriffByBadgeNo() {
-		String badgeNo = "doesnotexist";
-		Optional<Sheriff> s = sheriffService.getSheriffByBadgeNo(badgeNo);
-		Assertions.assertFalse(s.isPresent());
+		Assertions.fail("TODO");
+		
+//		String badgeNo = "doesnotexist";
+//		Optional<Sheriff> s = sheriffService.getSheriffByBadgeNo(badgeNo);
+//		Assertions.assertFalse(s.isPresent());
 	}
 	
 	@Test
 	@DisplayName("Search for sheriff by courthouse that exists")
 	public void test1_getSheriffsByCourthouse() {
-		List<Sheriff> records = sheriffService.getSheriffsByCourthouse(courthouseId1);
-		Assertions.assertNotNull(records);
-		Assertions.assertTrue(records.size() == 2);
+		Assertions.fail("TODO");
+		
+//		List<Sheriff> records = sheriffService.getSheriffsByCourthouse(courthouseId1);
+//		Assertions.assertNotNull(records);
+//		Assertions.assertTrue(records.size() == 2);
 	}
 	
 	@Test
 	@DisplayName("Search for sheriff by courhouse that does not exist")
 	public void test2_getSheriffsByCourthouse() {
-		List<Sheriff> records = sheriffService.getSheriffsByCourthouse(courthouseId2);
-		Assertions.assertNotNull(records);
-		Assertions.assertTrue(records.size() == 0);
+		Assertions.fail("TODO");
+		
+//		List<Sheriff> records = sheriffService.getSheriffsByCourthouse(courthouseId2);
+//		Assertions.assertNotNull(records);
+//		Assertions.assertTrue(records.size() == 0);
 	}
 	
 }

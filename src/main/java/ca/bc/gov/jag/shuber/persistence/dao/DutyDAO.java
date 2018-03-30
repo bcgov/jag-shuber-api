@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
  * <p>Domain data access object for database table duty.
  *
  * @author hbm2dao
- * @version 352
+ * @version 391
  * @see ca.bc.gov.jag.shuber.persistence.model.Duty
  */
 @Repository

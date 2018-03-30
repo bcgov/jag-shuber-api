@@ -4,22 +4,7 @@
     xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-    
 
-    <changeSet author="michael.gabelmann (generated)" id="table_fk_updates_01">
-        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="location_id" baseTableName="shift_template" constraintName="shte_loca_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="location_id" referencedTableName="courthouse"/>
-    </changeSet>
-    
-    <changeSet author="michael.gabelmann (generated)" id="table_fk_updates_02">
-        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="assignment_stream_id" baseTableName="duty_template" constraintName="dttm_asst_fk" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="assignment_stream_id" referencedTableName="assignment_stream"/>
-    </changeSet>
-    
-    <changeSet author="michael.gabelmann (generated)" id="table_alter_updates_01">
-        <renameColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="location" oldColumnName="location_type_code" newColumnName="location_code"/>
-    </changeSet>
-    
-    <changeSet author="michael.gabelmann (generated)" id="table_alter_updates_02">
-        <renameColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courthouse" oldColumnName="courthouse_type_code" newColumnName="courthouse_code"/>
-    </changeSet>
+    <!-- incremental updates start here -->
     
 </databaseChangeLog>

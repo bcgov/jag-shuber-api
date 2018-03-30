@@ -5,27 +5,37 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     
-    <!-- CREATE DB -->
-    <changeSet author="Carol Geisler" id="Tag_00_Empty">
+    <!-- empty database -->
+    <changeSet author="Carol Geisler" id="master_01">
     	<tagDatabase tag="00_EmptyDB"/>
     </changeSet>
-    <include file="shersched.db.changelog-roles.xml"/>
     
     <!-- create roles, etc. -->
-    <changeSet author="Carol Geisler" id="Tag_01_RolesOnly">
+    <include file="shersched.db.changelog-roles.xml"/>
+    <changeSet author="Carol Geisler" id="master_02">
     	<tagDatabase tag="00_RolesOnlyDB"/>
     </changeSet>
-    <include file="shersched.db.changelog-ddl.xml"/>
     
-    <!-- populate required data for tables -->
-    <changeSet author="Michael Gabelmann" id="Tag_02_BaseData">
-    	<tagDatabase tag="00_BaseDataDB"/>
+    <!-- create database -->
+    <include file="shersched.db.changelog-ddl.xml"/>
+    <changeSet author="Michael Gabelmann" id="master_03">
+    	<tagDatabase tag="00_TablesOnlyDB"/>
     </changeSet>
+    
+    <!-- add required data -->
     <include file="shersched.db.basedata.xml"/>
-
-    <changeSet author="Michael Gabelmann" id="Tag_03_TableUpdates">
-    	<tagDatabase tag="00_TableUpdates"/>
+    <changeSet author="Michael Gabelmann" id="master_04">
+    	<tagDatabase tag="00_RequiredDataDB"/>
     </changeSet>
+    
+    <!-- pilot data -->
+    <include file="shersched.db.pilotdata.xml"/>
+    <changeSet author="Michael Gabelmann" id="master_05">
+    	<tagDatabase tag="00_PilotDataDB"/>
+    </changeSet>
+    
+    <!--
     <include file="shersched.db.changelog-01.xml"/>
+    -->
     
 </databaseChangeLog>

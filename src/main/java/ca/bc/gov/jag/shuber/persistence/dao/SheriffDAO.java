@@ -16,7 +16,7 @@ import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
  * <p>Domain data access object for database table sheriff.
  *
  * @author hbm2dao
- * @version 352
+ * @version 391
  * @see ca.bc.gov.jag.shuber.persistence.model.Sheriff
  */
 @Repository
@@ -31,11 +31,18 @@ public interface SheriffDAO extends JpaRepository<Sheriff, UUID> {
 	Sheriff findByBadgeNo(@Param("badgeNo") String badgeNo);
 	
 	/**
+	 * Find by user id. 
+	 * @param userid user id
+	 * @return record
+	 */
+	Sheriff findByUserid(@Param("userid") String userid);
+	
+	/**
 	 * Find sheriffs for given courthouse.
-	 * @param locationId courthouse
+	 * @param courthouseId courthouse
 	 * @return records
 	 */
-	@Query("SELECT s FROM Sheriff s WHERE s.courthouse.locationId = :locationId")
-	List<Sheriff> getSheriffsByCourthouse(@Param("locationId") UUID locationId);
+	@Query("SELECT s FROM Sheriff s WHERE s.courthouse.courthouseId = :courthouseId")
+	List<Sheriff> getSheriffsByCourthouse(@Param("courthouseId") UUID courthouseId);
 	
 }
