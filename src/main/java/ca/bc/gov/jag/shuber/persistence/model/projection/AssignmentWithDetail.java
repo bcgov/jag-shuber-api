@@ -18,7 +18,7 @@ import ca.bc.gov.jag.shuber.persistence.model.WorkSectionCode;
  * 
  * @author michael.gabelmann
  */
-@Projection(name = "assignmentStreamWithDetail", types = { Assignment.class })
+@Projection(name = "assignmentWithDetail", types = { Assignment.class })
 public interface AssignmentWithDetail {
     
 	UUID getAssignmentId();
@@ -37,6 +37,6 @@ public interface AssignmentWithDetail {
 	
 	String getTitle();
 	
-	List<DutyRecurrence> getDutyRecurrence();
+	List<DutyRecurrence> getDutyRecurrences();
     
 }
