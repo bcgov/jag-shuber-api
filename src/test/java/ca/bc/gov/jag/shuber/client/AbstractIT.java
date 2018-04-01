@@ -7,6 +7,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -27,6 +28,7 @@ import ca.bc.gov.jag.shuber.AbstractTest;
 @TestPropertySource(
 	locations = "classpath:application-integration.properties"
 )
+@ActiveProfiles("integration")
 abstract class AbstractIT extends AbstractTest {
 	@Autowired
 	protected TestRestTemplate restTemplate;

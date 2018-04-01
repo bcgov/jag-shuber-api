@@ -2,7 +2,9 @@ package ca.bc.gov.jag.shuber.persistence.model;
 
 import ca.bc.gov.jag.shuber.persistence.AbstractAuditableVersionable;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,9 +13,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
@@ -22,7 +26,7 @@ import org.hibernate.annotations.GenericGenerator;
  * <p>Domain model for database table duty.
  *
  * @author hbm2java
- * @version 352
+ * @version 391
  */
 @Entity
 @Table(name = "duty"
@@ -39,29 +43,25 @@ public class Duty extends AbstractAuditableVersionable implements Serializable {
     @Column(name = "duty_id", nullable = false, updatable = false)
     private UUID dutyId;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "assignment_stream_id")
-    private AssignmentStream assignmentStream;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "assignment_template_id")
-    private DutyTemplate dutyTemplate;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shift_id")
-    private Shift shift;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "work_section_code")
-    private WorkSectionCode workSectionCode;
+    @JoinColumn(name = "assignment_id", nullable = false)
+    private Assignment assignment;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "start_time", length = 35)
-    private Date startTime;
+    @Column(name = "start_dtm", length = 35)
+    private Date startDtm;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "end_time", length = 35)
-    private Date endTime;
+    @Column(name = "end_dtm", length = 35)
+    private Date endDtm;
+
+    @NotNull
+    @Column(name = "sheriffs_required", nullable = false, precision = 2, scale = 0)
+    private byte sheriffsRequired;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "duty")
+    private List<SheriffDuty> sheriffDuties = new ArrayList<SheriffDuty>(0);
     
     /** No args constructor. */
     public Duty() {}
@@ -69,12 +69,16 @@ public class Duty extends AbstractAuditableVersionable implements Serializable {
     /** Required args constructor. */
     public Duty(
             UUID dutyId,
+            Assignment assignment,
+            byte sheriffsRequired,
             String createdBy,
             String updatedBy,
             Date createdDtm,
             Date updatedDtm,
             long revisionCount) {
         this.dutyId = dutyId;
+        this.assignment = assignment;
+        this.sheriffsRequired = sheriffsRequired;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.createdDtm = createdDtm;
@@ -85,29 +89,27 @@ public class Duty extends AbstractAuditableVersionable implements Serializable {
     /** All args constructor. */
     public Duty(
             UUID dutyId,
-            AssignmentStream assignmentStream,
-            DutyTemplate dutyTemplate,
-            Shift shift,
-            WorkSectionCode workSectionCode,
-            Date startTime,
-            Date endTime,
+            Assignment assignment,
+            Date startDtm,
+            Date endDtm,
+            byte sheriffsRequired,
             String createdBy,
             String updatedBy,
             Date createdDtm,
             Date updatedDtm,
-            long revisionCount) {
+            long revisionCount,
+            List<SheriffDuty> sheriffDuties) {
         this.dutyId = dutyId;
-        this.assignmentStream = assignmentStream;
-        this.dutyTemplate = dutyTemplate;
-        this.shift = shift;
-        this.workSectionCode = workSectionCode;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.assignment = assignment;
+        this.startDtm = startDtm;
+        this.endDtm = endDtm;
+        this.sheriffsRequired = sheriffsRequired;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.createdDtm = createdDtm;
         this.updatedDtm = updatedDtm;
         this.revisionCount = revisionCount;
+        this.sheriffDuties = sheriffDuties;
     }
 
     public UUID getDutyId() {
@@ -118,51 +120,43 @@ public class Duty extends AbstractAuditableVersionable implements Serializable {
         this.dutyId = dutyId;
     }
 
-    public AssignmentStream getAssignmentStream() {
-        return this.assignmentStream;
+    public Assignment getAssignment() {
+        return this.assignment;
     }
 
-    public void setAssignmentStream(AssignmentStream assignmentStream) {
-        this.assignmentStream = assignmentStream;
+    public void setAssignment(Assignment assignment) {
+        this.assignment = assignment;
     }
 
-    public DutyTemplate getDutyTemplate() {
-        return this.dutyTemplate;
+    public Date getStartDtm() {
+        return this.startDtm;
     }
 
-    public void setDutyTemplate(DutyTemplate dutyTemplate) {
-        this.dutyTemplate = dutyTemplate;
+    public void setStartDtm(Date startDtm) {
+        this.startDtm = startDtm;
     }
 
-    public Shift getShift() {
-        return this.shift;
+    public Date getEndDtm() {
+        return this.endDtm;
     }
 
-    public void setShift(Shift shift) {
-        this.shift = shift;
+    public void setEndDtm(Date endDtm) {
+        this.endDtm = endDtm;
     }
 
-    public WorkSectionCode getWorkSectionCode() {
-        return this.workSectionCode;
+    public byte getSheriffsRequired() {
+        return this.sheriffsRequired;
     }
 
-    public void setWorkSectionCode(WorkSectionCode workSectionCode) {
-        this.workSectionCode = workSectionCode;
+    public void setSheriffsRequired(byte sheriffsRequired) {
+        this.sheriffsRequired = sheriffsRequired;
     }
 
-    public Date getStartTime() {
-        return this.startTime;
+    public List<SheriffDuty> getSheriffDuties() {
+        return this.sheriffDuties;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getEndTime() {
-        return this.endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setSheriffDuties(List<SheriffDuty> sheriffDuties) {
+        this.sheriffDuties = sheriffDuties;
     }
 }

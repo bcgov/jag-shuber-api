@@ -81,10 +81,16 @@
 
 		<!-- enables Swagger generation -->
 		<!-- The HAL Browser replicates similar functionality -->
+		<!-- NOTE: 2.8.1 is a custom build of the springfox library to work with Spring 2.0.0 since Spring 
+				   deprecated some of their API in preference of newer Java functions. Until this is resolved
+				   by the maintainers of springfox, this custom version MUST be used, otherwise
+				   springfox functionality MUST be disabled. See SwaggerConfig.java and disable all @Import
+		 -->
+		<!-- 
 		<dependency>
 		    <groupId>io.springfox</groupId>
 		    <artifactId>springfox-data-rest</artifactId>
-		    <version>${springfox.version}</version>
+ 		    <version>${springfox.version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>io.springfox</groupId>
@@ -101,7 +107,7 @@
 		    <artifactId>springfox-swagger-ui</artifactId>
 		    <version>${springfox.version}</version>
 		</dependency>
-		
+		-->
 
 		<!-- JDBC driver -->
 		<!-- 

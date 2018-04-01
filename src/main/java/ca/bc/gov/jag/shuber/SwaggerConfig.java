@@ -6,18 +6,18 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+//import springfox.documentation.builders.ApiInfoBuilder;
+//import springfox.documentation.builders.PathSelectors;
+//import springfox.documentation.builders.RequestHandlerSelectors;
+//import springfox.documentation.service.ApiInfo;
+//import springfox.documentation.service.Contact;
+//import springfox.documentation.spi.DocumentationType;
+//import springfox.documentation.spring.data.rest.configuration.SpringDataRestConfiguration;
+//import springfox.documentation.spring.web.plugins.Docket;
+//import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
-@EnableSwagger2
+//@EnableSwagger2
 /* FIXME: 
  * Current SpringFox API has bug that breaks if you use Imports below. Known issue with latest version of Spring.
  * Until issue is fixed scanning of SpringDataRest objects is broken. 
@@ -29,17 +29,20 @@ public class SwaggerConfig {
 	/** Logger. */
 	private static final Logger log = LogManager.getLogger(SwaggerConfig.class);
 	
-	@Bean 
+/*	@Bean 
 	public Docket api() { 
 		return new Docket(DocumentationType.SWAGGER_2)
 			.select()
-			//.apis(RequestHandlerSelectors.basePackage("ca.bc.gov.jag.shuber.persistence.dao"))
 			.apis(RequestHandlerSelectors.any())
 			.paths(PathSelectors.any())
-			.build().apiInfo(getApiInfo());
+			.build()
+				.apiInfo(getApiInfo())
+				//.genericModelSubstitutes(Optional.class)
+				;
 	}
+*/	
 	
-//NOTE: commenting this for testin 2.7.0 version
+//NOTE: commenting this for testing 2.7.0 version
 /*	@Bean
 	public UiConfiguration uiConfig() {
 		return UiConfigurationBuilder
@@ -64,6 +67,7 @@ public class SwaggerConfig {
 	 * Get API Info.
 	 * @return info
 	 */
+	/*
 	private ApiInfo getApiInfo() {
         return new ApiInfoBuilder()
             .title("Sheriff Scheduler REST API")
@@ -74,5 +78,5 @@ public class SwaggerConfig {
             .version("1.0.0")
             .build();
     }
-
+*/
 }

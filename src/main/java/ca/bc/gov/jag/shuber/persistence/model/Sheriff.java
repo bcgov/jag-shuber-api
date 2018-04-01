@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -29,7 +30,7 @@ import ca.bc.gov.jag.shuber.persistence.AbstractAuditableVersionable;
  * <p>Domain model for database table sheriff.
  *
  * @author hbm2java
- * @version 352
+ * @version 391
  */
 @Entity
 @Table(name = "sheriff"
@@ -47,18 +48,18 @@ public class Sheriff extends AbstractAuditableVersionable implements Serializabl
     private UUID sheriffId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id")
+    @JoinColumn(name = "courthouse_id")
     private Courthouse courthouse;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "sheriff_rank_code", nullable = false)
+    private SheriffRankCode sheriffRankCode;
 
     @NotEmpty
     @Size(min = 1, max = 20)
     @Column(name = "badge_no", unique = true, nullable = false, length = 20)
     private String badgeNo;
-
-    @NotEmpty
-    @Size(min = 1, max = 20)
-    @Column(name = "userid", unique = true, nullable = false, length = 20)
-    private String userid;
 
     @Size(min = 0, max = 100)
     @Column(name = "first_name", length = 100)
@@ -68,23 +69,24 @@ public class Sheriff extends AbstractAuditableVersionable implements Serializabl
     @Column(name = "last_name", length = 100)
     private String lastName;
 
-    @Size(min = 0, max = 50)
-    @Column(name = "rank", length = 50)
-    private String rank;
-
     @Size(min = 0, max = 200)
     @Column(name = "image_url", length = 200)
     private String imageUrl;
 
+    @NotEmpty
+    @Size(min = 1, max = 32)
+    @Column(name = "userid", unique = true, nullable = false, length = 32)
+    private String userid;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sheriff")
-    private List<Shift> shifts = new ArrayList<Shift>(0);
-    
+    private List<SheriffDuty> sheriffDuties = new ArrayList<SheriffDuty>(0);
     /** No args constructor. */
     public Sheriff() {}
 
     /** Required args constructor. */
     public Sheriff(
             UUID sheriffId,
+            SheriffRankCode sheriffRankCode,
             String badgeNo,
             String userid,
             String createdBy,
@@ -93,6 +95,7 @@ public class Sheriff extends AbstractAuditableVersionable implements Serializabl
             Date updatedDtm,
             long revisionCount) {
         this.sheriffId = sheriffId;
+        this.sheriffRankCode = sheriffRankCode;
         this.badgeNo = badgeNo;
         this.userid = userid;
         this.createdBy = createdBy;
@@ -106,32 +109,32 @@ public class Sheriff extends AbstractAuditableVersionable implements Serializabl
     public Sheriff(
             UUID sheriffId,
             Courthouse courthouse,
+            SheriffRankCode sheriffRankCode,
             String badgeNo,
-            String userid,
             String firstName,
             String lastName,
-            String rank,
             String imageUrl,
+            String userid,
             String createdBy,
             String updatedBy,
             Date createdDtm,
             Date updatedDtm,
             long revisionCount,
-            List<Shift> shifts) {
+            List<SheriffDuty> sheriffDuties) {
         this.sheriffId = sheriffId;
         this.courthouse = courthouse;
+        this.sheriffRankCode = sheriffRankCode;
         this.badgeNo = badgeNo;
-        this.userid = userid;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.rank = rank;
         this.imageUrl = imageUrl;
+        this.userid = userid;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.createdDtm = createdDtm;
         this.updatedDtm = updatedDtm;
         this.revisionCount = revisionCount;
-        this.shifts = shifts;
+        this.sheriffDuties = sheriffDuties;
     }
 
     public UUID getSheriffId() {
@@ -150,20 +153,20 @@ public class Sheriff extends AbstractAuditableVersionable implements Serializabl
         this.courthouse = courthouse;
     }
 
+    public SheriffRankCode getSheriffRankCode() {
+        return this.sheriffRankCode;
+    }
+
+    public void setSheriffRankCode(SheriffRankCode sheriffRankCode) {
+        this.sheriffRankCode = sheriffRankCode;
+    }
+
     public String getBadgeNo() {
         return this.badgeNo;
     }
 
     public void setBadgeNo(String badgeNo) {
         this.badgeNo = badgeNo;
-    }
-
-    public String getUserid() {
-        return this.userid;
-    }
-
-    public void setUserid(String userid) {
-        this.userid = userid;
     }
 
     public String getFirstName() {
@@ -182,14 +185,6 @@ public class Sheriff extends AbstractAuditableVersionable implements Serializabl
         this.lastName = lastName;
     }
 
-    public String getRank() {
-        return this.rank;
-    }
-
-    public void setRank(String rank) {
-        this.rank = rank;
-    }
-
     public String getImageUrl() {
         return this.imageUrl;
     }
@@ -198,12 +193,20 @@ public class Sheriff extends AbstractAuditableVersionable implements Serializabl
         this.imageUrl = imageUrl;
     }
 
-    public List<Shift> getShifts() {
-        return this.shifts;
+    public String getUserid() {
+        return this.userid;
     }
 
-    public void setShifts(List<Shift> shifts) {
-        this.shifts = shifts;
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    public List<SheriffDuty> getSheriffDuties() {
+        return this.sheriffDuties;
+    }
+
+    public void setSheriffDuties(List<SheriffDuty> sheriffDuties) {
+        this.sheriffDuties = sheriffDuties;
     }
     
     //Added Methods
@@ -216,5 +219,4 @@ public class Sheriff extends AbstractAuditableVersionable implements Serializabl
     		
     		return sb.toString();
     }
-    		
 }

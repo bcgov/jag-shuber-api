@@ -18,91 +18,164 @@ public final class ModelUtil {
 	private ModelUtil() {}
 	
 	
-	public static AssignmentStream getAssignmentStream(
-		Courthouse courthouse, 
-		UUID orgUnitId) {
+	public static OtherAssignCode getOtherAssignCode(
+		String otherAssignCode,
+	    String description,
+	    Date effectiveDate) {
+			
+		return new OtherAssignCode(
+            otherAssignCode,
+            description,
+            effectiveDate,
+            user, user, now, now, count);
+	}
+	
+	public static JailRoleCode getJailRoleCode(
+		String jailRoleCode,
+	    String description,
+	    Date effectiveDate) {
+			
+		return new JailRoleCode(
+            jailRoleCode,
+            description,
+            effectiveDate,
+            user, user, now, now, count);
+	}
+	
+	public static SheriffRankCode getSheriffRankCode(
+		String sheriffRankCode,
+        String description,
+        Date effectiveDate) {
 		
-		return new AssignmentStream(null, courthouse, orgUnitId, user, user, now, now, count);
-	}
-	
-	public static Courthouse getCourthouse(
-		Location location, 
-		String courthouseTypeCode,
-		UUID orgUnitId) {
-		
-		return new Courthouse(location, courthouseTypeCode, orgUnitId, user, user, now, now, count);
-	}
-	
-	public static Courtroom getCourtroom(
-		Location location, 
-		String roomNumber) {
-		
-		return new Courtroom(location, roomNumber, user, user, now, now, count);
-	}
-	
-	public static DaysBitmapCode getDaysBitmapCode(
-		String bitmapSet, 
-		int daySequence,
-		String dayLabel, 
-		long bitmapValue, 
-		String description, 
-		Date effectiveDate) {
-		
-		DaysBitmapCodeId id = new DaysBitmapCodeId(bitmapSet, daySequence);
-		return new DaysBitmapCode(id, dayLabel, bitmapValue, description, effectiveDate, user, user, now, now, count);
-	}
-	
-	public static Duty getDuty() {
-		return new Duty(null, user, user, now, now, count);
-	}
-	
-	public static DutyTemplate getDutyTemplate() {
-		return new DutyTemplate(null, user, user, now, now, count);
-	}
-	
-	public static Location getLocation(String locationName) {
-		return new Location(null, locationName, user, user, now, now, count);
-	}
-	
-	public static LocationCode getLocationCode(
-		String locationCode, 
-		String description, 
-		Date effectiveDate) {
-		
-		return new LocationCode(locationCode, description, effectiveDate, user, user, now, now, count);
-	}
-	
-	public static Recurrence getRecurrence(long recurrenceDaysBitmap) {
-		return new Recurrence(null, recurrenceDaysBitmap, user, user, now, now, count);
-	}
-	
-	public static Region getRegion(Location location) {
-		return new Region(location, user, user, now, now, count);
-	}
-	
-	public static Sheriff getSheriff(
-        String badgeNo,
-        String userid) {
-		
-		return new Sheriff(null, badgeNo, userid, user, user, now, now, count);
-	}
-	
-	public static Shift getShift(Courthouse courthouse) {
-		return new Shift(null, courthouse, user, user, now, now, count);
-	}	
-	
-	public static ShiftTemplate getShiftTemplate(
-		UUID locationId, 
-		int rotationSequence) {
-		
-		return new ShiftTemplate(null, locationId, rotationSequence, user, user, now, now, count);
+		return new SheriffRankCode(
+            sheriffRankCode,
+            description,
+            effectiveDate,
+            user, user, now, now, count);
 	}
 	
 	public static WorkSectionCode getWorkSectionCode(
-		String workSectionCode, 
-		Date effectiveDate) {
+		String workSectionCode,
+	    String description,
+	    Date effectiveDate) {
+			
+		return new WorkSectionCode(
+            workSectionCode,
+            description,
+            effectiveDate,
+            user, user, now, now, count);
+	}
+	
+	public static Region getRegion(
+		String regionCd, 
+		String regionName) {
 		
-		return new WorkSectionCode(workSectionCode, effectiveDate, user, user, now, now, count);
+		return new Region(
+			null,
+            regionCd,
+            regionName,
+            user, user, now, now, count);
+	}
+	
+	public static Courthouse getCourthouse(
+		Region region,
+		String courthouseCd,
+		String courthouseName) {
+		
+		return new Courthouse(
+            null,
+            region,
+            courthouseCd,
+            courthouseName,
+            user, user, now, now, count);
+	}
+	
+	public static Courtroom getCourtroom(
+		Courthouse courthouse,
+		String courtroomCd,
+		String courtroomName) {
+		return new Courtroom(
+			null,
+            courthouse,
+            courtroomCd,
+            courtroomName,
+            user, user, now, now, count);
+	}
+	
+	public static Sheriff getSheriff(
+		SheriffRankCode sheriffRankCode,
+		String badgeNo,
+		String userid) {
+		
+		return new Sheriff(
+            null,
+            sheriffRankCode,
+            badgeNo,
+            userid,
+            user, user, now, now, count);
+	}
+	
+	public static Assignment getAssignment(
+		Courthouse courthouse,
+        WorkSectionCode workSectionCode,
+        String title) {
+		
+		return new Assignment(
+            null,
+            courthouse,
+            workSectionCode,
+            title,
+            user, user, now, now, count);
+	}
+	
+	public static Duty getDuty(
+		Assignment assignment,
+        byte sheriffsRequired) {
+		
+		return new  Duty(
+			null,
+            assignment,
+            sheriffsRequired,
+            user, user, now, now, count);
+	}
+	
+	public static DutyRecurrence getDutyRecurrence(
+		Assignment assignment,
+        Date startTime,
+        Date endTime,
+        long daysBitmap,
+        byte sheriffsRequired) {
+		
+		return new DutyRecurrence(
+			null,
+            assignment,
+            startTime,
+            endTime,
+            daysBitmap,
+            sheriffsRequired,
+            user, user, now, now, count);
+	}
+	
+	public static Run getRun(
+		Courthouse courthouse,
+        String title) {
+		
+		return new Run(
+			null,
+            courthouse,
+            title,
+            user, user, now, now, count);
+	}
+	
+	public static SheriffDuty getSheriffDuty(
+		Duty duty,
+        Sheriff sheriff) {
+		
+		return new SheriffDuty(
+            null,
+            duty,
+            sheriff,
+            user, user, now, now, count);
 	}
 	
 }

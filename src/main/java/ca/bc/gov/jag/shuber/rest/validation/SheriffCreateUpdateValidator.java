@@ -1,6 +1,11 @@
 package ca.bc.gov.jag.shuber.rest.validation;
 
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -17,6 +22,9 @@ import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
  */
 @Component("beforeCreateSheriffValidator")
 public class SheriffCreateUpdateValidator implements Validator {
+	/** Logger. */
+	private static final Logger log = LogManager.getLogger(SheriffCreateUpdateValidator.class);
+	
 	/** Sheriff data access object. */
 	private SheriffDAO sheriffDao;
 	
@@ -61,6 +69,10 @@ public class SheriffCreateUpdateValidator implements Validator {
 		 * errors.rejectValue("badgeNo", "error.validation.exists", new Object[] {s.getBadgeNo()}, "Badge number already exists.");
 		 */
 		
+		if (log.isDebugEnabled()) {
+			log.debug("valiating sheriff record");
+		}
+		
 		//validate the bean
 		this.validator.validate(s, errors);
 		
@@ -69,10 +81,15 @@ public class SheriffCreateUpdateValidator implements Validator {
 		}
 		
 		Sheriff tmp = sheriffDao.findByBadgeNo(s.getBadgeNo());
-		boolean exists = tmp != null;
-		if (exists) {
+		if (tmp != null) {
 			errors.rejectValue("badgeNo", "error.validation.exists", new Object[] {s.getBadgeNo()}, "Badge number already exists.");
 		}
+		
+		Sheriff tmp2 = sheriffDao.findByUserid(s.getUserid());
+		if (tmp2 != null) {
+			errors.rejectValue("userid", "error.validation.exists", new Object[] {s.getUserid()}, "User ID already exists.");
+		}
+		
 	}
 
 }

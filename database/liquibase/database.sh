@@ -21,7 +21,7 @@ export POSTGRES_SCHEMA=shersched
 
 java -jar /usr/local/opt/liquibase/libexec/liquibase.jar \
      --driver=org.postgresql.Driver \
-     --classpath=/Users/michael.gabelmann/Work/_projects/jag-shuber-api/openshift/java_api/nondeliverable/lib/postgresql-42.2.1.jar \
+     --classpath=../../nondeliverable/lib/postgresql-42.2.1.jar \
      --changeLogFile=shersched.db.changelog-master.xml \
      --url="jdbc:postgresql://$POSTGRES_URL:$POSTGRES_PORT/$POSTGRES_DATABASE" \
      --username=$POSTGRES_USER \

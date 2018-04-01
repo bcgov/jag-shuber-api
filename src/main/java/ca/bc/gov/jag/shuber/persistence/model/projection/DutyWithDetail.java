@@ -1,13 +1,14 @@
 package ca.bc.gov.jag.shuber.persistence.model.projection;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.rest.core.config.Projection;
 
+import ca.bc.gov.jag.shuber.persistence.model.Assignment;
 import ca.bc.gov.jag.shuber.persistence.model.Duty;
-import ca.bc.gov.jag.shuber.persistence.model.Shift;
-import ca.bc.gov.jag.shuber.persistence.model.WorkSectionCode;
+import ca.bc.gov.jag.shuber.persistence.model.SheriffDuty;
 
 /**
  * 
@@ -18,16 +19,14 @@ public interface DutyWithDetail {
 	
 	UUID getDutyId();
 	
-	//AssignmentStream getAssignmentStream();
+	Assignment getAssignment();
 	
-	//DutyTemplate getDutyTemplate();
+	Date getStartDtm();
 	
-	Shift getShift();
+	Date getEndDtm();
 	
-	WorkSectionCode getWorksectionCode();
+	byte getSheriffsRequired();
 	
-	Date getStartTime();
-	
-	Date getEndTime();
+	List<SheriffDuty> getSheriffDuties();
 	
 }

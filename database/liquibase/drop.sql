@@ -3,6 +3,6 @@
 DROP SCHEMA public CASCADE;
 DROP SCHEMA shersched CASCADE;
 DROP USER shersched;
-DROP EXTENSION IF EXISTS "uuid-ossp" SCHEMA shersched;
+-- DROP EXTENSION IF EXISTS "uuid-ossp" SCHEMA shersched;
 
 CREATE SCHEMA public;

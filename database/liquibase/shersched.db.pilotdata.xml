@@ -1,0 +1,96 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    
+    <!--
+        NOTE: convenience data for testing the pilot application
+    -->
+    
+    <changeSet author="Michael Gabelmann" id="pilotdata_01">
+        <sqlFile path="../dml/region.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback>
+            <sql>
+                SET search_path TO ${POSTGRES_SCHEMA};
+                DELETE r.* FROM region r;
+            </sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="Michael Gabelmann" id="pilotdata_02">
+        <sqlFile path="../dml/courthouse.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback>
+            <sql>
+                SET search_path TO ${POSTGRES_SCHEMA};
+                DELETE c.* FROM courthouse c;
+            </sql>
+        </rollback>
+    </changeSet>
+    
+    <changeSet author="Michael Gabelmann" id="pilotdata_03">
+        <sqlFile path="../dml/courtroom.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback>
+            <sql>
+                SET search_path TO ${POSTGRES_SCHEMA};
+                DELETE c.* FROM courtroom c;
+            </sql>
+        </rollback>
+    </changeSet>
+    
+    <changeSet author="Michael Gabelmann" id="pilotdata_04">
+        <sqlFile path="../dml/sheriff.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback>
+            <sql>
+                SET search_path TO ${POSTGRES_SCHEMA};
+                DELETE s.* FROM sheriff s;
+            </sql>
+        </rollback>
+    </changeSet>
+    
+    <changeSet author="Michael Gabelmann" id="pilotdata_05">
+        <sqlFile path="../dml/run.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback>
+            <sql>
+                SET search_path TO ${POSTGRES_SCHEMA};
+                DELETE r.* FROM run r;
+            </sql>
+        </rollback>
+    </changeSet>
+    
+    <changeSet author="Michael Gabelmann" id="pilotdata_06">
+        <sqlFile path="../dml/assignment.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback>
+            <sql>
+                SET search_path TO ${POSTGRES_SCHEMA};
+                DELETE a.* FROM assignment a;
+            </sql>
+        </rollback>
+    </changeSet>
+    
+    <changeSet author="Michael Gabelmann" id="pilotdata_07">
+        <sqlFile path="../dml/duty_recurrence.sql"
+                 relativeToChangelogFile="true"
+                 stripComments="true"/>
+        <rollback>
+            <sql>
+                SET search_path TO ${POSTGRES_SCHEMA};
+                DELETE dr.* FROM duty_recurrence dr;
+            </sql>
+        </rollback>
+    </changeSet>
+    
+</databaseChangeLog>

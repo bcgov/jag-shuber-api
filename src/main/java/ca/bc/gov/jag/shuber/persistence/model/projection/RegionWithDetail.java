@@ -1,10 +1,11 @@
 package ca.bc.gov.jag.shuber.persistence.model.projection;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.rest.core.config.Projection;
 
-import ca.bc.gov.jag.shuber.persistence.model.Location;
+import ca.bc.gov.jag.shuber.persistence.model.Courthouse;
 import ca.bc.gov.jag.shuber.persistence.model.Region;
 
 /**
@@ -14,10 +15,14 @@ import ca.bc.gov.jag.shuber.persistence.model.Region;
 @Projection(name = "regionWithDetail", types = { Region.class })
 public interface RegionWithDetail {
 	
-	UUID getLocationId();
+	UUID getRegionId();
 	
-	Location getLocation();
+	String getRegionCd();
 	
-	UUID getGeometry();
+	String getRegionName();
+	
+	UUID getLocation();
+	
+	List<Courthouse> getCourthouses();
 	
 }
