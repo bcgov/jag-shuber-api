@@ -27,7 +27,14 @@ import javax.validation.constraints.Size;
     // ,schema="shersched"
 )
 public class WorkSectionCode extends AbstractTypeCode implements Serializable {
-
+	public enum WORK_SECTION_CODE {
+		COURTS,
+		JAIL,
+		ESCORTS,
+		OTHER
+	}
+	
+	
     /** UID. */
     private static final long serialVersionUID = 1L;
 
