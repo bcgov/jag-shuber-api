@@ -1,11 +1,16 @@
 package ca.bc.gov.jag.shuber;
 
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.type.filter.RegexPatternTypeFilter;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
 
@@ -26,7 +31,9 @@ public class RepositoryRestConfig extends RepositoryRestConfigurerAdapter {
 	
 	@Override
 	public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
+		
 		if (enableCors) {
+			//allow all CORS requests
 			log.warn("testing CORS filtering");
 			
 			config.getCorsRegistry().addMapping("/**")
@@ -40,40 +47,24 @@ public class RepositoryRestConfig extends RepositoryRestConfigurerAdapter {
 		} else {
 			log.debug("default CORS filtering");
 		}
+		
+		//expose @Id field for each resource
+		ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
+		provider.addIncludeFilter(new RegexPatternTypeFilter(Pattern.compile(".*")));
+		
+		Set<BeanDefinition> beans = provider.findCandidateComponents("ca.bc.gov.jag.shuber.persistence.model");
+		for (BeanDefinition bean : beans) {
+			Class<?> idExposedClasses = null;
+			
+			try {
+				idExposedClasses = Class.forName(bean.getBeanClassName());
+				config.exposeIdsFor(Class.forName(idExposedClasses.getName()));
+				
+			} catch (ClassNotFoundException e) {
+				// Can't throw ClassNotFoundException due to the method signature. Need to cast it
+				throw new RuntimeException("Failed to expose id field due to ", e);
+			}
+		}
 	}
 	
 }
-
-
-//@Configuration
-//public class RepositoryRestConfig {
-//	/** Logger. */
-//	private static final Logger log = LogManager.getLogger(RepositoryRestConfig.class);
-//	
-//	/** Inject whether we want to use CORS filtering using Spring. */
-//	@Value("${app.enable.cors:true}")
-//	private boolean enableCors;
-//	
-//	@Bean
-//	public WebMvcConfigurer corsConfigurer() {
-//		if (!enableCors) {
-//			return new WebMvcConfigurer() {
-//				@Override
-//				public void addCorsMappings(CorsRegistry registry) {
-//					registry.addMapping("/**");
-//					
-//					log.warn("CORS filtering is allowing all mappings");
-//				}
-//			};
-//		} else {
-//			return new WebMvcConfigurer() {
-//				@Override
-//				public void addCorsMappings(CorsRegistry registry) {
-//					//NOTE: we will want to eventually strengthen this!
-//					log.debug("CORS filtering is set to default");
-//				}
-//			};
-//		}
-//	}
-//	
-//}
