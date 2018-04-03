@@ -204,8 +204,27 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		if (log.isDebugEnabled()) {
 			//log errors received
 			globalErrors.stream().forEach(f -> log.debug("globalError=" + f.toString()));
-			fieldErrors.stream().forEach(f -> log.debug("fieldError=" + f.toString()));
+			fieldErrors.stream().forEach(f -> log.debug("fieldError=" + f.toString() + ", code=" + f.getCode() + ", args=" + f.getArguments()));
+			
 		}
+		
+		/* Examples of what comes back from FieldError object:
+		  fieldError=Field error in object 'Assignment' on field 'courtroom': rejected value [null]; 
+		   codes [error.validation.workSectionCode.Assignment.courtroom,
+		   		  error.validation.workSectionCode.courtroom,
+		   		  error.validation.workSectionCode.ca.bc.gov.jag.shuber.persistence.model.Courtroom,
+		   		  error.validation.workSectionCode]; 
+		   defaultMessage=courtroom is required for COURTS, 
+		   code=error.validation.workSectionCode
+		   
+		   fieldError=Field error in object 'Sheriff' on field 'badgeNo': rejected value []; 
+		   	codes [NotEmpty.Sheriff.badgeNo,
+		   		   NotEmpty.badgeNo,
+		   		   NotEmpty.java.lang.String,
+		   		   NotEmpty]; 
+		   	default message [must not be empty], 
+		   	code=NotEmpty
+		 */
 		
 		List<RestGlobalError> ge = globalErrors
 			.stream()
@@ -223,9 +242,12 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 				fieldError.getCode(),
 				fieldError.getDefaultMessage(),
 				
-				//NOTE: set to null since this is blowing up in some cases
-				//messageSource.getMessage(fieldError.getCode(), fieldError.getArguments(), Locale.ENGLISH),
-				null,
+				//Try and build a localized message using the first available code, if one cannot be found the defaultMessage is used
+				messageSource.getMessage(
+					(fieldError.getCodes() != null && fieldError.getCodes().length > 0 ? fieldError.getCodes()[0] : fieldError.getCode()), 
+					fieldError.getArguments(), 
+					fieldError.getDefaultMessage(), 
+					Locale.getDefault()),
 				
 				fieldError.getField(),
 				fieldError.getRejectedValue()))

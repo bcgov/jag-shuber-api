@@ -3,10 +3,7 @@ package ca.bc.gov.jag.shuber.service;
 import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
@@ -55,14 +52,15 @@ public class ShiftServiceTest extends AbstractTest {
 		
 	}
 	
+	/*
 	@Test
 	@DisplayName("Get shifts for a date range and courthouse that exists")
 	public void test1_getShifts() {
 		Assertions.fail("TODO");
 		
-//		List<Shift> records = shiftService.getShiftsByDateRangeAndCourthouse("2018-01-01", "2018-01-02", locationId1);
-//		Assertions.assertNotNull(records);
-//		Assertions.assertTrue(records.size() == 1);
+		List<Shift> records = shiftService.getShiftsByDateRangeAndCourthouse("2018-01-01", "2018-01-02", locationId1);
+		Assertions.assertNotNull(records);
+		Assertions.assertTrue(records.size() == 1);
 	}
 	
 	@Test
@@ -70,9 +68,9 @@ public class ShiftServiceTest extends AbstractTest {
 	public void test2_getShifts() {
 		Assertions.fail("TODO");
 		
-//		List<Shift> records = shiftService.getShiftsByDateRangeAndCourthouse("2018-01-01", "2018-01-02", locationId2);
-//		Assertions.assertNotNull(records);
-//		Assertions.assertTrue(records.size() == 0);
+		List<Shift> records = shiftService.getShiftsByDateRangeAndCourthouse("2018-01-01", "2018-01-02", locationId2);
+		Assertions.assertNotNull(records);
+		Assertions.assertTrue(records.size() == 0);
 	}
-	
+	*/
 }
