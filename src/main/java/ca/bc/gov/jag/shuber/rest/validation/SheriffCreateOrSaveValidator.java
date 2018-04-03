@@ -17,10 +17,10 @@ import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
  * @author michael.gabelmann
  * @see ValidatorBeanInitializer
  */
-@Component("beforeCreateSheriffValidator")
-public class SheriffCreateUpdateValidator implements Validator {
+@Component("customBeforeCreateOrSaveSheriffValidator")
+public class SheriffCreateOrSaveValidator implements Validator {
 	/** Logger. */
-	private static final Logger log = LogManager.getLogger(SheriffCreateUpdateValidator.class);
+	private static final Logger log = LogManager.getLogger(SheriffCreateOrSaveValidator.class);
 	
 	/** Sheriff data access object. */
 	private SheriffDAO sheriffDao;
@@ -35,7 +35,7 @@ public class SheriffCreateUpdateValidator implements Validator {
 	 * @param validator
 	 */
 	@Autowired
-	public SheriffCreateUpdateValidator(SheriffDAO sheriffDao, SpringValidatorAdapter validator) {
+	public SheriffCreateOrSaveValidator(SheriffDAO sheriffDao, SpringValidatorAdapter validator) {
 		this.sheriffDao = sheriffDao;
 		this.validator = validator;
 	}
@@ -86,7 +86,6 @@ public class SheriffCreateUpdateValidator implements Validator {
 		if (tmp2 != null) {
 			errors.rejectValue("userid", "error.validation.exists", new Object[] {s.getUserid()}, "User ID already exists.");
 		}
-		
 	}
 
 }
