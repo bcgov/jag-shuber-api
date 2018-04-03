@@ -48,22 +48,22 @@ public class RepositoryRestConfig extends RepositoryRestConfigurerAdapter {
 		}
 		
 		//expose @Id field for each resource
-		ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
-		provider.addIncludeFilter(new RegexPatternTypeFilter(Pattern.compile(".*")));
-		
-		Set<BeanDefinition> beans = provider.findCandidateComponents("ca.bc.gov.jag.shuber.persistence.model");
-		for (BeanDefinition bean : beans) {
-			Class<?> idExposedClasses = null;
-			
-			try {
-				idExposedClasses = Class.forName(bean.getBeanClassName());
-				config.exposeIdsFor(Class.forName(idExposedClasses.getName()));
-				
-			} catch (ClassNotFoundException e) {
-				// Can't throw ClassNotFoundException due to the method signature. Need to cast it
-				throw new RuntimeException("Failed to expose id field due to ", e);
-			}
-		}
+//		ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
+//		provider.addIncludeFilter(new RegexPatternTypeFilter(Pattern.compile(".*")));
+//		
+//		Set<BeanDefinition> beans = provider.findCandidateComponents("ca.bc.gov.jag.shuber.persistence.model");
+//		for (BeanDefinition bean : beans) {
+//			Class<?> idExposedClasses = null;
+//			
+//			try {
+//				idExposedClasses = Class.forName(bean.getBeanClassName());
+//				config.exposeIdsFor(Class.forName(idExposedClasses.getName()));
+//				
+//			} catch (ClassNotFoundException e) {
+//				// Can't throw ClassNotFoundException due to the method signature. Need to cast it
+//				throw new RuntimeException("Failed to expose id field due to ", e);
+//			}
+//		}
 	}
 	
 }

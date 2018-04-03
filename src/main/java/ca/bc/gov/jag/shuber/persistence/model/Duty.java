@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -159,4 +160,10 @@ public class Duty extends AbstractAuditableVersionable implements Serializable {
     public void setSheriffDuties(List<SheriffDuty> sheriffDuties) {
         this.sheriffDuties = sheriffDuties;
     }
+    
+    @Transient
+	@Override
+	public String getIdPath() {
+		return "/duties/" + dutyId;
+	}
 }

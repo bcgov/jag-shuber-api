@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -93,4 +94,10 @@ public class SheriffDuty extends AbstractAuditableVersionable implements Seriali
     public void setSheriff(Sheriff sheriff) {
         this.sheriff = sheriff;
     }
+    
+    @Transient
+	@Override
+	public String getIdPath() {
+		return "/sheriffDuties/" + sheriffDutyId;
+	}
 }

@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import org.hibernate.annotations.GenericGenerator;
@@ -142,4 +143,10 @@ public class Region extends AbstractAuditableVersionable implements Serializable
     public void setCourthouses(List<Courthouse> courthouses) {
         this.courthouses = courthouses;
     }
+    
+    @Transient
+	@Override
+	public String getIdPath() {
+		return "/regions/" + regionId;
+	}
 }
