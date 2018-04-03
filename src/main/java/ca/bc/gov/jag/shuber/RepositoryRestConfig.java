@@ -31,7 +31,6 @@ public class RepositoryRestConfig extends RepositoryRestConfigurerAdapter {
 	
 	@Override
 	public void configureRepositoryRestConfiguration(RepositoryRestConfiguration config) {
-		
 		if (enableCors) {
 			//allow all CORS requests
 			log.warn("testing CORS filtering");

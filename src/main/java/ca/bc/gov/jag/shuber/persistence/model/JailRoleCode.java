@@ -29,7 +29,14 @@ import ca.bc.gov.jag.shuber.persistence.AbstractTypeCode;
     // ,schema="shersched"
 )
 public class JailRoleCode extends AbstractTypeCode implements Serializable {
-
+	public enum JAIL_ROLE_CODE {
+		SERGEANT,
+		DEPUTYSERGEANT,
+		CONTROL,
+		PRETRIAL,
+		;
+	}
+	
     /** UID. */
     private static final long serialVersionUID = 1L;
 

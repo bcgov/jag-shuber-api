@@ -31,7 +31,8 @@ public class WorkSectionCode extends AbstractTypeCode implements Serializable {
 		COURTS,
 		JAIL,
 		ESCORTS,
-		OTHER
+		OTHER,
+		;
 	}
 	
 	
