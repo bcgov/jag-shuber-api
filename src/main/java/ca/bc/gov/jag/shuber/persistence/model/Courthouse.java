@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -227,4 +228,10 @@ public class Courthouse extends AbstractAuditableVersionable implements Serializ
     public void setRuns(List<Run> runs) {
         this.runs = runs;
     }
+    
+    @Transient
+	@Override
+	public String getIdPath() {
+		return "/courthouses/" + courthouseId;
+	}
 }

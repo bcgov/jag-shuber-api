@@ -16,6 +16,8 @@ import ca.bc.gov.jag.shuber.persistence.model.Courtroom;
 import ca.bc.gov.jag.shuber.persistence.model.JailRoleCode;
 import ca.bc.gov.jag.shuber.persistence.model.JailRoleCode.JAIL_ROLE_CODE;
 import ca.bc.gov.jag.shuber.persistence.model.ModelUtil;
+import ca.bc.gov.jag.shuber.persistence.model.OtherAssignCode;
+import ca.bc.gov.jag.shuber.persistence.model.OtherAssignCode.OTHER_ASSIGN_CODE;
 import ca.bc.gov.jag.shuber.persistence.model.Region;
 import ca.bc.gov.jag.shuber.persistence.model.Run;
 import ca.bc.gov.jag.shuber.persistence.model.WorkSectionCode;
@@ -158,5 +160,31 @@ public class AssignmentDAOTest extends AbstractDAOTest {
 	
 	//TODO: OTHER validation error
 	//TODO: OTHER save
+	@Test
+	@DisplayName("Saving an assignment of type OTHER requires an OtherAssignCode")
+	public void test7_save() {
+		Assignment a = ModelUtil.getAssignment(c, wsc4, "Pirates vs. Ninjas");
+		
+		Errors errors = new CustomErrors("Assignment");
+		validator.validate(a, errors);
+		
+		Assertions.assertEquals(1, errors.getFieldErrors().size());
+		Assertions.assertEquals("otherAssignCode", errors.getFieldError().getField());
+	}
 	
+	@Test
+	@DisplayName("Saving an assignment of type OTHER")
+	public void test8_save() {
+		Assignment a = ModelUtil.getAssignment(c, wsc4, "Pirates vs. Ninjas");
+		
+		OtherAssignCode oac = ModelUtil.getOtherAssignCode(OTHER_ASSIGN_CODE.GATE1.name(), "Gate 1", now);
+		a.setOtherAssignCode(oac);
+		
+		Errors errors = new CustomErrors("Assignment");
+		validator.validate(a, errors);
+		Assertions.assertEquals(0, errors.getFieldErrors().size());
+		
+		assignmentDao.save(a);
+		Assertions.assertNotNull(a.getAssignmentId());
+	}
 }

@@ -116,4 +116,10 @@ public class JailRoleCode extends AbstractTypeCode implements Serializable {
 	public String getTypeCode() {
 		return jailRoleCode;
 	} 
+    
+    @Transient
+	@Override
+	public String getIdPath() {
+		return "/jailRoleCodes/" + jailRoleCode;
+	}
 }

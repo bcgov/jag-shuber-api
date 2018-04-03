@@ -33,7 +33,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 	allowSetters = false,
 	ignoreUnknown = true
 )
-public abstract class AbstractAuditableVersionable implements Auditable, Versionable {
+public abstract class AbstractAuditableVersionable implements Auditable, Versionable, RestPath {
 	/** Who created the record. */
 	@CreatedBy
 	@Column(name = "CREATED_BY", nullable = false, length = 32, insertable = true, updatable = false)

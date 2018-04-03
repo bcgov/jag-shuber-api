@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -138,4 +139,10 @@ public class DutyRecurrence extends AbstractAuditableVersionable implements Seri
     public void setSheriffsRequired(byte sheriffsRequired) {
         this.sheriffsRequired = sheriffsRequired;
     }
+    
+    @Transient
+	@Override
+	public String getIdPath() {
+		return "/dutyRecurrences/" + dutyRecurrenceId;
+	}
 }

@@ -27,7 +27,15 @@ import javax.validation.constraints.Size;
     // ,schema="shersched"
 )
 public class OtherAssignCode extends AbstractTypeCode implements Serializable {
-
+	public enum OTHER_ASSIGN_CODE {
+		GATE1,
+		GATE2,
+		JURYSELECT,
+		JURYDELIB,
+		DOCUMENTS,
+		;
+	}
+	
     /** UID. */
     private static final long serialVersionUID = 1L;
 
@@ -107,4 +115,10 @@ public class OtherAssignCode extends AbstractTypeCode implements Serializable {
 	public String getTypeCode() {
 		return otherAssignCode;
 	} 
+    
+    @Transient
+	@Override
+	public String getIdPath() {
+		return "/otherAssignCodes/" + otherAssignCode;
+	}
 }

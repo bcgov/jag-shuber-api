@@ -219,4 +219,10 @@ public class Sheriff extends AbstractAuditableVersionable implements Serializabl
     		
     		return sb.toString();
     }
+
+    @Transient
+	@Override
+	public String getIdPath() {
+		return "/sheriffs/" + sheriffId;
+	}
 }
