@@ -39,10 +39,10 @@ public interface SheriffDAO extends JpaRepository<Sheriff, UUID> {
 	
 	/**
 	 * Find sheriffs for given courthouse.
-	 * @param courthouseId courthouse
+	 * @param courthouseCd courthouse code
 	 * @return records
 	 */
-	@Query("SELECT s FROM Sheriff s WHERE s.courthouse.courthouseId = :courthouseId")
-	List<Sheriff> getSheriffsByCourthouse(@Param("courthouseId") UUID courthouseId);
+	@Query("SELECT s FROM Sheriff s WHERE s.courthouse.courthouseCd = :courthouseCd")
+	List<Sheriff> getSheriffsByCourthouse(@Param("courthouseCd") String courthouseCd);
 	
 }

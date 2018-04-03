@@ -19,6 +19,9 @@ import ca.bc.gov.jag.shuber.persistence.model.WorkSectionCode.WORK_SECTION_CODE;
  */
 @Component("customBeforeCreateOrSaveAssignmentValidator")
 public class AssignmentCreateOrSaveValidator implements Validator {
+	/** Prefix used for message codes. */
+	private String ERROR_PREFIX = "error.validation.workSectionCode";
+	
 	/** Logger. */
 	private static final Logger log = LogManager.getLogger(AssignmentCreateOrSaveValidator.class);
 	
@@ -59,21 +62,21 @@ public class AssignmentCreateOrSaveValidator implements Validator {
 		case COURTS:
 			{
 				if (a.getCourtroom() == null) {
-					errors.rejectValue("courtroom", "error.validation.workSectionCode", "courtroom is required for COURTS");
+					errors.rejectValue("courtroom", ERROR_PREFIX, "courtroom is required for COURTS");
 				}
 				break;
 			}
 		case JAIL:
 			{
 				if (a.getJailRoleCode() == null) {
-					errors.rejectValue("jailRoleCode", "error.validation.workSectionCode", "jail role code is required for JAIL");
+					errors.rejectValue("jailRoleCode", ERROR_PREFIX, "jail role code is required for JAIL");
 				}
 				break;
 			}
 		case ESCORTS:
 			{
 				if (a.getRun() == null) {
-					errors.rejectValue("run", "error.validation.workSectionCode", "run is required for ESCORTS");
+					errors.rejectValue("run", ERROR_PREFIX, "run is required for ESCORTS");
 				}
 				break;
 			}
@@ -81,7 +84,7 @@ public class AssignmentCreateOrSaveValidator implements Validator {
 		default:
 			{
 				if (a.getOtherAssignCode() == null) {
-					errors.rejectValue("otherAssignCode", "error.validation.workSectionCode", "other assign code is required for OTHER");
+					errors.rejectValue("otherAssignCode", ERROR_PREFIX, "other assign code is required for OTHER");
 				}
 				break;
 			}

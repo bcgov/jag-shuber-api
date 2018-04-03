@@ -53,7 +53,17 @@ public class SheriffClientIT extends AbstractIT {
 	@Test
 	@DisplayName("Find sheriff by badge number")
 	public void test1_findByBadgeNo() {		
-		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("/api/custom/sheriffs/search/getByBadgeNo").queryParam("badgeNo", "BN10000");
+		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("/api/sheriffs/search/findByBadgeNo").queryParam("badgeNo", "BN10000");
+		ResponseEntity<Sheriff> response = restTemplate.getForEntity(builder.toUriString(), Sheriff.class);
+		Sheriff s1 = response.getBody();
+		
+		Assertions.assertNotNull(s1);
+	}
+	
+	@Test
+	@DisplayName("Find sheriff by user id")
+	public void test1_findByUserid() {		
+		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("/api/sheriffs/search/findByUserid").queryParam("userid", "userId10000");
 		ResponseEntity<Sheriff> response = restTemplate.getForEntity(builder.toUriString(), Sheriff.class);
 		Sheriff s1 = response.getBody();
 		
@@ -63,8 +73,12 @@ public class SheriffClientIT extends AbstractIT {
 	@Test
 	@DisplayName("Find sheriffs by courthouse")
 	public void test1_getByCourthouse() {
-		//path=/api/custom/sheriffs/search/getByCourthouse
-		Assertions.fail("not implemented yet");
+		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("/api/sheriffs/search/getSheriffsByCourthouse").queryParam("courthouseCd", "1201");
+		ResponseEntity<SheriffResources> response = restTemplate.getForEntity(builder.toUriString(), SheriffResources.class);
+		Collection<Sheriff> records = response.getBody().getContent();
+		
+		Assertions.assertNotNull(records);
+		Assertions.assertTrue(records.size() > 0);
 	}
 
 	
