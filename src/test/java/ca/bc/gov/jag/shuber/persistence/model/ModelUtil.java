@@ -1,7 +1,7 @@
 package ca.bc.gov.jag.shuber.persistence.model;
 
+import java.time.LocalTime;
 import java.util.Date;
-import java.util.UUID;
 
 /**
  * Helper class to populate Entity objects with required fields so we can 
@@ -141,8 +141,8 @@ public final class ModelUtil {
 	
 	public static DutyRecurrence getDutyRecurrence(
 		Assignment assignment,
-        Date startTime,
-        Date endTime,
+        LocalTime startTime,
+        LocalTime endTime,
         long daysBitmap,
         byte sheriffsRequired) {
 		
