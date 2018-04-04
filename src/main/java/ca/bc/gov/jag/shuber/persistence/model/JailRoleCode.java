@@ -1,8 +1,9 @@
 package ca.bc.gov.jag.shuber.persistence.model;
 
 import java.io.Serializable;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -54,11 +55,11 @@ public class JailRoleCode extends AbstractTypeCode implements Serializable {
     public JailRoleCode(
             String jailRoleCode,
             String description,
-            Date effectiveDate,
+            LocalDate effectiveDate,
             String createdBy,
             String updatedBy,
-            Date createdDtm,
-            Date updatedDtm,
+            Instant createdDtm,
+            Instant updatedDtm,
             long revisionCount) {
         this.jailRoleCode = jailRoleCode;
         this.description = description;
@@ -74,12 +75,12 @@ public class JailRoleCode extends AbstractTypeCode implements Serializable {
     public JailRoleCode(
             String jailRoleCode,
             String description,
-            Date effectiveDate,
-            Date expiryDate,
+            LocalDate effectiveDate,
+            LocalDate expiryDate,
             String createdBy,
             String updatedBy,
-            Date createdDtm,
-            Date updatedDtm,
+            Instant createdDtm,
+            Instant updatedDtm,
             long revisionCount,
             List<Assignment> assignments) {
         this.jailRoleCode = jailRoleCode;

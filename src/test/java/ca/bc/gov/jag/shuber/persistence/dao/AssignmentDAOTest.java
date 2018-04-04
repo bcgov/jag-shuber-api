@@ -45,10 +45,10 @@ public class AssignmentDAOTest extends AbstractDAOTest {
 	@BeforeEach
 	@Override
 	protected void beforeTest() {
-		wsc1 = ModelUtil.getWorkSectionCode(WORK_SECTION_CODE.COURTS.name(), "Courts", now);
-		wsc2 = ModelUtil.getWorkSectionCode(WORK_SECTION_CODE.JAIL.name(), "Jails", now);
-		wsc3 = ModelUtil.getWorkSectionCode(WORK_SECTION_CODE.ESCORTS.name(), "Escorts", now);
-		wsc4 = ModelUtil.getWorkSectionCode(WORK_SECTION_CODE.OTHER.name(), "Other", now);
+		wsc1 = ModelUtil.getWorkSectionCode(WORK_SECTION_CODE.COURTS.name(), "Courts", nowDate);
+		wsc2 = ModelUtil.getWorkSectionCode(WORK_SECTION_CODE.JAIL.name(), "Jails", nowDate);
+		wsc3 = ModelUtil.getWorkSectionCode(WORK_SECTION_CODE.ESCORTS.name(), "Escorts", nowDate);
+		wsc4 = ModelUtil.getWorkSectionCode(WORK_SECTION_CODE.OTHER.name(), "Other", nowDate);
 		
 		r = ModelUtil.getRegion("VANISLAND", "Vancourver Island");
 		c = ModelUtil.getCourthouse(r, "VIC", "Victoria");
@@ -119,7 +119,7 @@ public class AssignmentDAOTest extends AbstractDAOTest {
 	public void test4_save() {
 		Assignment a = ModelUtil.getAssignment(c, wsc2, "Pirates vs. Ninjas");
 		
-		JailRoleCode jrc = ModelUtil.getJailRoleCode(JAIL_ROLE_CODE.CONTROL.name(), "control", now);
+		JailRoleCode jrc = ModelUtil.getJailRoleCode(JAIL_ROLE_CODE.CONTROL.name(), "control", nowDate);
 		a.setJailRoleCode(jrc);
 		
 		Errors errors = new CustomErrors("Assignment");
@@ -177,7 +177,7 @@ public class AssignmentDAOTest extends AbstractDAOTest {
 	public void test8_save() {
 		Assignment a = ModelUtil.getAssignment(c, wsc4, "Pirates vs. Ninjas");
 		
-		OtherAssignCode oac = ModelUtil.getOtherAssignCode(OTHER_ASSIGN_CODE.GATE1.name(), "Gate 1", now);
+		OtherAssignCode oac = ModelUtil.getOtherAssignCode(OTHER_ASSIGN_CODE.GATE1.name(), "Gate 1", nowDate);
 		a.setOtherAssignCode(oac);
 		
 		Errors errors = new CustomErrors("Assignment");

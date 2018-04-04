@@ -1,12 +1,10 @@
 package ca.bc.gov.jag.shuber.persistence;
 
-import java.util.Date;
+import java.time.Instant;
 
 import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
 import org.springframework.data.annotation.CreatedBy;
@@ -36,32 +34,30 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public abstract class AbstractAuditableVersionable implements Auditable, Versionable, RestPath {
 	/** Who created the record. */
 	@CreatedBy
-	@Column(name = "CREATED_BY", nullable = false, length = 32, insertable = true, updatable = false)
+	@Column(name = "created_by", nullable = false, length = 32, insertable = true, updatable = false)
 	protected String createdBy;
 	
 	/** Who updated the record. */
 	@LastModifiedBy
-	@Column(name = "UPDATED_BY", nullable = false, length = 32, insertable = true, updatable = true)
+	@Column(name = "updated_by", nullable = false, length = 32, insertable = true, updatable = true)
 	protected String updatedBy;
 	
 	/** Date/time record created. */
 	@CreatedDate
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "CREATED_DTM", nullable = false, insertable = true, updatable = false)
-	protected Date createdDtm;
+	@Column(name = "created_dtm", nullable = false, insertable = true, updatable = false)
+	protected Instant createdDtm;
 
 	/** Date/time record updated. */
 	@LastModifiedDate
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "UPDATED_DTM", nullable = false, insertable = true, updatable = true)
-	protected Date updatedDtm;
+	@Column(name = "updated_dtm", nullable = false, insertable = true, updatable = true)
+	protected Instant updatedDtm;
 	
 	/** 
 	 * Revsion count is the number of times a record has been persisted. It is used to determine if a record
 	 * has been modified by another source. If this occurs the record is stale and needs to be reloaded.
 	 */
 	@Version
-	@Column(name = "REVISION_COUNT", nullable = false, precision = 10, scale = 0, insertable = true, updatable = true)
+	@Column(name = "revision_count", nullable = false, precision = 10, scale = 0, insertable = true, updatable = true)
 	protected long revisionCount;
 	
 	
@@ -85,19 +81,19 @@ public abstract class AbstractAuditableVersionable implements Auditable, Version
 		this.updatedBy = updatedBy;
 	}
 	
-	public Date getCreatedDtm() {
+	public Instant getCreatedDtm() {
 		return createdDtm;
 	}
 
-	public void setCreatedDtm(Date createdDtm) {
+	public void setCreatedDtm(Instant createdDtm) {
 		this.createdDtm = createdDtm;
 	}
 
-	public Date getUpdatedDtm() {
+	public Instant getUpdatedDtm() {
 		return updatedDtm;
 	}
 
-	public void setUpdatedDtm(Date updatedDtm) {
+	public void setUpdatedDtm(Instant updatedDtm) {
 		this.updatedDtm = updatedDtm;
 	}
 	

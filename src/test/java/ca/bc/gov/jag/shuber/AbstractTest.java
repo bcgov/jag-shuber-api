@@ -1,6 +1,7 @@
 package ca.bc.gov.jag.shuber;
 
-import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDate;
 
 import javax.annotation.PostConstruct;
 
@@ -9,13 +10,17 @@ import javax.annotation.PostConstruct;
  * @author michael.gabelmann
  */
 public abstract class AbstractTest {
-	/** Current date/time. */
-	protected Date now;
+	/** Current date and time with time zone. */
+	protected Instant now;
+	
+	/** Current date. */
+	protected LocalDate nowDate;
 	
 	
 	@PostConstruct
 	public void postConstruct() {
-		now = new Date();
+		now  = Instant.now();
+		nowDate = LocalDate.now();	
 	}
 	
 	/** This method is run before every test. Place any setup that is required here. */
