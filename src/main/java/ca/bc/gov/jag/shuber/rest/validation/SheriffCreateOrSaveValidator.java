@@ -19,6 +19,9 @@ import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
  */
 @Component("customBeforeCreateOrSaveSheriffValidator")
 public class SheriffCreateOrSaveValidator implements Validator {
+	/** Prefix used for message codes. */
+	private static final String ERROR_PREFIX = "error.validation.exists";
+	
 	/** Logger. */
 	private static final Logger log = LogManager.getLogger(SheriffCreateOrSaveValidator.class);
 	
@@ -79,12 +82,12 @@ public class SheriffCreateOrSaveValidator implements Validator {
 		
 		Sheriff tmp = sheriffDao.findByBadgeNo(s.getBadgeNo());
 		if (tmp != null) {
-			errors.rejectValue("badgeNo", "error.validation.exists", new Object[] {s.getBadgeNo()}, "Badge number already exists.");
+			errors.rejectValue("badgeNo", ERROR_PREFIX, new Object[] {s.getBadgeNo()}, "Badge number already exists.");
 		}
 		
 		Sheriff tmp2 = sheriffDao.findByUserid(s.getUserid());
 		if (tmp2 != null) {
-			errors.rejectValue("userid", "error.validation.exists", new Object[] {s.getUserid()}, "User ID already exists.");
+			errors.rejectValue("userid", ERROR_PREFIX, new Object[] {s.getUserid()}, "User ID already exists.");
 		}
 	}
 
