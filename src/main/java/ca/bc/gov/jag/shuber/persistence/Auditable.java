@@ -1,6 +1,6 @@
 package ca.bc.gov.jag.shuber.persistence;
 
-import java.util.Date;
+import java.time.Instant;
 
 /**
  *
@@ -35,23 +35,23 @@ public interface Auditable {
 	 * Get created date/time.
 	 * @return created date/time
 	 */
-	Date getCreatedDtm();
+	Instant getCreatedDtm();
 	
 	/**
 	 * Set created date/time.
 	 * @param createdDtm date/time
 	 */
-	void setCreatedDtm(Date createdDtm);
+	void setCreatedDtm(Instant createdDtm);
 	
 	/**
 	 * Get updated date/time.
 	 * @return updated date/time
 	 */
-	Date getUpdatedDtm();
+	Instant getUpdatedDtm();
 	
 	/**
 	 * Set updated date/time.
 	 * @param updatedDtm date/time
 	 */
-	void setUpdatedDtm(Date updatedDtm);
+	void setUpdatedDtm(Instant updatedDtm);
 }

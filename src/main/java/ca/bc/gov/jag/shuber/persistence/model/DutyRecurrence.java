@@ -1,8 +1,8 @@
 package ca.bc.gov.jag.shuber.persistence.model;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -76,8 +76,8 @@ public class DutyRecurrence extends AbstractAuditableVersionable implements Seri
             byte sheriffsRequired,
             String createdBy,
             String updatedBy,
-            Date createdDtm,
-            Date updatedDtm,
+            Instant createdDtm,
+            Instant updatedDtm,
             long revisionCount) {
         this.dutyRecurrenceId = dutyRecurrenceId;
         this.assignment = assignment;

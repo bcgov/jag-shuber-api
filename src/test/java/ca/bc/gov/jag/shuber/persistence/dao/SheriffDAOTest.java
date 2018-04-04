@@ -1,6 +1,6 @@
 package ca.bc.gov.jag.shuber.persistence.dao;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -35,7 +35,7 @@ public class SheriffDAOTest extends AbstractDAOTest {
 	@BeforeEach
 	@Override
 	public void beforeTest() {
-		src = ModelUtil.getSheriffRankCode("SERGEANT", "Sergeant", new Date());
+		src = ModelUtil.getSheriffRankCode("SERGEANT", "Sergeant", LocalDate.now());
 		entityManager.persistAndFlush(src);
 		
 		s = ModelUtil.getSheriff(src, "M5000", "userid1");

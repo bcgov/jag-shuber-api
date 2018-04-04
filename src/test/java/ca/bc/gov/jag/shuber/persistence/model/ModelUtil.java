@@ -1,7 +1,8 @@
 package ca.bc.gov.jag.shuber.persistence.model;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 /**
  * Helper class to populate Entity objects with required fields so we can 
@@ -10,7 +11,8 @@ import java.util.Date;
  * @author michael.gabelmann
  */
 public final class ModelUtil {
-	private static Date now = new Date();
+	private static Instant now = Instant.now();
+	private static LocalDate nowDate = LocalDate.now();
 	private static String user = "test";
 	private static int count = 0;
 	
@@ -21,11 +23,11 @@ public final class ModelUtil {
 	public static OtherAssignCode getOtherAssignCode(
 		String otherAssignCode,
 	    String description,
-	    Date effectiveDate) {
+	    LocalDate effectiveDate) {
 			
 		return new OtherAssignCode(
             otherAssignCode,
-            description,
+            description, 
             effectiveDate,
             user, user, now, now, count);
 	}
@@ -33,7 +35,7 @@ public final class ModelUtil {
 	public static JailRoleCode getJailRoleCode(
 		String jailRoleCode,
 	    String description,
-	    Date effectiveDate) {
+	    LocalDate effectiveDate) {
 			
 		return new JailRoleCode(
             jailRoleCode,
@@ -45,7 +47,7 @@ public final class ModelUtil {
 	public static SheriffRankCode getSheriffRankCode(
 		String sheriffRankCode,
         String description,
-        Date effectiveDate) {
+        LocalDate effectiveDate) {
 		
 		return new SheriffRankCode(
             sheriffRankCode,
@@ -57,7 +59,7 @@ public final class ModelUtil {
 	public static WorkSectionCode getWorkSectionCode(
 		String workSectionCode,
 	    String description,
-	    Date effectiveDate) {
+	    LocalDate effectiveDate) {
 			
 		return new WorkSectionCode(
             workSectionCode,

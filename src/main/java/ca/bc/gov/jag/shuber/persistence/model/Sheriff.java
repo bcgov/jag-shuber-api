@@ -1,8 +1,8 @@
 package ca.bc.gov.jag.shuber.persistence.model;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -80,6 +80,7 @@ public class Sheriff extends AbstractAuditableVersionable implements Serializabl
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sheriff")
     private List<SheriffDuty> sheriffDuties = new ArrayList<SheriffDuty>(0);
+    
     /** No args constructor. */
     public Sheriff() {}
 
@@ -91,8 +92,8 @@ public class Sheriff extends AbstractAuditableVersionable implements Serializabl
             String userid,
             String createdBy,
             String updatedBy,
-            Date createdDtm,
-            Date updatedDtm,
+            Instant createdDtm,
+            Instant updatedDtm,
             long revisionCount) {
         this.sheriffId = sheriffId;
         this.sheriffRankCode = sheriffRankCode;
@@ -117,8 +118,8 @@ public class Sheriff extends AbstractAuditableVersionable implements Serializabl
             String userid,
             String createdBy,
             String updatedBy,
-            Date createdDtm,
-            Date updatedDtm,
+            Instant createdDtm,
+            Instant updatedDtm,
             long revisionCount,
             List<SheriffDuty> sheriffDuties) {
         this.sheriffId = sheriffId;

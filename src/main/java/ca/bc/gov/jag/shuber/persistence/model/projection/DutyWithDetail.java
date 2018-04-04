@@ -1,6 +1,6 @@
 package ca.bc.gov.jag.shuber.persistence.model.projection;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.data.rest.core.config.Projection;
@@ -21,9 +21,9 @@ public interface DutyWithDetail extends RestPath {
 	
 	Assignment getAssignment();
 	
-	Date getStartDtm();
+	LocalDateTime getStartDtm();
 	
-	Date getEndDtm();
+	LocalDateTime getEndDtm();
 	
 	byte getSheriffsRequired();
 	
