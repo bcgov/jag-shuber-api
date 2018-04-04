@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.data.rest.core.config.Projection;
 
+import ca.bc.gov.jag.shuber.persistence.RestPath;
 import ca.bc.gov.jag.shuber.persistence.model.Address;
 import ca.bc.gov.jag.shuber.persistence.model.Assignment;
 import ca.bc.gov.jag.shuber.persistence.model.Courthouse;
@@ -17,9 +18,9 @@ import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
  * @author michael.gabelmann
  */
 @Projection(name = "courthouseWithDetail", types = { Courthouse.class })
-public interface CourthouseWithDetail {
+public interface CourthouseWithDetail extends RestPath {
 	
-	UUID getCourthouseId();
+	//UUID getCourthouseId();
 	
 	Address getAddress();
 	

@@ -2,6 +2,7 @@ package ca.bc.gov.jag.shuber.persistence;
 
 /**
  * Interface to help the UI manage resources better.
+ * 
  * @author michael.gabelmann
  */
 public interface RestPath {

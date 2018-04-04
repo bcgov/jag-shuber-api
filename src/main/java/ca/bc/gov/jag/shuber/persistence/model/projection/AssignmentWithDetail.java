@@ -1,10 +1,10 @@
 package ca.bc.gov.jag.shuber.persistence.model.projection;
 
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.data.rest.core.config.Projection;
 
+import ca.bc.gov.jag.shuber.persistence.RestPath;
 import ca.bc.gov.jag.shuber.persistence.model.Assignment;
 import ca.bc.gov.jag.shuber.persistence.model.Courthouse;
 import ca.bc.gov.jag.shuber.persistence.model.Courtroom;
@@ -19,9 +19,9 @@ import ca.bc.gov.jag.shuber.persistence.model.WorkSectionCode;
  * @author michael.gabelmann
  */
 @Projection(name = "assignmentWithDetail", types = { Assignment.class })
-public interface AssignmentWithDetail {
+public interface AssignmentWithDetail extends RestPath {
     
-	UUID getAssignmentId();
+	//UUID getAssignmentId();
 	
 	Courthouse getCourthouse();
 	
