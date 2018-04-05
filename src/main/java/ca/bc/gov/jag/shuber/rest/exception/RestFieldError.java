@@ -60,4 +60,15 @@ public class RestFieldError extends RestGlobalError implements Serializable {
 		this.rejectedValue = rejectedValue;
 	}
 	
+	@Override
+	public String toString() {
+		return getClass().getName() + 
+			"[objectName=" + getObjectName() + 
+			", code=" + getCode() + 
+			", defaultMessage=" + getDefaultMessage() + 
+			", localMessage=" + getLocalizedMessage() + 
+			", field=" + field +
+			", rejectedValue=" + rejectedValue + 
+			"]";
+	}
 }

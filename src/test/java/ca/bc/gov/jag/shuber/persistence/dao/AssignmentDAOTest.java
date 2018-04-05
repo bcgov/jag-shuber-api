@@ -1,5 +1,7 @@
 package ca.bc.gov.jag.shuber.persistence.dao;
 
+import java.time.LocalTime;
+
 import org.hibernate.validator.HibernateValidator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -13,6 +15,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import ca.bc.gov.jag.shuber.persistence.model.Assignment;
 import ca.bc.gov.jag.shuber.persistence.model.Courthouse;
 import ca.bc.gov.jag.shuber.persistence.model.Courtroom;
+import ca.bc.gov.jag.shuber.persistence.model.DutyRecurrence;
 import ca.bc.gov.jag.shuber.persistence.model.JailRoleCode;
 import ca.bc.gov.jag.shuber.persistence.model.JailRoleCode.JAIL_ROLE_CODE;
 import ca.bc.gov.jag.shuber.persistence.model.ModelUtil;
@@ -187,4 +190,26 @@ public class AssignmentDAOTest extends AbstractDAOTest {
 		assignmentDao.save(a);
 		Assertions.assertNotNull(a.getAssignmentId());
 	}
+	
+	@Test
+	@DisplayName("Save an assignment with recurrences")
+	public void test1_saveAssignmentWithChildren() {
+		Assignment a = ModelUtil.getAssignment(c, wsc1, "Pirates vs. Ninjas");
+		a.setCourtroom(cr);
+		
+		DutyRecurrence dr1 = ModelUtil.getDutyRecurrence(null, LocalTime.MIDNIGHT, LocalTime.NOON, 31L, (byte) 1);
+		a.getDutyRecurrences().add(dr1);
+		
+		Errors errors = new CustomErrors("Assignment");
+		validator.validate(a, errors);
+		Assertions.assertEquals(0, errors.getFieldErrors().size());
+		
+		assignmentDao.save(a);
+		Assertions.assertNotNull(a.getAssignmentId());
+		
+		Assignment tmp = assignmentDao.getOne(a.getAssignmentId());
+		Assertions.assertNotNull(tmp);
+		Assertions.assertEquals(1, tmp.getDutyRecurrences().size());
+	}
+	
 }
