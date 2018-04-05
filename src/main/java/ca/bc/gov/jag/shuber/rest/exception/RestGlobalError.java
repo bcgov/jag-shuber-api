@@ -74,4 +74,13 @@ public class RestGlobalError implements Serializable {
 		this.localizedMessage = localizedMessage;
 	}
 
+	@Override
+	public String toString() {
+		return getClass().getName() + 
+			"[objectName=" + getObjectName() + 
+			", code=" + getCode() + 
+			", defaultMessage=" + getDefaultMessage() + 
+			", localMessage=" + getLocalizedMessage() + 
+			"]";
+	}
 }

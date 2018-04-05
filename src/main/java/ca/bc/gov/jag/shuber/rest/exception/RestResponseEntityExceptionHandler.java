@@ -13,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.context.NoSuchMessageException;
 import org.springframework.data.rest.core.RepositoryConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -147,12 +148,12 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 			List<FieldError> fieldErrors = new ArrayList<>();
 			
 			for (ConstraintViolation<?> violation : violations) {
-				String objectName = violation.getRootBean().getClass().getName();
+				String objectName = violation.getRootBeanClass().getName();
 				String field = violation.getPropertyPath().toString();
 				Object rejectedValue = violation.getInvalidValue();
 				boolean bindingFailure = false;
-				String[] codes = new String[] {"error.validation.constraint"};
-				Object[] arguments = null;
+				String[] codes = new String[]{ violation.getMessageTemplate() };
+				Object[] arguments = violation.getExecutableParameters();
 				String defaultMessage = violation.getMessage();
 				
 				fieldErrors.add(new FieldError(objectName, field, rejectedValue, bindingFailure, codes, arguments, defaultMessage));
@@ -193,7 +194,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 	 * @param e exception
 	 * @return errors
 	 */
-	private RestErrors getValidationErrors(
+	RestErrors getValidationErrors(
 		List<ObjectError> globalErrors, 
 		List<FieldError> fieldErrors,
 		Exception e) {
@@ -205,26 +206,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 			//log errors received
 			globalErrors.stream().forEach(f -> log.debug("globalError=" + f.toString()));
 			fieldErrors.stream().forEach(f -> log.debug("fieldError=" + f.toString() + ", code=" + f.getCode() + ", args=" + f.getArguments()));
-			
 		}
-		
-		/* Examples of what comes back from FieldError object:
-		  fieldError=Field error in object 'Assignment' on field 'courtroom': rejected value [null]; 
-		   codes [error.validation.workSectionCode.Assignment.courtroom,
-		   		  error.validation.workSectionCode.courtroom,
-		   		  error.validation.workSectionCode.ca.bc.gov.jag.shuber.persistence.model.Courtroom,
-		   		  error.validation.workSectionCode]; 
-		   defaultMessage=courtroom is required for COURTS, 
-		   code=error.validation.workSectionCode
-		   
-		   fieldError=Field error in object 'Sheriff' on field 'badgeNo': rejected value []; 
-		   	codes [NotEmpty.Sheriff.badgeNo,
-		   		   NotEmpty.badgeNo,
-		   		   NotEmpty.java.lang.String,
-		   		   NotEmpty]; 
-		   	default message [must not be empty], 
-		   	code=NotEmpty
-		 */
 		
 		List<RestGlobalError> ge = globalErrors
 			.stream()
@@ -232,31 +214,68 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 				globalError.getObjectName(), 
 				globalError.getCode(), 
 				globalError.getDefaultMessage(), 
-				messageSource.getMessage(globalError.getCode(), globalError.getArguments(), Locale.ENGLISH)))
+				messageSource.getMessage(globalError.getCode(), globalError.getArguments(), Locale.getDefault())))
 			.collect(Collectors.toList());
 		
-		List<RestFieldError> fe = fieldErrors
-			.stream()
-			.map(fieldError -> new RestFieldError(
-				fieldError.getObjectName(),
-				fieldError.getCode(),
-				fieldError.getDefaultMessage(),
-				
-				//Try and build a localized message using the first available code, if one cannot be found the defaultMessage is used
-				messageSource.getMessage(
-					(fieldError.getCodes() != null && fieldError.getCodes().length > 0 ? fieldError.getCodes()[0] : fieldError.getCode()), 
-					fieldError.getArguments(), 
-					fieldError.getDefaultMessage(), 
-					Locale.getDefault()),
-				
-				fieldError.getField(),
-				fieldError.getRejectedValue()))
-			.collect(Collectors.toList());
+		List<RestFieldError> fe = new ArrayList<>();
+		for (FieldError fieldError : fieldErrors) {
+			fe.add(getLocalizedFieldErrorMessage(fieldError));
+		}
 		
 		RestErrors re = new RestErrors(ge, fe);
 		re.setException(e);
 		
 		return re;
+	}
+	
+	/**
+	 * Convert a FieldError into a RestFieldError which uses a localized message if available. Messages
+	 * from javax.validation are found in ValidationMessages.properties, but we use Springs mechanism for 
+	 * this, but we need to strip off { and } from the message if it exists so that Spring will be able to
+	 * find the corresponding value in messages.properties.
+	 * 
+	 * @param fieldError error
+	 * @return rest error
+	 */
+	RestFieldError getLocalizedFieldErrorMessage(FieldError fieldError) {
+		String[] codes = fieldError.getCodes();
+		String localizedMessage = null;
+		String code = null;
+		
+		for (int i = 0; i < codes.length; i++) {
+			try {
+				code = codes[i];
+				
+				if (code.startsWith("{") && code.endsWith("}")) {
+					/* make java.validation.constraints messages compatible with spring error messages
+					 * alternatively you could have 2 sets of messages or override the message for each validation annotation
+					 */
+					code = code.substring(1, code.length() - 1);
+					code = code.replaceFirst("^javax\\.validation\\.constraints\\.", "");
+					code = code.replaceFirst("\\.message$", "");
+				}
+				
+				localizedMessage = messageSource.getMessage(code, fieldError.getArguments(), Locale.getDefault());
+				break;
+				
+			} catch (NoSuchMessageException nsme) {
+				if (log.isDebugEnabled()) {
+					log.debug("no localized message found for " + code);
+				}
+			}
+		}
+		
+		if (localizedMessage == null) {
+			localizedMessage = fieldError.getDefaultMessage();
+		}
+
+		return new RestFieldError(
+			fieldError.getObjectName(), 
+			code, 
+			fieldError.getDefaultMessage(), 
+			localizedMessage, 
+			fieldError.getField(), 
+			fieldError.getRejectedValue());
 	}
 	
 }

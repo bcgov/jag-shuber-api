@@ -10,7 +10,6 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.event.ValidatingRepositoryEventListener;
-import org.springframework.stereotype.Component;
 import org.springframework.validation.Validator;
 
 /**
@@ -49,8 +48,6 @@ public class ValidatorBeanInitializer implements InitializingBean {
 		if (log.isInfoEnabled()) {
 			log.info("custom validators initialized " + this.getClass().getName());
 		}
-		
-		//events.stream().filter(p -> entry.getKey().startsWith(p)).findFirst().ifPresent(p -> validatingRepositoryEventListener.addValidator(p, entry.getValue()));
 		
 		for (Map.Entry<String, Validator> entry : validators.entrySet()) {	
 			for (String event : events) {
