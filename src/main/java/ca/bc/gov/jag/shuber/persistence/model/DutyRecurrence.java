@@ -63,6 +63,7 @@ public class DutyRecurrence extends AbstractAuditableVersionable implements Seri
     @NotNull
     @Column(name = "sheriffs_required", nullable = false, precision = 2, scale = 0)
     private byte sheriffsRequired;
+    
     /** No args constructor. */
     public DutyRecurrence() {}
 
