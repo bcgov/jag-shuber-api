@@ -38,7 +38,6 @@ public class WorkSectionCode extends AbstractTypeCode implements Serializable {
 		;
 	}
 	
-	
     /** UID. */
     private static final long serialVersionUID = 1L;
 
@@ -49,6 +48,7 @@ public class WorkSectionCode extends AbstractTypeCode implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "workSectionCode")
     private List<Assignment> assignments = new ArrayList<Assignment>(0);
+    
     /** No args constructor. */
     public WorkSectionCode() {}
 

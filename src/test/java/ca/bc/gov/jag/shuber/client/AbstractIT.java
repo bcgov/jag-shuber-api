@@ -27,8 +27,10 @@ import ca.bc.gov.jag.shuber.AbstractTest;
 )
 @TestPropertySource(
 	locations = "classpath:application-integration.properties"
+	//locations = "classpath:application-unit.properties"
 )
 @ActiveProfiles("integration")
+//@ActiveProfiles("unit")
 abstract class AbstractIT extends AbstractTest {
 	@Autowired
 	protected TestRestTemplate restTemplate;

@@ -30,7 +30,17 @@ import ca.bc.gov.jag.shuber.persistence.AbstractTypeCode;
     // ,schema="shersched"
 )
 public class SheriffRankCode extends AbstractTypeCode implements Serializable {
-
+	public enum SHERIFF_RANK_CODE {
+		CHIEFSHERIFF,
+		SUPERINTENDENT,
+		STAFFINSPECTOR,
+		INSPECTOR,
+		STAFFSERGEANT,
+		SERGEANT,
+		DEPUTYSHERIFF,
+		;
+	}
+	
     /** UID. */
     private static final long serialVersionUID = 1L;
 
