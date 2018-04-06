@@ -2,6 +2,7 @@ package ca.bc.gov.jag.shuber.persistence.dao;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
@@ -120,17 +121,15 @@ public class SheriffDAOTest extends AbstractDAOTest {
 	@Test
 	@DisplayName("Find sheriff by user id")
 	public void test1_findByUserid() {
-		Sheriff tmp = sheriffDAO.findByUserid("userid1");
-		
-		Assertions.assertNotNull(tmp);
+		Optional<Sheriff> tmp = sheriffDAO.findByUserid("userid1");
+		Assertions.assertTrue(tmp.isPresent());
 	}
 	
 	@Test
 	@DisplayName("Find by badge number")
 	public void test1_findByBadgeNo() {
-		Sheriff tmp = sheriffDAO.findByBadgeNo("M5000");
-		
-		Assertions.assertNotNull(tmp);
+		Optional<Sheriff> tmp = sheriffDAO.findByBadgeNo("M5000");
+		Assertions.assertTrue(tmp.isPresent());
 	}
 	
 }
