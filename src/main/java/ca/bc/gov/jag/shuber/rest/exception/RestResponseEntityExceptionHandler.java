@@ -18,6 +18,7 @@ import org.springframework.data.rest.core.RepositoryConstraintViolationException
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
@@ -77,8 +78,8 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 	
 	@Autowired
 	private MessageSource messageSource;
-	
-	
+
+
 	/**
 	 * Handle errors  thrown by {@code Validator}.
 	 * 
@@ -167,7 +168,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		
 		return new ResponseEntity<>(ve, new HttpHeaders(), HttpStatus.BAD_REQUEST);
 	}
-	
+
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(
 		MethodArgumentNotValidException ex,
@@ -184,6 +185,25 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		RestErrors ve = this.getValidationErrors(bindingResult.getGlobalErrors(), bindingResult.getFieldErrors(), ex);
 		
 		return new ResponseEntity<>(ve, HttpStatus.UNPROCESSABLE_ENTITY);
+	}
+	
+	@Override
+	protected ResponseEntity<Object> handleHttpMessageNotReadable(
+		HttpMessageNotReadableException ex, 
+		HttpHeaders headers, 
+		HttpStatus status, 
+		WebRequest request) {
+		
+		if (log.isDebugEnabled()) {
+			log.debug("Handling errors for a bad request (malformed JSON, etc), message=" + ex.getMessage());
+		}
+
+		List<ObjectError> globalErrors = new ArrayList<>();
+		globalErrors.add(new ObjectError("", new String[] {"error.global.messageNotReadable"}, null, ex.getMessage()));
+		
+		RestErrors ve = this.getValidationErrors(globalErrors, null, ex);
+		
+		return new ResponseEntity<>(ve, new HttpHeaders(), HttpStatus.BAD_REQUEST);
 	}
 	
 	/**

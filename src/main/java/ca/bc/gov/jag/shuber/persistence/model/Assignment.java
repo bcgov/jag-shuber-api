@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -78,7 +79,7 @@ public class Assignment extends AbstractAuditableVersionable implements Serializ
     @Column(name = "title", nullable = false, length = 100)
     private String title;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "assignment")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "assignment", cascade = CascadeType.REMOVE)
     private List<DutyRecurrence> dutyRecurrences = new ArrayList<DutyRecurrence>(0);
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "assignment")

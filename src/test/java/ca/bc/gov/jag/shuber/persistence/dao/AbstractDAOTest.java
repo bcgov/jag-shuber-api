@@ -30,8 +30,6 @@ import ca.bc.gov.jag.shuber.persistence.MockAuditorAware;
 @DataJpaTest(
 	includeFilters = {
 		@Filter(type = FilterType.ASSIGNABLE_TYPE, classes = MockAuditorAware.class),
-		//@Filter(type = FilterType.ASSIGNABLE_TYPE, classes = ValidatingRepositoryEventListener.class),
-		//@Filter(type = FilterType.ASSIGNABLE_TYPE, classes = ValidatorBeanInitializer.class),
 	}
 )
 @EnableJpaAuditing(auditorAwareRef = "mockAuditorAware")

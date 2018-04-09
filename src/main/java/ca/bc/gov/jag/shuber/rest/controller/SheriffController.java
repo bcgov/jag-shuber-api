@@ -56,4 +56,77 @@ public class SheriffController {
 //		return new ResponseEntity<>(records, HttpStatus.OK);
 //	}
 	
+	/*
+	@PostMapping("/sheriffs")
+    public ResponseEntity<Sheriff> createSheriff(@Valid @RequestBody Sheriff record) {
+        
+        Sheriff sheriff = new Sheriff();
+        sheriff.setBadgeNo(record.getBadgeNo());
+        sheriff.setUserid(record.getUserid());
+        sheriff.setLastName(record.getLastName());
+        sheriff.setFirstName(record.getFirstName());
+        sheriff.setRank(record.getRank());
+        
+        sheriff = sheriffSchedulerService.createSheriff(sheriff);
+        return ResponseEntity.ok(sheriff);
+    }
+
+    @GetMapping("/sheriffs/{id}")
+    public ResponseEntity<Sheriff> getSheriff(@PathVariable(value="id") String id) {
+        Optional<Sheriff> record = sheriffSchedulerService.getSheriffById(UUID.fromString(id));
+        
+        if (record.isPresent()) {
+            return new ResponseEntity<>(record.get(), HttpStatus.OK);
+            
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+    @PutMapping("/sheriffs/{id}")
+    public ResponseEntity<Sheriff> updateSheriff(
+        @PathVariable(value="id") String id,
+        @Valid @RequestBody Sheriff record) {
+        
+        Optional<Sheriff> op = sheriffSchedulerService.getSheriffById(UUID.fromString(id));
+        
+        if (!op.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        
+        Sheriff sheriff = op.get();
+        sheriff.setBadgeNo(record.getBadgeNo());
+        sheriff.setUserid(record.getUserid());
+        sheriff.setLastName(record.getLastName());
+        sheriff.setFirstName(record.getFirstName());
+        sheriff.setRank(record.getRank());
+        
+        sheriff = sheriffSchedulerService.createSheriff(sheriff);
+        
+        return ResponseEntity.ok(sheriff);
+    }
+    
+    @DeleteMapping("/sheriffs/{id}")
+    public ResponseEntity<Sheriff> deleteSheriff(@PathVariable(value="id") String id) {
+        Optional<Sheriff> op = sheriffSchedulerService.getSheriffById(UUID.fromString(id));
+        
+        if (!op.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+        
+        sheriffSchedulerService.deleteSheriff(op.get());
+        
+        return ResponseEntity.ok().build();
+    }
+    
+
+    @GetMapping("/sheriffs")
+    public ResponseEntity<List<Sheriff>> getSheriffs() {
+        List<Sheriff> sheriffs = sheriffSchedulerService.getSheriffs();
+        
+        return ResponseEntity.ok(sheriffs);
+    }
+*/
+	
+   
 }
