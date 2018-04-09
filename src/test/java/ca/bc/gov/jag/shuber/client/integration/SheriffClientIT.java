@@ -1,4 +1,4 @@
-package ca.bc.gov.jag.shuber.client;
+package ca.bc.gov.jag.shuber.client.integration;
 
 import java.util.Collection;
 
@@ -16,18 +16,20 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
 
+
 /**
  * Integration test.
+ * 
  * @author michael.gabelmann
  */
-public class SheriffClientIT extends AbstractIT {
+public class SheriffClientIT extends AbstractIntegrationTest {
 	/** Logger. */
 	private static final Logger log = LogManager.getLogger(SheriffClientIT.class);
 	
 	@BeforeEach
 	@Override
 	protected void beforeTest() {
-
+		
 	}
 
 	@AfterEach
@@ -39,7 +41,7 @@ public class SheriffClientIT extends AbstractIT {
 	@Test
 	@DisplayName("Get all sheriffs")
 	public void test1_getSheriffs() {
-		ResponseEntity<SheriffResources> response = restTemplate.getForEntity("/api/sheriffs", SheriffResources.class);
+		ResponseEntity<SheriffResources> response = testRestTemplate.getForEntity("/api/sheriffs", SheriffResources.class);
 		Collection<Sheriff> results = response.getBody().getContent();	
 		
 		Assertions.assertNotNull(results);
@@ -54,7 +56,7 @@ public class SheriffClientIT extends AbstractIT {
 	@DisplayName("Find sheriff by badge number")
 	public void test1_findByBadgeNo() {		
 		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("/api/sheriffs/search/findByBadgeNo").queryParam("badgeNo", "BN10000");
-		ResponseEntity<Sheriff> response = restTemplate.getForEntity(builder.toUriString(), Sheriff.class);
+		ResponseEntity<Sheriff> response = testRestTemplate.getForEntity(builder.toUriString(), Sheriff.class);
 		Sheriff s1 = response.getBody();
 		
 		Assertions.assertNotNull(s1);
@@ -64,7 +66,7 @@ public class SheriffClientIT extends AbstractIT {
 	@DisplayName("Find sheriff by user id")
 	public void test1_findByUserid() {		
 		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("/api/sheriffs/search/findByUserid").queryParam("userid", "userId10000");
-		ResponseEntity<Sheriff> response = restTemplate.getForEntity(builder.toUriString(), Sheriff.class);
+		ResponseEntity<Sheriff> response = testRestTemplate.getForEntity(builder.toUriString(), Sheriff.class);
 		Sheriff s1 = response.getBody();
 		
 		Assertions.assertNotNull(s1);
@@ -74,15 +76,14 @@ public class SheriffClientIT extends AbstractIT {
 	@DisplayName("Find sheriffs by courthouse")
 	public void test1_getByCourthouse() {
 		UriComponentsBuilder builder = UriComponentsBuilder.fromPath("/api/sheriffs/search/getSheriffsByCourthouse").queryParam("courthouseCd", "1201");
-		ResponseEntity<SheriffResources> response = restTemplate.getForEntity(builder.toUriString(), SheriffResources.class);
+		ResponseEntity<SheriffResources> response = testRestTemplate.getForEntity(builder.toUriString(), SheriffResources.class);
 		Collection<Sheriff> records = response.getBody().getContent();
 		
 		Assertions.assertNotNull(records);
 		Assertions.assertTrue(records.size() > 0);
 	}
-
 	
 	/** helper class. */
 	static class SheriffResources extends Resources<Sheriff> {}
-
+	
 }
