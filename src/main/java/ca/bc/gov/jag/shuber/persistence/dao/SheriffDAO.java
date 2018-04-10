@@ -1,6 +1,7 @@
 package ca.bc.gov.jag.shuber.persistence.dao;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -28,14 +29,14 @@ public interface SheriffDAO extends JpaRepository<Sheriff, UUID> {
 	 * @param badgeNo badge number
 	 * @return record
 	 */
-	Sheriff findByBadgeNo(@Param("badgeNo") String badgeNo);
+	Optional<Sheriff> findByBadgeNo(@Param("badgeNo") String badgeNo);
 	
 	/**
 	 * Find by user id. 
 	 * @param userid user id
 	 * @return record
 	 */
-	Sheriff findByUserid(@Param("userid") String userid);
+	Optional<Sheriff> findByUserid(@Param("userid") String userid);
 	
 	/**
 	 * Find sheriffs for given courthouse.

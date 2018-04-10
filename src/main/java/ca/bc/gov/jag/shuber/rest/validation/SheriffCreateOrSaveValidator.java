@@ -1,5 +1,7 @@
 package ca.bc.gov.jag.shuber.rest.validation;
 
+import java.util.Optional;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,13 +82,13 @@ public class SheriffCreateOrSaveValidator implements Validator {
 			return;
 		}
 		
-		Sheriff tmp = sheriffDao.findByBadgeNo(s.getBadgeNo());
-		if (tmp != null) {
+		Optional<Sheriff> tmp = sheriffDao.findByBadgeNo(s.getBadgeNo());
+		if (tmp.isPresent()) {
 			errors.rejectValue("badgeNo", ERROR_PREFIX, new Object[] {s.getBadgeNo()}, "Badge number already exists.");
 		}
 		
-		Sheriff tmp2 = sheriffDao.findByUserid(s.getUserid());
-		if (tmp2 != null) {
+		Optional<Sheriff> tmp2 = sheriffDao.findByUserid(s.getUserid());
+		if (tmp2.isPresent()) {
 			errors.rejectValue("userid", ERROR_PREFIX, new Object[] {s.getUserid()}, "User ID already exists.");
 		}
 	}
