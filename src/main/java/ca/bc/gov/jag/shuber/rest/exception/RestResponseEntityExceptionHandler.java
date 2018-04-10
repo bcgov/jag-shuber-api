@@ -11,6 +11,7 @@ import javax.validation.ConstraintViolationException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.NoSuchMessageException;
@@ -20,14 +21,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.transaction.TransactionSystemException;
+import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
+import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
@@ -184,7 +189,78 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		
 		RestErrors ve = this.getValidationErrors(bindingResult.getGlobalErrors(), bindingResult.getFieldErrors(), ex);
 		
-		return new ResponseEntity<>(ve, HttpStatus.UNPROCESSABLE_ENTITY);
+		return new ResponseEntity<>(ve, HttpStatus.BAD_REQUEST);
+	}
+	
+	@Override
+	protected ResponseEntity<Object> handleBindException(
+		BindException ex,
+		HttpHeaders headers, 
+		HttpStatus status, 
+		WebRequest request) {
+		
+		if (log.isDebugEnabled()) {
+			log.debug("Handling bind error, message=" + ex.getMessage());
+		}
+
+		return getResponse(ex, "error.global.bindError", HttpStatus.BAD_REQUEST);
+	}
+	
+	@Override
+	protected ResponseEntity<Object> handleMissingServletRequestPart(
+		MissingServletRequestPartException ex,
+		HttpHeaders headers, 
+		HttpStatus status, 
+		WebRequest request) {
+		
+		if (log.isDebugEnabled()) {
+			log.debug("Handling missing servlet request part, message=" + ex.getMessage());
+		}
+
+		return getResponse(ex, "error.global.missingServletRequestPart", HttpStatus.BAD_REQUEST);
+	}
+	
+	
+	@Override
+	protected ResponseEntity<Object> handleTypeMismatch(
+		TypeMismatchException ex,
+		HttpHeaders headers, 
+		HttpStatus status, 
+		WebRequest request) {
+		
+		if (log.isDebugEnabled()) {
+			log.debug("Handling type mismatch, message=" + ex.getMessage());
+		}
+
+		return getResponse(ex, "error.global.typeMismatch", HttpStatus.BAD_REQUEST);
+	}
+	
+	@Override
+	protected ResponseEntity<Object> handleServletRequestBindingException(
+		ServletRequestBindingException ex,
+		HttpHeaders headers, 
+		HttpStatus status, 
+		WebRequest request) {
+		
+		if (log.isDebugEnabled()) {
+			log.debug("Handling servlet request binding, message=" + ex.getMessage());
+		}
+
+		return getResponse(ex, "error.global.servletRequestBinding", HttpStatus.BAD_REQUEST);
+	}
+	
+	@Override
+	protected ResponseEntity<Object> handleMissingServletRequestParameter(
+		MissingServletRequestParameterException ex,
+		HttpHeaders headers, 
+		HttpStatus status, 
+		WebRequest request) {
+		
+		if (log.isDebugEnabled()) {
+			log.debug("Handling missing servlet request parameter, message=" + ex.getMessage());
+		}
+
+		return getResponse(ex, "error.global.missingServletRequestParameter", HttpStatus.BAD_REQUEST);
 	}
 	
 	@Override
@@ -198,12 +274,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 			log.debug("Handling errors for a bad request (malformed JSON, etc), message=" + ex.getMessage());
 		}
 
-		List<ObjectError> globalErrors = new ArrayList<>();
-		globalErrors.add(new ObjectError("", new String[] {"error.global.messageNotReadable"}, null, ex.getMessage()));
-		
-		RestErrors ve = this.getValidationErrors(globalErrors, null, ex);
-		
-		return new ResponseEntity<>(ve, new HttpHeaders(), HttpStatus.BAD_REQUEST);
+		return getResponse(ex, "error.global.messageNotReadable", HttpStatus.BAD_REQUEST);
 	}
 	
 	/**
@@ -298,4 +369,18 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 			fieldError.getRejectedValue());
 	}
 	
+	/**
+	 * 
+	 * @param e
+	 * @param code
+	 * @param status
+	 * @return
+	 */
+	private ResponseEntity<Object> getResponse(Exception e, String code, HttpStatus status) {
+		List<ObjectError> globalErrors = new ArrayList<>();
+		globalErrors.add(new ObjectError("", new String[] {code}, null, e.getMessage()));
+		
+		RestErrors ve = this.getValidationErrors(globalErrors, null, e);
+		return new ResponseEntity<>(ve, new HttpHeaders(), status);
+	}
 }
