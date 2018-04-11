@@ -24,7 +24,7 @@ import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
 @ExtendWith(SpringExtension.class)
 public class SheriffServiceTest extends AbstractTest {
 	private SheriffDAO sheriffDao;
-	private SheriffService sheriffService;
+	//private SheriffService sheriffService;
 	
 	//Data fields
 	private List<Sheriff> records;

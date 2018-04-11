@@ -1,4 +1,4 @@
-package ca.bc.gov.jag.shuber.rest.controller;
+package ca.bc.gov.jag.shuber.rest.response;
 
 import org.springframework.hateoas.ResourceSupport;
 
