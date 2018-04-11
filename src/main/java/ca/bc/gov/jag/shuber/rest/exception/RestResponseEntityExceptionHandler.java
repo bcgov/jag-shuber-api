@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
@@ -173,7 +174,21 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		
 		return new ResponseEntity<>(ve, new HttpHeaders(), HttpStatus.BAD_REQUEST);
 	}
+	
+	@Override
+	protected ResponseEntity<Object> handleNoHandlerFoundException(
+		NoHandlerFoundException ex,
+		HttpHeaders headers, 
+		HttpStatus status, 
+		WebRequest request) {
+		
+		if (log.isDebugEnabled()) {
+			log.debug("Handling no handler found (bad URI, resource not found, etc), message=" + ex.getMessage());
+		}
 
+		return getResponse(ex, "error.global.noHandlerFound", HttpStatus.NOT_FOUND);
+	}
+	
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(
 		MethodArgumentNotValidException ex,

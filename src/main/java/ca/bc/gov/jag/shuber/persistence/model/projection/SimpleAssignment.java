@@ -7,6 +7,7 @@ import org.springframework.data.rest.core.config.Projection;
 
 import ca.bc.gov.jag.shuber.persistence.RestPath;
 import ca.bc.gov.jag.shuber.persistence.model.Assignment;
+import ca.bc.gov.jag.shuber.persistence.model.DutyRecurrence;
 
 /**
  * Create a simple view of the assignment and child records.
@@ -36,6 +37,6 @@ public interface SimpleAssignment extends RestPath {
 	@Value("#{target.courtroom != null ? '/courtrooms/' + target.courtroom.courtroomId : ''}")
 	String getCourtroomIdPath();
 
-	List<SimpleDutyRecurrence> getDutyRecurrences();
+	List<DutyRecurrence> getDutyRecurrences();
 	
 }

@@ -2,6 +2,7 @@ package ca.bc.gov.jag.shuber.persistence.model;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -33,7 +34,7 @@ import ca.bc.gov.jag.shuber.persistence.AbstractAuditableVersionable;
 )
 public class SheriffDuty extends AbstractAuditableVersionable implements Serializable {
 
-    /** UID. */
+	/** UID. */
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -47,19 +48,50 @@ public class SheriffDuty extends AbstractAuditableVersionable implements Seriali
     @JoinColumn(name = "duty_id", nullable = false)
     private Duty duty;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "sheriff_id", nullable = false)
+    @JoinColumn(name = "sheriff_id")
     private Sheriff sheriff;
+
+    @NotNull
+    @Column(name = "start_dtm", nullable = false, length = 35)
+    private LocalDateTime startDtm;
+
+    @NotNull
+    @Column(name = "end_dtm", nullable = false, length = 35)
+    private LocalDateTime endDtm;
     
     /** No args constructor. */
     public SheriffDuty() {}
+
+    /** Required args constructor. */
+    public SheriffDuty(
+            UUID sheriffDutyId,
+            Duty duty,
+            LocalDateTime startDtm,
+            LocalDateTime endDtm,
+            String createdBy,
+            String updatedBy,
+            Instant createdDtm,
+            Instant updatedDtm,
+            long revisionCount) {
+        this.sheriffDutyId = sheriffDutyId;
+        this.duty = duty;
+        this.startDtm = startDtm;
+        this.endDtm = endDtm;
+        this.createdBy = createdBy;
+        this.updatedBy = updatedBy;
+        this.createdDtm = createdDtm;
+        this.updatedDtm = updatedDtm;
+        this.revisionCount = revisionCount;
+    }
 
     /** All args constructor. */
     public SheriffDuty(
             UUID sheriffDutyId,
             Duty duty,
             Sheriff sheriff,
+            LocalDateTime startDtm,
+            LocalDateTime endDtm,
             String createdBy,
             String updatedBy,
             Instant createdDtm,
@@ -68,6 +100,8 @@ public class SheriffDuty extends AbstractAuditableVersionable implements Seriali
         this.sheriffDutyId = sheriffDutyId;
         this.duty = duty;
         this.sheriff = sheriff;
+        this.startDtm = startDtm;
+        this.endDtm = endDtm;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;
         this.createdDtm = createdDtm;
@@ -97,6 +131,22 @@ public class SheriffDuty extends AbstractAuditableVersionable implements Seriali
 
     public void setSheriff(Sheriff sheriff) {
         this.sheriff = sheriff;
+    }
+
+    public LocalDateTime getStartDtm() {
+        return this.startDtm;
+    }
+
+    public void setStartDtm(LocalDateTime startDtm) {
+        this.startDtm = startDtm;
+    }
+
+    public LocalDateTime getEndDtm() {
+        return this.endDtm;
+    }
+
+    public void setEndDtm(LocalDateTime endDtm) {
+        this.endDtm = endDtm;
     }
     
     @Transient

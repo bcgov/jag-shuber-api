@@ -1,8 +1,13 @@
 package ca.bc.gov.jag.shuber.persistence.dao;
 
 import ca.bc.gov.jag.shuber.persistence.model.Assignment;
+import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
+
+import java.util.List;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -17,5 +22,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AssignmentDAO extends JpaRepository<Assignment, UUID> {
     // NOTE: add custom methods here
+	
 
+//	@Query("SELECT c FROM Assignment a WHERE a.courthouse.courthouseId = :courthouseId")
+//	List<Assignment> findByCourthouseId(UUID courthouseId);
+	
 }

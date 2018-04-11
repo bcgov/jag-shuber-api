@@ -2,7 +2,9 @@ package ca.bc.gov.jag.shuber.persistence.model;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.UUID;
 
 /**
  * Helper class to populate Entity objects with required fields so we can 
@@ -171,13 +173,16 @@ public final class ModelUtil {
 	
 	public static SheriffDuty getSheriffDuty(
 		Duty duty,
-        Sheriff sheriff) {
+        LocalDateTime startDtm,
+        LocalDateTime endDtm,
+		Sheriff sheriff) {
 		
 		return new SheriffDuty(
-            null,
-            duty,
-            sheriff,
-            user, user, now, now, count);
+			null,
+	        duty,
+	        startDtm,
+	        endDtm,
+	        user, user, now, now, count);
 	}
 	
 }
