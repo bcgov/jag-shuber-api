@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -61,7 +62,7 @@ public class Duty extends AbstractAuditableVersionable implements Serializable {
     @Column(name = "sheriffs_required", nullable = false, precision = 2, scale = 0)
     private byte sheriffsRequired;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "duty")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "duty", cascade = CascadeType.ALL)
     private List<SheriffDuty> sheriffDuties = new ArrayList<SheriffDuty>(0);
     
     /** No args constructor. */

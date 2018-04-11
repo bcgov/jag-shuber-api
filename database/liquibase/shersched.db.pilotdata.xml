@@ -16,7 +16,7 @@
         <rollback>
             <sql>
                 SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE r.* FROM region r;
+                DELETE FROM region;
             </sql>
         </rollback>
     </changeSet>
@@ -28,7 +28,7 @@
         <rollback>
             <sql>
                 SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE c.* FROM courthouse c;
+                DELETE FROM courthouse;
             </sql>
         </rollback>
     </changeSet>
@@ -40,7 +40,7 @@
         <rollback>
             <sql>
                 SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE c.* FROM courtroom c;
+                DELETE FROM courtroom;
             </sql>
         </rollback>
     </changeSet>
@@ -52,7 +52,7 @@
         <rollback>
             <sql>
                 SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE s.* FROM sheriff s;
+                DELETE FROM sheriff;
             </sql>
         </rollback>
     </changeSet>
@@ -64,7 +64,7 @@
         <rollback>
             <sql>
                 SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE r.* FROM run r;
+                DELETE FROM run;
             </sql>
         </rollback>
     </changeSet>
@@ -76,7 +76,7 @@
         <rollback>
             <sql>
                 SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE a.* FROM assignment a;
+                DELETE FROM assignment;
             </sql>
         </rollback>
     </changeSet>
@@ -88,7 +88,7 @@
         <rollback>
             <sql>
                 SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE dr.* FROM duty_recurrence dr;
+                DELETE FROM duty_recurrence;
             </sql>
         </rollback>
     </changeSet>

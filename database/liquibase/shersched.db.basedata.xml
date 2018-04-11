@@ -14,7 +14,7 @@
         <rollback>
             <sql>
                 SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE wsc.* FROM work_section_code wsc;
+                DELETE FROM work_section_code;
             </sql>
         </rollback>
     </changeSet>
@@ -26,7 +26,7 @@
         <rollback>
             <sql>
                 SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE jrc.* FROM jail_role_code jrc;
+                DELETE FROM jail_role_code;
             </sql>
         </rollback>
     </changeSet>
@@ -37,7 +37,7 @@
         <rollback>
             <sql>
                 SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE oac.* FROM other_assign_code oac;
+                DELETE FROM other_assign_code;
             </sql>
         </rollback>
     </changeSet>
@@ -48,7 +48,7 @@
         <rollback>
             <sql>
                 SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE src.* FROM sheriff_rank_code src;
+                DELETE FROM sheriff_rank_code;
             </sql>
         </rollback>
     </changeSet>

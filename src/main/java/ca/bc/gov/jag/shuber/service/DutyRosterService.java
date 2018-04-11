@@ -19,5 +19,5 @@ public interface DutyRosterService {
 	 * @return
 	 */
 	List<Duty> createDefaultDuties(UUID courthouseId, LocalDate date);
-	
+
 }
