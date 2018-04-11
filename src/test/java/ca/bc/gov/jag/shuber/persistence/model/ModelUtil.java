@@ -134,13 +134,17 @@ public final class ModelUtil {
 	
 	public static Duty getDuty(
 		Assignment assignment,
+		LocalDateTime startDtm,
+        LocalDateTime endDtm,
         byte sheriffsRequired) {
 		
 		return new  Duty(
 			null,
-            assignment,
-            sheriffsRequired,
-            user, user, now, now, count);
+	        assignment,
+	        startDtm,
+	        endDtm,
+	        sheriffsRequired,
+	        user, user, now, now, count);
 	}
 	
 	public static DutyRecurrence getDutyRecurrence(

@@ -2,6 +2,7 @@ package ca.bc.gov.jag.shuber;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 
@@ -21,18 +22,21 @@ public abstract class AbstractTest {
 	/** Current time. */
 	protected LocalTime nowTime;
 	
+	protected LocalDateTime nowDateTime;
+	
 	
 	@PostConstruct
 	public void postConstruct() {
 		now  = Instant.now();
 		nowDate = now.atZone(ZoneId.systemDefault()).toLocalDate();
 		nowTime = now.atZone(ZoneId.systemDefault()).toLocalTime();
+		nowDateTime = now.atZone(ZoneId.systemDefault()).toLocalDateTime();
 	}
-	
+
 	/** This method is run before every test. Place any setup that is required here. */
 	protected abstract void beforeTest();
-	
+
 	/** This method is run after every test. Place any cleanup that is required. */
 	protected abstract void afterTest();
-	
+
 }

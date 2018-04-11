@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.bc.gov.jag.shuber.persistence.model.Assignment;
+import ca.bc.gov.jag.shuber.rest.response.AssignmentResponse;
 import ca.bc.gov.jag.shuber.service.AssignmentService;
 
 @RestController

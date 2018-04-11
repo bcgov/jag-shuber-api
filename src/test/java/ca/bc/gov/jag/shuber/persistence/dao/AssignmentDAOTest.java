@@ -1,6 +1,7 @@
 package ca.bc.gov.jag.shuber.persistence.dao;
 
 import java.time.LocalTime;
+import java.util.List;
 
 import org.hibernate.validator.HibernateValidator;
 import org.junit.jupiter.api.AfterEach;
@@ -210,6 +211,19 @@ public class AssignmentDAOTest extends AbstractDAOTest {
 		Assignment tmp = assignmentDao.getOne(a.getAssignmentId());
 		Assertions.assertNotNull(tmp);
 		Assertions.assertEquals(1, tmp.getDutyRecurrences().size());
+	}
+	
+	@Test
+	@DisplayName("Find assignment by courthouse id")
+	public void test1_findByCourthouseId() {
+		Assignment a = ModelUtil.getAssignment(c, wsc1, "Pirates vs. Ninjas");
+		a.setCourtroom(cr);
+		
+		assignmentDao.save(a);
+		Assertions.assertNotNull(a.getAssignmentId());
+		
+		List<Assignment> records = assignmentDao.findByCourthouseId(c.getCourthouseId());
+		Assertions.assertTrue(records.size() == 1);
 	}
 	
 }

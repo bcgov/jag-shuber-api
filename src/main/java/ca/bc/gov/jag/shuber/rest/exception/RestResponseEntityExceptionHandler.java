@@ -38,7 +38,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 /**
  * Make error messages more meaningful. To disable simply comment out the {@code @ControllerAdvice} 
- * annotation. This will return to Springs validation and event handling.
+ * annotation. This will return to Springs validation and event handling. We also handle Spring MVC 
+ * errors as well since they will simply return 404, 400, etc. If we intercept them we can return our
+ * custom REST error messages.
  * 
  * <pre>
  * Default Spring error message format:

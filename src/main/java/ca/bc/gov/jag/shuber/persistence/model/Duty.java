@@ -38,10 +38,10 @@ import ca.bc.gov.jag.shuber.persistence.AbstractAuditableVersionable;
 )
 public class Duty extends AbstractAuditableVersionable implements Serializable {
 
-    /** UID. */
+	/** UID. */
     private static final long serialVersionUID = 1L;
-
-    @Id
+	
+	@Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(name = "duty_id", nullable = false, updatable = false)
@@ -52,10 +52,12 @@ public class Duty extends AbstractAuditableVersionable implements Serializable {
     @JoinColumn(name = "assignment_id", nullable = false)
     private Assignment assignment;
 
-    @Column(name = "start_dtm", length = 35)
+    @NotNull
+    @Column(name = "start_dtm", nullable = false, length = 35)
     private LocalDateTime startDtm;
 
-    @Column(name = "end_dtm", length = 35)
+    @NotNull
+    @Column(name = "end_dtm", nullable = false, length = 35)
     private LocalDateTime endDtm;
 
     @NotNull
@@ -72,6 +74,8 @@ public class Duty extends AbstractAuditableVersionable implements Serializable {
     public Duty(
             UUID dutyId,
             Assignment assignment,
+            LocalDateTime startDtm,
+            LocalDateTime endDtm,
             byte sheriffsRequired,
             String createdBy,
             String updatedBy,
@@ -80,6 +84,8 @@ public class Duty extends AbstractAuditableVersionable implements Serializable {
             long revisionCount) {
         this.dutyId = dutyId;
         this.assignment = assignment;
+        this.startDtm = startDtm;
+        this.endDtm = endDtm;
         this.sheriffsRequired = sheriffsRequired;
         this.createdBy = createdBy;
         this.updatedBy = updatedBy;

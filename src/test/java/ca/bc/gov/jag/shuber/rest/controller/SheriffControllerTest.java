@@ -3,19 +3,16 @@ package ca.bc.gov.jag.shuber.rest.controller;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-
-import ca.bc.gov.jag.shuber.service.SheriffService;
 
 /**
  * 
  * @author michael.gabelmann
  */
-@WebMvcTest(SheriffController.class)
+//@WebMvcTest(SheriffController.class)
 public class SheriffControllerTest extends AbstractControllerTest {
  
-    @MockBean
-    private SheriffService sheriffService;
+    //@MockBean
+    //private SheriffService sheriffService;
     
     //private List<Sheriff> records;
     

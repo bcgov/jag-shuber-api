@@ -21,7 +21,7 @@ import ca.bc.gov.jag.shuber.AbstractTest;
 @ExtendWith(SpringExtension.class)
 public class ShiftServiceTest extends AbstractTest {
 //	private ShiftDAO shiftDao;
-	private ShiftService shiftService;
+	//private ShiftService shiftService;
 	
 	//private Shift shift1;
 	private UUID locationId1;

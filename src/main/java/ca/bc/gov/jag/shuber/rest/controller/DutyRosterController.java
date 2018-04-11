@@ -28,10 +28,11 @@ import ca.bc.gov.jag.shuber.persistence.model.Duty;
 import ca.bc.gov.jag.shuber.persistence.model.projection.SimpleDuty;
 import ca.bc.gov.jag.shuber.service.DutyRosterService;
 
+
+
 /**
  * 
  * @author michael.gabelmann
- *
  */
 @RestController
 @RequestMapping(value = DutyRosterController.PATH, produces = "application/hal+json")
@@ -51,11 +52,12 @@ public class DutyRosterController {
 	@Autowired
     private EntityLinks entityLinks;
 	
+	
 	/**
-	 * 
-	 * @param courthouseId
-	 * @param date
-	 * @return
+	 * Create a set of default duties for the given courthouse and date.
+	 * @param id courthouse id
+	 * @param date create entries for this date
+	 * @return list of duties and sheriff duties created
 	 */
 	@PostMapping(path = PATH_CREATE_DEFAULT_DUTIES)
 	public ResponseEntity<?> createDefaultDuties(
@@ -79,5 +81,5 @@ public class DutyRosterController {
 		Resources<SimpleDuty> r = new Resources<>(records, self);
 		return new ResponseEntity<Resources<SimpleDuty>>(r, HttpStatus.OK);
 	}
-	
+
 }
