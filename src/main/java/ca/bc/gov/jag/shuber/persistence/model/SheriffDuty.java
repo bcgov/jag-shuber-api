@@ -18,6 +18,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import ca.bc.gov.jag.shuber.persistence.AbstractAuditableVersionable;
 
 /**
@@ -52,10 +54,12 @@ public class SheriffDuty extends AbstractAuditableVersionable implements Seriali
     @JoinColumn(name = "sheriff_id")
     private Sheriff sheriff;
 
+    @JsonProperty("startDateTime")
     @NotNull
     @Column(name = "start_dtm", nullable = false, length = 35)
     private LocalDateTime startDtm;
 
+    @JsonProperty("endDateTime")
     @NotNull
     @Column(name = "end_dtm", nullable = false, length = 35)
     private LocalDateTime endDtm;
