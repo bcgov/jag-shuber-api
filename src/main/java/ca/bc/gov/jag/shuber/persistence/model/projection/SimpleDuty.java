@@ -21,7 +21,7 @@ public interface SimpleDuty extends RestPath {
 	String getAssignmentIdPath();
 	
 	LocalDateTime getStartDtm();
-	
+
 	LocalDateTime getEndDtm();
 	
 	byte getSheriffsRequired();
