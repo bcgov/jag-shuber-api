@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import ca.bc.gov.jag.shuber.persistence.model.DutyRecurrence;
@@ -23,6 +24,6 @@ public interface DutyRecurrenceDAO extends JpaRepository<DutyRecurrence, UUID> {
     // NOTE: add custom methods here
 
 	@Query("SELECT r FROM DutyRecurrence r WHERE r.assignment.courthouse.courthouseId = :courthouseId")
-	List<DutyRecurrence> getDutyRecurrences(UUID courthouseId);
+	List<DutyRecurrence> getDutyRecurrences(@Param("courthouseId") UUID courthouseId);
 
 }
