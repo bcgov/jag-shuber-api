@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import ca.bc.gov.jag.shuber.persistence.model.ModelUtil;
 import ca.bc.gov.jag.shuber.persistence.model.SheriffRankCode;
 import ca.bc.gov.jag.shuber.persistence.model.SheriffRankCode.SHERIFF_RANK_CODE;
-import ca.bc.gov.jag.shuber.rest.model.SheriffResource;
+import ca.bc.gov.jag.shuber.rest.dto.post.SheriffResource;
 
 /**
  * 

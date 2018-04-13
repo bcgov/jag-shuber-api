@@ -20,6 +20,7 @@ import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
  * 
  * @author michael.gabelmann
  */
+@Deprecated
 @RunWith(JUnitPlatform.class)
 @ExtendWith(SpringExtension.class)
 public class SheriffServiceTest extends AbstractTest {

@@ -24,5 +24,5 @@ import ca.bc.gov.jag.shuber.client.AbstractClientTest;
 )
 @ActiveProfiles("integration")
 abstract class AbstractIntegrationTest extends AbstractClientTest {
-
+	
 }
