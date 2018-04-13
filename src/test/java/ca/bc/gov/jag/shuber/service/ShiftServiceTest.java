@@ -17,6 +17,7 @@ import ca.bc.gov.jag.shuber.AbstractTest;
  * 
  * @author michael.gabelmann
  */
+@Deprecated
 @RunWith(JUnitPlatform.class)
 @ExtendWith(SpringExtension.class)
 public class ShiftServiceTest extends AbstractTest {

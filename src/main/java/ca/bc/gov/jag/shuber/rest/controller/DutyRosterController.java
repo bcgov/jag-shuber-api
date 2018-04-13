@@ -11,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.projection.ProjectionFactory;
+import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.LinkBuilder;
@@ -47,10 +48,9 @@ public class DutyRosterController {
 	private DutyRosterService dutyRosterService;
 	
 	@Autowired
-	private ProjectionFactory projectionFactory;
-	
-	@Autowired
     private EntityLinks entityLinks;
+	
+	private ProjectionFactory projectionFactory = new SpelAwareProxyProjectionFactory();
 	
 	
 	/**
@@ -79,7 +79,7 @@ public class DutyRosterController {
 		Link self =  new Link(lb.toString() + "/" + id + "/createDefaultDuties?date=" + date);
 		
 		Resources<SimpleDuty> r = new Resources<>(records, self);
-		return new ResponseEntity<Resources<SimpleDuty>>(r, HttpStatus.OK);
+		return new ResponseEntity<Resources<SimpleDuty>>(r, HttpStatus.CREATED);
 	}
 
 }

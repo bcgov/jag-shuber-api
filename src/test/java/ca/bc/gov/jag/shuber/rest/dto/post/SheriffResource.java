@@ -1,4 +1,4 @@
-package ca.bc.gov.jag.shuber.rest.model;
+package ca.bc.gov.jag.shuber.rest.dto.post;
 
 /**
  * This class is used to POST to the end point.

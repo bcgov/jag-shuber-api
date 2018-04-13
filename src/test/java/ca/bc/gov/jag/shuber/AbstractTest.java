@@ -22,6 +22,7 @@ public abstract class AbstractTest {
 	/** Current time. */
 	protected LocalTime nowTime;
 	
+	/** Current date and time. */
 	protected LocalDateTime nowDateTime;
 	
 	
