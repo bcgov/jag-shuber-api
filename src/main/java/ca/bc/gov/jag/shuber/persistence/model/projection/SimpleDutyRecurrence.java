@@ -1,5 +1,6 @@
 package ca.bc.gov.jag.shuber.persistence.model.projection;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +17,7 @@ import ca.bc.gov.jag.shuber.persistence.model.DutyRecurrence;
 @Projection(name = "simpleDutyRecurrence", types = { DutyRecurrence.class })
 public interface SimpleDutyRecurrence extends RestPath {
 	
-	@Value("#{'/assignments/' + target.assignment.assignmentId}")
+	@Value("#{target.assignment != null ? target.assignment.idPath : ''}")
 	String getAssignmentIdPath();
 	
 	LocalTime getStartTime();
@@ -26,5 +27,9 @@ public interface SimpleDutyRecurrence extends RestPath {
 	long getDaysBitmap();
 	
 	byte getSheriffsRequired();
+	
+	LocalDate getEffectiveDate();
+	
+	LocalDate getExpiryDate();
 	
 }

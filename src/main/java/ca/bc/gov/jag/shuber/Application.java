@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.data.rest.RepositoryRestMvcAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,8 @@ import org.springframework.context.annotation.Bean;
  * 
  * @author michael.gabelmann
  */
+//NOTE: disable HATEOAS (bad idea, as it makes your API not very RESTful)
+//@SpringBootApplication(exclude = RepositoryRestMvcAutoConfiguration.class)
 @SpringBootApplication
 public class Application {
 	/** Logger. */

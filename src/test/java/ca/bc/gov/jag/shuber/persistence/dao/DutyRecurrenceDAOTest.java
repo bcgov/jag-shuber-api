@@ -43,10 +43,10 @@ public class DutyRecurrenceDAOTest extends AbstractDAOTest {
 		r = ModelUtil.getRegion("VANISLAND", "Vancourver Island");
 		c = ModelUtil.getCourthouse(r, "VIC", "Victoria");
 		cr = ModelUtil.getCourtroom(c, "101", "Room 101");
-		a = ModelUtil.getAssignment(c, wsc, "Pirates vs. Ninjas");
+		a = ModelUtil.getAssignment(c, wsc, "Pirates vs. Ninjas", nowDate);
 		a.setCourtroom(cr);
 		
-		DutyRecurrence dr = ModelUtil.getDutyRecurrence(a, nowTime, LocalTime.MIDNIGHT, 31, (byte) 2);
+		DutyRecurrence dr = ModelUtil.getDutyRecurrence(a, nowTime, LocalTime.MIDNIGHT, 31, (byte) 2, nowDate);
 		
 		entityManager.persist(wsc);
 		entityManager.persist(r);

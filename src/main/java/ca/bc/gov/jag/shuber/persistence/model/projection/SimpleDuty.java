@@ -20,6 +20,9 @@ public interface SimpleDuty extends RestPath {
 	@Value("#{target.assignment != null ? target.assignment.idPath : ''}")
 	String getAssignmentIdPath();
 	
+	@Value("#{target.dutyRecurrence != null ? target.dutyRecurrence.idPath : ''}")
+	String getDutyRecurrenceIdPath();
+	
 	LocalDateTime getStartDtm();
 
 	LocalDateTime getEndDtm();

@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.UUID;
 
 /**
  * Helper class to populate Entity objects with required fields so we can 
@@ -122,13 +121,15 @@ public final class ModelUtil {
 	public static Assignment getAssignment(
 		Courthouse courthouse,
         WorkSectionCode workSectionCode,
-        String title) {
+        String title,
+        LocalDate effectiveDate) {
 		
 		return new Assignment(
             null,
             courthouse,
             workSectionCode,
             title,
+            effectiveDate,
             user, user, now, now, count);
 	}
 	
@@ -152,7 +153,8 @@ public final class ModelUtil {
         LocalTime startTime,
         LocalTime endTime,
         long daysBitmap,
-        byte sheriffsRequired) {
+        byte sheriffsRequired,
+        LocalDate effectiveDate) {
 		
 		return new DutyRecurrence(
 			null,
@@ -161,6 +163,7 @@ public final class ModelUtil {
             endTime,
             daysBitmap,
             sheriffsRequired,
+            effectiveDate,
             user, user, now, now, count);
 	}
 	
