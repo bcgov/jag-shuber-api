@@ -54,6 +54,10 @@ public class Duty extends AbstractAuditableVersionable implements Serializable {
     @JoinColumn(name = "assignment_id", nullable = false)
     private Assignment assignment;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "duty_recurrence_id")
+    private DutyRecurrence dutyRecurrence;
+    
     @JsonProperty("startDateTime")
     @NotNull
     @Column(name = "start_dtm", nullable = false, length = 35)
@@ -102,6 +106,7 @@ public class Duty extends AbstractAuditableVersionable implements Serializable {
     public Duty(
             UUID dutyId,
             Assignment assignment,
+            DutyRecurrence dutyRecurrence,
             LocalDateTime startDtm,
             LocalDateTime endDtm,
             byte sheriffsRequired,
@@ -113,6 +118,7 @@ public class Duty extends AbstractAuditableVersionable implements Serializable {
             List<SheriffDuty> sheriffDuties) {
         this.dutyId = dutyId;
         this.assignment = assignment;
+        this.dutyRecurrence = dutyRecurrence;
         this.startDtm = startDtm;
         this.endDtm = endDtm;
         this.sheriffsRequired = sheriffsRequired;
@@ -138,6 +144,14 @@ public class Duty extends AbstractAuditableVersionable implements Serializable {
 
     public void setAssignment(Assignment assignment) {
         this.assignment = assignment;
+    }
+    
+    public DutyRecurrence getDutyRecurrence() {
+        return this.dutyRecurrence;
+    }
+
+    public void setDutyRecurrence(DutyRecurrence dutyRecurrence) {
+        this.dutyRecurrence = dutyRecurrence;
     }
 
     public LocalDateTime getStartDtm() {

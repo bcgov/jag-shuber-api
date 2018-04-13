@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.UUID;
 
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,16 +13,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import ca.bc.gov.jag.shuber.persistence.model.Assignment;
 import ca.bc.gov.jag.shuber.persistence.model.Courthouse;
 import ca.bc.gov.jag.shuber.persistence.model.Duty;
 import ca.bc.gov.jag.shuber.persistence.model.ModelUtil;
 import ca.bc.gov.jag.shuber.persistence.model.Region;
-import ca.bc.gov.jag.shuber.persistence.model.SheriffDuty;
 import ca.bc.gov.jag.shuber.persistence.model.WorkSectionCode;
 import ca.bc.gov.jag.shuber.service.DutyRosterService;
 
@@ -57,7 +52,7 @@ public class DutyRosterControllerTest extends AbstractControllerTest {
 		wsc = ModelUtil.getWorkSectionCode("COURTS", "Courts", nowDate);
 		r = ModelUtil.getRegion("BC", "BritishColumbia");
 		c = ModelUtil.getCourthouse(r, "101", "Room 101");
-		a = ModelUtil.getAssignment(c, wsc, "Assignment 1");
+		a = ModelUtil.getAssignment(c, wsc, "Assignment 1", nowDate);
 		start = LocalTime.of(8, 0);
 		end = LocalTime.of(17, 0);
 		

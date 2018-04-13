@@ -83,7 +83,7 @@ public class AssignmentDAOTest extends AbstractDAOTest {
 	@Test
 	@DisplayName("Saving an assignment of type COURTS requires a courtroom")
 	public void test1_save() {
-		Assignment a = ModelUtil.getAssignment(c, wsc1, "Pirates vs. Ninjas");
+		Assignment a = ModelUtil.getAssignment(c, wsc1, "Pirates vs. Ninjas", nowDate);
 		
 		Errors errors = new CustomErrors("Assignment");
 		validator.validate(a, errors);
@@ -95,7 +95,7 @@ public class AssignmentDAOTest extends AbstractDAOTest {
 	@Test
 	@DisplayName("Saving an assignment of type COURTS")
 	public void test2_save() {
-		Assignment a = ModelUtil.getAssignment(c, wsc1, "Pirates vs. Ninjas");
+		Assignment a = ModelUtil.getAssignment(c, wsc1, "Pirates vs. Ninjas", nowDate);
 		a.setCourtroom(cr);
 		
 		Errors errors = new CustomErrors("Assignment");
@@ -109,7 +109,7 @@ public class AssignmentDAOTest extends AbstractDAOTest {
 	@Test
 	@DisplayName("Saving an assignment of type JAIL requires a JailRoleCode")
 	public void test3_save() {
-		Assignment a = ModelUtil.getAssignment(c, wsc2, "Pirates vs. Ninjas");
+		Assignment a = ModelUtil.getAssignment(c, wsc2, "Pirates vs. Ninjas", nowDate);
 		
 		Errors errors = new CustomErrors("Assignment");
 		validator.validate(a, errors);
@@ -121,7 +121,7 @@ public class AssignmentDAOTest extends AbstractDAOTest {
 	@Test
 	@DisplayName("Saving an assignment of type JAIL")
 	public void test4_save() {
-		Assignment a = ModelUtil.getAssignment(c, wsc2, "Pirates vs. Ninjas");
+		Assignment a = ModelUtil.getAssignment(c, wsc2, "Pirates vs. Ninjas", nowDate);
 		
 		JailRoleCode jrc = ModelUtil.getJailRoleCode(JAIL_ROLE_CODE.CONTROL.name(), "control", nowDate);
 		a.setJailRoleCode(jrc);
@@ -137,7 +137,7 @@ public class AssignmentDAOTest extends AbstractDAOTest {
 	@Test
 	@DisplayName("Saving an assignment of type ESCORTS requires a Run")
 	public void test5_save() {
-		Assignment a = ModelUtil.getAssignment(c, wsc3, "Pirates vs. Ninjas");
+		Assignment a = ModelUtil.getAssignment(c, wsc3, "Pirates vs. Ninjas", nowDate);
 		
 		Errors errors = new CustomErrors("Assignment");
 		validator.validate(a, errors);
@@ -149,7 +149,7 @@ public class AssignmentDAOTest extends AbstractDAOTest {
 	@Test
 	@DisplayName("Saving an assignment of type ESCORTS")
 	public void test6_save() {
-		Assignment a = ModelUtil.getAssignment(c, wsc3, "Pirates vs. Ninjas");
+		Assignment a = ModelUtil.getAssignment(c, wsc3, "Pirates vs. Ninjas", nowDate);
 		
 		Run run = ModelUtil.getRun(c, "run1");
 		a.setRun(run);
@@ -167,7 +167,7 @@ public class AssignmentDAOTest extends AbstractDAOTest {
 	@Test
 	@DisplayName("Saving an assignment of type OTHER requires an OtherAssignCode")
 	public void test7_save() {
-		Assignment a = ModelUtil.getAssignment(c, wsc4, "Pirates vs. Ninjas");
+		Assignment a = ModelUtil.getAssignment(c, wsc4, "Pirates vs. Ninjas", nowDate);
 		
 		Errors errors = new CustomErrors("Assignment");
 		validator.validate(a, errors);
@@ -179,7 +179,7 @@ public class AssignmentDAOTest extends AbstractDAOTest {
 	@Test
 	@DisplayName("Saving an assignment of type OTHER")
 	public void test8_save() {
-		Assignment a = ModelUtil.getAssignment(c, wsc4, "Pirates vs. Ninjas");
+		Assignment a = ModelUtil.getAssignment(c, wsc4, "Pirates vs. Ninjas", nowDate);
 		
 		OtherAssignCode oac = ModelUtil.getOtherAssignCode(OTHER_ASSIGN_CODE.GATE1.name(), "Gate 1", nowDate);
 		a.setOtherAssignCode(oac);
@@ -195,10 +195,10 @@ public class AssignmentDAOTest extends AbstractDAOTest {
 	@Test
 	@DisplayName("Save an assignment with recurrences")
 	public void test1_saveAssignmentWithChildren() {
-		Assignment a = ModelUtil.getAssignment(c, wsc1, "Pirates vs. Ninjas");
+		Assignment a = ModelUtil.getAssignment(c, wsc1, "Pirates vs. Ninjas", nowDate);
 		a.setCourtroom(cr);
 		
-		DutyRecurrence dr1 = ModelUtil.getDutyRecurrence(null, LocalTime.MIDNIGHT, LocalTime.NOON, 31L, (byte) 1);
+		DutyRecurrence dr1 = ModelUtil.getDutyRecurrence(null, LocalTime.MIDNIGHT, LocalTime.NOON, 31L, (byte) 1, nowDate);
 		a.getDutyRecurrences().add(dr1);
 		
 		Errors errors = new CustomErrors("Assignment");
@@ -216,7 +216,7 @@ public class AssignmentDAOTest extends AbstractDAOTest {
 	@Test
 	@DisplayName("Find assignment by courthouse id")
 	public void test1_findByCourthouseId() {
-		Assignment a = ModelUtil.getAssignment(c, wsc1, "Pirates vs. Ninjas");
+		Assignment a = ModelUtil.getAssignment(c, wsc1, "Pirates vs. Ninjas", nowDate);
 		a.setCourtroom(cr);
 		
 		assignmentDao.save(a);

@@ -56,9 +56,11 @@ public class JpaDutyRosterService implements DutyRosterService {
 			LocalDateTime start = dutyRecurrence.getStartTime().atDate(date);
 			LocalDateTime end = dutyRecurrence.getEndTime().atDate(date);
 			
+			//TODO: only create duties where it doesn't already exist for the assignment
+			
 			if (createForDate(date, dutyRecurrence.getDaysBitmap())) {
 				//only create a duty and sheriff duties if day of week matches
-				Duty d = new Duty(null, a, start, end, dutyRecurrence.getSheriffsRequired(), null, null, null, null, 0L, null);
+				Duty d = new Duty(null, a, dutyRecurrence, start, end, dutyRecurrence.getSheriffsRequired(), null, null, null, null, 0L, null);
 				
 				List<SheriffDuty> sheriffDuties = new ArrayList<>();
 				

@@ -34,8 +34,7 @@
     	<tagDatabase tag="00_PilotDataDB"/>
     </changeSet>
     
-    <!--
+    <!-- changes for assignment and duty_recurrence active -->
     <include file="shersched.db.changelog-01.xml"/>
-    -->
     
 </databaseChangeLog>

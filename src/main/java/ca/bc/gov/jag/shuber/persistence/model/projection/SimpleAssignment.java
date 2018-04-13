@@ -1,5 +1,6 @@
 package ca.bc.gov.jag.shuber.persistence.model.projection;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -19,24 +20,28 @@ public interface SimpleAssignment extends RestPath {
 	
 	String getTitle();
 	
-	@Value("#{'/workSectionCodes/' + target.workSectionCode.workSectionCode}")
+	LocalDate getEffectiveDate();
+	
+	LocalDate getExpiryDate();
+	
+	@Value("#{target.workSectionCode != null ? target.workSectionCode.idPath : ''}")
 	String getWorkSectionCodePath();
 	
-	@Value("#{target.jailRoleCode != null ? '/jailRoleCodes/' + target.jailRoleCode.jailRoleCode : ''}")
+	@Value("#{target.jailRoleCode != null ? target.jailRoleCode.idPath : ''}")
 	String getJailRoleIdPath();
 
-	@Value("#{target.otherAssignCode != null ? '/otherAssignCodes/' + target.otherAssignCode.otherAssignCode : ''}")
+	@Value("#{target.otherAssignCode != null ? target.otherAssignCode.idPath : ''}")
 	String getOtherAssignCodePath();
 	
-	@Value("#{target.run != null ? '/runs/' + target.run.runId : ''}")
+	@Value("#{target.run != null ? target.run.idPath : ''}")
 	String getRunIdPath();
 	
-	@Value("#{target.courthouse != null ? '/courthouses/' + target.courthouse.courthouseId : ''}")
+	@Value("#{target.courthouse != null ? target.courthouse.idPath : ''}")
 	String getCourthouseIdPath();
 	
-	@Value("#{target.courtroom != null ? '/courtrooms/' + target.courtroom.courtroomId : ''}")
+	@Value("#{target.courtroom != null ? target.courtroom.idPath : ''}")
 	String getCourtroomIdPath();
-
+	
 	List<DutyRecurrence> getDutyRecurrences();
 	
 }

@@ -1,5 +1,6 @@
 package ca.bc.gov.jag.shuber.persistence.model.projection;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.rest.core.config.Projection;
@@ -36,6 +37,10 @@ public interface AssignmentWithDetail extends RestPath {
 	WorkSectionCode getWorkSectionCode();
 	
 	String getTitle();
+	
+	LocalDate getEffectiveDate();
+	
+	LocalDate getExpiryDate();
 	
 	List<DutyRecurrence> getDutyRecurrences();
     

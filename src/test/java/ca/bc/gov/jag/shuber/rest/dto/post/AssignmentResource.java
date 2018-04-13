@@ -13,8 +13,11 @@ public class AssignmentResource {
 	public String run;
 	public String workSectionCode;
 	public String title;
+	public String effectiveDate;
+	public String expiryDate;
 	
-	public AssignmentResource(String courthouse, String courtroom, String jailRoleCode, String otherAssignCode, String run, String workSectionCode, String title) {
+	public AssignmentResource(String courthouse, String courtroom, String jailRoleCode, String otherAssignCode,
+			String run, String workSectionCode, String title, String effectiveDate, String expiryDate) {
 		this.courthouse = courthouse;
 		this.courtroom = courtroom;
 		this.jailRoleCode = jailRoleCode;
@@ -22,6 +25,8 @@ public class AssignmentResource {
 		this.run = run;
 		this.workSectionCode = workSectionCode;
 		this.title = title;
+		this.effectiveDate = effectiveDate;
+		this.expiryDate = expiryDate;
 	}
 	
 }

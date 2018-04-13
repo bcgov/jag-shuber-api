@@ -1,5 +1,6 @@
 package ca.bc.gov.jag.shuber.client.unit;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -36,12 +37,6 @@ import ca.bc.gov.jag.shuber.rest.dto.post.RegionResource;
 public class DutyRosterClientTest extends AbstractUnitTest {
 	/** Logger. */
 	private static final Logger log = LogManager.getLogger(DutyRosterClientTest.class);
-
-	private WorkSectionCode wsc;
-	private Region r;
-	private Courthouse c;
-	private Assignment a;
-	private DutyRecurrence dr;
 	
 	private LocalTime startTime = LocalTime.of(8, 0);
 	private LocalTime endTime = LocalTime.of(17, 0);
@@ -126,17 +121,20 @@ public class DutyRosterClientTest extends AbstractUnitTest {
 		String crtURI = response4.getBody().getId().getHref();
 		
 		//assignment
-		ResponseEntity<Resource<Assignment>> response5 = this.postResource(new AssignmentResource(cURI, crtURI, null, null, null, wscURI, "Assignment 1"));
+		ResponseEntity<Resource<Assignment>> response5 = this.postResource(new AssignmentResource(cURI, crtURI, null, null, null, wscURI, "Assignment 1", "2018-01-01", null));
 		Assertions.assertEquals(HttpStatus.CREATED, response5.getStatusCode());
 		String aURI = response5.getBody().getId().getHref();
 		
 		//duty recurrence
-		ResponseEntity<Resource<DutyRecurrence>> response6 = this.postResource(new DutyRecurrenceResource(aURI, "08:00", "17:00", "31", "2"));
+		ResponseEntity<Resource<DutyRecurrence>> response6 = this.postResource(new DutyRecurrenceResource(aURI, startTime.toString(), endTime.toString(), "1", "2", "2018-01-01", null));
 		Assertions.assertEquals(HttpStatus.CREATED, response6.getStatusCode());
 		String drURI = response6.getBody().getId().getHref();	
 		
+		//we must choose a date that has a valid value in daysBitmap
+		LocalDate dateWithMonday = LocalDate.of(2018, 4, 2);
+		
 		String courthouseId = cURI.substring(cURI.lastIndexOf("/") + 1);
-		String uri = String.format("/api/courthouses/%s/createDefaultDuties?date=%s", courthouseId, nowDate);
+		String uri = String.format("/api/courthouses/%s/createDefaultDuties?date=%s", courthouseId, dateWithMonday);
 		ResponseEntity<SimpleDutyResources> response7 = testRestTemplate.postForEntity(
 				uri,
 				null,
@@ -147,11 +145,13 @@ public class DutyRosterClientTest extends AbstractUnitTest {
 		
 		SimpleDuty sd = response7.getBody().getContent().iterator().next();
 		
-		LocalDateTime exStart = LocalDateTime.of(nowDate, startTime);
-		LocalDateTime exEnd = LocalDateTime.of(nowDate, endTime);
+		LocalDateTime exStart = LocalDateTime.of(dateWithMonday, startTime);
+		LocalDateTime exEnd = LocalDateTime.of(dateWithMonday, endTime);
 		String assignmentIdPath = "/assignments/" + aURI.substring(aURI.lastIndexOf("/") + 1);
+		String dutyRecurrenceIdPath = "/dutyRecurrences/" + drURI.substring(drURI.lastIndexOf("/") + 1);
 		
 		Assertions.assertEquals(assignmentIdPath, sd.assignmentIdPath);
+		Assertions.assertEquals(dutyRecurrenceIdPath, sd.dutyRecurrenceIdPath);
 		Assertions.assertEquals(exStart, sd.startDtm);
 		Assertions.assertEquals(exEnd, sd.endDtm);
 		Assertions.assertEquals(2, sd.sheriffsRequired);
