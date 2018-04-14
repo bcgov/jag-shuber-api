@@ -1,5 +1,6 @@
 package ca.bc.gov.jag.shuber.persistence.dao;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,9 +23,16 @@ import ca.bc.gov.jag.shuber.persistence.model.Assignment;
 @Repository
 public interface AssignmentDAO extends JpaRepository<Assignment, UUID> {
     // NOTE: add custom methods here
-	
 
-	@Query("SELECT a FROM Assignment a WHERE a.courthouse.courthouseId = :courthouseId")
-	List<Assignment> findByCourthouseId(@Param("courthouseId") UUID courthouseId);
-	
+	/**
+	 * 
+	 * @param courthouseId
+	 * @param date
+	 * @return
+	 */
+	@Query("SELECT a FROM Assignment a WHERE a.courthouse.courthouseId = :courthouseId AND a.effectiveDate <= :date AND (a.expiryDate IS NULL OR a.expiryDate >= :date)")
+	List<Assignment> findByCourthouseId(
+		@Param("courthouseId") UUID courthouseId,
+		@Param("date") LocalDate date);
+
 }

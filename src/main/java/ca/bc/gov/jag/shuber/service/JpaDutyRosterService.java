@@ -9,12 +9,13 @@ import java.util.UUID;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.bc.gov.jag.shuber.persistence.dao.DutyDAO;
 import ca.bc.gov.jag.shuber.persistence.dao.DutyRecurrenceDAO;
-import ca.bc.gov.jag.shuber.persistence.model.Assignment;
 import ca.bc.gov.jag.shuber.persistence.model.Duty;
 import ca.bc.gov.jag.shuber.persistence.model.DutyRecurrence;
 import ca.bc.gov.jag.shuber.persistence.model.SheriffDuty;
@@ -48,19 +49,24 @@ public class JpaDutyRosterService implements DutyRosterService {
 	@Override
 	public List<Duty> createDefaultDuties(UUID courthouseId, LocalDate date) {
 		List<Duty> duties = new ArrayList<>();
-		
-		List<DutyRecurrence> recurrences = dutyRecurrenceDao.getDutyRecurrences(courthouseId);
+		List<DutyRecurrence> recurrences = dutyRecurrenceDao.getDutyRecurrences(courthouseId, date);
 		
 		for (DutyRecurrence dutyRecurrence : recurrences) {
-			Assignment a = dutyRecurrence.getAssignment();
-			LocalDateTime start = dutyRecurrence.getStartTime().atDate(date);
-			LocalDateTime end = dutyRecurrence.getEndTime().atDate(date);
-			
-			//TODO: only create duties where it doesn't already exist for the assignment
-			
 			if (createForDate(date, dutyRecurrence.getDaysBitmap())) {
+				LocalDateTime start = dutyRecurrence.getStartTime().atDate(date);
+				LocalDateTime end = dutyRecurrence.getEndTime().atDate(date);
+				
+				long count = this.getExistingDutyCount(dutyRecurrence.getDutyRecurrenceId(), start, end);
+					
+				if (count > 0) {
+					if (log.isDebugEnabled()) {
+						log.debug("skipping creation of duty for duty recurrence " + dutyRecurrence.getDutyRecurrenceId() + ", count=" + count);
+					}
+					continue;
+				}
+				
 				//only create a duty and sheriff duties if day of week matches
-				Duty d = new Duty(null, a, dutyRecurrence, start, end, dutyRecurrence.getSheriffsRequired(), null, null, null, null, 0L, null);
+				Duty d = new Duty(null, dutyRecurrence.getAssignment(), dutyRecurrence, start, end, dutyRecurrence.getSheriffsRequired(), null, null, null, null, 0L, null);
 				
 				List<SheriffDuty> sheriffDuties = new ArrayList<>();
 				
@@ -81,6 +87,33 @@ public class JpaDutyRosterService implements DutyRosterService {
 		return duties;
 	}
 
+	/**
+	 * 
+	 * @param dutyRecurrenceId
+	 * @param start
+	 * @param end
+	 * @return
+	 */
+	long getExistingDutyCount(UUID dutyRecurrenceId, LocalDateTime start, LocalDateTime end) {
+		//find count of existing records
+		DutyRecurrence tmpDr = new DutyRecurrence();
+		tmpDr.setDutyRecurrenceId(dutyRecurrenceId);
+		
+		Duty tmpD = new Duty();
+		tmpD.setDutyRecurrence(tmpDr);
+		tmpD.setStartDtm(start);
+		tmpD.setEndDtm(end);
+		
+		/* ignore primitive values since they are never null, you need to be careful
+		 * with naming as the current entity doesn't need to be prefixed, but children do
+		 */
+		Example<Duty> example = Example.of(tmpD, ExampleMatcher.matching()
+			.withIgnorePaths("dutyRecurrence.sheriffsRequired", "dutyRecurrence.daysBitmap", "dutyRecurrence.revisionCount", "sheriffsRequired", "revisionCount")
+			.withIgnoreNullValues());
+		
+		return dutyDao.count(example);
+	}
+	
 	/**
 	 * Calculate if we need to create records based on the day of week 
 	 * for the given date and whether that matches a bit in the bitmap 

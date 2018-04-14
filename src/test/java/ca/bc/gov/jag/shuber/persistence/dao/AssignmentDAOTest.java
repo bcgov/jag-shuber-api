@@ -214,7 +214,7 @@ public class AssignmentDAOTest extends AbstractDAOTest {
 	}
 	
 	@Test
-	@DisplayName("Find assignment by courthouse id")
+	@DisplayName("Find assignment by courthouse id, no expiry date")
 	public void test1_findByCourthouseId() {
 		Assignment a = ModelUtil.getAssignment(c, wsc1, "Pirates vs. Ninjas", nowDate);
 		a.setCourtroom(cr);
@@ -222,8 +222,55 @@ public class AssignmentDAOTest extends AbstractDAOTest {
 		assignmentDao.save(a);
 		Assertions.assertNotNull(a.getAssignmentId());
 		
-		List<Assignment> records = assignmentDao.findByCourthouseId(c.getCourthouseId());
+		//before start
+		List<Assignment> records = assignmentDao.findByCourthouseId(c.getCourthouseId(), nowDate.minusDays(1));
+		Assertions.assertTrue(records.size() == 0);
+		
+		//same as start
+		records = assignmentDao.findByCourthouseId(c.getCourthouseId(), nowDate);
+		Assertions.assertTrue(records.size() == 1);
+		
+		//day after start
+		records = assignmentDao.findByCourthouseId(c.getCourthouseId(), nowDate.plusDays(1));
 		Assertions.assertTrue(records.size() == 1);
 	}
 	
+	@Test
+	@DisplayName("Find assignment by courthouse id, only effective 1 day")
+	public void test2_findByCourthouseId() {
+		Assignment a = ModelUtil.getAssignment(c, wsc1, "Pirates vs. Ninjas", nowDate);
+		a.setCourtroom(cr);
+		a.setExpiryDate(nowDate);
+		
+		assignmentDao.save(a);
+		Assertions.assertNotNull(a.getAssignmentId());
+		
+		//before start
+		List<Assignment> records = assignmentDao.findByCourthouseId(c.getCourthouseId(), nowDate.minusDays(1));
+		Assertions.assertTrue(records.size() == 0);
+		
+		//same day
+		records = assignmentDao.findByCourthouseId(c.getCourthouseId(), nowDate);
+		Assertions.assertTrue(records.size() == 1);
+		
+		//day after start
+		records = assignmentDao.findByCourthouseId(c.getCourthouseId(), nowDate.plusDays(1));
+		Assertions.assertTrue(records.size() == 0);
+	}
+
+	@Test
+	@DisplayName("Find assignment by courthouse id, in between")
+	public void test3_findByCourthouseId() {
+		Assignment a = ModelUtil.getAssignment(c, wsc1, "Pirates vs. Ninjas", nowDate);
+		a.setCourtroom(cr);
+		a.setExpiryDate(nowDate.plusDays(2));
+		
+		assignmentDao.save(a);
+		Assertions.assertNotNull(a.getAssignmentId());
+		
+		//in between
+		List<Assignment> records = assignmentDao.findByCourthouseId(c.getCourthouseId(), nowDate.plusDays(1));
+		Assertions.assertTrue(records.size() == 1);
+	}
+
 }

@@ -33,6 +33,7 @@ public class DutyRecurrenceDAOTest extends AbstractDAOTest {
 	private Courthouse c;
 	private Courtroom cr;
 	private Assignment a;
+	DutyRecurrence dr;
 	
 	@BeforeEach
 	@Override
@@ -46,7 +47,7 @@ public class DutyRecurrenceDAOTest extends AbstractDAOTest {
 		a = ModelUtil.getAssignment(c, wsc, "Pirates vs. Ninjas", nowDate);
 		a.setCourtroom(cr);
 		
-		DutyRecurrence dr = ModelUtil.getDutyRecurrence(a, nowTime, LocalTime.MIDNIGHT, 31, (byte) 2, nowDate);
+		dr = ModelUtil.getDutyRecurrence(a, nowTime, LocalTime.MIDNIGHT, 31, (byte) 2, nowDate);
 		
 		entityManager.persist(wsc);
 		entityManager.persist(r);
@@ -66,9 +67,48 @@ public class DutyRecurrenceDAOTest extends AbstractDAOTest {
 	}
 	
 	@Test
-	@DisplayName("Get duty recurrences by courthouse id")
+	@DisplayName("Get duty recurrences by courthouse id, no expiry date")
 	public void test1_getDutyRecurrences() {
-		List<DutyRecurrence> records = dutyRecurrenceDao.getDutyRecurrences(c.getCourthouseId());
+		//before start
+		List<DutyRecurrence> records = dutyRecurrenceDao.getDutyRecurrences(c.getCourthouseId(), nowDate.minusDays(1));
+		Assertions.assertTrue(records.size() == 0);
+		
+		//same as start
+		records = dutyRecurrenceDao.getDutyRecurrences(c.getCourthouseId(), nowDate);
+		Assertions.assertTrue(records.size() == 1);
+		
+		//day after start
+		records = dutyRecurrenceDao.getDutyRecurrences(c.getCourthouseId(), nowDate.plusDays(1));
+		Assertions.assertTrue(records.size() == 1);
+	}
+	
+	@Test
+	@DisplayName("Get duty recurrences by courthouse id, only effective 1 day")
+	public void test2_getDutyRecurrences() {
+		dr.setExpiryDate(nowDate);
+		entityManager.flush();
+		
+		//before start
+		List<DutyRecurrence> records = dutyRecurrenceDao.getDutyRecurrences(c.getCourthouseId(), nowDate.minusDays(1));
+		Assertions.assertTrue(records.size() == 0);
+		
+		//same day
+		records = dutyRecurrenceDao.getDutyRecurrences(c.getCourthouseId(), nowDate);
+		Assertions.assertTrue(records.size() == 1);
+		
+		//after end
+		records = dutyRecurrenceDao.getDutyRecurrences(c.getCourthouseId(), nowDate.plusDays(1));
+		Assertions.assertTrue(records.size() == 0);
+	}
+	
+	@Test
+	@DisplayName("Get duty recurrences by courthouse id, between start/end")
+	public void test3_getDutyRecurrences() {
+		dr.setExpiryDate(nowDate.plusDays(2));
+		entityManager.flush();
+		
+		//in between
+		List<DutyRecurrence> records = dutyRecurrenceDao.getDutyRecurrences(c.getCourthouseId(), nowDate.plusDays(1));
 		Assertions.assertTrue(records.size() == 1);
 	}
 	
