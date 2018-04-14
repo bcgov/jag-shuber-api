@@ -1,5 +1,6 @@
 package ca.bc.gov.jag.shuber.persistence.dao;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,7 +24,15 @@ import ca.bc.gov.jag.shuber.persistence.model.DutyRecurrence;
 public interface DutyRecurrenceDAO extends JpaRepository<DutyRecurrence, UUID> {
     // NOTE: add custom methods here
 
-	@Query("SELECT r FROM DutyRecurrence r WHERE r.assignment.courthouse.courthouseId = :courthouseId")
-	List<DutyRecurrence> getDutyRecurrences(@Param("courthouseId") UUID courthouseId);
+	/**
+	 * 
+	 * @param courthouseId
+	 * @param date
+	 * @return
+	 */
+	@Query("SELECT r FROM DutyRecurrence r WHERE r.assignment.courthouse.courthouseId = :courthouseId AND r.effectiveDate <= :date AND (r.expiryDate IS NULL OR r.expiryDate >= :date)")
+	List<DutyRecurrence> getDutyRecurrences(
+		@Param("courthouseId") UUID courthouseId,
+		@Param("date") LocalDate date);
 
 }
