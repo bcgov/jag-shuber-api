@@ -152,8 +152,8 @@ public class DutyRosterClientTest extends AbstractUnitTest {
 		
 		Assertions.assertEquals(assignmentIdPath, sd.assignmentIdPath);
 		Assertions.assertEquals(dutyRecurrenceIdPath, sd.dutyRecurrenceIdPath);
-		Assertions.assertEquals(exStart, sd.startDtm);
-		Assertions.assertEquals(exEnd, sd.endDtm);
+		Assertions.assertEquals(exStart, sd.startDateTime);
+		Assertions.assertEquals(exEnd, sd.endDateTime);
 		Assertions.assertEquals(2, sd.sheriffsRequired);
 		Assertions.assertEquals(2, sd.sheriffDuties.size());
 		
