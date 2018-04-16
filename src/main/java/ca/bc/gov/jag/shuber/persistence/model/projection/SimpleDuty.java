@@ -6,9 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.rest.core.config.Projection;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import ca.bc.gov.jag.shuber.persistence.RestPath;
 import ca.bc.gov.jag.shuber.persistence.model.Duty;
-import ca.bc.gov.jag.shuber.persistence.model.SheriffDuty;
 
 /**
  * 
@@ -23,12 +24,14 @@ public interface SimpleDuty extends RestPath {
 	@Value("#{target.dutyRecurrence != null ? target.dutyRecurrence.idPath : ''}")
 	String getDutyRecurrenceIdPath();
 	
+	@JsonProperty("startDateTime")
 	LocalDateTime getStartDtm();
 
+	@JsonProperty("endDateTime")
 	LocalDateTime getEndDtm();
 	
 	byte getSheriffsRequired();
 	
-	List<SheriffDuty> getSheriffDuties();
+	List<SimpleSheriffDuty> getSheriffDuties();
 	
 }
