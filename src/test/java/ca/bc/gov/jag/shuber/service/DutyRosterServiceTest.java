@@ -16,6 +16,7 @@ import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import ca.bc.gov.jag.shuber.AbstractTest;
+import ca.bc.gov.jag.shuber.persistence.dao.AssignmentDAO;
 import ca.bc.gov.jag.shuber.persistence.dao.DutyDAO;
 import ca.bc.gov.jag.shuber.persistence.dao.DutyRecurrenceDAO;
 
@@ -27,6 +28,7 @@ import ca.bc.gov.jag.shuber.persistence.dao.DutyRecurrenceDAO;
 @ExtendWith(SpringExtension.class)
 public class DutyRosterServiceTest extends AbstractTest {
 
+	private AssignmentDAO assignmentDao;
 	private DutyRecurrenceDAO dutyRecurrenceDao;
 	private DutyDAO dutyDao;
 	
@@ -34,9 +36,10 @@ public class DutyRosterServiceTest extends AbstractTest {
 	
 	@PostConstruct
 	public void setup() {
+		assignmentDao = Mockito.mock(AssignmentDAO.class);
 		dutyRecurrenceDao = Mockito.mock(DutyRecurrenceDAO.class);
 		dutyDao = Mockito.mock(DutyDAO.class);
-		dutyRosterService = new JpaDutyRosterService(dutyRecurrenceDao, dutyDao);
+		dutyRosterService = new JpaDutyRosterService(assignmentDao, dutyRecurrenceDao, dutyDao);
 	}
 	
 	@BeforeEach

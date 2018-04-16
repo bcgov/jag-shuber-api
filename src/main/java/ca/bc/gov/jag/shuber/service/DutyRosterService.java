@@ -20,4 +20,18 @@ public interface DutyRosterService {
 	 */
 	List<Duty> createDefaultDuties(UUID courthouseId, LocalDate date);
 
+	/**
+	 * 
+	 * @param assignmentId
+	 * @param date
+	 */
+	boolean expireAssignment(UUID assignmentId, LocalDate date);
+	
+	/**
+	 * 
+	 * @param dutyRecurrenceId
+	 * @param date
+	 */
+	boolean expireDutyRecurrence(UUID dutyRecurrenceId, LocalDate date);
+	
 }

@@ -6,28 +6,30 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 
-import javax.annotation.PostConstruct;
+import org.junit.jupiter.api.BeforeAll;
 
 /**
  * Base class for JUnit tests.
+ * 
  * @author michael.gabelmann
  */
 public abstract class AbstractTest {
 	/** Current date and time with time zone. */
-	protected Instant now;
+	protected static Instant now;
 	
 	/** Current date. */
-	protected LocalDate nowDate;
+	protected static LocalDate nowDate;
 	
 	/** Current time. */
-	protected LocalTime nowTime;
+	protected static LocalTime nowTime;
 	
 	/** Current date and time. */
-	protected LocalDateTime nowDateTime;
+	protected static LocalDateTime nowDateTime;
+
 	
-	
-	@PostConstruct
-	public void postConstruct() {
+	/** Setup all dates for tests. */
+	@BeforeAll
+	public static void initializeAbstractTest() {
 		now  = Instant.now();
 		nowDate = now.atZone(ZoneId.systemDefault()).toLocalDate();
 		nowTime = now.atZone(ZoneId.systemDefault()).toLocalTime();
