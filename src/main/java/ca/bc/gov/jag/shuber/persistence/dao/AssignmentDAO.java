@@ -7,7 +7,8 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.data.rest.core.annotation.RestResource;
 
 import ca.bc.gov.jag.shuber.persistence.model.Assignment;
 
@@ -20,7 +21,8 @@ import ca.bc.gov.jag.shuber.persistence.model.Assignment;
  * @version 391
  * @see ca.bc.gov.jag.shuber.persistence.model.Assignment
  */
-@Repository
+//@Repository
+@RepositoryRestResource
 public interface AssignmentDAO extends JpaRepository<Assignment, UUID> {
     // NOTE: add custom methods here
 
@@ -35,4 +37,12 @@ public interface AssignmentDAO extends JpaRepository<Assignment, UUID> {
 		@Param("courthouseId") UUID courthouseId,
 		@Param("date") LocalDate date);
 
+
+	//NOTE: to hide delete you must export both!
+	@RestResource(exported = false)
+	void deleteById(UUID id);
+
+	@RestResource(exported = false)
+	void delete(Assignment entity);
+	
 }

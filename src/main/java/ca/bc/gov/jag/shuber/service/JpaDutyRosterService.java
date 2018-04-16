@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.apache.logging.log4j.LogManager;
@@ -14,8 +15,10 @@ import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ca.bc.gov.jag.shuber.persistence.dao.AssignmentDAO;
 import ca.bc.gov.jag.shuber.persistence.dao.DutyDAO;
 import ca.bc.gov.jag.shuber.persistence.dao.DutyRecurrenceDAO;
+import ca.bc.gov.jag.shuber.persistence.model.Assignment;
 import ca.bc.gov.jag.shuber.persistence.model.Duty;
 import ca.bc.gov.jag.shuber.persistence.model.DutyRecurrence;
 import ca.bc.gov.jag.shuber.persistence.model.SheriffDuty;
@@ -33,6 +36,8 @@ public class JpaDutyRosterService implements DutyRosterService {
 	
 	private DutyDAO dutyDao;
 	
+	private AssignmentDAO assignmentDao;
+	
 	
 	/**
 	 * 
@@ -40,7 +45,12 @@ public class JpaDutyRosterService implements DutyRosterService {
 	 * @param dutyDao
 	 */
 	@Autowired
-	public JpaDutyRosterService(DutyRecurrenceDAO dutyRecurrenceDao, DutyDAO dutyDao) {
+	public JpaDutyRosterService(
+		AssignmentDAO assignmentDao, 
+		DutyRecurrenceDAO dutyRecurrenceDao, 
+		DutyDAO dutyDao) {
+		
+		this.assignmentDao = assignmentDao;
 		this.dutyRecurrenceDao = dutyRecurrenceDao;
 		this.dutyDao = dutyDao;
 	}
@@ -85,6 +95,65 @@ public class JpaDutyRosterService implements DutyRosterService {
 		}
 		
 		return duties;
+	}
+	
+	@Transactional(readOnly = false)
+	@Override
+	public boolean expireAssignment(UUID assignmentId, LocalDate date) {
+		Optional<Assignment> tmp = assignmentDao.findById(assignmentId);
+		
+		if (! tmp.isPresent()) {
+			return false;
+		}
+		
+		Assignment a = tmp.get();
+		if (date == null) date = LocalDate.now();
+		if (date.isBefore(a.getEffectiveDate())) {
+			a.setExpiryDate(a.getEffectiveDate());
+			
+		} else {
+			a.setExpiryDate(date);
+		}
+
+		assignmentDao.save(a);
+		
+		List<DutyRecurrence> records = a.getDutyRecurrences();
+		for (DutyRecurrence dr : records) {
+			if (date.isBefore(dr.getEffectiveDate())) {
+				dr.setExpiryDate(dr.getEffectiveDate());
+				
+			} else {
+				dr.setExpiryDate(date);
+			}
+			
+			dutyRecurrenceDao.save(dr);
+		}
+		
+		return true;
+	}
+
+	@Transactional(readOnly = false)
+	@Override
+	public boolean expireDutyRecurrence(UUID dutyRecurrenceId, LocalDate date) {
+		Optional<DutyRecurrence> tmp = dutyRecurrenceDao.findById(dutyRecurrenceId);
+		
+		if (! tmp.isPresent()) {
+			return false;
+		}
+		
+		DutyRecurrence dr = tmp.get();
+		if (date == null) date = LocalDate.now();
+		if (date.isBefore(dr.getEffectiveDate())) {
+			dr.setExpiryDate(dr.getEffectiveDate());
+			
+		} else {
+			dr.setExpiryDate(date);
+		}
+		
+		dr.setExpiryDate(date);
+		dutyRecurrenceDao.save(dr);
+		
+		return true;
 	}
 
 	/**

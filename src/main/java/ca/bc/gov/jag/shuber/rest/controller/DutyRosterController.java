@@ -18,14 +18,18 @@ import org.springframework.hateoas.LinkBuilder;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.bc.gov.jag.shuber.persistence.model.Assignment;
 import ca.bc.gov.jag.shuber.persistence.model.Courthouse;
 import ca.bc.gov.jag.shuber.persistence.model.Duty;
+import ca.bc.gov.jag.shuber.persistence.model.DutyRecurrence;
 import ca.bc.gov.jag.shuber.persistence.model.projection.SimpleDuty;
 import ca.bc.gov.jag.shuber.service.DutyRosterService;
 
@@ -40,6 +44,8 @@ import ca.bc.gov.jag.shuber.service.DutyRosterService;
 public class DutyRosterController {
 	public static final String PATH = "/api";
 	public static final String PATH_CREATE_DEFAULT_DUTIES = "/courthouses/{id}/createDefaultDuties";
+	public static final String PATH_DELETE_ASSIGNMENT = "/assignments/{id}/expire";
+	public static final String PATH_DELETE_DUTY_RECURRENCE = "/dutyRecurrences/{id}/expire";
 
 	/** Logger. */
 	private static final Logger log = LogManager.getLogger(DutyRosterController.class);
@@ -60,7 +66,7 @@ public class DutyRosterController {
 	 * @return list of duties and sheriff duties created
 	 */
 	@PostMapping(path = PATH_CREATE_DEFAULT_DUTIES)
-	public ResponseEntity<?> createDefaultDuties(
+	public ResponseEntity<Resources<SimpleDuty>> createDefaultDuties(
 		@NotNull @PathVariable("id") UUID id, 
 		@NotNull @RequestParam("date") LocalDate date) {
 		
@@ -80,6 +86,50 @@ public class DutyRosterController {
 		
 		Resources<SimpleDuty> r = new Resources<>(records, self);
 		return new ResponseEntity<Resources<SimpleDuty>>(r, HttpStatus.CREATED);
+	}
+
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@DeleteMapping(path = PATH_DELETE_ASSIGNMENT)
+	public ResponseEntity<Assignment> expireAssignment(
+		@NotNull @PathVariable("id") UUID id,
+		@Nullable @RequestParam("expiryDate") LocalDate date) {
+		
+		if (log.isDebugEnabled()) {
+			log.debug("expire assignment " + id.toString());
+		}
+		
+		if (date == null) date = LocalDate.now();
+		
+		boolean state = dutyRosterService.expireAssignment(id, date);
+		HttpStatus status = state ? HttpStatus.NO_CONTENT : HttpStatus.METHOD_NOT_ALLOWED;
+		
+		return new ResponseEntity<Assignment>(status);
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@DeleteMapping(path = PATH_DELETE_DUTY_RECURRENCE)
+	public ResponseEntity<DutyRecurrence> expireDutyRecurrence(
+		@NotNull @PathVariable("id") UUID id,
+		@Nullable @RequestParam("expiryDate") LocalDate date) {
+		
+		if (log.isDebugEnabled()) {
+			log.debug("expire duty recurrence " + id.toString());
+		}
+		
+		if (date == null) date = LocalDate.now();
+		
+		boolean state = dutyRosterService.expireDutyRecurrence(id, date);
+		HttpStatus status = state ? HttpStatus.NO_CONTENT : HttpStatus.METHOD_NOT_ALLOWED;
+		
+		return new ResponseEntity<DutyRecurrence>(status);
 	}
 
 }

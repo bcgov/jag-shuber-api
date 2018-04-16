@@ -3,6 +3,7 @@ package ca.bc.gov.jag.shuber.client.unit;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.UUID;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,8 +14,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 
 import ca.bc.gov.jag.shuber.persistence.model.Assignment;
 import ca.bc.gov.jag.shuber.persistence.model.Courthouse;
@@ -23,6 +27,7 @@ import ca.bc.gov.jag.shuber.persistence.model.DutyRecurrence;
 import ca.bc.gov.jag.shuber.persistence.model.ModelUtil;
 import ca.bc.gov.jag.shuber.persistence.model.Region;
 import ca.bc.gov.jag.shuber.persistence.model.WorkSectionCode;
+import ca.bc.gov.jag.shuber.rest.controller.DutyRosterController;
 import ca.bc.gov.jag.shuber.rest.dto.SimpleDuty;
 import ca.bc.gov.jag.shuber.rest.dto.post.AssignmentResource;
 import ca.bc.gov.jag.shuber.rest.dto.post.CourthouseResource;
@@ -34,12 +39,18 @@ import ca.bc.gov.jag.shuber.rest.dto.post.RegionResource;
  * 
  * @author michael.gabelmann
  */
+@DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 public class DutyRosterClientTest extends AbstractUnitTest {
 	/** Logger. */
 	private static final Logger log = LogManager.getLogger(DutyRosterClientTest.class);
 	
 	private LocalTime startTime = LocalTime.of(8, 0);
 	private LocalTime endTime = LocalTime.of(17, 0);
+	
+	private String wscURI;
+	private String rURI;
+	private String cURI;
+	private String crtURI;
 	
 	@BeforeEach
 	@Override
@@ -100,26 +111,6 @@ public class DutyRosterClientTest extends AbstractUnitTest {
 	@Test
 	@DisplayName("Create default duties")
 	public void test1_createDefaultDuties() throws Exception {
-		//work section code
-		ResponseEntity<Resource<WorkSectionCode>> response1 = this.postResource(ModelUtil.getWorkSectionCode("COURTS", "Courts", nowDate));
-		Assertions.assertEquals(HttpStatus.CREATED, response1.getStatusCode());
-		String wscURI = response1.getBody().getId().getHref();
-		
-		//region
-		ResponseEntity<Resource<Region>> response2 = this.postResource(new RegionResource("VANISLAND", "Vancouver Island", null));
-		Assertions.assertEquals(HttpStatus.CREATED, response2.getStatusCode());
-		String rURI = response2.getBody().getId().getHref();
-		
-		//courthouse
-		ResponseEntity<Resource<Courthouse>> response3 = this.postResource(new CourthouseResource(rURI, "1201", "Victoria"));
-		Assertions.assertEquals(HttpStatus.CREATED, response3.getStatusCode());
-		String cURI = response3.getBody().getId().getHref();
-		
-		//courtroom
-		ResponseEntity<Resource<Courtroom>> response4 = this.postResource(new CourtroomResource(cURI, "101", "Room 101"));
-		Assertions.assertEquals(HttpStatus.CREATED, response4.getStatusCode());
-		String crtURI = response4.getBody().getId().getHref();
-		
 		//assignment
 		ResponseEntity<Resource<Assignment>> response5 = this.postResource(new AssignmentResource(cURI, crtURI, null, null, null, wscURI, "Assignment 1", "2018-01-01", null));
 		Assertions.assertEquals(HttpStatus.CREATED, response5.getStatusCode());
@@ -158,6 +149,114 @@ public class DutyRosterClientTest extends AbstractUnitTest {
 		Assertions.assertEquals(2, sd.sheriffDuties.size());
 		
 		//TODO: iterate over sheriff duties and ensure they are correct
+	}
+	
+	@Test
+	@DisplayName("Try to DELETE an assignment when the endpoint is disabled")
+	public void test1_expireAssignment() throws Exception {
+		ResponseEntity<Assignment> response = testRestTemplate.exchange("/api/assignments/" + UUID.randomUUID(), HttpMethod.DELETE, null, Assignment.class);
+		Assertions.assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
+	}
+	
+	@Test
+	@DisplayName("Expire assignment that exists with no children")
+	public void test2_expireAssignment() throws Exception {
+		//assignment
+		ResponseEntity<Resource<Assignment>> response = this.postResource(new AssignmentResource(cURI, crtURI, null, null, null, wscURI, "Assignment 1", "2018-01-01", null));
+		Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		String aURI = response.getBody().getId().getHref();
+		
+		//pseudo delete
+		String deletePath = DutyRosterController.PATH + DutyRosterController.PATH_DELETE_ASSIGNMENT.replace("{id}", aURI.substring(aURI.lastIndexOf("/") + 1));
+		ResponseEntity<Assignment> response2 = testRestTemplate.exchange(deletePath, HttpMethod.DELETE, null, Assignment.class);
+		Assertions.assertEquals(HttpStatus.NO_CONTENT, response2.getStatusCode());
+		
+		//verify expiry date set
+		ResponseEntity<Resource<Assignment>> response3 = testRestTemplate.exchange(aURI, HttpMethod.GET, null, aRef);
+		Assertions.assertEquals(HttpStatus.OK, response3.getStatusCode());
+		Assertions.assertEquals(nowDate, response3.getBody().getContent().getExpiryDate());
+	}
+
+	@Test
+	@DisplayName("Expire assignment that exists with children")
+	public void test3_expireAssignment() throws Exception {
+		//assignment
+		ResponseEntity<Resource<Assignment>> response = this.postResource(new AssignmentResource(cURI, crtURI, null, null, null, wscURI, "Assignment 1", "2018-01-01", null));
+		Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		String aURI = response.getBody().getId().getHref();
+		
+		//duty recurrence
+		ResponseEntity<Resource<DutyRecurrence>> response2 = this.postResource(new DutyRecurrenceResource(aURI, startTime.toString(), endTime.toString(), "1", "2", "2018-01-01", null));
+		Assertions.assertEquals(HttpStatus.CREATED, response2.getStatusCode());
+		String drURI = response2.getBody().getId().getHref();	
+		
+		//pseudo delete
+		String deletePath = DutyRosterController.PATH + DutyRosterController.PATH_DELETE_ASSIGNMENT.replace("{id}", aURI.substring(aURI.lastIndexOf("/") + 1));
+		ResponseEntity<Assignment> response3 = testRestTemplate.exchange(deletePath, HttpMethod.DELETE, null, Assignment.class);
+		Assertions.assertEquals(HttpStatus.NO_CONTENT, response3.getStatusCode());
+		
+		ResponseEntity<Resource<DutyRecurrence>> response4 = testRestTemplate.exchange(drURI, HttpMethod.GET, null, drRef);
+		Assertions.assertEquals(HttpStatus.OK, response4.getStatusCode());
+		Assertions.assertEquals(nowDate, response4.getBody().getContent().getExpiryDate());
+	}
+	
+	@Test
+	@DisplayName("Try to DELETE a duty recurrence when the endpoint is disabled")
+	public void test1_expireDutyRecurrence() {
+		ResponseEntity<DutyRecurrence> response = testRestTemplate.exchange("/api/dutyRecurrences/" + UUID.randomUUID(), HttpMethod.DELETE, null, DutyRecurrence.class);
+		Assertions.assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
+	}
+	
+	@Test
+	@DisplayName("Expire a duty recurrence that exists")
+	public void test2_expireDutyRecurrence() {
+		//assignment
+		ResponseEntity<Resource<Assignment>> response = this.postResource(new AssignmentResource(cURI, crtURI, null, null, null, wscURI, "Assignment 1", "2018-01-01", null));
+		Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		String aURI = response.getBody().getId().getHref();
+		
+		//duty recurrence
+		ResponseEntity<Resource<DutyRecurrence>> response2 = this.postResource(new DutyRecurrenceResource(aURI, startTime.toString(), endTime.toString(), "1", "2", "2018-01-01", null));
+		Assertions.assertEquals(HttpStatus.CREATED, response2.getStatusCode());
+		String drURI = response2.getBody().getId().getHref();	
+		
+		String deletePath = DutyRosterController.PATH + DutyRosterController.PATH_DELETE_DUTY_RECURRENCE.replace("{id}", drURI.substring(drURI.lastIndexOf("/") + 1));
+		ResponseEntity<DutyRecurrence> response3 = testRestTemplate.exchange(deletePath, HttpMethod.DELETE, null, DutyRecurrence.class);
+		Assertions.assertEquals(HttpStatus.NO_CONTENT, response3.getStatusCode());
+		
+		ResponseEntity<Resource<DutyRecurrence>> response4 = testRestTemplate.exchange(drURI, HttpMethod.GET, null, drRef);
+		Assertions.assertEquals(HttpStatus.OK, response4.getStatusCode());
+		Assertions.assertEquals(nowDate, response4.getBody().getContent().getExpiryDate());
+	}
+	
+	/**
+	 * This is run before each test but is depends upon the @DirtiesContext annotation. 
+	 * NOTE: We really just need to truncate all the tables, so there may be a faster way to do this.
+	 * 
+	 * @see DirtiesContext
+	 * @throws Exception error
+	 */
+	@BeforeEach
+	public void initializeData() throws Exception {
+		//work section code
+		ResponseEntity<Resource<WorkSectionCode>> response1 = this.postResource(ModelUtil.getWorkSectionCode("COURTS", "Courts", nowDate));
+		Assertions.assertEquals(HttpStatus.CREATED, response1.getStatusCode());
+		wscURI = response1.getBody().getId().getHref();
+		
+		//region
+		ResponseEntity<Resource<Region>> response2 = this.postResource(new RegionResource("VANISLAND", "Vancouver Island", null));
+		Assertions.assertEquals(HttpStatus.CREATED, response2.getStatusCode());
+		rURI = response2.getBody().getId().getHref();
+		
+		//courthouse
+		ResponseEntity<Resource<Courthouse>> response3 = this.postResource(new CourthouseResource(rURI, "1201", "Victoria"));
+		Assertions.assertEquals(HttpStatus.CREATED, response3.getStatusCode());
+		cURI = response3.getBody().getId().getHref();
+		
+		//courtroom
+		ResponseEntity<Resource<Courtroom>> response4 = this.postResource(new CourtroomResource(cURI, "101", "Room 101"));
+		Assertions.assertEquals(HttpStatus.CREATED, response4.getStatusCode());
+		crtURI = response4.getBody().getId().getHref();
 	}
 	
 	static class SimpleDutyResources extends Resources<SimpleDuty> {}

@@ -72,6 +72,16 @@ public abstract class AbstractClientTest extends AbstractTest {
 	@LocalServerPort
 	protected int port;
 	
+	protected final ParameterizedTypeReference<Resource<WorkSectionCode>> wscRef = new ParameterizedTypeReference<Resource<WorkSectionCode>>() {};
+	protected final ParameterizedTypeReference<Resource<JailRoleCode>> jrcRef = new ParameterizedTypeReference<Resource<JailRoleCode>>() {};
+	protected final ParameterizedTypeReference<Resource<OtherAssignCode>> oacRef = new ParameterizedTypeReference<Resource<OtherAssignCode>>() {};
+	protected final ParameterizedTypeReference<Resource<Region>> rRef = new ParameterizedTypeReference<Resource<Region>>() {};
+	protected final ParameterizedTypeReference<Resource<Courthouse>> cRef = new ParameterizedTypeReference<Resource<Courthouse>>() {};
+	protected final ParameterizedTypeReference<Resource<Courtroom>> crtRef = new ParameterizedTypeReference<Resource<Courtroom>>() {};
+	protected final ParameterizedTypeReference<Resource<Assignment>> aRef = new ParameterizedTypeReference<Resource<Assignment>>() {};
+	protected final ParameterizedTypeReference<Resource<DutyRecurrence>> drRef = new ParameterizedTypeReference<Resource<DutyRecurrence>>() {};
+
+
 	/**
 	 * Get REST template configured for HAL+JSON.
 	 * @return rest template
@@ -92,42 +102,34 @@ public abstract class AbstractClientTest extends AbstractTest {
 	
 	
 	public final ResponseEntity<Resource<WorkSectionCode>> postResource(WorkSectionCode wsc) {
-		ParameterizedTypeReference<Resource<WorkSectionCode>> wscRef = new ParameterizedTypeReference<Resource<WorkSectionCode>>() {};
 		return testRestTemplate.exchange("/api/workSectionCodes", HttpMethod.POST, new HttpEntity<WorkSectionCode>(wsc), wscRef);
 	}
 	
 	public final ResponseEntity<Resource<JailRoleCode>> postResource(JailRoleCode jrc) {
-		ParameterizedTypeReference<Resource<JailRoleCode>> jrcRef = new ParameterizedTypeReference<Resource<JailRoleCode>>() {};
 		return testRestTemplate.exchange("/api/jailRoleCodes", HttpMethod.POST, new HttpEntity<JailRoleCode>(jrc), jrcRef);
 	}
 	
 	public final ResponseEntity<Resource<OtherAssignCode>> postResource(OtherAssignCode oac) {
-		ParameterizedTypeReference<Resource<OtherAssignCode>> oacRef = new ParameterizedTypeReference<Resource<OtherAssignCode>>() {};
 		return testRestTemplate.exchange("/api/otherAssignCodes", HttpMethod.POST, new HttpEntity<OtherAssignCode>(oac), oacRef);
 	}
 	
 	public final ResponseEntity<Resource<Region>> postResource(RegionResource r) {
-		ParameterizedTypeReference<Resource<Region>> rRef = new ParameterizedTypeReference<Resource<Region>>() {};
 		return testRestTemplate.exchange("/api/regions", HttpMethod.POST, new HttpEntity<RegionResource>(r), rRef);
 	}
 	
 	public final ResponseEntity<Resource<Courthouse>> postResource(CourthouseResource c) {
-		ParameterizedTypeReference<Resource<Courthouse>> cRef = new ParameterizedTypeReference<Resource<Courthouse>>() {};
 		return testRestTemplate.exchange("/api/courthouses", HttpMethod.POST, new HttpEntity<CourthouseResource>(c), cRef);
 	}
 	
 	public final ResponseEntity<Resource<Courtroom>> postResource(CourtroomResource c) {
-		ParameterizedTypeReference<Resource<Courtroom>> cRef = new ParameterizedTypeReference<Resource<Courtroom>>() {};
-		return testRestTemplate.exchange("/api/courtrooms", HttpMethod.POST, new HttpEntity<CourtroomResource>(c), cRef);
+		return testRestTemplate.exchange("/api/courtrooms", HttpMethod.POST, new HttpEntity<CourtroomResource>(c), crtRef);
 	}
 	
 	public final ResponseEntity<Resource<Assignment>> postResource(AssignmentResource ar) {
-		ParameterizedTypeReference<Resource<Assignment>> aRef = new ParameterizedTypeReference<Resource<Assignment>>() {};
 		return testRestTemplate.exchange("/api/assignments", HttpMethod.POST, new HttpEntity<AssignmentResource>(ar), aRef);
 	}
 	
 	public final ResponseEntity<Resource<DutyRecurrence>> postResource(DutyRecurrenceResource dr) {
-		ParameterizedTypeReference<Resource<DutyRecurrence>> drRef = new ParameterizedTypeReference<Resource<DutyRecurrence>>() {};
 		return testRestTemplate.exchange("/api/dutyRecurrences", HttpMethod.POST, new HttpEntity<DutyRecurrenceResource>(dr), drRef);
 	}
 	
