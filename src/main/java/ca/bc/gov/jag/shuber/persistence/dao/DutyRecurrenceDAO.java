@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
-import org.springframework.data.rest.core.annotation.RestResource;
 
 import ca.bc.gov.jag.shuber.persistence.model.DutyRecurrence;
 
@@ -38,10 +37,10 @@ public interface DutyRecurrenceDAO extends JpaRepository<DutyRecurrence, UUID> {
 		@Param("date") LocalDate date);
 
 	//NOTE: to hide delete you must export both!
-	@RestResource(exported = false)
-	void deleteById(UUID id);
-
-	@RestResource(exported = false)
-	void delete(DutyRecurrence entity);
+//	@RestResource(exported = false)
+//	void deleteById(UUID id);
+//
+//	@RestResource(exported = false)
+//	void delete(DutyRecurrence entity);
 	
 }
