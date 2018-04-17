@@ -21,6 +21,7 @@ import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -67,6 +68,7 @@ public class DutyRosterController {
 	 * @param date create entries for this date
 	 * @return list of duties and sheriff duties created
 	 */
+	@CrossOrigin
 	@PostMapping(path = PATH_CREATE_DEFAULT_DUTIES)
 	public ResponseEntity<Resources<SimpleDuty>> createDefaultDuties(
 		@NotNull @PathVariable("id") UUID id, 
@@ -95,6 +97,7 @@ public class DutyRosterController {
 	 * @param id
 	 * @return
 	 */
+	@CrossOrigin
 	@DeleteMapping(path = PATH_DELETE_ASSIGNMENT)
 	public ResponseEntity<Assignment> expireAssignment(
 		@NotNull @PathVariable("id") UUID id,
@@ -117,6 +120,7 @@ public class DutyRosterController {
 	 * @param id
 	 * @return
 	 */
+	@CrossOrigin
 	@DeleteMapping(path = PATH_DELETE_DUTY_RECURRENCE)
 	public ResponseEntity<DutyRecurrence> expireDutyRecurrence(
 		@NotNull @PathVariable("id") UUID id,
