@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,7 +33,7 @@ public class AssignmentController {
 	@Autowired
 	private AssignmentService assignmentService;
 
-	
+	@CrossOrigin
 	@RequestMapping(value = PATH_ASSIGNMENTS, method = RequestMethod.POST)
 	public ResponseEntity<AssignmentResponse> createAssignment(@Valid @RequestBody Assignment assignment) {
 		log.debug("processing create assignment");

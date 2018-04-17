@@ -5,9 +5,13 @@ import java.util.concurrent.TimeUnit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
  * Changes how the application handles CORS. Configured through an application property.
@@ -30,7 +34,8 @@ public class RepositoryRestConfig extends RepositoryRestConfigurerAdapter {
 			//allow all CORS requests
 			log.warn("testing CORS filtering");
 			
-			config.getCorsRegistry().addMapping("/**")
+			config.getCorsRegistry()
+				.addMapping("/**")
 				.allowedOrigins("*")
 				.allowedHeaders("*")
 				.allowCredentials(true)
@@ -42,7 +47,7 @@ public class RepositoryRestConfig extends RepositoryRestConfigurerAdapter {
 			log.debug("default CORS filtering");
 		}
 		
-		//expose @Id field for each resource
+//		//expose @Id field for each resource
 //		ClassPathScanningCandidateComponentProvider provider = new ClassPathScanningCandidateComponentProvider(false);
 //		provider.addIncludeFilter(new RegexPatternTypeFilter(Pattern.compile(".*")));
 //		
