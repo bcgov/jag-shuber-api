@@ -12,6 +12,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.LinkBuilder;
@@ -68,7 +70,7 @@ public class DutyRosterController {
 	@PostMapping(path = PATH_CREATE_DEFAULT_DUTIES)
 	public ResponseEntity<Resources<SimpleDuty>> createDefaultDuties(
 		@NotNull @PathVariable("id") UUID id, 
-		@NotNull @RequestParam("date") LocalDate date) {
+		@NotNull @DateTimeFormat(iso = ISO.DATE) @RequestParam("date") LocalDate date) {
 		
 		if (log.isDebugEnabled()) {
 			log.debug("creating default duties for courthouse " + id + " and date " + date);
@@ -96,7 +98,7 @@ public class DutyRosterController {
 	@DeleteMapping(path = PATH_DELETE_ASSIGNMENT)
 	public ResponseEntity<Assignment> expireAssignment(
 		@NotNull @PathVariable("id") UUID id,
-		@Nullable @RequestParam("expiryDate") LocalDate date) {
+		@Nullable @DateTimeFormat(iso = ISO.DATE) @RequestParam("expiryDate") LocalDate date) {
 		
 		if (log.isDebugEnabled()) {
 			log.debug("expire assignment " + id.toString());
@@ -118,7 +120,7 @@ public class DutyRosterController {
 	@DeleteMapping(path = PATH_DELETE_DUTY_RECURRENCE)
 	public ResponseEntity<DutyRecurrence> expireDutyRecurrence(
 		@NotNull @PathVariable("id") UUID id,
-		@Nullable @RequestParam("expiryDate") LocalDate date) {
+		@Nullable @DateTimeFormat(iso = ISO.DATE) @RequestParam("expiryDate") LocalDate date) {
 		
 		if (log.isDebugEnabled()) {
 			log.debug("expire duty recurrence " + id.toString());

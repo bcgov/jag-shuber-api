@@ -28,7 +28,7 @@ public interface SimpleAssignment extends RestPath {
 	String getWorkSectionCodePath();
 	
 	@Value("#{target.jailRoleCode != null ? target.jailRoleCode.idPath : ''}")
-	String getJailRoleIdPath();
+	String getJailRoleCodePath();
 
 	@Value("#{target.otherAssignCode != null ? target.otherAssignCode.idPath : ''}")
 	String getOtherAssignCodePath();
