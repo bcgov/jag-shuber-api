@@ -3,6 +3,8 @@ package ca.bc.gov.jag.shuber.client;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
@@ -14,11 +16,13 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.Resource;
+import org.springframework.hateoas.Resources;
 import org.springframework.hateoas.hal.Jackson2HalModule;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -33,15 +37,18 @@ import ca.bc.gov.jag.shuber.AbstractTest;
 import ca.bc.gov.jag.shuber.persistence.model.Assignment;
 import ca.bc.gov.jag.shuber.persistence.model.Courthouse;
 import ca.bc.gov.jag.shuber.persistence.model.Courtroom;
+import ca.bc.gov.jag.shuber.persistence.model.Duty;
 import ca.bc.gov.jag.shuber.persistence.model.DutyRecurrence;
 import ca.bc.gov.jag.shuber.persistence.model.JailRoleCode;
 import ca.bc.gov.jag.shuber.persistence.model.OtherAssignCode;
 import ca.bc.gov.jag.shuber.persistence.model.Region;
 import ca.bc.gov.jag.shuber.persistence.model.WorkSectionCode;
+import ca.bc.gov.jag.shuber.persistence.model.projection.SimpleDuty;
 import ca.bc.gov.jag.shuber.rest.dto.post.AssignmentResource;
 import ca.bc.gov.jag.shuber.rest.dto.post.CourthouseResource;
 import ca.bc.gov.jag.shuber.rest.dto.post.CourtroomResource;
 import ca.bc.gov.jag.shuber.rest.dto.post.DutyRecurrenceResource;
+import ca.bc.gov.jag.shuber.rest.dto.post.DutyResource;
 import ca.bc.gov.jag.shuber.rest.dto.post.RegionResource;
 
 /**
@@ -80,7 +87,7 @@ public abstract class AbstractClientTest extends AbstractTest {
 	protected final ParameterizedTypeReference<Resource<Courtroom>> crtRef = new ParameterizedTypeReference<Resource<Courtroom>>() {};
 	protected final ParameterizedTypeReference<Resource<Assignment>> aRef = new ParameterizedTypeReference<Resource<Assignment>>() {};
 	protected final ParameterizedTypeReference<Resource<DutyRecurrence>> drRef = new ParameterizedTypeReference<Resource<DutyRecurrence>>() {};
-
+	protected final ParameterizedTypeReference<Resource<Duty>> dRef = new ParameterizedTypeReference<Resource<Duty>>() {};
 
 	/**
 	 * Get REST template configured for HAL+JSON.
@@ -97,9 +104,25 @@ public abstract class AbstractClientTest extends AbstractTest {
 
         List<HttpMessageConverter<?>> list = new ArrayList<HttpMessageConverter<?>>();
         list.add(converter);
+        
         return new RestTemplate(list);
 	}
 	
+	/**
+	 * NOTE: there is an issue with PATCH and using testRestTemplate.exchange(). It will fail
+	 * with method not allowed. You have to use the the code below to modify the restTemplate.
+	 * There must be a better solution. Maybe try Mockito / MockMVC?
+	 * 
+	 * @see https://rtmccormick.com/2017/07/30/solved-testing-patch-spring-boot-testresttemplate/
+	 * @return rest template
+	 */
+	public final RestTemplate getPatchRestTemplate() {
+		HttpClient httpClient = HttpClientBuilder.create().build();
+		RestTemplate patchRestTemplate = testRestTemplate.getRestTemplate();
+        patchRestTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(httpClient));
+        
+        return patchRestTemplate;
+	}
 	
 	public final ResponseEntity<Resource<WorkSectionCode>> postResource(WorkSectionCode wsc) {
 		return testRestTemplate.exchange("/api/workSectionCodes", HttpMethod.POST, new HttpEntity<WorkSectionCode>(wsc), wscRef);
@@ -129,8 +152,12 @@ public abstract class AbstractClientTest extends AbstractTest {
 		return testRestTemplate.exchange("/api/assignments", HttpMethod.POST, new HttpEntity<AssignmentResource>(ar), aRef);
 	}
 	
-	public final ResponseEntity<Resource<DutyRecurrence>> postResource(DutyRecurrenceResource dr) {
-		return testRestTemplate.exchange("/api/dutyRecurrences", HttpMethod.POST, new HttpEntity<DutyRecurrenceResource>(dr), drRef);
+	public final ResponseEntity<Resource<DutyRecurrence>> postResource(DutyRecurrenceResource drr) {
+		return testRestTemplate.exchange("/api/dutyRecurrences", HttpMethod.POST, new HttpEntity<DutyRecurrenceResource>(drr), drRef);
+	}
+	
+	public final ResponseEntity<Resource<Duty>> postDuty(DutyResource d) {
+		return testRestTemplate.exchange("/api/duties", HttpMethod.POST, new HttpEntity<DutyResource>(d), dRef);
 	}
 	
 }

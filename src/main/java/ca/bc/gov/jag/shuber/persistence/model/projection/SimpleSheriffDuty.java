@@ -7,6 +7,7 @@ import org.springframework.data.rest.core.config.Projection;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import ca.bc.gov.jag.shuber.persistence.RestPath;
 import ca.bc.gov.jag.shuber.persistence.model.SheriffDuty;
 
 /**
@@ -14,7 +15,7 @@ import ca.bc.gov.jag.shuber.persistence.model.SheriffDuty;
  * @author michael.gabelmann
  */
 @Projection(name = "simpleSheriffDuty", types = { SheriffDuty.class })
-public interface SimpleSheriffDuty {
+public interface SimpleSheriffDuty extends RestPath {
 
 	@Value("#{target.duty != null ? target.duty.idPath : ''}")
 	String getDutyIdPath();
