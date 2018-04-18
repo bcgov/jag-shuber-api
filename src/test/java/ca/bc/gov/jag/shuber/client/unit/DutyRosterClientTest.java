@@ -14,15 +14,20 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
+import org.springframework.web.client.RestTemplate;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import ca.bc.gov.jag.shuber.persistence.model.Assignment;
 import ca.bc.gov.jag.shuber.persistence.model.Courthouse;
 import ca.bc.gov.jag.shuber.persistence.model.Courtroom;
+import ca.bc.gov.jag.shuber.persistence.model.Duty;
 import ca.bc.gov.jag.shuber.persistence.model.DutyRecurrence;
 import ca.bc.gov.jag.shuber.persistence.model.ModelUtil;
 import ca.bc.gov.jag.shuber.persistence.model.Region;
@@ -33,7 +38,9 @@ import ca.bc.gov.jag.shuber.rest.dto.post.AssignmentResource;
 import ca.bc.gov.jag.shuber.rest.dto.post.CourthouseResource;
 import ca.bc.gov.jag.shuber.rest.dto.post.CourtroomResource;
 import ca.bc.gov.jag.shuber.rest.dto.post.DutyRecurrenceResource;
+import ca.bc.gov.jag.shuber.rest.dto.post.DutyResource;
 import ca.bc.gov.jag.shuber.rest.dto.post.RegionResource;
+import ca.bc.gov.jag.shuber.rest.request.ExpiryDate;
 
 /**
  * 
@@ -152,10 +159,10 @@ public class DutyRosterClientTest extends AbstractUnitTest {
 	}
 	
 	@Test
-	@DisplayName("Try to DELETE an assignment when the endpoint is disabled")
+	@DisplayName("Try to DELETE an assignment that does not exist")
 	public void test1_expireAssignment() throws Exception {
 		ResponseEntity<Assignment> response = testRestTemplate.exchange("/api/assignments/" + UUID.randomUUID(), HttpMethod.DELETE, null, Assignment.class);
-		Assertions.assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
+		Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 	}
 	
 	@Test
@@ -166,15 +173,18 @@ public class DutyRosterClientTest extends AbstractUnitTest {
 		Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
 		String aURI = response.getBody().getId().getHref();
 		
-		//pseudo delete
-		String deletePath = DutyRosterController.PATH + DutyRosterController.PATH_DELETE_ASSIGNMENT.replace("{id}", aURI.substring(aURI.lastIndexOf("/") + 1));
-		ResponseEntity<Assignment> response2 = testRestTemplate.exchange(deletePath, HttpMethod.DELETE, null, Assignment.class);
-		Assertions.assertEquals(HttpStatus.NO_CONTENT, response2.getStatusCode());
+		/* Verify expiry date set, we used a date prior to the effectiveDate to
+		 * ensure that the effectiveDate is set instead.
+		 */
+		ExpiryDate ed = new ExpiryDate(LocalDate.of(2017, 1, 1));
+		String patchPath = DutyRosterController.PATH + DutyRosterController.PATH_EXPIRE_ASSIGNMENT.replace("{id}", aURI.substring(aURI.lastIndexOf("/") + 1));
 		
-		//verify expiry date set
-		ResponseEntity<Resource<Assignment>> response3 = testRestTemplate.exchange(aURI, HttpMethod.GET, null, aRef);
-		Assertions.assertEquals(HttpStatus.OK, response3.getStatusCode());
-		Assertions.assertEquals(nowDate, response3.getBody().getContent().getExpiryDate());
+		RestTemplate patchRestTemplate = this.getPatchRestTemplate();
+        ResponseEntity<String> response2 = patchRestTemplate.exchange(patchPath, HttpMethod.PATCH, new HttpEntity<ExpiryDate>(ed), String.class);
+		Assertions.assertEquals(HttpStatus.OK, response2.getStatusCode());
+		
+		JsonNode jsonNodeRoot = mapper.readTree(response2.getBody());
+		Assertions.assertEquals("2018-01-01", jsonNodeRoot.get("expiryDate").asText());
 	}
 
 	@Test
@@ -190,26 +200,31 @@ public class DutyRosterClientTest extends AbstractUnitTest {
 		Assertions.assertEquals(HttpStatus.CREATED, response2.getStatusCode());
 		String drURI = response2.getBody().getId().getHref();	
 		
-		//pseudo delete
-		String deletePath = DutyRosterController.PATH + DutyRosterController.PATH_DELETE_ASSIGNMENT.replace("{id}", aURI.substring(aURI.lastIndexOf("/") + 1));
-		ResponseEntity<Assignment> response3 = testRestTemplate.exchange(deletePath, HttpMethod.DELETE, null, Assignment.class);
-		Assertions.assertEquals(HttpStatus.NO_CONTENT, response3.getStatusCode());
+		ExpiryDate ed = new ExpiryDate(nowDate);
+		String patchPath = DutyRosterController.PATH + DutyRosterController.PATH_EXPIRE_ASSIGNMENT.replace("{id}", aURI.substring(aURI.lastIndexOf("/") + 1));		
 		
-		ResponseEntity<Resource<DutyRecurrence>> response4 = testRestTemplate.exchange(drURI, HttpMethod.GET, null, drRef);
-		Assertions.assertEquals(HttpStatus.OK, response4.getStatusCode());
-		Assertions.assertEquals(nowDate, response4.getBody().getContent().getExpiryDate());
+		RestTemplate patchRestTemplate = this.getPatchRestTemplate();
+		ResponseEntity<String> response3 = patchRestTemplate.exchange(patchPath, HttpMethod.PATCH, new HttpEntity<ExpiryDate>(ed), String.class);
+		Assertions.assertEquals(HttpStatus.OK, response3.getStatusCode());
+		
+		JsonNode jsonNodeRoot = mapper.readTree(response3.getBody());
+		Assertions.assertEquals("2018-04-18", jsonNodeRoot.get("expiryDate").asText());
+		
+		JsonNode dutyRecurrences = jsonNodeRoot.get("dutyRecurrences");
+		JsonNode dr = dutyRecurrences.get(0);
+		Assertions.assertEquals("2018-04-18", dr.get("expiryDate").asText());
 	}
 	
 	@Test
-	@DisplayName("Try to DELETE a duty recurrence when the endpoint is disabled")
+	@DisplayName("Try to DELETE a duty recurrence that does not exist")
 	public void test1_expireDutyRecurrence() {
 		ResponseEntity<DutyRecurrence> response = testRestTemplate.exchange("/api/dutyRecurrences/" + UUID.randomUUID(), HttpMethod.DELETE, null, DutyRecurrence.class);
-		Assertions.assertEquals(HttpStatus.METHOD_NOT_ALLOWED, response.getStatusCode());
+		Assertions.assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 	}
 	
 	@Test
 	@DisplayName("Expire a duty recurrence that exists")
-	public void test2_expireDutyRecurrence() {
+	public void test2_expireDutyRecurrence() throws Exception {
 		//assignment
 		ResponseEntity<Resource<Assignment>> response = this.postResource(new AssignmentResource(cURI, crtURI, null, null, null, wscURI, "Assignment 1", "2018-01-01", null));
 		Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
@@ -220,13 +235,49 @@ public class DutyRosterClientTest extends AbstractUnitTest {
 		Assertions.assertEquals(HttpStatus.CREATED, response2.getStatusCode());
 		String drURI = response2.getBody().getId().getHref();	
 		
-		String deletePath = DutyRosterController.PATH + DutyRosterController.PATH_DELETE_DUTY_RECURRENCE.replace("{id}", drURI.substring(drURI.lastIndexOf("/") + 1));
-		ResponseEntity<DutyRecurrence> response3 = testRestTemplate.exchange(deletePath, HttpMethod.DELETE, null, DutyRecurrence.class);
-		Assertions.assertEquals(HttpStatus.NO_CONTENT, response3.getStatusCode());
+		/* Verify expiry date set, we used a date prior to the effectiveDate to
+		 * ensure that the effectiveDate is set instead.
+		 */
+		ExpiryDate ed = new ExpiryDate(LocalDate.of(2017, 1, 1));
+		String expirePath = DutyRosterController.PATH + DutyRosterController.PATH_EXPIRE_DUTY_RECURRENCE.replace("{id}", drURI.substring(drURI.lastIndexOf("/") + 1));
+
+		RestTemplate patchRestTemplate = this.getPatchRestTemplate();
+		ResponseEntity<String> response3 = patchRestTemplate.exchange(expirePath, HttpMethod.PATCH, new HttpEntity<ExpiryDate>(ed), String.class);
+		Assertions.assertEquals(HttpStatus.OK, response3.getStatusCode());
 		
-		ResponseEntity<Resource<DutyRecurrence>> response4 = testRestTemplate.exchange(drURI, HttpMethod.GET, null, drRef);
-		Assertions.assertEquals(HttpStatus.OK, response4.getStatusCode());
-		Assertions.assertEquals(nowDate, response4.getBody().getContent().getExpiryDate());
+		JsonNode jsonNodeRoot = mapper.readTree(response3.getBody());
+		Assertions.assertEquals("2018-01-01", jsonNodeRoot.get("expiryDate").asText());
+	}
+	
+	@Test
+	@DisplayName("Get duties for a courthouse")
+	public void test1_getDutiesByCourthouseAndDateRange() throws Exception {
+		//assignment
+		ResponseEntity<Resource<Assignment>> response = this.postResource(new AssignmentResource(cURI, crtURI, null, null, null, wscURI, "Assignment 1", "2018-01-01", null));
+		Assertions.assertEquals(HttpStatus.CREATED, response.getStatusCode());
+		String aURI = response.getBody().getId().getHref();
+		
+		//duty
+		LocalDateTime start = LocalDateTime.of(2018, 1, 1, 9, 0);
+		LocalDateTime end = LocalDateTime.of(2018, 1, 1, 17, 0);
+		
+		ResponseEntity<Resource<Duty>> response2 = this.postDuty(new DutyResource(aURI, null, start.toString(), end.toString(), "1"));
+		Assertions.assertEquals(HttpStatus.CREATED, response2.getStatusCode());
+		String dURI = response2.getBody().getId().getHref();
+		String dutyId = dURI.substring(dURI.lastIndexOf("/") + 1);
+		
+		String getPath = DutyRosterController.PATH + DutyRosterController.PATH_GET_DUTIES_BY_COURTHOUSE_AND_DATERANGE.replace("{id}", cURI.substring(cURI.lastIndexOf("/") + 1));
+		getPath += "?startDate=" + start.toLocalDate();
+		
+		ResponseEntity<String> response3 = testRestTemplate.exchange(getPath, HttpMethod.GET, null, String.class);
+		Assertions.assertEquals(HttpStatus.OK, response3.getStatusCode());
+		
+		JsonNode jsonNodeRoot = mapper.readTree(response3.getBody());
+		JsonNode dutiesNode = jsonNodeRoot.findValue("duties");
+		Assertions.assertTrue(dutiesNode.has(0));
+		
+		JsonNode simpleDuty = dutiesNode.get(0);
+		Assertions.assertEquals("/duties/" + dutyId, simpleDuty.get("idPath").asText());
 	}
 	
 	/**
@@ -259,5 +310,5 @@ public class DutyRosterClientTest extends AbstractUnitTest {
 		crtURI = response4.getBody().getId().getHref();
 	}
 	
-	static class SimpleDutyResources extends Resources<SimpleDuty> {}
+	static class SimpleDutyResources extends Resources<SimpleDuty> {} 
 }

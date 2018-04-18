@@ -99,14 +99,18 @@ public class JpaDutyRosterService implements DutyRosterService {
 	
 	@Transactional(readOnly = false)
 	@Override
-	public boolean expireAssignment(UUID assignmentId, LocalDate date) {
+	public Assignment expireAssignment(UUID assignmentId, LocalDate date) {
+		Assignment a = null;
+		
 		Optional<Assignment> tmp = assignmentDao.findById(assignmentId);
 		
 		if (! tmp.isPresent()) {
-			return false;
+			return a;
+			
+		} else {
+			a =tmp.get();
 		}
 		
-		Assignment a = tmp.get();
 		if (date == null) date = LocalDate.now();
 		if (date.isBefore(a.getEffectiveDate())) {
 			a.setExpiryDate(a.getEffectiveDate());
@@ -129,19 +133,23 @@ public class JpaDutyRosterService implements DutyRosterService {
 			dutyRecurrenceDao.save(dr);
 		}
 		
-		return true;
+		return a;
 	}
 
 	@Transactional(readOnly = false)
 	@Override
-	public boolean expireDutyRecurrence(UUID dutyRecurrenceId, LocalDate date) {
+	public DutyRecurrence expireDutyRecurrence(UUID dutyRecurrenceId, LocalDate date) {
+		DutyRecurrence dr = null;
+		
 		Optional<DutyRecurrence> tmp = dutyRecurrenceDao.findById(dutyRecurrenceId);
 		
 		if (! tmp.isPresent()) {
-			return false;
+			return dr;
+			
+		} else {
+			dr = tmp.get();
 		}
 		
-		DutyRecurrence dr = tmp.get();
 		if (date == null) date = LocalDate.now();
 		if (date.isBefore(dr.getEffectiveDate())) {
 			dr.setExpiryDate(dr.getEffectiveDate());
@@ -150,10 +158,19 @@ public class JpaDutyRosterService implements DutyRosterService {
 			dr.setExpiryDate(date);
 		}
 		
-		dr.setExpiryDate(date);
 		dutyRecurrenceDao.save(dr);
 		
-		return true;
+		return dr;
+	}
+	
+	@Transactional(readOnly = true)
+	@Override
+	public List<Duty> getDutiesByCourthouseAndDateRange(
+		UUID courthouseId, 
+		LocalDateTime startDtm,
+		LocalDateTime endDtm) {
+		
+		return dutyDao.getByCourthouseAndDay(courthouseId, startDtm, endDtm);
 	}
 
 	/**

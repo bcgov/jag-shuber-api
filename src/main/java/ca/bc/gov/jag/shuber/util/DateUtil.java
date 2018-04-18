@@ -1,7 +1,9 @@
 package ca.bc.gov.jag.shuber.util;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
@@ -104,4 +106,12 @@ public final class DateUtil {
 		return sdf.format(date);
 	}
 	
+	/**
+	 * Java LocalDate does not provide an atEndOfDay method, so we will create our own.
+	 * @param date
+	 * @return
+	 */
+	public static LocalDateTime atEndOfDay(LocalDate date) {
+		return date.atTime(LocalTime.MAX);
+	}
 }

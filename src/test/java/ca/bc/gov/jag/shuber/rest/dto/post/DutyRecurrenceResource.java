@@ -16,6 +16,7 @@ public class DutyRecurrenceResource {
 	
 	public DutyRecurrenceResource(String assignment, String startTime, String endTime, String daysBitmap,
 			String sheriffsRequired, String effectiveDate, String expiryDate) {
+		
 		this.assignment = assignment;
 		this.startTime = startTime;
 		this.endTime = endTime;

@@ -1,10 +1,13 @@
 package ca.bc.gov.jag.shuber.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import ca.bc.gov.jag.shuber.persistence.model.Assignment;
 import ca.bc.gov.jag.shuber.persistence.model.Duty;
+import ca.bc.gov.jag.shuber.persistence.model.DutyRecurrence;
 
 /**
  * 
@@ -13,7 +16,7 @@ import ca.bc.gov.jag.shuber.persistence.model.Duty;
 public interface DutyRosterService {
 
 	/**
-	 * 
+	 * Create default duties for a courthouse for given date.
 	 * @param courthouseId
 	 * @param date
 	 * @return
@@ -22,16 +25,25 @@ public interface DutyRosterService {
 
 	/**
 	 * 
-	 * @param assignmentId
-	 * @param date
+	 * @param courthouseId
+	 * @param startDtm
+	 * @param endDtm
+	 * @return
 	 */
-	boolean expireAssignment(UUID assignmentId, LocalDate date);
+	List<Duty> getDutiesByCourthouseAndDateRange(UUID courthouseId, LocalDateTime startDtm, LocalDateTime endDtm);
 	
 	/**
-	 * 
-	 * @param dutyRecurrenceId
-	 * @param date
+	 * Expire assignment.
+	 * @param assignmentId
+	 * @param date optional
 	 */
-	boolean expireDutyRecurrence(UUID dutyRecurrenceId, LocalDate date);
+	Assignment expireAssignment(UUID assignmentId, LocalDate date);
+	
+	/**
+	 * Expire duty recurrence.
+	 * @param dutyRecurrenceId
+	 * @param date optional
+	 */
+	DutyRecurrence expireDutyRecurrence(UUID dutyRecurrenceId, LocalDate date);
 	
 }
