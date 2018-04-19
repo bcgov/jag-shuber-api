@@ -49,7 +49,10 @@ public class WorkSectionCode extends AbstractTypeCode implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "workSectionCode")
     private List<Assignment> assignments = new ArrayList<Assignment>(0);
     
-    /** No args constructor. */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "workSectionCode")
+    private List<Shift> shifts = new ArrayList<Shift>(0);
+
+	/** No args constructor. */
     public WorkSectionCode() {}
 
     /** Required args constructor. */
@@ -111,6 +114,14 @@ public class WorkSectionCode extends AbstractTypeCode implements Serializable {
     public void setAssignments(List<Assignment> assignments) {
         this.assignments = assignments;
     }
+    
+    public List<Shift> getShifts() {
+		return shifts;
+	}
+
+	public void setShifts(List<Shift> shifts) {
+		this.shifts = shifts;
+	}
     
     //Added Methods
     @Transient

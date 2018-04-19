@@ -82,6 +82,9 @@ public class Courthouse extends AbstractAuditableVersionable implements Serializ
     private List<Courtroom> courtrooms = new ArrayList<Courtroom>(0);
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "courthouse")
+    private List<Shift> shifts = new ArrayList<Shift>(0);
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "courthouse")
     private List<Run> runs = new ArrayList<Run>(0);
     
     /** No args constructor. */
@@ -224,7 +227,15 @@ public class Courthouse extends AbstractAuditableVersionable implements Serializ
     public void setCourtrooms(List<Courtroom> courtrooms) {
         this.courtrooms = courtrooms;
     }
+    
+    public List<Shift> getShifts() {
+		return shifts;
+	}
 
+	public void setShifts(List<Shift> shifts) {
+		this.shifts = shifts;
+	}
+    
     public List<Run> getRuns() {
         return this.runs;
     }

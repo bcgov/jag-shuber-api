@@ -208,11 +208,11 @@ public class DutyRosterClientTest extends AbstractUnitTest {
 		Assertions.assertEquals(HttpStatus.OK, response3.getStatusCode());
 		
 		JsonNode jsonNodeRoot = mapper.readTree(response3.getBody());
-		Assertions.assertEquals("2018-04-18", jsonNodeRoot.get("expiryDate").asText());
+		Assertions.assertEquals(nowDate.toString(), jsonNodeRoot.get("expiryDate").asText());
 		
 		JsonNode dutyRecurrences = jsonNodeRoot.get("dutyRecurrences");
 		JsonNode dr = dutyRecurrences.get(0);
-		Assertions.assertEquals("2018-04-18", dr.get("expiryDate").asText());
+		Assertions.assertEquals(nowDate.toString(), dr.get("expiryDate").asText());
 	}
 	
 	@Test

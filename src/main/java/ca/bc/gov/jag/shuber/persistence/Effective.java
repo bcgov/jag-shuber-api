@@ -3,9 +3,9 @@ package ca.bc.gov.jag.shuber.persistence;
 import java.time.LocalDate;
 
 /**
-*
-* @author michael.gabelmann
-*/
+ *
+ * @author michael.gabelmann
+ */
 public interface Effective {
 	/**
 	 * Get effective date.
