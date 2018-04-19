@@ -9,8 +9,6 @@ import org.springframework.hateoas.EntityLinks;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ca.bc.gov.jag.shuber.service.DutyRosterService;
-
 /**
  * 
  * @author michael.gabelmann
@@ -31,5 +29,6 @@ public class SheduleController {
 	
 	private ProjectionFactory projectionFactory = new SpelAwareProxyProjectionFactory();
 	
+	//@CrossOrigin
 	
 }
