@@ -116,7 +116,7 @@ public class DutyRosterController {
 			log.debug("expire assignment " + id.toString());
 		}
 		
-		LocalDate expiryDate = e == null || e.expiryDate == null ? LocalDate.now() : e.expiryDate;
+		LocalDate expiryDate = e == null || e.getExpiryDate() == null ? LocalDate.now() : e.getExpiryDate();
 		Assignment a = dutyRosterService.expireAssignment(id, expiryDate);
 		SimpleAssignment a2 = projectionFactory.createNullableProjection(SimpleAssignment.class, a);
 		
@@ -141,7 +141,7 @@ public class DutyRosterController {
 			log.debug("expire duty recurrence " + id.toString());
 		}
 		
-		LocalDate expiryDate = e == null || e.expiryDate == null ? LocalDate.now() : e.expiryDate;
+		LocalDate expiryDate = e == null || e.getExpiryDate() == null ? LocalDate.now() : e.getExpiryDate();
 		DutyRecurrence dr = dutyRosterService.expireDutyRecurrence(id, expiryDate);
 		SimpleDutyRecurrence dr2 = projectionFactory.createNullableProjection(SimpleDutyRecurrence.class, dr);
 		

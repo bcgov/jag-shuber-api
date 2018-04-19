@@ -79,6 +79,9 @@ public class Sheriff extends AbstractAuditableVersionable implements Serializabl
     private String userid;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sheriff")
+    private List<Shift> shifts = new ArrayList<Shift>(0);
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sheriff")
     private List<SheriffDuty> sheriffDuties = new ArrayList<SheriffDuty>(0);
     
     /** No args constructor. */
@@ -201,7 +204,15 @@ public class Sheriff extends AbstractAuditableVersionable implements Serializabl
     public void setUserid(String userid) {
         this.userid = userid;
     }
+    
+    public List<Shift> getShifts() {
+		return shifts;
+	}
 
+	public void setShifts(List<Shift> shifts) {
+		this.shifts = shifts;
+	}
+    
     public List<SheriffDuty> getSheriffDuties() {
         return this.sheriffDuties;
     }
