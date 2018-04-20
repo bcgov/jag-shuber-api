@@ -83,6 +83,8 @@ public class DutyRosterController {
 		@PathVariable("id") UUID id, 
 		@NotNull @DateTimeFormat(iso = ISO.DATE) @RequestParam("date") LocalDate date) {
 		
+		//NOTE: this should probably be a POST instead
+		
 		if (log.isDebugEnabled()) {
 			log.debug("creating default duties for courthouse " + id + " and date " + date);
 		}
