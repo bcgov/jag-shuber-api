@@ -1,6 +1,7 @@
 package ca.bc.gov.jag.shuber.rest.controller;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
@@ -25,9 +26,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import ca.bc.gov.jag.shuber.persistence.model.Shift;
 import ca.bc.gov.jag.shuber.persistence.model.projection.SimpleShift;
 import ca.bc.gov.jag.shuber.rest.request.ShiftCopyOptions;
 import ca.bc.gov.jag.shuber.rest.request.ShiftCreateOptions;
+import ca.bc.gov.jag.shuber.service.ScheduleService;
 
 /**
  * 
@@ -41,8 +44,8 @@ public class SheduleController {
 	/** Logger. */
 	private static final Logger log = LogManager.getLogger(SheduleController.class);
 	
-	//@Autowired
-	//private DutyRosterService dutyRosterService;
+	@Autowired
+	private ScheduleService scheduleService;
 	
 	@Autowired
     private EntityLinks entityLinks;
@@ -67,7 +70,7 @@ public class SheduleController {
 		}
 		
 		//TODO: call service to do work
-		
+		List<Shift> records = scheduleService.copyShifts(copyOptions);
 		
 		return new ResponseEntity<>(null, HttpStatus.OK);
 	}
@@ -89,6 +92,7 @@ public class SheduleController {
 		}
 		
 		//TODO: call service to do work
+		List<Shift> records = scheduleService.createShifts(createOptions);
 		
 		return new ResponseEntity<>(null, HttpStatus.OK);
 	}
@@ -109,9 +113,16 @@ public class SheduleController {
 			log.debug(String.format("delete shifts for courthouse=%s, date=%s", courthouseId, date.toString()));
 		}
 		
-		//TODO: call service to do work
+		HttpStatus status;
+		if (date.isBefore(LocalDate.now())) {
+			status = HttpStatus.BAD_REQUEST;
+			
+		} else {
+			status = HttpStatus.OK;
+			scheduleService.deleteShiftsForDate(date);
+		}
 		
-		return new ResponseEntity<>(null, HttpStatus.OK);
+		return new ResponseEntity<>(null, status);
 	}
 	
 }

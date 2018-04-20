@@ -40,7 +40,7 @@ public class JpaDutyRosterService implements DutyRosterService {
 	
 	
 	/**
-	 * 
+	 * Constructor.
 	 * @param dutyRecurrenceDao
 	 * @param dutyDao
 	 */
