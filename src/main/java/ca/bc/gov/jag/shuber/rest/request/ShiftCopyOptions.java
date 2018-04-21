@@ -28,27 +28,24 @@ public class ShiftCopyOptions {
 	
 	@JsonProperty("startOfWeekSource")
 	@NotNull
-	private LocalDate startDate;
+	private LocalDate sourceStartDate;
 	
 	@JsonProperty("startOfWeekDestination")
 	@NotNull
-	private LocalDate fromDate;
+	private LocalDate destinationStartDate;
 	
 	@Nullable
 	private Integer numDays;
 
 	
 	public ShiftCopyOptions() {
-		this.includeSheriffs = false;
-		this.startDate = LocalDate.now();
-		this.fromDate = LocalDate.now().plusDays(7);
-		this.numDays = Integer.valueOf(DEFAULT_NUMDAYS_COPY_SHIFT);
+		this(false, LocalDate.now(), LocalDate.now().plusDays(DEFAULT_NUMDAYS_COPY_SHIFT), Integer.valueOf(DEFAULT_NUMDAYS_COPY_SHIFT));
 	}
 	
-	public ShiftCopyOptions(@NotNull boolean includeSheriffs, @NotNull LocalDate startDate, @NotNull LocalDate fromDate, Integer numDays) {
+	public ShiftCopyOptions(@NotNull boolean includeSheriffs, @NotNull LocalDate sourceStartDate, @NotNull LocalDate destinationStartDate, Integer numDays) {
 		this.includeSheriffs = includeSheriffs;
-		this.startDate = startDate;
-		this.fromDate = fromDate;
+		this.sourceStartDate = sourceStartDate;
+		this.destinationStartDate = destinationStartDate;
 		this.numDays = numDays;
 	}
 
@@ -60,20 +57,20 @@ public class ShiftCopyOptions {
 		this.includeSheriffs = includeSheriffs;
 	}
 
-	public LocalDate getStartDate() {
-		return startDate;
+	public LocalDate getSourceStartDate() {
+		return sourceStartDate;
 	}
 
-	public void setStartDate(LocalDate startDate) {
-		this.startDate = startDate;
+	public void setSourceStartDate(LocalDate sourceStartDate) {
+		this.sourceStartDate = sourceStartDate;
 	}
 
-	public LocalDate getFromDate() {
-		return fromDate;
+	public LocalDate getDestinationStartDate() {
+		return destinationStartDate;
 	}
 
-	public void setFromDate(LocalDate fromDate) {
-		this.fromDate = fromDate;
+	public void setDestinationStartDate(LocalDate destinationStartDate) {
+		this.destinationStartDate = destinationStartDate;
 	}
 
 	public Integer getNumDays() {
@@ -83,7 +80,7 @@ public class ShiftCopyOptions {
 	public void setNumDays(Integer numDays) {
 		this.numDays = numDays;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -91,11 +88,11 @@ public class ShiftCopyOptions {
 		sb.append("[includeSheriffs=");
 		sb.append(includeSheriffs);
 		sb.append(", ");
-		sb.append("startDate=");
-		sb.append(startDate != null ? startDate.toString() : "");
+		sb.append("sourceStartDate=");
+		sb.append(sourceStartDate != null ? sourceStartDate.toString() : "");
 		sb.append(", ");
-		sb.append("fromDate=");
-		sb.append(fromDate != null ? fromDate.toString() : "");
+		sb.append("destinationStartDate=");
+		sb.append(destinationStartDate != null ? destinationStartDate.toString() : "");
 		sb.append(", ");
 		sb.append("numDays=");
 		sb.append(numDays != null ? numDays.toString() : "");

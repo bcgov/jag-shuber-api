@@ -1,20 +1,92 @@
 package ca.bc.gov.jag.shuber.persistence.dao;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import ca.bc.gov.jag.shuber.persistence.model.Courthouse;
+import ca.bc.gov.jag.shuber.persistence.model.ModelUtil;
+import ca.bc.gov.jag.shuber.persistence.model.Region;
+import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
+import ca.bc.gov.jag.shuber.persistence.model.SheriffRankCode;
+import ca.bc.gov.jag.shuber.persistence.model.Shift;
+import ca.bc.gov.jag.shuber.persistence.model.WorkSectionCode;
+import ca.bc.gov.jag.shuber.persistence.model.WorkSectionCode.WORK_SECTION_CODE;
+import ca.bc.gov.jag.shuber.util.DateUtil;
+
 /**
  * 
  * @author michael.gabelmann
  */
 public class ShiftDAOTest extends AbstractDAOTest {
 
+	@Autowired
+	private ShiftDAO shiftDao;
+	
+	private WorkSectionCode wsc1;
+	private SheriffRankCode src1;
+	private Region r;
+	private Courthouse c;
+	private Sheriff s;
+	
+	
+	@BeforeEach
 	@Override
 	protected void beforeTest() {
-		// TODO Auto-generated method stub
+		wsc1 = ModelUtil.getWorkSectionCode(WORK_SECTION_CODE.COURTS.name(), "Courts", nowDate);
+		src1 = ModelUtil.getSheriffRankCode("DEPUTY", "Deputy", nowDate);
 		
+		r = ModelUtil.getRegion("VANISLAND", "Vancourver Island");
+		c = ModelUtil.getCourthouse(r, "VIC", "Victoria");
+		s = ModelUtil.getSheriff(src1, "B10003", "1003");
+		s.setCourthouse(c);
+		
+		entityManager.persist(wsc1);
+		entityManager.persist(src1);
+		entityManager.persist(r);
+		entityManager.persist(c);
+		entityManager.persist(s);
+		entityManager.flush();
 	}
 
+	@AfterEach
 	@Override
 	protected void afterTest() {
-		// TODO Auto-generated method stub
+		
+	}
+	
+	@Test
+	@DisplayName("Get shifts that exist within date range")
+	void test1_getShiftsByCourthouseAndDateTimeRange() {
+		LocalDateTime startDtm = LocalDateTime.of(2018, 1, 1, 9, 0);
+		LocalDateTime endDtm = LocalDateTime.of(2018, 1, 1, 17, 0);
+		
+		Shift sh1 = ModelUtil.getShift(c, wsc1, startDtm, endDtm);
+		sh1.setSheriff(s);
+		shiftDao.save(sh1);
+		
+		List<Shift> records = shiftDao.getShiftsByCourthouseAndDateTimeRange(c.getCourthouseId(), startDtm.toLocalDate().atStartOfDay(), DateUtil.atEndOfDay(endDtm.toLocalDate()));
+		Assertions.assertEquals(1, records.size());
+	}
+	
+	@Test
+	@DisplayName("Get shifts where date range is before record")
+	void test2_getShiftsByCourthouseAndDateTimeRange() {
+		LocalDateTime startDtm = LocalDateTime.of(2018, 1, 1, 9, 0);
+		LocalDateTime endDtm = LocalDateTime.of(2018, 1, 1, 17, 0);
+		
+		Shift sh1 = ModelUtil.getShift(c, wsc1, startDtm, endDtm);
+		sh1.setSheriff(s);
+		shiftDao.save(sh1);
+		
+		List<Shift> records = shiftDao.getShiftsByCourthouseAndDateTimeRange(c.getCourthouseId(), startDtm.minusDays(2), endDtm.minusDays(1));
+		Assertions.assertEquals(0, records.size());
 		
 	}
 	

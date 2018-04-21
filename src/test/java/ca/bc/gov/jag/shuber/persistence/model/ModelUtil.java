@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.UUID;
 
 /**
  * Helper class to populate Entity objects with required fields so we can 
@@ -190,6 +191,21 @@ public final class ModelUtil {
 	        startDtm,
 	        endDtm,
 	        user, user, now, now, count);
+	}
+	
+	public static Shift getShift(
+		Courthouse courthouse,
+        WorkSectionCode workSectionCode,
+        LocalDateTime startDtm,
+        LocalDateTime endDtm) {
+		
+		return new Shift(
+			null,
+            courthouse,
+            workSectionCode,
+            startDtm,
+            endDtm,
+            user, user, now, now, count);
 	}
 	
 }
