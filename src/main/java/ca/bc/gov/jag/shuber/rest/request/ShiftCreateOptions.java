@@ -49,18 +49,13 @@ public class ShiftCreateOptions {
 
 	
 	public ShiftCreateOptions() {
-		this.startDate = LocalDate.now();
-		this.workSectionCode = WORK_SECTION_CODE.COURTS.name();
-		this.startTime = LocalTime.of(9, 0);
-		this.endTime = LocalTime.of(17, 0);
-		this.daysBitmap = 31;
-		this.numShifts = (byte) 1;
+		this(LocalDate.now(), WORK_SECTION_CODE.COURTS.name(), LocalTime.of(9, 0), LocalTime.of(17, 0), 31L, (byte) 1);
 	}
 	
 	public ShiftCreateOptions(@NotNull LocalDate startDate, @NotNull String workSectionCode,
 			@NotNull LocalTime startTime, @NotNull LocalTime endTime, @NotNull long daysBitmap,
 			@NotNull byte numShifts) {
-		super();
+		
 		this.startDate = startDate;
 		this.workSectionCode = workSectionCode;
 		this.startTime = startTime;

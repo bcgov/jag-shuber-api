@@ -1,8 +1,12 @@
 package ca.bc.gov.jag.shuber.persistence.dao;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import ca.bc.gov.jag.shuber.persistence.model.Shift;
@@ -21,4 +25,17 @@ import ca.bc.gov.jag.shuber.persistence.model.Shift;
 public interface ShiftDAO extends JpaRepository<Shift, UUID> {
     // NOTE: add custom methods here
 
+	/**
+	 * Get shifts for a courthouse and date time range.
+	 * @param courthouseId
+	 * @param startDtm
+	 * @param endDtm
+	 * @return
+	 */
+	@Query("SELECT s FROM Shift s WHERE s.courthouse.courthouseId = :courthouseId AND s.startDtm >= :startDtm AND s.endDtm <= :endDtm")
+	List<Shift> getShiftsByCourthouseAndDateTimeRange(
+		@Param("courthouseId") UUID courthouseId,
+		@Param("startDtm") LocalDateTime startDtm,
+		@Param("endDtm") LocalDateTime endDtm);
+	
 }

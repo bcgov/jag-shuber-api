@@ -1,6 +1,7 @@
 package ca.bc.gov.jag.shuber.rest.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -14,6 +15,8 @@ import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.hateoas.EntityLinks;
+import org.springframework.hateoas.Link;
+import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +43,9 @@ import ca.bc.gov.jag.shuber.service.ScheduleService;
 @RequestMapping(value = SheduleController.PATH, produces = "application/hal+json")
 public class SheduleController {
 	public static final String PATH = "/api";
+	public static final String PATH_COPY_SHIFTS   = "/courthouses/{id}/copyShifts";
+	public static final String PATH_CREATE_SHIFTS = "/courthouses/{id}/createShifts";
+	public static final String PATH_DELETE_SHIFTS = "/courthouses/{id}/deleteShifts";
 	
 	/** Logger. */
 	private static final Logger log = LogManager.getLogger(SheduleController.class);
@@ -60,7 +66,7 @@ public class SheduleController {
 	 * @return
 	 */
 	@CrossOrigin
-	@PostMapping(path = "/courthouses/{id}/copyShifts")
+	@PostMapping(path = PATH_COPY_SHIFTS)
 	public ResponseEntity<Resources<SimpleShift>> copyShifts(
 		@PathVariable("id") UUID courthouseId,
 		@RequestBody ShiftCopyOptions copyOptions) {
@@ -69,10 +75,17 @@ public class SheduleController {
 			log.debug(String.format("copying shifts for courthouse=%s, copyOptions=%s", courthouseId, copyOptions.toString()));
 		}
 		
-		//TODO: call service to do work
-		List<Shift> records = scheduleService.copyShifts(copyOptions);
+		List<Shift> records = scheduleService.copyShifts(courthouseId, copyOptions);
 		
-		return new ResponseEntity<>(null, HttpStatus.OK);
+		List<SimpleShift> respRecords = new ArrayList<>();
+		for (Shift record : records) {
+			respRecords.add(projectionFactory.createProjection(SimpleShift.class, record));
+		}
+		
+		Link self =  new Link(PATH_COPY_SHIFTS.replace("{id}", courthouseId.toString()));
+		Resources<SimpleShift> r = new Resources<>(respRecords, self);
+		
+		return new ResponseEntity<>(r, HttpStatus.OK);
 	}
 	
 	/**
@@ -82,7 +95,7 @@ public class SheduleController {
 	 * @return
 	 */
 	@CrossOrigin
-	@PostMapping(path = "/courthouses/{id}/createShifts")
+	@PostMapping(path = PATH_CREATE_SHIFTS)
 	public ResponseEntity<Resources<SimpleShift>> createShifts(
 		@PathVariable("id") UUID courthouseId,
 		@RequestBody ShiftCreateOptions createOptions) {
@@ -91,10 +104,17 @@ public class SheduleController {
 			log.debug(String.format("creating shifts for courthouse=%s, createOptions=%s", courthouseId, createOptions.toString()));
 		}
 		
-		//TODO: call service to do work
-		List<Shift> records = scheduleService.createShifts(createOptions);
+		List<Shift> records = scheduleService.createShifts(courthouseId, createOptions);
 		
-		return new ResponseEntity<>(null, HttpStatus.OK);
+		List<SimpleShift> respRecords = new ArrayList<>();
+		for (Shift record : records) {
+			respRecords.add(projectionFactory.createProjection(SimpleShift.class, record));
+		}
+		
+		Link self =  new Link(PATH_CREATE_SHIFTS.replace("{id}", courthouseId.toString()));
+		Resources<SimpleShift> r = new Resources<>(respRecords, self);
+		
+		return new ResponseEntity<>(r, HttpStatus.OK);
 	}
 	
 	/**
@@ -104,8 +124,8 @@ public class SheduleController {
 	 * @return
 	 */
 	@CrossOrigin
-	@DeleteMapping(path = "/courthouses/{id}/deleteShifts")
-	public ResponseEntity<Resources<Void>> deleteShiftsForDate(
+	@DeleteMapping(path = PATH_DELETE_SHIFTS)
+	public ResponseEntity<Resource<Void>> deleteShiftsForDate(
 		@PathVariable("id") UUID courthouseId,
 		@NotNull @DateTimeFormat(iso = ISO.DATE) @RequestParam("date") LocalDate date) {
 		
@@ -119,10 +139,13 @@ public class SheduleController {
 			
 		} else {
 			status = HttpStatus.OK;
-			scheduleService.deleteShiftsForDate(date);
+			scheduleService.deleteShiftsForDate(courthouseId, date);
 		}
 		
-		return new ResponseEntity<>(null, status);
+		Link self =  new Link(PATH_DELETE_SHIFTS.replace("{id}", courthouseId.toString()));
+		Resource<Void> r = new Resource<>(null, self);
+		
+		return new ResponseEntity<>(r, status);
 	}
 	
 }
