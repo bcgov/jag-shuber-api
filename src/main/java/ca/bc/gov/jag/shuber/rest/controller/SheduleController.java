@@ -14,7 +14,6 @@ import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
-import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
@@ -52,9 +51,6 @@ public class SheduleController {
 	
 	@Autowired
 	private ScheduleService scheduleService;
-	
-	@Autowired
-    private EntityLinks entityLinks;
 	
 	private ProjectionFactory projectionFactory = new SpelAwareProxyProjectionFactory();
 	
