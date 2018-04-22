@@ -65,9 +65,6 @@ public class DutyRosterController {
 	@Autowired
 	private DutyRosterService dutyRosterService;
 	
-	@Autowired
-    private EntityLinks entityLinks;
-	
 	private ProjectionFactory projectionFactory = new SpelAwareProxyProjectionFactory();
 	
 	
@@ -80,25 +77,24 @@ public class DutyRosterController {
 	@CrossOrigin
 	@PostMapping(path = PATH_CREATE_DEFAULT_DUTIES)
 	public ResponseEntity<Resources<SimpleDuty>> createDefaultDuties(
-		@PathVariable("id") UUID id, 
+		@PathVariable("id") UUID courthouseId, 
 		@NotNull @DateTimeFormat(iso = ISO.DATE) @RequestParam("date") LocalDate date) {
 		
 		//NOTE: this should probably be a POST instead
 		
 		if (log.isDebugEnabled()) {
-			log.debug("creating default duties for courthouse " + id + " and date " + date);
+			log.debug("creating default duties for courthouse " + courthouseId + " and date " + date);
 		}
 		
-		List<Duty> duties = dutyRosterService.createDefaultDuties(id, date);
+		List<Duty> duties = dutyRosterService.createDefaultDuties(courthouseId, date);
 		List<SimpleDuty> records = new ArrayList<SimpleDuty>();
 		
 		for (Duty duty : duties) {
 			records.add(projectionFactory.createProjection(SimpleDuty.class, duty));
 		}
 		
-		LinkBuilder lb = entityLinks.linkFor(Courthouse.class);
-		Link self =  new Link(lb.toString() + "/" + id + "/createDefaultDuties?date=" + date);
-		
+		Link self =  new Link(PATH_CREATE_DEFAULT_DUTIES.replace("{id}", courthouseId.toString()) + "?date=" + date);
+
 		Resources<SimpleDuty> r = new Resources<>(records, self);
 		return new ResponseEntity<>(r, HttpStatus.CREATED);
 	}
@@ -170,8 +166,7 @@ public class DutyRosterController {
 			records.add(projectionFactory.createProjection(SimpleDuty.class, duty));
 		}
 		
-		LinkBuilder lb = entityLinks.linkFor(Courthouse.class);
-		Link self =  new Link(lb.toString() + "/" + courthouseId + "/getDutiesByDateRange?startDate=" + startDate + (endDate != null ? "&endDate=" + endDate : ""));
+		Link self =  new Link(PATH_GET_DUTIES_BY_COURTHOUSE_AND_DATERANGE.replace("{id}", courthouseId.toString()) + "?startDate=" + startDate + (endDate != null ? "&endDate=" + endDate : ""));
 		
 		Resources<SimpleDuty> r = new Resources<>(records, self);
 		return new ResponseEntity<>(r, HttpStatus.OK);
