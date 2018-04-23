@@ -223,15 +223,15 @@ public class AssignmentDAOTest extends AbstractDAOTest {
 		Assertions.assertNotNull(a.getAssignmentId());
 		
 		//before start
-		List<Assignment> records = assignmentDao.findByCourthouseId(c.getCourthouseId(), nowDate.minusDays(1));
+		List<Assignment> records = assignmentDao.findByCourthouseId(c.getCourthouseId(), nowDate.minusDays(1), nowDate.minusDays(1));
 		Assertions.assertTrue(records.size() == 0);
 		
 		//same as start
-		records = assignmentDao.findByCourthouseId(c.getCourthouseId(), nowDate);
+		records = assignmentDao.findByCourthouseId(c.getCourthouseId(), nowDate, nowDate);
 		Assertions.assertTrue(records.size() == 1);
 		
 		//day after start
-		records = assignmentDao.findByCourthouseId(c.getCourthouseId(), nowDate.plusDays(1));
+		records = assignmentDao.findByCourthouseId(c.getCourthouseId(), nowDate.plusDays(1), nowDate.plusDays(1));
 		Assertions.assertTrue(records.size() == 1);
 	}
 	
@@ -246,15 +246,15 @@ public class AssignmentDAOTest extends AbstractDAOTest {
 		Assertions.assertNotNull(a.getAssignmentId());
 		
 		//before start
-		List<Assignment> records = assignmentDao.findByCourthouseId(c.getCourthouseId(), nowDate.minusDays(1));
+		List<Assignment> records = assignmentDao.findByCourthouseId(c.getCourthouseId(), nowDate.minusDays(1), nowDate.minusDays(1));
 		Assertions.assertTrue(records.size() == 0);
 		
 		//same day
-		records = assignmentDao.findByCourthouseId(c.getCourthouseId(), nowDate);
+		records = assignmentDao.findByCourthouseId(c.getCourthouseId(), nowDate, nowDate);
 		Assertions.assertTrue(records.size() == 1);
 		
 		//day after start
-		records = assignmentDao.findByCourthouseId(c.getCourthouseId(), nowDate.plusDays(1));
+		records = assignmentDao.findByCourthouseId(c.getCourthouseId(), nowDate.plusDays(1), nowDate.plusDays(1));
 		Assertions.assertTrue(records.size() == 0);
 	}
 
@@ -269,7 +269,7 @@ public class AssignmentDAOTest extends AbstractDAOTest {
 		Assertions.assertNotNull(a.getAssignmentId());
 		
 		//in between
-		List<Assignment> records = assignmentDao.findByCourthouseId(c.getCourthouseId(), nowDate.plusDays(1));
+		List<Assignment> records = assignmentDao.findByCourthouseId(c.getCourthouseId(), nowDate.plusDays(1), nowDate.plusDays(1));
 		Assertions.assertTrue(records.size() == 1);
 	}
 

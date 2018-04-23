@@ -39,15 +39,15 @@ import ca.bc.gov.jag.shuber.service.ScheduleService;
  * @author michael.gabelmann
  */
 @RestController
-@RequestMapping(value = SheduleController.PATH, produces = "application/hal+json")
-public class SheduleController {
+@RequestMapping(value = ScheduleController.PATH, produces = "application/hal+json")
+public class ScheduleController {
 	public static final String PATH = "/api";
 	public static final String PATH_COPY_SHIFTS   = "/courthouses/{id}/copyShifts";
 	public static final String PATH_CREATE_SHIFTS = "/courthouses/{id}/createShifts";
 	public static final String PATH_DELETE_SHIFTS = "/courthouses/{id}/deleteShifts";
 	
 	/** Logger. */
-	private static final Logger log = LogManager.getLogger(SheduleController.class);
+	private static final Logger log = LogManager.getLogger(ScheduleController.class);
 	
 	@Autowired
 	private ScheduleService scheduleService;
@@ -78,7 +78,7 @@ public class SheduleController {
 			respRecords.add(projectionFactory.createProjection(SimpleShift.class, record));
 		}
 		
-		Link self =  new Link(PATH_COPY_SHIFTS.replace("{id}", courthouseId.toString()));
+		Link self =  new Link(PATH + PATH_COPY_SHIFTS.replace("{id}", courthouseId.toString()));
 		Resources<SimpleShift> r = new Resources<>(respRecords, self);
 		
 		return new ResponseEntity<>(r, HttpStatus.OK);
@@ -107,7 +107,7 @@ public class SheduleController {
 			respRecords.add(projectionFactory.createProjection(SimpleShift.class, record));
 		}
 		
-		Link self =  new Link(PATH_CREATE_SHIFTS.replace("{id}", courthouseId.toString()));
+		Link self =  new Link(PATH + PATH_CREATE_SHIFTS.replace("{id}", courthouseId.toString()));
 		Resources<SimpleShift> r = new Resources<>(respRecords, self);
 		
 		return new ResponseEntity<>(r, HttpStatus.OK);
@@ -138,7 +138,7 @@ public class SheduleController {
 			scheduleService.deleteShiftsForDate(courthouseId, date);
 		}
 		
-		Link self =  new Link(PATH_DELETE_SHIFTS.replace("{id}", courthouseId.toString()));
+		Link self =  new Link(PATH + PATH_DELETE_SHIFTS.replace("{id}", courthouseId.toString()) + "?date=" + date);
 		Resource<Void> r = new Resource<>(null, self);
 		
 		return new ResponseEntity<>(r, status);

@@ -164,6 +164,15 @@ public class JpaDutyRosterService implements DutyRosterService {
 		return dr;
 	}
 	
+	@Override
+	public List<Assignment> getAssignmentsByCourthouseAndDateRange(
+		UUID courthouseId, 
+		LocalDate startDate,
+		LocalDate endDate) {
+		
+		return assignmentDao.findByCourthouseId(courthouseId, startDate, endDate);
+	}
+	
 	@Transactional(readOnly = true)
 	@Override
 	public List<Duty> getDutiesByCourthouseAndDateRange(

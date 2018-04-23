@@ -25,18 +25,31 @@ import ca.bc.gov.jag.shuber.persistence.model.Assignment;
 public interface AssignmentDAO extends JpaRepository<Assignment, UUID> {
     // NOTE: add custom methods here
 
+//	/**
+//	 * Find all active assignments for a courthouse and date.
+//	 * @param courthouseId
+//	 * @param date
+//	 * @return
+//	 */
+//	@Query("SELECT a FROM Assignment a WHERE a.courthouse.courthouseId = :courthouseId AND a.effectiveDate <= :date AND (a.expiryDate IS NULL OR a.expiryDate >= :date)")
+//	List<Assignment> findByCourthouseId(
+//		@Param("courthouseId") UUID courthouseId,
+//		@Param("date") LocalDate date);
+	
 	/**
-	 * 
-	 * @param courthouseId
-	 * @param date
-	 * @return
+	 * Find all active assignments for a courthouse and date range.
+	 * @param courthouseId 
+	 * @param startDate 
+	 * @param endDate 
+	 * @return 
 	 */
-	@Query("SELECT a FROM Assignment a WHERE a.courthouse.courthouseId = :courthouseId AND a.effectiveDate <= :date AND (a.expiryDate IS NULL OR a.expiryDate >= :date)")
+	@Query("SELECT a FROM Assignment a WHERE a.courthouse.courthouseId = :courthouseId AND a.effectiveDate >= :startDate AND (a.expiryDate IS NULL OR a.expiryDate <= :endDate)")
 	List<Assignment> findByCourthouseId(
 		@Param("courthouseId") UUID courthouseId,
-		@Param("date") LocalDate date);
+		@Param("startDate") LocalDate startDate,
+		@Param("endDate") LocalDate endDate);
 
-
+	
 	//NOTE: to hide delete you must export both!
 //	@RestResource(exported = false)
 //	void deleteById(UUID id);

@@ -8,8 +8,6 @@ import java.util.UUID;
 
 import javax.annotation.PostConstruct;
 
-import org.apache.logging.log4j.core.config.Configurator;
-import org.apache.logging.log4j.core.config.DefaultConfiguration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

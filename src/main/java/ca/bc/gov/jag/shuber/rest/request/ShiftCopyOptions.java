@@ -101,4 +101,43 @@ public class ShiftCopyOptions {
 		return sb.toString();
 	}
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((destinationStartDate == null) ? 0 : destinationStartDate.hashCode());
+		result = prime * result + (includeSheriffs ? 1231 : 1237);
+		result = prime * result + ((numDays == null) ? 0 : numDays.hashCode());
+		result = prime * result + ((sourceStartDate == null) ? 0 : sourceStartDate.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ShiftCopyOptions other = (ShiftCopyOptions) obj;
+		if (destinationStartDate == null) {
+			if (other.destinationStartDate != null)
+				return false;
+		} else if (!destinationStartDate.equals(other.destinationStartDate))
+			return false;
+		if (includeSheriffs != other.includeSheriffs)
+			return false;
+		if (numDays == null) {
+			if (other.numDays != null)
+				return false;
+		} else if (!numDays.equals(other.numDays))
+			return false;
+		if (sourceStartDate == null) {
+			if (other.sourceStartDate != null)
+				return false;
+		} else if (!sourceStartDate.equals(other.sourceStartDate))
+			return false;
+		return true;
+	}
 }
