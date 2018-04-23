@@ -7,6 +7,12 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.springframework.hateoas.hal.Jackson2HalModule;
+
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 /**
  * Base class for JUnit tests.
@@ -25,7 +31,6 @@ public abstract class AbstractTest {
 	
 	/** Current date and time. */
 	protected static LocalDateTime nowDateTime;
-
 	
 	/** Setup all dates for tests. */
 	@BeforeAll
@@ -41,5 +46,5 @@ public abstract class AbstractTest {
 
 	/** This method is run after every test. Place any cleanup that is required. */
 	protected abstract void afterTest();
-
+	
 }

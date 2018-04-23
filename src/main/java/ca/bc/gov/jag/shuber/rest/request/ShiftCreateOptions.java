@@ -138,4 +138,53 @@ public class ShiftCreateOptions {
 		return sb.toString();
 	}
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (daysBitmap ^ (daysBitmap >>> 32));
+		result = prime * result + ((endTime == null) ? 0 : endTime.hashCode());
+		result = prime * result + numShifts;
+		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
+		result = prime * result + ((startTime == null) ? 0 : startTime.hashCode());
+		result = prime * result + ((workSectionCode == null) ? 0 : workSectionCode.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ShiftCreateOptions other = (ShiftCreateOptions) obj;
+		if (daysBitmap != other.daysBitmap)
+			return false;
+		if (endTime == null) {
+			if (other.endTime != null)
+				return false;
+		} else if (!endTime.equals(other.endTime))
+			return false;
+		if (numShifts != other.numShifts)
+			return false;
+		if (startDate == null) {
+			if (other.startDate != null)
+				return false;
+		} else if (!startDate.equals(other.startDate))
+			return false;
+		if (startTime == null) {
+			if (other.startTime != null)
+				return false;
+		} else if (!startTime.equals(other.startTime))
+			return false;
+		if (workSectionCode == null) {
+			if (other.workSectionCode != null)
+				return false;
+		} else if (!workSectionCode.equals(other.workSectionCode))
+			return false;
+		return true;
+	}
+	
 }

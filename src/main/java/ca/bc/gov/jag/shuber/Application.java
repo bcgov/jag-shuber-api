@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.data.rest.RepositoryRestMvcAutoConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -35,10 +34,10 @@ public class Application {
 	public static void main(final String[] args) {
 		ConfigurableApplicationContext ctx = SpringApplication.run(Application.class, args);
 
-		if (log.isDebugEnabled()) {
+		if (log.isTraceEnabled()) {
 			String[] names = ctx.getBeanDefinitionNames();
 			for (String name : names) {
-				//log.debug("bean name=" + name);
+				log.trace("bean name=" + name);
 			}
 		}
 

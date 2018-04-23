@@ -3,7 +3,10 @@ package ca.bc.gov.jag.shuber.service;
 import javax.annotation.PostConstruct;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
@@ -49,4 +52,9 @@ public class DutyRosterServiceTest extends AbstractTest {
 		// TODO Auto-generated method stub
 	}
 	
+	@Test
+	@DisplayName("Test")
+	void test() {
+		Assertions.assertTrue(true);
+	}
 }
