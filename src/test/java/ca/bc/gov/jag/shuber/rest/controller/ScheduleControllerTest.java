@@ -110,36 +110,6 @@ public class ScheduleControllerTest extends AbstractControllerTest {
 		String json = result.getResponse().getContentAsString();
 		log.debug("json=" + json);
 	}
-
-/*
-{  
-  "_embedded":{  
-    "shifts":[  
-      {  
-        "idPath":"/shifts/null",
-        "sheriffIdPath":"",
-        "workSectionCodePath":"/workSectionCodes/COURTS",
-        "courthouseIdPath":"/courthouses/101f187c-3287-4f34-99e9-0b50aa32b2d9",
-        "startDateTime":"2018-04-30T09:00:00",
-        "endDateTime":"2018-04-30T17:00:00"
-      },
-      {  
-        "idPath":"/shifts/null",
-        "sheriffIdPath":"",
-        "workSectionCodePath":"/workSectionCodes/COURTS",
-        "courthouseIdPath":"/courthouses/101f187c-3287-4f34-99e9-0b50aa32b2d9",
-        "startDateTime":"2018-05-01T09:00:00",
-        "endDateTime":"2018-05-01T17:00:00"
-      }
-    ]
-  },
-  "_links":{  
-    "self":{  
-      "href":"/api/courthouses/101f187c-3287-4f34-99e9-0b50aa32b2d9/copyShifts"
-    }
-  }
-}
- */
 	
 	@Test
 	void testCreateShifts() {

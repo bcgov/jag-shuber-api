@@ -93,8 +93,6 @@ public class DutyRosterControllerTest extends AbstractControllerTest {
 		
 	}
 
-	//curl -i -X POST -H "Content-Type:application/json" -d '{ }' http://localhost:8082/api/courthouses/d67b9684-43c8-474f-80de-9b7b44ab094f/createDefaultDuties?date=2018-04-16
-	
 	@Test
 	@DisplayName("Create default duties for a courthouse and day")
 	public void test1_createDefaultDuties() throws Exception {
@@ -133,7 +131,7 @@ public class DutyRosterControllerTest extends AbstractControllerTest {
 	}
 
 	@Test
-	@DisplayName("Get assignments for courthouse and date range")
+	@DisplayName("Get assignments for courthouse and date range (same day)")
 	public void test1_getAssignmentsByCourthouseAndDateRange() throws Exception {
 		LocalDate startDate = LocalDate.of(2018, 1, 1);
 		LocalDate endDate = LocalDate.of(2018, 1, 1);
@@ -147,19 +145,26 @@ public class DutyRosterControllerTest extends AbstractControllerTest {
 		
 		a2.setDutyRecurrences(Arrays.asList(dr1));
 
-		Mockito.when(dutyRosterService.getAssignmentsByCourthouseAndDateRange(c.getCourthouseId(), startDate, null)).thenReturn(Arrays.asList(a2));
+		//NOTE: when this is run mockito is not finding it
+		Mockito.when(dutyRosterService.getAssignmentsByCourthouseAndDateRange(c.getCourthouseId(), startDate, endDate)).thenReturn(Arrays.asList(a2));
 		
 		String path = DutyRosterController.PATH + DutyRosterController.PATH_GET_ASSIGNMENTS_BY_COURTHOUSE_AND_DATERANGE.replace("{id}", c.getCourthouseId().toString());
 
-		MvcResult result = mvc.perform(MockMvcRequestBuilders.post(path)
+		MvcResult result = mvc.perform(MockMvcRequestBuilders.get(path)
 			.param("startDate", startDate.toString())
+			.param("endDate", endDate.toString())
 			.contentType(MediaType.APPLICATION_JSON))
 				.andExpect(status().is2xxSuccessful())
+				.andExpect(jsonPath("$..assignments[0].idPath").value("/assignments/" + a2.getAssignmentId().toString()))
+				.andExpect(jsonPath("$..assignments[0].effectiveDate").value("2018-01-01"))
+				.andExpect(jsonPath("$..assignments[0].expiryDate").value("2018-01-01"))
+				.andExpect(jsonPath("$..assignments[0].title").value("test"))
 				.andReturn();
 		
-//		//NOTE: how to get JSON string from result
-//		String json = result.getResponse().getContentAsString();
-//		log.debug("json=" + json);	
+		//NOTE: we could inspect the DutyRecurrence records too
+		
+		//NOTE: how to get JSON string from result
+		String json = result.getResponse().getContentAsString();
+		log.debug("json=" + json);
 	}
-	
 }
