@@ -111,6 +111,7 @@ public class ScheduleControllerTest extends AbstractControllerTest {
 		log.debug("json=" + json);
 	}
 	
+	/*
 	@Test
 	void testCreateShifts() {
 		fail("Not yet implemented");
@@ -120,6 +121,6 @@ public class ScheduleControllerTest extends AbstractControllerTest {
 	void testDeleteShiftsForDate() {
 		fail("Not yet implemented");
 	}
-
+	*/
 
 }
