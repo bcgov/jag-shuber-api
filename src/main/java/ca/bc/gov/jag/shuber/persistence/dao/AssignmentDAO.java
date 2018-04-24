@@ -24,26 +24,20 @@ import ca.bc.gov.jag.shuber.persistence.model.Assignment;
 @RepositoryRestResource
 public interface AssignmentDAO extends JpaRepository<Assignment, UUID> {
     // NOTE: add custom methods here
-
-//	/**
-//	 * Find all active assignments for a courthouse and date.
-//	 * @param courthouseId
-//	 * @param date
-//	 * @return
-//	 */
-//	@Query("SELECT a FROM Assignment a WHERE a.courthouse.courthouseId = :courthouseId AND a.effectiveDate <= :date AND (a.expiryDate IS NULL OR a.expiryDate >= :date)")
-//	List<Assignment> findByCourthouseId(
-//		@Param("courthouseId") UUID courthouseId,
-//		@Param("date") LocalDate date);
 	
 	/**
 	 * Find all active assignments for a courthouse and date range.
+	 * <pre>
+	 * A.end >= B.start AND A.start <= B.end
+	 * </pre>
 	 * @param courthouseId 
 	 * @param startDate 
 	 * @param endDate 
+	 * 
+	 * @see https://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap
 	 * @return 
 	 */
-	@Query("SELECT a FROM Assignment a WHERE a.courthouse.courthouseId = :courthouseId AND a.effectiveDate >= :startDate AND (a.expiryDate IS NULL OR a.expiryDate <= :endDate)")
+	@Query("SELECT a FROM Assignment a WHERE a.courthouse.courthouseId = :courthouseId AND :endDate >= a.effectiveDate AND (a.expiryDate IS NULL OR :startDate <= a.expiryDate)")
 	List<Assignment> findByCourthouseId(
 		@Param("courthouseId") UUID courthouseId,
 		@Param("startDate") LocalDate startDate,
