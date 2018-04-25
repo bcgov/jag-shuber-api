@@ -29,6 +29,8 @@ public class Application extends SpringBootServletInitializer {
 	@Value("${app.acronym}")
 	private String applicationAcronym;
 	
+	/** Current user. */
+	public static ThreadLocal<String> user = new ThreadLocal<>();
 	
 	/**
 	 * Main entry point used by Spring Boot to initialize the application.
