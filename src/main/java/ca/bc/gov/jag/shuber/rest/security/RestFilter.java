@@ -1,0 +1,161 @@
+package ca.bc.gov.jag.shuber.rest.security;
+
+import java.io.IOException;
+import java.time.Instant;
+import java.util.Enumeration;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+
+import ca.bc.gov.jag.shuber.rest.exception.RestErrors;
+import ca.bc.gov.jag.shuber.rest.exception.RestGlobalError;
+
+@WebFilter(urlPatterns = RestFilter.PATH)
+public class RestFilter implements Filter {
+	/** path to protect. */
+	public static final String PATH = "/api/*";
+	
+	//application specific headers
+	public static final String X_SHUBER_FILTER = "X-SHUBER_FILTER";
+	
+	/** Logger. */
+	private static final Logger log = LogManager.getLogger(RestFilter.class);
+	
+	private FilterConfig filterConfig;
+	
+	/** Enable this filter and process siteminder headers. */
+	@Value("${app.security.filter.enabled:true}")
+	private boolean enableFilter;
+	
+	/** Is this filter in test mode. */
+	@Value("${app.security.filter.testmode:false}")
+	private boolean testMode;
+	
+	/** If the filter is in testMode which user/GUID do we want to use. */
+	@Value("${app.security.filter.testmodeguid:CACA000000D44BA3B742221B428EC7E7}")
+	private String testUserGuid;
+	
+	private ObjectMapper mapper;
+	
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
+		this.filterConfig = filterConfig;
+		
+		//map objects to JSON
+		mapper = new ObjectMapper();
+		mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+		mapper.registerModules(new JavaTimeModule());
+		
+		if (log.isDebugEnabled()) log.debug("startup of filter " + RestFilter.class.getSimpleName());
+	}
+
+	@Override
+	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
+		HttpServletRequest request = (HttpServletRequest) req;
+		HttpServletResponse response = (HttpServletResponse) resp;
+		
+		if (log.isDebugEnabled()) {
+			//print information about the headers and cookies in the request
+			log.debug("URL=" + request.getRequestURL());
+			
+			//iterate over all the headers
+			Enumeration<String> headers = request.getHeaderNames();
+			while (headers.hasMoreElements()) {
+				String key = headers.nextElement();
+				String value = request.getHeader(key);
+				log.debug(String.format("header %s=%s", key, value));
+			}
+			
+			Cookie[] cookies = request.getCookies();
+			if (cookies != null) {
+				for (int i=0; i < cookies.length; i++) {
+					log.debug(cookies[i].getName() + "=" + cookies[i].getValue());
+				}
+			}
+		}
+		
+		//add custom header to the response
+		StringBuilder sb = new StringBuilder();
+		sb.append(String.format("enableFilter=%s, testMode=%s", enableFilter, testMode));
+		if (testMode) sb.append(String.format(", testUserGuid=%s", testUserGuid));
+		sb.append(String.format(", milli=%d", Instant.now().toEpochMilli()));
+		response.addHeader(X_SHUBER_FILTER, sb.toString());
+		
+		String smGovUserGuid;
+		
+		if (testMode) {
+			smGovUserGuid = testUserGuid;
+			log.warn(String.format("TESTMODE: using %s in place of siteminder value", smGovUserGuid));
+			
+		} else {
+			//NOTE: our app only cares about IDIR users
+			smGovUserGuid = request.getHeader(SiteMinderHeaders.SMGOV_USERGUID);
+		}
+
+		if (enableFilter && (smGovUserGuid == null || "".equals(smGovUserGuid))) {
+			//not authenticated by siteminder or in using test user guid, so return a JSON error response
+			log.warn(SiteMinderHeaders.SMGOV_USERGUID + " does not exist, user not authenticated by siteminder");
+
+			byte[] message = convertToJson(this.getRestErrors());
+
+			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+			resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
+			resp.setContentLength(message.length);
+			resp.getOutputStream().write(message);
+
+			//stop processing request
+			return;
+
+		} else if (! enableFilter) {
+			log.warn("filter is disabled");
+		}
+
+		//continue processing request
+		chain.doFilter(request, resp);
+	}
+
+	@Override
+	public void destroy() {
+		if (log.isDebugEnabled()) log.debug("shutting down and clean up of filter " + RestFilter.class.getSimpleName());
+	}
+
+	/**
+	 * Convert an object into JSON.
+	 * @param o
+	 * @return
+	 * @throws JsonProcessingException
+	 */
+	private byte[] convertToJson(Object o) throws JsonProcessingException {
+		return mapper.writeValueAsBytes(o);
+	}
+	
+	/**
+	 * Convenience method.
+	 * @return
+	 */
+	private RestErrors getRestErrors() {
+		RestErrors re = new RestErrors();
+		re.getGlobalErrors().add(new RestGlobalError("", "application.siteminder.authentication", "user not authenticated", "User not authenticated by SiteMinder"));
+
+		return re;
+	}
+
+}

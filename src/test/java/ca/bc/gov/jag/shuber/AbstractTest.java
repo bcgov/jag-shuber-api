@@ -7,12 +7,6 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.springframework.hateoas.hal.Jackson2HalModule;
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 /**
  * Base class for JUnit tests.
