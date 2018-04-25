@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 
@@ -27,21 +26,31 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 import ca.bc.gov.jag.shuber.Application;
-import ca.bc.gov.jag.shuber.persistence.UserAuditorAware;
 import ca.bc.gov.jag.shuber.rest.exception.RestErrors;
 import ca.bc.gov.jag.shuber.rest.exception.RestGlobalError;
 
+/**
+ * Filter to protect the REST API from users that have not been authenticated by SiteMinder.
+ * A simple replacement. You can override the default config using several properties either
+ * via a config file or on the command line when starting the application.
+ * 
+ * The SM_USERGUID is also used to identify who created or updated a record in the DB.
+ * 
+ * @author michael.gabelmann
+ */
 @WebFilter(urlPatterns = RestFilter.PATH)
 public class RestFilter implements Filter {
 	/** path to protect. */
 	public static final String PATH = "/api/*";
 	
 	//application specific headers
-	public static final String X_SHUBER_FILTER = "X-SHUBER_FILTER";
+	/** header that stores information about filter state. */
+	public static final String X_SHUBER_FILTER = "x-shuber_filter";
 	
 	/** Logger. */
 	private static final Logger log = LogManager.getLogger(RestFilter.class);
 	
+	/** Filter config. */
 	private FilterConfig filterConfig;
 	
 	/** Enable this filter and process siteminder headers. */
@@ -56,6 +65,7 @@ public class RestFilter implements Filter {
 	@Value("${app.security.filter.testmodeguid:CACA000000D44BA3B742221B428EC7E7}")
 	private String testUserGuid;
 	
+	/** JSON mapper object. */
 	private ObjectMapper mapper;
 	
 	
