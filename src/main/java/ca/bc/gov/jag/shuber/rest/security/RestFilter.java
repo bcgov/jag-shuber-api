@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 
@@ -25,6 +26,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
+import ca.bc.gov.jag.shuber.Application;
+import ca.bc.gov.jag.shuber.persistence.UserAuditorAware;
 import ca.bc.gov.jag.shuber.rest.exception.RestErrors;
 import ca.bc.gov.jag.shuber.rest.exception.RestGlobalError;
 
@@ -54,6 +57,7 @@ public class RestFilter implements Filter {
 	private String testUserGuid;
 	
 	private ObjectMapper mapper;
+	
 	
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -113,7 +117,7 @@ public class RestFilter implements Filter {
 		if (enableFilter && (smGovUserGuid == null || "".equals(smGovUserGuid))) {
 			//not authenticated by siteminder or in using test user guid, so return a JSON error response
 			log.warn(SiteMinderHeaders.SMGOV_USERGUID + " does not exist, user not authenticated by siteminder");
-
+			
 			byte[] message = convertToJson(this.getRestErrors());
 
 			response.setStatus(HttpServletResponse.SC_FORBIDDEN);
@@ -128,6 +132,9 @@ public class RestFilter implements Filter {
 			log.warn("filter is disabled");
 		}
 
+		//set current authenticated user
+		Application.user.set(smGovUserGuid);
+		
 		//continue processing request
 		chain.doFilter(request, resp);
 	}
