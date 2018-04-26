@@ -45,7 +45,7 @@ public class RestFilter implements Filter {
 	
 	//application specific headers
 	/** header that stores information about filter state. */
-	public static final String X_SHUBER_FILTER = "x-shuber_filter";
+	public static final String X_SHUBER_FILTER = "X-Shuber-Filter";
 	
 	/** Logger. */
 	private static final Logger log = LogManager.getLogger(RestFilter.class);
@@ -101,7 +101,7 @@ public class RestFilter implements Filter {
 			Cookie[] cookies = request.getCookies();
 			if (cookies != null) {
 				for (int i=0; i < cookies.length; i++) {
-					log.debug(cookies[i].getName() + "=" + cookies[i].getValue());
+					log.debug(cookies[i].getName() + "=" + cookies[i].getValue() + ", domain=" + cookies[i].getDomain());
 				}
 			}
 		}

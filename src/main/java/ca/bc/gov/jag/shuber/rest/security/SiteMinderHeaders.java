@@ -1,7 +1,9 @@
 package ca.bc.gov.jag.shuber.rest.security;
 
 /**
- * Headers used by Siteminder and the BC Government.
+ * <p>Headers used by Siteminder and the BC Government.</p>
+ * <p><b>NOTE: it is unknown whether these values will be upper/lower/mixed case. 
+ * Change these to proper case once we determine that.</b></p>
  * 
  * @see BuildingSiteminderEnabledApplications.doc
  * @author michael.gabelmann
