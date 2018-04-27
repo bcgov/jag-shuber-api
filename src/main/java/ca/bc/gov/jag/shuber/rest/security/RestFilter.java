@@ -34,7 +34,8 @@ import ca.bc.gov.jag.shuber.rest.exception.RestGlobalError;
  * A simple replacement. You can override the default config using several properties either
  * via a config file or on the command line when starting the application.
  * 
- * The SM_USERGUID is also used to identify who created or updated a record in the DB.
+ * The SM_USERGUID is also used to identify who created or updated a record in the DB by using
+ * a ThreadLocal. SM_USER could be used as a replacement for created/updated.
  * 
  * @author michael.gabelmann
  */
@@ -42,42 +43,42 @@ import ca.bc.gov.jag.shuber.rest.exception.RestGlobalError;
 public class RestFilter implements Filter {
 	/** path to protect. */
 	public static final String PATH = "/api/*";
-	
+
 	//application specific headers
 	/** header that stores information about filter state. */
-	public static final String X_SHUBER_FILTER = "X-Shuber-Filter";
-	
+	public static final String X_SHUBER_FILTER = "X-SHUBER-FILTER";
+
 	/** Logger. */
 	private static final Logger log = LogManager.getLogger(RestFilter.class);
-	
+
 	/** Filter config. */
 	private FilterConfig filterConfig;
-	
+
 	/** Enable this filter and process siteminder headers. */
 	@Value("${app.security.filter.enabled:true}")
 	private boolean enableFilter;
-	
+
 	/** Is this filter in test mode. */
 	@Value("${app.security.filter.testmode:false}")
 	private boolean testMode;
-	
+
 	/** If the filter is in testMode which user/GUID do we want to use. */
 	@Value("${app.security.filter.testmodeguid:CACA000000D44BA3B742221B428EC7E7}")
 	private String testUserGuid;
-	
+
 	/** JSON mapper object. */
 	private ObjectMapper mapper;
-	
-	
+
+
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		this.filterConfig = filterConfig;
-		
+
 		//map objects to JSON
 		mapper = new ObjectMapper();
 		mapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 		mapper.registerModules(new JavaTimeModule());
-		
+
 		if (log.isDebugEnabled()) log.debug("startup of filter " + RestFilter.class.getSimpleName());
 	}
 
@@ -125,7 +126,7 @@ public class RestFilter implements Filter {
 		}
 
 		if (enableFilter && (smGovUserGuid == null || "".equals(smGovUserGuid))) {
-			//not authenticated by siteminder or in using test user guid, so return a JSON error response
+			//not authenticated by siteminder or using test user guid, so return a JSON error response
 			log.warn(SiteMinderHeaders.SMGOV_USERGUID + " does not exist, user not authenticated by siteminder");
 			
 			byte[] message = convertToJson(this.getRestErrors());
