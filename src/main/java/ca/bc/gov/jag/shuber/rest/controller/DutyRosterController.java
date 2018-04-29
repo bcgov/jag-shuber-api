@@ -15,14 +15,11 @@ import org.springframework.data.projection.ProjectionFactory;
 import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
-import org.springframework.hateoas.EntityLinks;
 import org.springframework.hateoas.Link;
-import org.springframework.hateoas.LinkBuilder;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -34,7 +31,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.bc.gov.jag.shuber.persistence.model.Assignment;
-import ca.bc.gov.jag.shuber.persistence.model.Courthouse;
 import ca.bc.gov.jag.shuber.persistence.model.Duty;
 import ca.bc.gov.jag.shuber.persistence.model.DutyRecurrence;
 import ca.bc.gov.jag.shuber.persistence.model.projection.SimpleAssignment;
@@ -57,6 +53,7 @@ public class DutyRosterController {
 	public static final String PATH_CREATE_DEFAULT_DUTIES = "/courthouses/{id}/createDefaultDuties";
 	public static final String PATH_EXPIRE_ASSIGNMENT = "/assignments/{id}/expire";
 	public static final String PATH_EXPIRE_DUTY_RECURRENCE = "/dutyRecurrences/{id}/expire";
+	public static final String PATH_GET_ASSIGNMENTS_BY_COURTHOUSE_AND_DATERANGE = "/courthouses/{id}/getAssignmentsByDateRange";
 	public static final String PATH_GET_DUTIES_BY_COURTHOUSE_AND_DATERANGE = "/courthouses/{id}/getDutiesByDateRange";
 
 	/** Logger. */
@@ -64,9 +61,6 @@ public class DutyRosterController {
 	
 	@Autowired
 	private DutyRosterService dutyRosterService;
-	
-	@Autowired
-    private EntityLinks entityLinks;
 	
 	private ProjectionFactory projectionFactory = new SpelAwareProxyProjectionFactory();
 	
@@ -80,23 +74,24 @@ public class DutyRosterController {
 	@CrossOrigin
 	@PostMapping(path = PATH_CREATE_DEFAULT_DUTIES)
 	public ResponseEntity<Resources<SimpleDuty>> createDefaultDuties(
-		@PathVariable("id") UUID id, 
+		@PathVariable("id") UUID courthouseId, 
 		@NotNull @DateTimeFormat(iso = ISO.DATE) @RequestParam("date") LocalDate date) {
 		
+		//NOTE: this should probably be a POST instead
+		
 		if (log.isDebugEnabled()) {
-			log.debug("creating default duties for courthouse " + id + " and date " + date);
+			log.debug("creating default duties for courthouse " + courthouseId + " and date " + date);
 		}
 		
-		List<Duty> duties = dutyRosterService.createDefaultDuties(id, date);
+		List<Duty> duties = dutyRosterService.createDefaultDuties(courthouseId, date);
 		List<SimpleDuty> records = new ArrayList<SimpleDuty>();
 		
 		for (Duty duty : duties) {
 			records.add(projectionFactory.createProjection(SimpleDuty.class, duty));
 		}
 		
-		LinkBuilder lb = entityLinks.linkFor(Courthouse.class);
-		Link self =  new Link(lb.toString() + "/" + id + "/createDefaultDuties?date=" + date);
-		
+		Link self =  new Link(PATH_CREATE_DEFAULT_DUTIES.replace("{id}", courthouseId.toString()) + "?date=" + date);
+
 		Resources<SimpleDuty> r = new Resources<>(records, self);
 		return new ResponseEntity<>(r, HttpStatus.CREATED);
 	}
@@ -110,13 +105,13 @@ public class DutyRosterController {
 	@PatchMapping(path = PATH_EXPIRE_ASSIGNMENT)
 	public ResponseEntity<Resource<SimpleAssignment>> expireAssignment(
 		@PathVariable("id") UUID id,
-		@Nullable @RequestBody ExpiryDate e) {
+		@RequestBody ExpiryDate e) {
 		
 		if (log.isDebugEnabled()) {
 			log.debug("expire assignment " + id.toString());
 		}
 		
-		LocalDate expiryDate = e == null || e.getExpiryDate() == null ? LocalDate.now() : e.getExpiryDate();
+		LocalDate expiryDate = e.getExpiryDate() == null ? LocalDate.now() : e.getExpiryDate();
 		Assignment a = dutyRosterService.expireAssignment(id, expiryDate);
 		SimpleAssignment a2 = projectionFactory.createNullableProjection(SimpleAssignment.class, a);
 		
@@ -135,13 +130,13 @@ public class DutyRosterController {
 	@PatchMapping(path = PATH_EXPIRE_DUTY_RECURRENCE)
 	public ResponseEntity<Resource<SimpleDutyRecurrence>> expireDutyRecurrence(
 		@PathVariable("id") UUID id,
-		@Nullable @RequestBody ExpiryDate e) {
+		@RequestBody ExpiryDate e) {
 		
 		if (log.isDebugEnabled()) {
 			log.debug("expire duty recurrence " + id.toString());
 		}
 		
-		LocalDate expiryDate = e == null || e.getExpiryDate() == null ? LocalDate.now() : e.getExpiryDate();
+		LocalDate expiryDate = e.getExpiryDate() == null ? LocalDate.now() : e.getExpiryDate();
 		DutyRecurrence dr = dutyRosterService.expireDutyRecurrence(id, expiryDate);
 		SimpleDutyRecurrence dr2 = projectionFactory.createNullableProjection(SimpleDutyRecurrence.class, dr);
 		
@@ -152,11 +147,35 @@ public class DutyRosterController {
 	}
 
 	@CrossOrigin
+	@GetMapping(path = PATH_GET_ASSIGNMENTS_BY_COURTHOUSE_AND_DATERANGE)
+	public ResponseEntity<Resources<SimpleAssignment>> getAssignmentsByCourthouseAndDateRange(
+		@PathVariable("id") UUID courthouseId,
+		@NotNull @DateTimeFormat(iso = ISO.DATE) @RequestParam("startDate") LocalDate startDate,
+		@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "endDate", required = false) LocalDate endDate) {
+		
+		if (endDate == null) {
+			endDate = startDate;
+		}
+		
+		List<Assignment> assignments = dutyRosterService.getAssignmentsByCourthouseAndDateRange(courthouseId, startDate, endDate);
+		
+		List<SimpleAssignment> records = new ArrayList<>();
+		for (Assignment assignment : assignments) {
+			records.add(projectionFactory.createProjection(SimpleAssignment.class, assignment));
+		}
+		
+		Link self =  new Link(PATH + PATH_GET_ASSIGNMENTS_BY_COURTHOUSE_AND_DATERANGE.replace("{id}", courthouseId.toString()) + "?startDate=" + startDate + "&endDate=" + endDate);
+	
+		Resources<SimpleAssignment> r = new Resources<>(records, self);
+		return new ResponseEntity<>(r, HttpStatus.OK);
+	}
+	
+	@CrossOrigin
 	@GetMapping(path = PATH_GET_DUTIES_BY_COURTHOUSE_AND_DATERANGE)
 	public ResponseEntity<Resources<SimpleDuty>> getDutiesByCourthouseAndDateRange(
 		@PathVariable("id") UUID courthouseId,
 		@NotNull @DateTimeFormat(iso = ISO.DATE) @RequestParam("startDate") LocalDate startDate,
-		@Nullable @DateTimeFormat(iso = ISO.DATE) @RequestParam("endDate") LocalDate endDate) {
+		@DateTimeFormat(iso = ISO.DATE) @RequestParam(name = "endDate", required = false) LocalDate endDate) {
 		
 		LocalDateTime startDtm = startDate.atStartOfDay();
 		LocalDateTime endDtm = endDate == null ? DateUtil.atEndOfDay(startDate) : DateUtil.atEndOfDay(endDate);
@@ -168,11 +187,10 @@ public class DutyRosterController {
 			records.add(projectionFactory.createProjection(SimpleDuty.class, duty));
 		}
 		
-		LinkBuilder lb = entityLinks.linkFor(Courthouse.class);
-		Link self =  new Link(lb.toString() + "/" + courthouseId + "/getDutiesByDateRange?startDate=" + startDate + (endDate != null ? "&endDate=" + endDate : ""));
+		Link self =  new Link(PATH + PATH_GET_DUTIES_BY_COURTHOUSE_AND_DATERANGE.replace("{id}", courthouseId.toString()) + "?startDate=" + startDate + (endDate != null ? "&endDate=" + endDate : ""));
 		
 		Resources<SimpleDuty> r = new Resources<>(records, self);
 		return new ResponseEntity<>(r, HttpStatus.OK);
 	}
-	
+
 }

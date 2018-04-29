@@ -18,8 +18,6 @@ import ca.bc.gov.jag.shuber.persistence.model.ModelUtil;
 import ca.bc.gov.jag.shuber.persistence.model.Region;
 import ca.bc.gov.jag.shuber.persistence.model.WorkSectionCode;
 import ca.bc.gov.jag.shuber.persistence.model.WorkSectionCode.WORK_SECTION_CODE;
-import ca.bc.gov.jag.shuber.rest.dto.SimpleDuty;
-import ca.bc.gov.jag.shuber.util.DateUtil;
 
 /**
  * 

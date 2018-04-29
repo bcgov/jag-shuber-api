@@ -25,7 +25,6 @@ public abstract class AbstractTest {
 	
 	/** Current date and time. */
 	protected static LocalDateTime nowDateTime;
-
 	
 	/** Setup all dates for tests. */
 	@BeforeAll
@@ -41,5 +40,5 @@ public abstract class AbstractTest {
 
 	/** This method is run after every test. Place any cleanup that is required. */
 	protected abstract void afterTest();
-
+	
 }

@@ -24,7 +24,16 @@ public interface DutyRosterService {
 	List<Duty> createDefaultDuties(UUID courthouseId, LocalDate date);
 
 	/**
-	 * 
+	 * Get assignments for courthouse and date range.
+	 * @param courthouseId
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	List<Assignment> getAssignmentsByCourthouseAndDateRange(UUID courthouseId, LocalDate startDate, LocalDate endDate);
+	
+	/**
+	 * Get duties for courthouse and date range.
 	 * @param courthouseId
 	 * @param startDtm
 	 * @param endDtm

@@ -2,6 +2,7 @@ package ca.bc.gov.jag.shuber.rest.exception;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -33,7 +34,7 @@ public final class RestErrors implements Serializable {
 	
 	/** Constructor. */
 	public RestErrors() {
-		this(null, null);
+		this(new ArrayList<RestGlobalError>(), new ArrayList<RestFieldError>());
 	}
 
 	/**

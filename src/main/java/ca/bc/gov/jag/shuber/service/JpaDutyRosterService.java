@@ -22,6 +22,7 @@ import ca.bc.gov.jag.shuber.persistence.model.Assignment;
 import ca.bc.gov.jag.shuber.persistence.model.Duty;
 import ca.bc.gov.jag.shuber.persistence.model.DutyRecurrence;
 import ca.bc.gov.jag.shuber.persistence.model.SheriffDuty;
+import ca.bc.gov.jag.shuber.util.DateUtil;
 
 /**
  * 
@@ -40,7 +41,7 @@ public class JpaDutyRosterService implements DutyRosterService {
 	
 	
 	/**
-	 * 
+	 * Constructor.
 	 * @param dutyRecurrenceDao
 	 * @param dutyDao
 	 */
@@ -62,7 +63,7 @@ public class JpaDutyRosterService implements DutyRosterService {
 		List<DutyRecurrence> recurrences = dutyRecurrenceDao.getDutyRecurrences(courthouseId, date);
 		
 		for (DutyRecurrence dutyRecurrence : recurrences) {
-			if (createForDate(date, dutyRecurrence.getDaysBitmap())) {
+			if (DateUtil.createForDate(date, dutyRecurrence.getDaysBitmap())) {
 				LocalDateTime start = dutyRecurrence.getStartTime().atDate(date);
 				LocalDateTime end = dutyRecurrence.getEndTime().atDate(date);
 				
@@ -163,6 +164,15 @@ public class JpaDutyRosterService implements DutyRosterService {
 		return dr;
 	}
 	
+	@Override
+	public List<Assignment> getAssignmentsByCourthouseAndDateRange(
+		UUID courthouseId, 
+		LocalDate startDate,
+		LocalDate endDate) {
+		
+		return assignmentDao.findByCourthouseId(courthouseId, startDate, endDate);
+	}
+	
 	@Transactional(readOnly = true)
 	@Override
 	public List<Duty> getDutiesByCourthouseAndDateRange(
@@ -198,26 +208,6 @@ public class JpaDutyRosterService implements DutyRosterService {
 			.withIgnoreNullValues());
 		
 		return dutyDao.count(example);
-	}
-	
-	/**
-	 * Calculate if we need to create records based on the day of week 
-	 * for the given date and whether that matches a bit in the bitmap 
-	 * using the following formula.
-	 * 
-	 * <pre>
-	 * mon=1, tues=2, wed=4, thu=8, fri=16, sat=32, sun=64
-	 * </pre>
-	 * 
-	 * @param date
-	 * @param daysBitmap
-	 * @return true if matches, false otherwise
-	 */
-	boolean createForDate(LocalDate date, long daysBitmap) {
-		int dayOfWeek = date.getDayOfWeek().getValue();
-		int bitshifted = 1 << (dayOfWeek - 1);
-		
-		return ((daysBitmap & bitshifted) == bitshifted);
 	}
 	
 }

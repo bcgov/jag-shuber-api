@@ -24,19 +24,26 @@ import ca.bc.gov.jag.shuber.persistence.model.Assignment;
 @RepositoryRestResource
 public interface AssignmentDAO extends JpaRepository<Assignment, UUID> {
     // NOTE: add custom methods here
-
+	
 	/**
+	 * Find all active assignments for a courthouse and date range.
+	 * <pre>
+	 * A.end >= B.start AND A.start <= B.end
+	 * </pre>
+	 * @param courthouseId 
+	 * @param startDate 
+	 * @param endDate 
 	 * 
-	 * @param courthouseId
-	 * @param date
-	 * @return
+	 * @see https://stackoverflow.com/questions/325933/determine-whether-two-date-ranges-overlap
+	 * @return 
 	 */
-	@Query("SELECT a FROM Assignment a WHERE a.courthouse.courthouseId = :courthouseId AND a.effectiveDate <= :date AND (a.expiryDate IS NULL OR a.expiryDate >= :date)")
+	@Query("SELECT a FROM Assignment a WHERE a.courthouse.courthouseId = :courthouseId AND :endDate >= a.effectiveDate AND (a.expiryDate IS NULL OR :startDate <= a.expiryDate)")
 	List<Assignment> findByCourthouseId(
 		@Param("courthouseId") UUID courthouseId,
-		@Param("date") LocalDate date);
+		@Param("startDate") LocalDate startDate,
+		@Param("endDate") LocalDate endDate);
 
-
+	
 	//NOTE: to hide delete you must export both!
 //	@RestResource(exported = false)
 //	void deleteById(UUID id);
