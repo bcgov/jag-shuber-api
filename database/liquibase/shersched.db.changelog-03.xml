@@ -1,0 +1,102 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+    
+		<changeSet author="Carol Geisler" id="03_dropindex_1" context="DDL">
+		    <dropIndex indexName="ix_shr_rkcd"
+		    				tableName="sheriff" 
+		    				catalogName="${POSTGRES_CATALOG}" 
+		    				schemaName="${POSTGRES_SCHEMA}" />
+		  	<rollback changeSetPath="shersched.db.changelog-ddl.xml" changeSetId="1521486122124-61" changeSetAuthor="michael.gabelmann (generated)"/>
+		</changeSet>
+		<changeSet author="Carol Geisler" id="03_dropindex_2" context="DDL">
+		    <dropIndex indexName="ix_shr_uid"
+		    				tableName="sheriff" 
+		    				catalogName="${POSTGRES_CATALOG}" 
+		    				schemaName="${POSTGRES_SCHEMA}" />
+		  	<rollback changeSetPath="shersched.db.changelog-ddl.xml" changeSetId="1521486122124-59" changeSetAuthor="michael.gabelmann (generated)"/>
+		</changeSet>
+		<changeSet author="Carol Geisler" id="03_dropindex_3" context="DDL">
+		    <dropIndex indexName="ix_shr_bdg"
+		    				tableName="sheriff" 
+		    				catalogName="${POSTGRES_CATALOG}" 
+		    				schemaName="${POSTGRES_SCHEMA}" />
+		  	<rollback changeSetPath="shersched.db.changelog-ddl.xml" changeSetId="1521486122124-58" changeSetAuthor="michael.gabelmann (generated)"/>
+		</changeSet>
+		<changeSet author="Carol Geisler" id="03_dropindex_4" context="DDL">
+		    <dropIndex indexName="ix_rgn_cd"
+		    				tableName="region" 
+		    				catalogName="${POSTGRES_CATALOG}" 
+		    				schemaName="${POSTGRES_SCHEMA}" />
+		  	<rollback changeSetPath="shersched.db.changelog-ddl.xml" changeSetId="1521486122124-50" changeSetAuthor="michael.gabelmann (generated)"/>
+		</changeSet>
+		<changeSet author="Carol Geisler" id="03_dropindex_5" context="DDL">
+		    <dropIndex indexName="ix_dty_dtyrc"
+		    				tableName="duty" 
+		    				catalogName="${POSTGRES_CATALOG}" 
+		    				schemaName="${POSTGRES_SCHEMA}" />
+		  	<rollback changeSetPath="shersched.db.changelog-01.xml" changeSetId="01_duty_fk_duty_recurrence-3" changeSetAuthor="michael.gabelmann"/>
+		</changeSet>
+		<changeSet author="Carol Geisler" id="03_dropindex_6" context="DDL">
+		    <dropIndex indexName="ix_crtr_rm"
+		    				tableName="courtroom" 
+		    				catalogName="${POSTGRES_CATALOG}" 
+		    				schemaName="${POSTGRES_SCHEMA}" />
+		  	<rollback changeSetPath="shersched.db.changelog-ddl.xml" changeSetId="1521486122124-56" changeSetAuthor="michael.gabelmann (generated)"/>
+		</changeSet>
+		<changeSet author="Carol Geisler" id="03_dropindex_7" context="DDL">
+		    <dropIndex indexName="ix_crtr_cd"
+		    				tableName="courtroom" 
+		    				catalogName="${POSTGRES_CATALOG}" 
+		    				schemaName="${POSTGRES_SCHEMA}" />
+		  	<rollback changeSetPath="shersched.db.changelog-ddl.xml" changeSetId="1521486122124-55" changeSetAuthor="michael.gabelmann (generated)"/>
+		</changeSet>
+		<changeSet author="Carol Geisler" id="03_dropindex_8" context="DDL">
+		    <dropIndex indexName="ix_crth_adr"
+		    				tableName="courthouse" 
+		    				catalogName="${POSTGRES_CATALOG}" 
+		    				schemaName="${POSTGRES_SCHEMA}" />
+		  	<rollback changeSetPath="shersched.db.changelog-ddl.xml" changeSetId="1521486122124-54" changeSetAuthor="michael.gabelmann (generated)"/>
+		</changeSet>
+		<changeSet author="Carol Geisler" id="03_dropindex_9" context="DDL">
+		    <dropIndex indexName="ix_crth_cd"
+		    				tableName="courthouse" 
+		    				catalogName="${POSTGRES_CATALOG}" 
+		    				schemaName="${POSTGRES_SCHEMA}" />
+		  	<rollback changeSetPath="shersched.db.changelog-ddl.xml" changeSetId="1521486122124-51" changeSetAuthor="michael.gabelmann (generated)"/>
+		</changeSet>
+
+
+		<changeSet author="Carol Geisler" id="03_notnull_10">
+		    <addNotNullConstraint	tableName="sheriff" 
+		            columnName="courthouse_id"
+	              catalogName="${POSTGRES_CATALOG}"
+		            columnDataType="UUID"
+		            schemaName="${POSTGRES_SCHEMA}"/>
+		</changeSet>
+
+
+		<changeSet author="Carol Geisler" id="03_default_expiry_date_11">
+		    <addDefaultValue catalogName="${POSTGRES_CATALOG}"
+		            schemaName="${POSTGRES_SCHEMA}"
+		            tableName="assignment"
+		            columnName="effective_date"
+		            columnDataType="date"
+		            defaultValueComputed="CURRENT_TIMESTAMP"/>
+		</changeSet>
+		
+		<changeSet author="Carol Geisler" id="03_default_expiry_date_12">
+		    <addDefaultValue catalogName="${POSTGRES_CATALOG}"
+		            schemaName="${POSTGRES_SCHEMA}"
+		            tableName="duty_recurrence"
+		            columnName="effective_date"
+		            columnDataType="date"
+		            defaultValueComputed="CURRENT_TIMESTAMP"/>
+		</changeSet>
+
+
+</databaseChangeLog>
