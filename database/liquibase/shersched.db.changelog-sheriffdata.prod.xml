@@ -1,0 +1,677 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd"
+	  context="prod">
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="sheriff_data_prod_start"/>
+    </changeSet>
+
+		<!-- Victoria Sheriffs -->
+    <changeSet author="Carol Geisler" id="INS_shrf_157">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="157"/>
+          <column name="first_name" type="VARCHAR(100)" value="IAIN"/>
+          <column name="last_name" type="VARCHAR(100)" value="BELL"/>
+          <column name="userid" type="VARCHAR(32)" value="U157"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='157'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_723">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="723"/>
+          <column name="first_name" type="VARCHAR(100)" value="ARNIE"/>
+          <column name="last_name" type="VARCHAR(100)" value="VANDENBERG"/>
+          <column name="userid" type="VARCHAR(32)" value="U723"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='723'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_2199">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="2199"/>
+          <column name="first_name" type="VARCHAR(100)" value="TU"/>
+          <column name="last_name" type="VARCHAR(100)" value="GREEN "/>
+          <column name="userid" type="VARCHAR(32)" value="U2199"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='2199'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_2135">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="2135"/>
+          <column name="first_name" type="VARCHAR(100)" value="ROB"/>
+          <column name="last_name" type="VARCHAR(100)" value="BOOTH"/>
+          <column name="userid" type="VARCHAR(32)" value="U2135"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='2135'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_2046">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="2046"/>
+          <column name="first_name" type="VARCHAR(100)" value="RYAN"/>
+          <column name="last_name" type="VARCHAR(100)" value="WALDRIFF"/>
+          <column name="userid" type="VARCHAR(32)" value="U2046"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='2046'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_2165">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="2165"/>
+          <column name="first_name" type="VARCHAR(100)" value="KEITH"/>
+          <column name="last_name" type="VARCHAR(100)" value="SLY"/>
+          <column name="userid" type="VARCHAR(32)" value="U2165"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='2165'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_2229">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="2229"/>
+          <column name="first_name" type="VARCHAR(100)" value="JIM"/>
+          <column name="last_name" type="VARCHAR(100)" value="VINNEDGE"/>
+          <column name="userid" type="VARCHAR(32)" value="U2229"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='2229'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_2119">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="2119"/>
+          <column name="first_name" type="VARCHAR(100)" value="CHUCK"/>
+          <column name="last_name" type="VARCHAR(100)" value="MACINTOSH"/>
+          <column name="userid" type="VARCHAR(32)" value="U2119"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='2119'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_2220">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="2220"/>
+          <column name="first_name" type="VARCHAR(100)" value="RAQUEL"/>
+          <column name="last_name" type="VARCHAR(100)" value="KAMPUIS"/>
+          <column name="userid" type="VARCHAR(32)" value="U2220"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='2220'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_593">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="593"/>
+          <column name="first_name" type="VARCHAR(100)" value="THERON"/>
+          <column name="last_name" type="VARCHAR(100)" value="WATSON"/>
+          <column name="userid" type="VARCHAR(32)" value="U593"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='593'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_2023">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="2023"/>
+          <column name="first_name" type="VARCHAR(100)" value="SCOTT"/>
+          <column name="last_name" type="VARCHAR(100)" value="BUCKBOROUGH"/>
+          <column name="userid" type="VARCHAR(32)" value="U2023"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='2023'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_957">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="957"/>
+          <column name="first_name" type="VARCHAR(100)" value="JASON"/>
+          <column name="last_name" type="VARCHAR(100)" value="SMART"/>
+          <column name="userid" type="VARCHAR(32)" value="U957"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='957'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_561">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="561"/>
+          <column name="first_name" type="VARCHAR(100)" value="WILL"/>
+          <column name="last_name" type="VARCHAR(100)" value="JASKOW"/>
+          <column name="userid" type="VARCHAR(32)" value="U561"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='561'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_754">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="754"/>
+          <column name="first_name" type="VARCHAR(100)" value="DOUG"/>
+          <column name="last_name" type="VARCHAR(100)" value="LENUIK"/>
+          <column name="userid" type="VARCHAR(32)" value="U754"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='754'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_856">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="856"/>
+          <column name="first_name" type="VARCHAR(100)" value="RYAN"/>
+          <column name="last_name" type="VARCHAR(100)" value="LINDOFF"/>
+          <column name="userid" type="VARCHAR(32)" value="U856"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='856'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_913">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="913"/>
+          <column name="first_name" type="VARCHAR(100)" value="DEB"/>
+          <column name="last_name" type="VARCHAR(100)" value="HAUN "/>
+          <column name="userid" type="VARCHAR(32)" value="U913"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='913'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_2219">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="2219"/>
+          <column name="first_name" type="VARCHAR(100)" value="NICK"/>
+          <column name="last_name" type="VARCHAR(100)" value="HOLFELD"/>
+          <column name="userid" type="VARCHAR(32)" value="U2219"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='2219'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_641">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="641"/>
+          <column name="first_name" type="VARCHAR(100)" value="ROGER"/>
+          <column name="last_name" type="VARCHAR(100)" value="MacMASTER"/>
+          <column name="userid" type="VARCHAR(32)" value="U641"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='641'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_2074">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="2074"/>
+          <column name="first_name" type="VARCHAR(100)" value="JASON"/>
+          <column name="last_name" type="VARCHAR(100)" value="BEGG"/>
+          <column name="userid" type="VARCHAR(32)" value="U2074"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='2074'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_635">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="635"/>
+          <column name="first_name" type="VARCHAR(100)" value="JOANNE"/>
+          <column name="last_name" type="VARCHAR(100)" value="ST. GELAIS"/>
+          <column name="userid" type="VARCHAR(32)" value="U635"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='635'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_787">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="787"/>
+          <column name="first_name" type="VARCHAR(100)" value="COLLEEN"/>
+          <column name="last_name" type="VARCHAR(100)" value="PIERCY"/>
+          <column name="userid" type="VARCHAR(32)" value="U787"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="STAFFSERGEANT"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='787'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_732">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="732"/>
+          <column name="first_name" type="VARCHAR(100)" value="JEREMY"/>
+          <column name="last_name" type="VARCHAR(100)" value="KERR"/>
+          <column name="userid" type="VARCHAR(32)" value="U732"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='732'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_2118">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="2118"/>
+          <column name="first_name" type="VARCHAR(100)" value="TJ"/>
+          <column name="last_name" type="VARCHAR(100)" value="HAILEY"/>
+          <column name="userid" type="VARCHAR(32)" value="U2118"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='2118'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_938">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="938"/>
+          <column name="first_name" type="VARCHAR(100)" value="ANDREW"/>
+          <column name="last_name" type="VARCHAR(100)" value="KAIN"/>
+          <column name="userid" type="VARCHAR(32)" value="U938"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='938'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_878">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="878"/>
+          <column name="first_name" type="VARCHAR(100)" value="LISA"/>
+          <column name="last_name" type="VARCHAR(100)" value="GREENWOOD"/>
+          <column name="userid" type="VARCHAR(32)" value="U878"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="STAFFSERGEANT"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='878'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="INS_shrf_365">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="365"/>
+          <column name="first_name" type="VARCHAR(100)" value="AARON"/>
+          <column name="last_name" type="VARCHAR(100)" value="COLLISHAW"/>
+          <column name="userid" type="VARCHAR(32)" value="U365"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="INSPECTOR"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='365'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+		<!-- Victoria Sheriffs -->
+
+
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="sheriff_data_prod_end"/>
+    </changeSet>
+
+</databaseChangeLog>
