@@ -11,6 +11,7 @@ export POSTGRES_ADMIN_USER="postgres"
 cd "${SCRIPTDIR}/liquibase/"
 
 liquibase --driver=org.postgresql.Driver \
+          --contexts="$LIQUIBASE_CONTEXTS" \
           --changeLogFile=shersched.db.changelog-master.xml \
           --url="jdbc:postgresql://$POSTGRES_HOST:$POSTGRES_SERVICE_PORT/$POSTGRES_DATABASE" \
           --username=$POSTGRES_ADMIN_USER \
