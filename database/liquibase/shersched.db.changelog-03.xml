@@ -98,5 +98,13 @@
 		            defaultValueComputed="CURRENT_TIMESTAMP"/>
 		</changeSet>
 
+		<changeSet author="Carol Geisler" id="03_null_13">
+		    <dropNotNullConstraint	tableName="sheriff" 
+		            columnName="userid"
+	              catalogName="${POSTGRES_CATALOG}"
+		            columnDataType="UUID"
+		            schemaName="${POSTGRES_SCHEMA}"/>
+		</changeSet>
+
 
 </databaseChangeLog>

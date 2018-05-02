@@ -3,7 +3,8 @@
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
     xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd"
+    context="prod">
     
     <!--
         NOTE: convenience data for testing the pilot application
@@ -45,7 +46,7 @@
         </rollback>
     </changeSet>
     
-    <changeSet author="Michael Gabelmann" id="pilotdata_04">
+    <changeSet author="Michael Gabelmann" id="pilotdata_04" context="dev">
         <sqlFile path="../dml/sheriff.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
@@ -57,7 +58,7 @@
         </rollback>
     </changeSet>
     
-    <changeSet author="Michael Gabelmann" id="pilotdata_05">
+    <changeSet author="Michael Gabelmann" id="pilotdata_05" context="dev">
         <sqlFile path="../dml/run.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
@@ -69,7 +70,7 @@
         </rollback>
     </changeSet>
     
-    <changeSet author="Michael Gabelmann" id="pilotdata_06">
+    <changeSet author="Michael Gabelmann" id="pilotdata_06" context="dev">
         <sqlFile path="../dml/assignment.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>

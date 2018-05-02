@@ -40,7 +40,10 @@
     <!-- add shift -->
     <include file="shersched.db.changelog-02.xml"/>
     
-    <!-- cleanup indexes -->
+    <!-- cleanup indexes, nullables -->
     <include file="shersched.db.changelog-03.xml"/>
+    
+    <!-- sheriff prod data -->
+    <include file="shersched.db.changelog-sheriffdata.prod.xml"/>
     
 </databaseChangeLog>
