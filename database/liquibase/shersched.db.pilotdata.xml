@@ -82,7 +82,7 @@
         </rollback>
     </changeSet>
     
-    <changeSet author="Michael Gabelmann" id="pilotdata_07">
+    <changeSet author="Michael Gabelmann" id="pilotdata_07" context="dev">
         <sqlFile path="../dml/duty_recurrence.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
