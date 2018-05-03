@@ -43,6 +43,12 @@
     <!-- cleanup indexes, nullables -->
     <include file="shersched.db.changelog-03.xml"/>
     
+    <!-- courthouse prod data -->
+    <include file="shersched.db.changelog-courthousedata.prod.xml"/>
+    
+    <!-- courtroom prod data -->
+    <include file="shersched.db.changelog-courtroomdata.prod.xml"/>
+    
     <!-- sheriff prod data -->
     <include file="shersched.db.changelog-sheriffdata.prod.xml"/>
     

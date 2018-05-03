@@ -15,7 +15,9 @@
     	<tagDatabase tag="sheriff_data_prod_start"/>
     </changeSet>
 
+		
 		<!-- Victoria Sheriffs -->
+
     <changeSet author="Carol Geisler" id="INS_shrf_157">
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
@@ -26,7 +28,7 @@
           <column name="last_name" type="VARCHAR(100)" value="BELL"/>
           <column name="userid" type="VARCHAR(32)" value="U157"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -51,7 +53,7 @@
           <column name="last_name" type="VARCHAR(100)" value="VANDENBERG"/>
           <column name="userid" type="VARCHAR(32)" value="U723"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -76,7 +78,7 @@
           <column name="last_name" type="VARCHAR(100)" value="GREEN "/>
           <column name="userid" type="VARCHAR(32)" value="U2199"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -101,7 +103,7 @@
           <column name="last_name" type="VARCHAR(100)" value="BOOTH"/>
           <column name="userid" type="VARCHAR(32)" value="U2135"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -126,7 +128,7 @@
           <column name="last_name" type="VARCHAR(100)" value="WALDRIFF"/>
           <column name="userid" type="VARCHAR(32)" value="U2046"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -151,7 +153,7 @@
           <column name="last_name" type="VARCHAR(100)" value="SLY"/>
           <column name="userid" type="VARCHAR(32)" value="U2165"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -176,7 +178,7 @@
           <column name="last_name" type="VARCHAR(100)" value="VINNEDGE"/>
           <column name="userid" type="VARCHAR(32)" value="U2229"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -201,7 +203,7 @@
           <column name="last_name" type="VARCHAR(100)" value="MACINTOSH"/>
           <column name="userid" type="VARCHAR(32)" value="U2119"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -226,7 +228,7 @@
           <column name="last_name" type="VARCHAR(100)" value="KAMPUIS"/>
           <column name="userid" type="VARCHAR(32)" value="U2220"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -251,7 +253,7 @@
           <column name="last_name" type="VARCHAR(100)" value="WATSON"/>
           <column name="userid" type="VARCHAR(32)" value="U593"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -276,7 +278,7 @@
           <column name="last_name" type="VARCHAR(100)" value="BUCKBOROUGH"/>
           <column name="userid" type="VARCHAR(32)" value="U2023"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -301,7 +303,7 @@
           <column name="last_name" type="VARCHAR(100)" value="SMART"/>
           <column name="userid" type="VARCHAR(32)" value="U957"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -326,7 +328,7 @@
           <column name="last_name" type="VARCHAR(100)" value="JASKOW"/>
           <column name="userid" type="VARCHAR(32)" value="U561"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -351,7 +353,7 @@
           <column name="last_name" type="VARCHAR(100)" value="LENUIK"/>
           <column name="userid" type="VARCHAR(32)" value="U754"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -376,7 +378,7 @@
           <column name="last_name" type="VARCHAR(100)" value="LINDOFF"/>
           <column name="userid" type="VARCHAR(32)" value="U856"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -401,7 +403,7 @@
           <column name="last_name" type="VARCHAR(100)" value="HAUN "/>
           <column name="userid" type="VARCHAR(32)" value="U913"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -426,7 +428,7 @@
           <column name="last_name" type="VARCHAR(100)" value="HOLFELD"/>
           <column name="userid" type="VARCHAR(32)" value="U2219"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -451,7 +453,7 @@
           <column name="last_name" type="VARCHAR(100)" value="MacMASTER"/>
           <column name="userid" type="VARCHAR(32)" value="U641"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -476,7 +478,7 @@
           <column name="last_name" type="VARCHAR(100)" value="BEGG"/>
           <column name="userid" type="VARCHAR(32)" value="U2074"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -501,7 +503,7 @@
           <column name="last_name" type="VARCHAR(100)" value="ST. GELAIS"/>
           <column name="userid" type="VARCHAR(32)" value="U635"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -526,7 +528,7 @@
           <column name="last_name" type="VARCHAR(100)" value="PIERCY"/>
           <column name="userid" type="VARCHAR(32)" value="U787"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="STAFFSERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -551,7 +553,7 @@
           <column name="last_name" type="VARCHAR(100)" value="KERR"/>
           <column name="userid" type="VARCHAR(32)" value="U732"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -576,7 +578,7 @@
           <column name="last_name" type="VARCHAR(100)" value="HAILEY"/>
           <column name="userid" type="VARCHAR(32)" value="U2118"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -601,7 +603,7 @@
           <column name="last_name" type="VARCHAR(100)" value="KAIN"/>
           <column name="userid" type="VARCHAR(32)" value="U938"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -626,7 +628,7 @@
           <column name="last_name" type="VARCHAR(100)" value="GREENWOOD"/>
           <column name="userid" type="VARCHAR(32)" value="U878"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="STAFFSERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -651,7 +653,7 @@
           <column name="last_name" type="VARCHAR(100)" value="COLLISHAW"/>
           <column name="userid" type="VARCHAR(32)" value="U365"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="INSPECTOR"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '1201')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -667,6 +669,7 @@
       </rollback>
     </changeSet>
 
+
 		<!-- Surrey Sheriffs -->
  
     <changeSet author="Carol Geisler" id="INS_shrf_SryX1">
@@ -679,7 +682,7 @@
           <column name="last_name" type="VARCHAR(100)" value="MESSENGER"/>
           <column name="userid" type="VARCHAR(32)" value="USryX1"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="INSPECTOR"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -704,7 +707,7 @@
           <column name="last_name" type="VARCHAR(100)" value="DHESI"/>
           <column name="userid" type="VARCHAR(32)" value="U763"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="STAFFSERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -729,7 +732,7 @@
           <column name="last_name" type="VARCHAR(100)" value="HOFFMAN"/>
           <column name="userid" type="VARCHAR(32)" value="U886"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="STAFFSERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -754,7 +757,7 @@
           <column name="last_name" type="VARCHAR(100)" value="DA COSTA"/>
           <column name="userid" type="VARCHAR(32)" value="U728"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -779,7 +782,7 @@
           <column name="last_name" type="VARCHAR(100)" value=" MCISAAC"/>
           <column name="userid" type="VARCHAR(32)" value="U748"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -804,7 +807,7 @@
           <column name="last_name" type="VARCHAR(100)" value="SPEARMAN"/>
           <column name="userid" type="VARCHAR(32)" value="U753"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -829,7 +832,7 @@
           <column name="last_name" type="VARCHAR(100)" value="GILL"/>
           <column name="userid" type="VARCHAR(32)" value="U932"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -854,7 +857,7 @@
           <column name="last_name" type="VARCHAR(100)" value="LUCAS "/>
           <column name="userid" type="VARCHAR(32)" value="U987"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -879,7 +882,7 @@
           <column name="last_name" type="VARCHAR(100)" value="REEVES"/>
           <column name="userid" type="VARCHAR(32)" value="U532"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -904,7 +907,7 @@
           <column name="last_name" type="VARCHAR(100)" value="TREMBLAY"/>
           <column name="userid" type="VARCHAR(32)" value="U633"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -929,7 +932,7 @@
           <column name="last_name" type="VARCHAR(100)" value="LAWSON"/>
           <column name="userid" type="VARCHAR(32)" value="U682"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -954,7 +957,7 @@
           <column name="last_name" type="VARCHAR(100)" value="SIDDOO"/>
           <column name="userid" type="VARCHAR(32)" value="U749"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -979,7 +982,7 @@
           <column name="last_name" type="VARCHAR(100)" value="BRAR"/>
           <column name="userid" type="VARCHAR(32)" value="U745"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1004,7 +1007,7 @@
           <column name="last_name" type="VARCHAR(100)" value="WONG"/>
           <column name="userid" type="VARCHAR(32)" value="U877"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1029,7 +1032,7 @@
           <column name="last_name" type="VARCHAR(100)" value="TROUGHTON"/>
           <column name="userid" type="VARCHAR(32)" value="U785a"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1054,7 +1057,7 @@
           <column name="last_name" type="VARCHAR(100)" value="COBBY"/>
           <column name="userid" type="VARCHAR(32)" value="U849"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1079,7 +1082,7 @@
           <column name="last_name" type="VARCHAR(100)" value="KAY"/>
           <column name="userid" type="VARCHAR(32)" value="U989"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1104,7 +1107,7 @@
           <column name="last_name" type="VARCHAR(100)" value="SMITH"/>
           <column name="userid" type="VARCHAR(32)" value="U735"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1129,7 +1132,7 @@
           <column name="last_name" type="VARCHAR(100)" value="MCDONALD"/>
           <column name="userid" type="VARCHAR(32)" value="U154"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1154,7 +1157,7 @@
           <column name="last_name" type="VARCHAR(100)" value="PEDERSEN"/>
           <column name="userid" type="VARCHAR(32)" value="U785b"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1179,7 +1182,7 @@
           <column name="last_name" type="VARCHAR(100)" value="DHALIWAL"/>
           <column name="userid" type="VARCHAR(32)" value="U2007"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1204,7 +1207,7 @@
           <column name="last_name" type="VARCHAR(100)" value="DEV"/>
           <column name="userid" type="VARCHAR(32)" value="U2055"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1229,7 +1232,7 @@
           <column name="last_name" type="VARCHAR(100)" value="KAINTH"/>
           <column name="userid" type="VARCHAR(32)" value="U879"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1254,7 +1257,7 @@
           <column name="last_name" type="VARCHAR(100)" value="GOW"/>
           <column name="userid" type="VARCHAR(32)" value="U974"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1279,7 +1282,7 @@
           <column name="last_name" type="VARCHAR(100)" value="MOLSYKI"/>
           <column name="userid" type="VARCHAR(32)" value="U998"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1304,7 +1307,7 @@
           <column name="last_name" type="VARCHAR(100)" value="VO"/>
           <column name="userid" type="VARCHAR(32)" value="U2108"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1329,7 +1332,7 @@
           <column name="last_name" type="VARCHAR(100)" value="GILL"/>
           <column name="userid" type="VARCHAR(32)" value="U2145"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1354,7 +1357,7 @@
           <column name="last_name" type="VARCHAR(100)" value="FLORITTO"/>
           <column name="userid" type="VARCHAR(32)" value="U2103"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1379,7 +1382,7 @@
           <column name="last_name" type="VARCHAR(100)" value="MCCARTHY"/>
           <column name="userid" type="VARCHAR(32)" value="U2173"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1404,7 +1407,7 @@
           <column name="last_name" type="VARCHAR(100)" value="MESSENGER"/>
           <column name="userid" type="VARCHAR(32)" value="U2196"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1429,7 +1432,7 @@
           <column name="last_name" type="VARCHAR(100)" value="MESSENGER"/>
           <column name="userid" type="VARCHAR(32)" value="U2140"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1454,7 +1457,7 @@
           <column name="last_name" type="VARCHAR(100)" value="JOHAL"/>
           <column name="userid" type="VARCHAR(32)" value="U2105"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1479,7 +1482,7 @@
           <column name="last_name" type="VARCHAR(100)" value="HALEY"/>
           <column name="userid" type="VARCHAR(32)" value="U2118b"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1504,7 +1507,7 @@
           <column name="last_name" type="VARCHAR(100)" value="SINGER"/>
           <column name="userid" type="VARCHAR(32)" value="U2215"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1529,7 +1532,7 @@
           <column name="last_name" type="VARCHAR(100)" value="GILL"/>
           <column name="userid" type="VARCHAR(32)" value="U2032"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1554,7 +1557,7 @@
           <column name="last_name" type="VARCHAR(100)" value="MWEDNA"/>
           <column name="userid" type="VARCHAR(32)" value="U2209"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1579,7 +1582,7 @@
           <column name="last_name" type="VARCHAR(100)" value="VARGA"/>
           <column name="userid" type="VARCHAR(32)" value="U2218"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1604,7 +1607,7 @@
           <column name="last_name" type="VARCHAR(100)" value="HARRIS"/>
           <column name="userid" type="VARCHAR(32)" value="U2072"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1629,7 +1632,7 @@
           <column name="last_name" type="VARCHAR(100)" value="SINGH"/>
           <column name="userid" type="VARCHAR(32)" value="U2216"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1654,7 +1657,7 @@
           <column name="last_name" type="VARCHAR(100)" value="LISTER"/>
           <column name="userid" type="VARCHAR(32)" value="U2205"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1679,7 +1682,7 @@
           <column name="last_name" type="VARCHAR(100)" value="MATTU"/>
           <column name="userid" type="VARCHAR(32)" value="U2207"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1705,7 +1708,7 @@
           <column name="last_name" type="VARCHAR(100)" value="CUMMINGS"/>
           <column name="userid" type="VARCHAR(32)" value="U928"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1730,7 +1733,7 @@
           <column name="last_name" type="VARCHAR(100)" value="FISCHER"/>
           <column name="userid" type="VARCHAR(32)" value="U975"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1755,7 +1758,7 @@
           <column name="last_name" type="VARCHAR(100)" value="STEL"/>
           <column name="userid" type="VARCHAR(32)" value="U2179"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1780,7 +1783,7 @@
           <column name="last_name" type="VARCHAR(100)" value="MURRAY"/>
           <column name="userid" type="VARCHAR(32)" value="U2175"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1796,6 +1799,7 @@
       </rollback>
     </changeSet>
 
+
     <!-- Chilliwack Sheriffs -->
     
     <changeSet author="Carol Geisler" id="INS_shrf_839">
@@ -1808,7 +1812,7 @@
           <column name="last_name" type="VARCHAR(100)" value="AULAKH"/>
           <column name="userid" type="VARCHAR(32)" value="U839"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1833,7 +1837,7 @@
           <column name="last_name" type="VARCHAR(100)" value="BALLARD"/>
           <column name="userid" type="VARCHAR(32)" value="U2079"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1858,7 +1862,7 @@
           <column name="last_name" type="VARCHAR(100)" value="BELL"/>
           <column name="userid" type="VARCHAR(32)" value="U907"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1883,7 +1887,7 @@
           <column name="last_name" type="VARCHAR(100)" value="BERG"/>
           <column name="userid" type="VARCHAR(32)" value="U2111"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1908,7 +1912,7 @@
           <column name="last_name" type="VARCHAR(100)" value="CAMPBELL"/>
           <column name="userid" type="VARCHAR(32)" value="U941"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1933,7 +1937,7 @@
           <column name="last_name" type="VARCHAR(100)" value="DAVIES"/>
           <column name="userid" type="VARCHAR(32)" value="U2187"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1958,7 +1962,7 @@
           <column name="last_name" type="VARCHAR(100)" value="FROESE"/>
           <column name="userid" type="VARCHAR(32)" value="U2117"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1983,7 +1987,7 @@
           <column name="last_name" type="VARCHAR(100)" value="HAND"/>
           <column name="userid" type="VARCHAR(32)" value="U829"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -2008,7 +2012,7 @@
           <column name="last_name" type="VARCHAR(100)" value="HOLZAPFEL"/>
           <column name="userid" type="VARCHAR(32)" value="U2058"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -2033,7 +2037,7 @@
           <column name="last_name" type="VARCHAR(100)" value="KENDALL "/>
           <column name="userid" type="VARCHAR(32)" value="U610"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -2058,7 +2062,7 @@
           <column name="last_name" type="VARCHAR(100)" value="LAWRENCE"/>
           <column name="userid" type="VARCHAR(32)" value="U2110"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -2073,31 +2077,7 @@
           </delete>
       </rollback>
     </changeSet>
-    <changeSet author="Carol Geisler" id="INS_shrf_">
-      <insert catalogName="${POSTGRES_CATALOG}"
-              schemaName="${POSTGRES_SCHEMA}"
-              tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
-          <column name="badge_no" type="VARCHAR(20)" value=""/>
-          <column name="first_name" type="VARCHAR(100)" value="NO DEPUTY THIS NAME"/>
-          <column name="last_name" type="VARCHAR(100)" value="MASTERS"/>
-          <column name="userid" type="VARCHAR(32)" value="U"/>
-          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
-      </insert>
-      <rollback>
-         <delete catalogName="${POSTGRES_CATALOG}"
-              schemaName="${POSTGRES_SCHEMA}"
-              tableName="sheriff">
-              <where>badge_no=''</where>
-          </delete>
-      </rollback>
-    </changeSet>
+<!-- Skip DeputySheriff Masters with no badge No-->
     <changeSet author="Carol Geisler" id="INS_shrf_786">
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
@@ -2108,7 +2088,7 @@
           <column name="last_name" type="VARCHAR(100)" value="MCINTOSH"/>
           <column name="userid" type="VARCHAR(32)" value="U786"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -2133,7 +2113,7 @@
           <column name="last_name" type="VARCHAR(100)" value="MUDE"/>
           <column name="userid" type="VARCHAR(32)" value="U2099"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -2158,7 +2138,7 @@
           <column name="last_name" type="VARCHAR(100)" value="PHILLIPS"/>
           <column name="userid" type="VARCHAR(32)" value="U966"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -2183,7 +2163,7 @@
           <column name="last_name" type="VARCHAR(100)" value="RANALLO"/>
           <column name="userid" type="VARCHAR(32)" value="U843"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -2208,7 +2188,7 @@
           <column name="last_name" type="VARCHAR(100)" value="SCHMIDT"/>
           <column name="userid" type="VARCHAR(32)" value="U926"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="INSPECTOR"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -2233,7 +2213,7 @@
           <column name="last_name" type="VARCHAR(100)" value="VANDERREE "/>
           <column name="userid" type="VARCHAR(32)" value="U588"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = '3585')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -2248,6 +2228,8 @@
           </delete>
       </rollback>
     </changeSet>
+
+
 
 
     <changeSet author="Carol Geisler" id="tag1">
