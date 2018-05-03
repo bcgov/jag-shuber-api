@@ -49,6 +49,9 @@
     <!-- courtroom prod data -->
     <include file="shersched.db.changelog-courtroomdata.prod.xml"/>
     
+    <!-- run prod data -->
+    <include file="shersched.db.changelog-rundata.prod.xml"/>
+    
     <!-- sheriff prod data -->
     <include file="shersched.db.changelog-sheriffdata.prod.xml"/>
     

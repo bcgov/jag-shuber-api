@@ -22,7 +22,7 @@
         </rollback>
     </changeSet>
 
-    <changeSet author="Michael Gabelmann" id="pilotdata_02">
+    <changeSet author="Michael Gabelmann" id="pilotdata_02" context="dev">
         <sqlFile path="../dml/courthouse.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
@@ -34,7 +34,7 @@
         </rollback>
     </changeSet>
     
-    <changeSet author="Michael Gabelmann" id="pilotdata_03">
+    <changeSet author="Michael Gabelmann" id="pilotdata_03" context="dev">
         <sqlFile path="../dml/courtroom.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>

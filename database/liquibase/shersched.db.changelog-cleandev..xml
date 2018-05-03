@@ -106,4 +106,8 @@
     	<rollback changeSetPath="shersched.db.pilotdata.xml" changeSetId="pilotdata_01" changeSetAuthor="Michael Gabelmann"/>
 		</changeSet>
 
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="clean_dev_data_end"/>
+    </changeSet>
+
 </databaseChangeLog>
