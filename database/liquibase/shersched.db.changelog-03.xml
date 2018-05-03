@@ -6,63 +6,63 @@
         baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
     -->
     
-		<changeSet author="Carol Geisler" id="03_dropindex_1" context="DDL">
+		<changeSet author="Carol Geisler" id="03_dropindex_1">
 		    <dropIndex indexName="ix_shr_rkcd"
 		    				tableName="sheriff" 
 		    				catalogName="${POSTGRES_CATALOG}" 
 		    				schemaName="${POSTGRES_SCHEMA}" />
 		  	<rollback changeSetPath="shersched.db.changelog-ddl.xml" changeSetId="1521486122124-61" changeSetAuthor="michael.gabelmann (generated)"/>
 		</changeSet>
-		<changeSet author="Carol Geisler" id="03_dropindex_2" context="DDL">
+		<changeSet author="Carol Geisler" id="03_dropindex_2">
 		    <dropIndex indexName="ix_shr_uid"
 		    				tableName="sheriff" 
 		    				catalogName="${POSTGRES_CATALOG}" 
 		    				schemaName="${POSTGRES_SCHEMA}" />
 		  	<rollback changeSetPath="shersched.db.changelog-ddl.xml" changeSetId="1521486122124-59" changeSetAuthor="michael.gabelmann (generated)"/>
 		</changeSet>
-		<changeSet author="Carol Geisler" id="03_dropindex_3" context="DDL">
+		<changeSet author="Carol Geisler" id="03_dropindex_3">
 		    <dropIndex indexName="ix_shr_bdg"
 		    				tableName="sheriff" 
 		    				catalogName="${POSTGRES_CATALOG}" 
 		    				schemaName="${POSTGRES_SCHEMA}" />
 		  	<rollback changeSetPath="shersched.db.changelog-ddl.xml" changeSetId="1521486122124-58" changeSetAuthor="michael.gabelmann (generated)"/>
 		</changeSet>
-		<changeSet author="Carol Geisler" id="03_dropindex_4" context="DDL">
+		<changeSet author="Carol Geisler" id="03_dropindex_4">
 		    <dropIndex indexName="ix_rgn_cd"
 		    				tableName="region" 
 		    				catalogName="${POSTGRES_CATALOG}" 
 		    				schemaName="${POSTGRES_SCHEMA}" />
 		  	<rollback changeSetPath="shersched.db.changelog-ddl.xml" changeSetId="1521486122124-50" changeSetAuthor="michael.gabelmann (generated)"/>
 		</changeSet>
-		<changeSet author="Carol Geisler" id="03_dropindex_5" context="DDL">
+		<changeSet author="Carol Geisler" id="03_dropindex_5">
 		    <dropIndex indexName="ix_dty_dtyrc"
 		    				tableName="duty" 
 		    				catalogName="${POSTGRES_CATALOG}" 
 		    				schemaName="${POSTGRES_SCHEMA}" />
 		  	<rollback changeSetPath="shersched.db.changelog-01.xml" changeSetId="01_duty_fk_duty_recurrence-3" changeSetAuthor="michael.gabelmann"/>
 		</changeSet>
-		<changeSet author="Carol Geisler" id="03_dropindex_6" context="DDL">
+		<changeSet author="Carol Geisler" id="03_dropindex_6">
 		    <dropIndex indexName="ix_crtr_rm"
 		    				tableName="courtroom" 
 		    				catalogName="${POSTGRES_CATALOG}" 
 		    				schemaName="${POSTGRES_SCHEMA}" />
 		  	<rollback changeSetPath="shersched.db.changelog-ddl.xml" changeSetId="1521486122124-56" changeSetAuthor="michael.gabelmann (generated)"/>
 		</changeSet>
-		<changeSet author="Carol Geisler" id="03_dropindex_7" context="DDL">
+		<changeSet author="Carol Geisler" id="03_dropindex_7">
 		    <dropIndex indexName="ix_crtr_cd"
 		    				tableName="courtroom" 
 		    				catalogName="${POSTGRES_CATALOG}" 
 		    				schemaName="${POSTGRES_SCHEMA}" />
 		  	<rollback changeSetPath="shersched.db.changelog-ddl.xml" changeSetId="1521486122124-55" changeSetAuthor="michael.gabelmann (generated)"/>
 		</changeSet>
-		<changeSet author="Carol Geisler" id="03_dropindex_8" context="DDL">
+		<changeSet author="Carol Geisler" id="03_dropindex_8">
 		    <dropIndex indexName="ix_crth_adr"
 		    				tableName="courthouse" 
 		    				catalogName="${POSTGRES_CATALOG}" 
 		    				schemaName="${POSTGRES_SCHEMA}" />
 		  	<rollback changeSetPath="shersched.db.changelog-ddl.xml" changeSetId="1521486122124-54" changeSetAuthor="michael.gabelmann (generated)"/>
 		</changeSet>
-		<changeSet author="Carol Geisler" id="03_dropindex_9" context="DDL">
+		<changeSet author="Carol Geisler" id="03_dropindex_9">
 		    <dropIndex indexName="ix_crth_cd"
 		    				tableName="courthouse" 
 		    				catalogName="${POSTGRES_CATALOG}" 
@@ -106,5 +106,17 @@
 		            schemaName="${POSTGRES_SCHEMA}"/>
 		</changeSet>
 
-
+    <changeSet author="Carol Geisler" id="03_chg_crtr_uk_14">
+    	  <dropUniqueConstraint catalogName="${POSTGRES_CATALOG}"
+    	  				schemaName="${POSTGRES_SCHEMA}"
+    	  				tableName="courtroom"
+    	  				constraintName="uk_crtr_cd"
+    	  				uniqueColumns="courtroom_cd"/>
+    	  <addUniqueConstraint catalogName="${POSTGRES_CATALOG}"
+    	  				schemaName="${POSTGRES_SCHEMA}"
+    	  				tableName="courtroom"
+    	  				constraintName="uk_crth_crtr_cd"
+    	  				columnNames="courthouse_id,courtroom_cd"/>
+    </changeSet>
+    
 </databaseChangeLog>

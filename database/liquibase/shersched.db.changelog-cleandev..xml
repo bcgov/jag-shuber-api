@@ -1,0 +1,109 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd"
+	  context="cleandev">
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="clean_dev_data_start"/>
+    </changeSet>
+
+		<!-- Delete dummy duty recurrence data if present -->
+		
+		<changeSet author="Carol Geisler" id="DEL_Dev_DutyRecurs" context="cleandev">
+			<preConditions>
+				<changeSetExecuted changeLogFile="shersched.db.pilotdata.xml" author="Michael Gabelmann" id="pilotdata_07"/>
+			</preConditions>
+    	<sql>
+        SET search_path TO ${POSTGRES_SCHEMA};
+    		DELETE FROM duty_recurrence where created_by='test';
+    	</sql>
+    	<rollback changeSetPath="shersched.db.pilotdata.xml" changeSetId="pilotdata_07" changeSetAuthor="Michael Gabelmann"/>
+		</changeSet>
+
+		<!-- Delete dummy assignment data if present -->
+		
+		<changeSet author="Carol Geisler" id="DEL_Dev_Assignments" context="cleandev">
+			<preConditions>
+				<changeSetExecuted changeLogFile="shersched.db.pilotdata.xml" author="Michael Gabelmann" id="pilotdata_06"/>
+			</preConditions>
+    	<sql>
+        SET search_path TO ${POSTGRES_SCHEMA};
+    		DELETE FROM assignment where created_by='test';
+    	</sql>
+    	<rollback changeSetPath="shersched.db.pilotdata.xml" changeSetId="pilotdata_06" changeSetAuthor="Michael Gabelmann"/>
+		</changeSet>
+
+		<!-- Delete dummy run data if present -->
+		
+		<changeSet author="Carol Geisler" id="DEL_Dev_Runs" context="cleandev">
+			<preConditions>
+				<changeSetExecuted changeLogFile="shersched.db.pilotdata.xml" author="Michael Gabelmann" id="pilotdata_05"/>
+			</preConditions>
+    	<sql>
+        SET search_path TO ${POSTGRES_SCHEMA};
+    		DELETE FROM run where created_by='test';
+    	</sql>
+    	<rollback changeSetPath="shersched.db.pilotdata.xml" changeSetId="pilotdata_05" changeSetAuthor="Michael Gabelmann"/>
+		</changeSet>
+
+		<!-- Delete dummy sheriff data if present -->
+		
+		<changeSet author="Carol Geisler" id="DEL_Dev_Sheriffs" context="cleandev">
+			<preConditions>
+				<changeSetExecuted changeLogFile="shersched.db.pilotdata.xml" author="Michael Gabelmann" id="pilotdata_04"/>
+			</preConditions>
+    	<sql>
+        SET search_path TO ${POSTGRES_SCHEMA};
+    		DELETE FROM sheriff where badge_no LIKE 'BN%' AND created_by='test';
+    	</sql>
+    	<rollback changeSetPath="shersched.db.pilotdata.xml" changeSetId="pilotdata_04" changeSetAuthor="Michael Gabelmann"/>
+		</changeSet>
+
+		<!-- Delete dummy courtroom data if present -->
+		
+		<changeSet author="Carol Geisler" id="DEL_Dev_Courtrooms" context="cleandev">
+			<preConditions>
+				<changeSetExecuted changeLogFile="shersched.db.pilotdata.xml" author="Michael Gabelmann" id="pilotdata_03"/>
+			</preConditions>
+    	<sql>
+        SET search_path TO ${POSTGRES_SCHEMA};
+    		DELETE FROM courtroom where created_by='test';
+    	</sql>
+    	<rollback changeSetPath="shersched.db.pilotdata.xml" changeSetId="pilotdata_03" changeSetAuthor="Michael Gabelmann"/>
+		</changeSet>
+
+		<!-- Delete dummy courthouse data if present -->
+		
+		<changeSet author="Carol Geisler" id="DEL_Dev_Courthouses" context="cleandev">
+			<preConditions>
+				<changeSetExecuted changeLogFile="shersched.db.pilotdata.xml" author="Michael Gabelmann" id="pilotdata_02"/>
+			</preConditions>
+    	<sql>
+        SET search_path TO ${POSTGRES_SCHEMA};
+    		DELETE FROM courthouse where created_by='test';
+    	</sql>
+    	<rollback changeSetPath="shersched.db.pilotdata.xml" changeSetId="pilotdata_02" changeSetAuthor="Michael Gabelmann"/>
+		</changeSet>
+
+		<!-- Delete dummy region data if present -->
+		
+		<changeSet author="Carol Geisler" id="DEL_Dev_Regions" context="cleandev">
+			<preConditions>
+				<changeSetExecuted changeLogFile="shersched.db.pilotdata.xml" author="Michael Gabelmann" id="pilotdata_01"/>
+			</preConditions>
+    	<sql>
+        SET search_path TO ${POSTGRES_SCHEMA};
+    		DELETE FROM region where created_by='test';
+    	</sql>
+    	<rollback changeSetPath="shersched.db.pilotdata.xml" changeSetId="pilotdata_01" changeSetAuthor="Michael Gabelmann"/>
+		</changeSet>
+
+</databaseChangeLog>
