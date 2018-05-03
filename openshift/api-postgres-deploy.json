@@ -86,6 +86,10 @@
                                 ],
                                 "env": [
                                     {
+                                        "name" : "LIQUIBASE_CONTEXTS",
+                                        "value": "${API_DATA_CONTEXTS}"
+                                    },
+                                    {
                                         "name": "POSTGRES_ADMIN_PASSWORD",
                                         "valueFrom": {
                                             "secretKeyRef": {
@@ -131,7 +135,8 @@
                     },
                     "resources": {
                         "limits": {
-                            "memory": "${API_MEMORY_LIMIT}"
+                            "memory": "${API_MEMORY_LIMIT}",
+                            "cpu":"${API_CPU_LIMIT}"
                         }
                     }
                 },
@@ -178,6 +183,10 @@
                                 ],
                                 "env": [
                                     {
+                                        "name" : "LIQUIBASE_CONTEXTS",
+                                        "value": "${API_DATA_CONTEXTS}"
+                                    },
+                                    {
                                         "name": "POSTGRES_ADMIN_PASSWORD",
                                         "valueFrom": {
                                             "secretKeyRef": {
@@ -220,7 +229,8 @@
                                 ],
                                 "resources": {
                                     "limits": {
-                                        "memory": "${API_MEMORY_LIMIT}"
+                                        "memory": "${API_MEMORY_LIMIT}",
+                                        "cpu":"${API_CPU_LIMIT}"
                                     }
                                 },
                                 "terminationMessagePath": "/dev/termination-log",
@@ -490,6 +500,13 @@
     ],
     "parameters": [
         {
+            "name": "API_DATA_CONTEXTS",
+            "displayName": "API Data Contexts",
+            "description": "The liquibase contexts to include for this environment.  (See [liquibase contexts](http://www.liquibase.org/documentation/contexts.html) for more info)",
+            "required": true,
+            "value":""
+        },
+        {
             "name": "API_IMAGE_NAMESPACE",
             "displayName": "Api ImageStream Project",
             "description": "The OpenShift Project where the Api ImageStream resides.",
@@ -541,15 +558,22 @@
         },
         {
             "name": "API_MEMORY_LIMIT",
-            "displayName": "Memory Limit",
-            "description": "Maximum amount of memory the container can use.",
-            "value": "512Mi",
+            "displayName": "API Memory Limit",
+            "description": "Maximum amount of memory the API container can use.",
+            "value": "1500Mi",
             "required": true
         },
         {
+            "name": "API_CPU_LIMIT",
+            "displayName": "API CPU Limit",
+            "description": "Maximum amount of CPU the API container can use.",
+            "value": "1500m",
+            "required": false
+        },
+        {
             "name": "DATABASE_MEMORY_LIMIT",
-            "displayName": "Memory Limit",
-            "description": "Maximum amount of memory the container can use.",
+            "displayName": "Database Memory Limit",
+            "description": "Maximum amount of memory the Database container can use.",
             "value": "512Mi",
             "required": true
         },

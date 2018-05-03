@@ -1,11 +1,9 @@
 package ca.bc.gov.jag.shuber.persistence;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -18,39 +16,37 @@ import javax.validation.constraints.Size;
 public abstract class AbstractTypeCode extends AbstractAuditableVersionable implements TypeCode, Effective {
 	/** Effective date. First day in effect. */
 	@NotNull
-	@Temporal(TemporalType.DATE)
-	@Column(name = "EFFECTIVE_DATE", nullable = false, length = 13, insertable = true, updatable = true)
-	protected Date effectiveDate;
+	@Column(name = "effective_date", nullable = false, length = 13, insertable = true, updatable = true)
+	protected LocalDate effectiveDate;
 	
 	/** Expiry Date. Last day in effect. If null there is no expiry date. */
-	@Temporal(TemporalType.DATE)
-	@Column(name = "EXPIRY_DATE", nullable = true, length= 13, insertable = true, updatable = true)
-	protected Date expiryDate;
+	@Column(name = "expiry_date", nullable = true, length= 13, insertable = true, updatable = true)
+	protected LocalDate expiryDate;
 
 	/** Description and/or label. */
 	@NotEmpty
 	@Size(min = 1, max = 200)
-	@Column(name = "DESCRIPTION", nullable = false, length = 200, insertable = true, updatable = true)
+	@Column(name = "description", nullable = false, length = 200, insertable = true, updatable = true)
 	protected String description;
 	
 	
 	@Override
-	public Date getEffectiveDate() {
+	public LocalDate getEffectiveDate() {
 		return effectiveDate;
 	}
 
 	@Override
-	public void setEffectiveDate(Date effectiveDate) {
+	public void setEffectiveDate(LocalDate effectiveDate) {
 		this.effectiveDate = effectiveDate;
 	}
 
 	@Override
-	public Date getExpiryDate() {
+	public LocalDate getExpiryDate() {
 		return expiryDate;
 	}
 
 	@Override
-	public void setExpiryDate(Date expiryDate) {
+	public void setExpiryDate(LocalDate expiryDate) {
 		this.expiryDate = expiryDate;
 	}
 

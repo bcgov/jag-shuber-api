@@ -1,7 +1,9 @@
 package ca.bc.gov.jag.shuber.util;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
@@ -104,4 +106,32 @@ public final class DateUtil {
 		return sdf.format(date);
 	}
 	
+	/**
+	 * Java LocalDate does not provide an atEndOfDay method, so we will create our own.
+	 * @param date
+	 * @return
+	 */
+	public static LocalDateTime atEndOfDay(LocalDate date) {
+		return date.atTime(LocalTime.MAX);
+	}
+	
+	/**
+	 * Calculate if we need to create records based on the day of week 
+	 * for the given date and whether that matches a bit in the bitmap 
+	 * using the following formula.
+	 * 
+	 * <pre>
+	 * mon=1, tues=2, wed=4, thu=8, fri=16, sat=32, sun=64
+	 * </pre>
+	 * 
+	 * @param date
+	 * @param daysBitmap
+	 * @return true if matches, false otherwise
+	 */
+	public static boolean createForDate(LocalDate date, long daysBitmap) {
+		int dayOfWeek = date.getDayOfWeek().getValue();
+		int bitshifted = 1 << (dayOfWeek - 1);
+		
+		return ((daysBitmap & bitshifted) == bitshifted);
+	}
 }

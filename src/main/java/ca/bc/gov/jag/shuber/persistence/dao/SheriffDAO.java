@@ -1,12 +1,13 @@
 package ca.bc.gov.jag.shuber.persistence.dao;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
 
@@ -19,7 +20,8 @@ import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
  * @version 391
  * @see ca.bc.gov.jag.shuber.persistence.model.Sheriff
  */
-@Repository
+//@Repository
+@RepositoryRestResource
 public interface SheriffDAO extends JpaRepository<Sheriff, UUID> {
     // NOTE: add custom methods here
 
@@ -28,21 +30,21 @@ public interface SheriffDAO extends JpaRepository<Sheriff, UUID> {
 	 * @param badgeNo badge number
 	 * @return record
 	 */
-	Sheriff findByBadgeNo(@Param("badgeNo") String badgeNo);
+	Optional<Sheriff> findByBadgeNo(@Param("badgeNo") String badgeNo);
 	
 	/**
 	 * Find by user id. 
 	 * @param userid user id
 	 * @return record
 	 */
-	Sheriff findByUserid(@Param("userid") String userid);
+	Optional<Sheriff> findByUserid(@Param("userid") String userid);
 	
 	/**
 	 * Find sheriffs for given courthouse.
-	 * @param courthouseId courthouse
+	 * @param courthouseCd courthouse code
 	 * @return records
 	 */
-	@Query("SELECT s FROM Sheriff s WHERE s.courthouse.courthouseId = :courthouseId")
-	List<Sheriff> getSheriffsByCourthouse(@Param("courthouseId") UUID courthouseId);
+	@Query("SELECT s FROM Sheriff s WHERE s.courthouse.courthouseCd = :courthouseCd")
+	List<Sheriff> getSheriffsByCourthouse(@Param("courthouseCd") String courthouseCd);
 	
 }

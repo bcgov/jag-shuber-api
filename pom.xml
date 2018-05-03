@@ -73,7 +73,7 @@
 			<artifactId>spring-boot-starter-data-rest</artifactId>
 		</dependency>
 		
-		<!-- enables HAL browser for exploring endpoints -->
+		<!-- enables HAL browser for exploring end points -->
 		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-rest-hal-browser</artifactId>
@@ -177,6 +177,12 @@
 			<groupId>org.junit.platform</groupId>
 			<artifactId>junit-platform-runner</artifactId>
 			<version>${junit.platform.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.5</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

@@ -1,7 +1,8 @@
 package ca.bc.gov.jag.shuber.persistence.dao;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
@@ -12,7 +13,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.bc.gov.jag.shuber.persistence.MockAuditorAware;
+import ca.bc.gov.jag.shuber.persistence.model.Courthouse;
 import ca.bc.gov.jag.shuber.persistence.model.ModelUtil;
+import ca.bc.gov.jag.shuber.persistence.model.Region;
 import ca.bc.gov.jag.shuber.persistence.model.Sheriff;
 import ca.bc.gov.jag.shuber.persistence.model.SheriffRankCode;
 
@@ -33,7 +36,7 @@ public class SheriffDAOTest extends AbstractDAOTest {
 	@BeforeEach
 	@Override
 	public void beforeTest() {
-		src = ModelUtil.getSheriffRankCode("SERGEANT", "Sergeant", new Date());
+		src = ModelUtil.getSheriffRankCode("SERGEANT", "Sergeant", LocalDate.now());
 		entityManager.persistAndFlush(src);
 		
 		s = ModelUtil.getSheriff(src, "M5000", "userid1");
@@ -100,37 +103,33 @@ public class SheriffDAOTest extends AbstractDAOTest {
 	@Test
 	@DisplayName("Find sheriffs for a given courthose")
 	public void test1_getSheriffsByCourthouse() {
-		Assertions.fail("TODO");
+		Region r = ModelUtil.getRegion("VANISLAND", "Vancouver Island");
+		Courthouse c = ModelUtil.getCourthouse(r, "1201", "Victoria");
 		
-//		Location location = ModelUtil.getLocation("Victoria");
-//		Courthouse courthouse = ModelUtil.getCourthouse(location, "COURTHOUSE", UUID.randomUUID());
-//		
-//		entityManager.persistAndFlush(location);
-//		entityManager.persistAndFlush(courthouse);
-//		
-//		s.setCourthouse(courthouse);
-//		entityManager.persistAndFlush(s);
-//		
-//		List<Sheriff> records = sheriffDAO.getSheriffsByCourthouse(courthouse.getLocationId());
-//		
-//		Assertions.assertNotNull(records);
-//		Assertions.assertTrue(records.size() == 1);
+		entityManager.persist(r);
+		entityManager.persist(c);
+		entityManager.flush();
+		
+		s.setCourthouse(c);
+		entityManager.persistAndFlush(s);
+		
+		List<Sheriff> records = sheriffDAO.getSheriffsByCourthouse("1201");
+		Assertions.assertNotNull(records);
+		Assertions.assertTrue(records.size() == 1);
 	}
 
 	@Test
 	@DisplayName("Find sheriff by user id")
 	public void test1_findByUserid() {
-		Sheriff tmp = sheriffDAO.findByUserid("userid1");
-		
-		Assertions.assertNotNull(tmp);
+		Optional<Sheriff> tmp = sheriffDAO.findByUserid("userid1");
+		Assertions.assertTrue(tmp.isPresent());
 	}
 	
 	@Test
 	@DisplayName("Find by badge number")
 	public void test1_findByBadgeNo() {
-		Sheriff tmp = sheriffDAO.findByBadgeNo("M5000");
-		
-		Assertions.assertNotNull(tmp);
+		Optional<Sheriff> tmp = sheriffDAO.findByBadgeNo("M5000");
+		Assertions.assertTrue(tmp.isPresent());
 	}
 	
 }

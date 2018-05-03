@@ -1,33 +1,33 @@
 package ca.bc.gov.jag.shuber.persistence;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
-*
-* @author michael.gabelmann
-*/
+ *
+ * @author michael.gabelmann
+ */
 public interface Effective {
 	/**
 	 * Get effective date.
 	 * @return effective date
 	 */
-	Date getEffectiveDate();
+	LocalDate getEffectiveDate();
 	
 	/**
 	 * Set effective date.
 	 * @param effectiveDate effective date
 	 */
-	void setEffectiveDate(Date effectiveDate);
+	void setEffectiveDate(LocalDate effectiveDate);
 	
 	/**
 	 * Get expiry date.
 	 * @return expiry date
 	 */
-	Date getExpiryDate();
+	LocalDate getExpiryDate();
 	
 	/**
 	 * Set expiry date.
 	 * @param expiryDate expiry date
 	 */
-	void setExpiryDate(Date expiredDate);
+	void setExpiryDate(LocalDate expiredDate);
 }

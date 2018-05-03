@@ -1,8 +1,8 @@
 package ca.bc.gov.jag.shuber.persistence.model;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -79,7 +79,11 @@ public class Sheriff extends AbstractAuditableVersionable implements Serializabl
     private String userid;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sheriff")
+    private List<Shift> shifts = new ArrayList<Shift>(0);
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "sheriff")
     private List<SheriffDuty> sheriffDuties = new ArrayList<SheriffDuty>(0);
+    
     /** No args constructor. */
     public Sheriff() {}
 
@@ -91,8 +95,8 @@ public class Sheriff extends AbstractAuditableVersionable implements Serializabl
             String userid,
             String createdBy,
             String updatedBy,
-            Date createdDtm,
-            Date updatedDtm,
+            Instant createdDtm,
+            Instant updatedDtm,
             long revisionCount) {
         this.sheriffId = sheriffId;
         this.sheriffRankCode = sheriffRankCode;
@@ -117,8 +121,8 @@ public class Sheriff extends AbstractAuditableVersionable implements Serializabl
             String userid,
             String createdBy,
             String updatedBy,
-            Date createdDtm,
-            Date updatedDtm,
+            Instant createdDtm,
+            Instant updatedDtm,
             long revisionCount,
             List<SheriffDuty> sheriffDuties) {
         this.sheriffId = sheriffId;
@@ -200,7 +204,15 @@ public class Sheriff extends AbstractAuditableVersionable implements Serializabl
     public void setUserid(String userid) {
         this.userid = userid;
     }
+    
+    public List<Shift> getShifts() {
+		return shifts;
+	}
 
+	public void setShifts(List<Shift> shifts) {
+		this.shifts = shifts;
+	}
+    
     public List<SheriffDuty> getSheriffDuties() {
         return this.sheriffDuties;
     }
@@ -219,4 +231,10 @@ public class Sheriff extends AbstractAuditableVersionable implements Serializabl
     		
     		return sb.toString();
     }
+
+    @Transient
+	@Override
+	public String getIdPath() {
+		return "/sheriffs/" + sheriffId;
+	}
 }

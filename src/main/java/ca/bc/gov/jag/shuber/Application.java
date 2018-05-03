@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -15,8 +17,11 @@ import org.springframework.context.annotation.Bean;
  * 
  * @author michael.gabelmann
  */
+//NOTE: disable HATEOAS (bad idea, as it makes your API not very RESTful)
+//@SpringBootApplication(exclude = RepositoryRestMvcAutoConfiguration.class)
+@ServletComponentScan
 @SpringBootApplication
-public class Application {
+public class Application extends SpringBootServletInitializer {
 	/** Logger. */
 	private static final Logger log = LogManager.getLogger(Application.class);
 
@@ -24,6 +29,8 @@ public class Application {
 	@Value("${app.acronym}")
 	private String applicationAcronym;
 	
+	/** Current user. */
+	public static ThreadLocal<String> user = new ThreadLocal<>();
 	
 	/**
 	 * Main entry point used by Spring Boot to initialize the application.
@@ -32,10 +39,10 @@ public class Application {
 	public static void main(final String[] args) {
 		ConfigurableApplicationContext ctx = SpringApplication.run(Application.class, args);
 
-		if (log.isDebugEnabled()) {
+		if (log.isTraceEnabled()) {
 			String[] names = ctx.getBeanDefinitionNames();
 			for (String name : names) {
-				//log.debug("bean name=" + name);
+				log.trace("bean name=" + name);
 			}
 		}
 

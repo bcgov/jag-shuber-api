@@ -358,8 +358,12 @@
             <column name="duty_id" type="UUID">
                 <constraints nullable="false"/>
             </column>
-            <column name="start_dtm" type="TIMESTAMP WITH TIME ZONE"/>
-            <column name="end_dtm" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="start_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
             <column name="sheriffs_required" type="numeric(2)">
                 <constraints nullable="false"/>
             </column>
@@ -427,10 +431,14 @@
             <column name="sheriff_duty_id" type="UUID">
                 <constraints nullable="false"/>
             </column>
-            <column name="sheriff_id" type="UUID">
+            <column name="sheriff_id" type="UUID"/>
+            <column name="duty_id" type="UUID">
                 <constraints nullable="false"/>
             </column>
-            <column name="duty_id" type="UUID">
+            <column name="start_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_dtm" type="TIMESTAMP WITH TIME ZONE">
                 <constraints nullable="false"/>
             </column>
             <column name="created_by" type="VARCHAR(32)">

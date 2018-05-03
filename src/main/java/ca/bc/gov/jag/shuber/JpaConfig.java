@@ -10,6 +10,6 @@ import org.springframework.stereotype.Component;
 @Component
 @EnableJpaAuditing(auditorAwareRef = "userAuditorAware")
 public class JpaConfig {
-	//NOTE: not sure if we need this class anymore as I fixed an issue with the unit tests.
 	
+
 }

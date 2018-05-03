@@ -1,5 +1,6 @@
 package ca.bc.gov.jag.shuber.persistence.dao;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
@@ -23,10 +24,13 @@ import ca.bc.gov.jag.shuber.persistence.MockAuditorAware;
  * 
  * @author michael.gabelmann
  */
+@Tag("unittest")
 @RunWith(JUnitPlatform.class)
 @ExtendWith(SpringExtension.class)
 @DataJpaTest(
-	includeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, classes = MockAuditorAware.class)
+	includeFilters = {
+		@Filter(type = FilterType.ASSIGNABLE_TYPE, classes = MockAuditorAware.class),
+	}
 )
 @EnableJpaAuditing(auditorAwareRef = "mockAuditorAware")
 @TestPropertySource(

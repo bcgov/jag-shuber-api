@@ -1,6 +1,9 @@
 package ca.bc.gov.jag.shuber.persistence.model;
 
-import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 
 /**
@@ -10,7 +13,8 @@ import java.util.UUID;
  * @author michael.gabelmann
  */
 public final class ModelUtil {
-	private static Date now = new Date();
+	private static Instant now = Instant.now();
+	private static LocalDate nowDate = LocalDate.now();
 	private static String user = "test";
 	private static int count = 0;
 	
@@ -21,11 +25,11 @@ public final class ModelUtil {
 	public static OtherAssignCode getOtherAssignCode(
 		String otherAssignCode,
 	    String description,
-	    Date effectiveDate) {
+	    LocalDate effectiveDate) {
 			
 		return new OtherAssignCode(
             otherAssignCode,
-            description,
+            description, 
             effectiveDate,
             user, user, now, now, count);
 	}
@@ -33,7 +37,7 @@ public final class ModelUtil {
 	public static JailRoleCode getJailRoleCode(
 		String jailRoleCode,
 	    String description,
-	    Date effectiveDate) {
+	    LocalDate effectiveDate) {
 			
 		return new JailRoleCode(
             jailRoleCode,
@@ -45,7 +49,7 @@ public final class ModelUtil {
 	public static SheriffRankCode getSheriffRankCode(
 		String sheriffRankCode,
         String description,
-        Date effectiveDate) {
+        LocalDate effectiveDate) {
 		
 		return new SheriffRankCode(
             sheriffRankCode,
@@ -57,7 +61,7 @@ public final class ModelUtil {
 	public static WorkSectionCode getWorkSectionCode(
 		String workSectionCode,
 	    String description,
-	    Date effectiveDate) {
+	    LocalDate effectiveDate) {
 			
 		return new WorkSectionCode(
             workSectionCode,
@@ -118,33 +122,40 @@ public final class ModelUtil {
 	public static Assignment getAssignment(
 		Courthouse courthouse,
         WorkSectionCode workSectionCode,
-        String title) {
+        String title,
+        LocalDate effectiveDate) {
 		
 		return new Assignment(
             null,
             courthouse,
             workSectionCode,
             title,
+            effectiveDate,
             user, user, now, now, count);
 	}
 	
 	public static Duty getDuty(
 		Assignment assignment,
+		LocalDateTime startDtm,
+        LocalDateTime endDtm,
         byte sheriffsRequired) {
 		
 		return new  Duty(
 			null,
-            assignment,
-            sheriffsRequired,
-            user, user, now, now, count);
+	        assignment,
+	        startDtm,
+	        endDtm,
+	        sheriffsRequired,
+	        user, user, now, now, count);
 	}
 	
 	public static DutyRecurrence getDutyRecurrence(
 		Assignment assignment,
-        Date startTime,
-        Date endTime,
+        LocalTime startTime,
+        LocalTime endTime,
         long daysBitmap,
-        byte sheriffsRequired) {
+        byte sheriffsRequired,
+        LocalDate effectiveDate) {
 		
 		return new DutyRecurrence(
 			null,
@@ -153,6 +164,7 @@ public final class ModelUtil {
             endTime,
             daysBitmap,
             sheriffsRequired,
+            effectiveDate,
             user, user, now, now, count);
 	}
 	
@@ -169,12 +181,30 @@ public final class ModelUtil {
 	
 	public static SheriffDuty getSheriffDuty(
 		Duty duty,
-        Sheriff sheriff) {
+        LocalDateTime startDtm,
+        LocalDateTime endDtm,
+		Sheriff sheriff) {
 		
 		return new SheriffDuty(
-            null,
-            duty,
-            sheriff,
+			null,
+	        duty,
+	        startDtm,
+	        endDtm,
+	        user, user, now, now, count);
+	}
+	
+	public static Shift getShift(
+		Courthouse courthouse,
+        WorkSectionCode workSectionCode,
+        LocalDateTime startDtm,
+        LocalDateTime endDtm) {
+		
+		return new Shift(
+			null,
+            courthouse,
+            workSectionCode,
+            startDtm,
+            endDtm,
             user, user, now, now, count);
 	}
 	

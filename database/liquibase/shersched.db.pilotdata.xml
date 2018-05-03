@@ -3,7 +3,8 @@
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
     xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd"
+    context="prod">
     
     <!--
         NOTE: convenience data for testing the pilot application
@@ -16,79 +17,79 @@
         <rollback>
             <sql>
                 SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE r.* FROM region r;
+                DELETE FROM region;
             </sql>
         </rollback>
     </changeSet>
 
-    <changeSet author="Michael Gabelmann" id="pilotdata_02">
+    <changeSet author="Michael Gabelmann" id="pilotdata_02" context="dev">
         <sqlFile path="../dml/courthouse.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
         <rollback>
             <sql>
                 SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE c.* FROM courthouse c;
+                DELETE FROM courthouse;
             </sql>
         </rollback>
     </changeSet>
     
-    <changeSet author="Michael Gabelmann" id="pilotdata_03">
+    <changeSet author="Michael Gabelmann" id="pilotdata_03" context="dev">
         <sqlFile path="../dml/courtroom.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
         <rollback>
             <sql>
                 SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE c.* FROM courtroom c;
+                DELETE FROM courtroom;
             </sql>
         </rollback>
     </changeSet>
     
-    <changeSet author="Michael Gabelmann" id="pilotdata_04">
+    <changeSet author="Michael Gabelmann" id="pilotdata_04" context="dev">
         <sqlFile path="../dml/sheriff.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
         <rollback>
             <sql>
                 SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE s.* FROM sheriff s;
+                DELETE FROM sheriff;
             </sql>
         </rollback>
     </changeSet>
     
-    <changeSet author="Michael Gabelmann" id="pilotdata_05">
+    <changeSet author="Michael Gabelmann" id="pilotdata_05" context="dev">
         <sqlFile path="../dml/run.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
         <rollback>
             <sql>
                 SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE r.* FROM run r;
+                DELETE FROM run;
             </sql>
         </rollback>
     </changeSet>
     
-    <changeSet author="Michael Gabelmann" id="pilotdata_06">
+    <changeSet author="Michael Gabelmann" id="pilotdata_06" context="dev">
         <sqlFile path="../dml/assignment.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
         <rollback>
             <sql>
                 SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE a.* FROM assignment a;
+                DELETE FROM assignment;
             </sql>
         </rollback>
     </changeSet>
     
-    <changeSet author="Michael Gabelmann" id="pilotdata_07">
+    <changeSet author="Michael Gabelmann" id="pilotdata_07" context="dev">
         <sqlFile path="../dml/duty_recurrence.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
         <rollback>
             <sql>
                 SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE dr.* FROM duty_recurrence dr;
+                DELETE FROM duty_recurrence;
             </sql>
         </rollback>
     </changeSet>
