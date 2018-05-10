@@ -1,10 +1,6 @@
 #!/bin/bash
 echo "You should log into OpenShift and select your project before running this script."
 
-read -p "Continue? (Y/n): " ok
-ok=${ok:-y}
-ok=$(echo $ok |awk '{print tolower($0)}')
-
 read -p "Delete ALL resources from environment? (y/N)" delete
 delete=${delete:-n}
 delete=$(echo $delete |awk '{print tolower($0)}')
@@ -13,7 +9,11 @@ if [ "$delete" == "y" ]; then
     oc delete all --all
 fi
 
-params="-p API_IMAGE_NAMESPACE=tools"
+read -p "Deploy? (Y/n): " ok
+ok=${ok:-y}
+ok=$(echo $ok |awk '{print tolower($0)}')
+
+params="-p API_IMAGE_NAMESPACE=tools2"
 #params=""
 
 if [ "$ok" == "y" ]; then

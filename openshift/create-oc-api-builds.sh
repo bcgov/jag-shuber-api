@@ -13,7 +13,7 @@ if [ "$delete" == "y" ]; then
     oc delete all --all
 fi
 
-params="-p GIT_REF=openshift-integration"
+params="-p GIT_REF=node-api"
 #params=""
 
 if [ "$ok" == "y" ]; then

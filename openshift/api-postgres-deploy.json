@@ -88,9 +88,13 @@
                                     {
                                         "name" : "LIQUIBASE_CONTEXTS",
                                         "value": "${API_DATA_CONTEXTS}"
-                                    },
+                                    },                              
                                     {
-                                        "name": "POSTGRES_ADMIN_PASSWORD",
+                                        "name" : "PG_DATABASE",
+                                        "value": "${POSTGRESQL_DATABASE}"
+                                    },                                    
+                                    {
+                                        "name": "PG_ADMIN_PASSWORD",
                                         "valueFrom": {
                                             "secretKeyRef": {
                                                 "name": "${DATABASE_SERVICE_NAME}",
@@ -99,7 +103,7 @@
                                         }
                                     },
                                     {
-                                        "name": "POSTGRES_APP_USER",
+                                        "name": "PG_USER",
                                         "valueFrom": {
                                             "secretKeyRef": {
                                                 "name": "${API_SERVICE_NAME}",
@@ -108,7 +112,7 @@
                                         }
                                     },
                                     {
-                                        "name": "POSTGRES_APP_PASS",
+                                        "name": "PG_PASSWORD",
                                         "valueFrom": {
                                             "secretKeyRef": {
                                                 "name": "${API_SERVICE_NAME}",
@@ -117,15 +121,11 @@
                                         }
                                     },
                                     {
-                                        "name": "POSTGRES_DEFAULT_SCHEMA",
+                                        "name": "PG_DEFAULT_SCHEMA",
                                         "value": "${DATABASE_DEFAULT_SCHEMA}"
                                     },
                                     {
-                                        "name": "POSTGRES_CATALOG",
-                                        "value": "${POSTGRES_API_CATALOG}"
-                                    },
-                                    {
-                                        "name": "POSTGRES_SCHEMA",
+                                        "name": "API_DATABASE_SCHEMA",
                                         "value": "${API_DATABASE_SCHEMA}"
                                     }
                                 ],
@@ -183,24 +183,15 @@
                                 ],
                                 "env": [
                                     {
-                                        "name" : "LIQUIBASE_CONTEXTS",
-                                        "value": "${API_DATA_CONTEXTS}"
-                                    },
-                                    {
-                                        "name": "POSTGRES_ADMIN_PASSWORD",
-                                        "valueFrom": {
-                                            "secretKeyRef": {
-                                                "name": "${DATABASE_SERVICE_NAME}",
-                                                "key": "database-admin-password"
-                                            }
-                                        }
-                                    },
-                                    {
                                         "name": "API_DATABASE_SCHEMA",
                                         "value": "${API_DATABASE_SCHEMA}"
                                     },
                                     {
-                                        "name": "API_DATABASE_USER",
+                                        "name": "PGHOST",
+                                        "value": "${DATABASE_SERVICE_NAME}"
+                                    },
+                                    {
+                                        "name": "PGUSER",
                                         "valueFrom": {
                                             "secretKeyRef": {
                                                 "name": "${API_SERVICE_NAME}",
@@ -209,7 +200,7 @@
                                         }
                                     },
                                     {
-                                        "name": "API_DATABASE_USER_PASSWORD",
+                                        "name": "PGPASSWORD",
                                         "valueFrom": {
                                             "secretKeyRef": {
                                                 "name": "${API_SERVICE_NAME}",
@@ -218,7 +209,7 @@
                                         }
                                     },
                                     {
-                                        "name": "POSTGRES_DATABASE",
+                                        "name": "PGDATABASE",
                                         "valueFrom": {
                                             "secretKeyRef": {
                                                 "name": "${DATABASE_SERVICE_NAME}",
@@ -503,7 +494,7 @@
             "name": "API_DATA_CONTEXTS",
             "displayName": "API Data Contexts",
             "description": "The liquibase contexts to include for this environment.  (See [liquibase contexts](http://www.liquibase.org/documentation/contexts.html) for more info)",
-            "required": true,
+            "required": false,
             "value":""
         },
         {
@@ -535,13 +526,6 @@
             "required": true
         },
         {
-            "name": "API_DATABASE_CATALOG",
-            "displayName": "API Database Catalog",
-            "description": "Name of the database catalog to be used by the Api.",
-            "value": "appdb",
-            "required": true
-        },
-        {
             "name": "API_DATABASE_USER",
             "displayName": "API Database User",
             "description": "The name of the database role/user to create for the api.",
@@ -560,14 +544,14 @@
             "name": "API_MEMORY_LIMIT",
             "displayName": "API Memory Limit",
             "description": "Maximum amount of memory the API container can use.",
-            "value": "1500Mi",
+            "value": "512Mi",
             "required": true
         },
         {
             "name": "API_CPU_LIMIT",
             "displayName": "API CPU Limit",
             "description": "Maximum amount of CPU the API container can use.",
-            "value": "1500m",
+            "value": "500m",
             "required": false
         },
         {
