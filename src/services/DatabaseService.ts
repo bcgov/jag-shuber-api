@@ -1,3 +1,4 @@
+import { GetFieldBlock, PostgresDelete, PostgresInsert, PostgresSelect, PostgresSquel, PostgresUpdate } from 'squel';
 import { Database, default as db } from '../db/Database';
 import { ServiceBase } from './ServiceBase';
 
@@ -6,7 +7,7 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
     protected get db() {
         return this._db;
     }
-    get squel() {
+    get squel() : PostgresSquel {
         return this.db.squel;
     }
 
@@ -27,13 +28,13 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
         }
     }
 
-    protected getReturningFields() {
+    protected getReturningFields() : GetFieldBlock {
         const returnFields = new this.squel.cls.GetFieldBlock({ autoQuoteAliasNames: true });
         returnFields.fields(this.fieldMap);
         return returnFields;
     }
 
-    protected getSelectQuery(id?: string) {
+    protected getSelectQuery(id?: string) : PostgresSelect {
         const query = this.squel.select({ autoQuoteAliasNames: true })
             .from(this.tableName)
             .fields(this.fieldMap);
@@ -43,14 +44,14 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
         return query;
     }
 
-    protected getInsertQuery(entity: Partial<T>) {
+    protected getInsertQuery(entity: Partial<T>) : PostgresInsert {
         const query = this.db.insertQuery(this.tableName, this.primaryKey)
             .returning(this.getReturningFields());
         this.setQueryFields(query, entity);
         return query;
     }
 
-    protected getUpdateQuery(entity: Partial<T>) {
+    protected getUpdateQuery(entity: Partial<T>) : PostgresUpdate {
         const query = this.db.updateQuery(this.tableName);
 
         // Map object properties into object
@@ -69,7 +70,7 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
         return query;
     }
 
-    protected getDeleteQuery(id: string) {
+    protected getDeleteQuery(id: string) : PostgresDelete {
         return this.squel.delete()
             .from(this.tableName)
             .where(`${this.primaryKey}='${id}'`);

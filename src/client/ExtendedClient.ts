@@ -2,11 +2,12 @@ import moment from 'moment';
 import * as superagent from 'superagent';
 import superagentAbsolute from 'superagent-absolute';
 import Client from './Client';
-import { Courthouse, Region, Sheriff } from './models';
+import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift } from './models';
+
 
 const agent = superagent.agent();
 
-type DateType = string | moment.Moment | number;
+export type DateType = string | moment.Moment | number;
 
 export default class ExtendedClient extends Client {
     constructor(baseUrl: string) {
@@ -54,67 +55,67 @@ export default class ExtendedClient extends Client {
             () => super.GetSheriffById(id)
         );
     }
-    GetSheriffs(courthouseId: string = "") {
+    GetSheriffs(courthouseId: string = "") : Promise<Sheriff[]> {
         return super.GetSheriffs(courthouseId);
     }
 
 
-    async GetCourtroomById(id: string) {
+    async GetCourtroomById(id: string) : Promise<Courtroom> {
         return await this.nullOn404(
             () => super.GetCourtroomById(id)
         );
     }
 
-    GetCourtrooms(courthouseId: string = "") {
+    GetCourtrooms(courthouseId: string = "") : Promise<Courtroom[]> {
         return super.GetCourtrooms(courthouseId);
     }
 
 
-    async GetAssignmentById(id: string) {
+    async GetAssignmentById(id: string) : Promise<Assignment>{
         return await this.nullOn404(
             () => super.GetAssignmentById(id)
         );
     }
 
-    GetAssignments(courthouseId: string = "", startDate?: DateType, endDate?: DateType) {
+    GetAssignments(courthouseId: string = "", startDate?: DateType, endDate?: DateType) : Promise<Assignment[]> {
         const startMoment = moment(startDate);
         const endMoment = endDate ? moment(endDate) : moment(startMoment);
         return super.GetAssignments(courthouseId, startMoment.toISOString(), endMoment.toISOString());
     }
 
-    GetRuns(courthouseId: string = "") {
+    GetRuns(courthouseId: string = "") : Promise<Run[]> {
         return super.GetRuns(courthouseId);
     }
 
-    async GetRunById(id: string) {
+    async GetRunById(id: string) : Promise<Run> {
         return await this.nullOn404(
             () => super.GetRunById(id)
         );
     }
 
-    GetShifts(courthouseId: string = "") {
+    GetShifts(courthouseId: string = "") : Promise<Shift[]> {
         return super.GetShifts(courthouseId);
     }
 
-    async GetShiftById(id: string) {
+    async GetShiftById(id: string) : Promise<Shift>{
         return await this.nullOn404(
             () => super.GetShiftById(id)
         );
     }
 
-    async GetDutyRecurrenceById(id: string) {
+    async GetDutyRecurrenceById(id: string) :Promise<DutyRecurrence>{
         return await this.nullOn404(
             () => super.GetDutyRecurrenceById(id)
         );
     }
 
-    GetDutyRecurrences(startDate?: DateType, endDate?: DateType) {
+    GetDutyRecurrences(startDate?: DateType, endDate?: DateType) : Promise<DutyRecurrence[]> {
         const startMoment = moment(startDate);
         const endMoment = endDate ? moment(endDate) : moment(startMoment);
         return super.GetDutyRecurrences(startMoment.toISOString(), endMoment.toISOString());
     }
 
-    async GetDutyById(id: string) {
+    async GetDutyById(id: string) : Promise<Duty> {
         return await this.nullOn404(
             () => super.GetDutyById(id)
         );

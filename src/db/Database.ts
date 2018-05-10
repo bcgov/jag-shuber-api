@@ -1,13 +1,13 @@
 import { config as configureEnvironment } from 'dotenv';
-import { ClientBase, Pool, types } from 'pg';
-import { InsertFieldValueMixin, PostgresInsert, PostgresUpdate } from 'squel';
+import { ClientBase, Pool, PoolClient, types } from 'pg';
+import { FunctionBlock, InsertFieldValueMixin, PostgresInsert, PostgresSquel, PostgresUpdate } from 'squel';
 import squel from './squel';
 configureEnvironment();
 // https://github.com/brianc/node-pg-types
-types.setTypeParser(1700,(val)=>(Number(val)))
+types.setTypeParser(1700, (val) => (Number(val)))
 export class Database {
     private pool: Pool;
-    private _schema:string;
+    private _schema: string;
     constructor() {
         this._schema = process.env["API_DATABASE_SCHEMA"] || 'shersched';
         console.log(`DB Connection Pool Initialized using '${this._schema}' schema`);
@@ -24,7 +24,7 @@ export class Database {
         return 'API_USER'
     }
 
-    getClient() {
+    getClient(): Promise<PoolClient> {
         return this.pool.connect();
     }
 
@@ -57,7 +57,7 @@ export class Database {
         };
     }
 
-    setExpiryFields(query: InsertFieldValueMixin, effectiveDate = squel.str('NOW()'), expiryDate: string = "") {
+    setExpiryFields(query: InsertFieldValueMixin, effectiveDate: string | FunctionBlock = squel.str('NOW()'), expiryDate: string = "") {
         if (effectiveDate) {
             query.set("effective_date", effectiveDate);
         }
@@ -76,7 +76,7 @@ export class Database {
         return query;
     }
 
-    async transaction<T>(doWork:(client:ClientBase)=>Promise<T>){
+    async transaction<T>(doWork: (client: ClientBase) => Promise<T>) {
         const client = await this.getClient();
         try {
             await client.query("BEGIN");
@@ -91,15 +91,15 @@ export class Database {
         }
     }
 
-    async close(){
-        if(this.pool){
+    async close() {
+        if (this.pool) {
             console.log("Closing Database");
             await this.pool.end();
             delete this.pool;
         }
     }
 
-    get squel() {
+    get squel(): PostgresSquel {
         return squel;
     }
 }
