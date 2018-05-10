@@ -8,5 +8,5 @@
 !*/
 
 # Allow Client but ignore test
-!client/
+!client/**/*
 client/test/

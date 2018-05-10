@@ -2,7 +2,7 @@
   "name": "jag-shuber-api",
   "version": "1.0.0",
   "description": "Sheriff Scheduling System Api",
-  "main": "dist/index.js",
+  "main": "dist/client/index.js",
   "repository": "git@github.com:bcgov/jag-shuber-api.git",
   "author": "Colter McQuay <colter.mcquay@roughdraftdev.com>",
   "license": "Apache",
