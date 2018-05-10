@@ -1,10 +1,15 @@
 # SHUBER API
 This project represents the API for the Sheriff Scheduling (Shuber) application.
 
+
+> TODO: NEED TO UPDATE THESE DOCS.  TALK TO COLTER FOR NOW.
+
 ## Technology Stack Used
 
 - Openshift
 - Postgres
+- nodejs
+- koa
 - tsoa
 
 ## Getting Started
