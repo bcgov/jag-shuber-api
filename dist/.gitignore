@@ -1,0 +1,12 @@
+# Ignore Everything
+*
+
+# Allow the gitignore file
+!.gitignore
+
+# Allow recursion
+!*/
+
+# Allow Client but ignore test
+!client/
+client/test/
