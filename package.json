@@ -1,0 +1,115 @@
+{
+  "name": "jag-shuber-api",
+  "version": "1.0.0",
+  "description": "Sheriff Scheduling System Api",
+  "main": "dist/index.js",
+  "repository": "git@github.com:bcgov/jag-shuber-api.git",
+  "author": "Colter McQuay <colter.mcquay@roughdraftdev.com>",
+  "license": "Apache",
+  "watch": {
+    "generate": {
+      "patterns": [
+        "src/controllers/*",
+        "src/models/*",
+        "src/index.ts",
+        "src/app.ts",
+        "templates/*"
+      ],
+      "extensions": "ts,handlebars",
+      "quiet": true,
+      "delay": 500
+    }
+  },
+  "scripts": {
+    "start": "node ./dist/index.js",
+    "start:debug": "nodemon --inspect",
+    "build": "./node_modules/.bin/tsc",
+    "clean": "rimraf ./dist/",
+    "test": "node --inspect=9230 scripts/test.js --env=node",
+    "test:coverage": "yarn test --coverage",
+    "generate": "tsoa swagger && tsoa routes && swagger-ts-client",
+    "watch": "concurrently --names 'GENERATE,SERVER' -c 'bgBlue.bold,bgMagenta.bold' \"npm-watch\"  \"yarn start:debug\" "
+  },
+  "dependencies": {
+    "koa": "^2.5.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-router": "^7.4.0",
+    "moment": "^2.22.1",
+    "pg": "^7.4.1",
+    "squel": "^5.12.1",
+    "superagent-absolute": "^1.0.1",
+    "tsoa": "^2.1.4",
+    "uuid": "^3.2.1"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^4.0.3",
+    "@types/jest": "^22.2.3",
+    "@types/koa": "^2.0.45",
+    "@types/koa-router": "^7.0.28",
+    "@types/moment": "^2.13.0",
+    "@types/node": "^9.6.6",
+    "@types/pg": "^7.4.8",
+    "@types/rimraf": "^2.0.2",
+    "@types/superagent": "^3.5.8",
+    "@types/supertest": "^2.0.4",
+    "@types/uuid": "^3.4.3",
+    "concurrently": "^3.5.1",
+    "dotenv": "^5.0.1",
+    "jest": "^22.4.3",
+    "jest-to-match-shape-of": "^1.1.3",
+    "ncp": "^2.0.0",
+    "nodemon": "^1.17.3",
+    "npm-watch": "^0.3.0",
+    "openbrowser": "^1.0.2",
+    "rimraf": "^2.6.2",
+    "superagent": "^3.8.3",
+    "supertest": "^3.0.0",
+    "swagger-ts-client": "^0.9.6",
+    "ts-jest": "^22.4.4",
+    "ts-node": "^6.0.0",
+    "tslint": "^5.9.1",
+    "typescript": "^2.8.3"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/config/jestSetup.js",
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.ts?(x)",
+      "<rootDir>/src/**/?(*.)(spec|test).ts?(x)"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "<rootDir>/config/jest/typescriptTransform.js",
+      "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
+    },
+    "transformIgnorePatterns": [
+      "[/\\\\]node_modules[/\\\\].+\\.(js|jsx|ts|tsx)$"
+    ],
+    "moduleFileExtensions": [
+      "web.ts",
+      "ts",
+      "web.tsx",
+      "tsx",
+      "web.js",
+      "js",
+      "web.jsx",
+      "jsx",
+      "json",
+      "node"
+    ]
+  },
+  "nodemonConfig": {
+    "verbose": false,
+    "exec": "ts-node ./src/index.ts",
+    "watch": [
+      "./src/"
+    ],
+    "ext": "ts,json",
+    "ignore": [
+      "*.spec.ts"
+    ],
+    "delay": 500
+  }
+}

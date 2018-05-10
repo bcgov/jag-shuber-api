@@ -5,7 +5,13 @@ This project represents the API for the Sheriff Scheduling (Shuber) application.
 
 - Openshift
 - Postgres
-- [PostgREST](www.postgrest.com)
+- tsoa
+
+## Getting Started
+
+- Deploy backend
+- postgres ingress port
+- setup .env file
 
 ## Deployment (OpenShift)
 
