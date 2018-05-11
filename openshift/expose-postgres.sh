@@ -6,6 +6,10 @@ ok=${ok:-y}
 ok=$(echo $ok |awk '{print tolower($0)}')
 
 if [ "$ok" == "y" ]; then
+
+ingressPort=$(oc get svc postgresql-ingress -o=jsonpath='{.spec.ports[0].nodePort}')
+
+if [ -z "$ingressPort" ]; then
     echo "Creating ingress Service for postgres..."
     ocip=$(minishift ip)
     oc create -f - <<INGRESS
@@ -21,8 +25,13 @@ spec:
     name: postgres
   type: LoadBalancer
 INGRESS
+fi
 
-# Todo: use oc get svc postgresql-ingress -o json to pull out relevant connection string details
+ingressPort=$(oc get svc postgresql-ingress -o=jsonpath='{.spec.ports[0].nodePort}')
+ip=$(minishift ip)
+
+printf "Postgres exposed at: \r\n\tIP:\t $ip \r\n\tPORT:\t $ingressPort\r\n"
+printf "You can find credentials at: \r\n\thttps://$ip:8443/console/project/$(oc project -q)/browse/secrets/api\r\n"
 
 else
     exit 0
