@@ -6,19 +6,14 @@ import { Assignment,Region,Courthouse,Sheriff,Courtroom,JailRoleCode,OtherAssign
 
 
 export default class Client {
-    public handleError: (error:any) => Error;
+    public errorProcessor: (error:any) => Error = (e)=>e;
     
     constructor(private _agent:superAgent.SuperAgent<any> = superAgent.agent()){
-        this.handleError = this.processError;
     }
 
     get agent(){
         return this._agent;
     }  
-
-    private processError(error:any){
-        return error;
-    }
 
     public async GetAssignments( courthouseId:string , startDate:string , endDate:string ):Promise<Array<Assignment>>{
         const params = { 
@@ -31,8 +26,8 @@ export default class Client {
                 .query(params)
             return response.body as Array<Assignment>;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -44,8 +39,8 @@ export default class Client {
                 .send(model)
             return response.body as Assignment;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -56,8 +51,8 @@ export default class Client {
             const response = await this.agent.get(`/Assignments/${id}`)
             return response.body as Assignment;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -69,8 +64,8 @@ export default class Client {
                 .send(model)
             return response.body as Assignment;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -81,8 +76,8 @@ export default class Client {
             const response = await this.agent.post(`/Assignments/${id}`)
             return response.body as void;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -93,8 +88,8 @@ export default class Client {
             const response = await this.agent.delete(`/Assignments/${id}`)
             return response.body as void;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -105,8 +100,8 @@ export default class Client {
             const response = await this.agent.get(`/regions`)
             return response.body as Array<Region>;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -118,8 +113,8 @@ export default class Client {
                 .send(model)
             return response.body as Region;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -130,8 +125,8 @@ export default class Client {
             const response = await this.agent.get(`/regions/${id}`)
             return response.body as Region;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -143,8 +138,8 @@ export default class Client {
                 .send(model)
             return response.body as Region;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -155,8 +150,8 @@ export default class Client {
             const response = await this.agent.delete(`/regions/${id}`)
             return response.body as void;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -167,8 +162,8 @@ export default class Client {
             const response = await this.agent.get(`/courthouses`)
             return response.body as Array<Courthouse>;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -180,8 +175,8 @@ export default class Client {
                 .send(model)
             return response.body as Courthouse;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -192,8 +187,8 @@ export default class Client {
             const response = await this.agent.get(`/courthouses/${id}`)
             return response.body as Courthouse;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -205,8 +200,8 @@ export default class Client {
                 .send(model)
             return response.body as Courthouse;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -217,8 +212,8 @@ export default class Client {
             const response = await this.agent.delete(`/courthouses/${id}`)
             return response.body as void;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -233,8 +228,8 @@ export default class Client {
                 .query(params)
             return response.body as Array<Sheriff>;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -246,8 +241,8 @@ export default class Client {
                 .send(model)
             return response.body as Sheriff;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -258,8 +253,8 @@ export default class Client {
             const response = await this.agent.get(`/sheriffs/${id}`)
             return response.body as Sheriff;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -271,8 +266,8 @@ export default class Client {
                 .send(model)
             return response.body as Sheriff;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -283,8 +278,8 @@ export default class Client {
             const response = await this.agent.delete(`/sheriffs/${id}`)
             return response.body as void;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -299,8 +294,8 @@ export default class Client {
                 .query(params)
             return response.body as Array<Courtroom>;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -312,8 +307,8 @@ export default class Client {
                 .send(model)
             return response.body as Courtroom;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -324,8 +319,8 @@ export default class Client {
             const response = await this.agent.get(`/courtrooms/${id}`)
             return response.body as Courtroom;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -337,8 +332,8 @@ export default class Client {
                 .send(model)
             return response.body as Courtroom;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -349,8 +344,8 @@ export default class Client {
             const response = await this.agent.delete(`/courtrooms/${id}`)
             return response.body as void;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -361,8 +356,8 @@ export default class Client {
             const response = await this.agent.get(`/codes/jailroles`)
             return response.body as Array<JailRoleCode>;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -373,8 +368,8 @@ export default class Client {
             const response = await this.agent.get(`/codes/otherassign`)
             return response.body as Array<OtherAssignCode>;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -385,8 +380,8 @@ export default class Client {
             const response = await this.agent.get(`/codes/worksection`)
             return response.body as Array<WorkSectionCode>;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -397,8 +392,8 @@ export default class Client {
             const response = await this.agent.get(`/codes/sheriffrank`)
             return response.body as Array<SheriffRankCode>;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -413,8 +408,8 @@ export default class Client {
                 .query(params)
             return response.body as Array<Run>;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -426,8 +421,8 @@ export default class Client {
                 .send(model)
             return response.body as Run;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -438,8 +433,8 @@ export default class Client {
             const response = await this.agent.get(`/runs/${id}`)
             return response.body as Run;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -451,8 +446,8 @@ export default class Client {
                 .send(model)
             return response.body as Run;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -463,8 +458,8 @@ export default class Client {
             const response = await this.agent.delete(`/runs/${id}`)
             return response.body as void;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -479,8 +474,8 @@ export default class Client {
                 .query(params)
             return response.body as Array<Shift>;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -492,8 +487,8 @@ export default class Client {
                 .send(model)
             return response.body as Shift;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -504,8 +499,8 @@ export default class Client {
             const response = await this.agent.get(`/Shifts/${id}`)
             return response.body as Shift;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -517,8 +512,8 @@ export default class Client {
                 .send(model)
             return response.body as Shift;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -529,8 +524,8 @@ export default class Client {
             const response = await this.agent.delete(`/Shifts/${id}`)
             return response.body as void;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -546,8 +541,8 @@ export default class Client {
                 .query(params)
             return response.body as Array<DutyRecurrence>;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -559,8 +554,8 @@ export default class Client {
                 .send(model)
             return response.body as DutyRecurrence;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -571,8 +566,8 @@ export default class Client {
             const response = await this.agent.get(`/DutyRecurrences/${id}`)
             return response.body as DutyRecurrence;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -584,8 +579,8 @@ export default class Client {
                 .send(model)
             return response.body as DutyRecurrence;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -596,8 +591,8 @@ export default class Client {
             const response = await this.agent.post(`/DutyRecurrences/${id}`)
             return response.body as void;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -608,8 +603,8 @@ export default class Client {
             const response = await this.agent.delete(`/DutyRecurrences/${id}`)
             return response.body as void;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -620,8 +615,8 @@ export default class Client {
             const response = await this.agent.get(`/Duty`)
             return response.body as Array<Duty>;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -633,8 +628,8 @@ export default class Client {
                 .send(model)
             return response.body as Duty;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -645,8 +640,8 @@ export default class Client {
             const response = await this.agent.get(`/Duty/${id}`)
             return response.body as Duty;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -658,8 +653,8 @@ export default class Client {
                 .send(model)
             return response.body as Duty;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }
@@ -670,8 +665,8 @@ export default class Client {
             const response = await this.agent.delete(`/Duty/${id}`)
             return response.body as void;
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }

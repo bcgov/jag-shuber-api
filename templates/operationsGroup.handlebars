@@ -13,19 +13,14 @@ import { {{#joinList imports.types}}{{this}}{{/joinList}} } from "{{imports.path
 {{/if}}
 
 export default class {{operationGroup.operationsGroupName}} {
-    public handleError: (error:any) => Error;
+    public errorProcessor: (error:any) => Error = (e)=>e;
     
     constructor(private _agent:superAgent.SuperAgent<any> = superAgent.agent()){
-        this.handleError = this.processError;
     }
 
     get agent(){
         return this._agent;
     }  
-
-    private processError(error:any){
-        return error;
-    }
 
     {{#each operationGroup.operations}}
     public async {{operationName}}({{#joinList operationParams}} {{paramDisplayName}}:{{paramType}} {{/joinList}}):Promise<{{responsesType}}>{
@@ -47,8 +42,8 @@ export default class {{operationGroup.operationsGroupName}} {
                 {{/filterList}} 
             return response.body as {{responsesType}};
         }catch(error){
-            if(this.handleError){
-                throw this.handleError(error);
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
             }else{
                 throw error;
             }

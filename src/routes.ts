@@ -126,7 +126,6 @@ const models: TsoaRoute.Models = {
             "id": { "dataType": "string" },
             "startDateTime": { "dataType": "string", "required": true },
             "endDateTime": { "dataType": "string", "required": true },
-            "sheriffsRequired": { "dataType": "double", "required": true },
             "assignmentId": { "dataType": "string", "required": true },
             "dutyRecurrenceId": { "dataType": "string" },
         },

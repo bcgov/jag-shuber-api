@@ -4,10 +4,9 @@ import * as superAgent from "superagent";
 import { Assignment, Region, Courthouse, Sheriff, Courtroom, JailRoleCode, OtherAssignCode, WorkSectionCode, SheriffRankCode, Run, Shift, DutyRecurrence, Duty } from "./models";
 export default class Client {
     private _agent;
-    handleError: (error: any) => Error;
+    errorProcessor: (error: any) => Error;
     constructor(_agent?: superAgent.SuperAgent<any>);
     readonly agent: superAgent.SuperAgent<any>;
-    private processError(error);
     GetAssignments(courthouseId: string, startDate: string, endDate: string): Promise<Array<Assignment>>;
     CreateAssignment(model: Assignment): Promise<Assignment>;
     GetAssignmentById(id: string): Promise<Assignment>;

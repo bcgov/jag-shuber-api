@@ -21,13 +21,10 @@ const superAgent = __importStar(require("superagent"));
 class Client {
     constructor(_agent = superAgent.agent()) {
         this._agent = _agent;
-        this.handleError = this.processError;
+        this.errorProcessor = (e) => e;
     }
     get agent() {
         return this._agent;
-    }
-    processError(error) {
-        return error;
     }
     GetAssignments(courthouseId, startDate, endDate) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -42,8 +39,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -59,8 +56,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -75,8 +72,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -92,8 +89,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -108,8 +105,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -124,8 +121,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -140,8 +137,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -157,8 +154,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -173,8 +170,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -190,8 +187,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -206,8 +203,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -222,8 +219,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -239,8 +236,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -255,8 +252,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -272,8 +269,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -288,8 +285,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -308,8 +305,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -325,8 +322,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -341,8 +338,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -358,8 +355,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -374,8 +371,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -394,8 +391,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -411,8 +408,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -427,8 +424,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -444,8 +441,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -460,8 +457,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -476,8 +473,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -492,8 +489,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -508,8 +505,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -524,8 +521,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -544,8 +541,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -561,8 +558,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -577,8 +574,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -594,8 +591,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -610,8 +607,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -630,8 +627,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -647,8 +644,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -663,8 +660,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -680,8 +677,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -696,8 +693,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -717,8 +714,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -734,8 +731,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -750,8 +747,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -767,8 +764,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -783,8 +780,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -799,8 +796,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -815,8 +812,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -832,8 +829,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -848,8 +845,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -865,8 +862,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;
@@ -881,8 +878,8 @@ class Client {
                 return response.body;
             }
             catch (error) {
-                if (this.handleError) {
-                    throw this.handleError(error);
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
                 }
                 else {
                     throw error;

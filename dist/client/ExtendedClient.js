@@ -26,10 +26,13 @@ const agent = superagent.agent();
 class ExtendedClient extends Client_1.default {
     constructor(baseUrl) {
         super(superagent_absolute_1.default(superagent.agent())(baseUrl));
-        this.handleError = this.errorHandler;
+        this.errorProcessor = this.processError;
     }
-    errorHandler(err) {
-        if (err.response.body.name === "ValidateError") {
+    static isValidationError(err) {
+        return err.response.body.name === "ValidateError";
+    }
+    processError(err) {
+        if (ExtendedClient.isValidationError(err)) {
             let message = ["Validation Error"];
             const fields = err.response.body.fields || {};
             message.push(...Object.keys(fields).map(k => fields[k].message));
