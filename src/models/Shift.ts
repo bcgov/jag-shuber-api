@@ -1,6 +1,6 @@
 export interface Shift{
     id?:string;
-    workSectionCode?:string;
+    workSectionId?:string;
     courthouseId:string;
     sheriffId?:string;
     startDateTime:string;

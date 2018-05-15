@@ -23,7 +23,6 @@ describe('Run API', () => {
 
     beforeAll(async (done) => {
         api = TestUtils.getClient();
-        await TestUtils.clearDatabase();
         testRegion = await api.CreateRegion(testRegion);
         testCourthouse = await api.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
         done();

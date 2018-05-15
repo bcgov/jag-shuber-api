@@ -37,6 +37,10 @@ export default class TestUtils {
         })
     }
 
+    static async closeDatabase(){
+        await db.close();
+    }
+
     static randomString(length: number) {
         let str = "";
         for (let i = 0; i < length; ++i) {
@@ -45,3 +49,12 @@ export default class TestUtils {
         return str;
     }
 }
+
+beforeAll(async ()=>{
+    await TestUtils.clearDatabase();
+});
+
+afterAll(async ()=>{
+    // Don't wait for the database to close, hoping it does
+    TestUtils.closeDatabase();
+});

@@ -3,7 +3,7 @@ import { DutyRecurrence } from "./DutyRecurrence";
 export interface Assignment {
     id?: string;
     title: string;
-    workSectionCode: string;
+    workSectionId: string;
     courthouseId: string;
     courtroomId?: string;
     runId?:string;

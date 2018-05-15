@@ -18,7 +18,7 @@ describe('Assignment API', () => {
 
     const entityToCreate: Assignment = {
         title: "Test Assignment",
-        workSectionCode: "JAIL",
+        workSectionId: "JAIL",
         courthouseId: "ToReplace",
         dutyRecurrences: []
     };
@@ -44,7 +44,6 @@ describe('Assignment API', () => {
 
     beforeAll(async (done) => {
         api = TestUtils.getClient();
-        await TestUtils.clearDatabase();
         testRegion = await api.CreateRegion(testRegion);
         testCourthouse = await api.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
         done();

@@ -31,7 +31,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "id": { "dataType": "string" },
             "title": { "dataType": "string", "required": true },
-            "workSectionCode": { "dataType": "string", "required": true },
+            "workSectionId": { "dataType": "string", "required": true },
             "courthouseId": { "dataType": "string", "required": true },
             "courtroomId": { "dataType": "string" },
             "runId": { "dataType": "string" },
@@ -115,7 +115,7 @@ const models: TsoaRoute.Models = {
     "Shift": {
         "properties": {
             "id": { "dataType": "string" },
-            "workSectionCode": { "dataType": "string" },
+            "workSectionId": { "dataType": "string" },
             "courthouseId": { "dataType": "string", "required": true },
             "sheriffId": { "dataType": "string" },
             "startDateTime": { "dataType": "string", "required": true },

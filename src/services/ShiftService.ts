@@ -5,7 +5,7 @@ import { DatabaseService } from './DatabaseService';
 export class ShiftService extends DatabaseService<Shift> {
     fieldMap = {
         shift_id: 'id',
-        work_section_code: 'workSectionCode',
+        work_section_code: 'workSectionId',
         courthouse_id: 'courthouseId',
         sheriff_id: 'sheriffId',
         start_dtm: 'startDateTime',

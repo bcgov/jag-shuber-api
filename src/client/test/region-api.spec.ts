@@ -14,7 +14,6 @@ describe('Courtroom API', () => {
 
     beforeAll(async (done) => {
         api = TestUtils.getClient();
-        await TestUtils.clearDatabase();
         done();
     });
 

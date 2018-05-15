@@ -20,7 +20,6 @@ describe('Codes API', () => {
         done();
     });
 
-
     it('get jailRolesCodes should return list of Jail Role Codes', async () => {
         const list = await api.GetJailRoleCodes();
         expect(list).toBeDefined();

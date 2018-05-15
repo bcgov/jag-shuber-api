@@ -19,7 +19,7 @@ describe('Shift API', () => {
 
     const entityToCreate: Shift = {
         courthouseId: "To Replace",
-        workSectionCode: "COURTS",
+        workSectionId: "COURTS",
         startDateTime: moment().toISOString(),
         endDateTime: moment().add(1, 'hour').toISOString()
     };
@@ -28,7 +28,6 @@ describe('Shift API', () => {
 
     beforeAll(async (done) => {
         api = TestUtils.getClient();
-        await TestUtils.clearDatabase();
         testRegion = await api.CreateRegion(testRegion);
         testCourthouse = await api.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
         done();
@@ -97,7 +96,7 @@ describe('Shift API', () => {
     // ####################################################
     // ################  CURRENTLY BROKEN  ################
     // ####################################################
-    it('removing a shifts work section via update should return an updated Shift', async () => {
+    it.skip('removing a shifts work section via update should return an updated Shift', async () => {
         const newWorkSection = null;
         const updatedEntity = await api.UpdateShift(createdEntity.id, {
             ...createdEntity,

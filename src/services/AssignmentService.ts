@@ -15,7 +15,7 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
         run_id: 'runId',
         jail_role_code: 'jailRoleCode',
         other_assign_code: 'otherAssignCode',
-        work_section_code: 'workSectionCode',
+        work_section_code: 'workSectionId',
         effective_date: 'effectiveDate',
         expiry_date: 'expiryDate'
     };

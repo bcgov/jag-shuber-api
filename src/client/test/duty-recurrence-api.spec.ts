@@ -16,7 +16,7 @@ describe('Duty Recurrence API', () => {
     }
     let testAssignment: Assignment = {
         title: "Duty Recurrence Testing Assignment",
-        workSectionCode:"JAIL",
+        workSectionId:"JAIL",
     }
 
     const entityToCreate: DutyRecurrence = {
@@ -31,7 +31,6 @@ describe('Duty Recurrence API', () => {
 
     beforeAll(async (done) => {
         api = TestUtils.getClient();
-        await TestUtils.clearDatabase();
         testRegion = await api.CreateRegion(testRegion);
         testCourthouse = await api.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
         testAssignment = await api.CreateAssignment({ ...testAssignment, courthouseId: testCourthouse.id});

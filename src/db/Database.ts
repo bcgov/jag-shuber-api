@@ -96,6 +96,8 @@ export class Database {
             console.log("Closing Database");
             await this.pool.end();
             delete this.pool;
+        }else{
+            console.log('No Pool.')
         }
     }
 

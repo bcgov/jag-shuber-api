@@ -13,7 +13,6 @@ describe('Courtroom API', () => {
 
     beforeAll(async (done) => {
         api = TestUtils.getClient();
-        await TestUtils.clearDatabase();
         testRegion = await api.CreateRegion(testRegion);
         done();
     });
