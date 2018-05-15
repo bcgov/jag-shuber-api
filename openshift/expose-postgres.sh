@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "You should log into OpenShift and select your project before running this script."
+oc project
 
 read -p "Continue? (Y/n): " ok
 ok=${ok:-y}
@@ -29,6 +30,19 @@ fi
 
 ingressPort=$(oc get svc postgresql-ingress -o=jsonpath='{.spec.ports[0].nodePort}')
 ip=$(minishift ip)
+
+read -p "Generate .env file? (y/N): " gen
+gen=${gen:-n}
+gen=$(echo $gen |awk '{print tolower($0)}')
+if [ "$ok" == "y" ]; then
+  cat <<EOT >> .env
+PGHOST='$ip'
+PGUSER='shersched'
+PGDATABASE='appdb'
+PGPASSWORD=''
+PGPORT=$ingressPort
+EOT
+fi
 
 printf "Postgres exposed at: \r\n\tIP:\t $ip \r\n\tPORT:\t $ingressPort\r\n"
 printf "You can find credentials at: \r\n\thttps://$ip:8443/console/project/$(oc project -q)/browse/secrets/api\r\n"

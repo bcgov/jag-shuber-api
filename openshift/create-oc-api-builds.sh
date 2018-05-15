@@ -1,6 +1,7 @@
 #!/bin/bash
 SCRIPT_DIR=`dirname $0`
 echo "You should log into OpenShift and select your project before running this script."
+oc project
 
 read -p "Delete resources from environment? (y/N)" delete
 delete=${delete:-n}
