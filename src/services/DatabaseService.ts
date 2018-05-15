@@ -1,17 +1,30 @@
 import { GetFieldBlock, PostgresDelete, PostgresInsert, PostgresSelect, PostgresSquel, PostgresUpdate } from 'squel';
 import { Database, default as db } from '../db/Database';
 import { ServiceBase } from './ServiceBase';
+import { ClientBase } from 'pg';
+
+export type DatabaseResult<T> = { rows: T[] }
 
 export abstract class DatabaseService<T> extends ServiceBase<T> {
     private _db: Database = db;
     protected get db() {
         return this._db;
     }
-    get squel() : PostgresSquel {
+
+    private _dbClient?: ClientBase = undefined;
+    set dbClient(client: ClientBase | undefined) {
+        this._dbClient = client;
+    }
+
+    get dbClient(): ClientBase | undefined {
+        return this._dbClient;
+    }
+
+    get squel(): PostgresSquel {
         return this.db.squel;
     }
 
-    constructor(protected tableName: string, protected primaryKey: string, protected isExpirable:boolean = false) {
+    constructor(protected tableName: string, protected primaryKey: string, protected isExpirable: boolean = false) {
         super();
     }
 
@@ -19,7 +32,13 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
 
     protected async executeQuery<T>(query: string): Promise<T[]> {
         try {
-            const result = (await this.db.executeQuery(query)) as { rows: T[] };
+            let result: DatabaseResult<T> = { rows: [] };
+            // if there is a dbClient defined, use it
+            if (this.dbClient) {
+                result = (await this.dbClient.query(query) as DatabaseResult<T>);
+            } else {
+                result = (await this.db.executeQuery(query) as DatabaseResult<T>);
+            }
             return result.rows;
         } catch (error) {
             const errorMessage = `${error!.message}\r\n${error!.detail}`;
@@ -28,13 +47,13 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
         }
     }
 
-    protected getReturningFields() : GetFieldBlock {
+    protected getReturningFields(): GetFieldBlock {
         const returnFields = new this.squel.cls.GetFieldBlock({ autoQuoteAliasNames: true });
         returnFields.fields(this.fieldMap);
         return returnFields;
     }
 
-    protected getSelectQuery(id?: string) : PostgresSelect {
+    protected getSelectQuery(id?: string): PostgresSelect {
         const query = this.squel.select({ autoQuoteAliasNames: true })
             .from(this.tableName)
             .fields(this.fieldMap);
@@ -44,14 +63,14 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
         return query;
     }
 
-    protected getInsertQuery(entity: Partial<T>) : PostgresInsert {
+    protected getInsertQuery(entity: Partial<T>): PostgresInsert {
         const query = this.db.insertQuery(this.tableName, this.primaryKey)
             .returning(this.getReturningFields());
         this.setQueryFields(query, entity);
         return query;
     }
 
-    protected getUpdateQuery(entity: Partial<T>) : PostgresUpdate {
+    protected getUpdateQuery(entity: Partial<T>): PostgresUpdate {
         const query = this.db.updateQuery(this.tableName);
 
         // Map object properties into object
@@ -70,7 +89,7 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
         return query;
     }
 
-    protected getDeleteQuery(id: string) : PostgresDelete {
+    protected getDeleteQuery(id: string): PostgresDelete {
         return this.squel.delete()
             .from(this.tableName)
             .where(`${this.primaryKey}='${id}'`);

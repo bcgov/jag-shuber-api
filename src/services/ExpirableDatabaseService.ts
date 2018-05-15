@@ -1,12 +1,12 @@
 import moment from 'moment';
-import { PostgresInsert, PostgresSelect } from 'squel';
+import { PostgresInsert, PostgresSelect, PostgresUpdate } from 'squel';
 import { DatabaseService } from "./DatabaseService";
 
 export default abstract class ExpirableDatabaseService<T> extends DatabaseService<T>{
     private effectiveField = "effective_date";
     private expiryField = "expiry_date";
 
-    protected getEffectiveSelectQuery(startDate?: string, endDate?: string) : PostgresSelect {
+    protected getEffectiveSelectQuery(startDate?: string, endDate?: string): PostgresSelect {
         if (!startDate) {
             startDate = moment().toISOString();
         }
@@ -25,13 +25,20 @@ export default abstract class ExpirableDatabaseService<T> extends DatabaseServic
             )
     }
 
-    protected getInsertQuery(entity: Partial<T>) : PostgresInsert {
+    protected getInsertQuery(entity: Partial<T>): PostgresInsert {
         const query = this.db.insertQuery(this.tableName, this.primaryKey)
             .returning(this.getReturningFields());
         this.setQueryFields(query, entity);
 
         // Set the effective date field to NOW
         query.set(this.effectiveField, this.squel.str('NOW()'));
+        return query;
+    }
+
+    protected getExpireQuery(id: string, expiryDate: string | moment.Moment): PostgresUpdate {
+        const query = this.db.updateQuery(this.tableName)
+            .set(this.expiryField, this.squel.str(`DATE('${moment(expiryDate).toISOString()}')`))
+            .where(`${this.primaryKey}='${id}'`);
         return query;
     }
 
@@ -45,9 +52,7 @@ export default abstract class ExpirableDatabaseService<T> extends DatabaseServic
         if (!expiryDate) {
             expiryDate = moment().toISOString();
         }
-        const query = this.db.updateQuery(this.tableName)
-            .set(this.expiryField, this.squel.str(`DATE('${expiryDate}')`))
-            .where(`${this.primaryKey}='${id}'`);
+        const query = this.getExpireQuery(id, expiryDate);
         await this.executeQuery(query.toString());
     }
 }

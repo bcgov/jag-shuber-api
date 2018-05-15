@@ -1,20 +1,20 @@
 import ApiClient from '../ExtendedClient';
 import { Courthouse, Region, Shift } from '../models';
-import TestData from './TestData';
+import TestUtils from './TestUtils';
 import moment from 'moment';
 
-const testData = new TestData();
+const testData = new TestUtils();
 
 describe('Shift API', () => {
     let api: ApiClient;
 
     let testRegion: Region = {
         name: "Shift Testing Region",
-        code: TestData.randomString(5)
+        code: TestUtils.randomString(5)
     }
     let testCourthouse: Courthouse = {
         name: "Shift Testing Courthouse",
-        code: TestData.randomString(5)
+        code: TestUtils.randomString(5)
     }
 
     const entityToCreate: Shift = {
@@ -27,8 +27,8 @@ describe('Shift API', () => {
     let createdEntity: Shift;
 
     beforeAll(async (done) => {
-        api = new ApiClient('http://localhost:3000/v1');
-        await testData.clearDatabase();
+        api = TestUtils.getClient();
+        await TestUtils.clearDatabase();
         testRegion = await api.CreateRegion(testRegion);
         testCourthouse = await api.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
         done();
@@ -93,8 +93,12 @@ describe('Shift API', () => {
         });
     });
 
+
+    // ####################################################
+    // ################  CURRENTLY BROKEN  ################
+    // ####################################################
     it('removing a shifts work section via update should return an updated Shift', async () => {
-        const newWorkSection = "";
+        const newWorkSection = null;
         const updatedEntity = await api.UpdateShift(createdEntity.id, {
             ...createdEntity,
             workSectionCode: newWorkSection

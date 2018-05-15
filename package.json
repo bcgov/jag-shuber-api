@@ -48,6 +48,7 @@
     "pg": "^7.4.1",
     "squel": "^5.12.1",
     "superagent-absolute": "^1.0.1",
+    "superagent-use": "^0.1.0",
     "tsoa": "^2.1.4",
     "uuid": "^3.2.1"
   },

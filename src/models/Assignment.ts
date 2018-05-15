@@ -1,3 +1,5 @@
+import { DutyRecurrence } from "./DutyRecurrence";
+
 export interface Assignment {
     id?: string;
     title: string;
@@ -9,4 +11,5 @@ export interface Assignment {
     otherAssignCode?:string;
     effectiveDate?:string;
     expiryDate?:string;
+    dutyRecurrences?:DutyRecurrence[]
 }

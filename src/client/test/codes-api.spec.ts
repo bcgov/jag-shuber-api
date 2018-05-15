@@ -5,9 +5,7 @@ import {
     WorkSectionCode,
     SheriffRankCode 
 } from '../models';
-import TestData from './TestData';
-
-const testData = new TestData();
+import TestUtils from './TestUtils';
 
 const CodeShape: JailRoleCode | OtherAssignCode | WorkSectionCode | SheriffRankCode = {
     code: 'some string',
@@ -18,7 +16,7 @@ describe('Codes API', () => {
     let api: ApiClient;
 
     beforeAll(async (done) => {
-        api = new ApiClient('http://localhost:3000/v1');
+        api = TestUtils.getClient();
         done();
     });
 

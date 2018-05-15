@@ -1,20 +1,18 @@
 import ApiClient from '../ExtendedClient';
 import { Assignment, Courthouse, Region, Duty } from '../models';
-import TestData from './TestData';
+import TestUtils from './TestUtils';
 import moment from 'moment';
-
-const testData = new TestData();
 
 describe('Duty API', () => {
     let api: ApiClient;
 
     let testRegion: Region = {
         name: "Duty Testing Region",
-        code: TestData.randomString(5)
+        code: TestUtils.randomString(5)
     }
     let testCourthouse: Courthouse = {
         name: "Duty Testing Courthouse",
-        code: TestData.randomString(5)
+        code: TestUtils.randomString(5)
     }
     let testAssignment: Assignment = {
         title: "Duty Testing Assignment",
@@ -30,8 +28,8 @@ describe('Duty API', () => {
     let createdEntity: Duty;
 
     beforeAll(async (done) => {
-        api = new ApiClient('http://localhost:3000/v1');
-        await testData.clearDatabase();
+        api = TestUtils.getClient();
+        await TestUtils.clearDatabase();
         testRegion = await api.CreateRegion(testRegion);
         testCourthouse = await api.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
         testAssignment = await api.CreateAssignment({ ...testAssignment, courthouseId: testCourthouse.id});

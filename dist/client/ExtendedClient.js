@@ -19,14 +19,21 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const moment_1 = __importDefault(require("moment"));
-const superagent = __importStar(require("superagent"));
+const SA = __importStar(require("superagent"));
 const superagent_absolute_1 = __importDefault(require("superagent-absolute"));
+const superagent_use_1 = __importDefault(require("superagent-use"));
 const Client_1 = __importDefault(require("./Client"));
-const agent = superagent.agent();
 class ExtendedClient extends Client_1.default {
     constructor(baseUrl) {
-        super(superagent_absolute_1.default(superagent.agent())(baseUrl));
+        super(superagent_absolute_1.default(superagent_use_1.default(SA.agent()))(baseUrl));
+        this.agent.use((req) => this.interceptRequest(req));
         this.errorProcessor = this.processError;
+    }
+    interceptRequest(req) {
+        return this._requestInterceptor ? this._requestInterceptor(req) : req;
+    }
+    set requestInterceptor(interceptor) {
+        this._requestInterceptor = interceptor;
     }
     static isValidationError(err) {
         return err.response.body.name === "ValidateError";
@@ -35,8 +42,8 @@ class ExtendedClient extends Client_1.default {
         if (ExtendedClient.isValidationError(err)) {
             let message = ["Validation Error"];
             const fields = err.response.body.fields || {};
-            message.push(...Object.keys(fields).map(k => fields[k].message));
-            const newMessage = message.join(' :: ');
+            message.push(...Object.keys(fields).map(k => `${k}: "${fields[k].message}"`));
+            const newMessage = message.join(' | ');
             err.message = newMessage;
         }
         else if (err.response.body.message) {

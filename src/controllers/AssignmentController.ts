@@ -1,7 +1,9 @@
 import { Body, Delete, Get, Path, Post, Put, Query, Route } from 'tsoa';
 import { Assignment } from '../models/Assignment';
+import {DutyRecurrence} from '../models/DutyRecurrence';
 import { AssignmentService } from '../services/AssignmentService';
 import ControllerBase from './ControllerBase';
+import { DutyRecurrenceService } from '../services/DutyRecurrenceService';
 
 @Route('Assignments')
 export class AssignmentController extends ControllerBase<Assignment> {
@@ -12,7 +14,7 @@ export class AssignmentController extends ControllerBase<Assignment> {
 
     @Get()
     public getAssignments(@Query() courthouseId?: string, @Query() startDate?: string, @Query() endDate?: string) {
-        return this.service.getAll(courthouseId, startDate, endDate);
+        return this.service.getAll(courthouseId, startDate, endDate);        
     }
 
     @Get('{id}')
@@ -31,7 +33,7 @@ export class AssignmentController extends ControllerBase<Assignment> {
     }
 
     @Post('{id}')
-    public expireAssignment(@Path() id:string){
+    public expireAssignment(@Path() id: string) {
         return this.service.expire(id);
     }
 

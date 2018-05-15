@@ -1,23 +1,21 @@
 import ApiClient from '../ExtendedClient';
 import { Courthouse, Courtroom, Region } from '../models';
-import TestData from './TestData';
-
-const testData = new TestData();
+import TestUtils from './TestUtils';
 
 describe('Courtroom API', () => {
     let api: ApiClient;
 
     let testRegion: Region = {
         name: "Courtroom Testing Region",
-        code: TestData.randomString(5)
+        code: TestUtils.randomString(5)
     }
     let testCourthouse: Courthouse = {
         name: "Courtroom Testing Courthouse",
-        code: TestData.randomString(5)
+        code: TestUtils.randomString(5)
     }
 
     const entityToCreate: Courtroom = {
-        code: TestData.randomString(5),
+        code: TestUtils.randomString(5),
         name: "Test Courtroom",
         courthouseId: "ToReplace"
     };
@@ -25,8 +23,8 @@ describe('Courtroom API', () => {
     let createdEntity: Courtroom;
 
     beforeAll(async (done) => {
-        api = new ApiClient('http://localhost:3000/v1');
-        await testData.clearDatabase();
+        api = TestUtils.getClient();
+        await TestUtils.clearDatabase();
         testRegion = await api.CreateRegion(testRegion);
         testCourthouse = await api.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
         done();
@@ -63,7 +61,7 @@ describe('Courtroom API', () => {
         const secondTestCourthouse = { ...testCourthouse }
         delete secondTestCourthouse['id'];
         secondTestCourthouse.name = "Test Courthouse 2";
-        secondTestCourthouse.code= TestData.randomString(5);
+        secondTestCourthouse.code= TestUtils.randomString(5);
         const secondCourthouse = await api.CreateCourthouse(secondTestCourthouse);
         const secondEntity = await api.CreateCourtroom({
             ...entityToCreate,

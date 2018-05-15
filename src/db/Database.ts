@@ -14,7 +14,7 @@ export class Database {
         // Create our connection pool
         this.pool = new Pool();
         this.pool.on('connect', async (client) => {
-            //    console.debug('Setting schema to shersched');
+            // console.debug('Setting schema to shersched');
             await client.query(`SET search_path TO ${this._schema}`);
         })
         //console.debug('Database connection pool created');

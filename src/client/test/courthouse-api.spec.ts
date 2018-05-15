@@ -1,21 +1,19 @@
 import ApiClient from '../ExtendedClient';
 import { Courthouse, Region } from '../models';
-import TestData from './TestData';
-
-const testData = new TestData();
+import TestUtils from './TestUtils';
 
 describe('Courtroom API', () => {
     let api: ApiClient;
 
     let testRegion: Region = {
         name: "Testing Region",
-        code: TestData.randomString(5)
+        code: TestUtils.randomString(5)
     }
     let createdCourthouse: Courthouse;
 
     beforeAll(async (done) => {
-        api = new ApiClient('http://localhost:3000/v1');
-        await testData.clearDatabase();
+        api = TestUtils.getClient();
+        await TestUtils.clearDatabase();
         testRegion = await api.CreateRegion(testRegion);
         done();
     });
@@ -25,7 +23,7 @@ describe('Courtroom API', () => {
         const newCourthouse: Courthouse = {
             regionId: testRegion.id,
             name: "Test Courthouse",
-            code: TestData.randomString(5)
+            code: TestUtils.randomString(5)
         }
 
         createdCourthouse = await api.CreateCourthouse(newCourthouse);

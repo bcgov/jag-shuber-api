@@ -1,8 +1,6 @@
 import ApiClient from '../ExtendedClient';
 import { Region } from '../models';
-import TestData from './TestData';
-
-const testData = new TestData();
+import TestUtils from './TestUtils';
 
 describe('Courtroom API', () => {
     let api: ApiClient;
@@ -15,15 +13,15 @@ describe('Courtroom API', () => {
     let createdRegion: Region;
 
     beforeAll(async (done) => {
-        api = new ApiClient('http://localhost:3000/v1');
-        await testData.clearDatabase();
+        api = TestUtils.getClient();
+        await TestUtils.clearDatabase();
         done();
     });
 
     it('create should return new region', async () => {
         const toCreate: Region = {
             name: 'Test Region',
-            code: TestData.randomString(5)
+            code: TestUtils.randomString(5)
         }
         createdRegion = await api.CreateRegion(toCreate);
         expect(createdRegion).toBeDefined();

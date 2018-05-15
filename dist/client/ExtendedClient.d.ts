@@ -1,4 +1,6 @@
+/// <reference types="superagent" />
 import moment from 'moment';
+import * as SA from 'superagent';
 import Client from './Client';
 import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift } from './models';
 export declare type DateType = string | moment.Moment | number;
@@ -15,8 +17,12 @@ export interface ValidationError {
     };
     message: string;
 }
+export declare type SuperAgentRequestInterceptor = (req: SA.SuperAgentRequest) => SA.SuperAgentRequest;
 export default class ExtendedClient extends Client {
+    private _requestInterceptor?;
     constructor(baseUrl: string);
+    private interceptRequest(req);
+    requestInterceptor: SuperAgentRequestInterceptor;
     static isValidationError(err: any): err is ValidationError;
     protected processError(err: any): any;
     private nullOn404<T>(method);

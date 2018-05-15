@@ -4,6 +4,6 @@ export interface Duty{
     startDateTime:string;
     endDateTime:string;
     assignmentId:string;
-    sheriffsRequired?:string;
+    sheriffsRequired?:number;
     dutyRecurrenceId?:string;
 }

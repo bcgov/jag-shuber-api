@@ -15,7 +15,7 @@ export default class Client {
         return this._agent;
     }  
 
-    public async GetAssignments( courthouseId:string , startDate:string , endDate:string ):Promise<Array<Assignment>>{
+    public async GetAssignments( courthouseId:string , startDate:string , endDate:string ):Promise<Array<any>>{
         const params = { 
             "courthouseId":courthouseId,
             "startDate":startDate,
@@ -24,7 +24,7 @@ export default class Client {
         try{
             const response = await this.agent.get(`/Assignments`)
                 .query(params)
-            return response.body as Array<Assignment>;
+            return response.body as Array<any>;
         }catch(error){
             if(this.errorProcessor){
                 throw this.errorProcessor(error);

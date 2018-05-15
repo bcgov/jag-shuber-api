@@ -1,20 +1,18 @@
 import moment from 'moment';
 import ApiClient from '../ExtendedClient';
 import { Assignment, Courthouse, Region, DutyRecurrence } from '../models';
-import TestData from './TestData';
-
-const testData = new TestData();
+import TestUtils from './TestUtils';
 
 describe('Duty Recurrence API', () => {
     let api: ApiClient;
 
     let testRegion: Region = {
         name: "Duty Recurrence Testing Region",
-        code: TestData.randomString(5)
+        code: TestUtils.randomString(5)
     }
     let testCourthouse: Courthouse = {
         name: "Duty Recurrence Testing Courthouse",
-        code: TestData.randomString(5)
+        code: TestUtils.randomString(5)
     }
     let testAssignment: Assignment = {
         title: "Duty Recurrence Testing Assignment",
@@ -32,8 +30,8 @@ describe('Duty Recurrence API', () => {
     let createdEntity: DutyRecurrence;
 
     beforeAll(async (done) => {
-        api = new ApiClient('http://localhost:3000/v1');
-        await testData.clearDatabase();
+        api = TestUtils.getClient();
+        await TestUtils.clearDatabase();
         testRegion = await api.CreateRegion(testRegion);
         testCourthouse = await api.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
         testAssignment = await api.CreateAssignment({ ...testAssignment, courthouseId: testCourthouse.id});

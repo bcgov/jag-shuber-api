@@ -5,7 +5,7 @@ export interface DutyRecurrence {
     endTime: string;
     daysBitmap: number;
     sheriffsRequired: number;
-    assignmentId: string;
+    assignmentId?: string;
     effectiveDate?:string;
     expiryDate?:string;
 }

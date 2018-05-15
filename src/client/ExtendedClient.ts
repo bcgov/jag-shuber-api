@@ -1,44 +1,61 @@
 import moment from 'moment';
-import * as superagent from 'superagent';
+import * as SA from 'superagent';
 import superagentAbsolute from 'superagent-absolute';
+import superagentUse from 'superagent-use';
 import Client from './Client';
 import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift } from './models';
-
-
-const agent = superagent.agent();
 
 export type DateType = string | moment.Moment | number;
 
 export interface ValidationError {
-    response:{
-        body:{
-            fields: { 
-                [key: string]: { 
-                    message: string, 
-                    value: any 
-                } 
-            };            
+    response: {
+        body: {
+            fields: {
+                [key: string]: {
+                    message: string,
+                    value: any
+                }
+            };
         }
     }
-    message:string;
+    message: string;
 }
 
+
+export type SuperAgentRequestInterceptor = (req: SA.SuperAgentRequest) => SA.SuperAgentRequest
+
 export default class ExtendedClient extends Client {
+
+    private _requestInterceptor?: SuperAgentRequestInterceptor;
+
     constructor(baseUrl: string) {
-        super(superagentAbsolute(superagent.agent())(baseUrl));
+        super(
+            superagentAbsolute(
+                superagentUse(SA.agent())
+            )(baseUrl)
+        );
+        (this.agent as any).use((req) => this.interceptRequest(req))
         this.errorProcessor = this.processError;
     }
 
+    private interceptRequest(req: SA.SuperAgentRequest) {
+        return this._requestInterceptor ? this._requestInterceptor(req) : req;
+    }
+
+    set requestInterceptor(interceptor: SuperAgentRequestInterceptor) {
+        this._requestInterceptor = interceptor;
+    }
+
     static isValidationError(err: any): err is ValidationError {
-        return err!.response!.body!.name ==="ValidateError";
+        return err!.response!.body!.name === "ValidateError";
     }
 
     protected processError(err) {
         if (ExtendedClient.isValidationError(err)) {
             let message = ["Validation Error"];
             const fields = err.response!.body!.fields || {};
-            message.push(...Object.keys(fields).map(k => fields[k].message));
-            const newMessage = message.join(' :: ');
+            message.push(...Object.keys(fields).map(k => `${k}: "${fields[k].message}"`));
+            const newMessage = message.join(' | ');
             err.message = newMessage;
         } else if (err!.response!.body!.message) {
             err.message = err!.response!.body!.message;

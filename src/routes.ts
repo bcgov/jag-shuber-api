@@ -15,6 +15,18 @@ import { DutyRecurrenceController } from './controllers/DutyRecurrenceController
 import { DutyController } from './controllers/DutyController';
 
 const models: TsoaRoute.Models = {
+    "DutyRecurrence": {
+        "properties": {
+            "id": { "dataType": "string" },
+            "startTime": { "dataType": "string", "required": true },
+            "endTime": { "dataType": "string", "required": true },
+            "daysBitmap": { "dataType": "double", "required": true },
+            "sheriffsRequired": { "dataType": "double", "required": true },
+            "assignmentId": { "dataType": "string" },
+            "effectiveDate": { "dataType": "string" },
+            "expiryDate": { "dataType": "string" },
+        },
+    },
     "Assignment": {
         "properties": {
             "id": { "dataType": "string" },
@@ -27,6 +39,7 @@ const models: TsoaRoute.Models = {
             "otherAssignCode": { "dataType": "string" },
             "effectiveDate": { "dataType": "string" },
             "expiryDate": { "dataType": "string" },
+            "dutyRecurrences": { "dataType": "array", "array": { "ref": "DutyRecurrence" } },
         },
     },
     "Region": {
@@ -102,23 +115,11 @@ const models: TsoaRoute.Models = {
     "Shift": {
         "properties": {
             "id": { "dataType": "string" },
-            "workSectionCode": { "dataType": "string", "required": true },
+            "workSectionCode": { "dataType": "string" },
             "courthouseId": { "dataType": "string", "required": true },
             "sheriffId": { "dataType": "string" },
             "startDateTime": { "dataType": "string", "required": true },
             "endDateTime": { "dataType": "string", "required": true },
-        },
-    },
-    "DutyRecurrence": {
-        "properties": {
-            "id": { "dataType": "string" },
-            "startTime": { "dataType": "string", "required": true },
-            "endTime": { "dataType": "string", "required": true },
-            "daysBitmap": { "dataType": "double", "required": true },
-            "sheriffsRequired": { "dataType": "double", "required": true },
-            "assignmentId": { "dataType": "string", "required": true },
-            "effectiveDate": { "dataType": "string" },
-            "expiryDate": { "dataType": "string" },
         },
     },
     "Duty": {
@@ -127,6 +128,7 @@ const models: TsoaRoute.Models = {
             "startDateTime": { "dataType": "string", "required": true },
             "endDateTime": { "dataType": "string", "required": true },
             "assignmentId": { "dataType": "string", "required": true },
+            "sheriffsRequired": { "dataType": "double" },
             "dutyRecurrenceId": { "dataType": "string" },
         },
     },

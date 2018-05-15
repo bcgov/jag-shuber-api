@@ -2,6 +2,16 @@
 // Type generated from Swagger definition
 
 
+    export interface DutyRecurrence  {
+        id? : string
+        startTime? : string
+        endTime? : string
+        daysBitmap? : number
+        sheriffsRequired? : number
+        assignmentId? : string
+        effectiveDate? : string
+        expiryDate? : string
+    }
     export interface Assignment  {
         id? : string
         title? : string
@@ -13,6 +23,7 @@
         otherAssignCode? : string
         effectiveDate? : string
         expiryDate? : string
+        dutyRecurrences? : Array<DutyRecurrence>
     }
     export interface Region  {
         id? : string
@@ -74,20 +85,11 @@
         startDateTime? : string
         endDateTime? : string
     }
-    export interface DutyRecurrence  {
-        id? : string
-        startTime? : string
-        endTime? : string
-        daysBitmap? : number
-        sheriffsRequired? : number
-        assignmentId? : string
-        effectiveDate? : string
-        expiryDate? : string
-    }
     export interface Duty  {
         id? : string
         startDateTime? : string
         endDateTime? : string
         assignmentId? : string
+        sheriffsRequired? : number
         dutyRecurrenceId? : string
     }
