@@ -495,7 +495,7 @@
             "displayName": "API Data Contexts",
             "description": "The liquibase contexts to include for this environment.  (See [liquibase contexts](http://www.liquibase.org/documentation/contexts.html) for more info)",
             "required": false,
-            "value":""
+            "value":"prod"
         },
         {
             "name": "API_IMAGE_NAMESPACE",
