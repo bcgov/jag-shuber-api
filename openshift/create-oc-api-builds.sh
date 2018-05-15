@@ -1,4 +1,5 @@
 #!/bin/bash
+SCRIPT_DIR=`dirname $0`
 echo "You should log into OpenShift and select your project before running this script."
 
 read -p "Delete resources from environment? (y/N)" delete
@@ -18,8 +19,8 @@ params="-p GIT_REF=node-api"
 
 if [ "$ok" == "y" ]; then
     echo "Deploying api build environment..."
-    oc process -f "templates/api-builder/api-builder-build.json" $params | oc create -f -
-    oc process -f "templates/api/api-build.json" $params | oc create -f -
+    oc process -f "$SCRIPT_DIR/templates/api-builder/api-builder-build.json" $params | oc create -f -
+    oc process -f "$SCRIPT_DIR/templates/api/api-build.json" $params | oc create -f -
 else
     exit 0
 fi
