@@ -24,6 +24,10 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
         return this.db.squel;
     }
 
+    get dbTableName():string{
+        return this.tableName;
+    }
+
     constructor(protected tableName: string, protected primaryKey: string, protected isExpirable: boolean = false) {
         super();
     }
@@ -89,9 +93,13 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
         return query;
     }
 
-    protected getDeleteQuery(id: string): PostgresDelete {
+    protected getUnsafeDeleteQuery():PostgresDelete{
         return this.squel.delete()
-            .from(this.tableName)
+            .from(this.tableName);
+    }
+
+    protected getDeleteQuery(id: string): PostgresDelete {
+        return this.getUnsafeDeleteQuery()
             .where(`${this.primaryKey}='${id}'`);
     }
 

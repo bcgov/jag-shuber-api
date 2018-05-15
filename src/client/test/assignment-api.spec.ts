@@ -215,6 +215,16 @@ describe('Assignment API', () => {
     it('delete should delete Assignment', async () => {
         await api.DeleteAssignment(createdEntity.id);
         const retreived = await api.GetAssignmentById(createdEntity.id);
-        expect(retreived).not.toBeDefined();
+        expect(retreived).not.toBeDefined();        
+    });
+
+    it('deleting an assignment should delete its recurrences',async ()=>{
+        await api.DeleteAssignment(createdEntityWithRecurrence.id);
+        await createdEntityWithRecurrence.dutyRecurrences
+            .map(dr=>dr.id)
+            .forEach(async id=>{
+                const recurrence = await api.GetDutyRecurrenceById(id);
+                expect(recurrence).not.toBeDefined();
+            })
     });
 }) 
