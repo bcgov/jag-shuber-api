@@ -8,7 +8,7 @@ export default class Client {
     constructor(_agent?: superAgent.SuperAgent<any>);
     readonly agent: superAgent.SuperAgent<any>;
     GetAssignments(courthouseId: string, startDate: string, endDate: string): Promise<Array<any>>;
-    CreateAssignment(model: Assignment): Promise<void>;
+    CreateAssignment(model: Assignment): Promise<Assignment>;
     GetAssignmentById(id: string): Promise<Assignment>;
     UpdateAssignment(id: string, model: Assignment): Promise<Assignment>;
     ExpireAssignment(id: string): Promise<void>;

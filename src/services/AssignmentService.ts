@@ -1,6 +1,6 @@
 import { Assignment } from '../models/Assignment';
 import { DutyRecurrence } from '../models/DutyRecurrence';
-import ExpirableDatabaseService from './ExpirableDatabaseService';
+import ExpirableDatabaseService, { EffectiveQueryOptions } from './ExpirableDatabaseService';
 import { DutyRecurrenceService } from './DutyRecurrenceService';
 import moment from 'moment';
 
@@ -27,7 +27,7 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
     }
 
     async getById(id: string) {
-        const dutyRecurrences = this.dutyRecurrenceService.getAllForAssignment(id);
+        const dutyRecurrences = this.dutyRecurrenceService.getAllForAssignment(id,{includeExpired:true});
         const assignment = await super.getById(id);
         if (assignment) {
             assignment.dutyRecurrences = await dutyRecurrences
@@ -35,15 +35,15 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
         return assignment;
     }
 
-    async getAll(courthouseId?: string, startDate?: string, endDate?: string) {
-        const query = super.getEffectiveSelectQuery(startDate, endDate);
+    async getAll(courthouseId?: string, options?: EffectiveQueryOptions) {
+        const query = super.getEffectiveSelectQuery(options);
 
         if (courthouseId) {
             query.where(`courthouse_id='${courthouseId}'`);
         };
         const assignments = await this.executeQuery<Assignment>(query.toString());
         const assignmentIds = assignments.map(a => a.id) as string[];
-        const dutyRecurrences = await this.dutyRecurrenceService.getAllForAssignments(assignmentIds, startDate, endDate);
+        const dutyRecurrences = await this.dutyRecurrenceService.getAllForAssignments(assignmentIds, options);
         return assignments.map(assignment => (
             {
                 ...assignment,
@@ -121,7 +121,7 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
         try {
             this.db.transaction(async client => {
                 this.dutyRecurrenceService.dbClient = client;
-                const dutyRecurrences = this.dutyRecurrenceService.getAllForAssignment(id);
+                const dutyRecurrences = this.dutyRecurrenceService.getAllForAssignment(id, { includeExpired: true });
                 // Expire assignment
                 await client.query(query.toString());
                 const dutyRecurrenceIds = (await dutyRecurrences).map(dr => dr.id) as string[];

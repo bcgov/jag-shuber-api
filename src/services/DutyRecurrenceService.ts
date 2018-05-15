@@ -1,5 +1,5 @@
 import { DutyRecurrence } from '../models/DutyRecurrence';
-import ExpirableDatabaseService from './ExpirableDatabaseService';
+import ExpirableDatabaseService, { EffectiveQueryOptions } from './ExpirableDatabaseService';
 
 
 export class DutyRecurrenceService extends ExpirableDatabaseService<DutyRecurrence> {
@@ -18,24 +18,17 @@ export class DutyRecurrenceService extends ExpirableDatabaseService<DutyRecurren
         super('duty_recurrence', 'duty_recurrence_id', true);
     }
 
-    async getAll(startDate?: string, endDate?: string) {
-        const query = super.getEffectiveSelectQuery(startDate, endDate);
-
-        const rows = await this.executeQuery<DutyRecurrence>(query.toString());
-        return rows;
-    }
-
-    async getAllForAssignments(assignmentIds: string[] = [], startDate?: string, endDate?: string): Promise<DutyRecurrence[]> {
+    async getAllForAssignments(assignmentIds: string[] = [], options?:EffectiveQueryOptions): Promise<DutyRecurrence[]> {
         if (assignmentIds.length === 0) {
             return [];
         }
-        const query = super.getEffectiveSelectQuery(startDate, endDate);
+        const query = super.getEffectiveSelectQuery(options);
         query.where(`assignment_id IN (${assignmentIds.map(s => `'${s}'`).join(',')})`);
         query.order('assignment_id');
         return await this.executeQuery<DutyRecurrence>(query.toString());
     }
 
-    async getAllForAssignment(assignmentId: string, startDate?: string, endDate?: string): Promise<DutyRecurrence[]> {
-        return this.getAllForAssignments([assignmentId], startDate, endDate);
+    async getAllForAssignment(assignmentId: string, options?:EffectiveQueryOptions): Promise<DutyRecurrence[]> {
+        return this.getAllForAssignments([assignmentId], options);
     }
 }

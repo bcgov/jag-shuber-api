@@ -12,7 +12,7 @@ export class DutyRecurrenceController extends ControllerBase<DutyRecurrence> {
 
     @Get()
     public getDutyRecurrences(@Query() startDate?: string, @Query() endDate?: string) {
-        return this.service.getAll(startDate, endDate);
+        return this.service.getAllEffective({ startDate, endDate });
     }
 
     @Get('{id}')
@@ -31,7 +31,7 @@ export class DutyRecurrenceController extends ControllerBase<DutyRecurrence> {
     }
 
     @Post('{id}')
-    public expireDutyRecurrence(@Path() id:string){
+    public expireDutyRecurrence(@Path() id: string) {
         return this.service.expire(id);
     }
 

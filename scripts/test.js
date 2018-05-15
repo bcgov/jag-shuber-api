@@ -19,6 +19,7 @@ require('dotenv').config();
 
 const jest = require('jest');
 const argv = process.argv.slice(2);
+argv.push('--maxWorkers=1')
 
 const integrationTestFlagIndex = argv.indexOf('--runIntegrationTests')
 if(integrationTestFlagIndex > -1){

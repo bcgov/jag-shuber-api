@@ -2,20 +2,30 @@ import moment from 'moment';
 import { PostgresInsert, PostgresSelect, PostgresUpdate } from 'squel';
 import { DatabaseService } from "./DatabaseService";
 
+export interface EffectiveQueryOptions {
+    startDate?: string;
+    endDate?: string;
+    includeExpired?: boolean;
+}
+
 export default abstract class ExpirableDatabaseService<T> extends DatabaseService<T>{
     private effectiveField = "effective_date";
     private expiryField = "expiry_date";
 
-    protected getEffectiveSelectQuery(startDate?: string, endDate?: string): PostgresSelect {
-        if (!startDate) {
-            startDate = moment().toISOString();
-        }
-        if (!endDate) {
-            endDate = startDate;
-        }
-        // Add on the where for the effective date
-        return this.getSelectQuery()
-            .where(this.squel.expr()
+    protected getEffectiveSelectQuery(options: EffectiveQueryOptions = {}): PostgresSelect {
+        const {
+            startDate = moment().toISOString(),
+            includeExpired = false
+        } = options;
+        const {
+            endDate = startDate
+        } = options;
+
+        // Get the standard query
+        const query = this.getSelectQuery();
+        if (!includeExpired) {
+            // Add on the where for the effective date
+            query.where(this.squel.expr()
                 .and(`DATE('${endDate}') >= ${this.effectiveField}`)
                 .and(
                     this.squel.expr()
@@ -23,6 +33,8 @@ export default abstract class ExpirableDatabaseService<T> extends DatabaseServic
                         .or(`Date('${startDate}') < ${this.expiryField}`)
                 )
             )
+        }
+        return query;
     }
 
     protected getInsertQuery(entity: Partial<T>): PostgresInsert {
@@ -42,8 +54,8 @@ export default abstract class ExpirableDatabaseService<T> extends DatabaseServic
         return query;
     }
 
-    async getAllEffective(startDate: string, endDate?: string): Promise<T[]> {
-        const query = this.getEffectiveSelectQuery(startDate, endDate);
+    async getAllEffective(options?: EffectiveQueryOptions): Promise<T[]> {
+        const query = this.getEffectiveSelectQuery(options);
         const rows = await this.executeQuery<T>(query.toString());
         return rows.map((s: T) => this.filterNullValues(s));
     };
@@ -56,3 +68,4 @@ export default abstract class ExpirableDatabaseService<T> extends DatabaseServic
         await this.executeQuery(query.toString());
     }
 }
+

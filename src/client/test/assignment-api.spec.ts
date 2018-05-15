@@ -195,7 +195,7 @@ describe('Assignment API', () => {
 
     });
 
-    it('expiring a duty recurrence should hide it from the assignments list',async ()=>{
+    it('expiring a duty recurrence should hide it from the assignments list but not from get by id',async ()=>{
         createdEntityWithRecurrence = await api.GetAssignmentById(createdEntityWithRecurrence.id);
         const firstRecurrence = createdEntityWithRecurrence.dutyRecurrences[0];
         const secondRecurrence = createdEntityWithRecurrence.dutyRecurrences[1];
@@ -207,11 +207,9 @@ describe('Assignment API', () => {
         expect(retrieved.dutyRecurrences.find(r=>r.id===firstRecurrence.id)).not.toBeDefined();
         expect(retrieved.dutyRecurrences[0]).toEqual(secondRecurrence);
 
+        // When getting assignment by Id, we should grab all of the duty recurrences regardless of expiry
         const retrievedById = await api.GetAssignmentById(createdEntityWithRecurrence.id);
-        expect(retrievedById.dutyRecurrences).toEqual(expect.arrayContaining([firstRecurrence,secondRecurrence]));
-
-
-
+        expect(retrievedById.dutyRecurrences.map(dr=>dr.id)).toEqual(expect.arrayContaining(createdEntityWithRecurrence.dutyRecurrences.map(dr=>dr.id)));
     });
 
     it('delete should delete Assignment', async () => {
