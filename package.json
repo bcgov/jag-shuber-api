@@ -31,14 +31,16 @@
   },
   "scripts": {
     "start": "node ./dist/index.js",
-    "start:debug": "nodemon --inspect",
+    "start:debug": "nodemon --config nodemon.dev.json --inspect",
+    "start:testing":"nodemon --config nodemon.testing.json --inspect",
     "build": "./node_modules/.bin/tsc",
     "build:watch": "npm-watch",
     "clean": "del-cli 'dist/**/*' '!dist/.gitignore' '!dist/client/**'",
     "test": "node --inspect=9230 scripts/test.js --env=node",
     "test:coverage": "yarn test --coverage",
     "generate": "tsoa swagger && tsoa routes && swagger-ts-client",
-    "watch": "concurrently --names 'BUILD,GENERATE,SERVER' -c 'bgGreen.bold,bgBlue.bold,bgMagenta.bold' \"npm-watch build\" \"npm-watch generate\"  \"yarn start:debug\" "
+    "watch": "concurrently --names 'BUILD,GENERATE,SERVER' -c 'bgGreen.bold,bgBlue.bold,bgMagenta.bold' \"npm-watch build\" \"npm-watch generate\"  \"yarn start:debug\" ",
+    "watch:testing": "concurrently --names 'BUILD,GENERATE,SERVER' -c 'bgGreen.bold,bgBlue.bold,bgMagenta.bold' \"npm-watch build\" \"npm-watch generate\"  \"yarn start:testing\" "
   },
   "dependencies": {
     "koa": "^2.5.0",
@@ -108,17 +110,5 @@
       "json",
       "node"
     ]
-  },
-  "nodemonConfig": {
-    "verbose": false,
-    "exec": "ts-node ./src/index.ts",
-    "watch": [
-      "./src/"
-    ],
-    "ext": "ts,json",
-    "ignore": [
-      "*.spec.ts"
-    ],
-    "delay": 500
   }
 }

@@ -24,12 +24,17 @@ router.get('/', async ctx => {
 // Register our Middleware
 app
     .use(async (ctx, next) => {
+        await next();
+        if (ctx.status >= 400) {
+            app.emit('error', ctx.body, ctx);
+        }
+    })
+    .use(async (ctx, next) => {
         try {
             await next();
         } catch (err) {
             ctx.status = err.status || 500;
-            ctx.body = err.message;
-            ctx.app.emit('error', err, ctx);
+            ctx.body = err;
         }
     })
     .use(async (ctx, next) => {
@@ -40,5 +45,15 @@ app
     })
     .use(router.routes())
     .use(router.allowedMethods());
+
+app.on('error',(err,ctx)=>{
+    if(ctx.status == 404){
+        console.log(`NOT_FOUND ${ctx.request.url}`)
+    }else if(err && err!.message){
+        console.error(`APP_ERROR ${err.message}`);
+    }else{
+        console.error('APP_ERROR',err);
+    }
+})
 
 export default app;

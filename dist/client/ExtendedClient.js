@@ -36,7 +36,8 @@ class ExtendedClient extends Client_1.default {
         this._requestInterceptor = interceptor;
     }
     static isValidationError(err) {
-        return err.response.body.name === "ValidateError";
+        const { response: { body: { name = "" } = {} } = {} } = err;
+        return name === "ValidateError";
     }
     processError(err) {
         if (ExtendedClient.isValidationError(err)) {

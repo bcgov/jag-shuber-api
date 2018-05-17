@@ -1,25 +1,18 @@
 import ApiClient from '../ExtendedClient';
-import { Assignment, Courthouse, Region, Duty } from '../models';
+import { Assignment, Courthouse, Region, Duty, Courtroom } from '../models';
 import TestUtils from './TestUtils';
 import moment from 'moment';
 
 describe('Duty API', () => {
     let api: ApiClient;
 
-    let testRegion: Region = {
-        name: "Duty Testing Region",
-        code: TestUtils.randomString(5)
-    }
-    let testCourthouse: Courthouse = {
-        name: "Duty Testing Courthouse",
-        code: TestUtils.randomString(5)
-    }
-    let testAssignment: Assignment = {
-        title: "Duty Testing Assignment",
-        workSectionId:"JAIL",
-    }
+    let testRegion: Region;
+    let testCourthouse: Courthouse;
+    let testCourtroom: Courtroom;
+    let testAssignment: Assignment;
+
     const entityToCreate: Duty = {
-        startDateTime: moment().toISOString(), 
+        startDateTime: moment().toISOString(),
         endDateTime: moment().add(1, 'hours').toISOString(),
         sheriffsRequired: 2,
         assignmentId: "ToReplace"
@@ -29,9 +22,10 @@ describe('Duty API', () => {
 
     beforeAll(async (done) => {
         api = TestUtils.getClient();
-        testRegion = await api.CreateRegion(testRegion);
-        testCourthouse = await api.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
-        testAssignment = await api.CreateAssignment({ ...testAssignment, courthouseId: testCourthouse.id});
+        testRegion = await TestUtils.newTestRegion();
+        testCourthouse = await TestUtils.newTestCourthouse(testRegion.id);
+        testCourtroom = await TestUtils.newTestCourtroom(testCourthouse.id);
+        testAssignment = await TestUtils.newTestAssignment(testCourthouse.id, { courtroomId: testCourtroom.id });
         done();
     });
 

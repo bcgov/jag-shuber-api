@@ -9,9 +9,7 @@ export class DutyRecurrenceService extends ExpirableDatabaseService<DutyRecurren
         end_time: 'endTime',
         days_bitmap: 'daysBitmap',
         sheriffs_required: 'sheriffsRequired',
-        assignment_id: 'assignmentId',
-        effective_date: 'effectiveDate',
-        expiry_date: 'expiryDate'
+        assignment_id: 'assignmentId'
     };
 
     constructor() {

@@ -1,8 +1,9 @@
-import { config as configureEnvironment } from 'dotenv';
+// import { config as configureEnvironment } from 'dotenv';
 import { ClientBase, Pool, PoolClient, types } from 'pg';
 import { FunctionBlock, InsertFieldValueMixin, PostgresInsert, PostgresSquel, PostgresUpdate } from 'squel';
 import squel from './squel';
-configureEnvironment();
+// configureEnvironment({path:'.env.dev'});
+
 // https://github.com/brianc/node-pg-types
 types.setTypeParser(1700, (val) => (Number(val)))
 export class Database {
@@ -11,10 +12,17 @@ export class Database {
     constructor() {
         this._schema = process.env["API_DATABASE_SCHEMA"] || 'shersched';
         console.log(`DB Connection Pool Initialized using '${this._schema}' schema`);
+        console.log(`DB connection established on port: ${process.env["PGPORT"]}`)
         // Create our connection pool
         this.pool = new Pool();
+        this.pool.on('error',(err)=>{
+            console.error(err);
+        })
         this.pool.on('connect', async (client) => {
             // console.debug('Setting schema to shersched');
+            client.on('error',err=>{
+                console.error(err);
+            })
             await client.query(`SET search_path TO ${this._schema}`);
         })
         //console.debug('Database connection pool created');

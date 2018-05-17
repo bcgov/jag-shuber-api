@@ -3,6 +3,12 @@ import { DutyRecurrence } from '../models/DutyRecurrence';
 import ExpirableDatabaseService, { EffectiveQueryOptions } from './ExpirableDatabaseService';
 import { DutyRecurrenceService } from './DutyRecurrenceService';
 import moment from 'moment';
+import { ValidateError, FieldErrors } from 'tsoa';
+import { ClientBase } from 'pg';
+import { CourtroomService } from './CourtroomService';
+import { JailRoleCodeService } from './JailRoleCodeService';
+import { RunService } from './RunService';
+import { OtherAssignCodeService } from './OtherAssignCodeService';
 
 export class AssignmentService extends ExpirableDatabaseService<Assignment> {
 
@@ -15,9 +21,7 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
         run_id: 'runId',
         jail_role_code: 'jailRoleCode',
         other_assign_code: 'otherAssignCode',
-        work_section_code: 'workSectionId',
-        effective_date: 'effectiveDate',
-        expiry_date: 'expiryDate'
+        work_section_code: 'workSectionId'
     };
 
     constructor() {
@@ -27,7 +31,7 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
     }
 
     async getById(id: string) {
-        const dutyRecurrences = this.dutyRecurrenceService.getAllForAssignment(id,{includeExpired:true});
+        const dutyRecurrences = this.dutyRecurrenceService.getAllForAssignment(id, { includeExpired: true });
         const assignment = await super.getById(id);
         if (assignment) {
             assignment.dutyRecurrences = await dutyRecurrences
@@ -65,19 +69,17 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
                 const { rows } = await client.query(query.toString());
                 updatedAssignment = rows[0];
 
+                const dutyRecurrencesWithAssignmentId = dutyRecurrences.map(dr => ({
+                    ...dr,
+                    assignmentId: entity.id
+                }));
                 // Create new duty recurrences, adding on assignmentId
-                const createPromises = dutyRecurrences
+                const createPromises = dutyRecurrencesWithAssignmentId
                     .filter(dr => dr.id == undefined)
-                    .map(dr => (
-                        {
-                            ...dr,
-                            assignmentId: entity.id
-                        }
-                    ))
                     .map(dr => this.dutyRecurrenceService.create(dr));
 
                 // Update existing duty recurrences
-                const updatePromises = dutyRecurrences
+                const updatePromises = dutyRecurrencesWithAssignmentId
                     .filter(dr => dr.id != undefined)
                     .map(dr => this.dutyRecurrenceService.update(dr));
                 const allDutyRecurrences = await Promise.all(createPromises.concat(updatePromises));
@@ -91,9 +93,84 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
         return updatedAssignment;
     }
 
+    private validateAssignment(entity: Partial<Assignment>) {
+        const fieldErrors: FieldErrors = {};
+        if (entity.workSectionId === "COURTS") {
+            if (entity.courtroomId == undefined) {
+                throw new ValidateError({
+                    'model.courtroomId': {
+                        message: "Courtroom must be set for Court assignments"
+                    }
+                }, "Invalid Court Assignment")
+            }
+        } else if (entity.workSectionId === "JAIL") {
+            if (entity.jailRoleCode == undefined) {
+                throw new ValidateError({
+                    'model.jailRoleCode': {
+                        message: "Jail Role must be set for Jail assignments"
+                    }
+                }, "Invalid Jail Assignment")
+            }
+        } else if (entity.workSectionId === "OTHER") {
+            if (entity.otherAssignCode == undefined) {
+                throw new ValidateError({
+                    'model.otherAssignCode': {
+                        message: "Assignment Type must be set for Other assignments"
+                    }
+                }, "Invalid Other Assignment")
+            }
+        } else if (entity.workSectionId === "ESCORTS") {
+            if (entity.runId == undefined) {
+                throw new ValidateError({
+                    'model.runId': {
+                        message: "Run must be set for Escort assignments"
+                    }
+                }, "Invalid Escort Assignment")
+            }
+        }
+    }
+
+    private async getAssignmentTitle(entity: Partial<Assignment>): Promise<string> {
+        let title = entity.title;
+
+        if (!title || title === "") {
+            if (entity.workSectionId === "COURTS") {
+                const service = new CourtroomService();
+                const courtroom = await service.getById(entity.courtroomId as string);
+                if (courtroom) {
+                    title = courtroom.name;
+                }
+            } else if (entity.workSectionId === "JAIL") {
+                const service = new JailRoleCodeService();
+                const code = await service.getById(entity.jailRoleCode as string);
+                if (code) {
+                    title = code.description;
+                }
+            } else if (entity.workSectionId === "ESCORTS") {
+                const service = new RunService();
+                const run = await service.getById(entity.runId as string);
+                if (run) {
+                    title = run.title;
+                }
+            } else if (entity.workSectionId === "OTHER") {
+                const service = new OtherAssignCodeService();
+                const code = await service.getById(entity.otherAssignCode as string);
+                if (code) {
+                    title = code.description;
+                }
+            }
+        }
+        return title as string;
+    }
+
     async create(entity: Partial<Assignment>): Promise<Assignment> {
+        this.validateAssignment(entity);
         const { dutyRecurrences = [] } = entity;
-        const query = this.getInsertQuery(entity);
+        const title = await this.getAssignmentTitle(entity);
+        const query = this.getInsertQuery({
+            ...entity,
+            title
+        });
         let createdAssignment: Assignment = {} as any;
         try {
             await this.db.transaction(async (client) => {
@@ -107,6 +184,8 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
                     }))
                 );
             });
+        } catch (e) {
+            throw e;
         } finally {
             this.dutyRecurrenceService.dbClient = undefined;
         }
@@ -136,9 +215,9 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
         await this.executeQuery(query.toString());
     }
 
-    async delete(id:string):Promise<void>{
+    async delete(id: string): Promise<void> {
         const delAssignmentQuery = this.getDeleteQuery(id);
-        await this.db.transaction(async(client)=>{
+        await this.db.transaction(async (client) => {
             const delRecurrenceQuery = this.dutyRecurrenceService.squel.delete()
                 .from(this.dutyRecurrenceService.dbTableName)
                 .where(`assignment_id='${id}'`);

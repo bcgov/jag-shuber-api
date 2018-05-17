@@ -1,6 +1,7 @@
 import { toMatchShapeOf, toMatchOneOf } from 'jest-to-match-shape-of';
 import db from '../../db/Database';
 import ExtendedClient from '../ExtendedClient';
+import { Courthouse, Courtroom, Assignment, Region } from '../models';
 
 expect.extend({
     toMatchShapeOf,
@@ -25,7 +26,7 @@ export default class TestUtils {
     }
 
     static getClient(): ExtendedClient {
-        return new ExtendedClient('http://localhost:3000/api/v1');
+        return new ExtendedClient('http://localhost:3001/api/v1');
     }
 
     static async clearDatabase() {
@@ -37,7 +38,7 @@ export default class TestUtils {
         })
     }
 
-    static async closeDatabase(){
+    static async closeDatabase() {
         await db.close();
     }
 
@@ -48,13 +49,60 @@ export default class TestUtils {
         }
         return str;
     }
+
+    static async newTestRegion(): Promise<Region> {
+        const api = TestUtils.getClient();
+        return await api.CreateRegion({
+            name: "TEST Region",
+            code: TestUtils.randomString(5)
+        });
+    }
+
+    static async newTestCourthouse(regionId: string): Promise<Courthouse> {
+        const api = TestUtils.getClient();
+        return await api.CreateCourthouse({
+            regionId,
+            name: "TEST COURTHOUSE",
+            code: TestUtils.randomString(5)
+        });
+    }
+
+    static async newTestCourtroom(courthouseId: string): Promise<Courtroom> {
+        const api = TestUtils.getClient();
+        return await api.CreateCourtroom({
+            name: "TEST COURTHOUSE",
+            courthouseId,
+            code: TestUtils.randomString(5)
+        });
+    }
+
+    static async newTestAssignment(courthouseId, assignmentDetails: Partial<Assignment> = { }): Promise<Assignment> {
+        const api = TestUtils.getClient();
+        let workSectionId="";
+        if(assignmentDetails.jailRoleCode){
+            workSectionId="JAIL";
+        }else if(assignmentDetails.runId){
+            workSectionId="ESCORTS";
+        }else if(assignmentDetails.courtroomId){
+            workSectionId="COURTS";
+        }else if(assignmentDetails.otherAssignCode){
+            workSectionId="OTHER";
+        }
+        return await api.CreateAssignment({
+            ...assignmentDetails,
+            workSectionId,
+            courthouseId
+        });
+    }
+
 }
 
-beforeAll(async ()=>{
+beforeAll(async (done) => {
     await TestUtils.clearDatabase();
+    done();
 });
 
-afterAll(async ()=>{
+afterAll(async () => {
     // Don't wait for the database to close, hoping it does
     TestUtils.closeDatabase();
 });

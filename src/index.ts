@@ -1,8 +1,6 @@
-import { config as configureEnvironment } from 'dotenv';
+import './environment';  // Must be first
 import app from './app';
-configureEnvironment();
-
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT).on('listening', () => {
     console.log(`Sheriff Scheduling API started on port ${PORT}...`);
 }); 

@@ -31,11 +31,13 @@ fi
 ingressPort=$(oc get svc postgresql-ingress -o=jsonpath='{.spec.ports[0].nodePort}')
 ip=$(minishift ip)
 
-read -p "Generate .env file? (y/N): " gen
+read -p "Generate '.env' file? (y/N): " gen
 gen=${gen:-n}
 gen=$(echo $gen |awk '{print tolower($0)}')
-if [ "$ok" == "y" ]; then
-  cat <<EOT >> .env
+if [ "$gen" == "y" ]; then
+read -p "Environment name ('testing'):" envName
+gen=${gen:-testing}
+  cat <<EOT >> .env.$envName
 PGHOST='$ip'
 PGUSER='shersched'
 PGDATABASE='appdb'

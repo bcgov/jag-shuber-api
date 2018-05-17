@@ -15,10 +15,10 @@ process.env.PUBLIC_URL = '';
 // });
 
 // Ensure environment variables are read.
-require('dotenv').config();
-
 const jest = require('jest');
 const argv = process.argv.slice(2);
+
+process.env['DOTENV_PATH']=".env.testing";
 
 // Single thread so tests don't race each other
 argv.push('--maxWorkers=1')

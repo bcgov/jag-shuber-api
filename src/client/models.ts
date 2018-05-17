@@ -9,8 +9,6 @@
         daysBitmap? : number
         sheriffsRequired? : number
         assignmentId? : string
-        effectiveDate? : string
-        expiryDate? : string
     }
     export interface Assignment  {
         id? : string
@@ -21,8 +19,6 @@
         runId? : string
         jailRoleCode? : string
         otherAssignCode? : string
-        effectiveDate? : string
-        expiryDate? : string
         dutyRecurrences? : Array<DutyRecurrence>
     }
     export interface Region  {

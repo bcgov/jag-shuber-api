@@ -47,7 +47,8 @@ export default class ExtendedClient extends Client {
     }
 
     static isValidationError(err: any): err is ValidationError {
-        return err!.response!.body!.name === "ValidateError";
+        const { response: { body: { name = "" } = {} } = {} } = err;
+        return name === "ValidateError";
     }
 
     protected processError(err) {
