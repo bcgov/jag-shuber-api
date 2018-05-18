@@ -156,4 +156,8 @@ export default class ExtendedClient extends Client {
             () => super.GetDutyById(id)
         );
     }
+
+    async ImportDefaultDuties(courthouseId:string,date:string=""){
+        return await super.ImportDefaultDuties(courthouseId,date);
+    }
 }

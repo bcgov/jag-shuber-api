@@ -38,8 +38,6 @@ describe('Assignment API', () => {
     const recurrenceShape: DutyRecurrence = {
         ...recurrenceToCreate,
         assignmentId: "string",
-        expiryDate: null,
-        effectiveDate: "string",
         id: "string"
     }
 
@@ -95,7 +93,6 @@ describe('Assignment API', () => {
         expect(createdRecurrence).toMatchShapeOf(recurrenceShape);
         // check assignment id and effective date
         expect(createdRecurrence.assignmentId).toEqual(createdEntityWithRecurrence.id);
-        expect(moment(createdRecurrence.effectiveDate).isSame(moment(), 'day'));
 
         // check that all values are same as those created
         expect(createdRecurrence).toEqual({

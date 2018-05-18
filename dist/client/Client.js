@@ -887,6 +887,27 @@ class Client {
             }
         });
     }
+    ImportDefaultDuties(courthouseId, date) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const params = {
+                "courthouseId": courthouseId,
+                "date": date
+            };
+            try {
+                const response = yield this.agent.post(`/Duty/import`)
+                    .query(params);
+                return response.body;
+            }
+            catch (error) {
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
+                }
+                else {
+                    throw error;
+                }
+            }
+        });
+    }
 }
 exports.default = Client;
 //# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/client/Client.js.map

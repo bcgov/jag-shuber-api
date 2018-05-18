@@ -1156,6 +1156,27 @@ export function RegisterRoutes(router: any) {
             const promise = controller.deleteDuty.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
+    router.post('/v1/Duty/import',
+        async (context, next) => {
+            const args = {
+                courthouseId: { "in": "query", "name": "courthouseId", "required": true, "dataType": "string" },
+                date: { "in": "query", "name": "date", "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new DutyController();
+
+            const promise = controller.importDefaultDuties.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
 
 
     function promiseHandler(controllerObj: any, promise: Promise<any>, context: any, next: () => Promise<any>) {

@@ -143,6 +143,12 @@ class ExtendedClient extends Client_1.default {
             return yield this.nullOn404(() => _super("GetDutyById").call(this, id));
         });
     }
+    ImportDefaultDuties(courthouseId, date = "") {
+        const _super = name => super[name];
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield _super("ImportDefaultDuties").call(this, courthouseId, date);
+        });
+    }
 }
 exports.default = ExtendedClient;
 //# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/client/ExtendedClient.js.map

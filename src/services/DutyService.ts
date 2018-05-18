@@ -1,6 +1,7 @@
 import { Duty } from '../models/Duty';
 import { DatabaseService } from './DatabaseService';
-
+import { AssignmentService } from './AssignmentService';
+import { DutyRecurrenceService } from './DutyRecurrenceService';
 
 export class DutyService extends DatabaseService<Duty> {
     fieldMap = {
@@ -23,5 +24,12 @@ export class DutyService extends DatabaseService<Duty> {
         };
         const rows = await this.executeQuery<Duty>(query.toString());
         return rows;
+    }
+
+    async importDefaults(courthouseId:string, date?:string) : Promise<Duty[]>{
+        const assignmentService = new AssignmentService();
+        const dutyReccurenceService = new DutyRecurrenceService();
+        const dutyService = new DutyService();
+        throw "Not Implemented";
     }
 }

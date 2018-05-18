@@ -35,4 +35,9 @@ export class DutyController extends ControllerBase<Duty> {
     public deleteDuty(@Path() id:string){
         return super.delete(id);
     }
+
+    @Post('/import')
+    public importDefaultDuties(@Query() courthouseId:string, @Query() date?:string){
+        return this.service.importDefaults(courthouseId,date);
+    }
 }

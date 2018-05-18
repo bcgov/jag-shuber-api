@@ -1,5 +1,5 @@
 import ApiClient from '../ExtendedClient';
-import { Assignment, Courthouse, Region, Duty, Courtroom } from '../models';
+import { Assignment, Courthouse, Region, Duty, Courtroom, DutyRecurrence } from '../models';
 import TestUtils from './TestUtils';
 import moment from 'moment';
 
@@ -73,4 +73,29 @@ describe('Duty API', () => {
         const retreived = await api.GetDutyById(createdEntity.id);
         expect(retreived).not.toBeDefined();
     });
+
+    describe.only('import default duties',()=>{
+
+        it('import defaults should create duties with correct start and end times',async ()=>{
+            const recurrences : DutyRecurrence[] = [
+                {
+                    daysBitmap:1,
+                    startTime:"10:00:00",
+                    endTime:"11:00:00",
+                    sheriffsRequired:2
+                }
+            ];
+            const assignment = await TestUtils.newTestAssignment(testCourthouse.id,{dutyRecurrences:recurrences,courtroomId:testCourtroom.id});
+
+            const duties = await api.ImportDefaultDuties(assignment.courthouseId);
+            
+            
+    
+    
+        });
+
+
+    })
+
+
 }) 

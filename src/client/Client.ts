@@ -672,4 +672,21 @@ export default class Client {
             }
         }
     }    
+    public async ImportDefaultDuties( courthouseId:string , date:string ):Promise<Array<Duty>>{
+        const params = { 
+            "courthouseId":courthouseId,
+            "date":date 
+        };
+        try{
+            const response = await this.agent.post(`/Duty/import`)
+                .query(params)
+            return response.body as Array<Duty>;
+        }catch(error){
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
+            }else{
+                throw error;
+            }
+        }
+    }    
 }
