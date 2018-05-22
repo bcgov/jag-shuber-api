@@ -282,7 +282,6 @@ describe('Duty API', () => {
             expect(Array.isArray(duties)).toBeTruthy();
             expect(duties.length).toEqual(1);
             assertImportedDuties(duties,assignment);
-
         });
 
 
