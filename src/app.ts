@@ -54,6 +54,7 @@ app.on('error',(err,ctx)=>{
     }else{
         console.error('APP_ERROR',err);
     }
+    console.log(err);
 })
 
 export default app;

@@ -25,6 +25,7 @@ describe('Duty API', () => {
 
     beforeAll(async (done) => {
         api = TestUtils.getClient();
+        await TestUtils.clearDatabase();
         testRegion = await TestUtils.newTestRegion();
         testCourthouse = await TestUtils.newTestCourthouse(testRegion.id);
         testCourtroom = await TestUtils.newTestCourtroom(testCourthouse.id);
@@ -118,12 +119,12 @@ describe('Duty API', () => {
         const sheriffDuties = updatedEntity.sheriffDuties;
         expect(Array.isArray(sheriffDuties)).toBeTruthy();
         expect(sheriffDuties.length).toEqual(2);
-        const newDuty = sheriffDuties.find(sd=>sd.id != createdEntityWithSheriffDuties.sheriffDuties[0].id);
+        const newDuty = sheriffDuties.find(sd => sd.id != createdEntityWithSheriffDuties.sheriffDuties[0].id);
         expect(newDuty.startDateTime).toEqual(newSheriffDuty.startDateTime);
         expect(newDuty.endDateTime).toEqual(newSheriffDuty.endDateTime);
         expect(newDuty.dutyId).toEqual(createdEntityWithSheriffDuties.id);
-        expect(newDuty.id).toBeDefined();      
-        createdEntityWithSheriffDuties = updatedEntity;  
+        expect(newDuty.id).toBeDefined();
+        createdEntityWithSheriffDuties = updatedEntity;
     });
 
     it('update duty should update existing Sheriff Duties', async () => {
@@ -134,24 +135,24 @@ describe('Duty API', () => {
         const updatedEntity = await api.UpdateDuty(createdEntityWithSheriffDuties.id, {
             ...createdEntityWithSheriffDuties,
             sheriffDuties: [
-                ...createdEntityWithSheriffDuties.sheriffDuties.map(sd=>(
+                ...createdEntityWithSheriffDuties.sheriffDuties.map(sd => (
                     {
                         ...sd,
                         ...sheriffDutyUpdates
                     }
-                ))                
+                ))
             ]
         });
         const sheriffDuties = updatedEntity.sheriffDuties;
         expect(Array.isArray(sheriffDuties)).toBeTruthy();
         expect(sheriffDuties.length).toEqual(2);
-        sheriffDuties.forEach(sd=>{
+        sheriffDuties.forEach(sd => {
             expect(sd.startDateTime).toEqual(sheriffDutyUpdates.startDateTime);
             expect(sd.endDateTime).toEqual(sheriffDutyUpdates.endDateTime);
             expect(sd.dutyId).toEqual(createdEntityWithSheriffDuties.id);
-            expect(sd.id).toBeDefined();      
+            expect(sd.id).toBeDefined();
         });
-        createdEntityWithSheriffDuties = updatedEntity;  
+        createdEntityWithSheriffDuties = updatedEntity;
     });
 
     it('delete should delete Duty', async () => {
@@ -164,27 +165,123 @@ describe('Duty API', () => {
         await api.DeleteDuty(createdEntityWithSheriffDuties.id);
         const retreived = await api.GetDutyById(createdEntityWithSheriffDuties.id);
         expect(retreived).toBeUndefined();
-        createdEntityWithSheriffDuties.sheriffDuties.forEach(async(sd)=>{
+        createdEntityWithSheriffDuties.sheriffDuties.forEach(async (sd) => {
             const retrievedSd = await api.GetSheriffDutyById(sd.id);
             expect(retrievedSd).toBeUndefined();
         });
     });
 
     describe('import default duties', () => {
+        const recurrenceToCreate: DutyRecurrence = {
+            daysBitmap: 1 << moment().isoWeekday() - 1,
+            startTime: "10:00:00",
+            endTime: "11:00:00",
+            sheriffsRequired: 2
+        }
 
-        it('import defaults should create duties with correct start and end times', async () => {
+        function assertImportedDuties(created: Duty[], assignment: Assignment) {
+            created.forEach(createdDuty => {
+                expect(createdDuty.id).toBeDefined();
+
+                const dutyRecurrence = assignment.dutyRecurrences.find(r => r.id === createdDuty.dutyRecurrenceId);
+                expect(dutyRecurrence).toBeDefined();
+                expect(createdDuty.assignmentId).toEqual(assignment.id);
+
+                expect(Array.isArray(createdDuty.sheriffDuties)).toBeTruthy();
+                expect(createdDuty.sheriffDuties.length).toEqual(dutyRecurrence.sheriffsRequired);
+
+                createdDuty.sheriffDuties.forEach(sd => {
+                    expect(sd.id).toBeDefined();
+                    expect(sd.dutyId).toEqual(createdDuty.id);
+                });
+
+                // Check times of all objects 
+                [createdDuty.startDateTime, ...createdDuty.sheriffDuties.map(sd => sd.startDateTime)]
+                    .map(sdt => moment(sdt).format("HH:mm:ss"))
+                    .forEach(sdt => expect(sdt).toEqual(dutyRecurrence.startTime));
+
+                [createdDuty.endDateTime, ...createdDuty.sheriffDuties.map(sd => sd.endDateTime)]
+                    .map(sdt => moment(sdt).format("HH:mm:ss"))
+                    .forEach(sdt => expect(sdt).toEqual(dutyRecurrence.endTime));
+            })
+
+        }
+
+        it('import defaults should create duties with correct details', async () => {
             const recurrences: DutyRecurrence[] = [
                 {
-                    daysBitmap: 1 << moment().isoWeekday() - 1,
-                    startTime: "10:00:00",
-                    endTime: "11:00:00",
-                    sheriffsRequired: 2
+                    ...recurrenceToCreate
                 }
             ];
             const assignment = await TestUtils.newTestAssignment(testCourthouse.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
 
             const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId });
+            expect(Array.isArray(duties)).toBeTruthy();
+            expect(duties.length).toEqual(assignment.dutyRecurrences.length);
+            assertImportedDuties(duties, assignment);
+        });
 
+
+        it('import defaults should create duties/sheriff Duties for each recurrence', async () => {
+            const recurrences: DutyRecurrence[] = [
+                {
+                    ...recurrenceToCreate
+                },
+                {
+                    ...recurrenceToCreate,
+                    startTime: "13:00:00",
+                    endTime: "15:30:00",
+                    sheriffsRequired: 3
+                }
+            ];
+
+            const assignment = await TestUtils.newTestAssignment(testCourthouse.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
+
+            const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId });
+            expect(Array.isArray(duties)).toBeTruthy();
+            expect(duties.length).toEqual(assignment.dutyRecurrences.length);
+            assertImportedDuties(duties, assignment);
+        });
+
+        it('import defaults should not recreate duties for already duty recurrences that have already been processed', async () => {
+            const recurrences: DutyRecurrence[] = [
+                {
+                    ...recurrenceToCreate
+                },
+                {
+                    ...recurrenceToCreate,
+                    startTime: "13:00:00",
+                    endTime: "15:30:00",
+                    sheriffsRequired: 3
+                }
+            ];
+
+            const assignment = await TestUtils.newTestAssignment(testCourthouse.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
+            const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId });
+            const secondImport = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId });
+            expect(Array.isArray(secondImport)).toBeTruthy();
+            expect(secondImport.length).toEqual(0);
+        });
+
+        it('import defaults should only create duties for day passed in', async () => {
+            const recurrences: DutyRecurrence[] = [
+                {
+                    ...recurrenceToCreate
+                },
+                {
+                    ...recurrenceToCreate,
+                    daysBitmap: 1 << (moment().isoWeekday() % 6),  // use the next days bitmap
+                    startTime: "13:00:00",
+                    endTime: "15:30:00",
+                    sheriffsRequired: 3
+                }
+            ];
+
+            const assignment = await TestUtils.newTestAssignment(testCourthouse.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
+            const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId });
+            expect(Array.isArray(duties)).toBeTruthy();
+            expect(duties.length).toEqual(1);
+            assertImportedDuties(duties,assignment);
 
         });
 

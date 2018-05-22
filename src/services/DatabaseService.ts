@@ -50,7 +50,7 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
             } else {
                 result = (await this.db.executeQuery(query) as DatabaseResult<T>);
             }
-            return result.rows;
+            return result.rows || [];
         } catch (error) {
             const errorMessage = `${error!.message}\r\n${error!.detail}`;
             console.log('Database Error:', errorMessage);
