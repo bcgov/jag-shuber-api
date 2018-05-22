@@ -201,5 +201,23 @@ describe('Shift API', () => {
             expect(updatedShifts.every(s => s.sheriffId === createdSheriff.id)).toBeTruthy(); 
 
         });
+
+        it('should update the start and end time for each shift', async () => {
+            const testShiftIds = testShifts.map(s => s.id);
+            const newStartTime = moment().startOf('day').add(8, 'hours');
+            const newEndTime = moment().startOf('day').add(17, 'hours').add(15, 'minutes');
+            const updates: MultipleShiftUpdateRequest = {
+                shiftIds: testShiftIds,
+                startTime: newStartTime.toISOString(),
+                endTime: newEndTime.toISOString()
+            }
+            const updatedShifts = await api.UpdateMultipleShifts(updates);
+            const courthouseShifts = await api.GetShifts(testCourthouse.id);
+            const retrieved = courthouseShifts.filter(s => testShiftIds.includes(s.id));
+            
+            expect(updatedShifts).toEqual(expect.arrayContaining(retrieved));
+            updatedShifts.map(s => moment(s.endDateTime).format('HH:mm')).forEach(endTime => expect(endTime).toEqual(newEndTime.format('HH:mm')));            
+            updatedShifts.map(s => moment(s.startDateTime).format('HH:mm')).forEach(startTime => expect(startTime).toEqual(newStartTime.format('HH:mm')));            
+        });
     })
 }) 
