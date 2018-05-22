@@ -116,7 +116,7 @@ describe('Shift API', () => {
         });
     });
 
-    describe.only('Edit Multiple Shifts', () => {
+    describe('Edit Multiple Shifts', () => {
         let testShifts: Shift[] = [];
         let createdSheriff: Sheriff = {}; 
         beforeAll(async (done) => {

@@ -921,6 +921,88 @@ class Client {
             }
         });
     }
+    GetSheriffDuties() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield this.agent.get(`/SheriffDuty`);
+                return response.body;
+            }
+            catch (error) {
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
+                }
+                else {
+                    throw error;
+                }
+            }
+        });
+    }
+    CreateSheriffDuty(model) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield this.agent.post(`/SheriffDuty`)
+                    .send(model);
+                return response.body;
+            }
+            catch (error) {
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
+                }
+                else {
+                    throw error;
+                }
+            }
+        });
+    }
+    GetSheriffDutyById(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield this.agent.get(`/SheriffDuty/${id}`);
+                return response.body;
+            }
+            catch (error) {
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
+                }
+                else {
+                    throw error;
+                }
+            }
+        });
+    }
+    UpdateSheriffDuty(id, model) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield this.agent.put(`/SheriffDuty/${id}`)
+                    .send(model);
+                return response.body;
+            }
+            catch (error) {
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
+                }
+                else {
+                    throw error;
+                }
+            }
+        });
+    }
+    DeleteSheriffDuty(id) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield this.agent.delete(`/SheriffDuty/${id}`);
+                return response.body;
+            }
+            catch (error) {
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
+                }
+                else {
+                    throw error;
+                }
+            }
+        });
+    }
 }
 exports.default = Client;
 //# sourceMappingURL=/Users/holly.mcquay/Documents/Projects/jag-shuber-api/dist/client/Client.js.map

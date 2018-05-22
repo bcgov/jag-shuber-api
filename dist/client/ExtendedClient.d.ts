@@ -3,6 +3,7 @@ import moment from 'moment';
 import * as SA from 'superagent';
 import Client from './Client';
 import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift } from './models';
+import { DutyImportDefaultsRequest } from '../models/DutyImportDefaultsRequest';
 export declare type DateType = string | moment.Moment | number;
 export interface ValidationError {
     response: {
@@ -41,5 +42,6 @@ export default class ExtendedClient extends Client {
     GetDutyRecurrenceById(id: string): Promise<DutyRecurrence>;
     GetDutyRecurrences(startDate?: DateType, endDate?: DateType): Promise<DutyRecurrence[]>;
     GetDutyById(id: string): Promise<Duty>;
-    ImportDefaultDuties(courthouseId: string, date?: string): Promise<any>;
+    GetSheriffDutyById(id: string): Promise<Duty>;
+    ImportDefaultDuties(request: DutyImportDefaultsRequest): Promise<Duty[]>;
 }

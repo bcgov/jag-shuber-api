@@ -143,10 +143,17 @@ class ExtendedClient extends Client_1.default {
             return yield this.nullOn404(() => _super("GetDutyById").call(this, id));
         });
     }
-    ImportDefaultDuties(courthouseId, date = "") {
+    GetSheriffDutyById(id) {
         const _super = name => super[name];
         return __awaiter(this, void 0, void 0, function* () {
-            return yield _super("ImportDefaultDuties").call(this, courthouseId, date);
+            return yield this.nullOn404(() => _super("GetSheriffDutyById").call(this, id));
+        });
+    }
+    ImportDefaultDuties(request) {
+        const _super = name => super[name];
+        return __awaiter(this, void 0, void 0, function* () {
+            const { courthouseId, date = moment_1.default().toISOString() } = request;
+            return yield _super("ImportDefaultDuties").call(this, { courthouseId, date });
         });
     }
 }

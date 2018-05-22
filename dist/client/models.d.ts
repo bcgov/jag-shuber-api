@@ -85,6 +85,13 @@ export interface MultipleShiftUpdateRequest {
     endTime?: string;
     workSectionId?: string;
 }
+export interface SheriffDuty {
+    id?: string;
+    sheriffId?: string;
+    dutyId?: string;
+    startDateTime?: string;
+    endDateTime?: string;
+}
 export interface Duty {
     id?: string;
     startDateTime?: string;
@@ -92,4 +99,9 @@ export interface Duty {
     assignmentId?: string;
     sheriffsRequired?: number;
     dutyRecurrenceId?: string;
+    sheriffDuties?: Array<SheriffDuty>;
+}
+export interface DutyImportDefaultsRequest {
+    courthouseId?: string;
+    date?: string;
 }
