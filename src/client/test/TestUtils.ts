@@ -16,8 +16,8 @@ export default class TestUtils {
         'assignment',
         'courtroom',
         'run',
-        'sheriff',
         'shift',
+        'sheriff',
         'courthouse',
         'region'
     ]

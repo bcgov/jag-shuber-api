@@ -81,6 +81,13 @@
         startDateTime? : string
         endDateTime? : string
     }
+    export interface MultipleShiftUpdateRequest  {
+        shiftIds? : Array<string>
+        sheriffId? : string
+        startTime? : string
+        endTime? : string
+        workSectionId? : string
+    }
     export interface Duty  {
         id? : string
         startDateTime? : string

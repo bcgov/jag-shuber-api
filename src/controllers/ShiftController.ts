@@ -2,6 +2,7 @@ import { Body, Delete, Get, Path, Post, Put, Query, Route } from 'tsoa';
 import { Shift } from '../models/Shift';
 import { ShiftService } from '../services/ShiftService';
 import ControllerBase from './ControllerBase';
+import { MultipleShiftUpdateRequest } from '../models/MultipleShiftUpdateRequest';
 
 @Route('Shifts')
 export class ShiftController extends ControllerBase<Shift> {
@@ -34,5 +35,10 @@ export class ShiftController extends ControllerBase<Shift> {
     @Delete('{id}')
     public deleteShift(@Path() id:string){
         return super.delete(id);
+    }
+
+    @Post('multiple')
+    public updateMultipleShifts(@Body() model: MultipleShiftUpdateRequest) {
+        return this.service.updateMultipleShifts(model);
     }
 }

@@ -118,6 +118,15 @@ const models: TsoaRoute.Models = {
             "endDateTime": { "dataType": "string", "required": true },
         },
     },
+    "MultipleShiftUpdateRequest": {
+        "properties": {
+            "shiftIds": { "dataType": "array", "array": { "dataType": "string" }, "required": true },
+            "sheriffId": { "dataType": "string" },
+            "startTime": { "dataType": "string" },
+            "endTime": { "dataType": "string" },
+            "workSectionId": { "dataType": "string" },
+        },
+    },
     "Duty": {
         "properties": {
             "id": { "dataType": "string" },
@@ -932,6 +941,26 @@ export function RegisterRoutes(router: any) {
             const controller = new ShiftController();
 
             const promise = controller.deleteShift.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.post('/v1/Shifts/multiple',
+        async (context, next) => {
+            const args = {
+                model: { "in": "body", "name": "model", "required": true, "ref": "MultipleShiftUpdateRequest" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new ShiftController();
+
+            const promise = controller.updateMultipleShifts.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/DutyRecurrences',

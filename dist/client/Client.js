@@ -702,6 +702,23 @@ class Client {
             }
         });
     }
+    UpdateMultipleShifts(model) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const response = yield this.agent.post(`/Shifts/multiple`)
+                    .send(model);
+                return response.body;
+            }
+            catch (error) {
+                if (this.errorProcessor) {
+                    throw this.errorProcessor(error);
+                }
+                else {
+                    throw error;
+                }
+            }
+        });
+    }
     GetDutyRecurrences(startDate, endDate) {
         return __awaiter(this, void 0, void 0, function* () {
             const params = {
@@ -910,4 +927,4 @@ class Client {
     }
 }
 exports.default = Client;
-//# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/client/Client.js.map
+//# sourceMappingURL=/Users/holly.mcquay/Documents/Projects/jag-shuber-api/dist/client/Client.js.map
