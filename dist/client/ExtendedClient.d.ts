@@ -41,5 +41,5 @@ export default class ExtendedClient extends Client {
     GetDutyRecurrenceById(id: string): Promise<DutyRecurrence>;
     GetDutyRecurrences(startDate?: DateType, endDate?: DateType): Promise<DutyRecurrence[]>;
     GetDutyById(id: string): Promise<Duty>;
-    ImportDefaultDuties(courthouseId: string, date?: string): Promise<Duty[]>;
+    ImportDefaultDuties(courthouseId: string, date?: string): Promise<any>;
 }

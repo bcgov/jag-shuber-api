@@ -4,6 +4,7 @@ import superagentAbsolute from 'superagent-absolute';
 import superagentUse from 'superagent-use';
 import Client from './Client';
 import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift } from './models';
+import { DutyImportDefaultsRequest } from '../models/DutyImportDefaultsRequest';
 
 export type DateType = string | moment.Moment | number;
 
@@ -157,7 +158,17 @@ export default class ExtendedClient extends Client {
         );
     }
 
-    async ImportDefaultDuties(courthouseId:string,date:string=""){
-        return await super.ImportDefaultDuties(courthouseId,date);
+    async GetSheriffDutyById(id: string): Promise<Duty> {
+        return await this.nullOn404(
+            () => super.GetSheriffDutyById(id)
+        );
+    }
+
+    async ImportDefaultDuties(request: DutyImportDefaultsRequest) {
+        const {
+            courthouseId,
+            date = moment().toISOString()
+        } = request;
+        return await super.ImportDefaultDuties({ courthouseId, date });
     }
 }

@@ -11,3 +11,4 @@ export { RunController } from './RunController';
 export { ShiftController } from './ShiftController';
 export { DutyRecurrenceController } from './DutyRecurrenceController';
 export { DutyController } from './DutyController';
+export {SheriffDutyController} from './SheriffDutyController'

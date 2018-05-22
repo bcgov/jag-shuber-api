@@ -904,15 +904,11 @@ class Client {
             }
         });
     }
-    ImportDefaultDuties(courthouseId, date) {
+    ImportDefaultDuties(body) {
         return __awaiter(this, void 0, void 0, function* () {
-            const params = {
-                "courthouseId": courthouseId,
-                "date": date
-            };
             try {
                 const response = yield this.agent.post(`/Duty/import`)
-                    .query(params);
+                    .send(body);
                 return response.body;
             }
             catch (error) {

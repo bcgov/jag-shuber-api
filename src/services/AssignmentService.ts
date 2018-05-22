@@ -218,7 +218,7 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
     async delete(id: string): Promise<void> {
         const delAssignmentQuery = this.getDeleteQuery(id);
         await this.db.transaction(async (client) => {
-            const delRecurrenceQuery = this.dutyRecurrenceService.squel.delete()
+            const delRecurrenceQuery = this.squel.delete()
                 .from(this.dutyRecurrenceService.dbTableName)
                 .where(`assignment_id='${id}'`);
             await client.query(delRecurrenceQuery.toString());

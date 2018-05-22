@@ -2,7 +2,7 @@
 // Type generated from Swagger definition
 
 import * as superAgent from "superagent";
-import { Assignment,Region,Courthouse,Sheriff,Courtroom,JailRoleCode,OtherAssignCode,WorkSectionCode,SheriffRankCode,Run,Shift,MultipleShiftUpdateRequest,DutyRecurrence,Duty } from "./models"
+import { Assignment,Region,Courthouse,Sheriff,Courtroom,JailRoleCode,OtherAssignCode,WorkSectionCode,SheriffRankCode,Run,Shift,MultipleShiftUpdateRequest,DutyRecurrence,Duty,DutyImportDefaultsRequest,SheriffDuty } from "./models"
 
 
 export default class Client {
@@ -623,10 +623,10 @@ export default class Client {
             }
         }
     }    
-    public async GetDuties():Promise<Array<Duty>>{
+    public async GetDuties():Promise<Array<any>>{
         try{
             const response = await this.agent.get(`/Duty`)
-            return response.body as Array<Duty>;
+            return response.body as Array<any>;
         }catch(error){
             if(this.errorProcessor){
                 throw this.errorProcessor(error);
@@ -685,15 +685,73 @@ export default class Client {
             }
         }
     }    
-    public async ImportDefaultDuties( courthouseId:string , date:string ):Promise<Array<Duty>>{
-        const params = { 
-            "courthouseId":courthouseId,
-            "date":date 
-        };
+    public async ImportDefaultDuties( body:DutyImportDefaultsRequest ):Promise<Array<Duty>>{
         try{
             const response = await this.agent.post(`/Duty/import`)
-                .query(params)
+                .send(body)
             return response.body as Array<Duty>;
+        }catch(error){
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
+            }else{
+                throw error;
+            }
+        }
+    }    
+    public async GetSheriffDuties():Promise<Array<SheriffDuty>>{
+        try{
+            const response = await this.agent.get(`/SheriffDuty`)
+            return response.body as Array<SheriffDuty>;
+        }catch(error){
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
+            }else{
+                throw error;
+            }
+        }
+    }    
+    public async CreateSheriffDuty( model:SheriffDuty ):Promise<SheriffDuty>{
+        try{
+            const response = await this.agent.post(`/SheriffDuty`)
+                .send(model)
+            return response.body as SheriffDuty;
+        }catch(error){
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
+            }else{
+                throw error;
+            }
+        }
+    }    
+    public async GetSheriffDutyById( id:string ):Promise<SheriffDuty>{
+        try{
+            const response = await this.agent.get(`/SheriffDuty/${id}`)
+            return response.body as SheriffDuty;
+        }catch(error){
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
+            }else{
+                throw error;
+            }
+        }
+    }    
+    public async UpdateSheriffDuty( id:string , model:SheriffDuty ):Promise<SheriffDuty>{
+        try{
+            const response = await this.agent.put(`/SheriffDuty/${id}`)
+                .send(model)
+            return response.body as SheriffDuty;
+        }catch(error){
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
+            }else{
+                throw error;
+            }
+        }
+    }    
+    public async DeleteSheriffDuty( id:string ):Promise<void>{
+        try{
+            const response = await this.agent.delete(`/SheriffDuty/${id}`)
+            return response.body as void;
         }catch(error){
             if(this.errorProcessor){
                 throw this.errorProcessor(error);

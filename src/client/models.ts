@@ -88,6 +88,13 @@
         endTime? : string
         workSectionId? : string
     }
+    export interface SheriffDuty  {
+        id? : string
+        sheriffId? : string
+        dutyId? : string
+        startDateTime? : string
+        endDateTime? : string
+    }
     export interface Duty  {
         id? : string
         startDateTime? : string
@@ -95,4 +102,9 @@
         assignmentId? : string
         sheriffsRequired? : number
         dutyRecurrenceId? : string
+        sheriffDuties? : Array<SheriffDuty>
+    }
+    export interface DutyImportDefaultsRequest  {
+        courthouseId? : string
+        date? : string
     }

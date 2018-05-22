@@ -59,5 +59,5 @@ export default class Client {
     GetDutyById(id: string): Promise<Duty>;
     UpdateDuty(id: string, model: Duty): Promise<Duty>;
     DeleteDuty(id: string): Promise<void>;
-    ImportDefaultDuties(courthouseId: string, date: string): Promise<Array<Duty>>;
+    ImportDefaultDuties(body: SwaggerInlineType1): Promise<Array<Duty>>;
 }

@@ -13,6 +13,7 @@ import { RunController } from './controllers/RunController';
 import { ShiftController } from './controllers/ShiftController';
 import { DutyRecurrenceController } from './controllers/DutyRecurrenceController';
 import { DutyController } from './controllers/DutyController';
+import { SheriffDutyController } from './controllers/SheriffDutyController';
 
 const models: TsoaRoute.Models = {
     "DutyRecurrence": {
@@ -127,6 +128,15 @@ const models: TsoaRoute.Models = {
             "workSectionId": { "dataType": "string" },
         },
     },
+    "SheriffDuty": {
+        "properties": {
+            "id": { "dataType": "string" },
+            "sheriffId": { "dataType": "string" },
+            "dutyId": { "dataType": "string" },
+            "startDateTime": { "dataType": "string", "required": true },
+            "endDateTime": { "dataType": "string", "required": true },
+        },
+    },
     "Duty": {
         "properties": {
             "id": { "dataType": "string" },
@@ -135,6 +145,13 @@ const models: TsoaRoute.Models = {
             "assignmentId": { "dataType": "string", "required": true },
             "sheriffsRequired": { "dataType": "double" },
             "dutyRecurrenceId": { "dataType": "string" },
+            "sheriffDuties": { "dataType": "array", "array": { "ref": "SheriffDuty" } },
+        },
+    },
+    "DutyImportDefaultsRequest": {
+        "properties": {
+            "courthouseId": { "dataType": "string", "required": true },
+            "date": { "dataType": "string" },
         },
     },
 };
@@ -1188,8 +1205,7 @@ export function RegisterRoutes(router: any) {
     router.post('/v1/Duty/import',
         async (context, next) => {
             const args = {
-                courthouseId: { "in": "query", "name": "courthouseId", "required": true, "dataType": "string" },
-                date: { "in": "query", "name": "date", "dataType": "string" },
+                body: { "in": "body", "name": "body", "required": true, "ref": "DutyImportDefaultsRequest" },
             };
 
             let validatedArgs: any[] = [];
@@ -1204,6 +1220,106 @@ export function RegisterRoutes(router: any) {
             const controller = new DutyController();
 
             const promise = controller.importDefaultDuties.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/SheriffDuty',
+        async (context, next) => {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new SheriffDutyController();
+
+            const promise = controller.getSheriffDuties.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/SheriffDuty/:id',
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new SheriffDutyController();
+
+            const promise = controller.getSheriffDutyById.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.post('/v1/SheriffDuty',
+        async (context, next) => {
+            const args = {
+                model: { "in": "body", "name": "model", "required": true, "ref": "SheriffDuty" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new SheriffDutyController();
+
+            const promise = controller.createSheriffDuty.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.put('/v1/SheriffDuty/:id',
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+                model: { "in": "body", "name": "model", "required": true, "ref": "SheriffDuty" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new SheriffDutyController();
+
+            const promise = controller.updateSheriffDuty.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.delete('/v1/SheriffDuty/:id',
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new SheriffDutyController();
+
+            const promise = controller.deleteSheriffDuty.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
 

@@ -24,8 +24,15 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
         return this.db.squel;
     }
 
-    get dbTableName():string{
+    get dbTableName(): string {
         return this.tableName;
+    }
+
+    getAliasedFieldMap(alias: string) {
+        return Object.keys(this.fieldMap).reduce((newFields, key) => {
+            newFields[`${alias}.${key}`] = this.fieldMap[key];
+            return newFields;
+        }, {});
     }
 
     constructor(protected tableName: string, protected primaryKey: string, protected isExpirable: boolean = false) {
@@ -93,7 +100,7 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
         return query;
     }
 
-    protected getUnsafeDeleteQuery():PostgresDelete{
+    protected getUnsafeDeleteQuery(): PostgresDelete {
         return this.squel.delete()
             .from(this.tableName);
     }

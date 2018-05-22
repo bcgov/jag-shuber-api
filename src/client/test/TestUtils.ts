@@ -2,6 +2,7 @@ import { toMatchShapeOf, toMatchOneOf } from 'jest-to-match-shape-of';
 import db from '../../db/Database';
 import ExtendedClient from '../ExtendedClient';
 import { Courthouse, Courtroom, Assignment, Region } from '../models';
+import { Sheriff } from '../../models/Sheriff';
 
 expect.extend({
     toMatchShapeOf,
@@ -70,7 +71,7 @@ export default class TestUtils {
     static async newTestCourtroom(courthouseId: string): Promise<Courtroom> {
         const api = TestUtils.getClient();
         return await api.CreateCourtroom({
-            name: "TEST COURTHOUSE",
+            name: "TEST COURTROOM",
             courthouseId,
             code: TestUtils.randomString(5)
         });
@@ -92,6 +93,18 @@ export default class TestUtils {
             ...assignmentDetails,
             workSectionId,
             courthouseId
+        });
+    }
+
+
+    static async newTestSheriff(courthouseId: string,sheriff?:Partial<Sheriff>): any {
+        const api = TestUtils.getClient();
+        return await api.CreateSheriff({
+            badgeNo:TestUtils.randomString(5),
+            firstName:'Bill',
+            lastName:'Nye',
+            rankCode:'DEPUTYSHERIFF',
+            homeCourthouseId:courthouseId
         });
     }
 
