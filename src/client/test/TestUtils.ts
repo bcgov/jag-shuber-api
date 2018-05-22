@@ -97,7 +97,7 @@ export default class TestUtils {
     }
 
 
-    static async newTestSheriff(courthouseId: string,sheriff?:Partial<Sheriff>): any {
+    static async newTestSheriff(courthouseId: string,sheriff?:Partial<Sheriff>): Promise<Sheriff> {
         const api = TestUtils.getClient();
         return await api.CreateSheriff({
             badgeNo:TestUtils.randomString(5),
@@ -105,7 +105,7 @@ export default class TestUtils {
             lastName:'Nye',
             rankCode:'DEPUTYSHERIFF',
             homeCourthouseId:courthouseId
-        });
+        }) as Sheriff;
     }
 
 }
