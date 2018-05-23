@@ -1022,4 +1022,4 @@ class Client {
     }
 }
 exports.default = Client;
-//# sourceMappingURL=/Users/holly.mcquay/Documents/Projects/jag-shuber-api/dist/client/Client.js.map
+//# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/client/Client.js.map

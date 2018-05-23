@@ -3,8 +3,7 @@ import * as SA from 'superagent';
 import superagentAbsolute from 'superagent-absolute';
 import superagentUse from 'superagent-use';
 import Client from './Client';
-import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift } from './models';
-import { DutyImportDefaultsRequest } from '../models/DutyImportDefaultsRequest';
+import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift, DutyImportDefaultsRequest } from './models';
 
 export type DateType = string | Date | moment.Moment | number;
 
