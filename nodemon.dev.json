@@ -1,0 +1,15 @@
+{
+    "verbose": false,
+    "exec": "ts-node ./src/index.ts",
+    "watch": [
+        "./src/"
+    ],
+    "ext": "ts,json",
+    "env":{
+        "DOTENV_PATH":".env.dev"
+    },
+    "ignore": [
+        "*.spec.ts"
+    ],
+    "delay": 500
+}

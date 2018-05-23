@@ -34,8 +34,25 @@
     	<tagDatabase tag="00_PilotDataDB"/>
     </changeSet>
     
-    <!--
+    <!-- changes for assignment and duty_recurrence active -->
     <include file="shersched.db.changelog-01.xml"/>
-    -->
+    
+    <!-- add shift -->
+    <include file="shersched.db.changelog-02.xml"/>
+    
+    <!-- cleanup indexes, nullables -->
+    <include file="shersched.db.changelog-03.xml"/>
+    
+    <!-- courthouse prod data -->
+    <include file="shersched.db.changelog-courthousedata.prod.xml"/>
+    
+    <!-- courtroom prod data -->
+    <include file="shersched.db.changelog-courtroomdata.prod.xml"/>
+    
+    <!-- run prod data -->
+    <include file="shersched.db.changelog-rundata.prod.xml"/>
+    
+    <!-- sheriff prod data -->
+    <include file="shersched.db.changelog-sheriffdata.prod.xml"/>
     
 </databaseChangeLog>
