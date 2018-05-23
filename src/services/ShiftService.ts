@@ -55,12 +55,14 @@ export class ShiftService extends DatabaseService<Shift> {
     }
 
     async copyShifts(shiftCopyOptions: ShiftCopyOptions): Promise<Shift[]> {
-        const { shouldIncludeSheriffs, startOfWeekDestination, startOfWeekSource } = shiftCopyOptions;
+        const { shouldIncludeSheriffs, startOfWeekDestination, startOfWeekSource, courthouseId } = shiftCopyOptions;
         const startOfWeekSourceUTC = moment(startOfWeekSource).utc().toISOString();
         const endOfWeekSourceUTC = moment(startOfWeekSource).endOf('week').utc().toISOString();
 
         const selectQuery = super.getSelectQuery();
-        selectQuery.where(`DATE(start_dtm) BETWEEN '${startOfWeekSourceUTC}' AND '${endOfWeekSourceUTC}'`);
+        selectQuery
+            .where(`DATE(start_dtm) BETWEEN '${startOfWeekSourceUTC}' AND '${endOfWeekSourceUTC}'`)
+            .where('courthouse_id = ?', courthouseId);
         const sourceShifts = await this.executeQuery<Shift>(selectQuery.toString());
         
         const copiedShifts = await this.db.transaction(async client => {

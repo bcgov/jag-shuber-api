@@ -92,6 +92,7 @@
         shouldIncludeSheriffs? : boolean
         startOfWeekSource? : string
         startOfWeekDestination? : string
+        courthouseId? : string
     }
     export interface SheriffDuty  {
         id? : string

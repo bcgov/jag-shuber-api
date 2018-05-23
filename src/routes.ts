@@ -133,6 +133,7 @@ const models: TsoaRoute.Models = {
             "shouldIncludeSheriffs": { "dataType": "boolean", "required": true },
             "startOfWeekSource": { "dataType": "string", "required": true },
             "startOfWeekDestination": { "dataType": "string", "required": true },
+            "courthouseId": { "dataType": "string", "required": true },
         },
     },
     "SheriffDuty": {
