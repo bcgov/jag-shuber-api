@@ -1,6 +1,6 @@
 import moment from 'moment';
 import * as SA from 'superagent';
-import superagentAbsolute from 'superagent-absolute';
+import saPrefix from 'superagent-prefix';
 import superagentUse from 'superagent-use';
 import Client from './Client';
 import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift, DutyImportDefaultsRequest } from './models';
@@ -30,9 +30,8 @@ export default class ExtendedClient extends Client {
 
     constructor(baseUrl: string) {
         super(
-            superagentAbsolute(
-                superagentUse(SA.agent())
-            )(baseUrl)
+            superagentUse(SA.agent())
+                .use(saPrefix(baseUrl))
         );
         (this.agent as any).use((req) => this.interceptRequest(req))
         this.errorProcessor = this.processError;
