@@ -6,7 +6,7 @@ import Client from './Client';
 import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift } from './models';
 import { DutyImportDefaultsRequest } from '../models/DutyImportDefaultsRequest';
 
-export type DateType = string | moment.Moment | number;
+export type DateType = string | Date | moment.Moment | number;
 
 export interface ValidationError {
     response: {

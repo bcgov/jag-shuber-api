@@ -151,7 +151,7 @@ export class DutyService extends DatabaseService<Duty> {
                 )
             );
         const recurrencesToCreate = await this.executeQuery<DutyRecurrence>(query.toString());
-        console.log("RECURRENCES", recurrencesToCreate);
+        
         // For each of the recurrences, create the duty and sheriff Duties
         createdDuties = await Promise.all(recurrencesToCreate.map(async (dr) => {
             const startDateTime = dateMoment.startOf('day').add(moment.duration(dr.startTime)).toISOString();

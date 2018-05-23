@@ -12,17 +12,24 @@ export class SheriffDutyService extends DatabaseService<SheriffDuty> {
         end_dtm: 'endDateTime'        
     };
 
-    async getAllForDuties(dutyIds: string[]): Promise<SheriffDuty[]> {
+    constructor() {
+        super('sheriff_duty', 'sheriff_duty_id');
+    }
+
+    async getAllForDuties(dutyIds: string[]=[]): Promise<SheriffDuty[]> {
+        if(dutyIds.length==0){
+            return [];
+        }
+
         const query = this.getSelectQuery();
         query.where('duty_id IN ?',dutyIds);
         query.order('duty_id');
         return await this.executeQuery<SheriffDuty>(query.toString());
     }
     async getAllForDuty(dutyId: string): Promise<SheriffDuty[]> {
+        if(!dutyId){
+            return []
+        }
         return this.getAllForDuties([dutyId]);
-    }
-
-    constructor() {
-        super('sheriff_duty', 'sheriff_duty_id');
     }
 }
