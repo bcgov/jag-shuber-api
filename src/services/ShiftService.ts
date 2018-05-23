@@ -2,6 +2,7 @@ import moment from 'moment';
 import { Shift } from '../models/Shift';
 import { DatabaseService } from './DatabaseService';
 import { MultipleShiftUpdateRequest } from '../models/MultipleShiftUpdateRequest';
+import { ShiftCopyOptions } from '../models/ShiftCopyOptions';
 
 
 export class ShiftService extends DatabaseService<Shift> {
@@ -33,7 +34,7 @@ export class ShiftService extends DatabaseService<Shift> {
             .table(this.dbTableName)
             .where('shift_id IN ?', shiftIds)
             .returning(this.getReturningFields());
-        
+
         if (workSectionId) {
             query.set('work_section_code', workSectionId);
         }
@@ -42,14 +43,42 @@ export class ShiftService extends DatabaseService<Shift> {
         }
         if (startTime) {
             const startTimeMoment = moment(startTime).utc();
-            query.set('start_dtm', 
+            query.set('start_dtm',
                 this.squel.str(`DATE(start_dtm)+interval '${startTimeMoment.hours()} hours ${startTimeMoment.minutes()} minutes'`));
         }
         if (endTime) {
             const endTimeMoment = moment(endTime).utc();
-            query.set('end_dtm', 
+            query.set('end_dtm',
                 this.squel.str(`DATE(start_dtm)+interval '${endTimeMoment.hours()} hours ${endTimeMoment.minutes()} minutes'`));
         }
         return await this.executeQuery<Shift>(query.toString());
+    }
+
+    async copyShifts(shiftCopyOptions: ShiftCopyOptions): Promise<Shift[]> {
+        const { shouldIncludeSheriffs, startOfWeekDestination, startOfWeekSource } = shiftCopyOptions;
+        const startOfWeekSourceUTC = moment(startOfWeekSource).utc().toISOString();
+        const endOfWeekSourceUTC = moment(startOfWeekSource).endOf('week').utc().toISOString();
+
+        const selectQuery = super.getSelectQuery();
+        selectQuery.where(`DATE(start_dtm) BETWEEN '${startOfWeekSourceUTC}' AND '${endOfWeekSourceUTC}'`);
+        const sourceShifts = await this.executeQuery<Shift>(selectQuery.toString());
+        
+        const copiedShifts = await this.db.transaction(async client => {
+            const shiftService = new ShiftService();
+            shiftService.dbClient = client;
+            const newShifts = await Promise.all(
+                sourceShifts.map<Shift>(s => {
+                    const { id, startDateTime, endDateTime, sheriffId, ...rest } = s;
+                    return {
+                        startDateTime: moment(startDateTime).week(moment(startOfWeekDestination).week()).toISOString(),
+                        endDateTime: moment(endDateTime).week(moment(startOfWeekDestination).week()).toISOString(),
+                        sheriffId: shouldIncludeSheriffs ? sheriffId : undefined,
+                        ...rest
+                    }
+                }).map(newShift => shiftService.create(newShift))
+            );
+            return newShifts;
+        })
+        return copiedShifts;
     }
 }

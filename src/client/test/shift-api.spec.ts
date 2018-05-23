@@ -1,5 +1,12 @@
 import ApiClient from '../ExtendedClient';
-import { Courthouse, Region, Shift, MultipleShiftUpdateRequest, Sheriff } from '../models';
+import { 
+    Courthouse, 
+    Region, 
+    Shift, 
+    MultipleShiftUpdateRequest, 
+    Sheriff, 
+    ShiftCopyOptions 
+} from '../models';
 import TestUtils from './TestUtils';
 import moment from 'moment';
 
@@ -220,4 +227,74 @@ describe('Shift API', () => {
             updatedShifts.map(s => moment(s.startDateTime).format('HH:mm')).forEach(startTime => expect(startTime).toEqual(newStartTime.format('HH:mm')));            
         });
     })
-}) 
+
+    describe('Copy Shifts', () => {
+        let testShifts: Shift[] = [];
+        let createdSheriff: Sheriff = {};
+        const startOfWeekSourceMoment = moment().startOf('week').add(1, 'week'); //May 27
+        beforeAll(async (done) => {
+            createdSheriff = await TestUtils.newTestSheriff(testCourthouse.id);
+            
+            const workSectionIds = ['COURTS', 'JAIL', 'ESCORTS', 'OTHER'];
+            testShifts = await Promise.all(workSectionIds.map((id, index) => 
+                api.CreateShift({
+                    courthouseId: testCourthouse.id,
+                    startDateTime: moment(startOfWeekSourceMoment).add(index+1, 'day').add(8, 'hour').toISOString(),
+                    endDateTime: moment(startOfWeekSourceMoment).add(index+1, 'day').add(16, 'hour').toISOString(),
+                    workSectionId: id,
+                    sheriffId: createdSheriff.id
+                })));
+
+            done();
+        });
+
+        function assertCopiedShifts(copiedShifts: Shift[], copyOptions: ShiftCopyOptions) {
+            const {startOfWeekDestination, startOfWeekSource, shouldIncludeSheriffs} = copyOptions
+            
+            expect(copiedShifts).toHaveLength(testShifts.length);
+            
+            expect(copiedShifts.every(s => shouldIncludeSheriffs ? s.sheriffId != undefined : s.sheriffId == undefined)).toBeTruthy();
+            
+            copiedShifts.forEach(copiedShift => {
+                expect(copiedShift.workSectionId).toBeDefined();
+                const sourceShift = testShifts.find(ts => ts.workSectionId === copiedShift.workSectionId);
+                expect(moment(copiedShift.startDateTime).isSame(moment(startOfWeekDestination), 'week')).toBeTruthy();
+                expect(moment(copiedShift.endDateTime).isSame(moment(startOfWeekDestination), 'week')).toBeTruthy();
+                expect(moment(copiedShift.startDateTime).format('d HH:mm')).toEqual((moment(sourceShift.startDateTime).format('d HH:mm')));
+                expect(moment(copiedShift.endDateTime).format('d HH:mm')).toEqual((moment(sourceShift.endDateTime).format('d HH:mm')));
+            })
+        }
+
+        it('should create a new shift in the destination week for each shift in the source week without sheriffs', async () => {
+            const testShiftIds = testShifts.map(s => s.id);
+           
+            const copyOptions: ShiftCopyOptions = {
+                shouldIncludeSheriffs: false, 
+                startOfWeekSource: startOfWeekSourceMoment.toISOString(),
+                startOfWeekDestination: moment(startOfWeekSourceMoment).add(1, 'week').toISOString()
+            }
+            const initialCourthouseShifts =  await api.GetShifts(testCourthouse.id);
+            const initialRetreivedCourthouseShifts = initialCourthouseShifts.filter(s => testShiftIds.includes(s.id));
+            
+            const copiedShifts = await api.CopyShifts(copyOptions);
+            
+            assertCopiedShifts(copiedShifts, copyOptions);
+        }); 
+
+        it('should create a new shift in the destination week for each shift in the source week with sheriffs', async () => {
+            const testShiftIds = testShifts.map(s => s.id);
+           
+            const copyOptions: ShiftCopyOptions = {
+                shouldIncludeSheriffs: true, 
+                startOfWeekSource: startOfWeekSourceMoment.toISOString(),
+                startOfWeekDestination: moment(startOfWeekSourceMoment).add(1, 'week').toISOString()
+            }
+            const initialCourthouseShifts =  await api.GetShifts(testCourthouse.id);
+            const initialRetreivedCourthouseShifts = initialCourthouseShifts.filter(s => testShiftIds.includes(s.id));
+            
+            const copiedShifts = await api.CopyShifts(copyOptions);
+            
+            assertCopiedShifts(copiedShifts, copyOptions);
+        });
+    });
+});

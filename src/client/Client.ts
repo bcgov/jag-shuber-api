@@ -2,7 +2,7 @@
 // Type generated from Swagger definition
 
 import * as superAgent from "superagent";
-import { Assignment,Region,Courthouse,Sheriff,Courtroom,JailRoleCode,OtherAssignCode,WorkSectionCode,SheriffRankCode,Run,Shift,MultipleShiftUpdateRequest,DutyRecurrence,Duty,DutyImportDefaultsRequest,SheriffDuty } from "./models"
+import { Assignment,Region,Courthouse,Sheriff,Courtroom,JailRoleCode,OtherAssignCode,WorkSectionCode,SheriffRankCode,Run,Shift,MultipleShiftUpdateRequest,ShiftCopyOptions,DutyRecurrence,Duty,DutyImportDefaultsRequest,SheriffDuty } from "./models"
 
 
 export default class Client {
@@ -534,6 +534,19 @@ export default class Client {
     public async UpdateMultipleShifts( model:MultipleShiftUpdateRequest ):Promise<Array<Shift>>{
         try{
             const response = await this.agent.post(`/Shifts/multiple`)
+                .send(model)
+            return response.body as Array<Shift>;
+        }catch(error){
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
+            }else{
+                throw error;
+            }
+        }
+    }    
+    public async CopyShifts( model:ShiftCopyOptions ):Promise<Array<Shift>>{
+        try{
+            const response = await this.agent.post(`/Shifts/copy`)
                 .send(model)
             return response.body as Array<Shift>;
         }catch(error){

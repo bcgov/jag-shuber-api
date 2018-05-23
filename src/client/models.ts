@@ -88,6 +88,11 @@
         endTime? : string
         workSectionId? : string
     }
+    export interface ShiftCopyOptions  {
+        shouldIncludeSheriffs? : boolean
+        startOfWeekSource? : string
+        startOfWeekDestination? : string
+    }
     export interface SheriffDuty  {
         id? : string
         sheriffId? : string

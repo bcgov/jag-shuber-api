@@ -3,6 +3,7 @@ import { Shift } from '../models/Shift';
 import { ShiftService } from '../services/ShiftService';
 import ControllerBase from './ControllerBase';
 import { MultipleShiftUpdateRequest } from '../models/MultipleShiftUpdateRequest';
+import { ShiftCopyOptions } from '../models/ShiftCopyOptions';
 
 @Route('Shifts')
 export class ShiftController extends ControllerBase<Shift> {
@@ -40,5 +41,10 @@ export class ShiftController extends ControllerBase<Shift> {
     @Post('multiple')
     public updateMultipleShifts(@Body() model: MultipleShiftUpdateRequest) {
         return this.service.updateMultipleShifts(model);
+    }
+
+    @Post('copy')
+    public copyShifts(@Body() model: ShiftCopyOptions) {
+        return this.service.copyShifts(model);
     }
 }

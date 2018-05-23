@@ -128,6 +128,13 @@ const models: TsoaRoute.Models = {
             "workSectionId": { "dataType": "string" },
         },
     },
+    "ShiftCopyOptions": {
+        "properties": {
+            "shouldIncludeSheriffs": { "dataType": "boolean", "required": true },
+            "startOfWeekSource": { "dataType": "string", "required": true },
+            "startOfWeekDestination": { "dataType": "string", "required": true },
+        },
+    },
     "SheriffDuty": {
         "properties": {
             "id": { "dataType": "string" },
@@ -978,6 +985,26 @@ export function RegisterRoutes(router: any) {
             const controller = new ShiftController();
 
             const promise = controller.updateMultipleShifts.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.post('/v1/Shifts/copy',
+        async (context, next) => {
+            const args = {
+                model: { "in": "body", "name": "model", "required": true, "ref": "ShiftCopyOptions" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new ShiftController();
+
+            const promise = controller.copyShifts.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/DutyRecurrences',
