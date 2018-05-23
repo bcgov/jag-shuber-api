@@ -57,13 +57,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var moment_1 = __importDefault(require("moment"));
 var SA = __importStar(require("superagent"));
-var superagent_absolute_1 = __importDefault(require("superagent-absolute"));
+var superagent_prefix_1 = __importDefault(require("superagent-prefix"));
 var superagent_use_1 = __importDefault(require("superagent-use"));
 var Client_1 = __importDefault(require("./Client"));
 var ExtendedClient = /** @class */ (function (_super) {
     __extends(ExtendedClient, _super);
     function ExtendedClient(baseUrl) {
-        var _this = _super.call(this, superagent_absolute_1.default(superagent_use_1.default(SA.agent()))(baseUrl)) || this;
+        var _this = _super.call(this, superagent_use_1.default(SA.agent())
+            .use(superagent_prefix_1.default(baseUrl))) || this;
         _this.agent.use(function (req) { return _this.interceptRequest(req); });
         _this.errorProcessor = _this.processError;
         return _this;

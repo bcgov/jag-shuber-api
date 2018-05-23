@@ -4593,9 +4593,9 @@ success-symbol@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/success-symbol/-/success-symbol-0.1.0.tgz#24022e486f3bf1cdca094283b769c472d3b72897"
 
-superagent-absolute@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/superagent-absolute/-/superagent-absolute-1.0.1.tgz#781c76c54939d9a3371ff0f76f650a3be2eef5e5"
+superagent-prefix@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/superagent-prefix/-/superagent-prefix-0.0.2.tgz#b15bbb1353f889b00d25af10b4f11b350d203b06"
 
 superagent-use@^0.1.0:
   version "0.1.0"
