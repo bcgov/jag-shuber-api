@@ -1,4 +1,14 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = Object.setPrototypeOf ||
+        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -6,6 +16,33 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
 };
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -18,144 +55,220 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const moment_1 = __importDefault(require("moment"));
-const SA = __importStar(require("superagent"));
-const superagent_absolute_1 = __importDefault(require("superagent-absolute"));
-const superagent_use_1 = __importDefault(require("superagent-use"));
-const Client_1 = __importDefault(require("./Client"));
-class ExtendedClient extends Client_1.default {
-    constructor(baseUrl) {
-        super(superagent_absolute_1.default(superagent_use_1.default(SA.agent()))(baseUrl));
-        this.agent.use((req) => this.interceptRequest(req));
-        this.errorProcessor = this.processError;
+var moment_1 = __importDefault(require("moment"));
+var SA = __importStar(require("superagent"));
+var superagent_absolute_1 = __importDefault(require("superagent-absolute"));
+var superagent_use_1 = __importDefault(require("superagent-use"));
+var Client_1 = __importDefault(require("./Client"));
+var ExtendedClient = /** @class */ (function (_super) {
+    __extends(ExtendedClient, _super);
+    function ExtendedClient(baseUrl) {
+        var _this = _super.call(this, superagent_absolute_1.default(superagent_use_1.default(SA.agent()))(baseUrl)) || this;
+        _this.agent.use(function (req) { return _this.interceptRequest(req); });
+        _this.errorProcessor = _this.processError;
+        return _this;
     }
-    interceptRequest(req) {
+    ExtendedClient.prototype.interceptRequest = function (req) {
         return this._requestInterceptor ? this._requestInterceptor(req) : req;
-    }
-    set requestInterceptor(interceptor) {
-        this._requestInterceptor = interceptor;
-    }
-    static isValidationError(err) {
-        const { response: { body: { name = "" } = {} } = {} } = err;
+    };
+    Object.defineProperty(ExtendedClient.prototype, "requestInterceptor", {
+        set: function (interceptor) {
+            this._requestInterceptor = interceptor;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ExtendedClient.isValidationError = function (err) {
+        var _a = err.response, _b = (_a === void 0 ? {} : _a).body, _c = (_b === void 0 ? {} : _b).name, name = _c === void 0 ? "" : _c;
         return name === "ValidateError";
-    }
-    processError(err) {
+    };
+    ExtendedClient.prototype.processError = function (err) {
         if (ExtendedClient.isValidationError(err)) {
-            let message = ["Validation Error"];
-            const fields = err.response.body.fields || {};
-            message.push(...Object.keys(fields).map(k => `${k}: "${fields[k].message}"`));
-            const newMessage = message.join(' | ');
+            var message = ["Validation Error"];
+            var fields_1 = err.response.body.fields || {};
+            message.push.apply(message, Object.keys(fields_1).map(function (k) { return k + ": \"" + fields_1[k].message + "\""; }));
+            var newMessage = message.join(' | ');
             err.message = newMessage;
         }
         else if (err.response.body.message) {
             err.message = err.response.body.message;
         }
         return err;
-    }
-    nullOn404(method) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                return yield method();
-            }
-            catch (err) {
-                if (err.status === 404) {
-                    return undefined;
+    };
+    ExtendedClient.prototype.nullOn404 = function (method) {
+        return __awaiter(this, void 0, void 0, function () {
+            var err_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, method()];
+                    case 1: return [2 /*return*/, _a.sent()];
+                    case 2:
+                        err_1 = _a.sent();
+                        if (err_1.status === 404) {
+                            return [2 /*return*/, undefined];
+                        }
+                        else {
+                            throw err_1;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw err;
+            });
+        });
+    };
+    ExtendedClient.prototype.GetRegionById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.nullOn404(function () { return _super.prototype.GetRegionById.call(_this, id); })];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
-            }
+            });
         });
-    }
-    GetRegionById(id) {
-        const _super = name => super[name];
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield this.nullOn404(() => _super("GetRegionById").call(this, id));
+    };
+    ExtendedClient.prototype.GetCourthouseById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.nullOn404(function () { return _super.prototype.GetCourthouseById.call(_this, id); })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
         });
-    }
-    GetCourthouseById(id) {
-        const _super = name => super[name];
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield this.nullOn404(() => _super("GetCourthouseById").call(this, id));
+    };
+    ExtendedClient.prototype.GetSheriffById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.nullOn404(function () { return _super.prototype.GetSheriffById.call(_this, id); })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
         });
-    }
-    GetSheriffById(id) {
-        const _super = name => super[name];
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield this.nullOn404(() => _super("GetSheriffById").call(this, id));
+    };
+    ExtendedClient.prototype.GetSheriffs = function (courthouseId) {
+        if (courthouseId === void 0) { courthouseId = ""; }
+        return _super.prototype.GetSheriffs.call(this, courthouseId);
+    };
+    ExtendedClient.prototype.GetCourtroomById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.nullOn404(function () { return _super.prototype.GetCourtroomById.call(_this, id); })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
         });
-    }
-    GetSheriffs(courthouseId = "") {
-        return super.GetSheriffs(courthouseId);
-    }
-    GetCourtroomById(id) {
-        const _super = name => super[name];
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield this.nullOn404(() => _super("GetCourtroomById").call(this, id));
+    };
+    ExtendedClient.prototype.GetCourtrooms = function (courthouseId) {
+        if (courthouseId === void 0) { courthouseId = ""; }
+        return _super.prototype.GetCourtrooms.call(this, courthouseId);
+    };
+    ExtendedClient.prototype.GetAssignmentById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.nullOn404(function () { return _super.prototype.GetAssignmentById.call(_this, id); })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
         });
-    }
-    GetCourtrooms(courthouseId = "") {
-        return super.GetCourtrooms(courthouseId);
-    }
-    GetAssignmentById(id) {
-        const _super = name => super[name];
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield this.nullOn404(() => _super("GetAssignmentById").call(this, id));
+    };
+    ExtendedClient.prototype.GetAssignments = function (courthouseId, startDate, endDate) {
+        if (courthouseId === void 0) { courthouseId = ""; }
+        var startMoment = moment_1.default(startDate);
+        var endMoment = endDate ? moment_1.default(endDate) : moment_1.default(startMoment);
+        return _super.prototype.GetAssignments.call(this, courthouseId, startMoment.toISOString(), endMoment.toISOString());
+    };
+    ExtendedClient.prototype.GetRuns = function (courthouseId) {
+        if (courthouseId === void 0) { courthouseId = ""; }
+        return _super.prototype.GetRuns.call(this, courthouseId);
+    };
+    ExtendedClient.prototype.GetRunById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.nullOn404(function () { return _super.prototype.GetRunById.call(_this, id); })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
         });
-    }
-    GetAssignments(courthouseId = "", startDate, endDate) {
-        const startMoment = moment_1.default(startDate);
-        const endMoment = endDate ? moment_1.default(endDate) : moment_1.default(startMoment);
-        return super.GetAssignments(courthouseId, startMoment.toISOString(), endMoment.toISOString());
-    }
-    GetRuns(courthouseId = "") {
-        return super.GetRuns(courthouseId);
-    }
-    GetRunById(id) {
-        const _super = name => super[name];
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield this.nullOn404(() => _super("GetRunById").call(this, id));
+    };
+    ExtendedClient.prototype.GetShifts = function (courthouseId) {
+        if (courthouseId === void 0) { courthouseId = ""; }
+        return _super.prototype.GetShifts.call(this, courthouseId);
+    };
+    ExtendedClient.prototype.GetShiftById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.nullOn404(function () { return _super.prototype.GetShiftById.call(_this, id); })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
         });
-    }
-    GetShifts(courthouseId = "") {
-        return super.GetShifts(courthouseId);
-    }
-    GetShiftById(id) {
-        const _super = name => super[name];
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield this.nullOn404(() => _super("GetShiftById").call(this, id));
+    };
+    ExtendedClient.prototype.GetDutyRecurrenceById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.nullOn404(function () { return _super.prototype.GetDutyRecurrenceById.call(_this, id); })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
         });
-    }
-    GetDutyRecurrenceById(id) {
-        const _super = name => super[name];
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield this.nullOn404(() => _super("GetDutyRecurrenceById").call(this, id));
+    };
+    ExtendedClient.prototype.GetDutyRecurrences = function (startDate, endDate) {
+        var startMoment = moment_1.default(startDate);
+        var endMoment = endDate ? moment_1.default(endDate) : moment_1.default(startMoment);
+        return _super.prototype.GetDutyRecurrences.call(this, startMoment.toISOString(), endMoment.toISOString());
+    };
+    ExtendedClient.prototype.GetDutyById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.nullOn404(function () { return _super.prototype.GetDutyById.call(_this, id); })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
         });
-    }
-    GetDutyRecurrences(startDate, endDate) {
-        const startMoment = moment_1.default(startDate);
-        const endMoment = endDate ? moment_1.default(endDate) : moment_1.default(startMoment);
-        return super.GetDutyRecurrences(startMoment.toISOString(), endMoment.toISOString());
-    }
-    GetDutyById(id) {
-        const _super = name => super[name];
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield this.nullOn404(() => _super("GetDutyById").call(this, id));
+    };
+    ExtendedClient.prototype.GetSheriffDutyById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.nullOn404(function () { return _super.prototype.GetSheriffDutyById.call(_this, id); })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
         });
-    }
-    GetSheriffDutyById(id) {
-        const _super = name => super[name];
-        return __awaiter(this, void 0, void 0, function* () {
-            return yield this.nullOn404(() => _super("GetSheriffDutyById").call(this, id));
+    };
+    ExtendedClient.prototype.ImportDefaultDuties = function (request) {
+        return __awaiter(this, void 0, void 0, function () {
+            var courthouseId, _a, date;
+            return __generator(this, function (_b) {
+                switch (_b.label) {
+                    case 0:
+                        courthouseId = request.courthouseId, _a = request.date, date = _a === void 0 ? moment_1.default().toISOString() : _a;
+                        return [4 /*yield*/, _super.prototype.ImportDefaultDuties.call(this, { courthouseId: courthouseId, date: date })];
+                    case 1: return [2 /*return*/, _b.sent()];
+                }
+            });
         });
-    }
-    ImportDefaultDuties(request) {
-        const _super = name => super[name];
-        return __awaiter(this, void 0, void 0, function* () {
-            const { courthouseId, date = moment_1.default().toISOString() } = request;
-            return yield _super("ImportDefaultDuties").call(this, { courthouseId, date });
-        });
-    }
-}
+    };
+    return ExtendedClient;
+}(Client_1.default));
 exports.default = ExtendedClient;
 //# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/client/ExtendedClient.js.map

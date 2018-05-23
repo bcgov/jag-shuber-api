@@ -15,7 +15,7 @@ describe('Duty API', () => {
     const entityToCreate: Duty = {
         startDateTime: moment().toISOString(),
         endDateTime: moment().add(1, 'hours').toISOString(),
-        sheriffsRequired: 2,
+        sheriffsRequired: 0,
         assignmentId: "ToReplace"
     };
 
@@ -189,7 +189,6 @@ describe('Duty API', () => {
 
                 expect(Array.isArray(createdDuty.sheriffDuties)).toBeTruthy();
                 expect(createdDuty.sheriffDuties.length).toEqual(dutyRecurrence.sheriffsRequired);
-
                 createdDuty.sheriffDuties.forEach(sd => {
                     expect(sd.id).toBeDefined();
                     expect(sd.dutyId).toEqual(createdDuty.id);

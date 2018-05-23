@@ -271,7 +271,8 @@ describe('Shift API', () => {
             const copyOptions: ShiftCopyOptions = {
                 shouldIncludeSheriffs: false, 
                 startOfWeekSource: startOfWeekSourceMoment.toISOString(),
-                startOfWeekDestination: moment(startOfWeekSourceMoment).add(1, 'week').toISOString()
+                startOfWeekDestination: moment(startOfWeekSourceMoment).add(1, 'week').toISOString(),
+                courthouseId:testCourthouse.id
             }
             const initialCourthouseShifts =  await api.GetShifts(testCourthouse.id);
             const initialRetreivedCourthouseShifts = initialCourthouseShifts.filter(s => testShiftIds.includes(s.id));
@@ -287,7 +288,8 @@ describe('Shift API', () => {
             const copyOptions: ShiftCopyOptions = {
                 shouldIncludeSheriffs: true, 
                 startOfWeekSource: startOfWeekSourceMoment.toISOString(),
-                startOfWeekDestination: moment(startOfWeekSourceMoment).add(1, 'week').toISOString()
+                startOfWeekDestination: moment(startOfWeekSourceMoment).add(1, 'week').toISOString(),
+                courthouseId:testCourthouse.id
             }
             const initialCourthouseShifts =  await api.GetShifts(testCourthouse.id);
             const initialRetreivedCourthouseShifts = initialCourthouseShifts.filter(s => testShiftIds.includes(s.id));

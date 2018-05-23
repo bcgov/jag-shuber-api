@@ -9,6 +9,33 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -17,1009 +44,1558 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const superAgent = __importStar(require("superagent"));
-class Client {
-    constructor(_agent = superAgent.agent()) {
+var superAgent = __importStar(require("superagent"));
+var Client = /** @class */ (function () {
+    function Client(_agent) {
+        if (_agent === void 0) { _agent = superAgent.agent(); }
         this._agent = _agent;
-        this.errorProcessor = (e) => e;
+        this.errorProcessor = function (e) { return e; };
     }
-    get agent() {
-        return this._agent;
-    }
-    GetAssignments(courthouseId, startDate, endDate) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const params = {
-                "courthouseId": courthouseId,
-                "startDate": startDate,
-                "endDate": endDate
-            };
-            try {
-                const response = yield this.agent.get(`/Assignments`)
-                    .query(params);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    Object.defineProperty(Client.prototype, "agent", {
+        get: function () {
+            return this._agent;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Client.prototype.GetAssignments = function (courthouseId, startDate, endDate) {
+        return __awaiter(this, void 0, void 0, function () {
+            var params, response, error_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        params = {
+                            "courthouseId": courthouseId,
+                            "startDate": startDate,
+                            "endDate": endDate
+                        };
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.agent.get("/Assignments")
+                                .query(params)];
+                    case 2:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 3:
+                        error_1 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_1);
+                        }
+                        else {
+                            throw error_1;
+                        }
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    CreateAssignment(model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.post(`/Assignments`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.CreateAssignment = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_2;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.post("/Assignments")
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_2 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_2);
+                        }
+                        else {
+                            throw error_2;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetAssignmentById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.get(`/Assignments/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetAssignmentById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_3;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/Assignments/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_3 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_3);
+                        }
+                        else {
+                            throw error_3;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    UpdateAssignment(id, model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.put(`/Assignments/${id}`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.UpdateAssignment = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_4;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.put("/Assignments/" + id)
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_4 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_4);
+                        }
+                        else {
+                            throw error_4;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    ExpireAssignment(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.post(`/Assignments/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.ExpireAssignment = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_5;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.post("/Assignments/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_5 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_5);
+                        }
+                        else {
+                            throw error_5;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    DeleteAssignment(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.delete(`/Assignments/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.DeleteAssignment = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_6;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.delete("/Assignments/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_6 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_6);
+                        }
+                        else {
+                            throw error_6;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetRegions() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.get(`/regions`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetRegions = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_7;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/regions")];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_7 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_7);
+                        }
+                        else {
+                            throw error_7;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    CreateRegion(model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.post(`/regions`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.CreateRegion = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_8;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.post("/regions")
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_8 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_8);
+                        }
+                        else {
+                            throw error_8;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetRegionById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.get(`/regions/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetRegionById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_9;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/regions/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_9 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_9);
+                        }
+                        else {
+                            throw error_9;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    UpdateRegion(id, model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.put(`/regions/${id}`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.UpdateRegion = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_10;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.put("/regions/" + id)
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_10 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_10);
+                        }
+                        else {
+                            throw error_10;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    DeleteRegion(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.delete(`/regions/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.DeleteRegion = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_11;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.delete("/regions/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_11 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_11);
+                        }
+                        else {
+                            throw error_11;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetCourthouses() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.get(`/courthouses`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetCourthouses = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_12;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/courthouses")];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_12 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_12);
+                        }
+                        else {
+                            throw error_12;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    CreateCourthouse(model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.post(`/courthouses`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.CreateCourthouse = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_13;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.post("/courthouses")
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_13 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_13);
+                        }
+                        else {
+                            throw error_13;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetCourthouseById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.get(`/courthouses/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetCourthouseById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_14;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/courthouses/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_14 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_14);
+                        }
+                        else {
+                            throw error_14;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    UpdateCourthouse(id, model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.put(`/courthouses/${id}`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.UpdateCourthouse = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_15;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.put("/courthouses/" + id)
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_15 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_15);
+                        }
+                        else {
+                            throw error_15;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    DeleteCourthouse(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.delete(`/courthouses/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.DeleteCourthouse = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_16;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.delete("/courthouses/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_16 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_16);
+                        }
+                        else {
+                            throw error_16;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetSheriffs(courthouseId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const params = {
-                "courthouseId": courthouseId
-            };
-            try {
-                const response = yield this.agent.get(`/sheriffs`)
-                    .query(params);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetSheriffs = function (courthouseId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var params, response, error_17;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        params = {
+                            "courthouseId": courthouseId
+                        };
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.agent.get("/sheriffs")
+                                .query(params)];
+                    case 2:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 3:
+                        error_17 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_17);
+                        }
+                        else {
+                            throw error_17;
+                        }
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    CreateSheriff(model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.post(`/sheriffs`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.CreateSheriff = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_18;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.post("/sheriffs")
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_18 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_18);
+                        }
+                        else {
+                            throw error_18;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetSheriffById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.get(`/sheriffs/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetSheriffById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_19;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/sheriffs/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_19 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_19);
+                        }
+                        else {
+                            throw error_19;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    UpdateSheriff(id, model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.put(`/sheriffs/${id}`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.UpdateSheriff = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_20;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.put("/sheriffs/" + id)
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_20 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_20);
+                        }
+                        else {
+                            throw error_20;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    DeleteSheriff(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.delete(`/sheriffs/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.DeleteSheriff = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_21;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.delete("/sheriffs/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_21 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_21);
+                        }
+                        else {
+                            throw error_21;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetCourtrooms(courthouseId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const params = {
-                "courthouseId": courthouseId
-            };
-            try {
-                const response = yield this.agent.get(`/courtrooms`)
-                    .query(params);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetCourtrooms = function (courthouseId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var params, response, error_22;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        params = {
+                            "courthouseId": courthouseId
+                        };
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.agent.get("/courtrooms")
+                                .query(params)];
+                    case 2:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 3:
+                        error_22 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_22);
+                        }
+                        else {
+                            throw error_22;
+                        }
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    CreateCourtroom(model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.post(`/courtrooms`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.CreateCourtroom = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_23;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.post("/courtrooms")
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_23 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_23);
+                        }
+                        else {
+                            throw error_23;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetCourtroomById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.get(`/courtrooms/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetCourtroomById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_24;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/courtrooms/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_24 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_24);
+                        }
+                        else {
+                            throw error_24;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    UpdateCourtroom(id, model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.put(`/courtrooms/${id}`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.UpdateCourtroom = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_25;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.put("/courtrooms/" + id)
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_25 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_25);
+                        }
+                        else {
+                            throw error_25;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    DeleteCourtroom(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.delete(`/courtrooms/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.DeleteCourtroom = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_26;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.delete("/courtrooms/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_26 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_26);
+                        }
+                        else {
+                            throw error_26;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetJailRoleCodes() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.get(`/codes/jailroles`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetJailRoleCodes = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_27;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/codes/jailroles")];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_27 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_27);
+                        }
+                        else {
+                            throw error_27;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetOtherAssignCodes() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.get(`/codes/otherassign`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetOtherAssignCodes = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_28;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/codes/otherassign")];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_28 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_28);
+                        }
+                        else {
+                            throw error_28;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetWorkSectionCodes() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.get(`/codes/worksection`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetWorkSectionCodes = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_29;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/codes/worksection")];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_29 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_29);
+                        }
+                        else {
+                            throw error_29;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetSheriffRankCodes() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.get(`/codes/sheriffrank`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetSheriffRankCodes = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_30;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/codes/sheriffrank")];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_30 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_30);
+                        }
+                        else {
+                            throw error_30;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetRuns(courthouseId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const params = {
-                "courthouseId": courthouseId
-            };
-            try {
-                const response = yield this.agent.get(`/runs`)
-                    .query(params);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetRuns = function (courthouseId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var params, response, error_31;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        params = {
+                            "courthouseId": courthouseId
+                        };
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.agent.get("/runs")
+                                .query(params)];
+                    case 2:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 3:
+                        error_31 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_31);
+                        }
+                        else {
+                            throw error_31;
+                        }
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    CreateRun(model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.post(`/runs`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.CreateRun = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_32;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.post("/runs")
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_32 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_32);
+                        }
+                        else {
+                            throw error_32;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetRunById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.get(`/runs/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetRunById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_33;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/runs/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_33 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_33);
+                        }
+                        else {
+                            throw error_33;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    UpdateRun(id, model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.put(`/runs/${id}`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.UpdateRun = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_34;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.put("/runs/" + id)
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_34 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_34);
+                        }
+                        else {
+                            throw error_34;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    DeleteRun(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.delete(`/runs/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.DeleteRun = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_35;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.delete("/runs/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_35 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_35);
+                        }
+                        else {
+                            throw error_35;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetShifts(courthouseId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const params = {
-                "courthouseId": courthouseId
-            };
-            try {
-                const response = yield this.agent.get(`/Shifts`)
-                    .query(params);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetShifts = function (courthouseId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var params, response, error_36;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        params = {
+                            "courthouseId": courthouseId
+                        };
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.agent.get("/Shifts")
+                                .query(params)];
+                    case 2:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 3:
+                        error_36 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_36);
+                        }
+                        else {
+                            throw error_36;
+                        }
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    CreateShift(model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.post(`/Shifts`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.CreateShift = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_37;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.post("/Shifts")
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_37 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_37);
+                        }
+                        else {
+                            throw error_37;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetShiftById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.get(`/Shifts/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetShiftById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_38;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/Shifts/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_38 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_38);
+                        }
+                        else {
+                            throw error_38;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    UpdateShift(id, model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.put(`/Shifts/${id}`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.UpdateShift = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_39;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.put("/Shifts/" + id)
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_39 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_39);
+                        }
+                        else {
+                            throw error_39;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    DeleteShift(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.delete(`/Shifts/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.DeleteShift = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_40;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.delete("/Shifts/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_40 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_40);
+                        }
+                        else {
+                            throw error_40;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    UpdateMultipleShifts(model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.post(`/Shifts/multiple`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.UpdateMultipleShifts = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_41;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.post("/Shifts/multiple")
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_41 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_41);
+                        }
+                        else {
+                            throw error_41;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    CopyShifts(model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.post(`/Shifts/copy`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.CopyShifts = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_42;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.post("/Shifts/copy")
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_42 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_42);
+                        }
+                        else {
+                            throw error_42;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetDutyRecurrences(startDate, endDate) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const params = {
-                "startDate": startDate,
-                "endDate": endDate
-            };
-            try {
-                const response = yield this.agent.get(`/DutyRecurrences`)
-                    .query(params);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetDutyRecurrences = function (startDate, endDate) {
+        return __awaiter(this, void 0, void 0, function () {
+            var params, response, error_43;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        params = {
+                            "startDate": startDate,
+                            "endDate": endDate
+                        };
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.agent.get("/DutyRecurrences")
+                                .query(params)];
+                    case 2:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 3:
+                        error_43 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_43);
+                        }
+                        else {
+                            throw error_43;
+                        }
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    CreateDutyRecurrence(model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.post(`/DutyRecurrences`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.CreateDutyRecurrence = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_44;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.post("/DutyRecurrences")
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_44 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_44);
+                        }
+                        else {
+                            throw error_44;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetDutyRecurrenceById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.get(`/DutyRecurrences/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetDutyRecurrenceById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_45;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/DutyRecurrences/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_45 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_45);
+                        }
+                        else {
+                            throw error_45;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    UpdateDutyRecurrence(id, model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.put(`/DutyRecurrences/${id}`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.UpdateDutyRecurrence = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_46;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.put("/DutyRecurrences/" + id)
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_46 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_46);
+                        }
+                        else {
+                            throw error_46;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    ExpireDutyRecurrence(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.post(`/DutyRecurrences/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.ExpireDutyRecurrence = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_47;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.post("/DutyRecurrences/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_47 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_47);
+                        }
+                        else {
+                            throw error_47;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    DeleteDutyRecurrence(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.delete(`/DutyRecurrences/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.DeleteDutyRecurrence = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_48;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.delete("/DutyRecurrences/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_48 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_48);
+                        }
+                        else {
+                            throw error_48;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetDuties() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.get(`/Duty`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetDuties = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_49;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/Duty")];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_49 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_49);
+                        }
+                        else {
+                            throw error_49;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    CreateDuty(model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.post(`/Duty`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.CreateDuty = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_50;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.post("/Duty")
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_50 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_50);
+                        }
+                        else {
+                            throw error_50;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetDutyById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.get(`/Duty/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetDutyById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_51;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/Duty/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_51 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_51);
+                        }
+                        else {
+                            throw error_51;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    UpdateDuty(id, model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.put(`/Duty/${id}`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.UpdateDuty = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_52;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.put("/Duty/" + id)
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_52 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_52);
+                        }
+                        else {
+                            throw error_52;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    DeleteDuty(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.delete(`/Duty/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.DeleteDuty = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_53;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.delete("/Duty/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_53 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_53);
+                        }
+                        else {
+                            throw error_53;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    ImportDefaultDuties(body) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.post(`/Duty/import`)
-                    .send(body);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.ImportDefaultDuties = function (body) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_54;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.post("/Duty/import")
+                                .send(body)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_54 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_54);
+                        }
+                        else {
+                            throw error_54;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetSheriffDuties() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.get(`/SheriffDuty`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetSheriffDuties = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_55;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/SheriffDuty")];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_55 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_55);
+                        }
+                        else {
+                            throw error_55;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    CreateSheriffDuty(model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.post(`/SheriffDuty`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.CreateSheriffDuty = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_56;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.post("/SheriffDuty")
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_56 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_56);
+                        }
+                        else {
+                            throw error_56;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    GetSheriffDutyById(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.get(`/SheriffDuty/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.GetSheriffDutyById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_57;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/SheriffDuty/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_57 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_57);
+                        }
+                        else {
+                            throw error_57;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    UpdateSheriffDuty(id, model) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.put(`/SheriffDuty/${id}`)
-                    .send(model);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.UpdateSheriffDuty = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_58;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.put("/SheriffDuty/" + id)
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_58 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_58);
+                        }
+                        else {
+                            throw error_58;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-    DeleteSheriffDuty(id) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const response = yield this.agent.delete(`/SheriffDuty/${id}`);
-                return response.body;
-            }
-            catch (error) {
-                if (this.errorProcessor) {
-                    throw this.errorProcessor(error);
+    };
+    Client.prototype.DeleteSheriffDuty = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_59;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.delete("/SheriffDuty/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_59 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_59);
+                        }
+                        else {
+                            throw error_59;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    throw error;
-                }
-            }
+            });
         });
-    }
-}
+    };
+    return Client;
+}());
 exports.default = Client;
 //# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/client/Client.js.map

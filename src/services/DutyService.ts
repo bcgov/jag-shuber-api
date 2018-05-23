@@ -33,7 +33,7 @@ export class DutyService extends DatabaseService<Duty> {
 
     async create(entity: Partial<Duty>): Promise<Duty> {
         const { sheriffDuties = [] } = entity;
-        const query = this.getInsertQuery({...entity, sheriffsRequired: 0});
+        const query = this.getInsertQuery({ ...entity, sheriffsRequired: 0 });
         let createdDuty: Duty = {} as any;
         await this.db.transaction(async (client) => {
             const sheriffDutyService = this.getSheriffDutyService(client);
@@ -120,7 +120,6 @@ export class DutyService extends DatabaseService<Duty> {
     async importDefaults(request: DutyImportDefaultsRequest): Promise<Duty[]> {
         const { courthouseId, date } = request;
         const dateMoment = date ? moment(date) : moment();
-        let createdDuties: Duty[] = [];
         // Setup transaction for creating all of the duties / sheriff duties
 
         const assignmentService = new AssignmentService();
@@ -152,25 +151,33 @@ export class DutyService extends DatabaseService<Duty> {
             );
         const recurrencesToCreate = await this.executeQuery<DutyRecurrence>(query.toString());
         
-        // For each of the recurrences, create the duty and sheriff Duties
-        createdDuties = await Promise.all(recurrencesToCreate.map(async (dr) => {
-            const startDateTime = dateMoment.startOf('day').add(moment.duration(dr.startTime)).toISOString();
-            const endDateTime = dateMoment.startOf('day').add(moment.duration(dr.endTime)).toISOString();
-            const sheriffDuties = [...Array(dr.sheriffsRequired).keys()].map<SheriffDuty>(k => (
-                {
-                    startDateTime,
-                    endDateTime
+        const createdDuties = await this.db.transaction(async client => {
+            const service = new DutyService();
+            service.dbClient = client;
+
+            // For each of the recurrences, create the duty and sheriff Duties
+            return await Promise.all(recurrencesToCreate.map(async (dr) => {
+                const startDateTime = dateMoment.startOf('day').add(moment.duration(dr.startTime)).toISOString();
+                const endDateTime = dateMoment.startOf('day').add(moment.duration(dr.endTime)).toISOString();
+                const sheriffDuties: SheriffDuty[] = [];
+                // Create a blank sheriffDuty for each sheriff required
+                for (let i = 0; i < dr.sheriffsRequired; ++i) {
+                    sheriffDuties.push({
+                        startDateTime,
+                        endDateTime
+                    })
                 }
-            ));
-            return await this.create({
-                assignmentId: dr.assignmentId,
-                dutyRecurrenceId: dr.id,
-                sheriffsRequired: dr.sheriffsRequired,
-                startDateTime,
-                endDateTime,
-                sheriffDuties
-            });
-        }));
+
+                return await service.create({
+                    assignmentId: dr.assignmentId,
+                    dutyRecurrenceId: dr.id,
+                    sheriffsRequired: dr.sheriffsRequired,
+                    startDateTime,
+                    endDateTime,
+                    sheriffDuties
+                });
+            }));
+        });
 
         return createdDuties;
     }
