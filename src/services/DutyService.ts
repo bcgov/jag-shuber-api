@@ -33,7 +33,7 @@ export class DutyService extends DatabaseService<Duty> {
 
     async create(entity: Partial<Duty>): Promise<Duty> {
         const { sheriffDuties = [] } = entity;
-        const query = this.getInsertQuery(entity);
+        const query = this.getInsertQuery({...entity, sheriffsRequired: 0});
         let createdDuty: Duty = {} as any;
         await this.db.transaction(async (client) => {
             const sheriffDutyService = this.getSheriffDutyService(client);
