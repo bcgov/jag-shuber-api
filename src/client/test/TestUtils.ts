@@ -3,24 +3,38 @@ import db from '../../db/Database';
 import ExtendedClient from '../ExtendedClient';
 import { Courthouse, Courtroom, Assignment, Region } from '../models';
 import { Sheriff } from '../../models/Sheriff';
+import { ClientBase } from 'pg';
 
 expect.extend({
     toMatchShapeOf,
     toMatchOneOf
 });
 
+
 export default class TestUtils {
+    public static tables = {
+        sheriff_duty: 'sheriff_duty',
+        duty: 'duty',
+        duty_recurrence: 'duty_recurrence',
+        assignment: 'assignment',
+        courtroom: 'courtroom',
+        run: 'run',
+        shift: 'shift',
+        sheriff: 'sheriff',
+        courthouse: 'courthouse',
+        region: 'region'
+    }
     private static tablesToClear = [
-        'sheriff_duty',
-        'duty',
-        'duty_recurrence',
-        'assignment',
-        'courtroom',
-        'run',
-        'shift',
-        'sheriff',
-        'courthouse',
-        'region'
+        TestUtils.tables.sheriff_duty,
+        TestUtils.tables.duty,
+        TestUtils.tables.duty_recurrence,
+        TestUtils.tables.assignment,
+        TestUtils.tables.courtroom,
+        TestUtils.tables.run,
+        TestUtils.tables.shift,
+        TestUtils.tables.sheriff,
+        TestUtils.tables.courthouse,
+        TestUtils.tables.region,
     ]
     constructor() {
 
@@ -30,11 +44,15 @@ export default class TestUtils {
         return new ExtendedClient('http://localhost:3001/api/v1');
     }
 
+    static async clearTable(client?: ClientBase, ...tables: string[]) {
+        const dbClient = client ? client : await db.getClient();
+        await Promise.all(tables.map(tn => dbClient.query(`DELETE FROM ${tn};`)));
+    }
+
     static async clearDatabase() {
-        const client = await db.getClient();
         await db.transaction(async (client) => {
             await TestUtils.tablesToClear.forEach(async (table) => {
-                await client.query(`DELETE FROM ${table};`)
+                await TestUtils.clearTable(client, table);
             });
         })
     }
@@ -77,17 +95,17 @@ export default class TestUtils {
         });
     }
 
-    static async newTestAssignment(courthouseId, assignmentDetails: Partial<Assignment> = { }): Promise<Assignment> {
+    static async newTestAssignment(courthouseId, assignmentDetails: Partial<Assignment> = {}): Promise<Assignment> {
         const api = TestUtils.getClient();
-        let workSectionId="";
-        if(assignmentDetails.jailRoleCode){
-            workSectionId="JAIL";
-        }else if(assignmentDetails.runId){
-            workSectionId="ESCORTS";
-        }else if(assignmentDetails.courtroomId){
-            workSectionId="COURTS";
-        }else if(assignmentDetails.otherAssignCode){
-            workSectionId="OTHER";
+        let workSectionId = "";
+        if (assignmentDetails.jailRoleCode) {
+            workSectionId = "JAIL";
+        } else if (assignmentDetails.runId) {
+            workSectionId = "ESCORTS";
+        } else if (assignmentDetails.courtroomId) {
+            workSectionId = "COURTS";
+        } else if (assignmentDetails.otherAssignCode) {
+            workSectionId = "OTHER";
         }
         return await api.CreateAssignment({
             ...assignmentDetails,
@@ -97,14 +115,14 @@ export default class TestUtils {
     }
 
 
-    static async newTestSheriff(courthouseId: string,sheriff?:Partial<Sheriff>): Promise<Sheriff> {
+    static async newTestSheriff(courthouseId: string, sheriff?: Partial<Sheriff>): Promise<Sheriff> {
         const api = TestUtils.getClient();
         return await api.CreateSheriff({
-            badgeNo:TestUtils.randomString(5),
-            firstName:'Bill',
-            lastName:'Nye',
-            rankCode:'DEPUTYSHERIFF',
-            homeCourthouseId:courthouseId
+            badgeNo: TestUtils.randomString(5),
+            firstName: 'Bill',
+            lastName: 'Nye',
+            rankCode: 'DEPUTYSHERIFF',
+            homeCourthouseId: courthouseId
         }) as Sheriff;
     }
 
