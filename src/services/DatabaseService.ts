@@ -35,7 +35,7 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
         }, {});
     }
 
-    constructor(protected tableName: string, protected primaryKey: string, protected isExpirable: boolean = false) {
+    constructor(protected tableName: string, protected primaryKey: string) {
         super();
     }
 

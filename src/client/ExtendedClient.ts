@@ -3,7 +3,7 @@ import * as SA from 'superagent';
 import saPrefix from 'superagent-prefix';
 import superagentUse from 'superagent-use';
 import Client from './Client';
-import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift, DutyImportDefaultsRequest } from './models';
+import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift, DutyImportDefaultsRequest, MultipleShiftUpdateRequest } from './models';
 
 export type DateType = string | Date | moment.Moment | number;
 
@@ -162,6 +162,17 @@ export default class ExtendedClient extends Client {
         );
     }
 
+    UpdateMultipleShifts(model: MultipleShiftUpdateRequest) {
+        const { startTime, endTime, ...rest } = model;
+        const request: MultipleShiftUpdateRequest = {
+            ...rest,
+            startTime: moment(startTime).format(),
+            endTime: moment(endTime).format()
+        };
+
+        return super.UpdateMultipleShifts(request);
+    }
+
     async ImportDefaultDuties(request: DutyImportDefaultsRequest) {
         const {
             courthouseId,
@@ -169,6 +180,6 @@ export default class ExtendedClient extends Client {
         } = request;
 
         const dateMoment = date ? moment(date) : moment().startOf('day');
-        return await super.ImportDefaultDuties({ courthouseId, date:dateMoment.format("YYYY-MM-DD") });
+        return await super.ImportDefaultDuties({ courthouseId, date: dateMoment.format("YYYY-MM-DD") });
     }
 }

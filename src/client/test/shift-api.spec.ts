@@ -1,16 +1,14 @@
 import ApiClient from '../ExtendedClient';
-import { 
-    Courthouse, 
-    Region, 
-    Shift, 
-    MultipleShiftUpdateRequest, 
-    Sheriff, 
-    ShiftCopyOptions 
+import {
+    Courthouse,
+    Region,
+    Shift,
+    MultipleShiftUpdateRequest,
+    Sheriff,
+    ShiftCopyOptions
 } from '../models';
 import TestUtils from './TestUtils';
 import moment from 'moment';
-
-const testData = new TestUtils();
 
 describe('Shift API', () => {
     let api: ApiClient;
@@ -125,17 +123,8 @@ describe('Shift API', () => {
 
     describe('Edit Multiple Shifts', () => {
         let testShifts: Shift[] = [];
-        let createdSheriff: Sheriff = {}; 
+        let createdSheriff: Sheriff = {};
         beforeAll(async (done) => {
-            const workSectionIds = ['COURTS', 'JAIL', 'ESCORTS', 'OTHER'];
-            testShifts = await Promise.all(workSectionIds.map((id, index) => 
-                api.CreateShift({
-                    courthouseId: testCourthouse.id,
-                    startDateTime: moment().add(index, 'day').add(index, 'hour').toISOString(),
-                    endDateTime: moment().add(index, 'day').add(index+1, 'hour').toISOString(),
-                    workSectionId: id
-                })));
-            
             const sheriffToCreate: Sheriff = {
                 firstName: 'Bill',
                 lastName: 'Nye',
@@ -143,11 +132,24 @@ describe('Shift API', () => {
                 rankCode: "DEPUTYSHERIFF",
                 homeCourthouseId: testCourthouse.id
             };
-            
+
             createdSheriff = await api.CreateSheriff(sheriffToCreate);
-            
+
             done();
         });
+
+        beforeEach(async (done) => {
+            await TestUtils.clearTable(undefined, 'shift');
+            const workSectionIds = ['COURTS', 'JAIL', 'ESCORTS', 'OTHER'];
+            testShifts = await Promise.all(workSectionIds.map((id, index) =>
+                api.CreateShift({
+                    courthouseId: testCourthouse.id,
+                    startDateTime: moment().add(index, 'day').hours(7).toISOString(),
+                    endDateTime: moment().add(index, 'day').hours(8 + 1).toISOString(),
+                    workSectionId: id
+                })));
+            done();
+        })
 
         it('should update the work section id for each shift', async () => {
             const testShiftIds = testShifts.map(s => s.id);
@@ -158,11 +160,11 @@ describe('Shift API', () => {
             const updatedShifts = await api.UpdateMultipleShifts(updates);
             const courthouseShifts = await api.GetShifts(testCourthouse.id);
             const retrieved = courthouseShifts.filter(s => testShiftIds.includes(s.id));
-            
-            expect(updatedShifts).toEqual(expect.arrayContaining(retrieved));
-            expect(updatedShifts.every(s => s.workSectionId === 'COURTS')).toBeTruthy(); 
 
-        }); 
+            expect(updatedShifts).toEqual(expect.arrayContaining(retrieved));
+            expect(updatedShifts.every(s => s.workSectionId === 'COURTS')).toBeTruthy();
+
+        });
 
         it('should update the start time for each shift', async () => {
             const testShiftIds = testShifts.map(s => s.id);
@@ -174,10 +176,16 @@ describe('Shift API', () => {
             const updatedShifts = await api.UpdateMultipleShifts(updates);
             const courthouseShifts = await api.GetShifts(testCourthouse.id);
             const retrieved = courthouseShifts.filter(s => testShiftIds.includes(s.id));
-            
+
             expect(updatedShifts).toEqual(expect.arrayContaining(retrieved));
-            updatedShifts.map(s => moment(s.startDateTime).format('HH:mm')).forEach(startTime => expect(startTime).toEqual(newStartTime.format('HH:mm')));            
-        }); 
+            updatedShifts.map(s => moment(s.startDateTime).format('HH:mm')).forEach(startTime => expect(startTime).toEqual(newStartTime.format('HH:mm')));
+
+            // Make sure that days are the expected values
+            updatedShifts.forEach(us => {
+                const testShift = testShifts.find(ts => ts.workSectionId === us.workSectionId);
+                expect(moment(us.startDateTime).format("YYYY-MM-DD")).toEqual(moment(testShift.startDateTime).format("YYYY-MM-DD"));
+            });
+        });
 
         it('should update the end time for each shift', async () => {
             const testShiftIds = testShifts.map(s => s.id);
@@ -189,9 +197,15 @@ describe('Shift API', () => {
             const updatedShifts = await api.UpdateMultipleShifts(updates);
             const courthouseShifts = await api.GetShifts(testCourthouse.id);
             const retrieved = courthouseShifts.filter(s => testShiftIds.includes(s.id));
-            
             expect(updatedShifts).toEqual(expect.arrayContaining(retrieved));
-            updatedShifts.map(s => moment(s.endDateTime).format('HH:mm')).forEach(endTime => expect(endTime).toEqual(newEndTime.format('HH:mm')));            
+            // Make sure all of the times are correct
+            updatedShifts.map(s => moment(s.endDateTime).format('HH:mm')).forEach(endTime => expect(endTime).toEqual(newEndTime.format('HH:mm')));
+
+            updatedShifts.forEach(us => {
+                const testShift = testShifts.find(ts => ts.workSectionId === us.workSectionId);
+                expect(moment(us.endDateTime).utc().format("YYYY-MM-DD")).toEqual(moment(testShift.endDateTime).utc().format("YYYY-MM-DD"));
+            });
+
         });
 
         it('should update the sheriff id for each shift', async () => {
@@ -203,9 +217,9 @@ describe('Shift API', () => {
             const updatedShifts = await api.UpdateMultipleShifts(updates);
             const courthouseShifts = await api.GetShifts(testCourthouse.id);
             const retrieved = courthouseShifts.filter(s => testShiftIds.includes(s.id));
-            
+
             expect(updatedShifts).toEqual(expect.arrayContaining(retrieved));
-            expect(updatedShifts.every(s => s.sheriffId === createdSheriff.id)).toBeTruthy(); 
+            expect(updatedShifts.every(s => s.sheriffId === createdSheriff.id)).toBeTruthy();
 
         });
 
@@ -221,10 +235,16 @@ describe('Shift API', () => {
             const updatedShifts = await api.UpdateMultipleShifts(updates);
             const courthouseShifts = await api.GetShifts(testCourthouse.id);
             const retrieved = courthouseShifts.filter(s => testShiftIds.includes(s.id));
-            
+
             expect(updatedShifts).toEqual(expect.arrayContaining(retrieved));
-            updatedShifts.map(s => moment(s.endDateTime).format('HH:mm')).forEach(endTime => expect(endTime).toEqual(newEndTime.format('HH:mm')));            
-            updatedShifts.map(s => moment(s.startDateTime).format('HH:mm')).forEach(startTime => expect(startTime).toEqual(newStartTime.format('HH:mm')));            
+            updatedShifts.map(s => moment(s.endDateTime).format('HH:mm')).forEach(endTime => expect(endTime).toEqual(newEndTime.format('HH:mm')));
+            updatedShifts.map(s => moment(s.startDateTime).format('HH:mm')).forEach(startTime => expect(startTime).toEqual(newStartTime.format('HH:mm')));
+
+            updatedShifts.forEach(us => {
+                const testShift = testShifts.find(ts => ts.workSectionId === us.workSectionId);
+                expect(moment(us.startDateTime).utc().format("YYYY-MM-DD")).toEqual(moment(testShift.startDateTime).utc().format("YYYY-MM-DD"));
+                expect(moment(us.endDateTime).utc().format("YYYY-MM-DD")).toEqual(moment(testShift.endDateTime).utc().format("YYYY-MM-DD"));
+            });
         });
     })
 
@@ -234,27 +254,30 @@ describe('Shift API', () => {
         const startOfWeekSourceMoment = moment().startOf('week').add(1, 'week'); //May 27
         beforeAll(async (done) => {
             createdSheriff = await TestUtils.newTestSheriff(testCourthouse.id);
-            
+            done();
+        });
+
+        beforeEach(async (done) => {
+            await TestUtils.clearTable(undefined, 'shift');
             const workSectionIds = ['COURTS', 'JAIL', 'ESCORTS', 'OTHER'];
-            testShifts = await Promise.all(workSectionIds.map((id, index) => 
+            testShifts = await Promise.all(workSectionIds.map((id, index) =>
                 api.CreateShift({
                     courthouseId: testCourthouse.id,
-                    startDateTime: moment(startOfWeekSourceMoment).add(index+1, 'day').add(8, 'hour').toISOString(),
-                    endDateTime: moment(startOfWeekSourceMoment).add(index+1, 'day').add(16, 'hour').toISOString(),
+                    startDateTime: moment(startOfWeekSourceMoment).add(index + 1, 'day').add(8, 'hour').toISOString(),
+                    endDateTime: moment(startOfWeekSourceMoment).add(index + 1, 'day').add(16, 'hour').toISOString(),
                     workSectionId: id,
                     sheriffId: createdSheriff.id
                 })));
-
             done();
         });
 
         function assertCopiedShifts(copiedShifts: Shift[], copyOptions: ShiftCopyOptions) {
-            const {startOfWeekDestination, startOfWeekSource, shouldIncludeSheriffs} = copyOptions
-            
+            const { startOfWeekDestination, startOfWeekSource, shouldIncludeSheriffs } = copyOptions
+
             expect(copiedShifts).toHaveLength(testShifts.length);
-            
+
             expect(copiedShifts.every(s => shouldIncludeSheriffs ? s.sheriffId != undefined : s.sheriffId == undefined)).toBeTruthy();
-            
+
             copiedShifts.forEach(copiedShift => {
                 expect(copiedShift.workSectionId).toBeDefined();
                 const sourceShift = testShifts.find(ts => ts.workSectionId === copiedShift.workSectionId);
@@ -267,35 +290,35 @@ describe('Shift API', () => {
 
         it('should create a new shift in the destination week for each shift in the source week without sheriffs', async () => {
             const testShiftIds = testShifts.map(s => s.id);
-           
+
             const copyOptions: ShiftCopyOptions = {
-                shouldIncludeSheriffs: false, 
+                shouldIncludeSheriffs: false,
                 startOfWeekSource: startOfWeekSourceMoment.toISOString(),
                 startOfWeekDestination: moment(startOfWeekSourceMoment).add(1, 'week').toISOString(),
-                courthouseId:testCourthouse.id
+                courthouseId: testCourthouse.id
             }
-            const initialCourthouseShifts =  await api.GetShifts(testCourthouse.id);
+            const initialCourthouseShifts = await api.GetShifts(testCourthouse.id);
             const initialRetreivedCourthouseShifts = initialCourthouseShifts.filter(s => testShiftIds.includes(s.id));
-            
+
             const copiedShifts = await api.CopyShifts(copyOptions);
-            
+
             assertCopiedShifts(copiedShifts, copyOptions);
-        }); 
+        });
 
         it('should create a new shift in the destination week for each shift in the source week with sheriffs', async () => {
             const testShiftIds = testShifts.map(s => s.id);
-           
+
             const copyOptions: ShiftCopyOptions = {
-                shouldIncludeSheriffs: true, 
+                shouldIncludeSheriffs: true,
                 startOfWeekSource: startOfWeekSourceMoment.toISOString(),
                 startOfWeekDestination: moment(startOfWeekSourceMoment).add(1, 'week').toISOString(),
-                courthouseId:testCourthouse.id
+                courthouseId: testCourthouse.id
             }
-            const initialCourthouseShifts =  await api.GetShifts(testCourthouse.id);
+            const initialCourthouseShifts = await api.GetShifts(testCourthouse.id);
             const initialRetreivedCourthouseShifts = initialCourthouseShifts.filter(s => testShiftIds.includes(s.id));
-            
+
             const copiedShifts = await api.CopyShifts(copyOptions);
-            
+
             assertCopiedShifts(copiedShifts, copyOptions);
         });
     });
