@@ -56,7 +56,7 @@ export class ShiftService extends DatabaseService<Shift> {
 
             let newEndMoment = moment(originalEnd);
             if (endTime) {
-                // Start time will include the offset (i.e. +7:00), so we use timezone to convert it into UTC
+                // End time will include the offset (i.e. +7:00), so we use timezone to convert it into UTC
                 const newEndTimeMoment = moment.tz(endTime, 'UTC');
                 newEndMoment.hours(newEndTimeMoment.hours()).minutes(newEndTimeMoment.minutes());
             }
