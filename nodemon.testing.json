@@ -6,7 +6,8 @@
     ],
     "ext": "ts,json",
     "env":{
-        "DOTENV_PATH":".env.testing"
+        "DOTENV_PATH":".env.testing",
+        "TZ": "Etc/UTC"
     },
     "ignore": [
         "client/**/*",
