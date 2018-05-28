@@ -55,4 +55,7 @@
     <!-- sheriff prod data -->
     <include file="shersched.db.changelog-sheriffdata.prod.xml"/>
     
+    <!-- schema updates for Chilliwack release -->
+    <include file="shersched.db.changelog-04.xml"/>
+    
 </databaseChangeLog>
