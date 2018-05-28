@@ -89,7 +89,7 @@
 		  </addColumn>
 		  <update catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_recurrence">
 				<column name="start_time_newtz" type="TIME WITH TIME ZONE" valueComputed="start_time"/>
-				<column name="end_time_newtz" type="TIME WITH TIME ZONE" valueComputed="endt_time"/>
+				<column name="end_time_newtz" type="TIME WITH TIME ZONE" valueComputed="end_time"/>
 		  </update>
 		  <dropColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_recurrence">
 				<column name="start_time" type="TIME"/>
