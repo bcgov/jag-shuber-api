@@ -258,13 +258,14 @@ var ExtendedClient = /** @class */ (function (_super) {
     };
     ExtendedClient.prototype.ImportDefaultDuties = function (request) {
         return __awaiter(this, void 0, void 0, function () {
-            var courthouseId, _a, date;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var courthouseId, date, dateMoment;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
-                        courthouseId = request.courthouseId, _a = request.date, date = _a === void 0 ? moment_1.default().toISOString() : _a;
-                        return [4 /*yield*/, _super.prototype.ImportDefaultDuties.call(this, { courthouseId: courthouseId, date: date })];
-                    case 1: return [2 /*return*/, _b.sent()];
+                        courthouseId = request.courthouseId, date = request.date;
+                        dateMoment = date ? moment_1.default(date) : moment_1.default().startOf('day');
+                        return [4 /*yield*/, _super.prototype.ImportDefaultDuties.call(this, { courthouseId: courthouseId, date: dateMoment.format("YYYY-MM-DD") })];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });

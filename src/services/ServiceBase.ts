@@ -1,5 +1,6 @@
 import { v4 as uuid } from 'uuid';
 import { ICrudService } from "../infrastructure";
+import { default as moment, Moment } from 'moment';
 
 export abstract class ServiceBase<T> implements ICrudService<T> {
     abstract getAll(): Promise<T[]>;
@@ -20,5 +21,11 @@ export abstract class ServiceBase<T> implements ICrudService<T> {
                 returnObj[k] = object[k];
             })
         return returnObj as T;
+    }
+
+    adjustForTimezone(momentToAdjust: Moment): Moment {
+        const pacificTimeZoneOffset = 7 * 60; // 7 hours * 60 minutes
+        const timeOffset = moment(momentToAdjust).utcOffset() + pacificTimeZoneOffset;
+        return moment(momentToAdjust).add(timeOffset, 'minutes');
     }
 }

@@ -165,8 +165,10 @@ export default class ExtendedClient extends Client {
     async ImportDefaultDuties(request: DutyImportDefaultsRequest) {
         const {
             courthouseId,
-            date = moment().toISOString()
+            date
         } = request;
-        return await super.ImportDefaultDuties({ courthouseId, date });
+
+        const dateMoment = date ? moment(date) : moment().startOf('day');
+        return await super.ImportDefaultDuties({ courthouseId, date:dateMoment.format("YYYY-MM-DD") });
     }
 }

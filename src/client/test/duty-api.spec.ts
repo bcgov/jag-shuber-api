@@ -206,6 +206,12 @@ describe('Duty API', () => {
 
         }
 
+        beforeEach(async (done) => {
+            const { sheriff_duty, duty, assignment, duty_recurrence } = TestUtils.tables;
+            await TestUtils.clearTable(undefined, sheriff_duty, duty, duty_recurrence, assignment);
+            done();
+        })
+
         it('import defaults should create duties with correct details', async () => {
             const recurrences: DutyRecurrence[] = [
                 {
@@ -280,9 +286,11 @@ describe('Duty API', () => {
             const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId });
             expect(Array.isArray(duties)).toBeTruthy();
             expect(duties.length).toEqual(1);
-            assertImportedDuties(duties,assignment);
+            assertImportedDuties(duties, assignment);
         });
 
+
+        
 
     })
 
