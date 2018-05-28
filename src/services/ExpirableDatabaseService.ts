@@ -36,7 +36,7 @@ export default abstract class ExpirableDatabaseService<T> extends DatabaseServic
         }
         return query;
     }
-
+    
     protected getInsertQuery(entity: Partial<T>): PostgresInsert {
         const query = this.db.insertQuery(this.tableName, this.primaryKey)
             .returning(this.getReturningFields());
