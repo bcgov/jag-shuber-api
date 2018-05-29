@@ -38,7 +38,8 @@ describe('Sheriff API', () => {
             firstName: 'Bill',
             lastName: 'Nye',
             badgeNo: '12345678',
-            rankCode: "DEPUTYSHERIFF"
+            rankCode: "DEPUTYSHERIFF",
+            alias:'Bravo Charlie'
         };
 
         let createdSheriff: Sheriff;
@@ -103,15 +104,20 @@ describe('Sheriff API', () => {
         it('update Sheriff should return updated Sheriff', async () => {
             const newName = "Bruce";
             const newBadgeNo = "32345";
+            const newAlias = "Spruce Bruce";
             const gotEntity = await api.UpdateSheriff(createdSheriff.id, {
                 ...createdSheriff,
                 firstName: newName,
-                badgeNo: newBadgeNo
+                badgeNo: newBadgeNo,
+                alias:newAlias,
+                currentCourthouseId:testCourthouse.id
             });
             expect(gotEntity).toMatchObject({
                 ...createdSheriff,
                 firstName: newName,
-                badgeNo: newBadgeNo
+                badgeNo: newBadgeNo,
+                alias:newAlias,
+                currentCourthouseId:testCourthouse.id
             });
         });
 

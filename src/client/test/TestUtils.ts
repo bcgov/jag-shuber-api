@@ -1,7 +1,7 @@
 import { toMatchShapeOf, toMatchOneOf } from 'jest-to-match-shape-of';
 import db from '../../db/Database';
 import ExtendedClient from '../ExtendedClient';
-import { Courthouse, Courtroom, Assignment, Region, DutyRecurrence, Duty } from '../models';
+import { Courthouse, Courtroom, Assignment, Region, DutyRecurrence, Duty, SheriffDuty } from '../models';
 import { Sheriff } from '../../models/Sheriff';
 import { ClientBase } from 'pg';
 import './MomentMatchers';
@@ -139,12 +139,12 @@ export default class TestUtils {
     static assertImportedDuties(created: Duty[], assignment: Assignment) {
         created.forEach(createdDuty => {
             expect(createdDuty.id).toBeDefined();
-            const {dutyRecurrences = []} = assignment;
-            const dutyRecurrence = dutyRecurrences.find(r => r.id === createdDuty.dutyRecurrenceId);
+            const dutyRecurrences = assignment.dutyRecurrences as DutyRecurrence[];
+            const dutyRecurrence = dutyRecurrences.find(r => r.id === createdDuty.dutyRecurrenceId) as DutyRecurrence;
             expect(dutyRecurrence).toBeDefined();
             expect(createdDuty.assignmentId).toEqual(assignment.id);
-            const {sheriffDuties} = createdDuty;
-            expect(Array.isArray(sheriffDuties)).toBeTruthy();
+            const sheriffDuties = createdDuty.sheriffDuties as SheriffDuty[];
+            expect(Array.isArray(sheriffDuties)).toBeTruthy();            
             expect(sheriffDuties.length).toEqual(dutyRecurrence.sheriffsRequired);
             sheriffDuties.forEach(sd => {
                 expect(sd.id).toBeDefined();
