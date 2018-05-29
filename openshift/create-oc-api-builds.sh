@@ -15,7 +15,7 @@ read -p "Create Builds? (Y/n): " ok
 ok=${ok:-y}
 ok=$(echo $ok |awk '{print tolower($0)}')
 
-params="-p GIT_REF=node-api"
+#params="-p GIT_REF=node-api"
 #params=""
 
 if [ "$ok" == "y" ]; then

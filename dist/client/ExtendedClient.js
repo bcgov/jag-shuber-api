@@ -77,6 +77,7 @@ var SA = __importStar(require("superagent"));
 var superagent_prefix_1 = __importDefault(require("superagent-prefix"));
 var superagent_use_1 = __importDefault(require("superagent-use"));
 var Client_1 = __importDefault(require("./Client"));
+var time_1 = require("./utils/time");
 var ExtendedClient = /** @class */ (function (_super) {
     __extends(ExtendedClient, _super);
     function ExtendedClient(baseUrl) {
@@ -84,9 +85,12 @@ var ExtendedClient = /** @class */ (function (_super) {
             .use(superagent_prefix_1.default(baseUrl))) || this;
         _this.agent.use(function (req) { return _this.interceptRequest(req); });
         _this.errorProcessor = _this.processError;
+        _this.timezoneOffset = -(new Date().getTimezoneOffset() / 60);
         return _this;
     }
     ExtendedClient.prototype.interceptRequest = function (req) {
+        req.set('Accept', 'application/javascript');
+        req.set('TZ-Offset', "" + this.timezoneOffset);
         return this._requestInterceptor ? this._requestInterceptor(req) : req;
     };
     Object.defineProperty(ExtendedClient.prototype, "requestInterceptor", {
@@ -272,6 +276,27 @@ var ExtendedClient = /** @class */ (function (_super) {
                 }
             });
         });
+    };
+    ExtendedClient.prototype.ensureTimeZone = function () {
+        var dutyRecurrences = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            dutyRecurrences[_i] = arguments[_i];
+        }
+        return dutyRecurrences.map(function (dr) { return (__assign({}, dr, { startTime: time_1.toTimeString(dr.startTime), endTime: time_1.toTimeString(dr.endTime) })); });
+    };
+    ExtendedClient.prototype.CreateDutyRecurrence = function (model) {
+        return _super.prototype.CreateDutyRecurrence.call(this, this.ensureTimeZone(model)[0]);
+    };
+    ExtendedClient.prototype.UpdateDutyRecurrence = function (id, model) {
+        return _super.prototype.UpdateDutyRecurrence.call(this, id, this.ensureTimeZone(model)[0]);
+    };
+    ExtendedClient.prototype.CreateAssignment = function (model) {
+        var _a = model.dutyRecurrences, dutyRecurrences = _a === void 0 ? [] : _a;
+        return _super.prototype.CreateAssignment.call(this, __assign({}, model, { dutyRecurrences: this.ensureTimeZone.apply(this, dutyRecurrences) }));
+    };
+    ExtendedClient.prototype.UpdateAssignment = function (id, model) {
+        var _a = model.dutyRecurrences, dutyRecurrences = _a === void 0 ? [] : _a;
+        return _super.prototype.UpdateAssignment.call(this, id, __assign({}, model, { dutyRecurrences: this.ensureTimeZone.apply(this, dutyRecurrences) }));
     };
     ExtendedClient.prototype.UpdateMultipleShifts = function (model) {
         var startTime = model.startTime, endTime = model.endTime, rest = __rest(model, ["startTime", "endTime"]);

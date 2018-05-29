@@ -102,15 +102,14 @@ describe('Shift API', () => {
         // ####################################################
         // ################  CURRENTLY BROKEN  ################
         // ####################################################
-        it.skip('removing a shifts work section via update should return an updated Shift', async () => {
-            const newWorkSection = null;
+        it('removing a shifts work section via update should return an updated Shift', async () => {
             const updatedEntity = await api.UpdateShift(createdEntity.id, {
-                ...createdEntity,
-                workSectionCode: newWorkSection
+                ...createdEntity                
             } as Shift);
+            const expectedEntity = {...createdEntity};
+            delete expectedEntity.workSectionId;
             expect(updatedEntity).toMatchObject({
-                ...createdEntity,
-                workSectionCode: newWorkSection,
+                ...expectedEntity,
             });
         });
 

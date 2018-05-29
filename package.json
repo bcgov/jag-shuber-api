@@ -59,6 +59,7 @@
   "devDependencies": {
     "@types/dotenv": "^4.0.3",
     "@types/jest": "^22.2.3",
+    "@types/jest-matcher-utils": "^21.0.1",
     "@types/koa": "^2.0.45",
     "@types/koa-router": "^7.0.28",
     "@types/moment-timezone": "^0.5.5",

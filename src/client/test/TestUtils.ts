@@ -1,14 +1,16 @@
 import { toMatchShapeOf, toMatchOneOf } from 'jest-to-match-shape-of';
 import db from '../../db/Database';
 import ExtendedClient from '../ExtendedClient';
-import { Courthouse, Courtroom, Assignment, Region } from '../models';
+import { Courthouse, Courtroom, Assignment, Region, DutyRecurrence, Duty } from '../models';
 import { Sheriff } from '../../models/Sheriff';
 import { ClientBase } from 'pg';
+import './MomentMatchers';
 
 expect.extend({
     toMatchShapeOf,
     toMatchOneOf
 });
+
 
 
 export default class TestUtils {
@@ -114,7 +116,6 @@ export default class TestUtils {
         });
     }
 
-
     static async newTestSheriff(courthouseId: string, sheriff?: Partial<Sheriff>): Promise<Sheriff> {
         const api = TestUtils.getClient();
         return await api.CreateSheriff({
@@ -124,6 +125,40 @@ export default class TestUtils {
             rankCode: 'DEPUTYSHERIFF',
             homeCourthouseId: courthouseId
         }) as Sheriff;
+    }
+
+    static assertDutyRecurrence(actual:DutyRecurrence,expected:DutyRecurrence){
+        expect(actual.id).toBeDefined();
+        expect(actual.assignmentId).toBeDefined();
+        expect(actual.daysBitmap).toEqual(expected.daysBitmap);
+        expect(actual.sheriffsRequired).toEqual(expected.sheriffsRequired);
+        expect(actual.startTime).toBeSameTime(expected.startTime);
+        expect(actual.endTime).toBeSameTime(expected.endTime);
+    }
+
+    static assertImportedDuties(created: Duty[], assignment: Assignment) {
+        created.forEach(createdDuty => {
+            expect(createdDuty.id).toBeDefined();
+            const {dutyRecurrences = []} = assignment;
+            const dutyRecurrence = dutyRecurrences.find(r => r.id === createdDuty.dutyRecurrenceId);
+            expect(dutyRecurrence).toBeDefined();
+            expect(createdDuty.assignmentId).toEqual(assignment.id);
+            const {sheriffDuties} = createdDuty;
+            expect(Array.isArray(sheriffDuties)).toBeTruthy();
+            expect(sheriffDuties.length).toEqual(dutyRecurrence.sheriffsRequired);
+            sheriffDuties.forEach(sd => {
+                expect(sd.id).toBeDefined();
+                expect(sd.dutyId).toEqual(createdDuty.id);
+            });
+
+            // Check times of all objects 
+            [createdDuty.startDateTime, ...sheriffDuties.map(sd => sd.startDateTime)]
+                .forEach(sdt => expect(sdt).toBeSameTime(dutyRecurrence.startTime));
+
+            [createdDuty.endDateTime, ...sheriffDuties.map(sd => sd.endDateTime)]
+                .forEach(sdt => expect(sdt).toBeSameTime(dutyRecurrence.endTime));
+        })
+
     }
 
 }

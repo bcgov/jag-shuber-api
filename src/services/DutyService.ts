@@ -14,7 +14,6 @@ export class DutyService extends DatabaseService<Duty> {
         duty_id: 'id',
         start_dtm: 'startDateTime',
         end_dtm: 'endDateTime',
-        sheriffs_required: 'sheriffsRequired',
         assignment_id: 'assignmentId',
         duty_recurrence_id: 'dutyRecurrenceId'
     };
@@ -33,7 +32,7 @@ export class DutyService extends DatabaseService<Duty> {
 
     async create(entity: Partial<Duty>): Promise<Duty> {
         const { sheriffDuties = [] } = entity;
-        const query = this.getInsertQuery({ ...entity, sheriffsRequired: 0 });
+        const query = this.getInsertQuery({ ...entity});
         let createdDuty: Duty = {} as any;
         await this.db.transaction(async (client) => {
             const sheriffDutyService = this.getSheriffDutyService(client);
@@ -157,11 +156,9 @@ export class DutyService extends DatabaseService<Duty> {
 
             // For each of the recurrences, create the duty and sheriff Duties
             return await Promise.all(recurrencesToCreate.map(async (dr) => {
-                const startDateTime = this.adjustForTimezone(dateMoment.startOf('day'))
-                    .add(moment.duration(dr.startTime))
+                const startDateTime = this.setTime(dateMoment.startOf('day'),dr.startTime)                    
                     .toISOString();
-                const endDateTime = this.adjustForTimezone(dateMoment.startOf('day'))
-                    .add(moment.duration(dr.endTime))
+                const endDateTime = this.setTime(dateMoment.startOf('day'),dr.endTime)                    
                     .toISOString();
                 const sheriffDuties: SheriffDuty[] = [];
                 // Create a blank sheriffDuty for each sheriff required
@@ -175,7 +172,6 @@ export class DutyService extends DatabaseService<Duty> {
                 return await service.create({
                     assignmentId: dr.assignmentId,
                     dutyRecurrenceId: dr.id,
-                    sheriffsRequired: dr.sheriffsRequired,
                     startDateTime,
                     endDateTime,
                     sheriffDuties

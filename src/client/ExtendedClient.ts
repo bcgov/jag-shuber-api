@@ -1,9 +1,10 @@
-import moment from 'moment';
+import moment, { Moment, isMoment } from 'moment';
 import * as SA from 'superagent';
 import saPrefix from 'superagent-prefix';
 import superagentUse from 'superagent-use';
 import Client from './Client';
 import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift, DutyImportDefaultsRequest, MultipleShiftUpdateRequest } from './models';
+import { toTimeString } from './utils/time';
 
 export type DateType = string | Date | moment.Moment | number;
 
@@ -27,6 +28,7 @@ export type SuperAgentRequestInterceptor = (req: SA.SuperAgentRequest) => SA.Sup
 export default class ExtendedClient extends Client {
 
     private _requestInterceptor?: SuperAgentRequestInterceptor;
+    private timezoneOffset?: number;
 
     constructor(baseUrl: string) {
         super(
@@ -35,9 +37,12 @@ export default class ExtendedClient extends Client {
         );
         (this.agent as any).use((req) => this.interceptRequest(req))
         this.errorProcessor = this.processError;
+        this.timezoneOffset = -(new Date().getTimezoneOffset() / 60);
     }
 
     private interceptRequest(req: SA.SuperAgentRequest) {
+        req.set('Accept', 'application/javascript');
+        req.set('TZ-Offset', `${this.timezoneOffset}`)
         return this._requestInterceptor ? this._requestInterceptor(req) : req;
     }
 
@@ -160,6 +165,38 @@ export default class ExtendedClient extends Client {
         return await this.nullOn404(
             () => super.GetSheriffDutyById(id)
         );
+    }
+
+    private ensureTimeZone(...dutyRecurrences: DutyRecurrence[]) {
+        return dutyRecurrences.map(dr => ({
+            ...dr,
+            startTime: toTimeString(dr.startTime),
+            endTime: toTimeString(dr.endTime)
+        }));
+    }
+
+    CreateDutyRecurrence(model: DutyRecurrence) {
+        return super.CreateDutyRecurrence(this.ensureTimeZone(model)[0]);
+    }
+
+    UpdateDutyRecurrence(id: string, model: DutyRecurrence) {
+        return super.UpdateDutyRecurrence(id,this.ensureTimeZone(model)[0])
+    }
+
+    CreateAssignment(model: Assignment) {
+        const { dutyRecurrences = [] } = model;
+        return super.CreateAssignment({
+            ...model,
+            dutyRecurrences: this.ensureTimeZone(...dutyRecurrences)
+        });
+    }
+
+    UpdateAssignment(id: string, model: Assignment) {
+        const { dutyRecurrences = [] } = model;
+        return super.UpdateAssignment(id, {
+            ...model,
+            dutyRecurrences: this.ensureTimeZone(...dutyRecurrences)
+        });
     }
 
     UpdateMultipleShifts(model: MultipleShiftUpdateRequest) {

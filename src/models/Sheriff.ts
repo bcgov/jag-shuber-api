@@ -5,6 +5,7 @@ export interface Sheriff {
     badgeNo: string;
     imageUrl?: string;
     homeCourthouseId: string;
+    currentCourthouseId?: string;
     rankCode: string;
     alias?: string;
 }
