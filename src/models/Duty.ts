@@ -5,7 +5,6 @@ export interface Duty {
     startDateTime: string;
     endDateTime: string;
     assignmentId: string;
-    sheriffsRequired?: number;
     dutyRecurrenceId?: string;
     sheriffDuties?: SheriffDuty[]
 }

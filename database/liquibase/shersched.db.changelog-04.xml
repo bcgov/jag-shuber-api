@@ -1,0 +1,101 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd"
+	  context="prod">
+
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+    
+    <!--
+    		Quick changes, pulled from larger block of changes to unblock dev
+    		while we get the pipeline running on my machine to test higher impact changes
+    		Targeted for Chilliwack rollout
+    -->
+
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="ddl_set_04_start"/>
+    </changeSet>
+
+    <!-- make assignment.title optional -->
+    <changeSet author="Carol Geisler" id="DRPNN_assn_title">
+      <comment>Assignments may not have a title assigned. A string may be generated for display purposes from other data in certain cases.</comment>
+      <dropNotNullConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" columnName="title" tableName="assignment"/>
+    </changeSet>
+    
+    <!-- make shift.work_section_code optional -->
+    <changeSet author="Carol Geisler" id="DRPNN_shft_work_section_code">
+      <comment>Determined that shifts may have not have a fixed work section, or may have duties spanning multiple work sections, so removing Not Null constraint.</comment>
+      <dropNotNullConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" columnName="work_section_code" tableName="shift"/>
+    </changeSet>
+
+    <!-- drop column duty.sheriffs_required -->
+    <changeSet author="Carol Geisler" id="DRPCOL_dty_sheriffs_required">
+        <comment>When Duty records are generated from duty_recurrence, a number of &quot;blank&quot; sheriff_duty records are generated according to the sheriffs_required value on duty_recurrence; when Duty records are manually created, the user adds the desired number of sheriff_duty records. In either case, the sheriffs_required field is no longer required for Duty.</comment>
+        <dropColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" columnName="sheriffs_required" tableName="duty">
+        </dropColumn>
+        <rollback>
+        	<addColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty">
+            <column name="sheriffs_required" type="numeric(2)">
+                <constraints nullable="false"/>
+            </column>
+        	</addColumn>
+        </rollback>
+    </changeSet>
+
+
+		<!-- rename sheriff.courthouse_id to home_courthouse_id -->
+		<changeSet author="Carol Geisler" id="RNMCOL_shrf_courthouse_id">
+				<comment>The name home_courthouse_id better reflects the usage of this column, and is consistent with the front end.</comment>
+				<renameColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}"  tableName="sheriff" oldColumnName="courthouse_id" newColumnName="home_courthouse_id"/>
+		</changeSet>
+
+    <!-- add sheriff.current_courthouse_id -->
+    <changeSet author="Carol Geisler" id="ADDCOL_shrf_current_courthouse_id">
+    		<comment>This column is an interim change to allow loan in and out to be represented in the Chilliwack pilot.
+    			The full implementation will store loans in a separate table with effective and end dates
+    	  </comment>
+    	  <addColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}"  tableName="sheriff">
+    	  	<column name="current_courthouse_id" type="UUID"/>
+    	  </addColumn>
+    </changeSet>
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="ddl_set_04_end"/>
+    </changeSet>
+    
+    <!--add column sheriff.alias -->
+    <changeSet author="Carol Geisler" id="ADDCOL_shrf_alias">
+      <comment>New column, anticipated earlier, but added now to hold radio call sign values provided for VLC Sheriffs.</comment>
+      <addColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff">
+        <column name="alias" type="varchar(32)"/>
+      </addColumn>
+    </changeSet>
+    
+		<!-- change type of duty_recurrence time columns - multiple steps 
+			1. add new columns with timezone
+			2. copy data from old columns to new columns
+			3. drop old columns
+			4. rename new columns to original column names
+		-->
+		<changeSet author="Carol Geisler" id="ADDCOL_duty_recurrence_start_end_times">
+			<addColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_recurrence">
+				<column name="start_time_newtz" type="TIME WITH TIME ZONE"/>
+				<column name="end_time_newtz" type="TIME WITH TIME ZONE"/>
+		  </addColumn>
+		  <update catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_recurrence">
+				<column name="start_time_newtz" type="TIME WITH TIME ZONE" valueComputed="start_time"/>
+				<column name="end_time_newtz" type="TIME WITH TIME ZONE" valueComputed="end_time"/>
+		  </update>
+		  <dropColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_recurrence">
+				<column name="start_time" type="TIME"/>
+				<column name="end_time" type="TIME"/>		  	
+		  </dropColumn>
+		  <renameColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_recurrence" oldColumnName="start_time_newtz" newColumnName="start_time"/>
+		  <renameColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_recurrence" oldColumnName="end_time_newtz" newColumnName="end_time"/>
+		</changeSet>
+</databaseChangeLog>

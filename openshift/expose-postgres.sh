@@ -36,7 +36,7 @@ gen=${gen:-n}
 gen=$(echo $gen |awk '{print tolower($0)}')
 if [ "$gen" == "y" ]; then
 read -p "Environment name ('testing'):" envName
-gen=${gen:-testing}
+envName=${envName:-testing}
   cat <<EOT >> .env.$envName
 PGHOST='$ip'
 PGUSER='shersched'

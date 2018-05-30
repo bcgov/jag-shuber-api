@@ -38,11 +38,7 @@ describe('Duty Recurrence API', () => {
         expect(createdEntity).toBeDefined();
         expect(createdEntity.id).toBeDefined();
         expect(createdEntity.assignmentId).toEqual(testAssignment.id);
-        expect(createdEntity).toEqual({
-            ...createdEntity,
-            ...entityToCreate,
-            assignmentId: testAssignment.id
-        });
+        TestUtils.assertDutyRecurrence(createdEntity,entityToCreate);        
     });
 
     it('get by id should return Duty Recurrence', async () => {
@@ -77,10 +73,10 @@ describe('Duty Recurrence API', () => {
             ...createdEntity,
             endTime: newEndTime
         } as DutyRecurrence);
-        expect(updatedEntity).toMatchObject({
+        TestUtils.assertDutyRecurrence(updatedEntity,{
             ...createdEntity,
-            endTime: newEndTime,
-        });
+            endTime:newEndTime
+        });        
     });
 
     it('delete should delete Duty Recurrence', async () => {

@@ -95,10 +95,7 @@ describe('Assignment API', () => {
         expect(createdRecurrence.assignmentId).toEqual(createdEntityWithRecurrence.id);
 
         // check that all values are same as those created
-        expect(createdRecurrence).toEqual({
-            ...createdRecurrence,
-            ...recurrenceToCreate
-        });
+        TestUtils.assertDutyRecurrence(createdRecurrence,recurrenceToCreate);
         createdEntities.push(createdEntityWithRecurrence);
     });
 
@@ -188,16 +185,11 @@ describe('Assignment API', () => {
         expect(Array.isArray(recurrences)).toBeTruthy();
         expect(recurrences.length).toEqual(2);
         expect(recurrences.every(r => r.id != undefined)).toBeTruthy();
-        expect(recurrences.find(r => r.id === recurrenceToUpdate.id)).toEqual(
-            recurrenceToUpdate
-        );
+        TestUtils.assertDutyRecurrence(recurrences.find(r => r.id === recurrenceToUpdate.id),recurrenceToUpdate);        
         const newRecurrence = recurrences.find(r => r.id !== recurrenceToUpdate.id);
         expect(newRecurrence).toMatchShapeOf(recurrenceShape);
         expect(newRecurrence.assignmentId).toEqual(createdEntityWithRecurrence.id);
-        expect(newRecurrence.daysBitmap).toEqual(additionalRecurrence.daysBitmap);
-        expect(newRecurrence.startTime).toEqual(additionalRecurrence.startTime);
-        expect(newRecurrence.endTime).toEqual(additionalRecurrence.endTime);
-        expect(newRecurrence.sheriffsRequired).toEqual(additionalRecurrence.sheriffsRequired);
+        TestUtils.assertDutyRecurrence(newRecurrence,additionalRecurrence);
     });
 
     it('expiring a duty recurrence should hide it from the assignments list but not from get by id', async () => {

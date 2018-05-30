@@ -9,6 +9,14 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __assign = (this && this.__assign) || Object.assign || function(t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+        s = arguments[i];
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+            t[p] = s[p];
+    }
+    return t;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -44,6 +52,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
+            t[p[i]] = s[p[i]];
+    return t;
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -60,6 +77,7 @@ var SA = __importStar(require("superagent"));
 var superagent_prefix_1 = __importDefault(require("superagent-prefix"));
 var superagent_use_1 = __importDefault(require("superagent-use"));
 var Client_1 = __importDefault(require("./Client"));
+var time_1 = require("./utils/time");
 var ExtendedClient = /** @class */ (function (_super) {
     __extends(ExtendedClient, _super);
     function ExtendedClient(baseUrl) {
@@ -67,9 +85,12 @@ var ExtendedClient = /** @class */ (function (_super) {
             .use(superagent_prefix_1.default(baseUrl))) || this;
         _this.agent.use(function (req) { return _this.interceptRequest(req); });
         _this.errorProcessor = _this.processError;
+        _this.timezoneOffset = -(new Date().getTimezoneOffset() / 60);
         return _this;
     }
     ExtendedClient.prototype.interceptRequest = function (req) {
+        req.set('Accept', 'application/javascript');
+        req.set('TZ-Offset', "" + this.timezoneOffset);
         return this._requestInterceptor ? this._requestInterceptor(req) : req;
     };
     Object.defineProperty(ExtendedClient.prototype, "requestInterceptor", {
@@ -256,15 +277,42 @@ var ExtendedClient = /** @class */ (function (_super) {
             });
         });
     };
+    ExtendedClient.prototype.ensureTimeZone = function () {
+        var dutyRecurrences = [];
+        for (var _i = 0; _i < arguments.length; _i++) {
+            dutyRecurrences[_i] = arguments[_i];
+        }
+        return dutyRecurrences.map(function (dr) { return (__assign({}, dr, { startTime: time_1.toTimeString(dr.startTime), endTime: time_1.toTimeString(dr.endTime) })); });
+    };
+    ExtendedClient.prototype.CreateDutyRecurrence = function (model) {
+        return _super.prototype.CreateDutyRecurrence.call(this, this.ensureTimeZone(model)[0]);
+    };
+    ExtendedClient.prototype.UpdateDutyRecurrence = function (id, model) {
+        return _super.prototype.UpdateDutyRecurrence.call(this, id, this.ensureTimeZone(model)[0]);
+    };
+    ExtendedClient.prototype.CreateAssignment = function (model) {
+        var _a = model.dutyRecurrences, dutyRecurrences = _a === void 0 ? [] : _a;
+        return _super.prototype.CreateAssignment.call(this, __assign({}, model, { dutyRecurrences: this.ensureTimeZone.apply(this, dutyRecurrences) }));
+    };
+    ExtendedClient.prototype.UpdateAssignment = function (id, model) {
+        var _a = model.dutyRecurrences, dutyRecurrences = _a === void 0 ? [] : _a;
+        return _super.prototype.UpdateAssignment.call(this, id, __assign({}, model, { dutyRecurrences: this.ensureTimeZone.apply(this, dutyRecurrences) }));
+    };
+    ExtendedClient.prototype.UpdateMultipleShifts = function (model) {
+        var startTime = model.startTime, endTime = model.endTime, rest = __rest(model, ["startTime", "endTime"]);
+        var request = __assign({}, rest, { startTime: moment_1.default(startTime).format(), endTime: moment_1.default(endTime).format() });
+        return _super.prototype.UpdateMultipleShifts.call(this, request);
+    };
     ExtendedClient.prototype.ImportDefaultDuties = function (request) {
         return __awaiter(this, void 0, void 0, function () {
-            var courthouseId, _a, date;
-            return __generator(this, function (_b) {
-                switch (_b.label) {
+            var courthouseId, date, dateMoment;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
                     case 0:
-                        courthouseId = request.courthouseId, _a = request.date, date = _a === void 0 ? moment_1.default().toISOString() : _a;
-                        return [4 /*yield*/, _super.prototype.ImportDefaultDuties.call(this, { courthouseId: courthouseId, date: date })];
-                    case 1: return [2 /*return*/, _b.sent()];
+                        courthouseId = request.courthouseId, date = request.date;
+                        dateMoment = date ? moment_1.default(date) : moment_1.default().startOf('day');
+                        return [4 /*yield*/, _super.prototype.ImportDefaultDuties.call(this, { courthouseId: courthouseId, date: dateMoment.format("YYYY-MM-DD") })];
+                    case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });

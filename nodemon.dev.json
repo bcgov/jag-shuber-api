@@ -6,7 +6,8 @@
     ],
     "ext": "ts,json",
     "env":{
-        "DOTENV_PATH":".env.dev"
+        "DOTENV_PATH":".env.dev",
+        "TZ": "Etc/UTC"
     },
     "ignore": [
         "*.spec.ts"

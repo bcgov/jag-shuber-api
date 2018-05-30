@@ -2,7 +2,7 @@
 import moment from 'moment';
 import * as SA from 'superagent';
 import Client from './Client';
-import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift, DutyImportDefaultsRequest } from './models';
+import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift, DutyImportDefaultsRequest, MultipleShiftUpdateRequest } from './models';
 export declare type DateType = string | Date | moment.Moment | number;
 export interface ValidationError {
     response: {
@@ -20,6 +20,7 @@ export interface ValidationError {
 export declare type SuperAgentRequestInterceptor = (req: SA.SuperAgentRequest) => SA.SuperAgentRequest;
 export default class ExtendedClient extends Client {
     private _requestInterceptor?;
+    private timezoneOffset?;
     constructor(baseUrl: string);
     private interceptRequest(req);
     requestInterceptor: SuperAgentRequestInterceptor;
@@ -42,5 +43,11 @@ export default class ExtendedClient extends Client {
     GetDutyRecurrences(startDate?: DateType, endDate?: DateType): Promise<DutyRecurrence[]>;
     GetDutyById(id: string): Promise<Duty>;
     GetSheriffDutyById(id: string): Promise<Duty>;
+    private ensureTimeZone(...dutyRecurrences);
+    CreateDutyRecurrence(model: DutyRecurrence): Promise<DutyRecurrence>;
+    UpdateDutyRecurrence(id: string, model: DutyRecurrence): Promise<DutyRecurrence>;
+    CreateAssignment(model: Assignment): Promise<Assignment>;
+    UpdateAssignment(id: string, model: Assignment): Promise<Assignment>;
+    UpdateMultipleShifts(model: MultipleShiftUpdateRequest): Promise<Shift[]>;
     ImportDefaultDuties(request: DutyImportDefaultsRequest): Promise<Duty[]>;
 }

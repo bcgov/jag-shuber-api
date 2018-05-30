@@ -43,6 +43,7 @@
         badgeNo? : string
         imageUrl? : string
         homeCourthouseId? : string
+        currentCourthouseId? : string
         rankCode? : string
         alias? : string
     }
@@ -106,7 +107,6 @@
         startDateTime? : string
         endDateTime? : string
         assignmentId? : string
-        sheriffsRequired? : number
         dutyRecurrenceId? : string
         sheriffDuties? : Array<SheriffDuty>
     }

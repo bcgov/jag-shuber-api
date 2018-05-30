@@ -1,6 +1,6 @@
 {
   "name": "jag-shuber-api",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Sheriff Scheduling System Api",
   "main": "dist/client/index",
   "typings": "dist/client/index",
@@ -30,7 +30,7 @@
     }
   },
   "scripts": {
-    "start": "node ./dist/index.js",
+    "start": "export TZ=Etc/UTC && node ./dist/index.js",
     "start:debug": "nodemon --config nodemon.dev.json --inspect",
     "start:testing": "nodemon --config nodemon.testing.json --inspect",
     "build": "./node_modules/.bin/tsc",
@@ -40,13 +40,15 @@
     "test:coverage": "yarn test --coverage",
     "generate": "tsoa swagger && tsoa routes && swagger-ts-client",
     "watch": "concurrently --names 'BUILD,GENERATE,SERVER' -c 'bgGreen.bold,bgBlue.bold,bgMagenta.bold' \"npm-watch build\" \"npm-watch generate\"  \"yarn start:debug\" ",
-    "watch:testing": "concurrently --names 'BUILD,GENERATE,SERVER' -c 'bgGreen.bold,bgBlue.bold,bgMagenta.bold' \"npm-watch build\" \"npm-watch generate\"  \"yarn start:testing\" "
+    "watch:testing": "concurrently --names 'BUILD,GENERATE,SERVER' -c 'bgGreen.bold,bgBlue.bold,bgMagenta.bold' \"npm-watch build\" \"npm-watch generate\"  \"yarn start:testing\" ",
+    "oc:dev": "nodemon --ignore node_modules/ dist/index.js --inspect=$DEBUG_PORT"
   },
   "dependencies": {
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.4.0",
     "moment": "^2.22.1",
+    "moment-timezone": "^0.5.17",
     "pg": "^7.4.1",
     "squel": "^5.12.1",
     "superagent-prefix": "^0.0.2",
@@ -57,8 +59,10 @@
   "devDependencies": {
     "@types/dotenv": "^4.0.3",
     "@types/jest": "^22.2.3",
+    "@types/jest-matcher-utils": "^21.0.1",
     "@types/koa": "^2.0.45",
     "@types/koa-router": "^7.0.28",
+    "@types/moment-timezone": "^0.5.5",
     "@types/node": "^9.6.6",
     "@types/pg": "^7.4.8",
     "@types/superagent": "^3.5.8",

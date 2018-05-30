@@ -1,9 +1,8 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { Shift } from '../models/Shift';
 import { DatabaseService } from './DatabaseService';
 import { MultipleShiftUpdateRequest } from '../models/MultipleShiftUpdateRequest';
 import { ShiftCopyOptions } from '../models/ShiftCopyOptions';
-
 
 export class ShiftService extends DatabaseService<Shift> {
     fieldMap = {
@@ -30,28 +29,48 @@ export class ShiftService extends DatabaseService<Shift> {
 
     async updateMultipleShifts(multipleShiftsUpdateRequest: MultipleShiftUpdateRequest): Promise<Shift[]> {
         const { shiftIds = [], workSectionId, endTime, startTime, sheriffId } = multipleShiftsUpdateRequest;
-        const query = this.squel.update({ autoQuoteAliasNames: true })
-            .table(this.dbTableName)
-            .where('shift_id IN ?', shiftIds)
-            .returning(this.getReturningFields());
 
-        if (workSectionId) {
-            query.set('work_section_code', workSectionId);
-        }
-        if (sheriffId) {
-            query.set('sheriff_id', sheriffId);
-        }
-        if (startTime) {
-            const startTimeMoment = moment(startTime).utc();
-            query.set('start_dtm',
-                this.squel.str(`DATE(start_dtm)+interval '${startTimeMoment.hours()} hours ${startTimeMoment.minutes()} minutes'`));
-        }
-        if (endTime) {
-            const endTimeMoment = moment(endTime).utc();
-            query.set('end_dtm',
-                this.squel.str(`DATE(start_dtm)+interval '${endTimeMoment.hours()} hours ${endTimeMoment.minutes()} minutes'`));
-        }
-        return await this.executeQuery<Shift>(query.toString());
+        const currentShiftQuery = this.getSelectQuery()
+            .where('shift_id IN ?', shiftIds);
+        const currentShifts = await this.executeQuery<Shift>(currentShiftQuery.toString());
+
+        const shiftUpdates = currentShifts.map(shift => {
+            const shiftToUpdate = { ...shift };
+            const { startDateTime: originalStart, endDateTime: originalEnd } = shift;
+
+            if (workSectionId) {
+                shiftToUpdate.workSectionId = workSectionId;
+            }
+
+            if (sheriffId) {
+                shiftToUpdate.sheriffId = sheriffId;
+            }
+
+            let newStartMoment = moment(originalStart);
+            if (startTime) {
+                // Start time will include the offset (i.e. +7:00), so we use timezone to convert it into UTC
+                const newStartTimeMoment = moment.tz(startTime, 'UTC');
+                newStartMoment.hours(newStartTimeMoment.hours()).minutes(newStartTimeMoment.minutes());
+            }
+            shiftToUpdate.startDateTime = newStartMoment.toISOString();
+
+            let newEndMoment = moment(originalEnd);
+            if (endTime) {
+                // End time will include the offset (i.e. +7:00), so we use timezone to convert it into UTC
+                const newEndTimeMoment = moment.tz(endTime, 'UTC');
+                newEndMoment.hours(newEndTimeMoment.hours()).minutes(newEndTimeMoment.minutes());
+            }
+
+            shiftToUpdate.endDateTime = newEndMoment.toISOString();
+            return shiftToUpdate;
+        });
+
+
+        return await this.db.transaction(async (client) => {
+            const service = new ShiftService();
+            service.dbClient = client;
+            return Promise.all(shiftUpdates.map(s => service.update(s)));
+        });
     }
 
     async copyShifts(shiftCopyOptions: ShiftCopyOptions): Promise<Shift[]> {
@@ -64,7 +83,7 @@ export class ShiftService extends DatabaseService<Shift> {
             .where(`DATE(start_dtm) BETWEEN '${startOfWeekSourceUTC}' AND '${endOfWeekSourceUTC}'`)
             .where('courthouse_id = ?', courthouseId);
         const sourceShifts = await this.executeQuery<Shift>(selectQuery.toString());
-        
+
         const copiedShifts = await this.db.transaction(async client => {
             const shiftService = new ShiftService();
             shiftService.dbClient = client;

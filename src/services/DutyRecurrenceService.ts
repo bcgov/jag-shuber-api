@@ -13,7 +13,7 @@ export class DutyRecurrenceService extends ExpirableDatabaseService<DutyRecurren
     };
 
     constructor() {
-        super('duty_recurrence', 'duty_recurrence_id', true);
+        super('duty_recurrence', 'duty_recurrence_id');
     }
 
     async getAllForAssignments(assignmentIds: string[] = [], options?:EffectiveQueryOptions): Promise<DutyRecurrence[]> {

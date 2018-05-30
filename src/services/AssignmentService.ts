@@ -25,7 +25,7 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
     };
 
     constructor() {
-        super('assignment', 'assignment_id', true);
+        super('assignment', 'assignment_id');
         // Todo: IoC would be better here than explicit construction
         this.dutyRecurrenceService = new DutyRecurrenceService();
     }

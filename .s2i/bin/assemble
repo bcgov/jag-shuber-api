@@ -64,3 +64,6 @@ yarn install
 
 echo "---> Building application from source"
 yarn build
+
+# Fix source directory permissions
+fix-permissions ./
