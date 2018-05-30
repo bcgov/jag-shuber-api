@@ -98,10 +98,6 @@ describe('Shift API', () => {
             });
         });
 
-
-        // ####################################################
-        // ################  CURRENTLY BROKEN  ################
-        // ####################################################
         it('removing a shifts work section via update should return an updated Shift', async () => {
             const updatedEntity = await api.UpdateShift(createdEntity.id, {
                 ...createdEntity                
@@ -162,7 +158,22 @@ describe('Shift API', () => {
 
             expect(updatedShifts).toEqual(expect.arrayContaining(retrieved));
             expect(updatedShifts.every(s => s.workSectionId === 'COURTS')).toBeTruthy();
+        });
 
+        it('should clear the work section id for each shift if ""', async () => {
+            const testShiftIds = testShifts.map(s => s.id);
+            const updates: MultipleShiftUpdateRequest = {
+                shiftIds: testShiftIds,
+                workSectionId: ''
+            }
+            const updatedShifts = await api.UpdateMultipleShifts(updates);
+            const courthouseShifts = await api.GetShifts(testCourthouse.id);
+            const retrieved = courthouseShifts.filter(s => testShiftIds.includes(s.id));
+
+            expect(updatedShifts).toEqual(expect.arrayContaining(retrieved));
+            updatedShifts.forEach(s=>{
+                expect(s.workSectionId == undefined).toBeTruthy();
+            });
         });
 
         it('should update the start time for each shift', async () => {

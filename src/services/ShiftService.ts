@@ -40,6 +40,8 @@ export class ShiftService extends DatabaseService<Shift> {
 
             if (workSectionId) {
                 shiftToUpdate.workSectionId = workSectionId;
+            } else if (workSectionId === "") {
+                shiftToUpdate.workSectionId = null as any;
             }
 
             if (sheriffId) {
