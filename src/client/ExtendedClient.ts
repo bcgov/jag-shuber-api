@@ -203,8 +203,8 @@ export default class ExtendedClient extends Client {
         const { startTime, endTime, ...rest } = model;
         const request: MultipleShiftUpdateRequest = {
             ...rest,
-            startTime: moment(startTime).format(),
-            endTime: moment(endTime).format()
+            startTime: startTime ?  moment(startTime).format() : undefined,
+            endTime: endTime ? moment(endTime).format() : undefined
         };
 
         return super.UpdateMultipleShifts(request);
