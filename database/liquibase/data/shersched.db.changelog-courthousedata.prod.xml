@@ -21,10 +21,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courthouse">
-          <column name="courthouse_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courthouse_cd" type="VARCHAR(5)" value="VANRS"/>
           <column name="courthouse_name" type="VARCHAR(100)" value="Robson Square"/>
-          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM region r WHERE r.region_cd = 'VANCOASTAL')"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'VANCOASTAL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -43,10 +43,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courthouse">
-          <column name="courthouse_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courthouse_cd" type="VARCHAR(5)" value="CHL"/>
           <column name="courthouse_name" type="VARCHAR(100)" value="Chilliwack"/>
-          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM region r WHERE r.region_cd = 'VANCOASTAL')"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'VANCOASTAL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -65,10 +65,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courthouse">
-          <column name="courthouse_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courthouse_cd" type="VARCHAR(5)" value="VIC"/>
           <column name="courthouse_name" type="VARCHAR(100)" value="Victoria"/>
-          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM region r WHERE r.region_cd = 'VANISLAND')"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'VANISLAND')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -87,10 +87,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courthouse">
-          <column name="courthouse_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courthouse_cd" type="VARCHAR(5)" value="SRY"/>
           <column name="courthouse_name" type="VARCHAR(100)" value="Surrey"/>
-          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM region r WHERE r.region_cd = 'VANCOASTAL')"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'VANCOASTAL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>

@@ -19,10 +19,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="Bella Bella"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Bella Bella Circuit"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -33,7 +33,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='Bella Bella' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
+              <where>courtroom_cd='Bella Bella' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -41,10 +41,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="Bella Coola"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Bella Coola Circuit"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -55,7 +55,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='Bella Coola' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
+              <where>courtroom_cd='Bella Coola' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -63,10 +63,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="201"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  201"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -77,7 +77,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='201' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')</where>
+              <where>courtroom_cd='201' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -85,10 +85,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="202"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  202"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -99,7 +99,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='202' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')</where>
+              <where>courtroom_cd='202' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -107,10 +107,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="203"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  203"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -121,7 +121,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='203' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')</where>
+              <where>courtroom_cd='203' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -129,10 +129,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="204"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  204"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -143,7 +143,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='204' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')</where>
+              <where>courtroom_cd='204' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -151,10 +151,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="205"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  205"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -165,7 +165,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='205' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')</where>
+              <where>courtroom_cd='205' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -173,10 +173,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="200"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  200"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -187,7 +187,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='200' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')</where>
+              <where>courtroom_cd='200' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -195,10 +195,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="206"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  206"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -209,7 +209,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='206' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')</where>
+              <where>courtroom_cd='206' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -217,10 +217,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="Klemtu"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Klemtu Circuit"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -231,7 +231,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='Klemtu' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
+              <where>courtroom_cd='Klemtu' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -239,10 +239,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="201"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  201"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -253,7 +253,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='201' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
+              <where>courtroom_cd='201' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -261,10 +261,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="202"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  202"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -275,7 +275,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='202' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
+              <where>courtroom_cd='202' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -283,10 +283,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="203"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  203"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -297,7 +297,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='203' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
+              <where>courtroom_cd='203' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -305,10 +305,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="204"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  204"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -319,7 +319,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='204' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
+              <where>courtroom_cd='204' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -327,10 +327,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="101"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  101"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -341,7 +341,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='101' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
+              <where>courtroom_cd='101' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -349,10 +349,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="102"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  102"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -363,7 +363,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='102' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
+              <where>courtroom_cd='102' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -371,10 +371,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="103"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  103"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -385,7 +385,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='103' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
+              <where>courtroom_cd='103' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -393,10 +393,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="104"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  104"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -407,7 +407,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='104' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
+              <where>courtroom_cd='104' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -415,10 +415,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="105"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  105"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -429,7 +429,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='105' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
+              <where>courtroom_cd='105' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -437,10 +437,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="106"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  106"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -451,7 +451,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='106' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
+              <where>courtroom_cd='106' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -459,10 +459,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="107"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  107"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -473,7 +473,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='107' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
+              <where>courtroom_cd='107' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -481,10 +481,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="108"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  108"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -495,7 +495,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='108' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
+              <where>courtroom_cd='108' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -503,10 +503,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="109"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  109"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -517,7 +517,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='109' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
+              <where>courtroom_cd='109' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -525,10 +525,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="110"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  110"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -539,7 +539,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='110' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
+              <where>courtroom_cd='110' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -547,10 +547,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="111"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  111"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -561,7 +561,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='111' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
+              <where>courtroom_cd='111' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -569,10 +569,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="112"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  112"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -583,7 +583,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='112' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
+              <where>courtroom_cd='112' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -591,10 +591,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="115"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  115"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -605,7 +605,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='115' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
+              <where>courtroom_cd='115' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -613,10 +613,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="Sidney"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Sidney Circuit"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -627,7 +627,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='Sidney' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>courtroom_cd='Sidney' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -635,10 +635,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="100"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  100"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -649,7 +649,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='100' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')</where>
+              <where>courtroom_cd='100' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -657,10 +657,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="101"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  101"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -671,7 +671,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='101' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')</where>
+              <where>courtroom_cd='101' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -679,10 +679,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="102"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  102"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -693,7 +693,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='102' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')</where>
+              <where>courtroom_cd='102' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -701,10 +701,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="103"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  103"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -715,7 +715,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='103' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')</where>
+              <where>courtroom_cd='103' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -723,10 +723,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="104"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  104"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -737,7 +737,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='104' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')</where>
+              <where>courtroom_cd='104' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -745,10 +745,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="105"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  105"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -759,7 +759,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='105' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')</where>
+              <where>courtroom_cd='105' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -767,10 +767,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="106"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  106"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -781,7 +781,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='106' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')</where>
+              <where>courtroom_cd='106' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -789,10 +789,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="107"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  107"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -803,7 +803,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='107' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')</where>
+              <where>courtroom_cd='107' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -811,10 +811,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="300"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  300"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -825,7 +825,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='300' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')</where>
+              <where>courtroom_cd='300' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -833,10 +833,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="301"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  301"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -847,7 +847,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='301' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')</where>
+              <where>courtroom_cd='301' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -855,10 +855,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="308"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  308"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -869,7 +869,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='308' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')</where>
+              <where>courtroom_cd='308' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -877,10 +877,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="309"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  309"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -891,7 +891,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='309' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')</where>
+              <where>courtroom_cd='309' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -899,10 +899,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="310"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  310"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -913,7 +913,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='310' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')</where>
+              <where>courtroom_cd='310' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -921,10 +921,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="311"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  311"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -935,7 +935,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='311' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')</where>
+              <where>courtroom_cd='311' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -943,10 +943,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="312"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  312"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -957,7 +957,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='312' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')</where>
+              <where>courtroom_cd='312' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -965,10 +965,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="313"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  313"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -979,7 +979,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='313' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')</where>
+              <where>courtroom_cd='313' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -987,10 +987,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="314"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  314"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1001,7 +1001,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='314' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')</where>
+              <where>courtroom_cd='314' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -1009,10 +1009,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="101"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  101"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1023,7 +1023,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='101' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>courtroom_cd='101' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -1031,10 +1031,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="301"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  301"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1045,7 +1045,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='301' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>courtroom_cd='301' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -1053,10 +1053,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="302"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  302"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1067,7 +1067,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='302' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>courtroom_cd='302' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -1075,10 +1075,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="401"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  401"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1089,7 +1089,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='401' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>courtroom_cd='401' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -1097,10 +1097,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="402"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  402"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1111,7 +1111,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='402' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>courtroom_cd='402' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -1119,10 +1119,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="102"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  102"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1133,7 +1133,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='102' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>courtroom_cd='102' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -1141,10 +1141,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="103"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  103"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1155,7 +1155,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='103' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>courtroom_cd='103' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -1163,10 +1163,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="104"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  104"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1177,7 +1177,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='104' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>courtroom_cd='104' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -1185,10 +1185,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="201"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  201"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1199,7 +1199,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='201' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>courtroom_cd='201' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -1207,10 +1207,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="202"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  202"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1221,7 +1221,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='202' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>courtroom_cd='202' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -1229,10 +1229,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="203"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  203"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1243,7 +1243,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='203' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>courtroom_cd='203' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -1251,10 +1251,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="303"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  303"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1265,7 +1265,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='303' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>courtroom_cd='303' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -1273,10 +1273,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="403"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  403"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1287,7 +1287,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='403' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>courtroom_cd='403' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -1295,10 +1295,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="404"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  404"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1309,7 +1309,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='404' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>courtroom_cd='404' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -1317,10 +1317,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="526"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  526"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1331,7 +1331,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='526' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>courtroom_cd='526' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -1339,10 +1339,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="527"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  527"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1353,7 +1353,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='527' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>courtroom_cd='527' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -1361,10 +1361,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="533"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  533"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1375,7 +1375,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='533' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>courtroom_cd='533' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -1383,10 +1383,10 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-          <column name="courtroom_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courtroom_cd" type="VARCHAR(32)" value="601"/>
           <column name="courtroom_name" type="VARCHAR(100)" value="Court Room  601"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1397,7 +1397,7 @@
           <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courtroom">
-              <where>courtroom_cd='601' AND courthouse_id=(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>courtroom_cd='601' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
