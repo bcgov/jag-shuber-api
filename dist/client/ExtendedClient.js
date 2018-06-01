@@ -300,7 +300,7 @@ var ExtendedClient = /** @class */ (function (_super) {
     };
     ExtendedClient.prototype.UpdateMultipleShifts = function (model) {
         var startTime = model.startTime, endTime = model.endTime, rest = __rest(model, ["startTime", "endTime"]);
-        var request = __assign({}, rest, { startTime: moment_1.default(startTime).format(), endTime: moment_1.default(endTime).format() });
+        var request = __assign({}, rest, { startTime: startTime ? moment_1.default(startTime).format() : undefined, endTime: endTime ? moment_1.default(endTime).format() : undefined });
         return _super.prototype.UpdateMultipleShifts.call(this, request);
     };
     ExtendedClient.prototype.ImportDefaultDuties = function (request) {
