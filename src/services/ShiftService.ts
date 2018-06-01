@@ -3,6 +3,7 @@ import { Shift } from '../models/Shift';
 import { DatabaseService } from './DatabaseService';
 import { MultipleShiftUpdateRequest } from '../models/MultipleShiftUpdateRequest';
 import { ShiftCopyOptions } from '../models/ShiftCopyOptions';
+import { toTimeString } from '../client/utils/time';
 
 export class ShiftService extends DatabaseService<Shift> {
     fieldMap = {
@@ -29,7 +30,7 @@ export class ShiftService extends DatabaseService<Shift> {
 
     async updateMultipleShifts(multipleShiftsUpdateRequest: MultipleShiftUpdateRequest): Promise<Shift[]> {
         const { shiftIds = [], workSectionId, endTime, startTime, sheriffId } = multipleShiftsUpdateRequest;
-
+        console.log(startTime,endTime)
         const currentShiftQuery = this.getSelectQuery()
             .where('shift_id IN ?', shiftIds);
         const currentShifts = await this.executeQuery<Shift>(currentShiftQuery.toString());
@@ -50,20 +51,16 @@ export class ShiftService extends DatabaseService<Shift> {
 
             let newStartMoment = moment(originalStart);
             if (startTime) {
-                // Start time will include the offset (i.e. +7:00), so we use timezone to convert it into UTC
-                const newStartTimeMoment = moment.tz(startTime, 'UTC');
-                newStartMoment.hours(newStartTimeMoment.hours()).minutes(newStartTimeMoment.minutes());
+                newStartMoment = this.setTime(moment(originalStart), toTimeString(startTime));
             }
             shiftToUpdate.startDateTime = newStartMoment.toISOString();
 
             let newEndMoment = moment(originalEnd);
             if (endTime) {
-                // End time will include the offset (i.e. +7:00), so we use timezone to convert it into UTC
-                const newEndTimeMoment = moment.tz(endTime, 'UTC');
-                newEndMoment.hours(newEndTimeMoment.hours()).minutes(newEndTimeMoment.minutes());
+                newEndMoment = this.setTime(moment(originalEnd), toTimeString(endTime));
             }
-
             shiftToUpdate.endDateTime = newEndMoment.toISOString();
+
             return shiftToUpdate;
         });
 
