@@ -1,7 +1,6 @@
 
 import { config as configureEnvironment } from 'dotenv';
 
-const isTesting = process.argv.map(s => s.toLowerCase()).indexOf('--testing') > -1;
 const envPath = process.env["DOTENV_PATH"];
 console.log(`Loading environment vars from '${envPath}'`);
 
