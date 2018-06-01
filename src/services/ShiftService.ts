@@ -30,7 +30,6 @@ export class ShiftService extends DatabaseService<Shift> {
 
     async updateMultipleShifts(multipleShiftsUpdateRequest: MultipleShiftUpdateRequest): Promise<Shift[]> {
         const { shiftIds = [], workSectionId, endTime, startTime, sheriffId } = multipleShiftsUpdateRequest;
-        console.log(startTime,endTime)
         const currentShiftQuery = this.getSelectQuery()
             .where('shift_id IN ?', shiftIds);
         const currentShifts = await this.executeQuery<Shift>(currentShiftQuery.toString());
