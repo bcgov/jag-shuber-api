@@ -7,6 +7,11 @@
     -->
     
     <!-- CODE TABLES -->
+		
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="ddl_set_00_start"/>
+    </changeSet>
+
     <changeSet author="michael.gabelmann (generated)" id="1521486122124-1">
         <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff_rank_code">
             <column name="sheriff_rank_code" type="VARCHAR(20)">
@@ -711,6 +716,10 @@
                 REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA "${POSTGRES_SCHEMA}" FROM "${POSTGRES_APP_USER}";
             </sql>
         </rollback>
+    </changeSet>
+		
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="ddl_set_00_end"/>
     </changeSet>
     
 </databaseChangeLog>
