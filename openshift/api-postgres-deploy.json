@@ -127,6 +127,10 @@
                                     {
                                         "name": "API_DATABASE_SCHEMA",
                                         "value": "${API_DATABASE_SCHEMA}"
+                                    },
+                                    {
+                                        "name": "POSTGRES_EXT_SCHEMA",
+                                        "value": "${DATABASE_EXTENSIONS_SCHEMA}"
                                     }
                                 ],
                                 "containerName": "${API_SERVICE_NAME}"
@@ -579,6 +583,13 @@
             "displayName": "Default database schema",
             "description": "The default schema to use in the database",
             "value": "public",
+            "required": true
+        },
+        {
+            "name": "DATABASE_EXTENSIONS_SCHEMA",
+            "displayName": "Database Extensions Schema",
+            "description": "Name of the schema to be used for database extensions.",
+            "value": "extensions",
             "required": true
         },
         {
