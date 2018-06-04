@@ -22,13 +22,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="157"/>
           <column name="first_name" type="VARCHAR(100)" value="IAIN"/>
           <column name="last_name" type="VARCHAR(100)" value="BELL"/>
           <column name="userid" type="VARCHAR(32)" value="U157"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -47,13 +47,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="723"/>
           <column name="first_name" type="VARCHAR(100)" value="ARNIE"/>
           <column name="last_name" type="VARCHAR(100)" value="VANDENBERG"/>
           <column name="userid" type="VARCHAR(32)" value="U723"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -72,13 +72,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2199"/>
           <column name="first_name" type="VARCHAR(100)" value="TU"/>
           <column name="last_name" type="VARCHAR(100)" value="GREEN "/>
           <column name="userid" type="VARCHAR(32)" value="U2199"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -97,13 +97,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2135"/>
           <column name="first_name" type="VARCHAR(100)" value="ROB"/>
           <column name="last_name" type="VARCHAR(100)" value="BOOTH"/>
           <column name="userid" type="VARCHAR(32)" value="U2135"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -122,13 +122,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2046"/>
           <column name="first_name" type="VARCHAR(100)" value="RYAN"/>
           <column name="last_name" type="VARCHAR(100)" value="WALDRIFF"/>
           <column name="userid" type="VARCHAR(32)" value="U2046"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -147,13 +147,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2165"/>
           <column name="first_name" type="VARCHAR(100)" value="KEITH"/>
           <column name="last_name" type="VARCHAR(100)" value="SLY"/>
           <column name="userid" type="VARCHAR(32)" value="U2165"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -172,13 +172,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2229"/>
           <column name="first_name" type="VARCHAR(100)" value="JIM"/>
           <column name="last_name" type="VARCHAR(100)" value="VINNEDGE"/>
           <column name="userid" type="VARCHAR(32)" value="U2229"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -197,13 +197,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2119"/>
           <column name="first_name" type="VARCHAR(100)" value="CHUCK"/>
           <column name="last_name" type="VARCHAR(100)" value="MACINTOSH"/>
           <column name="userid" type="VARCHAR(32)" value="U2119"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -222,13 +222,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2220"/>
           <column name="first_name" type="VARCHAR(100)" value="RAQUEL"/>
           <column name="last_name" type="VARCHAR(100)" value="KAMPUIS"/>
           <column name="userid" type="VARCHAR(32)" value="U2220"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -247,13 +247,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="593"/>
           <column name="first_name" type="VARCHAR(100)" value="THERON"/>
           <column name="last_name" type="VARCHAR(100)" value="WATSON"/>
           <column name="userid" type="VARCHAR(32)" value="U593"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -272,13 +272,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2023"/>
           <column name="first_name" type="VARCHAR(100)" value="SCOTT"/>
           <column name="last_name" type="VARCHAR(100)" value="BUCKBOROUGH"/>
           <column name="userid" type="VARCHAR(32)" value="U2023"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -297,13 +297,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="957"/>
           <column name="first_name" type="VARCHAR(100)" value="JASON"/>
           <column name="last_name" type="VARCHAR(100)" value="SMART"/>
           <column name="userid" type="VARCHAR(32)" value="U957"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -322,13 +322,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="561"/>
           <column name="first_name" type="VARCHAR(100)" value="WILL"/>
           <column name="last_name" type="VARCHAR(100)" value="JASKOW"/>
           <column name="userid" type="VARCHAR(32)" value="U561"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -347,13 +347,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="754"/>
           <column name="first_name" type="VARCHAR(100)" value="DOUG"/>
           <column name="last_name" type="VARCHAR(100)" value="LENUIK"/>
           <column name="userid" type="VARCHAR(32)" value="U754"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -372,13 +372,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="856"/>
           <column name="first_name" type="VARCHAR(100)" value="RYAN"/>
           <column name="last_name" type="VARCHAR(100)" value="LINDOFF"/>
           <column name="userid" type="VARCHAR(32)" value="U856"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -397,13 +397,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="913"/>
           <column name="first_name" type="VARCHAR(100)" value="DEB"/>
           <column name="last_name" type="VARCHAR(100)" value="HAUN "/>
           <column name="userid" type="VARCHAR(32)" value="U913"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -422,13 +422,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2219"/>
           <column name="first_name" type="VARCHAR(100)" value="NICK"/>
           <column name="last_name" type="VARCHAR(100)" value="HOLFELD"/>
           <column name="userid" type="VARCHAR(32)" value="U2219"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -447,13 +447,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="641"/>
           <column name="first_name" type="VARCHAR(100)" value="ROGER"/>
           <column name="last_name" type="VARCHAR(100)" value="MacMASTER"/>
           <column name="userid" type="VARCHAR(32)" value="U641"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -472,13 +472,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2074"/>
           <column name="first_name" type="VARCHAR(100)" value="JASON"/>
           <column name="last_name" type="VARCHAR(100)" value="BEGG"/>
           <column name="userid" type="VARCHAR(32)" value="U2074"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -497,13 +497,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="635"/>
           <column name="first_name" type="VARCHAR(100)" value="JOANNE"/>
           <column name="last_name" type="VARCHAR(100)" value="ST. GELAIS"/>
           <column name="userid" type="VARCHAR(32)" value="U635"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -522,13 +522,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="787"/>
           <column name="first_name" type="VARCHAR(100)" value="COLLEEN"/>
           <column name="last_name" type="VARCHAR(100)" value="PIERCY"/>
           <column name="userid" type="VARCHAR(32)" value="U787"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="STAFFSERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -547,13 +547,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="732"/>
           <column name="first_name" type="VARCHAR(100)" value="JEREMY"/>
           <column name="last_name" type="VARCHAR(100)" value="KERR"/>
           <column name="userid" type="VARCHAR(32)" value="U732"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -572,13 +572,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2118"/>
           <column name="first_name" type="VARCHAR(100)" value="TJ"/>
           <column name="last_name" type="VARCHAR(100)" value="HAILEY"/>
           <column name="userid" type="VARCHAR(32)" value="U2118"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -597,13 +597,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="938"/>
           <column name="first_name" type="VARCHAR(100)" value="ANDREW"/>
           <column name="last_name" type="VARCHAR(100)" value="KAIN"/>
           <column name="userid" type="VARCHAR(32)" value="U938"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -622,13 +622,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="878"/>
           <column name="first_name" type="VARCHAR(100)" value="LISA"/>
           <column name="last_name" type="VARCHAR(100)" value="GREENWOOD"/>
           <column name="userid" type="VARCHAR(32)" value="U878"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="STAFFSERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -647,13 +647,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="365"/>
           <column name="first_name" type="VARCHAR(100)" value="AARON"/>
           <column name="last_name" type="VARCHAR(100)" value="COLLISHAW"/>
           <column name="userid" type="VARCHAR(32)" value="U365"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="INSPECTOR"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -676,13 +676,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="SryX1"/>
           <column name="first_name" type="VARCHAR(100)" value="BRAD"/>
           <column name="last_name" type="VARCHAR(100)" value="MESSENGER"/>
           <column name="userid" type="VARCHAR(32)" value="USryX1"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="INSPECTOR"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -701,13 +701,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="763"/>
           <column name="first_name" type="VARCHAR(100)" value="AMAR"/>
           <column name="last_name" type="VARCHAR(100)" value="DHESI"/>
           <column name="userid" type="VARCHAR(32)" value="U763"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="STAFFSERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -726,13 +726,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="886"/>
           <column name="first_name" type="VARCHAR(100)" value="BRADY"/>
           <column name="last_name" type="VARCHAR(100)" value="HOFFMAN"/>
           <column name="userid" type="VARCHAR(32)" value="U886"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="STAFFSERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -751,13 +751,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="728"/>
           <column name="first_name" type="VARCHAR(100)" value="JOSE"/>
           <column name="last_name" type="VARCHAR(100)" value="DA COSTA"/>
           <column name="userid" type="VARCHAR(32)" value="U728"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -776,13 +776,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="748"/>
           <column name="first_name" type="VARCHAR(100)" value="TRACY"/>
           <column name="last_name" type="VARCHAR(100)" value=" MCISAAC"/>
           <column name="userid" type="VARCHAR(32)" value="U748"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -801,13 +801,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="753"/>
           <column name="first_name" type="VARCHAR(100)" value="DARYL"/>
           <column name="last_name" type="VARCHAR(100)" value="SPEARMAN"/>
           <column name="userid" type="VARCHAR(32)" value="U753"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -826,13 +826,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="932"/>
           <column name="first_name" type="VARCHAR(100)" value="STEVE"/>
           <column name="last_name" type="VARCHAR(100)" value="GILL"/>
           <column name="userid" type="VARCHAR(32)" value="U932"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -851,13 +851,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="987"/>
           <column name="first_name" type="VARCHAR(100)" value="ROB"/>
           <column name="last_name" type="VARCHAR(100)" value="LUCAS "/>
           <column name="userid" type="VARCHAR(32)" value="U987"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -876,13 +876,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="532"/>
           <column name="first_name" type="VARCHAR(100)" value="IAN"/>
           <column name="last_name" type="VARCHAR(100)" value="REEVES"/>
           <column name="userid" type="VARCHAR(32)" value="U532"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -901,13 +901,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="633"/>
           <column name="first_name" type="VARCHAR(100)" value="LORNE"/>
           <column name="last_name" type="VARCHAR(100)" value="TREMBLAY"/>
           <column name="userid" type="VARCHAR(32)" value="U633"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -926,13 +926,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="682"/>
           <column name="first_name" type="VARCHAR(100)" value="CRAIG"/>
           <column name="last_name" type="VARCHAR(100)" value="LAWSON"/>
           <column name="userid" type="VARCHAR(32)" value="U682"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -951,13 +951,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="749"/>
           <column name="first_name" type="VARCHAR(100)" value="SARJ"/>
           <column name="last_name" type="VARCHAR(100)" value="SIDDOO"/>
           <column name="userid" type="VARCHAR(32)" value="U749"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -976,13 +976,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="745"/>
           <column name="first_name" type="VARCHAR(100)" value="RUPI"/>
           <column name="last_name" type="VARCHAR(100)" value="BRAR"/>
           <column name="userid" type="VARCHAR(32)" value="U745"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1001,13 +1001,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="877"/>
           <column name="first_name" type="VARCHAR(100)" value="GARY"/>
           <column name="last_name" type="VARCHAR(100)" value="WONG"/>
           <column name="userid" type="VARCHAR(32)" value="U877"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1026,13 +1026,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="785a"/>
           <column name="first_name" type="VARCHAR(100)" value="MATTHEW"/>
           <column name="last_name" type="VARCHAR(100)" value="TROUGHTON"/>
           <column name="userid" type="VARCHAR(32)" value="U785a"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1051,13 +1051,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="849"/>
           <column name="first_name" type="VARCHAR(100)" value="VICKI"/>
           <column name="last_name" type="VARCHAR(100)" value="COBBY"/>
           <column name="userid" type="VARCHAR(32)" value="U849"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1076,13 +1076,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="989"/>
           <column name="first_name" type="VARCHAR(100)" value="LEO"/>
           <column name="last_name" type="VARCHAR(100)" value="KAY"/>
           <column name="userid" type="VARCHAR(32)" value="U989"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1101,13 +1101,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="735"/>
           <column name="first_name" type="VARCHAR(100)" value="BRENDA "/>
           <column name="last_name" type="VARCHAR(100)" value="SMITH"/>
           <column name="userid" type="VARCHAR(32)" value="U735"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1126,13 +1126,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="154"/>
           <column name="first_name" type="VARCHAR(100)" value="MITCH"/>
           <column name="last_name" type="VARCHAR(100)" value="MCDONALD"/>
           <column name="userid" type="VARCHAR(32)" value="U154"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1151,13 +1151,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="785b"/>
           <column name="first_name" type="VARCHAR(100)" value="CHANTAL"/>
           <column name="last_name" type="VARCHAR(100)" value="PEDERSEN"/>
           <column name="userid" type="VARCHAR(32)" value="U785b"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1176,13 +1176,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2007"/>
           <column name="first_name" type="VARCHAR(100)" value="AJ"/>
           <column name="last_name" type="VARCHAR(100)" value="DHALIWAL"/>
           <column name="userid" type="VARCHAR(32)" value="U2007"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1201,13 +1201,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2055"/>
           <column name="first_name" type="VARCHAR(100)" value="INDER"/>
           <column name="last_name" type="VARCHAR(100)" value="DEV"/>
           <column name="userid" type="VARCHAR(32)" value="U2055"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1226,13 +1226,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="879"/>
           <column name="first_name" type="VARCHAR(100)" value="SUNNY"/>
           <column name="last_name" type="VARCHAR(100)" value="KAINTH"/>
           <column name="userid" type="VARCHAR(32)" value="U879"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1251,13 +1251,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="974"/>
           <column name="first_name" type="VARCHAR(100)" value="DENZIL"/>
           <column name="last_name" type="VARCHAR(100)" value="GOW"/>
           <column name="userid" type="VARCHAR(32)" value="U974"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1276,13 +1276,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="998"/>
           <column name="first_name" type="VARCHAR(100)" value="WILLY"/>
           <column name="last_name" type="VARCHAR(100)" value="MOLSYKI"/>
           <column name="userid" type="VARCHAR(32)" value="U998"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1301,13 +1301,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2108"/>
           <column name="first_name" type="VARCHAR(100)" value="KEVIN"/>
           <column name="last_name" type="VARCHAR(100)" value="VO"/>
           <column name="userid" type="VARCHAR(32)" value="U2108"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1326,13 +1326,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2145"/>
           <column name="first_name" type="VARCHAR(100)" value="MANDEEP"/>
           <column name="last_name" type="VARCHAR(100)" value="GILL"/>
           <column name="userid" type="VARCHAR(32)" value="U2145"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1351,13 +1351,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2103"/>
           <column name="first_name" type="VARCHAR(100)" value="LANCE"/>
           <column name="last_name" type="VARCHAR(100)" value="FLORITTO"/>
           <column name="userid" type="VARCHAR(32)" value="U2103"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1376,13 +1376,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2173"/>
           <column name="first_name" type="VARCHAR(100)" value="DAVID"/>
           <column name="last_name" type="VARCHAR(100)" value="MCCARTHY"/>
           <column name="userid" type="VARCHAR(32)" value="U2173"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1401,13 +1401,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2196"/>
           <column name="first_name" type="VARCHAR(100)" value="SEAN"/>
           <column name="last_name" type="VARCHAR(100)" value="MESSENGER"/>
           <column name="userid" type="VARCHAR(32)" value="U2196"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1426,13 +1426,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2140"/>
           <column name="first_name" type="VARCHAR(100)" value="BRANDON"/>
           <column name="last_name" type="VARCHAR(100)" value="MESSENGER"/>
           <column name="userid" type="VARCHAR(32)" value="U2140"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1451,13 +1451,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2105"/>
           <column name="first_name" type="VARCHAR(100)" value="GARY"/>
           <column name="last_name" type="VARCHAR(100)" value="JOHAL"/>
           <column name="userid" type="VARCHAR(32)" value="U2105"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1476,13 +1476,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2118b"/>
           <column name="first_name" type="VARCHAR(100)" value="TYLER"/>
           <column name="last_name" type="VARCHAR(100)" value="HALEY"/>
           <column name="userid" type="VARCHAR(32)" value="U2118b"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1501,13 +1501,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2215"/>
           <column name="first_name" type="VARCHAR(100)" value="SPENCER"/>
           <column name="last_name" type="VARCHAR(100)" value="SINGER"/>
           <column name="userid" type="VARCHAR(32)" value="U2215"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1526,13 +1526,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2032"/>
           <column name="first_name" type="VARCHAR(100)" value="TARNVIR"/>
           <column name="last_name" type="VARCHAR(100)" value="GILL"/>
           <column name="userid" type="VARCHAR(32)" value="U2032"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1551,13 +1551,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2209"/>
           <column name="first_name" type="VARCHAR(100)" value="SHANNON"/>
           <column name="last_name" type="VARCHAR(100)" value="MWEDNA"/>
           <column name="userid" type="VARCHAR(32)" value="U2209"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1576,13 +1576,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2218"/>
           <column name="first_name" type="VARCHAR(100)" value="TOMMY"/>
           <column name="last_name" type="VARCHAR(100)" value="VARGA"/>
           <column name="userid" type="VARCHAR(32)" value="U2218"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1601,13 +1601,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2072"/>
           <column name="first_name" type="VARCHAR(100)" value="DENIS"/>
           <column name="last_name" type="VARCHAR(100)" value="HARRIS"/>
           <column name="userid" type="VARCHAR(32)" value="U2072"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1626,13 +1626,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2216"/>
           <column name="first_name" type="VARCHAR(100)" value="GURVINDER"/>
           <column name="last_name" type="VARCHAR(100)" value="SINGH"/>
           <column name="userid" type="VARCHAR(32)" value="U2216"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1651,13 +1651,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2205"/>
           <column name="first_name" type="VARCHAR(100)" value="ERIC"/>
           <column name="last_name" type="VARCHAR(100)" value="LISTER"/>
           <column name="userid" type="VARCHAR(32)" value="U2205"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1676,13 +1676,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2207"/>
           <column name="first_name" type="VARCHAR(100)" value="RAVINDER"/>
           <column name="last_name" type="VARCHAR(100)" value="MATTU"/>
           <column name="userid" type="VARCHAR(32)" value="U2207"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1702,13 +1702,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="928"/>
           <column name="first_name" type="VARCHAR(100)" value="BRETT"/>
           <column name="last_name" type="VARCHAR(100)" value="CUMMINGS"/>
           <column name="userid" type="VARCHAR(32)" value="U928"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1727,13 +1727,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="975"/>
           <column name="first_name" type="VARCHAR(100)" value="KURT"/>
           <column name="last_name" type="VARCHAR(100)" value="FISCHER"/>
           <column name="userid" type="VARCHAR(32)" value="U975"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1752,13 +1752,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2179"/>
           <column name="first_name" type="VARCHAR(100)" value="MICHELLE"/>
           <column name="last_name" type="VARCHAR(100)" value="STEL"/>
           <column name="userid" type="VARCHAR(32)" value="U2179"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1777,13 +1777,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2175"/>
           <column name="first_name" type="VARCHAR(100)" value="CORY"/>
           <column name="last_name" type="VARCHAR(100)" value="MURRAY"/>
           <column name="userid" type="VARCHAR(32)" value="U2175"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1806,13 +1806,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="839"/>
           <column name="first_name" type="VARCHAR(100)" value="AKASHDIP"/>
           <column name="last_name" type="VARCHAR(100)" value="AULAKH"/>
           <column name="userid" type="VARCHAR(32)" value="U839"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1831,13 +1831,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2079"/>
           <column name="first_name" type="VARCHAR(100)" value="BRITTANY"/>
           <column name="last_name" type="VARCHAR(100)" value="BALLARD"/>
           <column name="userid" type="VARCHAR(32)" value="U2079"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1856,13 +1856,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="907"/>
           <column name="first_name" type="VARCHAR(100)" value="CHRIS"/>
           <column name="last_name" type="VARCHAR(100)" value="BELL"/>
           <column name="userid" type="VARCHAR(32)" value="U907"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1881,13 +1881,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2111"/>
           <column name="first_name" type="VARCHAR(100)" value="PAUL"/>
           <column name="last_name" type="VARCHAR(100)" value="BERG"/>
           <column name="userid" type="VARCHAR(32)" value="U2111"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1906,13 +1906,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="941"/>
           <column name="first_name" type="VARCHAR(100)" value="KARRI"/>
           <column name="last_name" type="VARCHAR(100)" value="CAMPBELL"/>
           <column name="userid" type="VARCHAR(32)" value="U941"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1931,13 +1931,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2187"/>
           <column name="first_name" type="VARCHAR(100)" value="DAN"/>
           <column name="last_name" type="VARCHAR(100)" value="DAVIES"/>
           <column name="userid" type="VARCHAR(32)" value="U2187"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1956,13 +1956,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2117"/>
           <column name="first_name" type="VARCHAR(100)" value="DAN"/>
           <column name="last_name" type="VARCHAR(100)" value="FROESE"/>
           <column name="userid" type="VARCHAR(32)" value="U2117"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -1981,13 +1981,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="829"/>
           <column name="first_name" type="VARCHAR(100)" value="LANCE"/>
           <column name="last_name" type="VARCHAR(100)" value="HAND"/>
           <column name="userid" type="VARCHAR(32)" value="U829"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -2006,13 +2006,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2058"/>
           <column name="first_name" type="VARCHAR(100)" value="RICK"/>
           <column name="last_name" type="VARCHAR(100)" value="HOLZAPFEL"/>
           <column name="userid" type="VARCHAR(32)" value="U2058"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -2031,13 +2031,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="610"/>
           <column name="first_name" type="VARCHAR(100)" value="MIKE"/>
           <column name="last_name" type="VARCHAR(100)" value="KENDALL "/>
           <column name="userid" type="VARCHAR(32)" value="U610"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -2056,13 +2056,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2110"/>
           <column name="first_name" type="VARCHAR(100)" value="AMANDA"/>
           <column name="last_name" type="VARCHAR(100)" value="LAWRENCE"/>
           <column name="userid" type="VARCHAR(32)" value="U2110"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -2082,13 +2082,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="786"/>
           <column name="first_name" type="VARCHAR(100)" value="CAM"/>
           <column name="last_name" type="VARCHAR(100)" value="MCINTOSH"/>
           <column name="userid" type="VARCHAR(32)" value="U786"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -2107,13 +2107,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="2099"/>
           <column name="first_name" type="VARCHAR(100)" value="MARK"/>
           <column name="last_name" type="VARCHAR(100)" value="MUDE"/>
           <column name="userid" type="VARCHAR(32)" value="U2099"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -2132,13 +2132,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="966"/>
           <column name="first_name" type="VARCHAR(100)" value="DAN"/>
           <column name="last_name" type="VARCHAR(100)" value="PHILLIPS"/>
           <column name="userid" type="VARCHAR(32)" value="U966"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -2157,13 +2157,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="843"/>
           <column name="first_name" type="VARCHAR(100)" value="EZIO"/>
           <column name="last_name" type="VARCHAR(100)" value="RANALLO"/>
           <column name="userid" type="VARCHAR(32)" value="U843"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -2182,13 +2182,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="926"/>
           <column name="first_name" type="VARCHAR(100)" value="KEVIN"/>
           <column name="last_name" type="VARCHAR(100)" value="SCHMIDT"/>
           <column name="userid" type="VARCHAR(32)" value="U926"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="INSPECTOR"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -2207,13 +2207,13 @@
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="sheriff">
-          <column name="sheriff_id" type="UUID" valueComputed="uuid_generate_v4()"/>
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="badge_no" type="VARCHAR(20)" value="588"/>
           <column name="first_name" type="VARCHAR(100)" value="SCOTT"/>
           <column name="last_name" type="VARCHAR(100)" value="VANDERREE "/>
           <column name="userid" type="VARCHAR(32)" value="U588"/>
           <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
