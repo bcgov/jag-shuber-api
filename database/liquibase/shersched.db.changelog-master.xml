@@ -10,8 +10,8 @@
     	<tagDatabase tag="00_EmptyDB"/>
     </changeSet>
     
-    <!-- create roles, etc. -->
-    <include file="shersched.db.changelog-roles.xml"/>
+    <!-- create roles, schemas, and other db env prereqs -->
+    <include file="shersched.db.changelog-db.env.xml"/>
     <changeSet author="Carol Geisler" id="master_02">
     	<tagDatabase tag="00_RolesOnlyDB"/>
     </changeSet>

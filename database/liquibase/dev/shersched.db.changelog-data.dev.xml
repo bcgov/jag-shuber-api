@@ -3,94 +3,96 @@
     xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
     xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd"
+    context="dev">
     
     <!--
         NOTE: convenience data for testing the pilot application
     -->
-    
-    <changeSet author="Michael Gabelmann" id="pilotdata_01">
-        <sqlFile path="../dml/region.sql"
+		
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="dev_data_master_start"/>
+    </changeSet>
+
+    <changeSet author="Michael Gabelmann" id="dev_data_01_region" context="dev">
+        <sqlFile path="../../dml/region.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
         <rollback>
             <sql>
-                SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE FROM region;
+                DELETE FROM ${POSTGRES_SCHEMA}.region;
             </sql>
         </rollback>
     </changeSet>
 
-    <changeSet author="Michael Gabelmann" id="pilotdata_02" context="dev">
-        <sqlFile path="../dml/courthouse.sql"
+    <changeSet author="Michael Gabelmann" id="dev_data_02_courthouse" context="dev">
+        <sqlFile path="../../dml/courthouse.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
         <rollback>
             <sql>
-                SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE FROM courthouse;
+                DELETE FROM ${POSTGRES_SCHEMA}.courthouse;
             </sql>
         </rollback>
     </changeSet>
     
-    <changeSet author="Michael Gabelmann" id="pilotdata_03" context="dev">
-        <sqlFile path="../dml/courtroom.sql"
+    <changeSet author="Michael Gabelmann" id="dev_data_03_courtroom" context="dev">
+        <sqlFile path="../../dml/courtroom.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
         <rollback>
             <sql>
-                SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE FROM courtroom;
+                DELETE FROM ${POSTGRES_SCHEMA}.courtroom;
             </sql>
         </rollback>
     </changeSet>
     
-    <changeSet author="Michael Gabelmann" id="pilotdata_04" context="dev">
-        <sqlFile path="../dml/sheriff.sql"
+    <changeSet author="Michael Gabelmann" id="dev_data_04_sheriff" context="dev">
+        <sqlFile path="../../dml/sheriff.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
         <rollback>
             <sql>
-                SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE FROM sheriff;
+                DELETE FROM ${POSTGRES_SCHEMA}.sheriff;
             </sql>
         </rollback>
     </changeSet>
     
-    <changeSet author="Michael Gabelmann" id="pilotdata_05" context="dev">
-        <sqlFile path="../dml/run.sql"
+    <changeSet author="Michael Gabelmann" id="dev_data_05_run" context="dev">
+        <sqlFile path="../../dml/run.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
         <rollback>
             <sql>
-                SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE FROM run;
+                DELETE FROM ${POSTGRES_SCHEMA}.run;
             </sql>
         </rollback>
     </changeSet>
     
-    <changeSet author="Michael Gabelmann" id="pilotdata_06" context="dev">
-        <sqlFile path="../dml/assignment.sql"
+    <changeSet author="Michael Gabelmann" id="dev_data_06_assignment" context="dev">
+        <sqlFile path="../../dml/assignment.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
         <rollback>
             <sql>
-                SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE FROM assignment;
+                DELETE FROM ${POSTGRES_SCHEMA}.assignment;
             </sql>
         </rollback>
     </changeSet>
     
-    <changeSet author="Michael Gabelmann" id="pilotdata_07" context="dev">
-        <sqlFile path="../dml/duty_recurrence.sql"
+    <changeSet author="Michael Gabelmann" id="dev_data_07_duty_recurrence" context="dev">
+        <sqlFile path="../../dml/duty_recurrence.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
         <rollback>
             <sql>
-                SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE FROM duty_recurrence;
+                DELETE FROM ${POSTGRES_SCHEMA}.duty_recurrence;
             </sql>
         </rollback>
+    </changeSet>
+		
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="dev_data_master_end"/>
     </changeSet>
     
 </databaseChangeLog>
