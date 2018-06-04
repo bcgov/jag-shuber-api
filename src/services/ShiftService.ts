@@ -38,14 +38,20 @@ export class ShiftService extends DatabaseService<Shift> {
             const shiftToUpdate = { ...shift };
             const { startDateTime: originalStart, endDateTime: originalEnd } = shift;
 
+            // Undefined / null means 'varied' (i.e. don't change) so 
+            // if we want to clear the workSection we pass in ""
             if (workSectionId) {
                 shiftToUpdate.workSectionId = workSectionId;
             } else if (workSectionId === "") {
                 shiftToUpdate.workSectionId = null as any;
             }
 
+            // Undefined / null means 'varied' (i.e. don't change) so 
+            // if we want to clear the sheriffId we pass in ""
             if (sheriffId) {
                 shiftToUpdate.sheriffId = sheriffId;
+            } else if (sheriffId === "") {
+                shiftToUpdate.sheriffId = null as any;
             }
 
             let newStartMoment = moment(originalStart);
