@@ -96,5 +96,21 @@
 		  </dropColumn>
 		  <renameColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_recurrence" oldColumnName="start_time_newtz" newColumnName="start_time"/>
 		  <renameColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_recurrence" oldColumnName="end_time_newtz" newColumnName="end_time"/>
+		  <rollback>
+		  	<addColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_recurrence">
+					<column name="start_time_notz" type="TIME"/>
+					<column name="end_time_notz" type="TIME"/>
+		  	</addColumn>
+			  <update catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_recurrence">
+					<column name="start_time_notz" type="TIME" valueComputed="start_time"/>
+					<column name="end_time_notz" type="TIME" valueComputed="end_time"/>
+			  </update>
+		  	<dropColumn  catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_recurrence">
+		  		<column name="start_time" type="TIME WITH TIME ZONE"/>
+		  		<column name="end_time" type="TIME WITH TIME ZONE"/>
+		  	</dropColumn>
+			  <renameColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_recurrence" oldColumnName="start_time_notz" newColumnName="start_time"/>
+			  <renameColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_recurrence" oldColumnName="end_time_notz" newColumnName="end_time"/>
+		  </rollback>
 		</changeSet>
 </databaseChangeLog>
