@@ -3,7 +3,7 @@ import { Shift } from '../models/Shift';
 import { DatabaseService } from './DatabaseService';
 import { MultipleShiftUpdateRequest } from '../models/MultipleShiftUpdateRequest';
 import { ShiftCopyOptions } from '../models/ShiftCopyOptions';
-import { toTimeString } from '../client/utils/time';
+import { setTime } from '../common/TimeUtils';
 
 export class ShiftService extends DatabaseService<Shift> {
     fieldMap = {
@@ -38,25 +38,31 @@ export class ShiftService extends DatabaseService<Shift> {
             const shiftToUpdate = { ...shift };
             const { startDateTime: originalStart, endDateTime: originalEnd } = shift;
 
+            // Undefined / null means 'varied' (i.e. don't change) so 
+            // if we want to clear the workSection we pass in ""
             if (workSectionId) {
                 shiftToUpdate.workSectionId = workSectionId;
             } else if (workSectionId === "") {
                 shiftToUpdate.workSectionId = null as any;
             }
 
+            // Undefined / null means 'varied' (i.e. don't change) so 
+            // if we want to clear the sheriffId we pass in ""
             if (sheriffId) {
                 shiftToUpdate.sheriffId = sheriffId;
+            } else if (sheriffId === "") {
+                shiftToUpdate.sheriffId = null as any;
             }
 
             let newStartMoment = moment(originalStart);
             if (startTime) {
-                newStartMoment = this.setTime(moment(originalStart), toTimeString(startTime));
+                newStartMoment = setTime(moment(originalStart), startTime);
             }
             shiftToUpdate.startDateTime = newStartMoment.toISOString();
 
             let newEndMoment = moment(originalEnd);
             if (endTime) {
-                newEndMoment = this.setTime(moment(originalEnd), toTimeString(endTime));
+                newEndMoment = setTime(moment(originalEnd), endTime);
             }
             shiftToUpdate.endDateTime = newEndMoment.toISOString();
 

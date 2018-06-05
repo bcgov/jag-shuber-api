@@ -8,6 +8,7 @@ import { DutyRecurrence } from '../models/DutyRecurrence';
 import { SheriffDuty } from '../models/SheriffDuty';
 import { SheriffDutyService } from './SheriffDutyService';
 import { ClientBase } from 'pg';
+import { setTime, fromTimeString } from '../common/TimeUtils';
 
 export class DutyService extends DatabaseService<Duty> {
     fieldMap = {
@@ -32,7 +33,7 @@ export class DutyService extends DatabaseService<Duty> {
 
     async create(entity: Partial<Duty>): Promise<Duty> {
         const { sheriffDuties = [] } = entity;
-        const query = this.getInsertQuery({ ...entity});
+        const query = this.getInsertQuery({ ...entity });
         let createdDuty: Duty = {} as any;
         await this.db.transaction(async (client) => {
             const sheriffDutyService = this.getSheriffDutyService(client);
@@ -156,9 +157,19 @@ export class DutyService extends DatabaseService<Duty> {
 
             // For each of the recurrences, create the duty and sheriff Duties
             return await Promise.all(recurrencesToCreate.map(async (dr) => {
-                const startDateTime = this.setTime(dateMoment.startOf('day'),dr.startTime)                    
+                const startTimeMoment = fromTimeString(dr.startTime);
+                const startOfDay = moment()
+                    .utcOffset(startTimeMoment.utcOffset())
+                    .set({
+                        year: dateMoment.year(),
+                        month: dateMoment.month(),
+                        day: dateMoment.day()
+                    })
+                    .startOf('day');
+
+                const startDateTime = setTime(startOfDay, dr.startTime)
                     .toISOString();
-                const endDateTime = this.setTime(dateMoment.startOf('day'),dr.endTime)                    
+                const endDateTime = setTime(startOfDay, dr.endTime)
                     .toISOString();
                 const sheriffDuties: SheriffDuty[] = [];
                 // Create a blank sheriffDuty for each sheriff required

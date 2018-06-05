@@ -1,10 +1,11 @@
 import { toMatchShapeOf, toMatchOneOf } from 'jest-to-match-shape-of';
 import db from '../../db/Database';
 import ExtendedClient from '../ExtendedClient';
-import { Courthouse, Courtroom, Assignment, Region, DutyRecurrence, Duty, SheriffDuty } from '../models';
+import { Courthouse, Courtroom, Assignment, Region, DutyRecurrence, Duty, SheriffDuty, Shift } from '../models';
 import { Sheriff } from '../../models/Sheriff';
 import { ClientBase } from 'pg';
 import './MomentMatchers';
+import moment, { Moment } from 'moment';
 
 expect.extend({
     toMatchShapeOf,
@@ -127,7 +128,18 @@ export default class TestUtils {
         }) as Sheriff;
     }
 
-    static assertDutyRecurrence(actual:DutyRecurrence,expected:DutyRecurrence){
+    static async newTestShift(courthouseId: string, shift?: Partial<Shift>): Promise<Shift> {
+        const api = TestUtils.getClient();
+        return await api.CreateShift({
+            startDateTime: moment().startOf('day').hours(7).format(),
+            endDateTime: moment().startOf('day').hours(8).format(),
+            workSectionId: 'COURTS',
+            ...shift,
+            courthouseId
+        });
+    }
+
+    static assertDutyRecurrence(actual: DutyRecurrence, expected: DutyRecurrence) {
         expect(actual.id).toBeDefined();
         expect(actual.assignmentId).toBeDefined();
         expect(actual.daysBitmap).toEqual(expected.daysBitmap);
@@ -136,7 +148,7 @@ export default class TestUtils {
         expect(actual.endTime).toBeSameTime(expected.endTime);
     }
 
-    static assertImportedDuties(created: Duty[], assignment: Assignment) {
+    static assertImportedDuties(created: Duty[], assignment: Assignment, expectedDate: Moment= moment()) {
         created.forEach(createdDuty => {
             expect(createdDuty.id).toBeDefined();
             const dutyRecurrences = assignment.dutyRecurrences as DutyRecurrence[];
@@ -144,7 +156,7 @@ export default class TestUtils {
             expect(dutyRecurrence).toBeDefined();
             expect(createdDuty.assignmentId).toEqual(assignment.id);
             const sheriffDuties = createdDuty.sheriffDuties as SheriffDuty[];
-            expect(Array.isArray(sheriffDuties)).toBeTruthy();            
+            expect(Array.isArray(sheriffDuties)).toBeTruthy();
             expect(sheriffDuties.length).toEqual(dutyRecurrence.sheriffsRequired);
             sheriffDuties.forEach(sd => {
                 expect(sd.id).toBeDefined();
@@ -157,6 +169,13 @@ export default class TestUtils {
 
             [createdDuty.endDateTime, ...sheriffDuties.map(sd => sd.endDateTime)]
                 .forEach(sdt => expect(sdt).toBeSameTime(dutyRecurrence.endTime));
+
+            if (expectedDate) {
+                expect(moment(createdDuty.startDateTime)).toBeSameDate(expectedDate);
+                expect(moment(createdDuty.endDateTime)).toBeSameDate(expectedDate);
+
+            }
+
         })
 
     }

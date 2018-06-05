@@ -77,7 +77,8 @@ var SA = __importStar(require("superagent"));
 var superagent_prefix_1 = __importDefault(require("superagent-prefix"));
 var superagent_use_1 = __importDefault(require("superagent-use"));
 var Client_1 = __importDefault(require("./Client"));
-var time_1 = require("./utils/time");
+var TimeUtils_1 = require("../common/TimeUtils");
+;
 var ExtendedClient = /** @class */ (function (_super) {
     __extends(ExtendedClient, _super);
     function ExtendedClient(baseUrl) {
@@ -282,7 +283,7 @@ var ExtendedClient = /** @class */ (function (_super) {
         for (var _i = 0; _i < arguments.length; _i++) {
             dutyRecurrences[_i] = arguments[_i];
         }
-        return dutyRecurrences.map(function (dr) { return (__assign({}, dr, { startTime: time_1.toTimeString(dr.startTime), endTime: time_1.toTimeString(dr.endTime) })); });
+        return dutyRecurrences.map(function (dr) { return (__assign({}, dr, { startTime: TimeUtils_1.toTimeString(dr.startTime), endTime: TimeUtils_1.toTimeString(dr.endTime) })); });
     };
     ExtendedClient.prototype.CreateDutyRecurrence = function (model) {
         return _super.prototype.CreateDutyRecurrence.call(this, this.ensureTimeZone(model)[0]);

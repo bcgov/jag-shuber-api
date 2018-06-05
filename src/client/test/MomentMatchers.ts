@@ -43,15 +43,20 @@ export function toBeSameTime<T extends string | Moment | number>(this: MatcherUt
 const dateFormat = "YYYY-MM-DD";
 
 export function toBeSameDate<T>(this: MatcherUtils, actual: T, expected: T): JestResult {
-    const pass = moment(actual).format(dateFormat) === moment(expected).format(dateFormat);
+    
+    const actualDate = moment(actual).format(dateFormat);
+    const expectedDate = moment(expected).format(dateFormat)
+    const pass = actualDate === expectedDate;
     return {
         message: () => pass ? '' :
             `${matcherHint('.toBeSameDate')}\n` +
             `\n` +
             `Received:\n` +
-            `  ${printReceived(actual)}\n` +
+            `  ${printReceived(actualDate)}\n` +
             `Expected:\n` +
-            `  ${printExpected(expected)}\n`,
+            `  ${printExpected(expectedDate)}\n` +
+            `Value Received:\n` +
+            ` ${expected}`,
         pass,
     }
 }
