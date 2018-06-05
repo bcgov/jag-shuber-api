@@ -3,7 +3,7 @@ import { Shift } from '../models/Shift';
 import { DatabaseService } from './DatabaseService';
 import { MultipleShiftUpdateRequest } from '../models/MultipleShiftUpdateRequest';
 import { ShiftCopyOptions } from '../models/ShiftCopyOptions';
-import { toTimeString } from '../client/utils/time';
+import { setTime } from '../common/TimeUtils';
 
 export class ShiftService extends DatabaseService<Shift> {
     fieldMap = {
@@ -56,13 +56,13 @@ export class ShiftService extends DatabaseService<Shift> {
 
             let newStartMoment = moment(originalStart);
             if (startTime) {
-                newStartMoment = this.setTime(moment(originalStart), toTimeString(startTime));
+                newStartMoment = setTime(moment(originalStart), startTime);
             }
             shiftToUpdate.startDateTime = newStartMoment.toISOString();
 
             let newEndMoment = moment(originalEnd);
             if (endTime) {
-                newEndMoment = this.setTime(moment(originalEnd), toTimeString(endTime));
+                newEndMoment = setTime(moment(originalEnd), endTime);
             }
             shiftToUpdate.endDateTime = newEndMoment.toISOString();
 
