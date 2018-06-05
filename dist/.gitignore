@@ -10,3 +10,6 @@
 # Allow Client but ignore test
 !client/**/*
 client/test/
+# Allow Common but ignore test
+!common/**/*
+common/test/
