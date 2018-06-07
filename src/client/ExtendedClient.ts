@@ -3,7 +3,7 @@ import * as SA from 'superagent';
 import saPrefix from 'superagent-prefix';
 import superagentUse from 'superagent-use';
 import Client from './Client';
-import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift, DutyImportDefaultsRequest, MultipleShiftUpdateRequest } from './models';
+import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift, DutyImportDefaultsRequest, MultipleShiftUpdateRequest, Leave } from './models';
 import { toTimeString } from '../common/TimeUtils';
 import { ValidationError, DatabaseError, ApiError, isDatabaseError, isValidationError } from '../common/Errors';
 
@@ -131,6 +131,12 @@ export default class ExtendedClient extends Client {
     async GetDutyById(id: string): Promise<Duty> {
         return await this.nullOn404(
             () => super.GetDutyById(id)
+        );
+    }
+
+    GetLeaveById(id:string): Promise<Leave>{
+        return this.nullOn404(
+            () => super.GetLeaveById(id)
         );
     }
 

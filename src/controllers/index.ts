@@ -11,4 +11,7 @@ export { RunController } from './RunController';
 export { ShiftController } from './ShiftController';
 export { DutyRecurrenceController } from './DutyRecurrenceController';
 export { DutyController } from './DutyController';
-export {SheriffDutyController} from './SheriffDutyController'
+export { SheriffDutyController } from './SheriffDutyController';
+export { LeaveController } from './LeaveController';
+export { LeaveCancelCodesController } from './LeaveCancelCodesController';
+export { LeaveTypeCodesController } from './LeaveTypeCodesController';

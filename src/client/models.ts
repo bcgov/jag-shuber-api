@@ -115,3 +115,20 @@
         courthouseId? : string
         date? : string
     }
+    export interface Leave  {
+        id? : string
+        sheriffId? : string
+        startDate? : string
+        endDate? : string
+        leaveType? : string
+        cancelDate? : string
+        cancelReason? : string
+    }
+    export interface LeaveCancelCode  {
+        code? : string
+        description? : string
+    }
+    export interface LeaveTypeCode  {
+        code? : string
+        description? : string
+    }

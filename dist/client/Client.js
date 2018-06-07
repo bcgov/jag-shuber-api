@@ -1595,6 +1595,183 @@ var Client = /** @class */ (function () {
             });
         });
     };
+    Client.prototype.GetLeaves = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_60;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/leaves")];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_60 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_60);
+                        }
+                        else {
+                            throw error_60;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Client.prototype.CreateLeave = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_61;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.post("/leaves")
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_61 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_61);
+                        }
+                        else {
+                            throw error_61;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Client.prototype.GetLeaveById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_62;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/leaves/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_62 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_62);
+                        }
+                        else {
+                            throw error_62;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Client.prototype.UpdateLeave = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_63;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.put("/leaves/" + id)
+                                .send(model)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_63 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_63);
+                        }
+                        else {
+                            throw error_63;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Client.prototype.DeleteLeave = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_64;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.delete("/leaves/" + id)];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_64 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_64);
+                        }
+                        else {
+                            throw error_64;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Client.prototype.GetLeaveCancelTypes = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_65;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/codes/leave-cancel")];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_65 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_65);
+                        }
+                        else {
+                            throw error_65;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Client.prototype.GetLeaveTypes = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_66;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/codes/leave-type")];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_66 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_66);
+                        }
+                        else {
+                            throw error_66;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     return Client;
 }());
 exports.default = Client;

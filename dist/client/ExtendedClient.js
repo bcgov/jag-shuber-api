@@ -254,6 +254,10 @@ var ExtendedClient = /** @class */ (function (_super) {
             });
         });
     };
+    ExtendedClient.prototype.GetLeaveById = function (id) {
+        var _this = this;
+        return this.nullOn404(function () { return _super.prototype.GetLeaveById.call(_this, id); });
+    };
     ExtendedClient.prototype.GetSheriffDutyById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
