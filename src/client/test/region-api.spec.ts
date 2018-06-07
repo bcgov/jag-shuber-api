@@ -2,7 +2,7 @@ import ApiClient from '../ExtendedClient';
 import { Region } from '../models';
 import TestUtils from './TestUtils';
 
-describe('Courtroom API', () => {
+describe('Region API', () => {
     let api: ApiClient;
 
     const regionShape: Region = {

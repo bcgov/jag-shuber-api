@@ -1,54 +1,53 @@
 import ApiClient from '../ExtendedClient';
-import { Region } from '../models';
+import { Region, Leave, Sheriff } from '../models';
 import TestUtils from './TestUtils';
 
-describe('Courtroom API', () => {
+describe('Leave API', () => {
     let api: ApiClient;
 
-    const regionShape: Region = {
-        code: 'SomeCode',
-        name: 'Some Name',
-        id: 'some id'
+    const leaveShape: Leave = {
+        id:'some id',
+        sheriffId:'some string',
+        leaveType: 'some string',
+        startDate: 'date string',
+        endDate: 'date string'
     }
-    let createdRegion: Region;
+    let createdEntity: Leave;
+    let testSheriff: Sheriff;
 
     beforeAll(async (done) => {
         api = TestUtils.getClient();
+        testSheriff = 
         done();
     });
 
-    it('create should return new region', async () => {
-        const toCreate: Region = {
-            name: 'Test Region',
-            code: TestUtils.randomString(5)
-        }
-        createdRegion = await api.CreateRegion(toCreate);
-        expect(createdRegion).toBeDefined();
-        expect(createdRegion).toMatchShapeOf(regionShape);
+    it('create should return new Leave', async () => {
+        throw "to test"
     });
 
-    it('get List should return list of regions', async () => {
-        const list = await api.GetRegions();
-        expect(list).toBeDefined();
-        expect(Array.isArray(list)).toBeTruthy();
-        expect(list.length).toBeGreaterThan(0);
-        expect(list[0]).toMatchShapeOf(regionShape);
+    it('get List should return list of Leaves for all courthouses', async () => {
+        throw "to test"
     });
 
-    it('get by id should return region', async () => {
-        const gotRegion = await api.GetRegionById(createdRegion.id);
-        expect(gotRegion).toMatchObject(createdRegion);
+    it('get List should return list of Leaves based on courthouse if specified', async () => {
+        throw "to test"
     });
 
-    it('update region should return updated region', async () => {
-        const newName = "New Test Region"
-        const gotRegion = await api.UpdateRegion(createdRegion.id, { ...createdRegion, name: newName });
-        expect(gotRegion).toMatchObject({ ...createdRegion, name: newName });
+    it('get by id should return leave', async () => {
+        throw "to test"
+    });
+
+    it('update leave should return updated leave', async () => {
+        throw "to test"
+    });
+
+    it('cancel leave should set cancel date and return updated leave', async () => {
+        throw "to test"
     });
 
     it('delete should delete Region', async () => {
-        await api.DeleteRegion(createdRegion.id);
-        const retreived = await api.GetRegionById(createdRegion.id);
+        await api.DeleteRegion(createdEntity.id);
+        const retreived = await api.GetRegionById(createdEntity.id);
         expect(retreived).not.toBeDefined();
     });
 }) 
