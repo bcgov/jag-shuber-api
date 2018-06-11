@@ -3,6 +3,8 @@
 # Environment file
 .env*
 
+# database scripts (autosave)
+*.xml~*
 
 # chrome data
 .vscode/chrome/
