@@ -15,7 +15,8 @@ describe('Duty API', () => {
     const entityToCreate: Duty = {
         startDateTime: moment().toISOString(),
         endDateTime: moment().add(1, 'hours').toISOString(),
-        assignmentId: "ToReplace"
+        assignmentId: "ToReplace",
+        comments: 'adding a comment'
     };
 
     let createdEntity: Duty;

@@ -20,4 +20,4 @@ function toTimeString(time) {
     return timeMoment.format(exports.TIME_FORMAT_TZ);
 }
 exports.toTimeString = toTimeString;
-//# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/client/utils/time.js.map
+//# sourceMappingURL=/Users/holly.mcquay/Documents/Projects/jag-shuber-api/dist/client/utils/time.js.map
