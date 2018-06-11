@@ -220,6 +220,10 @@
                                                 "key": "database-name"
                                             }
                                         }
+                                    },
+                                    {
+                                        "name": "POSTGRES_EXT_SCHEMA",
+                                        "value": "${DATABASE_EXTENSIONS_SCHEMA}"
                                     }
                                 ],
                                 "resources": {
