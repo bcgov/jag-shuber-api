@@ -36,7 +36,10 @@
     
     <!-- escort run prod data -->
     <include file="shersched.db.changelog-escortrundata.prod.xml" relativeToChangelogFile="true"/>
-    
+
+		<!-- sheriff rank code data -->
+    <include file="shersched.db.changelog-sheriffrankcodedata.prod.xml" relativeToChangelogFile="true"/>
+		    
     <!-- sheriff prod data -->
     <include file="shersched.db.changelog-sheriffdata.prod.xml" relativeToChangelogFile="true"/>
 

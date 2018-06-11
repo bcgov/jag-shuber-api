@@ -15,30 +15,10 @@
     	<tagDatabase tag="courthouse_data_prod_start"/>
     </changeSet>
 
-    <!-- Courthouses -->
+    <!-- Locations (was 'Courthouses') -->
+
+    <!-- Locations in COASTAL region -->
     
-    <changeSet author="Carol Geisler" id="INS_crth_VANRS">
-      <insert catalogName="${POSTGRES_CATALOG}"
-              schemaName="${POSTGRES_SCHEMA}"
-              tableName="courthouse">
-          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
-          <column name="courthouse_cd" type="VARCHAR(5)" value="VANRS"/>
-          <column name="courthouse_name" type="VARCHAR(100)" value="Robson Square"/>
-          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'VANCOASTAL')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
-      </insert>
-      <rollback>
-         <delete catalogName="${POSTGRES_CATALOG}"
-              schemaName="${POSTGRES_SCHEMA}"
-              tableName="courthouse">
-              <where>courthouse_cd='VANRS'</where>
-          </delete>
-      </rollback>
-    </changeSet>
     <changeSet author="Carol Geisler" id="INS_crth_CHL">
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
@@ -46,7 +26,7 @@
           <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courthouse_cd" type="VARCHAR(5)" value="CHL"/>
           <column name="courthouse_name" type="VARCHAR(100)" value="Chilliwack"/>
-          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'VANCOASTAL')"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -61,14 +41,15 @@
           </delete>
       </rollback>
     </changeSet>
-    <changeSet author="Carol Geisler" id="INS_crth_VIC">
+    
+    <changeSet author="Carol Geisler" id="INS_crth_NVN">
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courthouse">
           <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
-          <column name="courthouse_cd" type="VARCHAR(5)" value="VIC"/>
-          <column name="courthouse_name" type="VARCHAR(100)" value="Victoria"/>
-          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'VANISLAND')"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="NVN"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="North Vancouver"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -79,10 +60,126 @@
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="courthouse">
-              <where>courthouse_cd='VIC'</where>
+              <where>courthouse_cd='NVN'</where>
           </delete>
       </rollback>
     </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_OPS">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="OPS"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Office of Professional Standards"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='OPS'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_OCS">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="OCS"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Office of the Chief Sheriff"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='OCS'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_RBS">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="RBS"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Robson Square"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='RBS'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_SCH">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="SCH"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Sechelt"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='SCH'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_SPOC">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="SPOC"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Sheriff Provincial Operation Centre"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='SPOC'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
     <changeSet author="Carol Geisler" id="INS_crth_SRY">
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
@@ -90,7 +187,7 @@
           <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courthouse_cd" type="VARCHAR(5)" value="SRY"/>
           <column name="courthouse_name" type="VARCHAR(100)" value="Surrey"/>
-          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'VANCOASTAL')"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -105,6 +202,728 @@
           </delete>
       </rollback>
     </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_VLC">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="VLC"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Vancouver Law Courts"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='VLC'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_VPC">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="VPC"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Vancouver Provincial Courts"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='VPC'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <!-- Locations in FRASER region -->
+    
+    <changeSet author="Carol Geisler" id="INS_crth_ABS">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="ABS"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Abbotsford"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'FRASER')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='ABS'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_CFP">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="CFP"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Central Float Pool"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'FRASER')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='CFP'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_NWS">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="NWS"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="New Westminster"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'FRASER')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='NWS'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_PCQ">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="PCQ"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Port Coquitlam"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'FRASER')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='PCQ'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_RMD">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="RMD"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Richmond"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'FRASER')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='RMD'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <!-- Locations in INTERIOR region -->
+    
+    <changeSet author="Carol Geisler" id="INS_crth_CRB">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="CRB"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Cranbrook"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'INTERIOR')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='CRB'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_ITAU">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="ITAU"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="ITAU"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'INTERIOR')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='ITAU'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_KML">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="KML"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Kamloops"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'INTERIOR')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='KML'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_KLW">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="KLW"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Kelowna"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'INTERIOR')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='KLW'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_NLS">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="NLS"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Nelsom"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'INTERIOR')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='NLS'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_PNT">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="PNT"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Pentiction"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'INTERIOR')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='PNT'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_SLM">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="SLM"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Salmon Arm"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'INTERIOR')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='SLM'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_SOE">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="SOE"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="South Okanagan Escort Centre"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'INTERIOR')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='SOE'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_VRN">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="VRN"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Vernon"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'INTERIOR')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='VRN'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <!-- Locations in ISLAND region -->
+    
+    <changeSet author="Carol Geisler" id="INS_crth_CBR">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="CBR"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Campbell River"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'ISLAND')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='CBR'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_CTN">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="CTN"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Courtenay"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'ISLAND')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='CTN'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_DNC">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="DNC"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Duncan"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'ISLAND')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='DNC'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_NMO">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="NMO"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Nanaimo"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'ISLAND')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='NMO'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_PTA">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="PTA"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Port Alberni"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'ISLAND')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='PTA'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_PWL">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="PWL"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Powell River"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'ISLAND')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='PWL'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_VIC">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="VIC"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Victoria"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'ISLAND')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='VIC'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_WCM">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="WCM"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Western Communities"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'ISLAND')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='WCM'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <!-- Locations in NORTHERN region -->
+    
+    <changeSet author="Carol Geisler" id="INS_crth_DWS">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="DWS"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Dawson Creek"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'NORTHERN')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='DWS'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_FSJ">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="FSJ"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Fort St. John"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'NORTHERN')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='FSJ'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_PRG">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="PRG"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Prince George"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'NORTHERN')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='PRG'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_PRP">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="PRP"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Prince Rupert"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'NORTHERN')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='PRP'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_QNL">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="QNL"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Quesnel"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'NORTHERN')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='QNL'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_SMT">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="SMT"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Smithers"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'NORTHERN')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='SMT'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_TRC">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="TRC"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Terrace"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'NORTHERN')"/>
+          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
+          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='TRC'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
 
     <changeSet author="Carol Geisler" id="tag1">
     	<tagDatabase tag="courthouse_data_prod_end"/>

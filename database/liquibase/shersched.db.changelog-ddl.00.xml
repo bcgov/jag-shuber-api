@@ -17,6 +17,9 @@
             <column name="sheriff_rank_code" type="VARCHAR(20)">
                 <constraints nullable="false"/>
             </column>
+            <column name="rank_order" type="INTEGER">
+            		<constraints nullable="false"/>
+            </column>
             <column name="description" type="VARCHAR(200)">
                 <constraints nullable="false"/>
             </column>

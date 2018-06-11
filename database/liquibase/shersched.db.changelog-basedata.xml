@@ -42,13 +42,13 @@
             </sql>
         </rollback>
     </changeSet>
-    <changeSet author="Michael Gabelmann" id="basedata_04_sheriff_rank">
+    <changeSet author="Michael Gabelmann" id="basedata_04_sheriff_rank" context="dev">
         <sqlFile path="../dml/sheriff_rank_code.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
         <rollback>
             <sql>
-                DELETE FROM ${POSTGRES_SCHEMA}.sheriff_rank_code;
+                DELETE FROM ${POSTGRES_SCHEMA}.sheriff_rank_code where CREATED_BY = 'test';
             </sql>
         </rollback>
     </changeSet>

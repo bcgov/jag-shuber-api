@@ -63,15 +63,13 @@
     	  	<column name="current_courthouse_id" type="UUID"/>
     	  </addColumn>
     </changeSet>
-    <changeSet author="Carol Geisler" id="tag1">
-    	<tagDatabase tag="ddl_set_04_end"/>
-    </changeSet>
     
-    <!--add column sheriff.alias -->
+    <!--add columns sheriff.alias, sheriff.gender -->
     <changeSet author="Carol Geisler" id="ADDCOL_shrf_alias">
       <comment>New column, anticipated earlier, but added now to hold radio call sign values provided for VLC Sheriffs.</comment>
       <addColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff">
         <column name="alias" type="varchar(32)"/>
+        <column name="gender" type="varchar(10)"/>
       </addColumn>
     </changeSet>
     
@@ -113,4 +111,18 @@
 			  <renameColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_recurrence" oldColumnName="end_time_notz" newColumnName="end_time"/>
 		  </rollback>
 		</changeSet>
+
+    <!-- add column duty.comment -->
+    <changeSet author="Carol Geisler" id="ADDCOL_duty_comment">
+    	  <comment>This is in part a placeholder, intended to be replaced by more complete modeling, but helping to inform the requirements for that modeling.</comment>
+    	  <addColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty">
+    	  	<column name="comment" type="varchar(200)"/>
+    	  </addColumn>
+    </changeSet>
+    
+    
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="ddl_set_04_end"/>
+    </changeSet>
+		
 </databaseChangeLog>
