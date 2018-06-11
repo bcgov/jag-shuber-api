@@ -3,6 +3,8 @@
 # Environment file
 .env*
 
+# database scripts (autosave)
+*.xml~*
 
 # chrome data
 .vscode/chrome/
@@ -64,3 +66,4 @@ yarn-error.log*
 .Trashes
 ehthumbs.db
 Thumbs.db
+*.bak

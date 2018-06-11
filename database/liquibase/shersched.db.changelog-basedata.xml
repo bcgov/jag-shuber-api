@@ -5,54 +5,58 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
+
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="base_code_data_start"/>
+    </changeSet>
     
     <!-- LOAD CODE TABLES DATA -->
-    <changeSet author="Michael Gabelmann" id="basedata_01">
+    <changeSet author="Michael Gabelmann" id="basedata_01_work_section">
         <sqlFile path="../dml/work_section_code.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
         <rollback>
             <sql>
-                SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE FROM work_section_code;
+                DELETE FROM ${POSTGRES_SCHEMA}.work_section_code;
             </sql>
         </rollback>
     </changeSet>
     
-    <changeSet author="Michael Gabelmann" id="basedata_02">
+    <changeSet author="Michael Gabelmann" id="basedata_02_jail_role">
         <sqlFile path="../dml/jail_role_code.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
         <rollback>
             <sql>
-                SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE FROM jail_role_code;
+                DELETE FROM ${POSTGRES_SCHEMA}.jail_role_code;
             </sql>
         </rollback>
     </changeSet>
-    <changeSet author="Michael Gabelmann" id="basedata_03">
+    <changeSet author="Michael Gabelmann" id="basedata_03_other_assign">
         <sqlFile path="../dml/other_assign_code.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
         <rollback>
             <sql>
-                SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE FROM other_assign_code;
+                DELETE FROM ${POSTGRES_SCHEMA}.other_assign_code;
             </sql>
         </rollback>
     </changeSet>
-    <changeSet author="Michael Gabelmann" id="basedata_04">
+    <changeSet author="Michael Gabelmann" id="basedata_04_sheriff_rank" context="dev">
         <sqlFile path="../dml/sheriff_rank_code.sql"
                  relativeToChangelogFile="true"
                  stripComments="true"/>
         <rollback>
             <sql>
-                SET search_path TO ${POSTGRES_SCHEMA};
-                DELETE FROM sheriff_rank_code;
+                DELETE FROM ${POSTGRES_SCHEMA}.sheriff_rank_code where CREATED_BY = 'test';
             </sql>
         </rollback>
     </changeSet>
     
+
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="base_code_data_end"/>
+    </changeSet>
     
     <!-- REQUIRED TABLE DATA -->
     
