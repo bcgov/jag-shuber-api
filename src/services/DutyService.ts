@@ -16,7 +16,8 @@ export class DutyService extends DatabaseService<Duty> {
         start_dtm: 'startDateTime',
         end_dtm: 'endDateTime',
         assignment_id: 'assignmentId',
-        duty_recurrence_id: 'dutyRecurrenceId'
+        duty_recurrence_id: 'dutyRecurrenceId',
+        comment: 'comments'
     };
 
     constructor() {
