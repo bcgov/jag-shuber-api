@@ -78,7 +78,7 @@ var superagent_prefix_1 = __importDefault(require("superagent-prefix"));
 var superagent_use_1 = __importDefault(require("superagent-use"));
 var Client_1 = __importDefault(require("./Client"));
 var TimeUtils_1 = require("../common/TimeUtils");
-;
+var Errors_1 = require("../common/Errors");
 var ExtendedClient = /** @class */ (function (_super) {
     __extends(ExtendedClient, _super);
     function ExtendedClient(baseUrl) {
@@ -101,22 +101,9 @@ var ExtendedClient = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    ExtendedClient.isValidationError = function (err) {
-        var _a = err.response, _b = (_a === void 0 ? {} : _a).body, _c = (_b === void 0 ? {} : _b).name, name = _c === void 0 ? "" : _c;
-        return name === "ValidateError";
-    };
     ExtendedClient.prototype.processError = function (err) {
-        if (ExtendedClient.isValidationError(err)) {
-            var message = ["Validation Error"];
-            var fields_1 = err.response.body.fields || {};
-            message.push.apply(message, Object.keys(fields_1).map(function (k) { return k + ": \"" + fields_1[k].message + "\""; }));
-            var newMessage = message.join(' | ');
-            err.message = newMessage;
-        }
-        else if (err.response.body.message) {
-            err.message = err.response.body.message;
-        }
-        return err;
+        var apiError = new Errors_1.ApiError(err);
+        return apiError;
     };
     ExtendedClient.prototype.nullOn404 = function (method) {
         return __awaiter(this, void 0, void 0, function () {
