@@ -63,7 +63,7 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
                     if (matches.length > 0) {
                         const field = matches[1];
                         const value = matches[2];
-                        const message = error.detail.replace(DatabaseError.PG_ERROR_23505_REGEX, '');
+                        const message = "Already Exists";
                         const fieldErrors :FieldErrors = {};
                         fieldErrors[this.fieldMap[field]] = {
                             message,
