@@ -138,6 +138,14 @@ export class DutyService extends DatabaseService<Duty> {
             .from(dutyReccurenceService.dbTableName, dutyRecurrenceTableAlias)
             .fields(dutyReccurenceService.getAliasedFieldMap(dutyRecurrenceTableAlias))
             .join(assignmentService.dbTableName, 'a', `${dutyRecurrenceTableAlias}.assignment_id=a.assignment_id`)
+            .where(assignmentService.getEffectiveWhereClause({
+                startDate:dateMoment.format(),
+                fieldAlias:'a'
+            }))
+            .where(dutyReccurenceService.getEffectiveWhereClause({
+                startDate:dateMoment.format(),
+                fieldAlias:'dr'
+            }))
             .where(`a.courthouse_id='${courthouseId}'`)
             .where(`(cast(${dutyRecurrenceTableAlias}.days_bitmap::bigint as bit(7)) & day_of_interest)=day_of_interest`)
             .where('NOT EXISTS ?',
@@ -150,7 +158,6 @@ export class DutyService extends DatabaseService<Duty> {
                         .toString()
                 )
             );
-        
 
         const createdDuties = await this.db.transaction(async client => {
             const service = new DutyService();

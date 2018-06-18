@@ -1,11 +1,12 @@
 import moment from 'moment';
-import { PostgresInsert, PostgresSelect, PostgresUpdate } from 'squel';
+import { PostgresInsert, PostgresSelect, PostgresUpdate, Expression } from 'squel';
 import { DatabaseService } from "./DatabaseService";
 
 export interface EffectiveQueryOptions {
     startDate?: string;
     endDate?: string;
     includeExpired?: boolean;
+    fieldAlias?:string;
 }
 
 export default abstract class ExpirableDatabaseService<T> extends DatabaseService<T>{
@@ -14,29 +15,40 @@ export default abstract class ExpirableDatabaseService<T> extends DatabaseServic
 
     protected getEffectiveSelectQuery(options: EffectiveQueryOptions = {}): PostgresSelect {
         const {
-            startDate = moment().toISOString(),
             includeExpired = false
+        } = options;
+        // Get the standard query
+        const query = this.getSelectQuery();
+
+        query.where(this.getEffectiveWhereClause(options));
+        return query;
+    }
+
+    public getEffectiveWhereClause(options: EffectiveQueryOptions = {}) {
+        const {
+            startDate = moment().toISOString(),
+            includeExpired = false,
+            fieldAlias = undefined
         } = options;
         const {
             endDate = startDate
         } = options;
-
-        // Get the standard query
-        const query = this.getSelectQuery();
+        let clause = this.squel.expr();
         if (!includeExpired) {
+            const effectiveField = fieldAlias ? `${fieldAlias}.${this.effectiveField}` : this.effectiveField;
+            const expiryField = fieldAlias ? `${fieldAlias}.${this.expiryField}` : this.expiryField;
             // Add on the where for the effective date
-            query.where(this.squel.expr()
-                .and(`DATE('${endDate}') >= ${this.effectiveField}`)
+            clause = this.squel.expr()
+                .and(`DATE('${endDate}') >= ${effectiveField}`)
                 .and(
                     this.squel.expr()
-                        .or(`${this.expiryField} IS NULL`)
-                        .or(`Date('${startDate}') < ${this.expiryField}`)
-                )
-            )
+                        .or(`${expiryField} IS NULL`)
+                        .or(`Date('${startDate}') < ${expiryField}`)
+                );
         }
-        return query;
+        return clause;
     }
-    
+
     protected getInsertQuery(entity: Partial<T>): PostgresInsert {
         const query = this.db.insertQuery(this.tableName, this.primaryKey)
             .returning(this.getReturningFields());
