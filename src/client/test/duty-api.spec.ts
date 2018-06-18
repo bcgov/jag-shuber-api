@@ -190,8 +190,6 @@ describe('Duty API', () => {
             sheriffsRequired: 2
         }
 
-
-
         beforeEach(async (done) => {
             const { sheriff_duty, duty, assignment, duty_recurrence } = TestUtils.tables;
             await TestUtils.clearTable(undefined, sheriff_duty, duty, duty_recurrence, assignment);
@@ -269,7 +267,7 @@ describe('Duty API', () => {
             expect(secondImport.length).toEqual(0);
         });
 
-        it('import defaults should only create duties for day passed in', async () => {
+        it.only('import defaults should only create duties for day passed in', async () => {
             const recurrences: DutyRecurrence[] = [
                 {
                     ...recurrenceToCreate
@@ -283,14 +281,13 @@ describe('Duty API', () => {
                 }
             ];
 
+            const testDate = moment().startOf('day').add(1,'week');
             const assignment = await TestUtils.newTestAssignment(testCourthouse.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
-            const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId });
+            const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId, date: testDate.format()});
             expect(Array.isArray(duties)).toBeTruthy();
-            expect(duties.length).toEqual(1);
-            TestUtils.assertImportedDuties(duties, assignment);
+            expect(duties.length).toEqual(1); 
+            TestUtils.assertImportedDuties(duties, assignment,testDate);
         });
-
-
 
 
     })

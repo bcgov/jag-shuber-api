@@ -49,6 +49,6 @@ export interface HttpErrorInfo {
 }
 export declare class ApiError extends Error {
     httpError?: HttpErrorInfo;
-    readonly statusCode: number | undefined;
+    status?: number | undefined;
     constructor(error: any);
 }

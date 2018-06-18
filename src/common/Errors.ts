@@ -68,10 +68,7 @@ export interface HttpErrorInfo {
 
 export class ApiError extends Error {
     httpError?: HttpErrorInfo;
-    get statusCode(): number | undefined {
-        const { status = undefined } = this.httpError || {};
-        return status;
-    }
+    status?: number | undefined;
     constructor(error: any) {
         super();
         const { message, stack, response } = error;
@@ -83,6 +80,7 @@ export class ApiError extends Error {
             const { body = {}, error: httpError } = response;
             if (httpError) {
                 this.httpError = httpError;
+                this.status = httpError.status;
             }
 
             // Clones all of the values in the body object into this error

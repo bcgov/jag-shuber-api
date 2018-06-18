@@ -150,11 +150,13 @@ export class DutyService extends DatabaseService<Duty> {
                         .toString()
                 )
             );
-        const recurrencesToCreate = await this.executeQuery<DutyRecurrence>(query.toString());
+        
 
         const createdDuties = await this.db.transaction(async client => {
             const service = new DutyService();
             service.dbClient = client;
+
+            const recurrencesToCreate = await service.executeQuery<DutyRecurrence>(query.toString());
 
             // For each of the recurrences, create the duty and sheriff Duties
             return await Promise.all(recurrencesToCreate.map(async (dr) => {
@@ -164,7 +166,7 @@ export class DutyService extends DatabaseService<Duty> {
                     .set({
                         year: dateMoment.year(),
                         month: dateMoment.month(),
-                        day: dateMoment.day()
+                        date: dateMoment.date()
                     })
                     .startOf('day');
 

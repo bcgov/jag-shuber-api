@@ -49,6 +49,7 @@ var ApiError = /** @class */ (function (_super) {
             var _a = response.body, body_1 = _a === void 0 ? {} : _a, httpError = response.error;
             if (httpError) {
                 _this.httpError = httpError;
+                _this.status = httpError.status;
             }
             // Clones all of the values in the body object into this error
             Object.keys(body_1).forEach(function (key) {
@@ -57,14 +58,6 @@ var ApiError = /** @class */ (function (_super) {
         }
         return _this;
     }
-    Object.defineProperty(ApiError.prototype, "statusCode", {
-        get: function () {
-            var _a = (this.httpError || {}).status, status = _a === void 0 ? undefined : _a;
-            return status;
-        },
-        enumerable: true,
-        configurable: true
-    });
     return ApiError;
 }(Error));
 exports.ApiError = ApiError;

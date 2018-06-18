@@ -276,11 +276,11 @@ describe('Assignment API', () => {
                     courthouseId: testCourthouse.id
                 });
             } catch (err) {
-                const { response: { body: {
+                const {
                     fields = {},
                     message = "",
                     name = ""
-                } = {} } = {} } = err;
+                } = err;
                 expect(message).toEqual("Invalid Court Assignment");
                 expect(name).toEqual("ValidateError");
                 expect(fields['model.courtroomId']!.message).toEqual("Courtroom must be set for Court assignments");
@@ -311,11 +311,11 @@ describe('Assignment API', () => {
                     courthouseId: testCourthouse.id
                 });
             } catch (err) {
-                const { response: { body: {
+                const {
                     fields = {},
                     message = "",
                     name = ""
-                } = {} } = {} } = err;
+                } = err;
                 expect(message).toEqual("Invalid Jail Assignment");
                 expect(name).toEqual("ValidateError");
                 expect(fields['model.jailRoleCode']!.message).toEqual("Jail Role must be set for Jail assignments");
@@ -348,11 +348,11 @@ describe('Assignment API', () => {
                     courthouseId: testCourthouse.id
                 });
             } catch (err) {
-                const { response: { body: {
+                const {
                     fields = {},
                     message = "",
                     name = ""
-                } = {} } = {} } = err;
+                } = err;
                 expect(message).toEqual("Invalid Escort Assignment");
                 expect(name).toEqual("ValidateError");
                 expect(fields['model.runId']!.message).toEqual("Run must be set for Escort assignments");
@@ -384,11 +384,11 @@ describe('Assignment API', () => {
                     courthouseId: testCourthouse.id
                 });
             } catch (err) {
-                const { response: { body: {
+                const {
                     fields = {},
                     message = "",
                     name = ""
-                } = {} } = {} } = err;
+                } = err;
                 expect(message).toEqual("Invalid Other Assignment");
                 expect(name).toEqual("ValidateError");
                 expect(fields['model.otherAssignCode']!.message).toEqual("Assignment Type must be set for Other assignments");
