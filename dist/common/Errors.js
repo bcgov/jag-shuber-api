@@ -51,10 +51,12 @@ var ApiError = /** @class */ (function (_super) {
                 _this.httpError = httpError;
                 _this.status = httpError.status;
             }
-            // Clones all of the values in the body object into this error
-            Object.keys(body_1).forEach(function (key) {
-                _this[key] = JSON.parse(JSON.stringify(body_1[key]));
-            });
+            if (body_1) {
+                // Clones all of the values in the body object into this error
+                Object.keys(body_1).forEach(function (key) {
+                    _this[key] = JSON.parse(JSON.stringify(body_1[key]));
+                });
+            }
         }
         return _this;
     }
