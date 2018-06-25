@@ -83,10 +83,12 @@ export class ApiError extends Error {
                 this.status = httpError.status;
             }
 
-            // Clones all of the values in the body object into this error
-            Object.keys(body).forEach(key => {
-                this[key] = JSON.parse(JSON.stringify(body[key]));
-            });
+            if (body) {
+                // Clones all of the values in the body object into this error
+                Object.keys(body).forEach(key => {
+                    this[key] = JSON.parse(JSON.stringify(body[key]));
+                });
+            }
         }
     }
 }
