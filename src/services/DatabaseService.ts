@@ -2,6 +2,8 @@ import { GetFieldBlock, PostgresDelete, PostgresInsert, PostgresSelect, Postgres
 import { Database, default as db } from '../db/Database';
 import { ServiceBase } from './ServiceBase';
 import { ClientBase } from 'pg';
+import { DatabaseError, isDatabaseError, ValidationError } from '../common/Errors'
+import { ValidateError, FieldErrors } from 'tsoa';
 
 export type DatabaseResult<T> = { rows: T[] }
 
@@ -52,9 +54,27 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
             }
             return result.rows || [];
         } catch (error) {
-            const errorMessage = `${error!.message}\r\n${error!.detail}`;
-            console.log('Database Error:', errorMessage);
-            throw new Error(errorMessage);
+            let returnError = error;
+            DatabaseError.decorate(returnError);
+            if (isDatabaseError(returnError)) {
+                // Error codes can be found here: https://www.postgresql.org/docs/9.6/static/errcodes-appendix.html
+                if (error.code === "23505") {
+                    const matches = error.detail.match(DatabaseError.PG_ERROR_23505_REGEX);
+                    if (matches.length > 0) {
+                        const field = matches[1];
+                        const value = matches[2];
+                        const message = "Already Exists";
+                        const fieldErrors :FieldErrors = {};
+                        fieldErrors[this.fieldMap[field]] = {
+                            message,
+                            value
+                        }
+                        returnError = new ValidateError(fieldErrors,"ValidationError");
+                    }
+                }
+            }
+            console.log('Error during DB Query:', `${returnError!.message}\r\n${returnError!.detail}`);
+            throw returnError;
         }
     }
 

@@ -15,7 +15,8 @@ describe('Duty API', () => {
     const entityToCreate: Duty = {
         startDateTime: moment().toISOString(),
         endDateTime: moment().add(1, 'hours').toISOString(),
-        assignmentId: "ToReplace"
+        assignmentId: "ToReplace",
+        comments: 'adding a comment'
     };
 
     let createdEntity: Duty;
@@ -189,8 +190,6 @@ describe('Duty API', () => {
             sheriffsRequired: 2
         }
 
-
-
         beforeEach(async (done) => {
             const { sheriff_duty, duty, assignment, duty_recurrence } = TestUtils.tables;
             await TestUtils.clearTable(undefined, sheriff_duty, duty, duty_recurrence, assignment);
@@ -282,14 +281,44 @@ describe('Duty API', () => {
                 }
             ];
 
+            const testDate = moment().startOf('day').add(1, 'week');
             const assignment = await TestUtils.newTestAssignment(testCourthouse.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
-            const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId });
+            const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId, date: testDate.format() });
             expect(Array.isArray(duties)).toBeTruthy();
             expect(duties.length).toEqual(1);
-            TestUtils.assertImportedDuties(duties, assignment);
+            TestUtils.assertImportedDuties(duties, assignment, testDate);
         });
 
+        it('import defaults should not create duties for expired assignments', async () => {
+            const recurrences: DutyRecurrence[] = [
+                {
+                    ...recurrenceToCreate,
+                    daysBitmap: 31
+                }
+            ];
 
+            const assignment = await TestUtils.newTestAssignment(testCourthouse.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
+            await api.ExpireAssignment(assignment.id);
+            const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId });
+            expect(Array.isArray(duties)).toBeTruthy();
+            expect(duties.length).toEqual(0);
+        });
+
+        it('import defaults should not create duties for Expired duty recurrences', async () => {
+            const recurrences: DutyRecurrence[] = [
+                {
+                    ...recurrenceToCreate,
+                    daysBitmap: 31
+                }
+            ];
+
+            const testDate = moment().startOf('day').add(13, 'weeks');
+            const assignment = await TestUtils.newTestAssignment(testCourthouse.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
+            await api.ExpireDutyRecurrence(assignment.dutyRecurrences[0].id);
+            const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId, date: testDate.format() });
+            expect(Array.isArray(duties)).toBeTruthy();
+            expect(duties.length).toEqual(0);
+        });
 
 
     })

@@ -16,7 +16,8 @@ export class DutyService extends DatabaseService<Duty> {
         start_dtm: 'startDateTime',
         end_dtm: 'endDateTime',
         assignment_id: 'assignmentId',
-        duty_recurrence_id: 'dutyRecurrenceId'
+        duty_recurrence_id: 'dutyRecurrenceId',
+        comment: 'comments'
     };
 
     constructor() {
@@ -137,6 +138,14 @@ export class DutyService extends DatabaseService<Duty> {
             .from(dutyReccurenceService.dbTableName, dutyRecurrenceTableAlias)
             .fields(dutyReccurenceService.getAliasedFieldMap(dutyRecurrenceTableAlias))
             .join(assignmentService.dbTableName, 'a', `${dutyRecurrenceTableAlias}.assignment_id=a.assignment_id`)
+            .where(assignmentService.getEffectiveWhereClause({
+                startDate:dateMoment.format(),
+                fieldAlias:'a'
+            }))
+            .where(dutyReccurenceService.getEffectiveWhereClause({
+                startDate:dateMoment.format(),
+                fieldAlias:'dr'
+            }))
             .where(`a.courthouse_id='${courthouseId}'`)
             .where(`(cast(${dutyRecurrenceTableAlias}.days_bitmap::bigint as bit(7)) & day_of_interest)=day_of_interest`)
             .where('NOT EXISTS ?',
@@ -149,11 +158,12 @@ export class DutyService extends DatabaseService<Duty> {
                         .toString()
                 )
             );
-        const recurrencesToCreate = await this.executeQuery<DutyRecurrence>(query.toString());
 
         const createdDuties = await this.db.transaction(async client => {
             const service = new DutyService();
             service.dbClient = client;
+
+            const recurrencesToCreate = await service.executeQuery<DutyRecurrence>(query.toString());
 
             // For each of the recurrences, create the duty and sheriff Duties
             return await Promise.all(recurrencesToCreate.map(async (dr) => {
@@ -163,7 +173,7 @@ export class DutyService extends DatabaseService<Duty> {
                     .set({
                         year: dateMoment.year(),
                         month: dateMoment.month(),
-                        day: dateMoment.day()
+                        date: dateMoment.date()
                     })
                     .startOf('day');
 

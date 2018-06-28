@@ -157,6 +157,7 @@ const models: TsoaRoute.Models = {
             "assignmentId": { "dataType": "string", "required": true },
             "dutyRecurrenceId": { "dataType": "string" },
             "sheriffDuties": { "dataType": "array", "array": { "ref": "SheriffDuty" } },
+            "comments": { "dataType": "string" },
         },
     },
     "DutyImportDefaultsRequest": {

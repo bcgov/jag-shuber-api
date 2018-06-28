@@ -4,24 +4,10 @@ import saPrefix from 'superagent-prefix';
 import superagentUse from 'superagent-use';
 import Client from './Client';
 import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift, DutyImportDefaultsRequest, MultipleShiftUpdateRequest, Leave } from './models';
-import { toTimeString } from '../common/TimeUtils';;
+import { toTimeString } from '../common/TimeUtils';
+import { ValidationError, DatabaseError, ApiError, isDatabaseError, isValidationError } from '../common/Errors';
 
 export type DateType = string | Date | moment.Moment | number;
-
-export interface ValidationError {
-    response: {
-        body: {
-            fields: {
-                [key: string]: {
-                    message: string,
-                    value: any
-                }
-            };
-        }
-    }
-    message: string;
-}
-
 
 export type SuperAgentRequestInterceptor = (req: SA.SuperAgentRequest) => SA.SuperAgentRequest
 
@@ -50,22 +36,9 @@ export default class ExtendedClient extends Client {
         this._requestInterceptor = interceptor;
     }
 
-    static isValidationError(err: any): err is ValidationError {
-        const { response: { body: { name = "" } = {} } = {} } = err;
-        return name === "ValidateError";
-    }
-
-    protected processError(err) {
-        if (ExtendedClient.isValidationError(err)) {
-            let message = ["Validation Error"];
-            const fields = err.response!.body!.fields || {};
-            message.push(...Object.keys(fields).map(k => `${k}: "${fields[k].message}"`));
-            const newMessage = message.join(' | ');
-            err.message = newMessage;
-        } else if (err!.response!.body!.message) {
-            err.message = err!.response!.body!.message;
-        }
-        return err;
+    protected processError(err) : Error {
+        let apiError = new ApiError(err);
+        return apiError;
     }
 
     private async nullOn404<T>(method: () => Promise<T>): Promise<T> {
@@ -186,7 +159,7 @@ export default class ExtendedClient extends Client {
     }
 
     UpdateDutyRecurrence(id: string, model: DutyRecurrence) {
-        return super.UpdateDutyRecurrence(id,this.ensureTimeZone(model)[0])
+        return super.UpdateDutyRecurrence(id, this.ensureTimeZone(model)[0])
     }
 
     CreateAssignment(model: Assignment) {
@@ -209,7 +182,7 @@ export default class ExtendedClient extends Client {
         const { startTime, endTime, ...rest } = model;
         const request: MultipleShiftUpdateRequest = {
             ...rest,
-            startTime: startTime ?  moment(startTime).format() : undefined,
+            startTime: startTime ? moment(startTime).format() : undefined,
             endTime: endTime ? moment(endTime).format() : undefined
         };
 

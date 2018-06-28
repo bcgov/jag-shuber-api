@@ -9,10 +9,13 @@ types.setTypeParser(1700, (val) => (Number(val)))
 export class Database {
     private pool: Pool;
     private _schema: string;
+    private _extensionsSchema: string;
     constructor() {
         this._schema = process.env["API_DATABASE_SCHEMA"] || 'shersched';
+        this._extensionsSchema = process.env["POSTGRES_EXT_SCHEMA"] || 'extensions';
         console.log(`DB Connection Pool Initialized using '${this._schema}' schema`);
         console.log(`DB connection established on port: ${process.env["PGPORT"]}`)
+        console.log('Adding schemas to search path: ',this._schema,this._extensionsSchema)
         // Create our connection pool
         this.pool = new Pool();
         this.pool.on('error',(err)=>{
@@ -23,7 +26,8 @@ export class Database {
             client.on('error',err=>{
                 console.error(err);
             })
-            await client.query(`SET search_path TO ${this._schema}`);
+            const searchPath = `SET search_path TO ${this._schema},${this._extensionsSchema}`; 
+            await client.query(searchPath);
         })
         //console.debug('Database connection pool created');
     }

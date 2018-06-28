@@ -1,0 +1,193 @@
+Sheriff Scheduling Liquibase Notes
+
+liquibase folder structure
+		.
+			 	The core changelogs, including the master, and any changelogs affecting 
+			 	database environment or structure
+		./data
+				Changelogs that create or update the data in code and supporting tables,
+				excluding data clearly intended for dev only (e.g. Flintstones characters)
+		./dev
+				Changelogs that are targeted specifically for non-production environments,
+				primarily data
+		./useful
+				Files for reference, such as templates, or command line samples.
+		./docs
+				Readme (relevant change history) and usage notes (this file)
+
+Liquibase command line arguments
+	  The following arguments are specific to a given environment, and unlikely 
+	  to change once configured. Refer to the liquibase 
+				driver
+				classpath
+				changeLogFile
+				url
+				username - the database user that the liquibase changesets will be 
+						applied under, most likely a privileged db user, like postgres
+				password - the password for the specified username
+		The remaining arguments can be used to affect how the changesets are 
+		applied
+				contexts - can be used to selectively include or exclude certain
+				  	changesets.  See the Contexts section below for more explanation
+				  	and a list of the contexts being used in Sheriff Scheduling
+				defaultSchemaName - this is the default schema under which objects
+						are created in the DB, and where liquibase looks for them, if 
+						the schema is not otherwise specified.
+						In particular, this effects where the supporting liquibase
+						tables 'databasechangelog' and 'databasechangeloglock' are
+						created and accessed.  Being able to override this is 
+						necessary if you want to run the liquibase changesets against 
+						more than one schema within the same database (e.g. for test
+						or comparison purposes in the local environment.) It also may 
+						be prudent in a production environment not to create the 
+						liquibase tables in a common system schema.
+				logLevel - This determines how much info is output by the liquibase
+						command. The default is fine for most contexts, but does
+						unfortunately exclude any messages defined within the 
+						changesets, such as for preconditions. 
+						Allowable values are debug, info, warning, severe, off.
+
+Liquibase Script Parameters
+
+Script parameters can be passed on the command line using -D<param_name>, and the values
+referenced within the script using ${<param_name>}
+The following parameters are referenced within the liquibase changesets for Sheriff Scheduling
+
+	  POSTGRES_EXT_SCHEMA
+		    This parameter tells liquibase in what schema any extensions are installed.
+		    Specifically, for Sheriff Scheduling, we use the uuid-ossp extension for 
+		    generating UUIDs in changesets for creating data.  
+		    The db-env (formerly roles) changelog uses this parameter to check for the
+		    existence of the required extension in the expected schema, and installs
+		    it there if 
+	  POSTGRES_SCHEMA
+	  		This parameter specifies the schema in which any database objects should
+	  		be created or referenced.  Note that in PostgreSQL, the concept of a
+	  		schema is distinct from a user that has privileges to access the database.
+	  		This schema is created, if not already present, in the db-env changelog.
+	  POSTGRES_APP_USER
+	  		This parameter specifies the user that the shersched api will use to 
+	  		access the database.
+	  		This user is created, if not already present, in the db-env changelog.
+	  POSTGRES_APP_PASS
+	  		This parameter specifies the password that should be set for the user
+	  		specified above.
+	  		
+		RELEASE_TAG (proposed)
+				This parameter could potentially be used to allow a database tag to be
+				applied that relates to a specific deployment, to facilitate a rollback
+				of a deployment.
+				There are some kinks to be worked out and understood before this can
+				be relied upon, but I am noting the idea here for reference.
+
+Preconditions and error handling
+
+		Liqubase allows for having preconditions for a given changeSet, to alter
+		execution of the script based on the current context (e.g. checking that
+		a changeset to add a new column has been run before running changesets
+		to populate that column.)  You can specify different behaviour if the
+		precondition is not met. You can also specify a custom message to output.
+		Unfortunately, the custom message will only be output if the appropriate
+		logLevel is set on the command line.
+		
+		Liquibase provides a 'stop' change that can be used to interrupt 
+		processing of a change log (e.g. to test up to a certain point). 
+		Unfortunately, contrary to the documentation, the optional message
+		attribute to spit out a comment raises an error in liquibase.  A
+		commented example of a stop changeSet is included in the master
+		changelog, and can be copied where needed for troubleshooting.
+
+Contexts
+		Contexts can be applied to individual changeSets, or changeLogs,
+		though the precedence is a little fuzzy if they're combined.
+		A changeSet with no context will always be run (assuming 
+		preconditions and such are met)
+		prod
+				This is used to identify changes that are intended for 
+				prod environments (as distinct from dev only changes).
+				Primarily used for loading data.
+		dev
+				This is used to identify changes that are not intended for 
+				prod environments. Primarily used for dummy data.
+				Many of the earlier dev scripts now have corresponding 
+				prod scripts, which are better quality and can be used 
+				for dev as well
+		cleandev
+				These are scripts which were created to remove data added
+				by the early dev scripts
+		deprecated
+				Not yet applied, but may be used to tag changes that 
+				should not be applied in future environments.  The idea
+				is that 'deprecated' would never be passed as a context
+				argument to liquibase, so these changes would no longer
+				be run. 
+				The old dev and cleandev scripts may be first to use this
+
+Changelog conventions
+		filenames
+				Initialily changelogs were not named consistently. Going 
+				forward the following conventions should be used.
+				Where changelogs are to be renamed for clarity and ease
+				of maintenance, the logicalFilePath attribute should be
+				set to the original name so that changes that have been
+				run previously can be appropriately linked to the
+				source changelog.  (i.e. for rollbacks or preconditions)
+	  start and end tags
+	  		Within each changeLog there should be a pair of tagDatabase
+	  		changeSets at the beginning and end, with ids "tag0" and 
+	  		"tag1" and the tag value as "<file_descriptor>_data_start" 
+	  		and "<file_descriptor>_data_end"
+	  		
+	  		For example
+				    <changeSet author="Carol Geisler" id="tag0">
+				    	<tagDatabase tag="sheriff_data_prod_start"/>
+				    </changeSet>
+				      ...
+				    <changeSet author="Carol Geisler" id="tag1">
+				    	<tagDatabase tag="sheriff_data_prod_end"/>
+				    </changeSet>
+				    
+				The intent is to make it easier to review the contents
+				of the databaseChangeLog table populated by Liquibase.
+				
+				Note that if a changeLog is expected to be run more than 
+				once, (e.g. a data changelog that gets new entries added
+				as data becomes available) these tags will only appear
+				once, either when they were first run, or when they were 
+				last run, depending on the attributes of the changeSet.
+				
+	  ids
+	  		Wherever practical, IDs should have meaningful names.
+	  		Not all generated db structure have been updated with
+	  		standard names, and may not be, but new changes should
+	  		follow these rough guidelines
+	  		
+	  		1.  IDs start with an uppercase code for the change type,
+	  				such as INS for data insert, or CRTAB for create 
+	  				table or DRPCOL to drop a column.
+	  		
+	  		2.  After the type code and _, include relevant identifiers
+	  				such as table and or column name.  
+	  				
+	  		3.  For data changes, include a court location code where
+	  				applicable, and include a business key for the row.
+	  				Using the business key allows later changes to the 
+	  				same row to check if the earlier change was applied.
+	  				
+	  		Examples		
+	  		
+	  				"INS_run_VIC_VCP"  
+	  						Insert a row to the escort_run table for run VCP
+	  						under courtlocation VIC
+	  				
+	  				"CRTAB_app_role_function"
+	  						Create a new table, app_role_function
+	  						
+	  				"MODCOL_duty_recurrence_start_end_times"
+	  						Change the data type of the start_time and end_time
+	  						columns in the duty_recurrence table. (This is 
+	  						a multistep changeSet, and was actually incorrectly
+	  						named in the script as ADDCOL)
+	  
+Refactoring changelogs
+    logicalFilePath

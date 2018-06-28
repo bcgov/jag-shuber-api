@@ -106,6 +106,7 @@ export interface Duty {
     assignmentId?: string;
     dutyRecurrenceId?: string;
     sheriffDuties?: Array<SheriffDuty>;
+    comments?: string;
 }
 export interface DutyImportDefaultsRequest {
     courthouseId?: string;
