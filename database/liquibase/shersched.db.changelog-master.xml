@@ -45,6 +45,9 @@
     <!-- load prod data -->
     <include file="data/shersched.db.changelog-data.prod.xml"/>
     
+    <!-- schema updates for Chilliwack release -->
+    <include file="shersched.db.changelog-ddl.05.xml"/>
+    
     <changeSet author="Carol Geisler" id="master_99" runAlways="true">
     	<!--tagDatabase tag="99_MasterLogCompleted"/-->
     	<!--empty/-->    		
