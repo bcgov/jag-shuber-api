@@ -41,6 +41,15 @@
     <include file="shersched.db.changelog-sheriffrankcodedata.prod.xml" relativeToChangelogFile="true"/>
 		    
     <!-- sheriff prod data -->
+    <include file="shersched.db.changelog-leavecodedata.prod.xml" relativeToChangelogFile="true"/>
+		    
+    <!-- sheriff prod data -->
+    <include file="shersched.db.changelog-leavesubcodedata.prod.xml" relativeToChangelogFile="true"/>
+		    
+    <!-- sheriff prod data -->
+    <include file="shersched.db.changelog-leavecancelreasoncodedata.prod.xml" relativeToChangelogFile="true"/>
+		    
+    <!-- sheriff prod data -->
     <include file="shersched.db.changelog-sheriffdata.prod.xml" relativeToChangelogFile="true"/>
 
     <changeSet author="Carol Geisler" id="tag1">
