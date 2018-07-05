@@ -37,9 +37,6 @@ export class LeaveService extends DatabaseService<Leave> {
             ...leave,
             startTime: leave.startTime ? moment(leave.startTime).format('HH:mm:ss ZZ') : undefined,
             endTime: leave.endTime ? moment(leave.endTime).format('HH:mm:ss ZZ') : undefined
-
-            // startTime: moment(leave.startTime).format('HH:mm:ss ZZ'),
-            // endTime: moment(leave.endTime).format('HH:mm:ss ZZ')
         }
 
         return updatedLeave;
