@@ -108,6 +108,7 @@
         </rollback>
     </changeSet>
     
+    
     <!-- create table leave_cancel_reason_code -->
     <changeSet author="Carol Geisler" id="CRTTAB_leave_cancel_reason_code">
     	<comment>Create the Leave Cancel Reason Type table to map capture reasons if a leave is cancelled.</comment>
@@ -214,6 +215,11 @@
                 <constraints nullable="false"/>
             </column>
 	    	</addColumn>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="DRPNN_lve_end_date">
+      <comment>With the inclusion of partial day leaves in the table, the end_date will be conditionally optional. Note: full constraints to be added later.</comment>
+      <dropNotNullConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" columnName="end_date" tableName="leave"/>
     </changeSet>
     
     <changeSet author="Carol Geisler" id="tag1">
