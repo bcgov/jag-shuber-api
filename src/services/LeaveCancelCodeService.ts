@@ -1,9 +1,9 @@
 import { JailRoleCode } from '../models/JailRoleCode';
 import ExpirableDatabaseService from './ExpirableDatabaseService';
-import { LeaveCancelCode } from '../models/LeaveCancelCode';
+import { LeaveCancelReasonCode } from '../models/LeaveCancelReasonCode';
 
 
-export class LeaveCancelCodeService extends ExpirableDatabaseService<LeaveCancelCode> {
+export class LeaveCancelReasonCodeService extends ExpirableDatabaseService<LeaveCancelReasonCode> {
     fieldMap = {
         leave_cancel_code: 'code',
         description: 'description'
