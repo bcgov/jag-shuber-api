@@ -5,8 +5,7 @@
         "name": "shuber-api-build",
         "creationTimestamp": null
     },
-    "objects": [
-        {
+    "objects": [{
             "kind": "BuildConfig",
             "apiVersion": "v1",
             "metadata": {
@@ -17,12 +16,10 @@
                 }
             },
             "spec": {
-                "triggers": [
-                    {
-                        "type": "ImageChange",
-                        "ImageChange": {}
-                    }
-                ],
+                "triggers": [{
+                    "type": "ImageChange",
+                    "ImageChange": {}
+                }],
                 "runPolicy": "Serial",
                 "source": {
                     "type": "Git",
@@ -69,10 +66,39 @@
                     "app": "${API_SERVICE_NAME}"
                 }
             }
+        },
+        {
+            "kind": "BuildConfig",
+            "apiVersion": "v1",
+            "metadata": {
+                "name": "${API_SERVICE_NAME}-pipeline",
+                "creationTimestamp": null,
+                "labels": {
+                    "app": "${API_SERVICE_NAME}"
+                }
+            },
+            "spec": {
+                "runPolicy": "Parallel",
+                "completionDeadlineSeconds": 1800,
+                "triggers": [],
+                "source": {
+                    "type": "Git",
+                    "git": {
+                        "ref": "${GIT_REF}",
+                        "uri": "${GIT_URL}"
+                    },
+                    "contextDir": "${CONTEXT_DIR}"
+                },
+                "strategy": {
+                    "jenkinsPipelineStrategy": {
+                        "jenkinsfilePath": "Jenkinsfile"
+                    },
+                    "type": "JenkinsPipeline"
+                }
+            }
         }
     ],
-    "parameters": [
-        {
+    "parameters": [{
             "name": "API_SERVICE_NAME",
             "displayName": "Api Service Name",
             "description": "The name of the API Service to be built.",
@@ -90,7 +116,7 @@
             "name": "GIT_URL",
             "displayName": "Git Repository URL",
             "required": true,
-            "description": "The URL of the repository with your application source code.",
+            "description": "The URL of the repository with your application sourcecode.",
             "value": "https://github.com/bcgov/jag-shuber-api"
         },
         {
