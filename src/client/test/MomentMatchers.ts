@@ -52,11 +52,9 @@ export function toBeSameDate<T>(this: MatcherUtils, actual: T, expected: T): Jes
             `${matcherHint('.toBeSameDate')}\n` +
             `\n` +
             `Received:\n` +
-            `  ${printReceived(actualDate)}\n` +
+            `  ${printReceived(actualDate)} ('${actual}')\n` +
             `Expected:\n` +
-            `  ${printExpected(expectedDate)}\n` +
-            `Value Received:\n` +
-            ` ${expected}`,
+            `  ${printExpected(expectedDate)} ('${expected}')\n`,
         pass,
     }
 }

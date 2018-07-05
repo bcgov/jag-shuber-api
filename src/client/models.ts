@@ -118,17 +118,27 @@
     export interface Leave  {
         id? : string
         sheriffId? : string
+        leaveCode? : string
+        leaveSubCode? : string
         startDate? : string
         endDate? : string
-        leaveType? : string
+        startTime? : string
+        endTime? : string
+        isPartial? : number
+        comment? : string
         cancelDate? : string
-        cancelReason? : string
+        cancelReasonCode? : string
     }
-    export interface LeaveCancelCode  {
+    export interface LeaveCancelReasonCode  {
         code? : string
         description? : string
     }
-    export interface LeaveTypeCode  {
+    export interface LeaveCode  {
         code? : string
+        description? : string
+    }
+    export interface LeaveSubCode  {
+        code? : string
+        subCode? : string
         description? : string
     }

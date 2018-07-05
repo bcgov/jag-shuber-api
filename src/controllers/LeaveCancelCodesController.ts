@@ -11,7 +11,7 @@ export class LeaveCancelCodesController extends ControllerBase<LeaveCancelReason
     }
 
     @Get()
-    public getLeaveCancelTypes() {
+    public getLeaveCancelReasonCodes() {
         return this.service.getAll();
     }
 }

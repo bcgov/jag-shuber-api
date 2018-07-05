@@ -17,6 +17,7 @@ import { SheriffDutyController } from './controllers/SheriffDutyController';
 import { LeaveController } from './controllers/LeaveController';
 import { LeaveCancelCodesController } from './controllers/LeaveCancelCodesController';
 import { LeaveTypeCodesController } from './controllers/LeaveTypeCodesController';
+import { LeaveSubTypeCodesController } from './controllers/LeaveSubTypeCodesController';
 
 const models: TsoaRoute.Models = {
     "DutyRecurrence": {
@@ -170,22 +171,34 @@ const models: TsoaRoute.Models = {
         "properties": {
             "id": { "dataType": "string" },
             "sheriffId": { "dataType": "string", "required": true },
+            "leaveCode": { "dataType": "string", "required": true },
+            "leaveSubCode": { "dataType": "string", "required": true },
             "startDate": { "dataType": "string", "required": true },
-            "endDate": { "dataType": "string", "required": true },
-            "leaveType": { "dataType": "string", "required": true },
+            "endDate": { "dataType": "string" },
+            "startTime": { "dataType": "string" },
+            "endTime": { "dataType": "string" },
+            "isPartial": { "dataType": "double", "required": true },
+            "comment": { "dataType": "string" },
             "cancelDate": { "dataType": "string" },
-            "cancelReason": { "dataType": "string" },
+            "cancelReasonCode": { "dataType": "string" },
         },
     },
-    "LeaveCancelCode": {
+    "LeaveCancelReasonCode": {
         "properties": {
             "code": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
         },
     },
-    "LeaveTypeCode": {
+    "LeaveCode": {
         "properties": {
             "code": { "dataType": "string", "required": true },
+            "description": { "dataType": "string", "required": true },
+        },
+    },
+    "LeaveSubCode": {
+        "properties": {
+            "code": { "dataType": "string", "required": true },
+            "subCode": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
         },
     },
@@ -1493,7 +1506,7 @@ export function RegisterRoutes(router: any) {
 
             const controller = new LeaveCancelCodesController();
 
-            const promise = controller.getLeaveCancelTypes.apply(controller, validatedArgs);
+            const promise = controller.getLeaveCancelReasonCodes.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/codes/leave-type',
@@ -1513,6 +1526,25 @@ export function RegisterRoutes(router: any) {
             const controller = new LeaveTypeCodesController();
 
             const promise = controller.getLeaveTypes.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/codes/leave-sub-type',
+        async (context, next) => {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new LeaveSubTypeCodesController();
+
+            const promise = controller.getLeaveSubCodes.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
 

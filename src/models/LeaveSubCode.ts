@@ -1,5 +1,5 @@
 export interface LeaveSubCode {
-    leaveCode: string;
+    code: string;
     subCode: string;
     description: string;
 }

@@ -312,4 +312,4 @@ var ExtendedClient = /** @class */ (function (_super) {
     return ExtendedClient;
 }(Client_1.default));
 exports.default = ExtendedClient;
-//# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/client/ExtendedClient.js.map
+//# sourceMappingURL=/Users/holly.mcquay/Documents/Projects/jag-shuber-api/dist/client/ExtendedClient.js.map

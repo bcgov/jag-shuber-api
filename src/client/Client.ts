@@ -2,7 +2,7 @@
 // Type generated from Swagger definition
 
 import * as superAgent from "superagent";
-import { Assignment,Region,Courthouse,Sheriff,Courtroom,JailRoleCode,OtherAssignCode,WorkSectionCode,SheriffRankCode,Run,Shift,MultipleShiftUpdateRequest,ShiftCopyOptions,DutyRecurrence,Duty,DutyImportDefaultsRequest,SheriffDuty,Leave,LeaveCancelCode,LeaveTypeCode } from "./models"
+import { Assignment,Region,Courthouse,Sheriff,Courtroom,JailRoleCode,OtherAssignCode,WorkSectionCode,SheriffRankCode,Run,Shift,MultipleShiftUpdateRequest,ShiftCopyOptions,DutyRecurrence,Duty,DutyImportDefaultsRequest,SheriffDuty,Leave,LeaveCancelReasonCode,LeaveCode,LeaveSubCode } from "./models"
 
 
 export default class Client {
@@ -835,10 +835,10 @@ export default class Client {
             }
         }
     }    
-    public async GetLeaveCancelTypes():Promise<Array<LeaveCancelCode>>{
+    public async GetLeaveCancelReasonCodes():Promise<Array<LeaveCancelReasonCode>>{
         try{
             const response = await this.agent.get(`/codes/leave-cancel`)
-            return response.body as Array<LeaveCancelCode>;
+            return response.body as Array<LeaveCancelReasonCode>;
         }catch(error){
             if(this.errorProcessor){
                 throw this.errorProcessor(error);
@@ -847,10 +847,22 @@ export default class Client {
             }
         }
     }    
-    public async GetLeaveTypes():Promise<Array<LeaveTypeCode>>{
+    public async GetLeaveTypes():Promise<Array<LeaveCode>>{
         try{
             const response = await this.agent.get(`/codes/leave-type`)
-            return response.body as Array<LeaveTypeCode>;
+            return response.body as Array<LeaveCode>;
+        }catch(error){
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
+            }else{
+                throw error;
+            }
+        }
+    }    
+    public async GetLeaveSubCodes():Promise<Array<LeaveSubCode>>{
+        try{
+            const response = await this.agent.get(`/codes/leave-sub-type`)
+            return response.body as Array<LeaveSubCode>;
         }catch(error){
             if(this.errorProcessor){
                 throw this.errorProcessor(error);

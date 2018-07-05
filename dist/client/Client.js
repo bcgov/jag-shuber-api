@@ -1722,7 +1722,7 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.GetLeaveCancelTypes = function () {
+    Client.prototype.GetLeaveCancelReasonCodes = function () {
         return __awaiter(this, void 0, void 0, function () {
             var response, error_65;
             return __generator(this, function (_a) {
@@ -1772,7 +1772,32 @@ var Client = /** @class */ (function () {
             });
         });
     };
+    Client.prototype.GetLeaveSubCodes = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_67;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/codes/leave-sub-type")];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_67 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_67);
+                        }
+                        else {
+                            throw error_67;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     return Client;
 }());
 exports.default = Client;
-//# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/client/Client.js.map
+//# sourceMappingURL=/Users/holly.mcquay/Documents/Projects/jag-shuber-api/dist/client/Client.js.map

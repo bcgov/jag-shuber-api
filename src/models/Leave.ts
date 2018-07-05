@@ -7,7 +7,7 @@ export interface Leave{
     endDate?:string;
     startTime?: string; 
     endTime?: string;
-    isPartial: boolean;
+    isPartial: number;
     comment?: string;
     cancelDate?:string;
     cancelReasonCode?:string;

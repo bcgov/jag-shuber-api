@@ -1,7 +1,7 @@
 import { toMatchShapeOf, toMatchOneOf } from 'jest-to-match-shape-of';
 import db from '../../db/Database';
 import ExtendedClient from '../ExtendedClient';
-import { Courthouse, Courtroom, Assignment, Region, DutyRecurrence, Duty, SheriffDuty, Shift } from '../models';
+import { Courthouse, Courtroom, Assignment, Region, DutyRecurrence, Duty, SheriffDuty, Shift, Leave } from '../models';
 import { Sheriff } from '../../models/Sheriff';
 import { ClientBase } from 'pg';
 import './MomentMatchers';
@@ -25,7 +25,8 @@ export default class TestUtils {
         shift: 'shift',
         sheriff: 'sheriff',
         courthouse: 'courthouse',
-        region: 'region'
+        region: 'region',
+        leave: 'leave'
     }
     private static tablesToClear = [
         TestUtils.tables.sheriff_duty,
@@ -35,6 +36,7 @@ export default class TestUtils {
         TestUtils.tables.courtroom,
         TestUtils.tables.run,
         TestUtils.tables.shift,
+        TestUtils.tables.leave,
         TestUtils.tables.sheriff,
         TestUtils.tables.courthouse,
         TestUtils.tables.region,
