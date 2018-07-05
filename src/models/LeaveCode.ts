@@ -1,4 +1,4 @@
-export interface LeaveCode{
-    code:string;
-    description:string;
+export interface LeaveCode {
+    code: string;
+    description: string;
 }

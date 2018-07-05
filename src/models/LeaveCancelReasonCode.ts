@@ -1,4 +1,4 @@
-export interface LeaveCancelReasonCode{
-    code:string;
-    description:string;
+export interface LeaveCancelReasonCode {
+    code: string;
+    description: string;
 }

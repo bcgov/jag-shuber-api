@@ -1,4 +1,5 @@
-export interface LeaveSubCode{
-    code:string;
-    description:string;
+export interface LeaveSubCode {
+    leaveCode: string;
+    subCode: string;
+    description: string;
 }

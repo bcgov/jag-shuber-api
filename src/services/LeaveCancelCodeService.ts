@@ -5,12 +5,12 @@ import { LeaveCancelReasonCode } from '../models/LeaveCancelReasonCode';
 
 export class LeaveCancelReasonCodeService extends ExpirableDatabaseService<LeaveCancelReasonCode> {
     fieldMap = {
-        leave_cancel_code: 'code',
+        leave_cancel_reason_code: 'code',
         description: 'description'
     };
 
     constructor() {
-        super('leave_cancel_code', 'leave_cancel_code');
+        super('leave_cancel_reason_code', 'leave_cancel_reason_code');
     }
 
 }

@@ -14,8 +14,8 @@ export class LeaveService extends DatabaseService<Leave> {
         end_time: 'endTime',
         partial_day_ind: 'isPartial',
         comment: 'comment',
-        cancel_dtm: 'cancelDate',
-        leave_cancel_reason_code: 'cancelReason'
+        cancelled_dtm: 'cancelDate',
+        leave_cancel_reason_code: 'cancelReasonCode'
     };
     constructor() {
         super('leave', 'leave_id');

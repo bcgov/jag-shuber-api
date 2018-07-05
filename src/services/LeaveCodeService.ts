@@ -5,12 +5,12 @@ import { LeaveCode } from '../models/LeaveCode';
 
 export class LeaveCodeService extends ExpirableDatabaseService<LeaveCode> {
     fieldMap = {
-        leave_type_code: 'code',
+        leave_code: 'code',
         description: 'description'
     };
 
     constructor() {
-        super('leave_type_code', 'leave_type_code');
+        super('leave_code', 'leave_code');
     }
 
 }
