@@ -1,4 +1,4 @@
-export interface LeaveTypeCode{
+export interface LeaveSubCode{
     code:string;
     description:string;
 }

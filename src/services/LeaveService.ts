@@ -6,11 +6,16 @@ export class LeaveService extends DatabaseService<Leave> {
     fieldMap: { [key: string]: string; } = {
         leave_id: 'id',
         sheriff_id: 'sheriffId',
+        leave_code: 'leaveCode',
+        leave_sub_code: 'leaveSubCode',
         start_date: 'startDate',
         end_date: 'endDate',
-        leave_type: 'leaveType',
-        cancel_date: 'cancelDate',
-        cancel_reason: 'cancelReason'
+        start_time: 'startTime',
+        end_time: 'endTime',
+        partial_day_ind: 'isPartial',
+        comment: 'comment',
+        cancel_dtm: 'cancelDate',
+        leave_cancel_reason_code: 'cancelReason'
     };
     constructor() {
         super('leave', 'leave_id');

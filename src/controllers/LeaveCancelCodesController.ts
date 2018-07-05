@@ -1,13 +1,13 @@
 import { Get, Route } from 'tsoa';
 import ControllerBase from './ControllerBase';
-import { LeaveCancelCode } from '../models/LeaveCancelCode';
-import { LeaveCancelCodeService } from '../services/LeaveCancelCodeService';
+import { LeaveCancelReasonCode } from '../models/LeaveCancelReasonCode';
+import { LeaveCancelReasonCodeService } from '../services/LeaveCancelCodeService';
 
 @Route('codes/leave-cancel')
-export class LeaveCancelCodesController extends ControllerBase<LeaveCancelCode> {
+export class LeaveCancelCodesController extends ControllerBase<LeaveCancelReasonCode> {
 
     get service() {
-        return new LeaveCancelCodeService();
+        return new LeaveCancelReasonCodeService();
     }
 
     @Get()
