@@ -195,6 +195,27 @@
         </rollback>
     </changeSet>
     
+    <changeSet author="Carol Geisler" id="ADDCOL_leave_auditcols">
+    	<comment>Add the missed audit columns to the Leave table</comment>
+    	  <addColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="leave">
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+	    	</addColumn>
+    </changeSet>
+    
     <changeSet author="Carol Geisler" id="tag1">
     	<tagDatabase tag="ddl_set_05_leave_end"/>
     </changeSet>
