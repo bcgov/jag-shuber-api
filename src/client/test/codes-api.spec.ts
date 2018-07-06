@@ -3,11 +3,13 @@ import {
     JailRoleCode,
     OtherAssignCode,
     WorkSectionCode,
-    SheriffRankCode 
+    SheriffRankCode,
+    LeaveCancelReasonCode,
+    LeaveCode 
 } from '../models';
 import TestUtils from './TestUtils';
 
-const CodeShape: JailRoleCode | OtherAssignCode | WorkSectionCode | SheriffRankCode = {
+const CodeShape: JailRoleCode | OtherAssignCode | WorkSectionCode | SheriffRankCode | LeaveCancelReasonCode | LeaveCode = {
     code: 'some string',
     description: 'some string'
 }
@@ -55,6 +57,26 @@ describe('Codes API', () => {
         expect(list).toBeDefined();
         expect(Array.isArray(list)).toBeTruthy();
         expect(list.length).toEqual(7);
+        list.forEach(c => {
+            expect(c).toMatchShapeOf(CodeShape);
+        })
+    });
+    
+    it('get leaveCancelTypes should return list of Leave Cancel Reason Codes', async () => {
+        const list = await api.GetLeaveCancelReasonCodes();
+        expect(list).toBeDefined();
+        expect(Array.isArray(list)).toBeTruthy();
+        expect(list.length).toEqual(3);
+        list.forEach(c => {
+            expect(c).toMatchShapeOf(CodeShape);
+        })
+    });
+
+    it('get leaveTypes should return list of Leave Type Codes', async () => {
+        const list = await api.GetLeaveTypes();
+        expect(list).toBeDefined();
+        expect(Array.isArray(list)).toBeTruthy();
+        expect(list.length).toEqual(2);
         list.forEach(c => {
             expect(c).toMatchShapeOf(CodeShape);
         })

@@ -1,6 +1,6 @@
       
 liquibase --driver=org.postgresql.Driver /
-          --classpath=c:\program files\postgreSQL\JDBC\postgresql-42.2.1.jar /
+          --classpath="C:\Program Files (x86)\PostgreSQL\pgJDBC\postgresql-42.2.2.jar" /
           --changeLogFile="C:\Users\carol.geisler\Documents\Justice\Liquibase\shersched.db.changelog.xml" /
           --url="jdbc:postgresql://localhost:5432:postgres" /
           --defaultSchemaName=shersched /
@@ -13,7 +13,7 @@ liquibase --driver=org.postgresql.Driver /
 
 #generate full changeset
 liquibase --driver=org.postgresql.Driver ^
-          --classpath="c:\program files\postgreSQL\JDBC\postgresql-42.2.1.jar" ^
+          --classpath="C:\Program Files (x86)\PostgreSQL\pgJDBC\postgresql-42.2.2.jar" ^
           --changeLogFile="shersched.db.changelog.work.xml" ^
           --url="jdbc:postgresql:postgres" ^
           --username=tdm_shersched ^
@@ -22,7 +22,7 @@ liquibase --driver=org.postgresql.Driver ^
 
 #run changeset to generate
 liquibase --driver=org.postgresql.Driver ^
-          --classpath="c:\program files\postgreSQL\JDBC\postgresql-42.2.1.jar" ^
+          --classpath="C:\Program Files (x86)\PostgreSQL\pgJDBC\postgresql-42.2.2.jar" ^
           --defaultSchemaName="cgeisler" ^
           --changeLogFile=shersched.db.changelog-master.xml ^
           --url="jdbc:postgresql:postgres" ^
@@ -30,23 +30,21 @@ liquibase --driver=org.postgresql.Driver ^
           --username=postgres ^
           --password=postgres ^
           update ^
-          -DRELEASE_TAG=R002 ^
-          -DPOSTGRES_EXT_SCHEMA=cgeisler ^
-          -DPOSTGRES_SCHEMA=new_shersched ^
-          -DPOSTGRES_APP_USER=new_shersched_app ^
+          -DPOSTGRES_EXT_SCHEMA=extensions ^
+          -DPOSTGRES_SCHEMA=shersched ^
+          -DPOSTGRES_APP_USER=shersched_app ^
           -DPOSTGRES_APP_PASS=postgres
 
 #rollback 
 liquibase --driver=org.postgresql.Driver ^
-          --classpath="c:\program files\postgreSQL\JDBC\postgresql-42.2.1.jar" ^
+          --classpath="C:\Program Files (x86)\PostgreSQL\pgJDBC\postgresql-42.2.2.jar" ^
           --defaultSchemaName="cgeisler" ^
           --changeLogFile=shersched.db.changelog-master.xml ^
           --url="jdbc:postgresql:postgres" ^
           --contexts="prod" ^
           --username=postgres ^
-          --password=postgres rollback "R000" ^
-          -DRELEASE_TAG=R000 ^
+          --password=postgres rollback "ddl_set_04_leave_start" ^
           -DPOSTGRES_EXT_SCHEMA=extensions ^
-          -DPOSTGRES_SCHEMA=new_shersched ^
-          -DPOSTGRES_APP_USER=new_shersched_app ^
+          -DPOSTGRES_SCHEMA=shersched ^
+          -DPOSTGRES_APP_USER=shersched_app ^
           -DPOSTGRES_APP_PASS=postgres

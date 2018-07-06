@@ -3,7 +3,7 @@ import * as SA from 'superagent';
 import saPrefix from 'superagent-prefix';
 import superagentUse from 'superagent-use';
 import Client from './Client';
-import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift, DutyImportDefaultsRequest, MultipleShiftUpdateRequest } from './models';
+import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift, DutyImportDefaultsRequest, MultipleShiftUpdateRequest, Leave } from './models';
 import { toTimeString } from '../common/TimeUtils';
 import { ValidationError, DatabaseError, ApiError, isDatabaseError, isValidationError } from '../common/Errors';
 
@@ -134,6 +134,12 @@ export default class ExtendedClient extends Client {
         );
     }
 
+    GetLeaveById(id:string): Promise<Leave>{
+        return this.nullOn404(
+            () => super.GetLeaveById(id)
+        );
+    }
+
     async GetSheriffDutyById(id: string): Promise<Duty> {
         return await this.nullOn404(
             () => super.GetSheriffDutyById(id)
@@ -170,6 +176,22 @@ export default class ExtendedClient extends Client {
             ...model,
             dutyRecurrences: this.ensureTimeZone(...dutyRecurrences)
         });
+    }
+
+    private ensureLeaveTimes(model:Leave){
+        return {
+            ...model,
+            startTime: model.startTime ? toTimeString(model.startTime) : undefined,
+            endTime: model.endTime ? toTimeString(model.endTime) : undefined
+        };
+    }
+
+    CreateLeave(model:Leave){
+        return super.CreateLeave(this.ensureLeaveTimes(model));
+    }
+
+    UpdateLeave(id:string, model:Leave){
+        return super.UpdateLeave(id,this.ensureLeaveTimes(model));
     }
 
     UpdateMultipleShifts(model: MultipleShiftUpdateRequest) {

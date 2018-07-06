@@ -2,7 +2,7 @@
 // Type generated from Swagger definition
 
 import * as superAgent from "superagent";
-import { Assignment,Region,Courthouse,Sheriff,Courtroom,JailRoleCode,OtherAssignCode,WorkSectionCode,SheriffRankCode,Run,Shift,MultipleShiftUpdateRequest,ShiftCopyOptions,DutyRecurrence,Duty,DutyImportDefaultsRequest,SheriffDuty } from "./models"
+import { Assignment,Region,Courthouse,Sheriff,Courtroom,JailRoleCode,OtherAssignCode,WorkSectionCode,SheriffRankCode,Run,Shift,MultipleShiftUpdateRequest,ShiftCopyOptions,DutyRecurrence,Duty,DutyImportDefaultsRequest,SheriffDuty,Leave,LeaveCancelReasonCode,LeaveCode,LeaveSubCode } from "./models"
 
 
 export default class Client {
@@ -765,6 +765,104 @@ export default class Client {
         try{
             const response = await this.agent.delete(`/SheriffDuty/${id}`)
             return response.body as void;
+        }catch(error){
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
+            }else{
+                throw error;
+            }
+        }
+    }    
+    public async GetLeaves():Promise<Array<Leave>>{
+        try{
+            const response = await this.agent.get(`/leaves`)
+            return response.body as Array<Leave>;
+        }catch(error){
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
+            }else{
+                throw error;
+            }
+        }
+    }    
+    public async CreateLeave( model:Leave ):Promise<Leave>{
+        try{
+            const response = await this.agent.post(`/leaves`)
+                .send(model)
+            return response.body as Leave;
+        }catch(error){
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
+            }else{
+                throw error;
+            }
+        }
+    }    
+    public async GetLeaveById( id:string ):Promise<Leave>{
+        try{
+            const response = await this.agent.get(`/leaves/${id}`)
+            return response.body as Leave;
+        }catch(error){
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
+            }else{
+                throw error;
+            }
+        }
+    }    
+    public async UpdateLeave( id:string , model:Leave ):Promise<Leave>{
+        try{
+            const response = await this.agent.put(`/leaves/${id}`)
+                .send(model)
+            return response.body as Leave;
+        }catch(error){
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
+            }else{
+                throw error;
+            }
+        }
+    }    
+    public async DeleteLeave( id:string ):Promise<void>{
+        try{
+            const response = await this.agent.delete(`/leaves/${id}`)
+            return response.body as void;
+        }catch(error){
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
+            }else{
+                throw error;
+            }
+        }
+    }    
+    public async GetLeaveCancelReasonCodes():Promise<Array<LeaveCancelReasonCode>>{
+        try{
+            const response = await this.agent.get(`/codes/leave-cancel`)
+            return response.body as Array<LeaveCancelReasonCode>;
+        }catch(error){
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
+            }else{
+                throw error;
+            }
+        }
+    }    
+    public async GetLeaveTypes():Promise<Array<LeaveCode>>{
+        try{
+            const response = await this.agent.get(`/codes/leave-type`)
+            return response.body as Array<LeaveCode>;
+        }catch(error){
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
+            }else{
+                throw error;
+            }
+        }
+    }    
+    public async GetLeaveSubCodes():Promise<Array<LeaveSubCode>>{
+        try{
+            const response = await this.agent.get(`/codes/leave-sub-type`)
+            return response.body as Array<LeaveSubCode>;
         }catch(error){
             if(this.errorProcessor){
                 throw this.errorProcessor(error);

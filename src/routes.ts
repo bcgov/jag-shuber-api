@@ -14,6 +14,10 @@ import { ShiftController } from './controllers/ShiftController';
 import { DutyRecurrenceController } from './controllers/DutyRecurrenceController';
 import { DutyController } from './controllers/DutyController';
 import { SheriffDutyController } from './controllers/SheriffDutyController';
+import { LeaveController } from './controllers/LeaveController';
+import { LeaveCancelCodesController } from './controllers/LeaveCancelCodesController';
+import { LeaveTypeCodesController } from './controllers/LeaveTypeCodesController';
+import { LeaveSubTypeCodesController } from './controllers/LeaveSubTypeCodesController';
 
 const models: TsoaRoute.Models = {
     "DutyRecurrence": {
@@ -161,6 +165,41 @@ const models: TsoaRoute.Models = {
         "properties": {
             "courthouseId": { "dataType": "string", "required": true },
             "date": { "dataType": "string" },
+        },
+    },
+    "Leave": {
+        "properties": {
+            "id": { "dataType": "string" },
+            "sheriffId": { "dataType": "string", "required": true },
+            "leaveCode": { "dataType": "string", "required": true },
+            "leaveSubCode": { "dataType": "string", "required": true },
+            "startDate": { "dataType": "string", "required": true },
+            "endDate": { "dataType": "string" },
+            "startTime": { "dataType": "string" },
+            "endTime": { "dataType": "string" },
+            "isPartial": { "dataType": "double", "required": true },
+            "comment": { "dataType": "string" },
+            "cancelDate": { "dataType": "string" },
+            "cancelReasonCode": { "dataType": "string" },
+        },
+    },
+    "LeaveCancelReasonCode": {
+        "properties": {
+            "code": { "dataType": "string", "required": true },
+            "description": { "dataType": "string", "required": true },
+        },
+    },
+    "LeaveCode": {
+        "properties": {
+            "code": { "dataType": "string", "required": true },
+            "description": { "dataType": "string", "required": true },
+        },
+    },
+    "LeaveSubCode": {
+        "properties": {
+            "code": { "dataType": "string", "required": true },
+            "subCode": { "dataType": "string", "required": true },
+            "description": { "dataType": "string", "required": true },
         },
     },
 };
@@ -1349,6 +1388,163 @@ export function RegisterRoutes(router: any) {
             const controller = new SheriffDutyController();
 
             const promise = controller.deleteSheriffDuty.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/leaves',
+        async (context, next) => {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new LeaveController();
+
+            const promise = controller.getLeaves.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/leaves/:id',
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new LeaveController();
+
+            const promise = controller.getLeaveById.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.post('/v1/leaves',
+        async (context, next) => {
+            const args = {
+                model: { "in": "body", "name": "model", "required": true, "ref": "Leave" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new LeaveController();
+
+            const promise = controller.createLeave.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.put('/v1/leaves/:id',
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+                model: { "in": "body", "name": "model", "required": true, "ref": "Leave" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new LeaveController();
+
+            const promise = controller.updateLeave.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.delete('/v1/leaves/:id',
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new LeaveController();
+
+            const promise = controller.deleteLeave.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/codes/leave-cancel',
+        async (context, next) => {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new LeaveCancelCodesController();
+
+            const promise = controller.getLeaveCancelReasonCodes.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/codes/leave-type',
+        async (context, next) => {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new LeaveTypeCodesController();
+
+            const promise = controller.getLeaveTypes.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/codes/leave-sub-type',
+        async (context, next) => {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new LeaveSubTypeCodesController();
+
+            const promise = controller.getLeaveSubCodes.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
 

@@ -254,6 +254,10 @@ var ExtendedClient = /** @class */ (function (_super) {
             });
         });
     };
+    ExtendedClient.prototype.GetLeaveById = function (id) {
+        var _this = this;
+        return this.nullOn404(function () { return _super.prototype.GetLeaveById.call(_this, id); });
+    };
     ExtendedClient.prototype.GetSheriffDutyById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
@@ -285,6 +289,15 @@ var ExtendedClient = /** @class */ (function (_super) {
     ExtendedClient.prototype.UpdateAssignment = function (id, model) {
         var _a = model.dutyRecurrences, dutyRecurrences = _a === void 0 ? [] : _a;
         return _super.prototype.UpdateAssignment.call(this, id, __assign({}, model, { dutyRecurrences: this.ensureTimeZone.apply(this, dutyRecurrences) }));
+    };
+    ExtendedClient.prototype.ensureLeaveTimes = function (model) {
+        return __assign({}, model, { startTime: model.startTime ? TimeUtils_1.toTimeString(model.startTime) : undefined, endTime: model.endTime ? TimeUtils_1.toTimeString(model.endTime) : undefined });
+    };
+    ExtendedClient.prototype.CreateLeave = function (model) {
+        return _super.prototype.CreateLeave.call(this, this.ensureLeaveTimes(model));
+    };
+    ExtendedClient.prototype.UpdateLeave = function (id, model) {
+        return _super.prototype.UpdateLeave.call(this, id, this.ensureLeaveTimes(model));
     };
     ExtendedClient.prototype.UpdateMultipleShifts = function (model) {
         var startTime = model.startTime, endTime = model.endTime, rest = __rest(model, ["startTime", "endTime"]);
