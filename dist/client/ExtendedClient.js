@@ -290,6 +290,15 @@ var ExtendedClient = /** @class */ (function (_super) {
         var _a = model.dutyRecurrences, dutyRecurrences = _a === void 0 ? [] : _a;
         return _super.prototype.UpdateAssignment.call(this, id, __assign({}, model, { dutyRecurrences: this.ensureTimeZone.apply(this, dutyRecurrences) }));
     };
+    ExtendedClient.prototype.ensureLeaveTimes = function (model) {
+        return __assign({}, model, { startTime: model.startTime ? TimeUtils_1.toTimeString(model.startTime) : undefined, endTime: model.endTime ? TimeUtils_1.toTimeString(model.endTime) : undefined });
+    };
+    ExtendedClient.prototype.CreateLeave = function (model) {
+        return _super.prototype.CreateLeave.call(this, this.ensureLeaveTimes(model));
+    };
+    ExtendedClient.prototype.UpdateLeave = function (id, model) {
+        return _super.prototype.UpdateLeave.call(this, id, this.ensureLeaveTimes(model));
+    };
     ExtendedClient.prototype.UpdateMultipleShifts = function (model) {
         var startTime = model.startTime, endTime = model.endTime, rest = __rest(model, ["startTime", "endTime"]);
         var request = __assign({}, rest, { startTime: startTime ? moment_1.default(startTime).format() : undefined, endTime: endTime ? moment_1.default(endTime).format() : undefined });
@@ -312,4 +321,4 @@ var ExtendedClient = /** @class */ (function (_super) {
     return ExtendedClient;
 }(Client_1.default));
 exports.default = ExtendedClient;
-//# sourceMappingURL=/Users/holly.mcquay/Documents/Projects/jag-shuber-api/dist/client/ExtendedClient.js.map
+//# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/client/ExtendedClient.js.map

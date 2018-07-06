@@ -178,6 +178,22 @@ export default class ExtendedClient extends Client {
         });
     }
 
+    private ensureLeaveTimes(model:Leave){
+        return {
+            ...model,
+            startTime: model.startTime ? toTimeString(model.startTime) : undefined,
+            endTime: model.endTime ? toTimeString(model.endTime) : undefined
+        };
+    }
+
+    CreateLeave(model:Leave){
+        return super.CreateLeave(this.ensureLeaveTimes(model));
+    }
+
+    UpdateLeave(id:string, model:Leave){
+        return super.UpdateLeave(id,this.ensureLeaveTimes(model));
+    }
+
     UpdateMultipleShifts(model: MultipleShiftUpdateRequest) {
         const { startTime, endTime, ...rest } = model;
         const request: MultipleShiftUpdateRequest = {

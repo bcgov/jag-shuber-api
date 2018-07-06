@@ -26,17 +26,7 @@ export class LeaveService extends DatabaseService<Leave> {
         const updatedLeave: Leave = {
             ...leave,
             startDate: moment(leave.startDate).format('YYYY-MM-DD'),
-            endDate: leave.endDate ? moment(leave.endDate).format('YYYY-MM-DD') : undefined,
-        }
-
-        return updatedLeave;
-    }
-
-    private convertTimes(leave: Partial<Leave>) {
-        const updatedLeave: Partial<Leave> = {
-            ...leave,
-            startTime: leave.startTime ? moment(leave.startTime).format('HH:mm:ss ZZ') : undefined,
-            endTime: leave.endTime ? moment(leave.endTime).format('HH:mm:ss ZZ') : undefined
+            endDate: leave.endDate ? moment(leave.endDate).format('YYYY-MM-DD') : undefined
         }
 
         return updatedLeave;
@@ -55,14 +45,12 @@ export class LeaveService extends DatabaseService<Leave> {
     }
 
     async create(leave: Partial<Leave>): Promise<Leave> {
-        const leaveWithUpdatedTimes = this.convertTimes(leave);
-        const newLeave = await super.create(leaveWithUpdatedTimes);
+        const newLeave = await super.create(leave);
         return this.convertDates(newLeave);
     }
 
     async update(leave: Partial<Leave>): Promise<Leave> {
-        const leaveWithUpdatedTimes = this.convertTimes(leave);
-        const updatedLeave = await super.update(leaveWithUpdatedTimes);
+        const updatedLeave = await super.update(leave);
         return this.convertDates(updatedLeave);
     }
     

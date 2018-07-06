@@ -35,6 +35,9 @@ export default class ExtendedClient extends Client {
     UpdateDutyRecurrence(id: string, model: DutyRecurrence): Promise<DutyRecurrence>;
     CreateAssignment(model: Assignment): Promise<Assignment>;
     UpdateAssignment(id: string, model: Assignment): Promise<Assignment>;
+    private ensureLeaveTimes(model);
+    CreateLeave(model: Leave): Promise<Leave>;
+    UpdateLeave(id: string, model: Leave): Promise<Leave>;
     UpdateMultipleShifts(model: MultipleShiftUpdateRequest): Promise<Shift[]>;
     ImportDefaultDuties(request: DutyImportDefaultsRequest): Promise<Duty[]>;
 }
