@@ -47,7 +47,7 @@ node() {
   }
   }
 
-  //if(hasRepoChanged){
+  if(hasRepoChanged){
   stage('Build ' + APP_NAME) {
     node{
         // Cheking template exists  or else create
@@ -318,11 +318,11 @@ node() {
   }
   }
 
-  // }else{
-  //   stage('No Changes to Build 👍'){
-  //     currentBuild.result = 'SUCCESS'
-  //   }
-  // }
+  }else{
+    stage('No Changes to Build 👍'){
+      currentBuild.result = 'SUCCESS'
+    }
+  }
 }
 // // Functions to check currentTarget (api-blue)deployment and mark to for deployment to newTarget(api-green) & vice versa
   def getCurrentTarget() {
