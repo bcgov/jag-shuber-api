@@ -3,7 +3,7 @@ import bodyParser from 'koa-bodyparser';
 import Router from 'koa-router';
 import './controllers';
 import { RegisterRoutes } from './routes';
-//const Koa = require('koa');
+import morgan from 'koa-morgan';
 
 const app = new Koa();
 app.use(bodyParser());
@@ -17,7 +17,7 @@ RegisterRoutes(router);
 
 router.get('/', async ctx => {
     ctx.body = {
-        data: "Sending some JSON"
+        data: "Sheriff Scheduling API"
     }
 })
 
@@ -37,12 +37,7 @@ app
             ctx.body = err;
         }
     })
-    .use(async (ctx, next) => {
-        const start = Date.now();
-        await next();
-        const ms = Date.now() - start;
-        console.log(`${ctx.method} ${ctx.url} - ${ms}`);
-    })
+    .use(morgan(':method :status :url :req[smgov_userguid] - :response-time ms'))
     .use(router.routes())
     .use(router.allowedMethods());
 

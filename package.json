@@ -46,6 +46,7 @@
   "dependencies": {
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
+    "koa-morgan": "^1.0.1",
     "koa-router": "^7.4.0",
     "moment": "^2.22.1",
     "moment-timezone": "^0.5.17",
