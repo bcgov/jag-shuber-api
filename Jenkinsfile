@@ -24,7 +24,7 @@
   def SLACK_DEV_CHANNEL="#sheriffscheduling_dev"
   def SLACK_MAIN_CHANNEL="#sheriff_scheduling"
   // def scmVars = checkout scm
-  def work_space = "${WORKSPACE}@script"
+  def work_space = "/var/lib/jenkins/jobs/jag-shuber-tools/jobs/jag-shuber-tools-shuber-api-pipeline/workspace@script"
   //Trigger remote job
   // def handle = build job: 'Jag-shuber-prod-deploy'
 
@@ -238,7 +238,7 @@
       try {
       // Check for current route target
       ROUT_CHK = sh (
-      script: """oc project jag-shuber-prod; oc get route api -o template --template='{{ .spec.to.name }}' > ${work_space}/route-target; cat ${work_space}/route-target""")
+      script: """oc project jag-shuber-prod; oc get route api -o template --template='{{ .spec.to.name }}' > route-target; cat route-target""")
       // echo ">> ROUT_CHK: ${ROUT_CHK}"
       // Tag the new build as "prod"
       openshiftTag destStream: "${newTarget}", verbose: 'true', destTag: environment, srcStream: RUNTIME_BUILD, srcTag: "${IMAGE_HASH}", waitTime: '900000'
@@ -300,7 +300,7 @@
 
 // // Functions to check currentTarget (api-blue)deployment and mark to for deployment to newTarget(api-green) & vice versa
   def getCurrentTarget() {
-  def currentTarget = readFile("${work_space}/route-target")
+  def currentTarget = readFile("route-target")
   return currentTarget
   }
 
