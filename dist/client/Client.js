@@ -58,26 +58,18 @@ var Client = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Client.prototype.GetAssignments = function (courthouseId, startDate, endDate) {
+    Client.prototype.tryWork = function (worker) {
         return __awaiter(this, void 0, void 0, function () {
-            var params, response, error_1;
+            var result, error_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        params = {
-                            "courthouseId": courthouseId,
-                            "startDate": startDate,
-                            "endDate": endDate
-                        };
-                        _a.label = 1;
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, worker()];
                     case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, this.agent.get("/Assignments")
-                                .query(params)];
+                        result = _a.sent();
+                        return [2 /*return*/, result];
                     case 2:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 3:
                         error_1 = _a.sent();
                         if (this.errorProcessor) {
                             throw this.errorProcessor(error_1);
@@ -85,1715 +77,1273 @@ var Client = /** @class */ (function () {
                         else {
                             throw error_1;
                         }
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
+            });
+        });
+    };
+    Client.prototype.GetAssignments = function (courthouseId, startDate, endDate) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            var params;
+            return __generator(this, function (_a) {
+                params = {
+                    "courthouseId": courthouseId,
+                    "startDate": startDate,
+                    "endDate": endDate
+                };
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/Assignments")
+                                        .query(params)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.CreateAssignment = function (model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_2;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.post("/Assignments")
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_2 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_2);
-                        }
-                        else {
-                            throw error_2;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/Assignments")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetAssignmentById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_3;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/Assignments/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_3 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_3);
-                        }
-                        else {
-                            throw error_3;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/Assignments/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.UpdateAssignment = function (id, model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_4;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.put("/Assignments/" + id)
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_4 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_4);
-                        }
-                        else {
-                            throw error_4;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/Assignments/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.ExpireAssignment = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_5;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.post("/Assignments/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_5 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_5);
-                        }
-                        else {
-                            throw error_5;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/Assignments/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.DeleteAssignment = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_6;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.delete("/Assignments/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_6 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_6);
-                        }
-                        else {
-                            throw error_6;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/Assignments/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetRegions = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_7;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/regions")];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_7 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_7);
-                        }
-                        else {
-                            throw error_7;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/regions")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.CreateRegion = function (model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_8;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.post("/regions")
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_8 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_8);
-                        }
-                        else {
-                            throw error_8;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/regions")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetRegionById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_9;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/regions/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_9 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_9);
-                        }
-                        else {
-                            throw error_9;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/regions/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.UpdateRegion = function (id, model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_10;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.put("/regions/" + id)
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_10 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_10);
-                        }
-                        else {
-                            throw error_10;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/regions/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.DeleteRegion = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_11;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.delete("/regions/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_11 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_11);
-                        }
-                        else {
-                            throw error_11;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/regions/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetCourthouses = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_12;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/courthouses")];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_12 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_12);
-                        }
-                        else {
-                            throw error_12;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/courthouses")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.CreateCourthouse = function (model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_13;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.post("/courthouses")
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_13 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_13);
-                        }
-                        else {
-                            throw error_13;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/courthouses")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetCourthouseById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_14;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/courthouses/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_14 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_14);
-                        }
-                        else {
-                            throw error_14;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/courthouses/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.UpdateCourthouse = function (id, model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_15;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.put("/courthouses/" + id)
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_15 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_15);
-                        }
-                        else {
-                            throw error_15;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/courthouses/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.DeleteCourthouse = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_16;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.delete("/courthouses/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_16 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_16);
-                        }
-                        else {
-                            throw error_16;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/courthouses/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetSheriffs = function (courthouseId) {
         return __awaiter(this, void 0, void 0, function () {
-            var params, response, error_17;
+            var _this = this;
+            var params;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        params = {
-                            "courthouseId": courthouseId
-                        };
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, this.agent.get("/sheriffs")
-                                .query(params)];
-                    case 2:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 3:
-                        error_17 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_17);
-                        }
-                        else {
-                            throw error_17;
-                        }
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
-                }
+                params = {
+                    "courthouseId": courthouseId
+                };
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/sheriffs")
+                                        .query(params)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.CreateSheriff = function (model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_18;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.post("/sheriffs")
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_18 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_18);
-                        }
-                        else {
-                            throw error_18;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/sheriffs")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetSheriffById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_19;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/sheriffs/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_19 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_19);
-                        }
-                        else {
-                            throw error_19;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/sheriffs/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.UpdateSheriff = function (id, model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_20;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.put("/sheriffs/" + id)
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_20 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_20);
-                        }
-                        else {
-                            throw error_20;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/sheriffs/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.DeleteSheriff = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_21;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.delete("/sheriffs/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_21 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_21);
-                        }
-                        else {
-                            throw error_21;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/sheriffs/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetCourtrooms = function (courthouseId) {
         return __awaiter(this, void 0, void 0, function () {
-            var params, response, error_22;
+            var _this = this;
+            var params;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        params = {
-                            "courthouseId": courthouseId
-                        };
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, this.agent.get("/courtrooms")
-                                .query(params)];
-                    case 2:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 3:
-                        error_22 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_22);
-                        }
-                        else {
-                            throw error_22;
-                        }
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
-                }
+                params = {
+                    "courthouseId": courthouseId
+                };
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/courtrooms")
+                                        .query(params)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.CreateCourtroom = function (model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_23;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.post("/courtrooms")
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_23 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_23);
-                        }
-                        else {
-                            throw error_23;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/courtrooms")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetCourtroomById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_24;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/courtrooms/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_24 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_24);
-                        }
-                        else {
-                            throw error_24;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/courtrooms/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.UpdateCourtroom = function (id, model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_25;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.put("/courtrooms/" + id)
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_25 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_25);
-                        }
-                        else {
-                            throw error_25;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/courtrooms/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.DeleteCourtroom = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_26;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.delete("/courtrooms/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_26 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_26);
-                        }
-                        else {
-                            throw error_26;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/courtrooms/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetJailRoleCodes = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_27;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/codes/jailroles")];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_27 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_27);
-                        }
-                        else {
-                            throw error_27;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/codes/jailroles")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetOtherAssignCodes = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_28;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/codes/otherassign")];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_28 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_28);
-                        }
-                        else {
-                            throw error_28;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/codes/otherassign")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetWorkSectionCodes = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_29;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/codes/worksection")];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_29 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_29);
-                        }
-                        else {
-                            throw error_29;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/codes/worksection")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetSheriffRankCodes = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_30;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/codes/sheriffrank")];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_30 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_30);
-                        }
-                        else {
-                            throw error_30;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/codes/sheriffrank")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetRuns = function (courthouseId) {
         return __awaiter(this, void 0, void 0, function () {
-            var params, response, error_31;
+            var _this = this;
+            var params;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        params = {
-                            "courthouseId": courthouseId
-                        };
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, this.agent.get("/runs")
-                                .query(params)];
-                    case 2:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 3:
-                        error_31 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_31);
-                        }
-                        else {
-                            throw error_31;
-                        }
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
-                }
+                params = {
+                    "courthouseId": courthouseId
+                };
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/runs")
+                                        .query(params)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.CreateRun = function (model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_32;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.post("/runs")
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_32 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_32);
-                        }
-                        else {
-                            throw error_32;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/runs")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetRunById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_33;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/runs/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_33 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_33);
-                        }
-                        else {
-                            throw error_33;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/runs/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.UpdateRun = function (id, model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_34;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.put("/runs/" + id)
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_34 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_34);
-                        }
-                        else {
-                            throw error_34;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/runs/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.DeleteRun = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_35;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.delete("/runs/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_35 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_35);
-                        }
-                        else {
-                            throw error_35;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/runs/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetShifts = function (courthouseId) {
         return __awaiter(this, void 0, void 0, function () {
-            var params, response, error_36;
+            var _this = this;
+            var params;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        params = {
-                            "courthouseId": courthouseId
-                        };
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, this.agent.get("/Shifts")
-                                .query(params)];
-                    case 2:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 3:
-                        error_36 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_36);
-                        }
-                        else {
-                            throw error_36;
-                        }
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
-                }
+                params = {
+                    "courthouseId": courthouseId
+                };
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/Shifts")
+                                        .query(params)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.CreateShift = function (model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_37;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.post("/Shifts")
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_37 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_37);
-                        }
-                        else {
-                            throw error_37;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/Shifts")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetShiftById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_38;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/Shifts/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_38 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_38);
-                        }
-                        else {
-                            throw error_38;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/Shifts/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.UpdateShift = function (id, model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_39;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.put("/Shifts/" + id)
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_39 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_39);
-                        }
-                        else {
-                            throw error_39;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/Shifts/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.DeleteShift = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_40;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.delete("/Shifts/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_40 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_40);
-                        }
-                        else {
-                            throw error_40;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/Shifts/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.UpdateMultipleShifts = function (model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_41;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.post("/Shifts/multiple")
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_41 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_41);
-                        }
-                        else {
-                            throw error_41;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/Shifts/multiple")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.CopyShifts = function (model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_42;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.post("/Shifts/copy")
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_42 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_42);
-                        }
-                        else {
-                            throw error_42;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/Shifts/copy")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetDutyRecurrences = function (startDate, endDate) {
         return __awaiter(this, void 0, void 0, function () {
-            var params, response, error_43;
+            var _this = this;
+            var params;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        params = {
-                            "startDate": startDate,
-                            "endDate": endDate
-                        };
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        return [4 /*yield*/, this.agent.get("/DutyRecurrences")
-                                .query(params)];
-                    case 2:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 3:
-                        error_43 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_43);
-                        }
-                        else {
-                            throw error_43;
-                        }
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
-                }
+                params = {
+                    "startDate": startDate,
+                    "endDate": endDate
+                };
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/DutyRecurrences")
+                                        .query(params)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.CreateDutyRecurrence = function (model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_44;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.post("/DutyRecurrences")
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_44 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_44);
-                        }
-                        else {
-                            throw error_44;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/DutyRecurrences")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetDutyRecurrenceById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_45;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/DutyRecurrences/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_45 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_45);
-                        }
-                        else {
-                            throw error_45;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/DutyRecurrences/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.UpdateDutyRecurrence = function (id, model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_46;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.put("/DutyRecurrences/" + id)
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_46 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_46);
-                        }
-                        else {
-                            throw error_46;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/DutyRecurrences/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.ExpireDutyRecurrence = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_47;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.post("/DutyRecurrences/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_47 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_47);
-                        }
-                        else {
-                            throw error_47;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/DutyRecurrences/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.DeleteDutyRecurrence = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_48;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.delete("/DutyRecurrences/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_48 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_48);
-                        }
-                        else {
-                            throw error_48;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/DutyRecurrences/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetDuties = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_49;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/Duty")];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_49 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_49);
-                        }
-                        else {
-                            throw error_49;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/Duty")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.CreateDuty = function (model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_50;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.post("/Duty")
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_50 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_50);
-                        }
-                        else {
-                            throw error_50;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/Duty")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetDutyById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_51;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/Duty/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_51 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_51);
-                        }
-                        else {
-                            throw error_51;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/Duty/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.UpdateDuty = function (id, model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_52;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.put("/Duty/" + id)
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_52 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_52);
-                        }
-                        else {
-                            throw error_52;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/Duty/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.DeleteDuty = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_53;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.delete("/Duty/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_53 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_53);
-                        }
-                        else {
-                            throw error_53;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/Duty/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.ImportDefaultDuties = function (body) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_54;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.post("/Duty/import")
-                                .send(body)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_54 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_54);
-                        }
-                        else {
-                            throw error_54;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/Duty/import")
+                                        .send(body)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetSheriffDuties = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_55;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/SheriffDuty")];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_55 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_55);
-                        }
-                        else {
-                            throw error_55;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/SheriffDuty")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.CreateSheriffDuty = function (model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_56;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.post("/SheriffDuty")
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_56 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_56);
-                        }
-                        else {
-                            throw error_56;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/SheriffDuty")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetSheriffDutyById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_57;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/SheriffDuty/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_57 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_57);
-                        }
-                        else {
-                            throw error_57;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/SheriffDuty/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.UpdateSheriffDuty = function (id, model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_58;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.put("/SheriffDuty/" + id)
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_58 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_58);
-                        }
-                        else {
-                            throw error_58;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/SheriffDuty/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.DeleteSheriffDuty = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_59;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.delete("/SheriffDuty/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_59 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_59);
-                        }
-                        else {
-                            throw error_59;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/SheriffDuty/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetLeaves = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_60;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/leaves")];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_60 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_60);
-                        }
-                        else {
-                            throw error_60;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/leaves")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.CreateLeave = function (model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_61;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.post("/leaves")
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_61 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_61);
-                        }
-                        else {
-                            throw error_61;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/leaves")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetLeaveById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_62;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/leaves/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_62 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_62);
-                        }
-                        else {
-                            throw error_62;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/leaves/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.UpdateLeave = function (id, model) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_63;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.put("/leaves/" + id)
-                                .send(model)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_63 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_63);
-                        }
-                        else {
-                            throw error_63;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/leaves/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.DeleteLeave = function (id) {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_64;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.delete("/leaves/" + id)];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_64 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_64);
-                        }
-                        else {
-                            throw error_64;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/leaves/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetLeaveCancelReasonCodes = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_65;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/codes/leave-cancel")];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_65 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_65);
-                        }
-                        else {
-                            throw error_65;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/codes/leave-cancel")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetLeaveTypes = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_66;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/codes/leave-type")];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_66 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_66);
-                        }
-                        else {
-                            throw error_66;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/codes/leave-type")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetLeaveSubCodes = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_67;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/codes/leave-sub-type")];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_67 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_67);
-                        }
-                        else {
-                            throw error_67;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/codes/leave-sub-type")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };

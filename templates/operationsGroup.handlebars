@@ -20,7 +20,20 @@ export default class {{operationGroup.operationsGroupName}} {
 
     get agent(){
         return this._agent;
-    }  
+    }
+
+    async tryWork<T>(worker: () => Promise<T>) {
+        try {
+            const result = await worker();
+            return result;
+        } catch (error) {
+            if (this.errorProcessor) {
+                throw this.errorProcessor(error);
+            } else {
+                throw error;
+            }
+        }
+    }
 
     {{#each operationGroup.operations}}
     public async {{operationName}}({{#joinList operationParams}} {{paramDisplayName}}:{{paramType}} {{/joinList}}):Promise<{{responsesType}}>{
@@ -32,7 +45,7 @@ export default class {{operationGroup.operationsGroupName}} {
         };
             {{/some}}
         {{/if}}
-        try{
+        return this.tryWork(async () => {
             const response = await this.agent.{{httpVerb}}(`{{{toInterpolatedString url}}}`)
                 {{#some operationParams "op=>(!op.inBody && !op.inPath)"}}
                 .query(params)
@@ -41,13 +54,7 @@ export default class {{operationGroup.operationsGroupName}} {
                 .send({{paramDisplayName}})
                 {{/filterList}} 
             return response.body as {{responsesType}};
-        }catch(error){
-            if(this.errorProcessor){
-                throw this.errorProcessor(error);
-            }else{
-                throw error;
-            }
-        }
+        });
     }    
     {{/each}}
 }

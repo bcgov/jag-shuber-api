@@ -7,6 +7,7 @@ export default class Client {
     errorProcessor: (error: any) => Error;
     constructor(_agent?: superAgent.SuperAgent<any>);
     readonly agent: superAgent.SuperAgent<any>;
+    tryWork<T>(worker: () => Promise<T>): Promise<T>;
     GetAssignments(courthouseId: string, startDate: string, endDate: string): Promise<Array<any>>;
     CreateAssignment(model: Assignment): Promise<Assignment>;
     GetAssignmentById(id: string): Promise<Assignment>;
