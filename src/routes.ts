@@ -87,24 +87,28 @@ const models: TsoaRoute.Models = {
         "properties": {
             "code": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
+            "expiryDate": { "dataType": "string" },
         },
     },
     "OtherAssignCode": {
         "properties": {
             "code": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
+            "expiryDate": { "dataType": "string" },
         },
     },
     "WorkSectionCode": {
         "properties": {
             "code": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
+            "expiryDate": { "dataType": "string" },
         },
     },
     "SheriffRankCode": {
         "properties": {
             "code": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
+            "expiryDate": { "dataType": "string" },
         },
     },
     "Run": {
@@ -187,12 +191,14 @@ const models: TsoaRoute.Models = {
         "properties": {
             "code": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
+            "expiryDate": { "dataType": "string" },
         },
     },
     "LeaveCode": {
         "properties": {
             "code": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
+            "expiryDate": { "dataType": "string" },
         },
     },
     "LeaveSubCode": {
@@ -200,6 +206,7 @@ const models: TsoaRoute.Models = {
             "code": { "dataType": "string", "required": true },
             "subCode": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
+            "expiryDate": { "dataType": "string" },
         },
     },
 };

@@ -5,7 +5,8 @@ import ExpirableDatabaseService from './ExpirableDatabaseService';
 export class OtherAssignCodeService extends ExpirableDatabaseService<OtherAssignCode> {
     fieldMap = {
         other_assign_code: 'code',
-        description: 'description'
+        description: 'description',
+        expiry_date: 'expiryDate'
     };
 
     constructor() {

@@ -56,18 +56,22 @@
     export interface JailRoleCode  {
         code? : string
         description? : string
+        expiryDate? : string
     }
     export interface OtherAssignCode  {
         code? : string
         description? : string
+        expiryDate? : string
     }
     export interface WorkSectionCode  {
         code? : string
         description? : string
+        expiryDate? : string
     }
     export interface SheriffRankCode  {
         code? : string
         description? : string
+        expiryDate? : string
     }
     export interface Run  {
         id? : string
@@ -132,13 +136,16 @@
     export interface LeaveCancelReasonCode  {
         code? : string
         description? : string
+        expiryDate? : string
     }
     export interface LeaveCode  {
         code? : string
         description? : string
+        expiryDate? : string
     }
     export interface LeaveSubCode  {
         code? : string
         subCode? : string
         description? : string
+        expiryDate? : string
     }

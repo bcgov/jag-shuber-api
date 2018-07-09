@@ -5,7 +5,8 @@ import ExpirableDatabaseService from './ExpirableDatabaseService';
 export class SheriffRankCodeService extends ExpirableDatabaseService<SheriffRankCode> {
     fieldMap = {
         sheriff_rank_code: 'code',
-        description: 'description'
+        description: 'description',
+        expiry_date: 'expiryDate'
     };
 
     constructor() {

@@ -26,7 +26,7 @@ describe('Codes API', () => {
         const list = await api.GetJailRoleCodes();
         expect(list).toBeDefined();
         expect(Array.isArray(list)).toBeTruthy();
-        expect(list.length).toEqual(4);
+        expect(list.length).toEqual(7);
         list.forEach(c => {
             expect(c).toMatchShapeOf(CodeShape);
         })
@@ -36,7 +36,7 @@ describe('Codes API', () => {
         const list = await api.GetOtherAssignCodes();
         expect(list).toBeDefined();
         expect(Array.isArray(list)).toBeTruthy();
-        expect(list.length).toEqual(5);
+        expect(list.length).toEqual(12);
         list.forEach(c => {
             expect(c).toMatchShapeOf(CodeShape);
         })

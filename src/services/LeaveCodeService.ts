@@ -6,7 +6,8 @@ import { LeaveCode } from '../models/LeaveCode';
 export class LeaveCodeService extends ExpirableDatabaseService<LeaveCode> {
     fieldMap = {
         leave_code: 'code',
-        description: 'description'
+        description: 'description',
+        expiry_date: 'expiryDate'
     };
 
     constructor() {
