@@ -1,0 +1,216 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="ddl_set_07_audit_start"/>
+    </changeSet>
+
+    <!-- The following updates are to implement auditing support -->
+
+    <!--
+        Application Authorization tables
+    -->
+    
+    <!-- create table app_function -->
+    <changeSet author="Carol Geisler" id="CRTTAB_app_function">
+        <comment>Create the App Function table to map to api endpoints, either single or clusters.</comment>
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_function" 
+        	remarks="APP_FUNCTION captures the definition of a piece or group of functionality within the Sheriff Scheduling App. An App Function may be linked to an App Role to allow access to the functionality.
+The API will associate an App Function with each endpoint to ensure a given session is authorized for that endpoint">
+            <column name="app_function_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="app_function_name" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" columnNames="app_function_id" constraintName="pk_apfn" tableName="app_function"/>
+    </changeSet>
+    
+    <!-- create table app_role -->
+    <changeSet author="Carol Geisler" id="CRTTAB_app_role">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_role" 
+        	remarks="APP_ROLE captures the definition of roles within the Sheriff Scheduling application.  App Roles may be linked to App Users and App_Functions to control access to different functionality in the application.">
+            <column name="app_role_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="app_role_name" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" columnNames="app_role_id" constraintName="pk_aprl" tableName="app_role"/>
+    </changeSet>
+    
+    <!-- create table app_role_function -->
+    <changeSet author="Carol Geisler" id="CRTAB_app_role_function">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_role_function" 
+        	remarks="APP_ROLE_FUNCTION is an XREF table that captures the relationshp between Roles and Functions.">
+            <column name="app_role_function_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="app_role_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="app_function_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" columnNames="app_role_function_id" constraintName="pk_aprlfn" tableName="app_role_function"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="app_function_id" baseTableName="app_role_function" constraintName="fk_rlfn_apfn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="app_function_id" referencedTableName="app_function"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="app_role_id" baseTableName="app_role_function" constraintName="fk_rlfn_aprl" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="app_role_id" referencedTableName="app_role"/>
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" indexName="ix_rlfn_apfn" tableName="app_role_function">
+            <column name="app_function_id"/>
+        </createIndex>
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" indexName="ix_rlfn_aprl" tableName="app_role_function">
+            <column name="app_role_id"/>
+        </createIndex>
+    </changeSet>
+    
+    <!-- create table app_user -->
+    <changeSet author="Carol Geisler" id="CRTAB_app_user">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user" 
+        	remarks="APP_USER captures the the definition for users who can access the Sheriff Scheduling application.  An App User may be associated with a Sheriff, as well as Role and Courthouse information to manage authorization to data and app features.">
+            <column name="app_user_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="user_idir" type="VARCHAR(32)"/>
+            <column name="system_account_ind" type="VARCHAR(1)" defaultValue="N"/>
+						<column name="default_location_id" type="UUID"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" columnNames="app_user_id" constraintName="pk_usr" tableName="app_user"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="default_location_id" baseTableName="app_user" constraintName="fk_usr_dfcrth" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="courthouse_id" referencedTableName="courthouse"/>
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" indexName="ix_usr_dfcrths" tableName="app_user">
+            <column name="default_courthouse_id"/>
+        </createIndex>
+    </changeSet>
+    
+    <!-- create table app_user_role -->
+    <changeSet author="Carol Geisler" id="CRTAB_app_user_role">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user_role" 
+        	remarks="APP_USER_ROLE is an XREF table that captures the relationshp between Users and Roles.">
+            <column name="app_user_role_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="app_user_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="app_role_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="effective_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiry_date" type="date"/>
+            <column name="location_id" type="UUID"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" columnNames="app_user_role_id" constraintName="pk_usrl" tableName="app_user_role"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="app_role_id" baseTableName="app_user_role" constraintName="fk_usrl_aprl" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="app_role_id" referencedTableName="app_role"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="app_user_id" baseTableName="app_user_role" constraintName="fk_usrl_usr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="app_user_id" referencedTableName="app_user"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="location_id" baseTableName="app_user_role" constraintName="fk_usrl_crth" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="courthouse_id" referencedTableName="courthouse"/>
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" indexName="ix_usrl_aprl" tableName="app_user_role">
+            <column name="app_role_id"/>
+        </createIndex>
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" indexName="ix_usrl_crth" tableName="app_user_role">
+            <column name="location_id"/>
+        </createIndex>
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" indexName="ix_usrl_usr" tableName="app_user_role">
+            <column name="app_user_id"/>
+        </createIndex>
+    </changeSet>
+
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="ddl_set_07_audit__end"/>
+    </changeSet>
+
+</databaseChangeLog>
