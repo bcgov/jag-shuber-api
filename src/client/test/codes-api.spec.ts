@@ -5,11 +5,12 @@ import {
     WorkSectionCode,
     SheriffRankCode,
     LeaveCancelReasonCode,
-    LeaveCode 
+    LeaveCode, 
+    CourtRoleCode 
 } from '../models';
 import TestUtils from './TestUtils';
 
-const CodeShape: JailRoleCode | OtherAssignCode | WorkSectionCode | SheriffRankCode | LeaveCancelReasonCode | LeaveCode = {
+const CodeShape: JailRoleCode | OtherAssignCode | WorkSectionCode | SheriffRankCode | LeaveCancelReasonCode | LeaveCode | CourtRoleCode = {
     code: 'some string',
     description: 'some string'
 }
@@ -82,4 +83,13 @@ describe('Codes API', () => {
         })
     });
 
+    it('get courtRoleCodes should return list of Court Role Codes', async () => {
+        const list = await api.GetCourtRoleCodes();
+        expect(list).toBeDefined();
+        expect(Array.isArray(list)).toBeTruthy();
+        expect(list.length).toEqual(5);
+        list.forEach(c => {
+            expect(c).toMatchShapeOf(CodeShape);
+        })
+    });
 }) 

@@ -18,6 +18,7 @@ import { LeaveController } from './controllers/LeaveController';
 import { LeaveCancelCodesController } from './controllers/LeaveCancelCodesController';
 import { LeaveTypeCodesController } from './controllers/LeaveTypeCodesController';
 import { LeaveSubTypeCodesController } from './controllers/LeaveSubTypeCodesController';
+import { CourtRoleCodesController } from './controllers/CourtRoleCodesController';
 
 const models: TsoaRoute.Models = {
     "DutyRecurrence": {
@@ -205,6 +206,13 @@ const models: TsoaRoute.Models = {
         "properties": {
             "code": { "dataType": "string", "required": true },
             "subCode": { "dataType": "string", "required": true },
+            "description": { "dataType": "string", "required": true },
+            "expiryDate": { "dataType": "string" },
+        },
+    },
+    "CourtRoleCode": {
+        "properties": {
+            "code": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
             "expiryDate": { "dataType": "string" },
         },
@@ -1552,6 +1560,25 @@ export function RegisterRoutes(router: any) {
             const controller = new LeaveSubTypeCodesController();
 
             const promise = controller.getLeaveSubCodes.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/codes/courtroles',
+        async (context, next) => {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new CourtRoleCodesController();
+
+            const promise = controller.getCourtRoleCodes.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
 
