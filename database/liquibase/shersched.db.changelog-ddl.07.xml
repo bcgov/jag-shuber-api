@@ -217,6 +217,13 @@ The API will associate an Api Scope string with each endpoint to determine what 
       	<dropColumn  catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff">
 		  		<column name="userid" type="VARCHAR(32)"/>
 	    	</dropColumn>
+	    	<rollback>
+	    	  <addColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff">
+            <column name="userid" defaultValue="UNKNOWN (Column Recreated)" type="VARCHAR(32)" remarks="For mapping a user (idir) to a sheriff">
+                <constraints nullable="false"/>
+            </column>
+	    	  </addColumn>
+	    	</rollback>
     </changeSet>
     
     <changeSet author="Carol Geisler" id="CRTAB_aud_sheriff_duty">
