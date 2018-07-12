@@ -38,6 +38,7 @@ const models: TsoaRoute.Models = {
             "workSectionId": { "dataType": "string", "required": true },
             "courthouseId": { "dataType": "string", "required": true },
             "courtroomId": { "dataType": "string" },
+            "courtRoleId": { "dataType": "string" },
             "runId": { "dataType": "string" },
             "jailRoleCode": { "dataType": "string" },
             "otherAssignCode": { "dataType": "string" },

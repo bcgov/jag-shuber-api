@@ -1,6 +1,6 @@
 import moment from 'moment';
 import ApiClient from '../ExtendedClient';
-import { Assignment, Courthouse, Region, DutyRecurrence, Courtroom, Run, JailRoleCode, OtherAssignCode } from '../models';
+import { Assignment, Courthouse, Region, DutyRecurrence, Courtroom, Run, JailRoleCode, OtherAssignCode, CourtRoleCode } from '../models';
 import TestUtils from './TestUtils';
 import { create } from 'domain';
 
@@ -236,6 +236,7 @@ describe('Assignment API', () => {
         }
         let testJailRoleCode: JailRoleCode;
         let testOtherAssignCode: OtherAssignCode;
+        let testCourtRoleCode: CourtRoleCode;
 
         const entitiesToDelete: Assignment[] = [];
 
@@ -250,6 +251,7 @@ describe('Assignment API', () => {
             });
             testJailRoleCode = (await api.GetJailRoleCodes())[0];
             testOtherAssignCode = (await api.GetOtherAssignCodes())[0];
+            testCourtRoleCode = (await api.GetCourtRoleCodes())[0];
             done();
         })
 
@@ -266,7 +268,7 @@ describe('Assignment API', () => {
             expect(retreived.title).toEqual(title);
         });
 
-        it('Court assignment with no courtroom should throw validation error', async () => {
+        it('Court assignment with no courtroom and no court role should throw validation error', async () => {
             expect.assertions(3);
             try {
                 let courtAssignment: Assignment = await api.CreateAssignment({
@@ -283,11 +285,11 @@ describe('Assignment API', () => {
                 } = err;
                 expect(message).toEqual("Invalid Court Assignment");
                 expect(name).toEqual("ValidateError");
-                expect(fields['model.courtroomId']!.message).toEqual("Courtroom must be set for Court assignments");
+                expect(fields['model.courtroomId']!.message).toEqual("Courtroom or Court Role must be set for Court assignments");
             }
         });
 
-        it('Court assignment with no title should default to courtroom name', async () => {
+        it('Court assignment with no title and a courtroom ID should default to courtroom name', async () => {
             let courtAssignment: Assignment = await api.CreateAssignment({
                 ...entityToCreate,
                 title: null,
@@ -299,6 +301,20 @@ describe('Assignment API', () => {
             expect(courtAssignment.workSectionId).toEqual("COURTS");
             expect(courtAssignment.courtroomId).toEqual(testCourtroom.id);
             expect(courtAssignment.title).toEqual(testCourtroom.name);
+        });
+
+        it('Court assignment with no title and a court role code should default to court role description', async () => {
+            let courtAssignment: Assignment = await api.CreateAssignment({
+                ...entityToCreate,
+                title: null,
+                workSectionId: "COURTS",
+                courthouseId: testCourthouse.id,
+                courtRoleId: testCourtRoleCode.code
+            });
+            expect(courtAssignment.id).toBeDefined();
+            expect(courtAssignment.workSectionId).toEqual("COURTS");
+            expect(courtAssignment.courtRoleId).toEqual(testCourtRoleCode.code);
+            expect(courtAssignment.title).toEqual(testCourtRoleCode.description);
         });
 
         it('Jail assignment with no jail should throw validation error', async () => {
@@ -321,6 +337,7 @@ describe('Assignment API', () => {
                 expect(fields['model.jailRoleCode']!.message).toEqual("Jail Role must be set for Jail assignments");
             }
         });
+
 
         it('Jail assignment with no title should default to Jail Role description', async () => {
             const jailAssignment: Assignment = {

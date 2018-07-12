@@ -13,6 +13,7 @@ export interface Assignment {
     workSectionId?: string;
     courthouseId?: string;
     courtroomId?: string;
+    courtRoleId?: string;
     runId?: string;
     jailRoleCode?: string;
     otherAssignCode?: string;
