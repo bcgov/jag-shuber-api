@@ -9,6 +9,7 @@ import { CourtroomService } from './CourtroomService';
 import { JailRoleCodeService } from './JailRoleCodeService';
 import { RunService } from './RunService';
 import { OtherAssignCodeService } from './OtherAssignCodeService';
+import { CourtRoleCodeService } from './CourtRoleCodeService';
 
 export class AssignmentService extends ExpirableDatabaseService<Assignment> {
 
@@ -21,7 +22,8 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
         run_id: 'runId',
         jail_role_code: 'jailRoleCode',
         other_assign_code: 'otherAssignCode',
-        work_section_code: 'workSectionId'
+        work_section_code: 'workSectionId',
+        court_role_code: 'courtRoleId'
     };
 
     constructor() {
@@ -96,10 +98,10 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
     private validateAssignment(entity: Partial<Assignment>) {
         const fieldErrors: FieldErrors = {};
         if (entity.workSectionId === "COURTS") {
-            if (entity.courtroomId == undefined) {
+            if (entity.courtroomId == undefined && entity.courtRoleId == undefined) {
                 throw new ValidateError({
                     'model.courtroomId': {
-                        message: "Courtroom must be set for Court assignments"
+                        message: "Courtroom or Court Role must be set for Court assignments"
                     }
                 }, "Invalid Court Assignment")
             }
@@ -135,11 +137,20 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
 
         if (!title || title === "") {
             if (entity.workSectionId === "COURTS") {
-                const service = new CourtroomService();
-                const courtroom = await service.getById(entity.courtroomId as string);
-                if (courtroom) {
-                    title = courtroom.name;
+                if (entity.courtroomId) {
+                    const service = new CourtroomService();
+                    const courtroom = await service.getById(entity.courtroomId as string);
+                    if (courtroom) {
+                        title = courtroom.name;
+                    }
+                } else {
+                    const service = new CourtRoleCodeService();
+                    const courtRole = await service.getById(entity.courtRoleId as string);
+                    if(courtRole){
+                        title = courtRole.description;
+                    }
                 }
+
             } else if (entity.workSectionId === "JAIL") {
                 const service = new JailRoleCodeService();
                 const code = await service.getById(entity.jailRoleCode as string);

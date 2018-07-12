@@ -18,6 +18,7 @@ import { LeaveController } from './controllers/LeaveController';
 import { LeaveCancelCodesController } from './controllers/LeaveCancelCodesController';
 import { LeaveTypeCodesController } from './controllers/LeaveTypeCodesController';
 import { LeaveSubTypeCodesController } from './controllers/LeaveSubTypeCodesController';
+import { CourtRoleCodesController } from './controllers/CourtRoleCodesController';
 
 const models: TsoaRoute.Models = {
     "DutyRecurrence": {
@@ -37,6 +38,7 @@ const models: TsoaRoute.Models = {
             "workSectionId": { "dataType": "string", "required": true },
             "courthouseId": { "dataType": "string", "required": true },
             "courtroomId": { "dataType": "string" },
+            "courtRoleId": { "dataType": "string" },
             "runId": { "dataType": "string" },
             "jailRoleCode": { "dataType": "string" },
             "otherAssignCode": { "dataType": "string" },
@@ -87,24 +89,28 @@ const models: TsoaRoute.Models = {
         "properties": {
             "code": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
+            "expiryDate": { "dataType": "string" },
         },
     },
     "OtherAssignCode": {
         "properties": {
             "code": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
+            "expiryDate": { "dataType": "string" },
         },
     },
     "WorkSectionCode": {
         "properties": {
             "code": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
+            "expiryDate": { "dataType": "string" },
         },
     },
     "SheriffRankCode": {
         "properties": {
             "code": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
+            "expiryDate": { "dataType": "string" },
         },
     },
     "Run": {
@@ -187,12 +193,14 @@ const models: TsoaRoute.Models = {
         "properties": {
             "code": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
+            "expiryDate": { "dataType": "string" },
         },
     },
     "LeaveCode": {
         "properties": {
             "code": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
+            "expiryDate": { "dataType": "string" },
         },
     },
     "LeaveSubCode": {
@@ -200,6 +208,14 @@ const models: TsoaRoute.Models = {
             "code": { "dataType": "string", "required": true },
             "subCode": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
+            "expiryDate": { "dataType": "string" },
+        },
+    },
+    "CourtRoleCode": {
+        "properties": {
+            "code": { "dataType": "string", "required": true },
+            "description": { "dataType": "string", "required": true },
+            "expiryDate": { "dataType": "string" },
         },
     },
 };
@@ -1545,6 +1561,25 @@ export function RegisterRoutes(router: any) {
             const controller = new LeaveSubTypeCodesController();
 
             const promise = controller.getLeaveSubCodes.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/codes/courtroles',
+        async (context, next) => {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new CourtRoleCodesController();
+
+            const promise = controller.getCourtRoleCodes.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
 

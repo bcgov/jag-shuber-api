@@ -1,6 +1,5 @@
-export interface LeaveSubCode {
+export interface CourtRoleCode {
     code: string;
-    subCode: string;
     description: string;
     expiryDate?: string;
 }

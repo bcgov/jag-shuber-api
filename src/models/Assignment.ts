@@ -6,10 +6,9 @@ export interface Assignment {
     workSectionId: string;
     courthouseId: string;
     courtroomId?: string;
+    courtRoleId?: string;
     runId?:string;
     jailRoleCode?:string;
     otherAssignCode?:string;
-    // effectiveDate?:string;
-    // expiryDate?:string;
     dutyRecurrences?:DutyRecurrence[]
 }

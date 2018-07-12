@@ -6,7 +6,8 @@ import { LeaveCancelReasonCode } from '../models/LeaveCancelReasonCode';
 export class LeaveCancelReasonCodeService extends ExpirableDatabaseService<LeaveCancelReasonCode> {
     fieldMap = {
         leave_cancel_reason_code: 'code',
-        description: 'description'
+        description: 'description',
+        expiry_date: 'expiryDate'
     };
 
     constructor() {

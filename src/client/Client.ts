@@ -2,7 +2,7 @@
 // Type generated from Swagger definition
 
 import * as superAgent from "superagent";
-import { Assignment,Region,Courthouse,Sheriff,Courtroom,JailRoleCode,OtherAssignCode,WorkSectionCode,SheriffRankCode,Run,Shift,MultipleShiftUpdateRequest,ShiftCopyOptions,DutyRecurrence,Duty,DutyImportDefaultsRequest,SheriffDuty,Leave,LeaveCancelReasonCode,LeaveCode,LeaveSubCode } from "./models"
+import { Assignment,Region,Courthouse,Sheriff,Courtroom,JailRoleCode,OtherAssignCode,WorkSectionCode,SheriffRankCode,Run,Shift,MultipleShiftUpdateRequest,ShiftCopyOptions,DutyRecurrence,Duty,DutyImportDefaultsRequest,SheriffDuty,Leave,LeaveCancelReasonCode,LeaveCode,LeaveSubCode,CourtRoleCode } from "./models"
 
 
 export default class Client {
@@ -863,6 +863,18 @@ export default class Client {
         try{
             const response = await this.agent.get(`/codes/leave-sub-type`)
             return response.body as Array<LeaveSubCode>;
+        }catch(error){
+            if(this.errorProcessor){
+                throw this.errorProcessor(error);
+            }else{
+                throw error;
+            }
+        }
+    }    
+    public async GetCourtRoleCodes():Promise<Array<CourtRoleCode>>{
+        try{
+            const response = await this.agent.get(`/codes/courtroles`)
+            return response.body as Array<CourtRoleCode>;
         }catch(error){
             if(this.errorProcessor){
                 throw this.errorProcessor(error);

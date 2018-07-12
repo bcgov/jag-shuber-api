@@ -13,6 +13,7 @@ export interface Assignment {
     workSectionId?: string;
     courthouseId?: string;
     courtroomId?: string;
+    courtRoleId?: string;
     runId?: string;
     jailRoleCode?: string;
     otherAssignCode?: string;
@@ -53,18 +54,22 @@ export interface Courtroom {
 export interface JailRoleCode {
     code?: string;
     description?: string;
+    expiryDate?: string;
 }
 export interface OtherAssignCode {
     code?: string;
     description?: string;
+    expiryDate?: string;
 }
 export interface WorkSectionCode {
     code?: string;
     description?: string;
+    expiryDate?: string;
 }
 export interface SheriffRankCode {
     code?: string;
     description?: string;
+    expiryDate?: string;
 }
 export interface Run {
     id?: string;
@@ -129,13 +134,21 @@ export interface Leave {
 export interface LeaveCancelReasonCode {
     code?: string;
     description?: string;
+    expiryDate?: string;
 }
 export interface LeaveCode {
     code?: string;
     description?: string;
+    expiryDate?: string;
 }
 export interface LeaveSubCode {
     code?: string;
     subCode?: string;
     description?: string;
+    expiryDate?: string;
+}
+export interface CourtRoleCode {
+    code?: string;
+    description?: string;
+    expiryDate?: string;
 }
