@@ -346,13 +346,13 @@
     
     <!-- Prince George Runs -->
     
-    <changeSet author="Carol Geisler" id="INS_run_PG_West Run" >
+    <changeSet author="Carol Geisler" id="INS_run_PRG_West Run" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="West Run"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PG')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -363,18 +363,18 @@
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='West Run' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PG')</where>
+              <where>title='West Run' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_PG_North Run" >
+    <changeSet author="Carol Geisler" id="INS_run_PRG_North Run" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="North Run"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PG')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -385,18 +385,18 @@
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='North Run' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PG')</where>
+              <where>title='North Run' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_PG_South Run" >
+    <changeSet author="Carol Geisler" id="INS_run_PRG_South Run" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="South Run"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PG')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -407,18 +407,18 @@
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='South Run' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PG')</where>
+              <where>title='South Run' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_PG_Alberta" >
+    <changeSet author="Carol Geisler" id="INS_run_PRG_Alberta" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Alberta"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PG')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -429,18 +429,18 @@
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='Alberta' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PG')</where>
+              <where>title='Alberta' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_PG_Flight" >
+    <changeSet author="Carol Geisler" id="INS_run_PRG_Flight" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Flight"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PG')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -451,7 +451,7 @@
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='Flight' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PG')</where>
+              <where>title='Flight' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -465,7 +465,7 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Local Run"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'RBS')"/>
           <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
@@ -476,7 +476,7 @@
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='Local Run' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VANRS')</where>
+              <where>title='Local Run' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'RBS')</where>
           </delete>
       </rollback>
     </changeSet>
