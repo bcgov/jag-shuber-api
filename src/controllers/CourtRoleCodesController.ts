@@ -12,7 +12,7 @@ export class CourtRoleCodesController extends ControllerBase<CourtRoleCode> {
 
     @Get()
     public getCourtRoleCodes(){
-        return this.service.getAll();
+        return super.getAll();
     }
 
 }
