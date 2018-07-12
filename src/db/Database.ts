@@ -44,7 +44,7 @@ export class Database {
         return this.pool.query.bind(this.pool);
     }
     insertQuery(tableName?: string, uuidField?: string): PostgresInsert {
-        const query = squel.insert()
+        const query = squel.insert({replaceSingleQuotes:true})
             .setFields(this.getUpdatedByFields())
             .setFields({
                 created_by: this.currentUser,
@@ -79,7 +79,7 @@ export class Database {
     }
 
     updateQuery(tableName?: string): PostgresUpdate {
-        const query = squel.update()
+        const query = squel.update({replaceSingleQuotes:true})
             .setFields(this.getUpdatedByFields());
 
         if (tableName) {
