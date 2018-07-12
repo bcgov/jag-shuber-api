@@ -56,11 +56,18 @@
 				</createTable>
         <addPrimaryKey columnNames="court_role_code" constraintName="pk_crcd" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="court_role_code"/>
         <sql>
-        	GRANT SELECT ON ${POSTGRES_SCHEMA}.court_role_code to ${POSTGRES_APP_USER};
+          GRANT SELECT ON ${POSTGRES_SCHEMA}.court_role_code to ${POSTGRES_APP_USER};
         </sql>
         <rollback>
-        	<dropTable  cascadeConstraints="true" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="court_role_code"/>
+          <dropTable  cascadeConstraints="true" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="court_role_code"/>
         </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDCOL_assignment_court_role_code">
+        <addColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="assignment">
+          <column name="court_role_code" type="VARCHAR(20)"/>
+        </addColumn>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="court_role_code" baseTableName="assignment" constraintName="fk_asn_crcd" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="court_role_code" referencedTableName="court_role_code"/>
     </changeSet>
 
     <changeSet author="Carol Geisler" id="tag1">
