@@ -21,21 +21,19 @@
         Application Authorization tables
     -->
     
-    <!-- create table app_function -->
-    <changeSet author="Carol Geisler" id="CRTTAB_app_function">
-        <comment>Create the App Function table to map to api endpoints, either single or clusters.</comment>
-        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_function" 
-        	remarks="APP_FUNCTION captures the definition of a piece or group of functionality within the Sheriff Scheduling App. An App Function may be linked to an App Role to allow access to the functionality.
-The API will associate an App Function with each endpoint to ensure a given session is authorized for that endpoint">
-            <column name="app_function_id" type="UUID">
+    <!-- create table api_scope -->
+    <changeSet author="Carol Geisler" id="CRTTAB_api_scope">
+        <comment>Create the Api Scope table to map to api endpoints, either single or clusters.</comment>
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="api_scope" 
+        	remarks="API_SCOPE captures the definition of a piece or group of functionality within the Sheriff Scheduling App. An Api Scope may be linked to an App Role to allow access to the functionality.
+The API will associate an Api Scope string with each endpoint to determine what endpoints a given session is authorized for, and to adapt the ui accordingly.">
+            <column name="api_scope_id" type="UUID">
                 <constraints nullable="false"/>
             </column>
-            <column name="app_function_name" type="VARCHAR(32)">
+            <column name="api_scope_string" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
-            <column name="description" type="VARCHAR(100)">
-                <constraints nullable="false"/>
-            </column>
+            <column name="description" type="VARCHAR(100)"/>
             <column name="created_by" type="VARCHAR(32)">
                 <constraints nullable="false"/>
             </column>
@@ -52,7 +50,8 @@ The API will associate an App Function with each endpoint to ensure a given sess
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" columnNames="app_function_id" constraintName="pk_apfn" tableName="app_function"/>
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" columnNames="api_scope_id" constraintName="pk_apsc" tableName="api_scope"/>
+        <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" columnNames="api_scope_string" constraintName="uk_apsc" tableName="api_scope"/>
     </changeSet>
     
     <!-- create table app_role -->
@@ -65,7 +64,7 @@ The API will associate an App Function with each endpoint to ensure a given sess
             <column name="app_role_name" type="VARCHAR(32)">
                 <constraints nullable="false"/>
             </column>
-            <column name="description" type="VARCHAR(100)">
+            <column name="description" type="VARCHAR(200)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_by" type="VARCHAR(32)">
@@ -87,17 +86,17 @@ The API will associate an App Function with each endpoint to ensure a given sess
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" columnNames="app_role_id" constraintName="pk_aprl" tableName="app_role"/>
     </changeSet>
     
-    <!-- create table app_role_function -->
-    <changeSet author="Carol Geisler" id="CRTAB_app_role_function">
-        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_role_function" 
-        	remarks="APP_ROLE_FUNCTION is an XREF table that captures the relationshp between Roles and Functions.">
-            <column name="app_role_function_id" type="UUID">
+    <!-- create table app_role_api_scope -->
+    <changeSet author="Carol Geisler" id="CRTAB_app_role_api_scope">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_role_api_scope" 
+        	remarks="APP_ROLE_API_SCOPE is an XREF table that captures the relationshp between Roles and API scopes.">
+            <column name="app_role_api_scope_id" type="UUID">
                 <constraints nullable="false"/>
             </column>
             <column name="app_role_id" type="UUID">
                 <constraints nullable="false"/>
             </column>
-            <column name="app_function_id" type="UUID">
+            <column name="api_scope_id" type="UUID">
                 <constraints nullable="false"/>
             </column>
             <column name="created_by" type="VARCHAR(32)">
@@ -116,13 +115,13 @@ The API will associate an App Function with each endpoint to ensure a given sess
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" columnNames="app_role_function_id" constraintName="pk_aprlfn" tableName="app_role_function"/>
-        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="app_function_id" baseTableName="app_role_function" constraintName="fk_rlfn_apfn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="app_function_id" referencedTableName="app_function"/>
-        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="app_role_id" baseTableName="app_role_function" constraintName="fk_rlfn_aprl" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="app_role_id" referencedTableName="app_role"/>
-        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" indexName="ix_rlfn_apfn" tableName="app_role_function">
-            <column name="app_function_id"/>
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" columnNames="app_role_api_scope_id" constraintName="pk_aprlapsc" tableName="app_role_api_scope"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="api_scope_id" baseTableName="app_role_api_scope" constraintName="fk_aprlapsc_apsc" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="api_scope_id" referencedTableName="api_scope"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="app_role_id" baseTableName="app_role_api_scope" constraintName="fk_aprlapsc_aprl" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="app_role_id" referencedTableName="app_role"/>
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" indexName="ix_aprlapsc_apsc" tableName="app_role_api_scope">
+            <column name="api_scope_id"/>
         </createIndex>
-        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" indexName="ix_rlfn_aprl" tableName="app_role_function">
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" indexName="ix_aprlapsc_aprl" tableName="app_role_api_scope">
             <column name="app_role_id"/>
         </createIndex>
     </changeSet>
@@ -130,16 +129,21 @@ The API will associate an App Function with each endpoint to ensure a given sess
     <!-- create table app_user -->
     <changeSet author="Carol Geisler" id="CRTAB_app_user">
         <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user" 
-        	remarks="APP_USER captures the the definition for users who can access the Sheriff Scheduling application.  An App User may be associated with a Sheriff, as well as Role and Courthouse information to manage authorization to data and app features.">
+          remarks="APP_USER captures the the definition for users who can access the Sheriff Scheduling application.  An App User may be associated with a Sheriff, as well as Role and Courthouse information to manage authorization to data and app features.">
             <column name="app_user_id" type="UUID">
                 <constraints nullable="false"/>
             </column>
-            <column name="user_idir" type="VARCHAR(32)"/>
+            <column name="siteminder_id" type="UUID"/>
+            <column name="user_auth_id" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="display_name" type="VARCHAR(100)"/>
             <column name="system_account_ind" type="VARCHAR(1)" defaultValue="N"/>
-						<column name="default_location_id" type="UUID"/>
+            <column name="default_location_id" type="UUID"/>
             <column name="created_by" type="VARCHAR(32)">
                 <constraints nullable="false"/>
             </column>
+            <column name="sheriff_id" type="UUID"/>
             <column name="updated_by" type="VARCHAR(32)">
                 <constraints nullable="false"/>
             </column>
@@ -156,7 +160,7 @@ The API will associate an App Function with each endpoint to ensure a given sess
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" columnNames="app_user_id" constraintName="pk_usr" tableName="app_user"/>
         <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="default_location_id" baseTableName="app_user" constraintName="fk_usr_dfcrth" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="courthouse_id" referencedTableName="courthouse"/>
         <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" indexName="ix_usr_dfcrths" tableName="app_user">
-            <column name="default_courthouse_id"/>
+            <column name="default_location_id"/>
         </createIndex>
     </changeSet>
     
@@ -194,10 +198,10 @@ The API will associate an App Function with each endpoint to ensure a given sess
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" columnNames="app_user_role_id" constraintName="pk_usrl" tableName="app_user_role"/>
-        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="app_role_id" baseTableName="app_user_role" constraintName="fk_usrl_aprl" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="app_role_id" referencedTableName="app_role"/>
-        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="app_user_id" baseTableName="app_user_role" constraintName="fk_usrl_usr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="app_user_id" referencedTableName="app_user"/>
-        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="location_id" baseTableName="app_user_role" constraintName="fk_usrl_crth" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="courthouse_id" referencedTableName="courthouse"/>
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" columnNames="app_user_role_id" constraintName="pk_apusrl" tableName="app_user_role"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="app_role_id" baseTableName="app_user_role" constraintName="fk_apusrl_aprl" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="app_role_id" referencedTableName="app_role"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="app_user_id" baseTableName="app_user_role" constraintName="fk_apusrl_usr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="app_user_id" referencedTableName="app_user"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="location_id" baseTableName="app_user_role" constraintName="fk_apusrl_crth" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="courthouse_id" referencedTableName="courthouse"/>
         <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" indexName="ix_usrl_aprl" tableName="app_user_role">
             <column name="app_role_id"/>
         </createIndex>
@@ -207,6 +211,54 @@ The API will associate an App Function with each endpoint to ensure a given sess
         <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" indexName="ix_usrl_usr" tableName="app_user_role">
             <column name="app_user_id"/>
         </createIndex>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="DRPCOL_shrf_user_id">
+      	<dropColumn  catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff">
+		  		<column name="userid" type="VARCHAR(32)"/>
+	    	</dropColumn>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="CRTAB_aud_sheriff_duty">
+                <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="aud_sheriff_duty">
+            <column name="sheriff_duty_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sheriff_id" type="UUID"/>
+            <column name="duty_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="operation_code" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="operation_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="operation_user_id" type="UUID"/>
+            <column name="transaction_id" type="UUID"/>
+        </createTable>
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" columnNames="sheriff_duty_id,revision_count" tableName="aud_sheriff_duty" constraintName="pk_aud_shrdty"/>
     </changeSet>
 
     <changeSet author="Carol Geisler" id="tag1">
