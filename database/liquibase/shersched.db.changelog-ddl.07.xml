@@ -210,7 +210,7 @@ The API will associate an App Function with each endpoint to ensure a given sess
     </changeSet>
 
     <changeSet author="Carol Geisler" id="tag1">
-    	<tagDatabase tag="ddl_set_07_audit__end"/>
+    	<tagDatabase tag="ddl_set_07_audit_end"/>
     </changeSet>
 
 </databaseChangeLog>
