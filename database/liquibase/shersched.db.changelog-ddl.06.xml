@@ -69,6 +69,10 @@
         </addColumn>
         <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="court_role_code" baseTableName="assignment" constraintName="fk_asn_crcd" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="court_role_code" referencedTableName="court_role_code"/>
     </changeSet>
+    
+    <changeSet author="Carol Geisler" id="DRPNN_assignment_court_role_code">
+        <dropNotNullConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" columnName="court_role_code" tableName="assignment"/>
+    </changeSet>
 
     <changeSet author="Carol Geisler" id="tag1">
     	<tagDatabase tag="ddl_set_06_assignment_updates_end"/>
