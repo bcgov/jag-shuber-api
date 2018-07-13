@@ -6,11 +6,14 @@ import {
     SheriffRankCode,
     LeaveCancelReasonCode,
     LeaveCode, 
-    CourtRoleCode 
+    CourtRoleCode,
+    GenderCode
 } from '../models';
 import TestUtils from './TestUtils';
 
-const CodeShape: JailRoleCode | OtherAssignCode | WorkSectionCode | SheriffRankCode | LeaveCancelReasonCode | LeaveCode | CourtRoleCode = {
+const CodeShape: 
+    JailRoleCode | OtherAssignCode | WorkSectionCode | SheriffRankCode | 
+    LeaveCancelReasonCode | LeaveCode | CourtRoleCode | GenderCode = {
     code: 'some string',
     description: 'some string'
 }
@@ -92,4 +95,14 @@ describe('Codes API', () => {
             expect(c).toMatchShapeOf(CodeShape);
         })
     });
+
+    it('get genderCodes should return a list of Gender Codes', async () => {
+        const list = await api.GetGenderCodes();
+        expect(list).toBeDefined();
+        expect(Array.isArray(list)).toBeTruthy();
+        expect(list.length).toEqual(3);
+        list.forEach(c => {
+            expect(c).toMatchShapeOf(CodeShape);
+        })
+    })
 }) 

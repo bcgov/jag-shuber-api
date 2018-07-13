@@ -1822,6 +1822,31 @@ var Client = /** @class */ (function () {
             });
         });
     };
+    Client.prototype.GetGenderCodes = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_69;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/codes/gender")];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, response.body];
+                    case 2:
+                        error_69 = _a.sent();
+                        if (this.errorProcessor) {
+                            throw this.errorProcessor(error_69);
+                        }
+                        else {
+                            throw error_69;
+                        }
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     return Client;
 }());
 exports.default = Client;

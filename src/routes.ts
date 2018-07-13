@@ -19,6 +19,7 @@ import { LeaveCancelCodesController } from './controllers/LeaveCancelCodesContro
 import { LeaveTypeCodesController } from './controllers/LeaveTypeCodesController';
 import { LeaveSubTypeCodesController } from './controllers/LeaveSubTypeCodesController';
 import { CourtRoleCodesController } from './controllers/CourtRoleCodesController';
+import { GenderCodesController } from './controllers/GenderCodesController';
 
 const models: TsoaRoute.Models = {
     "DutyRecurrence": {
@@ -75,6 +76,7 @@ const models: TsoaRoute.Models = {
             "currentCourthouseId": { "dataType": "string" },
             "rankCode": { "dataType": "string", "required": true },
             "alias": { "dataType": "string" },
+            "genderCode": { "dataType": "string" },
         },
     },
     "Courtroom": {
@@ -212,6 +214,13 @@ const models: TsoaRoute.Models = {
         },
     },
     "CourtRoleCode": {
+        "properties": {
+            "code": { "dataType": "string", "required": true },
+            "description": { "dataType": "string", "required": true },
+            "expiryDate": { "dataType": "string" },
+        },
+    },
+    "GenderCode": {
         "properties": {
             "code": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
@@ -1580,6 +1589,25 @@ export function RegisterRoutes(router: any) {
             const controller = new CourtRoleCodesController();
 
             const promise = controller.getCourtRoleCodes.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/codes/gender',
+        async (context, next) => {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new GenderCodesController();
+
+            const promise = controller.getGenderCodes.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
 

@@ -44,6 +44,7 @@ export interface Sheriff {
     currentCourthouseId?: string;
     rankCode?: string;
     alias?: string;
+    genderCode?: string;
 }
 export interface Courtroom {
     id?: string;
@@ -148,6 +149,11 @@ export interface LeaveSubCode {
     expiryDate?: string;
 }
 export interface CourtRoleCode {
+    code?: string;
+    description?: string;
+    expiryDate?: string;
+}
+export interface GenderCode {
     code?: string;
     description?: string;
     expiryDate?: string;
