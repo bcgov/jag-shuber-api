@@ -12,8 +12,6 @@ expect.extend({
     toMatchOneOf
 });
 
-
-
 export default class TestUtils {
     public static tables = {
         sheriff_duty: 'sheriff_duty',
