@@ -12,7 +12,7 @@ export class SheriffService extends DatabaseService<Sheriff> {
         current_courthouse_id:'currentCourthouseId',
         sheriff_rank_code: 'rankCode',
         alias:'alias',
-        gender: 'genderCode'
+        gender_code: 'genderCode'
     };
     constructor() {
         super('sheriff', 'sheriff_id');
