@@ -1,0 +1,90 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="ddl_set_08_gender_start"/>
+    </changeSet>
+
+    <!-- Code table for gender -->
+
+    <!-- create table gender_code -->
+    <changeSet author="Carol Geisler" id="CRTTAB_gender_code">
+    	<comment>Create the Gender Code table to standardize system values for gender.</comment>
+				<createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="gender_code" 
+        	remarks="Gender Code captures the standard system values for gender
+				Male
+				Female
+				Other">
+            <column name="gender_code" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="effective_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiry_date" type="date"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+				</createTable>
+        <addPrimaryKey columnNames="gender_code" constraintName="pk_gndr" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="gender_code"/>
+        <sql>
+        	GRANT SELECT ON ${POSTGRES_SCHEMA}.gender_code to ${POSTGRES_APP_USER};
+        </sql>
+        <rollback>
+        	<dropTable  cascadeConstraints="true" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="gender_code"/>
+        </rollback>
+    </changeSet>
+    
+    <!-- To ensure any Sheriff records that were incorrectly loaded with
+         mixed case gender codes in the existing sheriff data changelog
+         are corrected before the FK constraint is applied, a changeset
+         has been added there to update the values and then add the FK.
+         The column name change is also included there so that the 
+         Insert changes won't break.
+         Ideally, this will be cleaned up in a future refactoring so
+         that all structural changes are held in the ddl changelogs.
+    -->
+    <!--changeSet author="Carol Geisler" id="RNMCOL_shrf_gender_gender_code">
+      <renameColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff" columnDataType="VARCHAR(10)" oldColumnName="gender" newColumnName="gender_code" remarks="Renamed for consistency"/>
+    </changeSet-->
+
+    <!--changeSet author="Carol Geisler" id="SQL_set_gender_code_uppercase">
+      <sql>
+        UPDATE ${POSTGRES_SCHEMA}.sheriff SET gender_code = UPPER(gender_code)
+      </sql>
+    </changeSet-->
+    
+    <!--changeSet author="Carol Geisler" id="ADDFK_shrf_gndr">
+      <addForeignKeyConstraint  baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="gender_code" baseTableName="sheriff" constraintName="fk_shrf_gndr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="gender_code" referencedTableName="gender_code"/>
+    </changeSet-->
+    
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="ddl_set_08_gender_end"/>
+    </changeSet>
+
+</databaseChangeLog>

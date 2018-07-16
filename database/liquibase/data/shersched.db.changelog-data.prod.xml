@@ -58,6 +58,9 @@
     <!-- other assign code prod data -->
     <include file="shersched.db.changelog-otherassigncodedata.prod.xml" relativeToChangelogFile="true"/>
 		    
+    <!-- gender code prod data -->
+    <include file="shersched.db.changelog-gendercodedata.prod.xml" relativeToChangelogFile="true"/>
+		    
     <!-- sheriff prod data -->
     <include file="shersched.db.changelog-sheriffdata.prod.xml" relativeToChangelogFile="true"/>
 

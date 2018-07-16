@@ -1,5 +1,5 @@
 import ApiClient from '../ExtendedClient';
-import { Courthouse, Region, Sheriff } from '../models';
+import { Courthouse, Region, Sheriff, GenderCode } from '../models';
 import TestUtils from './TestUtils';
 
 const SheriffShape: Sheriff = {
@@ -44,10 +44,13 @@ describe('Sheriff API', () => {
 
         let createdSheriff: Sheriff;
 
+        let testGenderCode: GenderCode;
+
         beforeAll(async (done) => {
             api = TestUtils.getClient();
             testRegion = await api.CreateRegion(testRegion);
             testCourthouse = await api.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
+            testGenderCode = (await api.GetGenderCodes())[0];
             done();
         });
 
@@ -110,14 +113,16 @@ describe('Sheriff API', () => {
                 firstName: newName,
                 badgeNo: newBadgeNo,
                 alias:newAlias,
-                currentCourthouseId:testCourthouse.id
+                currentCourthouseId:testCourthouse.id,
+                genderCode: testGenderCode.code
             });
             expect(gotEntity).toMatchObject({
                 ...createdSheriff,
                 firstName: newName,
                 badgeNo: newBadgeNo,
                 alias:newAlias,
-                currentCourthouseId:testCourthouse.id
+                currentCourthouseId:testCourthouse.id,
+                genderCode: testGenderCode.code
             });
         });
 

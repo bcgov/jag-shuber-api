@@ -48,6 +48,9 @@
     <!-- schema updates for Assignment updates -->
     <include file="shersched.db.changelog-ddl.06.xml"/>
    
+    <!-- schema updates for Gender -->
+    <include file="shersched.db.changelog-ddl.08.xml"/>
+   
     <!-- load prod data -->
     <include file="data/shersched.db.changelog-data.prod.xml"/>
     

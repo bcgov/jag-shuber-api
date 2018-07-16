@@ -17,3 +17,4 @@ export { LeaveCancelCodesController } from './LeaveCancelCodesController';
 export { LeaveTypeCodesController } from './LeaveTypeCodesController';
 export { LeaveSubTypeCodesController } from './LeaveSubTypeCodesController';
 export { CourtRoleCodesController } from './CourtRoleCodesController';
+export { GenderCodesController } from './GenderCodesController';

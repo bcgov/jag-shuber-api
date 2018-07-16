@@ -26093,8 +26093,30 @@
           </delete>
       </rollback>
     </changeSet>
-    
 
+    <!-- To ensure any Sheriff records that were incorrectly loaded with
+         mixed case gender codes in the existing sheriff data changelog
+         are corrected before the FK constraint is applied, a changeset
+         has been added here to update the values and then add the FK.
+         The column name change is also included here so that the 
+         above insert changes won't break.
+         Ideally, this will be cleaned up in a future refactoring so
+         that all structural changes are held in the ddl changelogs.
+    -->
+    <changeSet author="Carol Geisler" id="RNMCOL_shrf_gender_gender_code">
+      <renameColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff" columnDataType="VARCHAR(10)" oldColumnName="gender" newColumnName="gender_code" remarks="Renamed for consistency"/>
+    </changeSet>
+
+    <changeSet author="Carol Geisler" id="SQL_set_gender_code_uppercase">
+      <sql>
+        UPDATE ${POSTGRES_SCHEMA}.sheriff SET gender_code = UPPER(gender_code)
+      </sql>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDFK_shrf_gndr">
+      <addForeignKeyConstraint  baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="gender_code" baseTableName="sheriff" constraintName="fk_shrf_gndr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="gender_code" referencedTableName="gender_code"/>
+    </changeSet>
+    
     <changeSet author="Carol Geisler" id="tag1">
     	<tagDatabase tag="sheriff_data_prod_end"/>
     </changeSet>
