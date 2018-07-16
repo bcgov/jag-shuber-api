@@ -12,7 +12,7 @@ export class GenderCodesController extends ControllerBase<GenderCode> {
 
     @Get()
     public getGenderCodes(){
-        return this.service.getAll();
+        return super.getAll();
     }
 
 }
