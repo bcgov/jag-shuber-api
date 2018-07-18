@@ -20,6 +20,8 @@ import { LeaveTypeCodesController } from './controllers/LeaveTypeCodesController
 import { LeaveSubTypeCodesController } from './controllers/LeaveSubTypeCodesController';
 import { CourtRoleCodesController } from './controllers/CourtRoleCodesController';
 import { GenderCodesController } from './controllers/GenderCodesController';
+import { TokenController } from './controllers/TokenController';
+import { koaAuthentication } from './authentication';
 
 const models: TsoaRoute.Models = {
     "DutyRecurrence": {
@@ -1610,36 +1612,84 @@ export function RegisterRoutes(router: any) {
             const promise = controller.getGenderCodes.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
+    router.get('/v1/token',
+        authenticateMiddleware([{ "name": "siteminder" }]),
+        async (context, next) => {
+            const args = {
+                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+            };
 
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new TokenController();
+
+            const promise = controller.getToken.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+
+    function authenticateMiddleware(security: TsoaRoute.Security[] = []) {
+        return async (context: any, next: any) => {
+            let responded = 0;
+            let success = false;
+            for (const secMethod of security) {
+                try {
+                    const user = await koaAuthentication(context.request, secMethod.name, secMethod.scopes)
+                    // only need to respond once
+                    if (!success) {
+                        success = true;
+                        responded++;
+                        context.request['user'] = user;
+                        return next();
+                    }
+                } catch (error) {
+                    responded++;
+                    // If no authentication was successful
+                    if (responded == security.length && !success) {
+                        context.throw(401, 'access_denied', `${error.message ? error.message : error}`);
+                    }
+                }
+            }
+        }
+    }
+
+    function isController(object: any): object is Controller {
+        return 'getHeaders' in object && 'getStatus' in object && 'setStatus' in object;
+    }
 
     function promiseHandler(controllerObj: any, promise: Promise<any>, context: any, next: () => Promise<any>) {
         return Promise.resolve(promise)
             .then((data: any) => {
-                if (data) {
+                if (data || data === false) {
                     context.body = data;
                     context.status = 200;
                 } else {
                     context.status = 204;
                 }
 
-                if (controllerObj instanceof Controller) {
-                    const controller = controllerObj as Controller
-                    const headers = controller.getHeaders();
+                if (isController(controllerObj)) {
+                    const headers = controllerObj.getHeaders();
                     Object.keys(headers).forEach((name: string) => {
                         context.set(name, headers[name]);
                     });
 
-                    const statusCode = controller.getStatus();
+                    const statusCode = controllerObj.getStatus();
                     if (statusCode) {
                         context.status = statusCode;
                     }
                 }
-                next();
+                return next();
             })
             .catch((error: any) => {
                 context.status = error.status || 500;
                 context.body = error;
-                next();
+                return next();
             });
     }
 

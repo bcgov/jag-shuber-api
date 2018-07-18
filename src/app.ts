@@ -19,10 +19,16 @@ router.get('/', async ctx => {
     ctx.body = {
         data: "Sheriff Scheduling API"
     }
-})
+});
 
 // Register our Middleware
 app
+    .use(async (ctx, next) => {
+        ctx.set('Content-Type', 'application/json');
+        ctx.set('Access-Control-Allow-Origin', '*');
+        ctx.set('Access-Control-Allow-Headers', 'smgov_userguid,smgov_userdisplayname,Content-Type, Authorization, Content-Length, X-Requested-With');
+        await next();
+    })
     .use(async (ctx, next) => {
         await next();
         if (ctx.status >= 400) {
@@ -41,14 +47,17 @@ app
     .use(router.routes())
     .use(router.allowedMethods());
 
-app.on('error',(err,ctx)=>{
-    if(ctx.status == 404){
+app.on('error', (err, ctx) => {
+    if (ctx.status == 404) {
         console.log(`NOT_FOUND ${ctx.request.url}`)
-    }else if(err && err!.message){
+    } else if(ctx.status === 401){
+        console.warn(`UNAUTHORIZED ${ctx.request.url}`)
+    } else if (err && err!.message) {
         console.error(`APP_ERROR ${err.message}`);
-    }else{
-        console.error('APP_ERROR',err);
-    }
+    } else {
+        console.error('APP_ERROR', err);
+    }    
+    
     console.log(err);
 })
 

@@ -77,4 +77,5 @@ export default class Client {
     GetLeaveSubCodes(): Promise<Array<LeaveSubCode>>;
     GetCourtRoleCodes(): Promise<Array<CourtRoleCode>>;
     GetGenderCodes(): Promise<Array<GenderCode>>;
+    GetToken(): Promise<void>;
 }

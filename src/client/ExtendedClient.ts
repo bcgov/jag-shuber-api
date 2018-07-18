@@ -6,7 +6,7 @@ import Client from './Client';
 import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift, DutyImportDefaultsRequest, MultipleShiftUpdateRequest, Leave } from './models';
 import { toTimeString } from '../common/TimeUtils';
 import { ValidationError, DatabaseError, ApiError, isDatabaseError, isValidationError } from '../common/Errors';
-
+import jwtDecode from 'jwt-decode';
 export type DateType = string | Date | moment.Moment | number;
 
 export type SuperAgentRequestInterceptor = (req: SA.SuperAgentRequest) => SA.SuperAgentRequest
@@ -28,7 +28,7 @@ export default class ExtendedClient extends Client {
 
     private interceptRequest(req: SA.SuperAgentRequest) {
         req.set('Accept', 'application/javascript');
-        req.set('TZ-Offset', `${this.timezoneOffset}`)
+        req.set('TZ-Offset', `${this.timezoneOffset}`)        
         return this._requestInterceptor ? this._requestInterceptor(req) : req;
     }
 

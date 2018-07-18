@@ -483,27 +483,21 @@ export default class Client {
         });
     }    
     public async GetCourtRoleCodes():Promise<Array<CourtRoleCode>>{
-        try{
+        return this.tryWork(async () => {
             const response = await this.agent.get(`/codes/courtroles`)
             return response.body as Array<CourtRoleCode>;
-        }catch(error){
-            if(this.errorProcessor){
-                throw this.errorProcessor(error);
-            }else{
-                throw error;
-            }
-        }
+        });
     }    
     public async GetGenderCodes():Promise<Array<GenderCode>>{
-        try{
+        return this.tryWork(async () => {
             const response = await this.agent.get(`/codes/gender`)
             return response.body as Array<GenderCode>;
-        }catch(error){
-            if(this.errorProcessor){
-                throw this.errorProcessor(error);
-            }else{
-                throw error;
-            }
-        }
+        });
+    }    
+    public async GetToken():Promise<void>{
+        return this.tryWork(async () => {
+            const response = await this.agent.get(`/token`)
+            return response.body as void;
+        });
     }    
 }

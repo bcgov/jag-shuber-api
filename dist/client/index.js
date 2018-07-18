@@ -16,4 +16,6 @@ __export(require("../common/TimeUtils"));
 ;
 var _errors = __importStar(require("../common/Errors"));
 exports.Errors = _errors;
-//# sourceMappingURL=/Users/holly.mcquay/Documents/Projects/jag-shuber-api/dist/client/index.js.map
+var _auth = __importStar(require("../common/authentication"));
+exports.auth = _auth;
+//# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/client/index.js.map

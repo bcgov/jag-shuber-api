@@ -1349,55 +1349,59 @@ var Client = /** @class */ (function () {
     };
     Client.prototype.GetCourtRoleCodes = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_68;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/codes/courtroles")];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_68 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_68);
-                        }
-                        else {
-                            throw error_68;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/codes/courtroles")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     Client.prototype.GetGenderCodes = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var response, error_69;
+            var _this = this;
             return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/codes/gender")];
-                    case 1:
-                        response = _a.sent();
-                        return [2 /*return*/, response.body];
-                    case 2:
-                        error_69 = _a.sent();
-                        if (this.errorProcessor) {
-                            throw this.errorProcessor(error_69);
-                        }
-                        else {
-                            throw error_69;
-                        }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/codes/gender")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.GetToken = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/token")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response.body];
+                            }
+                        });
+                    }); })];
             });
         });
     };
     return Client;
 }());
 exports.default = Client;
-//# sourceMappingURL=/Users/holly.mcquay/Documents/Projects/jag-shuber-api/dist/client/Client.js.map
+//# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/client/Client.js.map
