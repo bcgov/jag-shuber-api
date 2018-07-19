@@ -5,4 +5,5 @@ export interface Shift{
     sheriffId?:string;
     startDateTime:string;
     endDateTime:string;
+    assignmentId?: string;
 }

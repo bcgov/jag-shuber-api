@@ -83,6 +83,7 @@ export interface Shift {
     sheriffId?: string;
     startDateTime?: string;
     endDateTime?: string;
+    assignmentId?: string;
 }
 export interface MultipleShiftUpdateRequest {
     shiftIds?: Array<string>;

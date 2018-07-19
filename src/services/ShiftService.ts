@@ -15,7 +15,8 @@ export class ShiftService extends DatabaseService<Shift> {
         courthouse_id: 'courthouseId',
         sheriff_id: 'sheriffId',
         start_dtm: 'startDateTime',
-        end_dtm: 'endDateTime'
+        end_dtm: 'endDateTime',
+        assignment_id: 'assignmentId'
     };
 
     constructor() {

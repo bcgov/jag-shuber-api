@@ -158,6 +158,7 @@ const models: TsoaRoute.Models = {
             "sheriffId": { "dataType": "string" },
             "startDateTime": { "dataType": "string", "required": true },
             "endDateTime": { "dataType": "string", "required": true },
+            "assignmentId": { "dataType": "string" },
         },
     },
     "MultipleShiftUpdateRequest": {
