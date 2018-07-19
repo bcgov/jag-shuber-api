@@ -145,7 +145,7 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
                     const service = Container.get(CourtroomService) as CourtroomService;
                     const courtroom = await service.getById(entity.courtroomId as string);
                     if (courtroom) {
-                        title = courtroom.name;
+                        title = courtroom.code;
                     }
                 } else {
                     const service = Container.get(CourtRoleCodeService) as CourtRoleCodeService;

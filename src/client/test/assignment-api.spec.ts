@@ -302,7 +302,7 @@ describe('Assignment API', () => {
             expect(courtAssignment.id).toBeDefined();
             expect(courtAssignment.workSectionId).toEqual("COURTS");
             expect(courtAssignment.courtroomId).toEqual(testCourtroom.id);
-            expect(courtAssignment.title).toEqual(testCourtroom.name);
+            expect(courtAssignment.title).toEqual(testCourtroom.code);
         });
 
         it('Court assignment with no title and a court role code should default to court role description', async () => {
