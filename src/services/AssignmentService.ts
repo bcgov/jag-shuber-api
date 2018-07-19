@@ -69,7 +69,11 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
     }
 
     async update(entity: Partial<Assignment>): Promise<Assignment> {
-        const query = this.getUpdateQuery(entity);
+        const title = await this.getAssignmentTitle(entity);
+        const query = this.getUpdateQuery({
+            ...entity,
+            title
+        });
         let updatedAssignment: Assignment = undefined as any;
         const { dutyRecurrences = [] } = entity;
         return await this.db.transaction(async (client) => {
@@ -154,7 +158,6 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
                         title = courtRole.description;
                     }
                 }
-
             } else if (entity.workSectionId === "JAIL") {
                 const service = Container.get(JailRoleCodeService) as JailRoleCodeService;
                 const code = await service.getById(entity.jailRoleCode as string);
