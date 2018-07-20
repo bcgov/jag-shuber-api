@@ -33,7 +33,8 @@ The API will associate an Api Scope string with each endpoint to determine what 
             <column name="api_scope_string" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
-            <column name="description" type="VARCHAR(100)"/>
+            <column name="read_only_ind" type="INTEGER" defaultValue="0"/>
+            <column name="description" type="VARCHAR(200)"/>
             <column name="created_by" type="VARCHAR(32)">
                 <constraints nullable="false"/>
             </column>
@@ -55,6 +56,9 @@ The API will associate an Api Scope string with each endpoint to determine what 
         <sql>
         	GRANT SELECT ON ${POSTGRES_SCHEMA}.api_scope to ${POSTGRES_APP_USER};
         </sql>
+        <rollback>
+          <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="api_scope"/>
+        </rollback>
     </changeSet>
     
     <!-- create table app_role -->
@@ -90,6 +94,9 @@ The API will associate an Api Scope string with each endpoint to determine what 
         <sql>
         	GRANT SELECT ON ${POSTGRES_SCHEMA}.app_role to ${POSTGRES_APP_USER};
         </sql>
+        <rollback>
+          <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_role"/>
+        </rollback>
     </changeSet>
     
     <!-- create table app_role_api_scope -->
@@ -133,6 +140,9 @@ The API will associate an Api Scope string with each endpoint to determine what 
         <sql>
         	GRANT SELECT ON ${POSTGRES_SCHEMA}.app_role_api_scope to ${POSTGRES_APP_USER};
         </sql>
+        <rollback>
+          <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_role_api_scope"/>
+        </rollback>
     </changeSet>
     
     <!-- create table app_user -->
@@ -147,7 +157,7 @@ The API will associate an Api Scope string with each endpoint to determine what 
                 <constraints nullable="false"/>
             </column>
             <column name="display_name" type="VARCHAR(100)"/>
-            <column name="system_account_ind" type="VARCHAR(1)" defaultValue="N"/>
+            <column name="system_account_ind" type="INTEGER" defaultValue="0"/>
             <column name="default_location_id" type="UUID"/>
             <column name="created_by" type="VARCHAR(32)">
                 <constraints nullable="false"/>
@@ -174,6 +184,9 @@ The API will associate an Api Scope string with each endpoint to determine what 
         <sql>
         	GRANT SELECT, INSERT, UPDATE ON ${POSTGRES_SCHEMA}.app_user to ${POSTGRES_APP_USER};
         </sql>
+        <rollback>
+          <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user"/>
+        </rollback>
     </changeSet>
     
     <!-- create table app_user_role -->
@@ -226,6 +239,9 @@ The API will associate an Api Scope string with each endpoint to determine what 
         <sql>
         	GRANT SELECT, INSERT, UPDATE ON ${POSTGRES_SCHEMA}.app_user_role to ${POSTGRES_APP_USER};
         </sql>
+        <rollback>
+          <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user_role"/>
+        </rollback>
     </changeSet>
     
     <changeSet author="Carol Geisler" id="DRPCOL_shrf_user_id">
@@ -284,6 +300,9 @@ The API will associate an Api Scope string with each endpoint to determine what 
         <sql>
         	GRANT SELECT ON ${POSTGRES_SCHEMA}.aud_sheriff_duty to ${POSTGRES_APP_USER};
         </sql>
+        <rollback>
+          <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="aud_sheriff_duty"/>
+        </rollback>
     </changeSet>
     
     <changeSet author="Carol Geisler" id="CRTPRC_tab_stamp">
@@ -306,6 +325,11 @@ The API will associate an Api Scope string with each endpoint to determine what 
       END;
     $tab_stamp$ LANGUAGE plpgsql;
       </createProcedure>
+      <rollback>
+        <sql>
+          DROP FUNCTION IF EXISTS ${POSTGRES_SCHEMA}.tab_stamp();
+        </sql>
+      </rollback>
     </changeSet>
     
     <changeSet author="Carol Geisler" id="ADDTRG_shrdty_stamp">
