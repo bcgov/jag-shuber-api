@@ -33,7 +33,9 @@ The API will associate an Api Scope string with each endpoint to determine what 
             <column name="api_scope_string" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
-            <column name="read_only_ind" type="INTEGER" defaultValue="0"/>
+            <column name="read_only_ind" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
             <column name="description" type="VARCHAR(200)"/>
             <column name="created_by" type="VARCHAR(32)">
                 <constraints nullable="false"/>
@@ -157,7 +159,9 @@ The API will associate an Api Scope string with each endpoint to determine what 
                 <constraints nullable="false"/>
             </column>
             <column name="display_name" type="VARCHAR(100)"/>
-            <column name="system_account_ind" type="INTEGER" defaultValue="0"/>
+            <column name="system_account_ind" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
             <column name="default_location_id" type="UUID"/>
             <column name="created_by" type="VARCHAR(32)">
                 <constraints nullable="false"/>
@@ -178,6 +182,7 @@ The API will associate an Api Scope string with each endpoint to determine what 
         </createTable>
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user" columnNames="app_user_id" constraintName="pk_usr"/>
         <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="app_user" baseColumnNames="default_location_id" constraintName="fk_usr_dfcrth" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedTableName="courthouse" referencedColumnNames="courthouse_id"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="app_user" baseColumnNames="sheriff_id" constraintName="fk_usr_shr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedTableName="sheriff" referencedColumnNames="sheriff_id"/>
         <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user" indexName="ix_usr_dfcrths">
             <column name="default_location_id"/>
         </createIndex>
