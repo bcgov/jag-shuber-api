@@ -23,9 +23,11 @@ describe('Courtroom API', () => {
     let createdEntity: Courtroom;
 
     beforeAll(async (done) => {
-        api = TestUtils.getClient();
-        testRegion = await api.CreateRegion(testRegion);
-        testCourthouse = await api.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
+        await TestUtils.setupTestFixtures(async client=>{
+            testRegion = await client.CreateRegion(testRegion);
+            testCourthouse = await client.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
+        });
+        api = TestUtils.getClientWithAuth();
         done();
     });
 
@@ -61,7 +63,11 @@ describe('Courtroom API', () => {
         delete secondTestCourthouse['id'];
         secondTestCourthouse.name = "Test Courthouse 2";
         secondTestCourthouse.code= TestUtils.randomString(5);
-        const secondCourthouse = await api.CreateCourthouse(secondTestCourthouse);
+        let secondCourthouse:Courthouse;        
+        await TestUtils.setupTestFixtures(async client=>{
+            secondCourthouse = await client.CreateCourthouse(secondTestCourthouse);
+        })
+        
         const secondEntity = await api.CreateCourtroom({
             ...entityToCreate,
             name: "second courtroom",

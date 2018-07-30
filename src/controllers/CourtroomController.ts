@@ -2,8 +2,10 @@ import { Body, Delete, Get, Path, Post, Put, Query, Route } from 'tsoa';
 import { Courtroom } from '../models/Courtroom';
 import { CourtroomService } from '../services/CourtroomService';
 import ControllerBase from './ControllerBase';
+import { Security } from '../authentication';
 
 @Route('courtrooms')
+@Security('jwt')
 export class CourtroomController extends ControllerBase<Courtroom> {
 
     get service(){
