@@ -31,15 +31,21 @@ describe('Duty API', () => {
         expect(expectedEnd).momentIsSame(actualEnd);
     }
 
+    beforeAll(async (done)=>{
+        api = TestUtils.getClientWithAuth();
+        done();
+    })
+
     describe('CRUD Operations', () => {
         beforeAll(async (done) => {
-            api = TestUtils.getClient();
             await TestUtils.clearDatabase();
-            testRegion = await TestUtils.newTestRegion();
-            testCourthouse = await TestUtils.newTestCourthouse(testRegion.id);
-            testCourtroom = await TestUtils.newTestCourtroom(testCourthouse.id);
-            testAssignment = await TestUtils.newTestAssignment(testCourthouse.id, { courtroomId: testCourtroom.id });
-            testSheriff = await TestUtils.newTestSheriff(testCourthouse.id);
+            await TestUtils.setupTestFixtures(async client => {
+                testRegion = await TestUtils.newTestRegion();
+                testCourthouse = await TestUtils.newTestCourthouse(testRegion.id);
+                testCourtroom = await TestUtils.newTestCourtroom(testCourthouse.id);
+                testAssignment = await TestUtils.newTestAssignment(testCourthouse.id, { courtroomId: testCourtroom.id });
+                testSheriff = await TestUtils.newTestSheriff(testCourthouse.id);
+            });
             done();
         });
 
@@ -297,8 +303,15 @@ describe('Duty API', () => {
                 }
             ];
 
-            const assignment = await TestUtils.newTestAssignment(testCourthouse.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
-            await api.ExpireAssignment(assignment.id);
+            const assignment = await TestUtils.setupTestFixtures(async client => {
+                const assignment = await TestUtils.newTestAssignment(testCourthouse.id, {
+                    dutyRecurrences: recurrences,
+                    courtroomId: testCourtroom.id
+                });
+                await client.ExpireAssignment(assignment.id);
+                return assignment;
+            })
+
             const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId });
             expect(Array.isArray(duties)).toBeTruthy();
             expect(duties.length).toEqual(0);
