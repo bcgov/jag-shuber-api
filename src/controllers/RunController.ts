@@ -2,8 +2,10 @@ import { Body, Delete, Get, Path, Post, Put, Query, Route } from 'tsoa';
 import { Run } from '../models/Run';
 import { RunService } from '../services/RunService';
 import ControllerBase from './ControllerBase';
+import { Security } from '../authentication';
 
 @Route('runs')
+@Security('jwt')
 export class RunController extends ControllerBase<Run> {
 
     get service(){
