@@ -4,8 +4,10 @@ import { ShiftService } from '../services/ShiftService';
 import ControllerBase from './ControllerBase';
 import { MultipleShiftUpdateRequest } from '../models/MultipleShiftUpdateRequest';
 import { ShiftCopyOptions } from '../models/ShiftCopyOptions';
+import { Security } from '../authentication';
 
 @Route('Shifts')
+@Security('jwt')
 export class ShiftController extends ControllerBase<Shift> {
 
     get service(){
