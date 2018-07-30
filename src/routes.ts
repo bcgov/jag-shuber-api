@@ -1096,6 +1096,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/DutyRecurrences',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 startDate: { "in": "query", "name": "startDate", "dataType": "string" },
@@ -1117,6 +1118,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/DutyRecurrences/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1137,6 +1139,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/DutyRecurrences',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "DutyRecurrence" },
@@ -1157,6 +1160,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/DutyRecurrences/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1178,6 +1182,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/DutyRecurrences/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1198,6 +1203,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/DutyRecurrences/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
