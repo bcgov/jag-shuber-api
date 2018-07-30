@@ -4,7 +4,7 @@ import {
     LeaveSubCode
 } from '../models';
 import TestUtils from './TestUtils';
-import { TOKEN_COOKIE_NAME, TokenPayload, DEFAULT_SCOPES } from '../../common/authentication';
+import { TOKEN_COOKIE_NAME, TokenPayload, DEFAULT_SCOPES, SITEMINDER_AUTH_ERROR } from '../../common/authentication';
 import { decodeJwt } from '../../common/token'
 
 const SubCodeShape: LeaveSubCode = {
@@ -17,16 +17,24 @@ describe('Token API', () => {
     let api: ApiClient;
 
     beforeAll(async (done) => {
-        api = TestUtils.getClient();
         done();
     });
 
     it('get token should with no siteminder headers should return not authorized', async () => {
         api = TestUtils.getClient();
-        await expect(api.GetToken()).rejects.toEqual(new Error("Couldn't authenticate request."));
+        await expect(api.GetToken()).rejects.toMatchObject({
+            message: "Unauthorized",
+            status: 401,
+            response: {
+                body: {
+                    message: SITEMINDER_AUTH_ERROR.message
+                }
+            }
+        });
     });
 
     it('get token with siteminder headers should use token in subsequent requests', async () => {
+        expect.assertions(4);
         const testGuid = 'btester';
         api = TestUtils.getClientWithAuth(testGuid);
 

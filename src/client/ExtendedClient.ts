@@ -3,22 +3,22 @@ import * as SA from 'superagent';
 import saPrefix from 'superagent-prefix';
 import superagentUse from 'superagent-use';
 import Client from './Client';
-import { 
-    Assignment, 
-    Courthouse, 
-    Courtroom, 
-    Duty, 
-    DutyRecurrence, 
-    Region, 
-    Run, 
-    Sheriff, 
-    Shift, 
-    DutyImportDefaultsRequest, 
-    MultipleShiftUpdateRequest, 
-    Leave 
+import {
+    Assignment,
+    Courthouse,
+    Courtroom,
+    Duty,
+    DutyRecurrence,
+    Region,
+    Run,
+    Sheriff,
+    Shift,
+    DutyImportDefaultsRequest,
+    MultipleShiftUpdateRequest,
+    Leave
 } from './models';
 import { toTimeString } from '../common/TimeUtils';
-import { ApiError} from '../common/Errors';
+import { ApiError } from '../common/Errors';
 
 export type DateType = string | Date | moment.Moment | number;
 
@@ -53,7 +53,7 @@ export default class ExtendedClient extends Client {
         return super.handleResponse<T>(response);
     }
 
-    protected async ensureToken(){
+    protected async ensureToken() {
         try {
             await super.ensureToken();
         } catch (err) {
@@ -240,7 +240,7 @@ export default class ExtendedClient extends Client {
         return await super.ImportDefaultDuties({ courthouseId, date: dateMoment.format("YYYY-MM-DD") });
     }
 
-    async GetToken():Promise<void>{
-        await this.agent.get(`/token`);
-    }   
+    GetToken(): Promise<void> {
+        return this.agent.get(`/token`);
+    }
 }
