@@ -1,0 +1,58 @@
+# This file is used in conjuction with https://sequencediagram.org/
+title Sheriff Scheduling Authentication Flow
+
+participantspacing equal
+actor User
+participant Site Minder
+participant Frontend
+database Frontend State
+participant Api
+database Database
+
+
+User->Site Minder:Navigates to Public URL
+activate Site Minder
+User<--Site Minder:Returns Login Page
+deactivate Site Minder
+space 
+loop Log in
+activate Site Minder
+User->Site Minder: Log In
+User<--Site Minder:Failed Login: Returns Login Page
+end
+Site Minder->Frontend: LoginSuccess(Site Minder Headers)
+deactivate Site Minder
+
+activate Frontend
+User<--Frontend: Application Page
+alt Token Cookie Doesn't Exist
+activate Api
+Frontend->Api:GetToken(headers)
+
+activate Database
+Api->Database: LookupUserRoles(smgov_userguid)
+Api<--Database:User Roles
+alt User Doens't Exist
+Api->Database:CreateUser(smgov_userguid)
+Api<--Database:User Roles
+end
+deactivate Database
+
+Frontend<--Api:Token Cookie
+deactivate Api
+
+end
+activate Frontend State
+Frontend->>Frontend State:UpdateUserState(UserToken)
+Frontend<<-Frontend State: UserUpdate(token)
+deactivate Frontend State
+alt User is defined:
+activate Api:
+Frontend->Api: RequestApplicationSystemState(user)
+Frontend<--Api: SystemState
+else User is undefined:
+Frontend->Frontend: Render not logged in
+deactivate Api:
+end
+
+
