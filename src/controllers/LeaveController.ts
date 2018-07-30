@@ -2,8 +2,10 @@ import { Body, Delete, Get, Path, Post, Put, Route } from 'tsoa';
 import ControllerBase from './ControllerBase';
 import { Leave } from '../models/Leave';
 import { LeaveService } from '../services/LeaveService';
+import { Security } from '../authentication';
 
 @Route('leaves')
+@Security('jwt')
 export class LeaveController extends ControllerBase<Leave> {
     get service(){
         return new LeaveService();

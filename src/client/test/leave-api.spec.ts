@@ -29,18 +29,20 @@ describe('Leave API', () => {
     let testSheriff: Sheriff;
 
     beforeAll(async (done) => {
-        api = TestUtils.getClient();
-        testRegion = await api.CreateRegion(testRegion);
-        testCourthouse = await api.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
-        testSheriff = await api.CreateSheriff(
-            {
-                firstName: 'Bill',
-                lastName: 'Nye',
-                badgeNo: '12345678',
-                rankCode: "DEPUTYSHERIFF",
-                homeCourthouseId: testCourthouse.id
-            }
-        )
+        await TestUtils.setupTestFixtures(async client => {
+            testRegion = await client.CreateRegion(testRegion);
+            testCourthouse = await client.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
+            testSheriff = await client.CreateSheriff(
+                {
+                    firstName: 'Bill',
+                    lastName: 'Nye',
+                    badgeNo: '12345678',
+                    rankCode: "DEPUTYSHERIFF",
+                    homeCourthouseId: testCourthouse.id
+                }
+            )
+        });
+        api = TestUtils.getClientWithAuth();
         done();
     });
 
@@ -90,7 +92,7 @@ describe('Leave API', () => {
         expect(Array.isArray(list)).toBeTruthy();
         expect(list.length).toEqual(2);
     })
-    
+
     it('update leave should return updated leave', async () => {
         const newLeaveSubCode = "ANNUAL";
         const updatedEntity = await api.UpdateLeave(createdEntity.id, {
@@ -98,7 +100,7 @@ describe('Leave API', () => {
             leaveSubCode: newLeaveSubCode
         } as Leave);
         expect(updatedEntity).toMatchObject({
-            ...createdEntity, 
+            ...createdEntity,
             leaveSubCode: newLeaveSubCode
         });
     });
@@ -108,5 +110,5 @@ describe('Leave API', () => {
         const retreived = await api.GetLeaveById(createdEntity.id);
         expect(retreived).not.toBeDefined();
     });
-    
+
 }) 
