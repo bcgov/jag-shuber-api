@@ -41,6 +41,10 @@
   dependencies:
     "@types/node" "*"
 
+"@types/cookiejar@*":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@types/cookiejar/-/cookiejar-2.1.0.tgz#4b7daf2c51696cfc70b942c11690528229d1a1ce"
+
 "@types/cookies@*":
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/@types/cookies/-/cookies-0.7.1.tgz#f9f204bd6767d389eea3b87609e30c090c77a540"
@@ -164,17 +168,12 @@
     "@types/express-serve-static-core" "*"
     "@types/mime" "*"
 
-"@types/superagent@*", "@types/superagent@^3.5.8":
-  version "3.5.8"
-  resolved "https://registry.yarnpkg.com/@types/superagent/-/superagent-3.5.8.tgz#da2b5d6a5bc77b4bf1b6d082ec4c3328ba5c3b9f"
+"@types/superagent@^3.8.2":
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/@types/superagent/-/superagent-3.8.2.tgz#ffdda92843f8966fb4c5f482755ee641ffc53aa7"
   dependencies:
+    "@types/cookiejar" "*"
     "@types/node" "*"
-
-"@types/supertest@^2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@types/supertest/-/supertest-2.0.4.tgz#28770e13293365e240a842d7d5c5a1b3d2dee593"
-  dependencies:
-    "@types/superagent" "*"
 
 "@types/uuid@^3.4.3":
   version "3.4.3"
@@ -4793,7 +4792,7 @@ superagent-use@^0.1.0:
     extend "^3.0.0"
     methods "~1.1.2"
 
-superagent@^3.0.0, superagent@^3.8.3:
+superagent@^3.8.3:
   version "3.8.3"
   resolved "https://registry.yarnpkg.com/superagent/-/superagent-3.8.3.tgz#460ea0dbdb7d5b11bc4f78deba565f86a178e128"
   dependencies:
@@ -4807,13 +4806,6 @@ superagent@^3.0.0, superagent@^3.8.3:
     mime "^1.4.1"
     qs "^6.5.1"
     readable-stream "^2.3.5"
-
-supertest@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/supertest/-/supertest-3.0.0.tgz#8d4bb68fd1830ee07033b1c5a5a9a4021c965296"
-  dependencies:
-    methods "~1.1.2"
-    superagent "^3.0.0"
 
 supports-color@^0.2.0:
   version "0.2.0"
