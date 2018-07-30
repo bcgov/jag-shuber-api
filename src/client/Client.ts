@@ -2,7 +2,34 @@
 // Type generated from Swagger definition
 
 import * as superAgent from "superagent";
-import { Assignment,Region,Courthouse,Sheriff,Courtroom,JailRoleCode,OtherAssignCode,WorkSectionCode,SheriffRankCode,Run,Shift,MultipleShiftUpdateRequest,ShiftCopyOptions,DutyRecurrence,Duty,DutyImportDefaultsRequest,SheriffDuty,Leave,LeaveCancelReasonCode,LeaveCode,LeaveSubCode,CourtRoleCode,GenderCode } from "./models"
+import { TOKEN_COOKIE_NAME } from '../common/authentication';
+import { retreiveCookieValue } from '../common/cookieUtils';
+import { 
+
+    Assignment,
+    Region,
+    Courthouse,
+    Sheriff,
+    Courtroom,
+    JailRoleCode,
+    OtherAssignCode,
+    WorkSectionCode,
+    SheriffRankCode,
+    Run,
+    Shift,
+    MultipleShiftUpdateRequest,
+    ShiftCopyOptions,
+    DutyRecurrence,
+    Duty,
+    DutyImportDefaultsRequest,
+    SheriffDuty,
+    Leave,
+    LeaveCancelReasonCode,
+    LeaveCode,
+    LeaveSubCode,
+    CourtRoleCode,
+    GenderCode 
+} from "./models"
 
 
 export default class Client {
@@ -15,10 +42,24 @@ export default class Client {
         return this._agent;
     }
 
-    async tryWork<T>(worker: () => Promise<T>) {
+    protected handleResponse<T>(response:superAgent.Response):T{
+        return response.body as T;
+    }
+
+    protected async ensureToken(): Promise<void> {
+        let token = retreiveCookieValue(TOKEN_COOKIE_NAME, this.agent);
+        // if there is no token, we will go out and retreive one
+        if (token == undefined) {
+            console.log('Fetching new token');
+            await this.GetToken();
+        }
+    }
+
+    protected async tryRequest<T>(worker: () => Promise<superAgent.Response>) : Promise<T> {
         try {
-            const result = await worker();
-            return result;
+            await this.ensureToken();
+            const response = await worker();
+            return this.handleResponse(response);
         } catch (error) {
             if (this.errorProcessor) {
                 throw this.errorProcessor(error);
@@ -28,294 +69,294 @@ export default class Client {
         }
     }
 
-    public async GetAssignments( courthouseId:string , startDate:string , endDate:string ):Promise<Array<any>>{
+    public async GetAssignments( courthouseId:string , startDate:string , endDate:string ):Promise<Array<Assignment>>{
         const params = { 
             "courthouseId":courthouseId,
             "startDate":startDate,
             "endDate":endDate 
         };
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/Assignments`)
+        return this.tryRequest<Array<Assignment>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/Assignments`)
                 .query(params)
-            return response.body as Array<any>;
+            return response;
         });
     }    
     public async CreateAssignment( model:Assignment ):Promise<Assignment>{
-        return this.tryWork(async () => {
-            const response = await this.agent.post(`/Assignments`)
+        return this.tryRequest<Assignment>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/Assignments`)
                 .send(model)
-            return response.body as Assignment;
+            return response;
         });
     }    
     public async GetAssignmentById( id:string ):Promise<Assignment>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/Assignments/${id}`)
-            return response.body as Assignment;
+        return this.tryRequest<Assignment>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/Assignments/${id}`)
+            return response;
         });
     }    
     public async UpdateAssignment( id:string , model:Assignment ):Promise<Assignment>{
-        return this.tryWork(async () => {
-            const response = await this.agent.put(`/Assignments/${id}`)
+        return this.tryRequest<Assignment>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/Assignments/${id}`)
                 .send(model)
-            return response.body as Assignment;
+            return response;
         });
     }    
     public async ExpireAssignment( id:string ):Promise<void>{
-        return this.tryWork(async () => {
-            const response = await this.agent.post(`/Assignments/${id}`)
-            return response.body as void;
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/Assignments/${id}`)
+            return response;
         });
     }    
     public async DeleteAssignment( id:string ):Promise<void>{
-        return this.tryWork(async () => {
-            const response = await this.agent.delete(`/Assignments/${id}`)
-            return response.body as void;
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/Assignments/${id}`)
+            return response;
         });
     }    
     public async GetRegions():Promise<Array<Region>>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/regions`)
-            return response.body as Array<Region>;
+        return this.tryRequest<Array<Region>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/regions`)
+            return response;
         });
     }    
     public async CreateRegion( model:Region ):Promise<Region>{
-        return this.tryWork(async () => {
-            const response = await this.agent.post(`/regions`)
+        return this.tryRequest<Region>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/regions`)
                 .send(model)
-            return response.body as Region;
+            return response;
         });
     }    
     public async GetRegionById( id:string ):Promise<Region>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/regions/${id}`)
-            return response.body as Region;
+        return this.tryRequest<Region>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/regions/${id}`)
+            return response;
         });
     }    
     public async UpdateRegion( id:string , model:Region ):Promise<Region>{
-        return this.tryWork(async () => {
-            const response = await this.agent.put(`/regions/${id}`)
+        return this.tryRequest<Region>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/regions/${id}`)
                 .send(model)
-            return response.body as Region;
+            return response;
         });
     }    
     public async DeleteRegion( id:string ):Promise<void>{
-        return this.tryWork(async () => {
-            const response = await this.agent.delete(`/regions/${id}`)
-            return response.body as void;
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/regions/${id}`)
+            return response;
         });
     }    
     public async GetCourthouses():Promise<Array<Courthouse>>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/courthouses`)
-            return response.body as Array<Courthouse>;
+        return this.tryRequest<Array<Courthouse>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/courthouses`)
+            return response;
         });
     }    
     public async CreateCourthouse( model:Courthouse ):Promise<Courthouse>{
-        return this.tryWork(async () => {
-            const response = await this.agent.post(`/courthouses`)
+        return this.tryRequest<Courthouse>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/courthouses`)
                 .send(model)
-            return response.body as Courthouse;
+            return response;
         });
     }    
     public async GetCourthouseById( id:string ):Promise<Courthouse>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/courthouses/${id}`)
-            return response.body as Courthouse;
+        return this.tryRequest<Courthouse>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/courthouses/${id}`)
+            return response;
         });
     }    
     public async UpdateCourthouse( id:string , model:Courthouse ):Promise<Courthouse>{
-        return this.tryWork(async () => {
-            const response = await this.agent.put(`/courthouses/${id}`)
+        return this.tryRequest<Courthouse>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/courthouses/${id}`)
                 .send(model)
-            return response.body as Courthouse;
+            return response;
         });
     }    
     public async DeleteCourthouse( id:string ):Promise<void>{
-        return this.tryWork(async () => {
-            const response = await this.agent.delete(`/courthouses/${id}`)
-            return response.body as void;
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/courthouses/${id}`)
+            return response;
         });
     }    
     public async GetSheriffs( courthouseId:string ):Promise<Array<Sheriff>>{
         const params = { 
             "courthouseId":courthouseId 
         };
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/sheriffs`)
+        return this.tryRequest<Array<Sheriff>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/sheriffs`)
                 .query(params)
-            return response.body as Array<Sheriff>;
+            return response;
         });
     }    
     public async CreateSheriff( model:Sheriff ):Promise<Sheriff>{
-        return this.tryWork(async () => {
-            const response = await this.agent.post(`/sheriffs`)
+        return this.tryRequest<Sheriff>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/sheriffs`)
                 .send(model)
-            return response.body as Sheriff;
+            return response;
         });
     }    
     public async GetSheriffById( id:string ):Promise<Sheriff>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/sheriffs/${id}`)
-            return response.body as Sheriff;
+        return this.tryRequest<Sheriff>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/sheriffs/${id}`)
+            return response;
         });
     }    
     public async UpdateSheriff( id:string , model:Sheriff ):Promise<Sheriff>{
-        return this.tryWork(async () => {
-            const response = await this.agent.put(`/sheriffs/${id}`)
+        return this.tryRequest<Sheriff>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/sheriffs/${id}`)
                 .send(model)
-            return response.body as Sheriff;
+            return response;
         });
     }    
     public async DeleteSheriff( id:string ):Promise<void>{
-        return this.tryWork(async () => {
-            const response = await this.agent.delete(`/sheriffs/${id}`)
-            return response.body as void;
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/sheriffs/${id}`)
+            return response;
         });
     }    
     public async GetCourtrooms( courthouseId:string ):Promise<Array<Courtroom>>{
         const params = { 
             "courthouseId":courthouseId 
         };
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/courtrooms`)
+        return this.tryRequest<Array<Courtroom>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/courtrooms`)
                 .query(params)
-            return response.body as Array<Courtroom>;
+            return response;
         });
     }    
     public async CreateCourtroom( model:Courtroom ):Promise<Courtroom>{
-        return this.tryWork(async () => {
-            const response = await this.agent.post(`/courtrooms`)
+        return this.tryRequest<Courtroom>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/courtrooms`)
                 .send(model)
-            return response.body as Courtroom;
+            return response;
         });
     }    
     public async GetCourtroomById( id:string ):Promise<Courtroom>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/courtrooms/${id}`)
-            return response.body as Courtroom;
+        return this.tryRequest<Courtroom>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/courtrooms/${id}`)
+            return response;
         });
     }    
     public async UpdateCourtroom( id:string , model:Courtroom ):Promise<Courtroom>{
-        return this.tryWork(async () => {
-            const response = await this.agent.put(`/courtrooms/${id}`)
+        return this.tryRequest<Courtroom>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/courtrooms/${id}`)
                 .send(model)
-            return response.body as Courtroom;
+            return response;
         });
     }    
     public async DeleteCourtroom( id:string ):Promise<void>{
-        return this.tryWork(async () => {
-            const response = await this.agent.delete(`/courtrooms/${id}`)
-            return response.body as void;
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/courtrooms/${id}`)
+            return response;
         });
     }    
     public async GetJailRoleCodes():Promise<Array<JailRoleCode>>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/codes/jailroles`)
-            return response.body as Array<JailRoleCode>;
+        return this.tryRequest<Array<JailRoleCode>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/codes/jailroles`)
+            return response;
         });
     }    
     public async GetOtherAssignCodes():Promise<Array<OtherAssignCode>>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/codes/otherassign`)
-            return response.body as Array<OtherAssignCode>;
+        return this.tryRequest<Array<OtherAssignCode>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/codes/otherassign`)
+            return response;
         });
     }    
     public async GetWorkSectionCodes():Promise<Array<WorkSectionCode>>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/codes/worksection`)
-            return response.body as Array<WorkSectionCode>;
+        return this.tryRequest<Array<WorkSectionCode>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/codes/worksection`)
+            return response;
         });
     }    
     public async GetSheriffRankCodes():Promise<Array<SheriffRankCode>>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/codes/sheriffrank`)
-            return response.body as Array<SheriffRankCode>;
+        return this.tryRequest<Array<SheriffRankCode>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/codes/sheriffrank`)
+            return response;
         });
     }    
     public async GetRuns( courthouseId:string ):Promise<Array<Run>>{
         const params = { 
             "courthouseId":courthouseId 
         };
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/runs`)
+        return this.tryRequest<Array<Run>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/runs`)
                 .query(params)
-            return response.body as Array<Run>;
+            return response;
         });
     }    
     public async CreateRun( model:Run ):Promise<Run>{
-        return this.tryWork(async () => {
-            const response = await this.agent.post(`/runs`)
+        return this.tryRequest<Run>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/runs`)
                 .send(model)
-            return response.body as Run;
+            return response;
         });
     }    
     public async GetRunById( id:string ):Promise<Run>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/runs/${id}`)
-            return response.body as Run;
+        return this.tryRequest<Run>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/runs/${id}`)
+            return response;
         });
     }    
     public async UpdateRun( id:string , model:Run ):Promise<Run>{
-        return this.tryWork(async () => {
-            const response = await this.agent.put(`/runs/${id}`)
+        return this.tryRequest<Run>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/runs/${id}`)
                 .send(model)
-            return response.body as Run;
+            return response;
         });
     }    
     public async DeleteRun( id:string ):Promise<void>{
-        return this.tryWork(async () => {
-            const response = await this.agent.delete(`/runs/${id}`)
-            return response.body as void;
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/runs/${id}`)
+            return response;
         });
     }    
     public async GetShifts( courthouseId:string ):Promise<Array<Shift>>{
         const params = { 
             "courthouseId":courthouseId 
         };
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/Shifts`)
+        return this.tryRequest<Array<Shift>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/Shifts`)
                 .query(params)
-            return response.body as Array<Shift>;
+            return response;
         });
     }    
     public async CreateShift( model:Shift ):Promise<Shift>{
-        return this.tryWork(async () => {
-            const response = await this.agent.post(`/Shifts`)
+        return this.tryRequest<Shift>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/Shifts`)
                 .send(model)
-            return response.body as Shift;
+            return response;
         });
     }    
     public async GetShiftById( id:string ):Promise<Shift>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/Shifts/${id}`)
-            return response.body as Shift;
+        return this.tryRequest<Shift>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/Shifts/${id}`)
+            return response;
         });
     }    
     public async UpdateShift( id:string , model:Shift ):Promise<Shift>{
-        return this.tryWork(async () => {
-            const response = await this.agent.put(`/Shifts/${id}`)
+        return this.tryRequest<Shift>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/Shifts/${id}`)
                 .send(model)
-            return response.body as Shift;
+            return response;
         });
     }    
     public async DeleteShift( id:string ):Promise<void>{
-        return this.tryWork(async () => {
-            const response = await this.agent.delete(`/Shifts/${id}`)
-            return response.body as void;
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/Shifts/${id}`)
+            return response;
         });
     }    
     public async UpdateMultipleShifts( model:MultipleShiftUpdateRequest ):Promise<Array<Shift>>{
-        return this.tryWork(async () => {
-            const response = await this.agent.post(`/Shifts/multiple`)
+        return this.tryRequest<Array<Shift>>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/Shifts/multiple`)
                 .send(model)
-            return response.body as Array<Shift>;
+            return response;
         });
     }    
     public async CopyShifts( model:ShiftCopyOptions ):Promise<Array<Shift>>{
-        return this.tryWork(async () => {
-            const response = await this.agent.post(`/Shifts/copy`)
+        return this.tryRequest<Array<Shift>>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/Shifts/copy`)
                 .send(model)
-            return response.body as Array<Shift>;
+            return response;
         });
     }    
     public async GetDutyRecurrences( startDate:string , endDate:string ):Promise<Array<DutyRecurrence>>{
@@ -323,181 +364,181 @@ export default class Client {
             "startDate":startDate,
             "endDate":endDate 
         };
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/DutyRecurrences`)
+        return this.tryRequest<Array<DutyRecurrence>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/DutyRecurrences`)
                 .query(params)
-            return response.body as Array<DutyRecurrence>;
+            return response;
         });
     }    
     public async CreateDutyRecurrence( model:DutyRecurrence ):Promise<DutyRecurrence>{
-        return this.tryWork(async () => {
-            const response = await this.agent.post(`/DutyRecurrences`)
+        return this.tryRequest<DutyRecurrence>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/DutyRecurrences`)
                 .send(model)
-            return response.body as DutyRecurrence;
+            return response;
         });
     }    
     public async GetDutyRecurrenceById( id:string ):Promise<DutyRecurrence>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/DutyRecurrences/${id}`)
-            return response.body as DutyRecurrence;
+        return this.tryRequest<DutyRecurrence>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/DutyRecurrences/${id}`)
+            return response;
         });
     }    
     public async UpdateDutyRecurrence( id:string , model:DutyRecurrence ):Promise<DutyRecurrence>{
-        return this.tryWork(async () => {
-            const response = await this.agent.put(`/DutyRecurrences/${id}`)
+        return this.tryRequest<DutyRecurrence>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/DutyRecurrences/${id}`)
                 .send(model)
-            return response.body as DutyRecurrence;
+            return response;
         });
     }    
     public async ExpireDutyRecurrence( id:string ):Promise<void>{
-        return this.tryWork(async () => {
-            const response = await this.agent.post(`/DutyRecurrences/${id}`)
-            return response.body as void;
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/DutyRecurrences/${id}`)
+            return response;
         });
     }    
     public async DeleteDutyRecurrence( id:string ):Promise<void>{
-        return this.tryWork(async () => {
-            const response = await this.agent.delete(`/DutyRecurrences/${id}`)
-            return response.body as void;
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/DutyRecurrences/${id}`)
+            return response;
         });
     }    
     public async GetDuties():Promise<Array<any>>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/Duty`)
-            return response.body as Array<any>;
+        return this.tryRequest<Array<any>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/Duty`)
+            return response;
         });
     }    
     public async CreateDuty( model:Duty ):Promise<Duty>{
-        return this.tryWork(async () => {
-            const response = await this.agent.post(`/Duty`)
+        return this.tryRequest<Duty>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/Duty`)
                 .send(model)
-            return response.body as Duty;
+            return response;
         });
     }    
     public async GetDutyById( id:string ):Promise<Duty>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/Duty/${id}`)
-            return response.body as Duty;
+        return this.tryRequest<Duty>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/Duty/${id}`)
+            return response;
         });
     }    
     public async UpdateDuty( id:string , model:Duty ):Promise<Duty>{
-        return this.tryWork(async () => {
-            const response = await this.agent.put(`/Duty/${id}`)
+        return this.tryRequest<Duty>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/Duty/${id}`)
                 .send(model)
-            return response.body as Duty;
+            return response;
         });
     }    
     public async DeleteDuty( id:string ):Promise<void>{
-        return this.tryWork(async () => {
-            const response = await this.agent.delete(`/Duty/${id}`)
-            return response.body as void;
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/Duty/${id}`)
+            return response;
         });
     }    
     public async ImportDefaultDuties( body:DutyImportDefaultsRequest ):Promise<Array<Duty>>{
-        return this.tryWork(async () => {
-            const response = await this.agent.post(`/Duty/import`)
+        return this.tryRequest<Array<Duty>>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/Duty/import`)
                 .send(body)
-            return response.body as Array<Duty>;
+            return response;
         });
     }    
     public async GetSheriffDuties():Promise<Array<SheriffDuty>>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/SheriffDuty`)
-            return response.body as Array<SheriffDuty>;
+        return this.tryRequest<Array<SheriffDuty>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/SheriffDuty`)
+            return response;
         });
     }    
     public async CreateSheriffDuty( model:SheriffDuty ):Promise<SheriffDuty>{
-        return this.tryWork(async () => {
-            const response = await this.agent.post(`/SheriffDuty`)
+        return this.tryRequest<SheriffDuty>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/SheriffDuty`)
                 .send(model)
-            return response.body as SheriffDuty;
+            return response;
         });
     }    
     public async GetSheriffDutyById( id:string ):Promise<SheriffDuty>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/SheriffDuty/${id}`)
-            return response.body as SheriffDuty;
+        return this.tryRequest<SheriffDuty>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/SheriffDuty/${id}`)
+            return response;
         });
     }    
     public async UpdateSheriffDuty( id:string , model:SheriffDuty ):Promise<SheriffDuty>{
-        return this.tryWork(async () => {
-            const response = await this.agent.put(`/SheriffDuty/${id}`)
+        return this.tryRequest<SheriffDuty>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/SheriffDuty/${id}`)
                 .send(model)
-            return response.body as SheriffDuty;
+            return response;
         });
     }    
     public async DeleteSheriffDuty( id:string ):Promise<void>{
-        return this.tryWork(async () => {
-            const response = await this.agent.delete(`/SheriffDuty/${id}`)
-            return response.body as void;
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/SheriffDuty/${id}`)
+            return response;
         });
     }    
     public async GetLeaves():Promise<Array<Leave>>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/leaves`)
-            return response.body as Array<Leave>;
+        return this.tryRequest<Array<Leave>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/leaves`)
+            return response;
         });
     }    
     public async CreateLeave( model:Leave ):Promise<Leave>{
-        return this.tryWork(async () => {
-            const response = await this.agent.post(`/leaves`)
+        return this.tryRequest<Leave>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/leaves`)
                 .send(model)
-            return response.body as Leave;
+            return response;
         });
     }    
     public async GetLeaveById( id:string ):Promise<Leave>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/leaves/${id}`)
-            return response.body as Leave;
+        return this.tryRequest<Leave>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/leaves/${id}`)
+            return response;
         });
     }    
     public async UpdateLeave( id:string , model:Leave ):Promise<Leave>{
-        return this.tryWork(async () => {
-            const response = await this.agent.put(`/leaves/${id}`)
+        return this.tryRequest<Leave>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/leaves/${id}`)
                 .send(model)
-            return response.body as Leave;
+            return response;
         });
     }    
     public async DeleteLeave( id:string ):Promise<void>{
-        return this.tryWork(async () => {
-            const response = await this.agent.delete(`/leaves/${id}`)
-            return response.body as void;
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/leaves/${id}`)
+            return response;
         });
     }    
     public async GetLeaveCancelReasonCodes():Promise<Array<LeaveCancelReasonCode>>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/codes/leave-cancel`)
-            return response.body as Array<LeaveCancelReasonCode>;
+        return this.tryRequest<Array<LeaveCancelReasonCode>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/codes/leave-cancel`)
+            return response;
         });
     }    
     public async GetLeaveTypes():Promise<Array<LeaveCode>>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/codes/leave-type`)
-            return response.body as Array<LeaveCode>;
+        return this.tryRequest<Array<LeaveCode>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/codes/leave-type`)
+            return response;
         });
     }    
     public async GetLeaveSubCodes():Promise<Array<LeaveSubCode>>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/codes/leave-sub-type`)
-            return response.body as Array<LeaveSubCode>;
+        return this.tryRequest<Array<LeaveSubCode>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/codes/leave-sub-type`)
+            return response;
         });
     }    
     public async GetCourtRoleCodes():Promise<Array<CourtRoleCode>>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/codes/courtroles`)
-            return response.body as Array<CourtRoleCode>;
+        return this.tryRequest<Array<CourtRoleCode>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/codes/courtroles`)
+            return response;
         });
     }    
     public async GetGenderCodes():Promise<Array<GenderCode>>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/codes/gender`)
-            return response.body as Array<GenderCode>;
+        return this.tryRequest<Array<GenderCode>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/codes/gender`)
+            return response;
         });
     }    
     public async GetToken():Promise<void>{
-        return this.tryWork(async () => {
-            const response = await this.agent.get(`/token`)
-            return response.body as void;
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/token`)
+            return response;
         });
     }    
 }

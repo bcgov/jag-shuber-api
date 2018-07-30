@@ -2,8 +2,14 @@
 // Type generated from Swagger definition
 
 import * as superAgent from "superagent";
+import { TOKEN_COOKIE_NAME } from '../common/authentication';
+import { retreiveCookieValue } from '../common/cookieUtils';
 {{#if imports.types}}
-import { {{#joinList imports.types}}{{this}}{{/joinList}} } from "{{imports.path}}"
+import { 
+    {{#joinList imports.types}}
+
+    {{this}}{{/joinList}} 
+} from "{{imports.path}}"
 {{/if}}
 
 {{#if tag}}
@@ -22,10 +28,24 @@ export default class {{operationGroup.operationsGroupName}} {
         return this._agent;
     }
 
-    async tryWork<T>(worker: () => Promise<T>) {
+    protected handleResponse<T>(response:superAgent.Response):T{
+        return response.body as T;
+    }
+
+    protected async ensureToken(): Promise<void> {
+        let token = retreiveCookieValue(TOKEN_COOKIE_NAME, this.agent);
+        // if there is no token, we will go out and retreive one
+        if (token == undefined) {
+            console.log('Fetching new token');
+            await this.GetToken();
+        }
+    }
+
+    protected async tryRequest<T>(worker: () => Promise<superAgent.Response>) : Promise<T> {
         try {
-            const result = await worker();
-            return result;
+            await this.ensureToken();
+            const response = await worker();
+            return this.handleResponse(response);
         } catch (error) {
             if (this.errorProcessor) {
                 throw this.errorProcessor(error);
@@ -45,15 +65,15 @@ export default class {{operationGroup.operationsGroupName}} {
         };
             {{/some}}
         {{/if}}
-        return this.tryWork(async () => {
-            const response = await this.agent.{{httpVerb}}(`{{{toInterpolatedString url}}}`)
+        return this.tryRequest<{{responsesType}}>(async () => {
+            const response: superAgent.Response = await this.agent.{{httpVerb}}(`{{{toInterpolatedString url}}}`)
                 {{#some operationParams "op=>(!op.inBody && !op.inPath)"}}
                 .query(params)
                 {{/some}}        
                 {{#filterList operationParams "op=>op.inBody"}}
                 .send({{paramDisplayName}})
-                {{/filterList}} 
-            return response.body as {{responsesType}};
+                {{/filterList}}
+            return response;
         });
     }    
     {{/each}}

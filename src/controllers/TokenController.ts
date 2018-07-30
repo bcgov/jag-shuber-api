@@ -14,7 +14,6 @@ export class TokenController extends Controller {
     @Security('siteminder')
     public async getToken(@Request() request: KoaRequest) {
         const cookieToken = getTokenCookie(request);
-        console.log("COOKIE", cookieToken);
         if (!cookieToken) {
             const token = await this.service.generateToken(request.user);
             setTokenCookie(request, token);

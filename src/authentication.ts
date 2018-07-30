@@ -1,11 +1,24 @@
 import { Request } from 'koa';
 import { Security as TSOASecurity } from 'tsoa';
-import { Scope, hasScope, assertAllScopes, JWT_AUTH_ERROR, SITEMINDER_AUTH_ERROR, SITEMINDER_HEADER_USERGUID, SITEMINDER_HEADER_USERDISPLAYNAME, SITEMINDER_HEADER_USERIDENTIFIER, SITEMINDER_HEADER_USERTYPE, TokenPayload } from './common/authentication';
+import { 
+    Scope, 
+    assertAllScopes, 
+    SITEMINDER_AUTH_ERROR, 
+    SITEMINDER_HEADER_USERGUID, 
+    SITEMINDER_HEADER_USERDISPLAYNAME, 
+    SITEMINDER_HEADER_USERIDENTIFIER, 
+    SITEMINDER_HEADER_USERTYPE, 
+    TokenPayload, 
+    DEFAULT_SCOPES, 
+    TOKEN_COOKIE_NAME 
+} from './common/authentication';
 import { verifyToken } from './infrastructure/token';
 
-const DEFAULT_SCOPES: Scope[] = ['default'];
-const TOKEN_COOKIE_NAME = "app_token";
-
+/**
+ * The type of security that should be applied to the endpoint.
+ * siteminder -> extracts user information from siteminder headers
+ * jwt -> extracs user information / scopes from JSON Web Token
+ */
 export type SecurityType = "siteminder" | "jwt";
 
 /**
@@ -18,16 +31,6 @@ export type SecurityType = "siteminder" | "jwt";
  */
 export function Security(securityType: SecurityType, scopes: Scope[] = DEFAULT_SCOPES) {
     return TSOASecurity(securityType, scopes);
-}
-
-function getTokenPayloadFromHeaders(request: Request): TokenPayload {
-    const { headers = {} } = request;
-    return {
-        guid: headers[SITEMINDER_HEADER_USERGUID],
-        displayName: headers[SITEMINDER_HEADER_USERDISPLAYNAME],
-        userId: headers[SITEMINDER_HEADER_USERIDENTIFIER],
-        type: headers[SITEMINDER_HEADER_USERTYPE]
-    }
 }
 
 /**
@@ -43,7 +46,7 @@ export function setTokenCookie(request: Request, token: string) {
         // secure: true,
         overwrite: true,
         httpOnly: false,
-        maxAge: 5000
+        maxAge: 30*60*1000
     });
 }
 
@@ -57,8 +60,20 @@ export function setTokenCookie(request: Request, token: string) {
 export function getTokenCookie(request: Request): string {
     return request.ctx.cookies.get(TOKEN_COOKIE_NAME)
 }
-
-
+/**
+ * Parses a TokenPayload from siteminder headers if they are present
+ * @param {Request} request
+ * @returns {TokenPayload}
+ */
+function getTokenPayloadFromHeaders(request: Request): TokenPayload {
+    const { headers = {} } = request;
+    return {
+        guid: headers[SITEMINDER_HEADER_USERGUID],
+        displayName: headers[SITEMINDER_HEADER_USERDISPLAYNAME],
+        userId: headers[SITEMINDER_HEADER_USERIDENTIFIER],
+        type: headers[SITEMINDER_HEADER_USERTYPE]
+    }
+}
 
 /**
  * The authentication middleware used by TSOA 

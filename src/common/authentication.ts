@@ -9,6 +9,9 @@ export const SITEMINDER_HEADER_USERDISPLAYNAME = 'smgov_userdisplayname';
 export const SITEMINDER_HEADER_USERTYPE = 'smgov_usertype';
 export const SITEMINDER_HEADER_USERIDENTIFIER = 'smgov_useridentifier';
 
+export const DEFAULT_SCOPES: Scope[] = ['default'];
+export const TOKEN_COOKIE_NAME = "app_token";
+
 export interface Scopes {
     default: 'default',
     none: 'none'
