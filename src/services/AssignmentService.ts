@@ -41,7 +41,7 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
         return assignment;
     }
 
-    async getAll(courthouseId?: string, options?: EffectiveQueryOptions) {
+    async getAll(courthouseId?: string, options?: EffectiveQueryOptions) : Promise<Assignment[]> {
         const query = super.getEffectiveSelectQuery(options);
 
         if (courthouseId) {
