@@ -8,6 +8,8 @@ exports.SITEMINDER_HEADER_USERGUID = 'smgov_userguid';
 exports.SITEMINDER_HEADER_USERDISPLAYNAME = 'smgov_userdisplayname';
 exports.SITEMINDER_HEADER_USERTYPE = 'smgov_usertype';
 exports.SITEMINDER_HEADER_USERIDENTIFIER = 'smgov_useridentifier';
+exports.DEFAULT_SCOPES = ['default'];
+exports.TOKEN_COOKIE_NAME = "app_token";
 /**
  * Checks a TokenPayload for the given scope
  *

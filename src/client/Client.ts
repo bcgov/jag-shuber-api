@@ -34,7 +34,7 @@ import {
 
 
 export default class Client {
-    private _previousToken:string | undefined;
+    private _previousToken:string | undefined |null=null;
     private _tokenChangedEvent = new TypedEvent<string|undefined>();
     /**
      * An event that is fired when the app token associated with this client

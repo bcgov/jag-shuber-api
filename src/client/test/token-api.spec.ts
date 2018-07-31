@@ -1,5 +1,4 @@
 import ApiClient from '../ExtendedClient';
-import { auth } from '../index';
 import {
     LeaveSubCode
 } from '../models';

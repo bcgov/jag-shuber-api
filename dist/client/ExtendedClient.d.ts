@@ -10,7 +10,9 @@ export default class ExtendedClient extends Client {
     private timezoneOffset?;
     constructor(baseUrl: string);
     private interceptRequest(req);
-    requestInterceptor: SuperAgentRequestInterceptor;
+    requestInterceptor: SuperAgentRequestInterceptor | undefined;
+    protected handleResponse<T>(response: SA.Response): T;
+    protected ensureToken(): Promise<void>;
     protected processError(err: any): Error;
     private nullOn404<T>(method);
     GetRegionById(id: string): Promise<Region>;

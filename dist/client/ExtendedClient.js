@@ -95,19 +95,45 @@ var ExtendedClient = /** @class */ (function (_super) {
         return this._requestInterceptor ? this._requestInterceptor(req) : req;
     };
     Object.defineProperty(ExtendedClient.prototype, "requestInterceptor", {
+        get: function () {
+            return this._requestInterceptor;
+        },
         set: function (interceptor) {
             this._requestInterceptor = interceptor;
         },
         enumerable: true,
         configurable: true
     });
+    ExtendedClient.prototype.handleResponse = function (response) {
+        return _super.prototype.handleResponse.call(this, response);
+    };
+    ExtendedClient.prototype.ensureToken = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var err_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, _super.prototype.ensureToken.call(this)];
+                    case 1:
+                        _a.sent();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        err_1 = _a.sent();
+                        console.error("Error fetching api token: '" + (err_1 && err_1.message ? err_1.message : err_1) + "'");
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     ExtendedClient.prototype.processError = function (err) {
         var apiError = new Errors_1.ApiError(err);
         return apiError;
     };
     ExtendedClient.prototype.nullOn404 = function (method) {
         return __awaiter(this, void 0, void 0, function () {
-            var err_1;
+            var err_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -115,12 +141,12 @@ var ExtendedClient = /** @class */ (function (_super) {
                         return [4 /*yield*/, method()];
                     case 1: return [2 /*return*/, _a.sent()];
                     case 2:
-                        err_1 = _a.sent();
-                        if (err_1.status === 404) {
+                        err_2 = _a.sent();
+                        if (err_2.status === 404) {
                             return [2 /*return*/, undefined];
                         }
                         else {
-                            throw err_1;
+                            throw err_2;
                         }
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];

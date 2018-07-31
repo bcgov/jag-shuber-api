@@ -45,31 +45,137 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var superAgent = __importStar(require("superagent"));
+var authentication_1 = require("../common/authentication");
+var TypedEvent_1 = require("../common/TypedEvent");
+var cookieUtils_1 = require("../common/cookieUtils");
 var Client = /** @class */ (function () {
     function Client(_agent) {
         if (_agent === void 0) { _agent = superAgent.agent(); }
         this._agent = _agent;
+        this._previousToken = null;
+        this._tokenChangedEvent = new TypedEvent_1.TypedEvent();
+        /**
+         * A hook to allow errors occured to be processed further before being thrown
+         * out of the api client. This is useful for modifying validation errors etc.
+         *
+         * @memberof Client
+         */
         this.errorProcessor = function (e) { return e; };
     }
+    Object.defineProperty(Client.prototype, "onTokenChanged", {
+        /**
+         * An event that is fired when the app token associated with this client
+         * has changed.
+         *
+         * @readonly
+         * @type {TypedEvent<string|undefined>}
+         * @memberof Client
+         */
+        get: function () {
+            return this._tokenChangedEvent;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Object.defineProperty(Client.prototype, "agent", {
+        /**
+         * Returns the underlying SuperAgent instance being used for requests
+         *
+         * @readonly
+         * @memberof Client
+         */
         get: function () {
             return this._agent;
         },
         enumerable: true,
         configurable: true
     });
-    Client.prototype.tryWork = function (worker) {
+    /**
+     * Hook responsible for extracting the value out of the response
+     *
+     * @protected
+     * @template T
+     * @param {superAgent.Response} response
+     * @returns {T}
+     * @memberof Client
+     */
+    Client.prototype.handleResponse = function (response) {
+        return response.body;
+    };
+    /**
+     * Ensures that a application token currently exists and fetches a new one
+     * if the old one has expired or is not present.
+     *
+     * @protected
+     * @returns {Promise<void>}
+     * @memberof Client
+     */
+    Client.prototype.ensureToken = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var result, error_1;
+            var token, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, worker()];
+                        token = cookieUtils_1.retreiveCookieValue(authentication_1.TOKEN_COOKIE_NAME, this.agent);
+                        if (!(token == undefined)) return [3 /*break*/, 4];
+                        _a.label = 1;
                     case 1:
-                        result = _a.sent();
-                        return [2 /*return*/, result];
+                        _a.trys.push([1, 3, , 4]);
+                        console.log('Fetching new token');
+                        return [4 /*yield*/, this.GetToken()];
                     case 2:
+                        _a.sent();
+                        return [3 /*break*/, 4];
+                    case 3:
+                        e_1 = _a.sent();
+                        console.error("Couldn't fetch token", e_1);
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    /**
+     * Takes a token and handles emitting events if the token has changed
+     *
+     * @protected
+     * @param {string} [tokenString]
+     * @memberof Client
+     */
+    Client.prototype.handleNewToken = function (token) {
+        if (token !== this._previousToken) {
+            this._previousToken = token;
+            this.onTokenChanged.emit(token);
+        }
+    };
+    /**
+     * All operations in the client are routed through this method which
+     * is responsible for issuing and handling responses in a way which
+     * errors can be captured and processed within the client.
+     * This method also ensures that a client token exists before issuing the
+     * request.
+     *
+     * @protected
+     * @template T
+     * @param {() => Promise<superAgent.Response>} worker
+     * @returns {Promise<T>}
+     * @memberof Client
+     */
+    Client.prototype.tryRequest = function (worker) {
+        return __awaiter(this, void 0, void 0, function () {
+            var response, error_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 3, , 4]);
+                        return [4 /*yield*/, this.ensureToken()];
+                    case 1:
+                        _a.sent();
+                        return [4 /*yield*/, worker()];
+                    case 2:
+                        response = _a.sent();
+                        return [2 /*return*/, this.handleResponse(response)];
+                    case 3:
                         error_1 = _a.sent();
                         if (this.errorProcessor) {
                             throw this.errorProcessor(error_1);
@@ -77,8 +183,8 @@ var Client = /** @class */ (function () {
                         else {
                             throw error_1;
                         }
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
             });
         });
@@ -93,7 +199,7 @@ var Client = /** @class */ (function () {
                     "startDate": startDate,
                     "endDate": endDate
                 };
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -101,7 +207,7 @@ var Client = /** @class */ (function () {
                                         .query(params)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -112,7 +218,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -120,7 +226,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -131,14 +237,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/Assignments/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -149,7 +255,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -157,7 +263,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -168,14 +274,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.post("/Assignments/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -186,14 +292,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.delete("/Assignments/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -204,14 +310,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/regions")];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -222,7 +328,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -230,7 +336,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -241,14 +347,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/regions/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -259,7 +365,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -267,7 +373,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -278,14 +384,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.delete("/regions/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -296,14 +402,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/courthouses")];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -314,7 +420,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -322,7 +428,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -333,14 +439,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/courthouses/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -351,7 +457,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -359,7 +465,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -370,14 +476,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.delete("/courthouses/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -392,7 +498,7 @@ var Client = /** @class */ (function () {
                 params = {
                     "courthouseId": courthouseId
                 };
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -400,7 +506,7 @@ var Client = /** @class */ (function () {
                                         .query(params)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -411,7 +517,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -419,7 +525,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -430,14 +536,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/sheriffs/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -448,7 +554,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -456,7 +562,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -467,14 +573,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.delete("/sheriffs/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -489,7 +595,7 @@ var Client = /** @class */ (function () {
                 params = {
                     "courthouseId": courthouseId
                 };
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -497,7 +603,7 @@ var Client = /** @class */ (function () {
                                         .query(params)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -508,7 +614,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -516,7 +622,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -527,14 +633,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/courtrooms/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -545,7 +651,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -553,7 +659,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -564,14 +670,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.delete("/courtrooms/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -582,14 +688,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/codes/jailroles")];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -600,14 +706,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/codes/otherassign")];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -618,14 +724,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/codes/worksection")];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -636,14 +742,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/codes/sheriffrank")];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -658,7 +764,7 @@ var Client = /** @class */ (function () {
                 params = {
                     "courthouseId": courthouseId
                 };
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -666,7 +772,7 @@ var Client = /** @class */ (function () {
                                         .query(params)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -677,7 +783,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -685,7 +791,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -696,14 +802,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/runs/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -714,7 +820,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -722,7 +828,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -733,14 +839,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.delete("/runs/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -755,7 +861,7 @@ var Client = /** @class */ (function () {
                 params = {
                     "courthouseId": courthouseId
                 };
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -763,7 +869,7 @@ var Client = /** @class */ (function () {
                                         .query(params)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -774,7 +880,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -782,7 +888,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -793,14 +899,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/Shifts/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -811,7 +917,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -819,7 +925,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -830,14 +936,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.delete("/Shifts/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -848,7 +954,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -856,7 +962,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -867,7 +973,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -875,7 +981,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -891,7 +997,7 @@ var Client = /** @class */ (function () {
                     "startDate": startDate,
                     "endDate": endDate
                 };
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -899,7 +1005,7 @@ var Client = /** @class */ (function () {
                                         .query(params)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -910,7 +1016,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -918,7 +1024,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -929,14 +1035,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/DutyRecurrences/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -947,7 +1053,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -955,7 +1061,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -966,14 +1072,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.post("/DutyRecurrences/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -984,14 +1090,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.delete("/DutyRecurrences/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1002,14 +1108,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/Duty")];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1020,7 +1126,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -1028,7 +1134,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1039,14 +1145,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/Duty/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1057,7 +1163,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -1065,7 +1171,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1076,14 +1182,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.delete("/Duty/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1094,7 +1200,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -1102,7 +1208,7 @@ var Client = /** @class */ (function () {
                                         .send(body)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1113,14 +1219,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/SheriffDuty")];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1131,7 +1237,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -1139,7 +1245,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1150,14 +1256,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/SheriffDuty/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1168,7 +1274,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -1176,7 +1282,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1187,14 +1293,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.delete("/SheriffDuty/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1205,14 +1311,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/leaves")];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1223,7 +1329,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -1231,7 +1337,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1242,14 +1348,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/leaves/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1260,7 +1366,7 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
@@ -1268,7 +1374,7 @@ var Client = /** @class */ (function () {
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1279,14 +1385,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.delete("/leaves/" + id)];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1297,14 +1403,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/codes/leave-cancel")];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1315,14 +1421,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/codes/leave-type")];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1333,14 +1439,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/codes/leave-sub-type")];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1351,14 +1457,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/codes/courtroles")];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1369,14 +1475,14 @@ var Client = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/codes/gender")];
                                 case 1:
                                     response = _a.sent();
-                                    return [2 /*return*/, response.body];
+                                    return [2 /*return*/, response];
                             }
                         });
                     }); })];
@@ -1385,19 +1491,36 @@ var Client = /** @class */ (function () {
     };
     Client.prototype.GetToken = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
+            var response, tokenString, e_2;
             return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryWork(function () { return __awaiter(_this, void 0, void 0, function () {
-                        var response;
-                        return __generator(this, function (_a) {
-                            switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.get("/token")];
-                                case 1:
-                                    response = _a.sent();
-                                    return [2 /*return*/, response.body];
-                            }
-                        });
-                    }); })];
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, this.agent.get("/token")];
+                    case 1:
+                        response = _a.sent();
+                        tokenString = this.handleResponse(response).token;
+                        this.handleNewToken(tokenString);
+                        return [2 /*return*/, tokenString];
+                    case 2:
+                        e_2 = _a.sent();
+                        this.handleNewToken();
+                        throw e_2;
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Client.prototype.Logout = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.agent.post("/token/delete")];
+                    case 1:
+                        _a.sent();
+                        this.handleNewToken();
+                        return [2 /*return*/];
+                }
             });
         });
     };
