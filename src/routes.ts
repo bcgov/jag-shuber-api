@@ -1697,6 +1697,26 @@ export function RegisterRoutes(router: any) {
             const promise = controller.getToken.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
+    router.post('/v1/token/delete',
+        async (context, next) => {
+            const args = {
+                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new TokenController();
+
+            const promise = controller.logout.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
 
     function authenticateMiddleware(security: TsoaRoute.Security[] = []) {
         return async (context: any, next: any) => {

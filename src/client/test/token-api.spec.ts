@@ -33,6 +33,52 @@ describe('Token API', () => {
         });
     });
 
+    it('api should fire onTokenChanged event when a token is acquired', async () => {
+        expect.assertions(3);
+        const testGuid = 'btester';
+        api = TestUtils.getClientWithAuth(testGuid);
+        let eventTokenString: string;
+        api.onTokenChanged.on(t => {
+            expect(t).toBeDefined();
+            eventTokenString = t;
+        });
+        const tokenString = await api.GetToken();
+        expect(tokenString).toBeDefined();
+        expect(tokenString).toEqual(eventTokenString);
+    });
+
+    it('api should fire onTokenChanged event when a token cannot be acquired', async () => {
+        expect.assertions(3);
+        const testGuid = 'btester';
+        api = TestUtils.getClientWithAuth(testGuid);
+        const tokenString = await api.GetToken();
+        expect(tokenString).toBeDefined();
+        // turn requestInterceptor into a no-op to clear headers (i.e. auth)
+        api.requestInterceptor = (req) => req;
+        api.onTokenChanged.on(t => {
+            expect(t).toBeUndefined();
+        });
+
+        // expect the api to throw an exception here
+        await expect(api.GetToken()).rejects.toBeDefined();
+    });
+
+
+    it('get token should return Token string that can be decoded', async () => {
+        const testGuid = 'btester';
+        api = TestUtils.getClientWithAuth(testGuid);
+        let tokenString: string;
+        tokenString = await api.GetToken();
+        expect(tokenString).toBeDefined();
+        expect(typeof (tokenString)).toEqual(typeof ('string'));
+
+        const token = decodeJwt<TokenPayload>(tokenString);
+        expect(token).toBeDefined();
+        expect(token.scopes).toBeDefined();
+        expect(Array.isArray(token.scopes)).toBeTruthy();
+        expect(token.guid).toBeDefined();
+    });
+
     it('get token with siteminder headers should use token in subsequent requests', async () => {
         expect.assertions(4);
         const testGuid = 'btester';
@@ -53,6 +99,31 @@ describe('Token API', () => {
             return req;
         }
         await api.GetCourthouses();
+    });
+
+
+    it('logout should remove token cookie from subsequent requests', async () => {
+        expect.assertions(5);
+        const testGuid = 'btester';
+        api = TestUtils.getClientWithAuth(testGuid);
+
+        const firstToken = await api.GetToken();
+        expect(firstToken).toBeDefined();
+        api.onTokenChanged.once(t=>{
+            expect(t).toBeUndefined();
+        });
+        await api.Logout();
+        const otherApiUser = TestUtils.getClientWithAuth('otherUser');
+
+        // confirm that the cookies have been removed from outgoing requests
+        // then use another apiUser to do request
+        api.requestInterceptor = (req) => {
+            expect(req.cookies.indexOf(TOKEN_COOKIE_NAME)).toEqual(-1);
+            return otherApiUser.requestInterceptor(req);            
+        }
+        const secondToken = await api.GetToken();
+        expect(secondToken).toBeDefined();
+        expect(secondToken).not.toEqual(firstToken);
     });
 
 }) 

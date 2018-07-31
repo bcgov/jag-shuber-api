@@ -1,6 +1,6 @@
 import { Body, Delete, Get, Path, Post, Put, Query, Request, Route, Controller } from 'tsoa';
 import { TokenService } from '../services/TokenService';
-import { Security, setTokenCookie, getTokenCookie } from '../authentication';
+import { Security, setTokenCookie, getTokenCookie, deleteTokenCookie } from '../authentication';
 import { Request as KoaRequest } from 'koa';
 
 @Route('token')
@@ -19,6 +19,11 @@ export class TokenController extends Controller {
             setTokenCookie(request, token);
         }
         return { token };
+    }
+
+    @Post('delete')
+    public async logout(@Request() request: KoaRequest): Promise<any> {
+        deleteTokenCookie(request);
     }
 
 }

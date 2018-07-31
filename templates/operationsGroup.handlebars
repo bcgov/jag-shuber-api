@@ -159,6 +159,16 @@ export default class {{operationGroup.operationsGroupName}} {
             throw e;
         }
         {{else}}
+            {{#equal operationName "Logout"}}
+        await this.agent.{{httpVerb}}(`{{{toInterpolatedString url}}}`)
+                {{#some operationParams "op=>(!op.inBody && !op.inPath)"}}
+                .query(params)
+                {{/some}}        
+                {{#filterList operationParams "op=>op.inBody"}}
+                .send({{paramDisplayName}})
+                {{/filterList}}
+        this.handleNewToken();
+            {{else}}
         return this.tryRequest<{{responsesType}}>(async () => {
             const response: superAgent.Response = await this.agent.{{httpVerb}}(`{{{toInterpolatedString url}}}`)
                 {{#some operationParams "op=>(!op.inBody && !op.inPath)"}}
@@ -168,7 +178,8 @@ export default class {{operationGroup.operationsGroupName}} {
                 .send({{paramDisplayName}})
                 {{/filterList}}
             return response;
-        });            
+        });
+            {{/equal}}            
         {{/equal}}
     }    
     {{/each}}

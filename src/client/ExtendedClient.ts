@@ -19,6 +19,8 @@ import {
 } from './models';
 import { toTimeString } from '../common/TimeUtils';
 import { ApiError } from '../common/Errors';
+import { TokenPayload } from '../common/authentication';
+import { decodeJwt } from '../common/token';
 
 export type DateType = string | Date | moment.Moment | number;
 
@@ -45,8 +47,12 @@ export default class ExtendedClient extends Client {
         return this._requestInterceptor ? this._requestInterceptor(req) : req;
     }
 
-    set requestInterceptor(interceptor: SuperAgentRequestInterceptor) {
+    set requestInterceptor(interceptor: SuperAgentRequestInterceptor | undefined) {
         this._requestInterceptor = interceptor;
+    }
+
+    get requestInterceptor(): SuperAgentRequestInterceptor | undefined {
+        return this._requestInterceptor;
     }
 
     protected handleResponse<T>(response: SA.Response) {
@@ -238,9 +244,5 @@ export default class ExtendedClient extends Client {
 
         const dateMoment = date ? moment(date) : moment().startOf('day');
         return await super.ImportDefaultDuties({ courthouseId, date: dateMoment.format("YYYY-MM-DD") });
-    }
-
-    GetToken(): Promise<void> {
-        return this.agent.get(`/token`);
     }
 }

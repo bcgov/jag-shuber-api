@@ -1,16 +1,17 @@
 import { Request } from 'koa';
+import moment from 'moment';
 import { Security as TSOASecurity } from 'tsoa';
-import { 
-    Scope, 
-    assertAllScopes, 
-    SITEMINDER_AUTH_ERROR, 
-    SITEMINDER_HEADER_USERGUID, 
-    SITEMINDER_HEADER_USERDISPLAYNAME, 
-    SITEMINDER_HEADER_USERIDENTIFIER, 
-    SITEMINDER_HEADER_USERTYPE, 
-    TokenPayload, 
-    DEFAULT_SCOPES, 
-    TOKEN_COOKIE_NAME 
+import {
+    Scope,
+    assertAllScopes,
+    SITEMINDER_AUTH_ERROR,
+    SITEMINDER_HEADER_USERGUID,
+    SITEMINDER_HEADER_USERDISPLAYNAME,
+    SITEMINDER_HEADER_USERIDENTIFIER,
+    SITEMINDER_HEADER_USERTYPE,
+    TokenPayload,
+    DEFAULT_SCOPES,
+    TOKEN_COOKIE_NAME
 } from './common/authentication';
 import { verifyToken } from './infrastructure/token';
 
@@ -46,7 +47,7 @@ export function setTokenCookie(request: Request, token: string) {
         // secure: true,
         overwrite: true,
         httpOnly: false,
-        maxAge: 30*60*1000
+        maxAge: 30 * 60 * 1000
     });
 }
 
@@ -60,6 +61,15 @@ export function setTokenCookie(request: Request, token: string) {
 export function getTokenCookie(request: Request): string {
     return request.ctx.cookies.get(TOKEN_COOKIE_NAME)
 }
+
+export function deleteTokenCookie(request: Request) {    
+    request.ctx.cookies.set(TOKEN_COOKIE_NAME, getTokenCookie(request), {
+        overwrite: true,
+        httpOnly: false,
+        expires: moment().subtract(1, 'hour').toDate()
+    })
+}
+
 /**
  * Parses a TokenPayload from siteminder headers if they are present
  * @param {Request} request

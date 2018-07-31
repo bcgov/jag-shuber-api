@@ -2001,6 +2001,10 @@ handlebars-helper-create-frame@^0.1.0:
     create-frame "^1.0.0"
     isobject "^3.0.0"
 
+handlebars-helper-equal@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/handlebars-helper-equal/-/handlebars-helper-equal-1.0.0.tgz#40c0078e7266da4b0692d8934bfe3e910b0a7a58"
+
 handlebars-helpers@^0.9.8:
   version "0.9.8"
   resolved "https://registry.yarnpkg.com/handlebars-helpers/-/handlebars-helpers-0.9.8.tgz#d32ec2f041dab14ebe3caf5e0c23067a8b594ecc"
