@@ -4,7 +4,8 @@ const settings = {
     templateHelpers: {
         "toInterpolatedString": (url) => {
             return (url || "").replace("{", "${");
-        }
+        },
+        "equal": require("handlebars-helper-equal")
     },
     type: {
         outPutPath: `${paths.sourceRoot}/client/models.ts`,
