@@ -1,8 +1,10 @@
 # SHUBER API
 This project represents the API for the Sheriff Scheduling (Shuber) application.
 
+### [Project Architecture Documentation](./docs/index)
 
 > TODO: NEED TO UPDATE THESE DOCS.  TALK TO COLTER FOR NOW.
+
 
 ## Technology Stack Used
 
