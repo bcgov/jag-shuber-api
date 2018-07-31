@@ -7,7 +7,7 @@ import { DutyRecurrenceService } from '../services/DutyRecurrenceService';
 import { Security } from '../authentication';
 
 @Route('Assignments')
-@Security('jwt',["default"])
+@Security('jwt')
 export class AssignmentController extends ControllerBase<Assignment> {
 
     get service() {

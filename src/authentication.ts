@@ -108,7 +108,6 @@ export async function koaAuthentication(request: Request, securityName: string, 
     }
 
     if (securityType === 'jwt') {
-        // const token = request.body.token || request.query.token || request.headers['x-access-token'];
         const token = request.ctx.cookies.get(TOKEN_COOKIE_NAME);
         const payload = await verifyToken(token);
         assertAllScopes(payload, scopes);

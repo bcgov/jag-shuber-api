@@ -233,7 +233,7 @@ const models: TsoaRoute.Models = {
 
 export function RegisterRoutes(router: any) {
     router.get('/v1/Assignments',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["default"] }]),
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 courthouseId: { "in": "query", "name": "courthouseId", "dataType": "string" },
@@ -256,7 +256,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/Assignments/:id',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["default"] }]),
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -277,7 +277,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/Assignments',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["default"] }]),
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "Assignment" },
@@ -298,7 +298,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/Assignments/:id',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["default"] }]),
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -320,7 +320,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/Assignments/:id',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["default"] }]),
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -341,7 +341,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/Assignments/:id',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["default"] }]),
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
