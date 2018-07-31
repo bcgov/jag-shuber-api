@@ -12,12 +12,13 @@ export class TokenController extends Controller {
 
     @Get()
     @Security('siteminder')
-    public async getToken(@Request() request: KoaRequest) {
-        const cookieToken = getTokenCookie(request);
-        if (!cookieToken) {
-            const token = await this.service.generateToken(request.user);
+    public async getToken(@Request() request: KoaRequest): Promise<any> {
+        let token = getTokenCookie(request);
+        if (!token) {
+            token = await this.service.generateToken(request.user);
             setTokenCookie(request, token);
         }
+        return { token };
     }
 
 }
