@@ -12,8 +12,10 @@ describe('Courtroom API', () => {
     let createdCourthouse: Courthouse;
 
     beforeAll(async (done) => {
-        api = TestUtils.getClient();
-        testRegion = await api.CreateRegion(testRegion);
+        await TestUtils.setupTestFixtures(async client => {
+            testRegion = await client.CreateRegion(testRegion);
+        })      
+        api = TestUtils.getClientWithAuth();
         done();
     });
 

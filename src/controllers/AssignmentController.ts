@@ -4,8 +4,10 @@ import { DutyRecurrence } from '../models/DutyRecurrence';
 import { AssignmentService } from '../services/AssignmentService';
 import ControllerBase from './ControllerBase';
 import { DutyRecurrenceService } from '../services/DutyRecurrenceService';
+import { Security } from '../authentication';
 
 @Route('Assignments')
+@Security('jwt')
 export class AssignmentController extends ControllerBase<Assignment> {
 
     get service() {

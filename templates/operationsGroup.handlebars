@@ -2,8 +2,15 @@
 // Type generated from Swagger definition
 
 import * as superAgent from "superagent";
+import { TOKEN_COOKIE_NAME } from '../common/authentication';
+import { TypedEvent } from '../common/TypedEvent';
+import { retreiveCookieValue } from '../common/cookieUtils';
 {{#if imports.types}}
-import { {{#joinList imports.types}}{{this}}{{/joinList}} } from "{{imports.path}}"
+import { 
+    {{#joinList imports.types}}
+
+    {{this}}{{/joinList}} 
+} from "{{imports.path}}"
 {{/if}}
 
 {{#if tag}}
@@ -13,14 +20,115 @@ import { {{#joinList imports.types}}{{this}}{{/joinList}} } from "{{imports.path
 {{/if}}
 
 export default class {{operationGroup.operationsGroupName}} {
+    private _previousToken:string | undefined | null = null;
+    private _tokenChangedEvent = new TypedEvent<string|undefined>();
+    /**
+     * An event that is fired when the app token associated with this client
+     * has changed.
+     *
+     * @readonly
+     * @type {TypedEvent<string|undefined>}
+     * @memberof Client
+     */
+    public get onTokenChanged() : TypedEvent<string|undefined> {
+        return this._tokenChangedEvent;
+    }
+    
+    /**
+     * A hook to allow errors occured to be processed further before being thrown
+     * out of the api client. This is useful for modifying validation errors etc.
+     *
+     * @memberof Client
+     */
     public errorProcessor: (error:any) => Error = (e)=>e;
     
     constructor(private _agent:superAgent.SuperAgent<any> = superAgent.agent()){
     }
 
-    get agent(){
+    /**
+     * Returns the underlying SuperAgent instance being used for requests
+     *
+     * @readonly
+     * @memberof Client
+     */
+    get agent() {
         return this._agent;
-    }  
+    }
+
+    /**
+     * Hook responsible for extracting the value out of the response
+     *
+     * @protected
+     * @template T
+     * @param {superAgent.Response} response
+     * @returns {T}
+     * @memberof Client
+     */
+    protected handleResponse<T>(response:superAgent.Response):T {
+        return response.body as T;
+    }
+
+    /**
+     * Ensures that a application token currently exists and fetches a new one
+     * if the old one has expired or is not present.
+     *
+     * @protected
+     * @returns {Promise<void>}
+     * @memberof Client
+     */
+    protected async ensureToken(): Promise<void> {
+        let token = retreiveCookieValue(TOKEN_COOKIE_NAME, this.agent);
+        // if there is no token, we will go out and retreive one
+        if (token == undefined) {
+            try{
+                console.log('Fetching new token');
+                await this.GetToken();
+            }catch(e){                
+                console.error("Couldn't fetch token",e);
+            }
+        }
+    }
+
+    /**
+     * Takes a token and handles emitting events if the token has changed
+     *
+     * @protected
+     * @param {string} [tokenString]
+     * @memberof Client
+     */
+    protected handleNewToken(token?:string){
+        if(token !== this._previousToken){
+            this._previousToken = token;
+            this.onTokenChanged.emit(token);
+        }
+    }
+
+    /**
+     * All operations in the client are routed through this method which
+     * is responsible for issuing and handling responses in a way which 
+     * errors can be captured and processed within the client. 
+     * This method also ensures that a client token exists before issuing the
+     * request.
+     *
+     * @protected
+     * @template T
+     * @param {() => Promise<superAgent.Response>} worker
+     * @returns {Promise<T>}
+     * @memberof Client
+     */
+    protected async tryRequest<T>(worker: () => Promise<superAgent.Response>) : Promise<T> {
+        try {
+            await this.ensureToken();
+            const response = await worker();
+            return this.handleResponse(response);
+        } catch (error) {
+            if (this.errorProcessor) {
+                throw this.errorProcessor(error);
+            } else {
+                throw error;
+            }
+        }
+    }
 
     {{#each operationGroup.operations}}
     public async {{operationName}}({{#joinList operationParams}} {{paramDisplayName}}:{{paramType}} {{/joinList}}):Promise<{{responsesType}}>{
@@ -32,22 +140,47 @@ export default class {{operationGroup.operationsGroupName}} {
         };
             {{/some}}
         {{/if}}
+        {{#equal operationName "GetToken"}}
+        // For getting the token, we need to bypass the tryRequest as 
+        // it will ensure token which will call this method again
         try{
-            const response = await this.agent.{{httpVerb}}(`{{{toInterpolatedString url}}}`)
+            const response: superAgent.Response = await this.agent.{{httpVerb}}(`{{{toInterpolatedString url}}}`)
+                    {{#some operationParams "op=>(!op.inBody && !op.inPath)"}}
+                    .query(params)
+                    {{/some}}        
+                    {{#filterList operationParams "op=>op.inBody"}}
+                    .send({{paramDisplayName}})
+                    {{/filterList}}
+            const { token:tokenString } = this.handleResponse<{ token: string }>(response);
+            this.handleNewToken(tokenString);
+            return tokenString;
+        }catch(e){
+            this.handleNewToken();
+            throw e;
+        }
+        {{else}}
+            {{#equal operationName "Logout"}}
+        await this.agent.{{httpVerb}}(`{{{toInterpolatedString url}}}`)
                 {{#some operationParams "op=>(!op.inBody && !op.inPath)"}}
                 .query(params)
                 {{/some}}        
                 {{#filterList operationParams "op=>op.inBody"}}
                 .send({{paramDisplayName}})
-                {{/filterList}} 
-            return response.body as {{responsesType}};
-        }catch(error){
-            if(this.errorProcessor){
-                throw this.errorProcessor(error);
-            }else{
-                throw error;
-            }
-        }
+                {{/filterList}}
+        this.handleNewToken();
+            {{else}}
+        return this.tryRequest<{{responsesType}}>(async () => {
+            const response: superAgent.Response = await this.agent.{{httpVerb}}(`{{{toInterpolatedString url}}}`)
+                {{#some operationParams "op=>(!op.inBody && !op.inPath)"}}
+                .query(params)
+                {{/some}}        
+                {{#filterList operationParams "op=>op.inBody"}}
+                .send({{paramDisplayName}})
+                {{/filterList}}
+            return response;
+        });
+            {{/equal}}            
+        {{/equal}}
     }    
     {{/each}}
 }

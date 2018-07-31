@@ -7,7 +7,8 @@ import {
     LeaveCancelReasonCode,
     LeaveCode, 
     CourtRoleCode,
-    GenderCode
+    GenderCode,
+    LeaveSubCode
 } from '../models';
 import TestUtils from './TestUtils';
 
@@ -18,11 +19,16 @@ const CodeShape:
     description: 'some string'
 }
 
+const SubCodeShape: LeaveSubCode = {
+    code: 'some string',
+    subCode: 'some string',
+    description: 'some string'
+}
 describe('Codes API', () => {
     let api: ApiClient;
 
     beforeAll(async (done) => {
-        api = TestUtils.getClient();
+        api = TestUtils.getClientWithAuth();
         done();
     });
 
@@ -104,5 +110,14 @@ describe('Codes API', () => {
         list.forEach(c => {
             expect(c).toMatchShapeOf(CodeShape);
         })
-    })
+    });
+
+    it('get leave subcodes should return list of Leave Type Sub Codes', async () => {
+        const list = await api.GetLeaveSubCodes();
+        expect(list).toBeDefined();
+        expect(Array.isArray(list)).toBeTruthy();
+        list.forEach(c => {
+            expect(c).toMatchShapeOf(SubCodeShape);
+        })
+    });
 }) 

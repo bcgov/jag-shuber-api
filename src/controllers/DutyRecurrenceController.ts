@@ -2,8 +2,10 @@ import { Body, Delete, Get, Path, Post, Put, Query, Route } from 'tsoa';
 import { DutyRecurrence } from '../models/DutyRecurrence';
 import { DutyRecurrenceService } from '../services/DutyRecurrenceService';
 import ControllerBase from './ControllerBase';
+import { Security } from '../authentication';
 
 @Route('DutyRecurrences')
+@Security('jwt')
 export class DutyRecurrenceController extends ControllerBase<DutyRecurrence> {
 
     get service() {

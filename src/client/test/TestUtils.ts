@@ -6,13 +6,12 @@ import { Sheriff } from '../../models/Sheriff';
 import { ClientBase } from 'pg';
 import './MomentMatchers';
 import moment, { Moment } from 'moment';
+import { SITEMINDER_HEADER_USERGUID } from '../../common/authentication';
 
 expect.extend({
     toMatchShapeOf,
     toMatchOneOf
 });
-
-
 
 export default class TestUtils {
     public static tables = {
@@ -45,8 +44,36 @@ export default class TestUtils {
 
     }
 
-    static getClient(): ExtendedClient {
-        return new ExtendedClient('http://localhost:3001/api/v1');
+    static getClientWithAuth(user: string = 'bnye') {
+        const headers = {};
+        headers[SITEMINDER_HEADER_USERGUID] = user;
+        return this.getClient(headers);
+    }
+
+    static getClient(headers: { [key: string]: string } = {}): ExtendedClient {
+        const client = new ExtendedClient('http://localhost:3001/api/v1');
+
+        client.requestInterceptor = (req) => {
+            Object.keys(headers).forEach(k => {
+                req.set(k, headers[k]);
+            });
+            return req;
+        }
+        return client;
+    }
+
+    /**
+     * Authorizes a client instance and passes it to a callback that can be used
+     * for creating / modifying test fixtures necessary for the following tests
+     * @static
+     * @param {(client:ExtendedClient)=>Promise<void>} setupFunc
+     * @memberof TestUtils
+     */
+    static async setupTestFixtures<T>(setupFunc: (client: ExtendedClient) => Promise<T>) {
+        const authedApi = TestUtils.getClientWithAuth();
+        if (setupFunc) {
+            return await setupFunc(authedApi);
+        }
     }
 
     static async clearTable(client?: ClientBase, ...tables: string[]) {
@@ -75,33 +102,31 @@ export default class TestUtils {
     }
 
     static async newTestRegion(): Promise<Region> {
-        const api = TestUtils.getClient();
-        return await api.CreateRegion({
-            name: "TEST Region",
-            code: TestUtils.randomString(5)
-        });
+        return await TestUtils.setupTestFixtures(api =>
+            api.CreateRegion({
+                name: "TEST Region",
+                code: TestUtils.randomString(5)
+            })
+        ) as Region;
     }
 
     static async newTestCourthouse(regionId: string): Promise<Courthouse> {
-        const api = TestUtils.getClient();
-        return await api.CreateCourthouse({
+        return await TestUtils.setupTestFixtures(api => api.CreateCourthouse({
             regionId,
             name: "TEST COURTHOUSE",
             code: TestUtils.randomString(5)
-        });
+        })) as Courthouse;
     }
 
     static async newTestCourtroom(courthouseId: string): Promise<Courtroom> {
-        const api = TestUtils.getClient();
-        return await api.CreateCourtroom({
+        return await TestUtils.setupTestFixtures(api => api.CreateCourtroom({
             name: "TEST COURTROOM",
             courthouseId,
             code: TestUtils.randomString(5)
-        });
+        })) as Courtroom;
     }
 
     static async newTestAssignment(courthouseId, assignmentDetails: Partial<Assignment> = {}): Promise<Assignment> {
-        const api = TestUtils.getClient();
         let workSectionId = "";
         if (assignmentDetails.jailRoleCode) {
             workSectionId = "JAIL";
@@ -112,33 +137,32 @@ export default class TestUtils {
         } else if (assignmentDetails.otherAssignCode) {
             workSectionId = "OTHER";
         }
-        return await api.CreateAssignment({
+        return await TestUtils.setupTestFixtures(api => api.CreateAssignment({
             ...assignmentDetails,
             workSectionId,
             courthouseId
-        });
+        })) as Assignment;
     }
 
     static async newTestSheriff(courthouseId: string, sheriff?: Partial<Sheriff>): Promise<Sheriff> {
-        const api = TestUtils.getClient();
-        return await api.CreateSheriff({
-            badgeNo: TestUtils.randomString(5),
-            firstName: 'Bill',
-            lastName: 'Nye',
-            rankCode: 'DEPUTYSHERIFF',
-            homeCourthouseId: courthouseId
-        }) as Sheriff;
+        return await TestUtils.setupTestFixtures(api =>
+            api.CreateSheriff({
+                badgeNo: TestUtils.randomString(5),
+                firstName: 'Bill',
+                lastName: 'Nye',
+                rankCode: 'DEPUTYSHERIFF',
+                homeCourthouseId: courthouseId
+            })) as Sheriff;
     }
 
     static async newTestShift(courthouseId: string, shift?: Partial<Shift>): Promise<Shift> {
-        const api = TestUtils.getClient();
-        return await api.CreateShift({
+        return await TestUtils.setupTestFixtures(api => api.CreateShift({
             startDateTime: moment().startOf('day').hours(7).format(),
             endDateTime: moment().startOf('day').hours(8).format(),
             workSectionId: 'COURTS',
             ...shift,
             courthouseId
-        });
+        })) as Shift;
     }
 
     static assertDutyRecurrence(actual: DutyRecurrence, expected: DutyRecurrence) {
@@ -150,7 +174,7 @@ export default class TestUtils {
         expect(actual.endTime).toBeSameTime(expected.endTime);
     }
 
-    static assertImportedDuties(created: Duty[], assignment: Assignment, expectedDate: Moment= moment()) {
+    static assertImportedDuties(created: Duty[], assignment: Assignment, expectedDate: Moment = moment()) {
         created.forEach(createdDuty => {
             expect(createdDuty.id).toBeDefined();
             const dutyRecurrences = assignment.dutyRecurrences as DutyRecurrence[];

@@ -4,8 +4,10 @@ import { SheriffDuty } from '../models/SheriffDuty';
 import { DutyService } from '../services/DutyService';
 import ControllerBase from './ControllerBase';
 import { DutyImportDefaultsRequest } from '../models/DutyImportDefaultsRequest';
+import { Security } from '../authentication';
 
 @Route('Duty')
+@Security('jwt')
 export class DutyController extends ControllerBase<Duty> {
 
     get service() {

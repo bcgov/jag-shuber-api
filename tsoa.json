@@ -4,12 +4,26 @@
         "entryFile": "./src/index.ts",
         "host": "localhost:3000",
         "basePath": "/v1",
-        "yaml":false
+        "yaml": false,
+        "securityDefinitions": {
+            "siteminder": {
+                "type": "apiKey",
+                "name":"smgov_userguid",
+                "in":"header"
+            },
+            "jwt": {
+                "type": "apiKey",
+                "in":"cookie",
+                "name": "app_token"
+            }
+        }
     },
     "routes": {
         "basePath": "/v1",
         "entryFile": "./src/index.ts",
         "routesDir": "./src",
-        "middleware":"koa"
+        "middleware": "koa",
+        "middlewareTemplate": "./templates/routeTemplate.handlebars",
+        "authenticationModule": "./src/authentication.ts"
     }
 }

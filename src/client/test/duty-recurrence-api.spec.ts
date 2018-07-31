@@ -22,11 +22,11 @@ describe('Duty Recurrence API', () => {
     let createdEntity: DutyRecurrence;
 
     beforeAll(async (done) => {
-        api = TestUtils.getClient();
         testRegion = await TestUtils.newTestRegion();
         testCourthouse = await TestUtils.newTestCourthouse(testRegion.id);
         testCourtroom = await TestUtils.newTestCourtroom(testCourthouse.id);
         testAssignment = await TestUtils.newTestAssignment(testCourthouse.id, { courtroomId: testCourtroom.id });
+        api = TestUtils.getClientWithAuth();
         done();
     });
 

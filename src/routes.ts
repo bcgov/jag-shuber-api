@@ -20,6 +20,8 @@ import { LeaveTypeCodesController } from './controllers/LeaveTypeCodesController
 import { LeaveSubTypeCodesController } from './controllers/LeaveSubTypeCodesController';
 import { CourtRoleCodesController } from './controllers/CourtRoleCodesController';
 import { GenderCodesController } from './controllers/GenderCodesController';
+import { TokenController } from './controllers/TokenController';
+import { koaAuthentication } from './authentication';
 
 const models: TsoaRoute.Models = {
     "DutyRecurrence": {
@@ -231,6 +233,7 @@ const models: TsoaRoute.Models = {
 
 export function RegisterRoutes(router: any) {
     router.get('/v1/Assignments',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 courthouseId: { "in": "query", "name": "courthouseId", "dataType": "string" },
@@ -253,6 +256,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/Assignments/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -273,6 +277,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/Assignments',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "Assignment" },
@@ -293,6 +298,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/Assignments/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -314,6 +320,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/Assignments/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -334,6 +341,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/Assignments/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -354,6 +362,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/regions',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
             };
@@ -373,6 +382,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/regions/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -393,6 +403,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/regions',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "Region" },
@@ -413,6 +424,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/regions/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -434,6 +446,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/regions/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -454,6 +467,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/courthouses',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
             };
@@ -473,6 +487,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/courthouses/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -493,6 +508,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/courthouses',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "Courthouse" },
@@ -513,6 +529,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/courthouses/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -534,6 +551,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/courthouses/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -554,6 +572,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/sheriffs',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 courthouseId: { "in": "query", "name": "courthouseId", "dataType": "string" },
@@ -574,6 +593,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/sheriffs/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -594,6 +614,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/sheriffs',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "Sheriff" },
@@ -614,6 +635,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/sheriffs/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -635,6 +657,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/sheriffs/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -655,6 +678,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/courtrooms',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 courthouseId: { "in": "query", "name": "courthouseId", "dataType": "string" },
@@ -675,6 +699,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/courtrooms/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -695,6 +720,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/courtrooms',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "Courtroom" },
@@ -715,6 +741,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/courtrooms/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -736,6 +763,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/courtrooms/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -756,6 +784,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/codes/jailroles',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
             };
@@ -775,6 +804,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/codes/otherassign',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
             };
@@ -794,6 +824,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/codes/worksection',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
             };
@@ -813,6 +844,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/codes/sheriffrank',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
             };
@@ -832,6 +864,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/runs',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 courthouseId: { "in": "query", "name": "courthouseId", "dataType": "string" },
@@ -852,6 +885,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/runs/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -872,6 +906,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/runs',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "Run" },
@@ -892,6 +927,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/runs/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -913,6 +949,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/runs/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -933,6 +970,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/Shifts',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 courthouseId: { "in": "query", "name": "courthouseId", "dataType": "string" },
@@ -953,6 +991,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/Shifts/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -973,6 +1012,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/Shifts',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "Shift" },
@@ -993,6 +1033,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/Shifts/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1014,6 +1055,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/Shifts/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1034,6 +1076,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/Shifts/multiple',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "MultipleShiftUpdateRequest" },
@@ -1054,6 +1097,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/Shifts/copy',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "ShiftCopyOptions" },
@@ -1074,6 +1118,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/DutyRecurrences',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 startDate: { "in": "query", "name": "startDate", "dataType": "string" },
@@ -1095,6 +1140,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/DutyRecurrences/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1115,6 +1161,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/DutyRecurrences',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "DutyRecurrence" },
@@ -1135,6 +1182,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/DutyRecurrences/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1156,6 +1204,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/DutyRecurrences/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1176,6 +1225,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/DutyRecurrences/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1196,6 +1246,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/Duty',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
             };
@@ -1215,6 +1266,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/Duty/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1235,6 +1287,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/Duty',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "Duty" },
@@ -1255,6 +1308,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/Duty/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1276,6 +1330,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/Duty/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1296,6 +1351,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/Duty/import',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 body: { "in": "body", "name": "body", "required": true, "ref": "DutyImportDefaultsRequest" },
@@ -1416,6 +1472,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/leaves',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
             };
@@ -1435,6 +1492,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/leaves/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1455,6 +1513,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/leaves',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "Leave" },
@@ -1475,6 +1534,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/leaves/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1496,6 +1556,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/leaves/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1516,6 +1577,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/codes/leave-cancel',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
             };
@@ -1535,6 +1597,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/codes/leave-type',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
             };
@@ -1554,6 +1617,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/codes/leave-sub-type',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
             };
@@ -1573,6 +1637,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/codes/courtroles',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
             };
@@ -1592,6 +1657,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/codes/gender',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
             };
@@ -1610,36 +1676,104 @@ export function RegisterRoutes(router: any) {
             const promise = controller.getGenderCodes.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
+    router.get('/v1/token',
+        authenticateMiddleware([{ "name": "siteminder" }]),
+        async (context, next) => {
+            const args = {
+                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+            };
 
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new TokenController();
+
+            const promise = controller.getToken.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.post('/v1/token/delete',
+        async (context, next) => {
+            const args = {
+                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            const controller = new TokenController();
+
+            const promise = controller.logout.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+
+    function authenticateMiddleware(security: TsoaRoute.Security[] = []) {
+        return async (context: any, next: any) => {
+            let responded = 0;
+            let success = false;
+            for (const secMethod of security) {
+                try {
+                    const user = await koaAuthentication(context.request, secMethod.name, secMethod.scopes)
+                    // only need to respond once
+                    if (!success) {
+                        success = true;
+                        responded++;
+                        context.request['user'] = user;
+                        return next();
+                    }
+                } catch (error) {
+                    responded++;
+                    // If no authentication was successful
+                    if (responded == security.length && !success) {
+                        context.throw(401, 'access_denied', `${error.message ? error.message : error}`);
+                    }
+                }
+            }
+        }
+    }
+
+    function isController(object: any): object is Controller {
+        return 'getHeaders' in object && 'getStatus' in object && 'setStatus' in object;
+    }
 
     function promiseHandler(controllerObj: any, promise: Promise<any>, context: any, next: () => Promise<any>) {
         return Promise.resolve(promise)
             .then((data: any) => {
-                if (data) {
+                if (data || data === false) {
                     context.body = data;
                     context.status = 200;
                 } else {
                     context.status = 204;
                 }
 
-                if (controllerObj instanceof Controller) {
-                    const controller = controllerObj as Controller
-                    const headers = controller.getHeaders();
+                if (isController(controllerObj)) {
+                    const headers = controllerObj.getHeaders();
                     Object.keys(headers).forEach((name: string) => {
                         context.set(name, headers[name]);
                     });
 
-                    const statusCode = controller.getStatus();
+                    const statusCode = controllerObj.getStatus();
                     if (statusCode) {
                         context.status = statusCode;
                     }
                 }
-                next();
+                return next();
             })
             .catch((error: any) => {
                 context.status = error.status || 500;
                 context.body = error;
-                next();
+                return next();
             });
     }
 

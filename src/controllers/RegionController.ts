@@ -2,8 +2,10 @@ import { Body, Delete, Get, Path, Post, Put, Route } from 'tsoa';
 import { Region } from '../models/Region';
 import { RegionService } from '../services/RegionService';
 import ControllerBase from './ControllerBase';
+import { Security } from '../authentication';
 
 @Route('regions')
+@Security('jwt')
 export class RegionController extends ControllerBase<Region> {
     get service(){
         return new RegionService();

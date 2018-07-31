@@ -47,10 +47,12 @@ describe('Sheriff API', () => {
         let testGenderCode: GenderCode;
 
         beforeAll(async (done) => {
-            api = TestUtils.getClient();
-            testRegion = await api.CreateRegion(testRegion);
-            testCourthouse = await api.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
-            testGenderCode = (await api.GetGenderCodes())[0];
+            await TestUtils.setupTestFixtures(async client=>{
+                testRegion = await client.CreateRegion(testRegion);
+                testCourthouse = await client.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
+                testGenderCode = (await client.GetGenderCodes())[0];
+            });
+            api = TestUtils.getClientWithAuth();
             done();
         });
 
@@ -87,7 +89,7 @@ describe('Sheriff API', () => {
             delete secondTestCourthouse['id'];
             secondTestCourthouse.name = "Test Courthouse 2";
             secondTestCourthouse.code= TestUtils.randomString(5);
-            const secondCourthouse = await api.CreateCourthouse(secondTestCourthouse);
+            const secondCourthouse = await TestUtils.setupTestFixtures(client=>client.CreateCourthouse(secondTestCourthouse));
             const secondSheriff = await api.CreateSheriff({
                 ...sheriffToCreate,
                 firstName: "William",
