@@ -264,34 +264,6 @@ The API will associate an Api Scope string with each endpoint to determine what 
     
     <changeSet author="Carol Geisler" id="CRTAB_aud_sheriff_duty">
                 <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="aud_sheriff_duty">
-            <column name="sheriff_duty_id" type="UUID">
-                <constraints nullable="false"/>
-            </column>
-            <column name="sheriff_id" type="UUID"/>
-            <column name="duty_id" type="UUID">
-                <constraints nullable="false"/>
-            </column>
-            <column name="start_dtm" type="TIMESTAMP WITH TIME ZONE">
-                <constraints nullable="false"/>
-            </column>
-            <column name="end_dtm" type="TIMESTAMP WITH TIME ZONE">
-                <constraints nullable="false"/>
-            </column>
-            <column name="created_by" type="VARCHAR(32)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="updated_by" type="VARCHAR(32)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
-                <constraints nullable="false"/>
-            </column>
-            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
-                <constraints nullable="false"/>
-            </column>
-            <column name="revision_count" type="numeric(10)">
-                <constraints nullable="false"/>
-            </column>
             <column name="operation_code" type="VARCHAR(20)">
                 <constraints nullable="false"/>
             </column>
@@ -300,6 +272,20 @@ The API will associate an Api Scope string with each endpoint to determine what 
             </column>
             <column name="operation_user_id" type="UUID"/>
             <column name="transaction_id" type="UUID"/>
+            <column name="sheriff_duty_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sheriff_id" type="UUID"/>
+            <column name="duty_id" type="UUID"/>
+            <column name="start_dtm" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="end_dtm" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="created_by" type="VARCHAR(32)"/>
+            <column name="updated_by" type="VARCHAR(32)"/>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="aud_sheriff_duty" columnNames="sheriff_duty_id,revision_count" constraintName="pk_aud_shrdty"/>
         <sql>
@@ -309,33 +295,8 @@ The API will associate an Api Scope string with each endpoint to determine what 
           <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="aud_sheriff_duty"/>
         </rollback>
     </changeSet>
-    
-    <changeSet author="Carol Geisler" id="CRTPRC_tab_stamp">
-      <createProcedure catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}">
-    CREATE OR REPLACE FUNCTION ${POSTGRES_SCHEMA}.tab_stamp() RETURNS trigger AS $tab_stamp$
-      BEGIN
-        IF NEW.updated_by IS NULL THEN
-          NEW.updated_by := 'anon$' || current_user;
-        END IF;
-        NEW.updated_dtm := current_timestamp;
-        IF TG_OP = 'INSERT' THEN
-          NEW.created_by := NEW.updated_by;
-          NEW.created_dtm := NEW.updated_dtm;
-          NEW.revision_count = 0;
-        ELSE
-          NEW.revision_count = OLD.revision_count + 1;
-        END IF;
-  
-        RETURN NEW;
-      END;
-    $tab_stamp$ LANGUAGE plpgsql;
-      </createProcedure>
-      <rollback>
-        <sql>
-          DROP FUNCTION IF EXISTS ${POSTGRES_SCHEMA}.tab_stamp();
-        </sql>
-      </rollback>
-    </changeSet>
+
+    <include file="procs/shersched.db.changelog-function.tab_stamp.xml"/>
     
     <changeSet author="Carol Geisler" id="ADDTRG_shrdty_stamp">
       <sql>
@@ -353,6 +314,119 @@ The API will associate an Api Scope string with each endpoint to determine what 
         </sql>
       </rollback>
     </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_apsc_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_apsc_stamp ON ${POSTGRES_SCHEMA}.api_scope;
+        	CREATE TRIGGER trg_biu_apsc_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.api_scope
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_apsc_stamp ON ${POSTGRES_SCHEMA}.api_scope;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_aprl_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_aprl_stamp ON ${POSTGRES_SCHEMA}.app_role;
+        	CREATE TRIGGER trg_biu_aprl_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.app_role
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_aprl_stamp ON ${POSTGRES_SCHEMA}.app_role;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_aprlapsc_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_aprlapsc_stamp ON ${POSTGRES_SCHEMA}.app_role_api_scope;
+        	CREATE TRIGGER trg_biu_aprlapsc_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.app_role_api_scope
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_aprlapsc_stamp ON ${POSTGRES_SCHEMA}.app_role_api_scope;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_usr_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_usr_stamp ON ${POSTGRES_SCHEMA}.app_user;
+        	CREATE TRIGGER trg_biu_usr_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.app_user
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_usr_stamp ON ${POSTGRES_SCHEMA}.app_user;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_usrl_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_usrl_stamp ON ${POSTGRES_SCHEMA}.app_user_role;
+        	CREATE TRIGGER trg_biu_usrl_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.app_user_role
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_usrl_stamp ON ${POSTGRES_SCHEMA}.app_user_role;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+
+    <include file="procs/shersched.db.changelog-function.audit_shrdty.xml"/>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_audit_shrdty">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_pud_shrdty_audit ON ${POSTGRES_SCHEMA}.sheriff_duty;
+        	CREATE TRIGGER trg_pud_shrdty_audit after UPDATE OR DELETE ON ${POSTGRES_SCHEMA}.sheriff_duty
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.audit_shrdty();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_pud_shrdty_audit ON ${POSTGRES_SCHEMA}.sheriff_duty;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+    
+    <!-- because the data inserts in the include file below are preliminary, 
+         and in some cases strictly for DEV, I am including them directly here
+         with the DDL.  The prod version auth data should be included in the
+         data\shersched.db.changelog-data.prod.xml -->
+
+		    
+    <!-- auth table dev data -->
+    <include file="data/shersched.db.changelog-authdata.dev.xml"/>
 
     <changeSet author="Carol Geisler" id="tag1">
     	<tagDatabase tag="ddl_set_07_audit_end"/>
