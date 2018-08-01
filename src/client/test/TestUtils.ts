@@ -1,5 +1,6 @@
 import { toMatchShapeOf, toMatchOneOf } from 'jest-to-match-shape-of';
 import db from '../../db/Database';
+import { closeConnectionPool } from '../../db/connection';
 import ExtendedClient from '../ExtendedClient';
 import { Courthouse, Courtroom, Assignment, Region, DutyRecurrence, Duty, SheriffDuty, Shift, Leave } from '../models';
 import { Sheriff } from '../../models/Sheriff';
@@ -40,9 +41,6 @@ export default class TestUtils {
         TestUtils.tables.courthouse,
         TestUtils.tables.region,
     ]
-    constructor() {
-
-    }
 
     static getClientWithAuth(user: string = 'bnye') {
         const headers = {};
@@ -90,7 +88,7 @@ export default class TestUtils {
     }
 
     static async closeDatabase() {
-        await db.close();
+        await closeConnectionPool();
     }
 
     static randomString(length: number) {

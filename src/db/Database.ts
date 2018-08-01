@@ -1,50 +1,30 @@
-// import { config as configureEnvironment } from 'dotenv';
-import { ClientBase, Pool, PoolClient, types } from 'pg';
+import { ClientBase, Pool, PoolClient } from 'pg';
 import { FunctionBlock, InsertFieldValueMixin, PostgresInsert, PostgresSquel, PostgresUpdate } from 'squel';
 import squel from './squel';
-// configureEnvironment({path:'.env.dev'});
+import { getConnectionPool, closeConnectionPool } from './connection';
 
-// https://github.com/brianc/node-pg-types
-types.setTypeParser(1700, (val) => (Number(val)))
 export class Database {
-    private pool: Pool;
-    private _schema: string;
-    private _extensionsSchema: string;
     constructor() {
-        this._schema = process.env["API_DATABASE_SCHEMA"] || 'shersched';
-        this._extensionsSchema = process.env["POSTGRES_EXT_SCHEMA"] || 'extensions';
-        console.log(`DB Connection Pool Initialized using '${this._schema}' schema`);
-        console.log(`DB connection established on port: ${process.env["PGPORT"]}`)
-        console.log('Adding schemas to search path: ',this._schema,this._extensionsSchema)
-        // Create our connection pool
-        this.pool = new Pool();
-        this.pool.on('error',(err)=>{
-            console.error(err);
-        })
-        this.pool.on('connect', async (client) => {
-            // console.debug('Setting schema to shersched');
-            client.on('error',err=>{
-                console.error(err);
-            })
-            const searchPath = `SET search_path TO ${this._schema},${this._extensionsSchema}`; 
-            await client.query(searchPath);
-        })
-        //console.debug('Database connection pool created');
     }
 
     get currentUser() {
         return 'API_USER'
     }
 
+    private get connection(){
+        return getConnectionPool();
+    }
+
     getClient(): Promise<PoolClient> {
-        return this.pool.connect();
+        return this.connection.connect();
     }
 
     get executeQuery() {
-        return this.pool.query.bind(this.pool);
+        const connection = this.connection;
+        return connection.query.bind(connection);
     }
     insertQuery(tableName?: string, uuidField?: string): PostgresInsert {
-        const query = squel.insert({replaceSingleQuotes:true})
+        const query = squel.insert({ replaceSingleQuotes: true })
             .setFields(this.getUpdatedByFields())
             .setFields({
                 created_by: this.currentUser,
@@ -79,7 +59,7 @@ export class Database {
     }
 
     updateQuery(tableName?: string): PostgresUpdate {
-        const query = squel.update({replaceSingleQuotes:true})
+        const query = squel.update({ replaceSingleQuotes: true })
             .setFields(this.getUpdatedByFields());
 
         if (tableName) {
@@ -100,16 +80,6 @@ export class Database {
             throw e;
         } finally {
             client.release();
-        }
-    }
-
-    async close() {
-        if (this.pool) {
-            console.log("Closing Database");
-            await this.pool.end();
-            delete this.pool;
-        }else{
-            console.log('No Pool.')
         }
     }
 
