@@ -30,7 +30,7 @@
         SELECT  app_user_id 
         INTO    v_app_user_id
         FROM    ${POSTGRES_SCHEMA}.app_user
-        WHERE   auth_user_id = NEW.updated_by
+        WHERE   user_auth_id = NEW.updated_by
         ;
         
         IF NOT FOUND THEN
