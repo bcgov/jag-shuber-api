@@ -1,6 +1,6 @@
 import { Assignment } from '../models/Assignment';
 import { DutyRecurrence } from '../models/DutyRecurrence';
-import ExpirableDatabaseService, { EffectiveQueryOptions } from './ExpirableDatabaseService';
+import ExpirableDatabaseService, { EffectiveQueryOptions } from '../infrastructure/ExpirableDatabaseService';
 import { DutyRecurrenceService } from './DutyRecurrenceService';
 import moment from 'moment';
 import { ValidateError, FieldErrors } from 'tsoa';
@@ -10,10 +10,14 @@ import { JailRoleCodeService } from './JailRoleCodeService';
 import { RunService } from './RunService';
 import { OtherAssignCodeService } from './OtherAssignCodeService';
 import { CourtRoleCodeService } from './CourtRoleCodeService';
+import { AutoWired, Inject } from 'typescript-ioc';
 
+@AutoWired
 export class AssignmentService extends ExpirableDatabaseService<Assignment> {
 
-    private dutyRecurrenceService: DutyRecurrenceService;
+    @Inject
+    private dutyRecurrenceService!: DutyRecurrenceService;
+
     fieldMap = {
         assignment_id: 'id',
         title: 'title',
@@ -28,8 +32,6 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
 
     constructor() {
         super('assignment', 'assignment_id');
-        // Todo: IoC would be better here than explicit construction
-        this.dutyRecurrenceService = new DutyRecurrenceService();
     }
 
     async getById(id: string) {
