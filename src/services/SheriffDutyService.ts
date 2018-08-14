@@ -1,5 +1,5 @@
 import { Duty } from '../models/Duty';
-import { DatabaseService } from './DatabaseService';
+import { DatabaseService } from '../infrastructure/DatabaseService';
 import { SheriffDuty } from '../models/SheriffDuty';
 
 export class SheriffDutyService extends DatabaseService<SheriffDuty> {

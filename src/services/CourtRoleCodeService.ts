@@ -1,5 +1,5 @@
 import { CourtRoleCode } from '../models/CourtRoleCode';
-import ExpirableDatabaseService from './ExpirableDatabaseService';
+import ExpirableDatabaseService from '../infrastructure/ExpirableDatabaseService';
 
 
 export class CourtRoleCodeService extends ExpirableDatabaseService<CourtRoleCode> {

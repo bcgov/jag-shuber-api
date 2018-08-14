@@ -1,6 +1,6 @@
 import moment from 'moment-timezone';
 import { Shift } from '../models/Shift';
-import { DatabaseService } from './DatabaseService';
+import { DatabaseService } from '../infrastructure/DatabaseService';
 import { MultipleShiftUpdateRequest } from '../models/MultipleShiftUpdateRequest';
 import { ShiftCopyOptions } from '../models/ShiftCopyOptions';
 import { setTime } from '../common/TimeUtils';

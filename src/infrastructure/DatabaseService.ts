@@ -1,14 +1,17 @@
 import { GetFieldBlock, PostgresDelete, PostgresInsert, PostgresSelect, PostgresSquel, PostgresUpdate } from 'squel';
-import { Database, default as db } from '../db/Database';
+import { Database } from '../db/Database';
 import { ServiceBase } from './ServiceBase';
 import { ClientBase } from 'pg';
 import { DatabaseError, isDatabaseError, ValidationError } from '../common/Errors'
 import { ValidateError, FieldErrors } from 'tsoa';
+import { Inject, AutoWired } from 'typescript-ioc';
 
 export type DatabaseResult<T> = { rows: T[] }
 
+@AutoWired
 export abstract class DatabaseService<T> extends ServiceBase<T> {
-    private _db: Database = db;
+    @Inject
+    private _db!: Database;
     protected get db() {
         return this._db;
     }

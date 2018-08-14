@@ -1,5 +1,5 @@
 import { Courtroom } from '../models/Courtroom';
-import { DatabaseService } from './DatabaseService';
+import { DatabaseService } from '../infrastructure/DatabaseService';
 
 
 export class CourtroomService extends DatabaseService<Courtroom> {

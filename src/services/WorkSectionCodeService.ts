@@ -1,5 +1,5 @@
 import { WorkSectionCode } from '../models/WorkSectionCode';
-import ExpirableDatabaseService from './ExpirableDatabaseService';
+import ExpirableDatabaseService from '../infrastructure/ExpirableDatabaseService';
 
 
 export class WorkSectionCodeService extends ExpirableDatabaseService<WorkSectionCode> {

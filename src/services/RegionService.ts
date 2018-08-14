@@ -1,5 +1,5 @@
 import { Region } from '../models/Region';
-import { DatabaseService } from './DatabaseService';
+import { DatabaseService } from '../infrastructure/DatabaseService';
 
 
 export class RegionService extends DatabaseService<Region> {

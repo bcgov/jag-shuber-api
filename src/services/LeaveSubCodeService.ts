@@ -1,4 +1,4 @@
-import ExpirableDatabaseService from './ExpirableDatabaseService';
+import ExpirableDatabaseService from '../infrastructure/ExpirableDatabaseService';
 import { LeaveSubCode } from '../models/LeaveSubCode';
 
 

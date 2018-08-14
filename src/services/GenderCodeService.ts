@@ -1,5 +1,5 @@
 import { GenderCode } from '../models/GenderCode';
-import ExpirableDatabaseService from './ExpirableDatabaseService';
+import ExpirableDatabaseService from '../infrastructure/ExpirableDatabaseService';
 
 
 export class GenderCodeService extends ExpirableDatabaseService<GenderCode> {

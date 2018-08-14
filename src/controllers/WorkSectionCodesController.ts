@@ -1,7 +1,7 @@
 import { Body, Delete, Get, Path, Post, Put, Query, Route } from 'tsoa';
 import { WorkSectionCode } from '../models/WorkSectionCode';
 import { WorkSectionCodeService } from '../services/WorkSectionCodeService';
-import ControllerBase from './ControllerBase';
+import ControllerBase from '../infrastructure/ControllerBase';
 import { Security } from '../authentication';
 
 @Route('codes/worksection')

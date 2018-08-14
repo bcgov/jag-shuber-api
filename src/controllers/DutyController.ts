@@ -2,7 +2,7 @@ import { Body, Delete, Get, Path, Post, Put, Query, Route, BodyProp } from 'tsoa
 import { Duty } from '../models/Duty';
 import { SheriffDuty } from '../models/SheriffDuty';
 import { DutyService } from '../services/DutyService';
-import ControllerBase from './ControllerBase';
+import ControllerBase from '../infrastructure/ControllerBase';
 import { DutyImportDefaultsRequest } from '../models/DutyImportDefaultsRequest';
 import { Security } from '../authentication';
 

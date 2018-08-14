@@ -1,5 +1,5 @@
 import { OtherAssignCode } from '../models/OtherAssignCode';
-import ExpirableDatabaseService from './ExpirableDatabaseService';
+import ExpirableDatabaseService from '../infrastructure/ExpirableDatabaseService';
 
 
 export class OtherAssignCodeService extends ExpirableDatabaseService<OtherAssignCode> {

@@ -1,5 +1,5 @@
 import { Body, Delete, Get, Path, Post, Put, Query, Route, BodyProp } from 'tsoa';
-import ControllerBase from './ControllerBase';
+import ControllerBase from '../infrastructure/ControllerBase';
 import { SheriffDutyService } from '../services/SheriffDutyService';
 import { SheriffDuty } from '../models/SheriffDuty';
 import { Sheriff } from '../models/Sheriff';

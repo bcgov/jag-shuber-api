@@ -1,5 +1,5 @@
 import { JailRoleCode } from '../models/JailRoleCode';
-import ExpirableDatabaseService from './ExpirableDatabaseService';
+import ExpirableDatabaseService from '../infrastructure/ExpirableDatabaseService';
 import { LeaveCode } from '../models/LeaveCode';
 
 

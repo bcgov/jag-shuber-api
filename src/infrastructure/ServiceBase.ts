@@ -1,9 +1,18 @@
 import { v4 as uuid } from 'uuid';
-import { ICrudService } from "../infrastructure";
+import { CrudService } from "./CrudService";
 import moment, { Moment, parseZone } from 'moment';
-import {setTime} from '../common/TimeUtils'
+import { setTime } from '../common/TimeUtils'
+import { AutoWired, Inject } from 'typescript-ioc';
+import { CurrentUser } from './CurrentUser';
 
-export abstract class ServiceBase<T> implements ICrudService<T> {
+@AutoWired
+export abstract class ServiceBase<T> extends CrudService<T> {
+    @Inject
+    private _currentUser!:CurrentUser;
+    protected currentUser(){
+        return this._currentUser;
+    }
+
     abstract getAll(): Promise<T[]>;
     abstract getById(id: string): Promise<T | undefined>;
     abstract create(entity: Partial<T>): Promise<T>

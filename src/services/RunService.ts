@@ -1,5 +1,5 @@
 import { Run } from '../models/Run';
-import { DatabaseService } from './DatabaseService';
+import { DatabaseService } from '../infrastructure/DatabaseService';
 
 
 export class RunService extends DatabaseService<Run> {

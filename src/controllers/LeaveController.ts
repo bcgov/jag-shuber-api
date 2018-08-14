@@ -1,5 +1,5 @@
 import { Body, Delete, Get, Path, Post, Put, Route } from 'tsoa';
-import ControllerBase from './ControllerBase';
+import ControllerBase from '../infrastructure/ControllerBase';
 import { Leave } from '../models/Leave';
 import { LeaveService } from '../services/LeaveService';
 import { Security } from '../authentication';

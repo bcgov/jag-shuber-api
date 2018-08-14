@@ -2,16 +2,19 @@ import { ClientBase, Pool, PoolClient } from 'pg';
 import { FunctionBlock, InsertFieldValueMixin, PostgresInsert, PostgresSquel, PostgresUpdate } from 'squel';
 import squel from './squel';
 import { getConnectionPool, closeConnectionPool } from './connection';
+import { Inject, AutoWired } from 'typescript-ioc';
+import { CurrentUser } from '../infrastructure/CurrentUser';
 
+@AutoWired
 export class Database {
-    constructor() {
+    @Inject
+    private _currentUser!: CurrentUser;
+
+    get currentUserName() {
+        return this._currentUser.displayName.substr(0,32);        
     }
 
-    get currentUser() {
-        return 'API_USER'
-    }
-
-    private get connection(){
+    private get connection() {
         return getConnectionPool();
     }
 
@@ -27,7 +30,7 @@ export class Database {
         const query = squel.insert({ replaceSingleQuotes: true })
             .setFields(this.getUpdatedByFields())
             .setFields({
-                created_by: this.currentUser,
+                created_by: this.currentUserName,
                 created_dtm: squel.str('NOW()'),
                 revision_count: 0
             })
@@ -43,7 +46,7 @@ export class Database {
     }
     getUpdatedByFields() {
         return {
-            updated_by: this.currentUser,
+            updated_by: this.currentUserName,
             updated_dtm: squel.str('NOW()'),
             revision_count: squel.str('revision_count+1')
         };

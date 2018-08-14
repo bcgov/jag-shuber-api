@@ -29,7 +29,8 @@ import {
     LeaveCode,
     LeaveSubCode,
     CourtRoleCode,
-    GenderCode 
+    GenderCode,
+    User 
 } from "./models"
 
 
@@ -626,5 +627,11 @@ export default class Client {
     public async Logout():Promise<any>{
         await this.agent.post(`/token/delete`)
         this.handleNewToken();
+    }    
+    public async GetCurrentUser():Promise<User>{
+        return this.tryRequest<User>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/User/me`)
+            return response;
+        });
     }    
 }

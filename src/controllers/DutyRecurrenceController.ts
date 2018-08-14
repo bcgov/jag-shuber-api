@@ -1,7 +1,7 @@
 import { Body, Delete, Get, Path, Post, Put, Query, Route } from 'tsoa';
 import { DutyRecurrence } from '../models/DutyRecurrence';
 import { DutyRecurrenceService } from '../services/DutyRecurrenceService';
-import ControllerBase from './ControllerBase';
+import ControllerBase from '../infrastructure/ControllerBase';
 import { Security } from '../authentication';
 
 @Route('DutyRecurrences')

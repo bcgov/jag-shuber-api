@@ -1,5 +1,5 @@
 import { DutyRecurrence } from '../models/DutyRecurrence';
-import ExpirableDatabaseService, { EffectiveQueryOptions } from './ExpirableDatabaseService';
+import ExpirableDatabaseService, { EffectiveQueryOptions } from '../infrastructure/ExpirableDatabaseService';
 
 
 export class DutyRecurrenceService extends ExpirableDatabaseService<DutyRecurrence> {

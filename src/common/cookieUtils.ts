@@ -1,5 +1,5 @@
-import { CookieAccessInfo } from '../../node_modules/@types/cookiejar';
-import { SuperAgent } from '../../node_modules/@types/superagent';
+import { CookieAccessInfo } from 'cookiejar';
+import { SuperAgent } from 'superagent';
 
 /**
  * Retreives a cookie from either the cookie jar of a SuperAgent or from the

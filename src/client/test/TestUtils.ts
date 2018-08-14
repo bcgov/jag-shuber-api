@@ -7,7 +7,13 @@ import { Sheriff } from '../../models/Sheriff';
 import { ClientBase } from 'pg';
 import './MomentMatchers';
 import moment, { Moment } from 'moment';
-import { SITEMINDER_HEADER_USERGUID } from '../../common/authentication';
+import {
+    SITEMINDER_HEADER_USERGUID,
+    SITEMINDER_HEADER_USERDISPLAYNAME,
+    SITEMINDER_HEADER_USERIDENTIFIER,
+    SITEMINDER_HEADER_USERTYPE,
+    TokenPayload
+} from '../../common/authentication';
 
 expect.extend({
     toMatchShapeOf,
@@ -42,9 +48,21 @@ export default class TestUtils {
         TestUtils.tables.region,
     ]
 
-    static getClientWithAuth(user: string = 'bnye') {
+    public static DefaultAuthConfig :TokenPayload = {
+        userId:'bnye',
+        displayName:'Nye, Bill',
+        guid:'bnyeguid',
+        type:'testing'
+    }
+
+    static getClientWithAuth(authOverrides?: TokenPayload) {
+        const authConfig = {...TestUtils.DefaultAuthConfig,...authOverrides};
+        const {guid,displayName,userId,type} = authConfig;
         const headers = {};
-        headers[SITEMINDER_HEADER_USERGUID] = user;
+        headers[SITEMINDER_HEADER_USERGUID] = guid;
+        headers[SITEMINDER_HEADER_USERDISPLAYNAME] = displayName;
+        headers[SITEMINDER_HEADER_USERIDENTIFIER] = userId;
+        headers[SITEMINDER_HEADER_USERTYPE] = type;
         return this.getClient(headers);
     }
 
@@ -211,7 +229,8 @@ beforeAll(async (done) => {
     done();
 });
 
-afterAll(async () => {
+afterAll(async (done) => {
     // Don't wait for the database to close, hoping it does
-    TestUtils.closeDatabase();
+    await TestUtils.closeDatabase();
+    done();
 });

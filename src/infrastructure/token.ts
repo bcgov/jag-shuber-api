@@ -14,7 +14,7 @@ export const JWT_SECRET: string = process.env.JWT_SECRET || "d3vS3cr37";
  * @param {jwt.SignOptions} [signOptions]
  * @returns {(Promise<string | undefined>)}
  */
-export async function createToken(payload: TokenPayload,secret:string=JWT_SECRET, signOptions?: jwt.SignOptions): Promise<string | undefined> {
+export async function createToken(payload: TokenPayload, secret: string = JWT_SECRET, signOptions?: jwt.SignOptions): Promise<string | undefined> {
     if (payload) {
         return jwt.sign({
             scopes: [],

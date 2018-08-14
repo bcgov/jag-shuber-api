@@ -1,5 +1,5 @@
 import { Get, Route } from 'tsoa';
-import ControllerBase from './ControllerBase';
+import ControllerBase from '../infrastructure/ControllerBase';
 import { LeaveCode } from '../models/LeaveCode';
 import { LeaveCodeService } from '../services/LeaveCodeService';
 import { Security } from '../authentication';

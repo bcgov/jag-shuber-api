@@ -1,4 +1,3 @@
-/// <reference types="superagent" />
 import moment from 'moment';
 import * as SA from 'superagent';
 import Client from './Client';
@@ -9,12 +8,12 @@ export default class ExtendedClient extends Client {
     private _requestInterceptor?;
     private timezoneOffset?;
     constructor(baseUrl: string);
-    private interceptRequest(req);
+    private interceptRequest;
     requestInterceptor: SuperAgentRequestInterceptor | undefined;
     protected handleResponse<T>(response: SA.Response): T;
     protected ensureToken(): Promise<void>;
     protected processError(err: any): Error;
-    private nullOn404<T>(method);
+    private nullOn404;
     GetRegionById(id: string): Promise<Region>;
     GetCourthouseById(id: string): Promise<Courthouse>;
     GetSheriffById(id: string): Promise<Sheriff>;
@@ -32,12 +31,12 @@ export default class ExtendedClient extends Client {
     GetDutyById(id: string): Promise<Duty>;
     GetLeaveById(id: string): Promise<Leave>;
     GetSheriffDutyById(id: string): Promise<Duty>;
-    private ensureTimeZone(...dutyRecurrences);
+    private ensureTimeZone;
     CreateDutyRecurrence(model: DutyRecurrence): Promise<DutyRecurrence>;
     UpdateDutyRecurrence(id: string, model: DutyRecurrence): Promise<DutyRecurrence>;
     CreateAssignment(model: Assignment): Promise<Assignment>;
     UpdateAssignment(id: string, model: Assignment): Promise<Assignment>;
-    private ensureLeaveTimes(model);
+    private ensureLeaveTimes;
     CreateLeave(model: Leave): Promise<Leave>;
     UpdateLeave(id: string, model: Leave): Promise<Leave>;
     UpdateMultipleShifts(model: MultipleShiftUpdateRequest): Promise<Shift[]>;

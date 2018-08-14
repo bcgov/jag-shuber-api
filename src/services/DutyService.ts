@@ -1,6 +1,6 @@
 import { Duty } from '../models/Duty';
 import moment from 'moment';
-import { DatabaseService } from './DatabaseService';
+import { DatabaseService } from '../infrastructure/DatabaseService';
 import { AssignmentService } from './AssignmentService';
 import { DutyRecurrenceService } from './DutyRecurrenceService';
 import { DutyImportDefaultsRequest } from '../models/DutyImportDefaultsRequest';

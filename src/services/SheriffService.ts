@@ -1,5 +1,5 @@
 import { Sheriff } from "../models/Sheriff";
-import { DatabaseService } from "./DatabaseService";
+import { DatabaseService } from "../infrastructure/DatabaseService";
 
 export class SheriffService extends DatabaseService<Sheriff> {
     fieldMap = {

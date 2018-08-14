@@ -1,4 +1,4 @@
-import { DatabaseService } from './DatabaseService';
+import { DatabaseService } from '../infrastructure/DatabaseService';
 import { Leave } from '../models/Leave';
 import moment from 'moment';
 

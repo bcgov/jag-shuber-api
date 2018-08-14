@@ -1,5 +1,5 @@
 import { SheriffRankCode } from '../models/SheriffRankCode';
-import ExpirableDatabaseService from './ExpirableDatabaseService';
+import ExpirableDatabaseService from '../infrastructure/ExpirableDatabaseService';
 
 
 export class SheriffRankCodeService extends ExpirableDatabaseService<SheriffRankCode> {

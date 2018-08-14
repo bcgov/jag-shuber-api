@@ -1,7 +1,7 @@
 import { Body, Delete, Get, Path, Post, Put, Query, Route } from 'tsoa';
 import { Shift } from '../models/Shift';
 import { ShiftService } from '../services/ShiftService';
-import ControllerBase from './ControllerBase';
+import ControllerBase from '../infrastructure/ControllerBase';
 import { MultipleShiftUpdateRequest } from '../models/MultipleShiftUpdateRequest';
 import { ShiftCopyOptions } from '../models/ShiftCopyOptions';
 import { Security } from '../authentication';

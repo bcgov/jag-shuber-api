@@ -1,7 +1,7 @@
 import { Body, Delete, Get, Path, Post, Put, Query, Route } from 'tsoa';
 import { Courtroom } from '../models/Courtroom';
 import { CourtroomService } from '../services/CourtroomService';
-import ControllerBase from './ControllerBase';
+import ControllerBase from '../infrastructure/ControllerBase';
 import { Security } from '../authentication';
 
 @Route('courtrooms')
