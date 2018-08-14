@@ -88,8 +88,8 @@ describe('Assignment API', () => {
 
         expect(createdEntityWithRecurrence).toBeDefined();
         expect(createdEntityWithRecurrence.dutyRecurrences).toBeDefined();
-        expect(createdEntityWithRecurrence.dutyRecurrences.length).toEqual(1);
-        const createdRecurrence = createdEntityWithRecurrence.dutyRecurrences[0];
+        expect(createdEntityWithRecurrence.dutyRecurrences!.length).toEqual(1);
+        const createdRecurrence = createdEntityWithRecurrence.dutyRecurrences![0];
 
         // Check the shape of the object returned
         expect(createdRecurrence).toMatchShapeOf(recurrenceShape);
@@ -102,9 +102,9 @@ describe('Assignment API', () => {
     });
 
     it('get by id should return Assignment', async () => {
-        const retrieved = await api.GetAssignmentById(createdEntity.id);
+        const retrieved = await api.GetAssignmentById(createdEntity.id as string);
         expect(retrieved).toMatchObject(createdEntity);
-        const retrievedWithRecurrence = await api.GetAssignmentById(createdEntityWithRecurrence.id);
+        const retrievedWithRecurrence = await api.GetAssignmentById(createdEntityWithRecurrence.id as string);
         expect(retrievedWithRecurrence).toMatchObject(createdEntityWithRecurrence);
     });
 
@@ -143,14 +143,14 @@ describe('Assignment API', () => {
     });
 
     it('expire should set expiry date for assignment and hide from get operation', async () => {
-        await api.ExpireAssignment(createdEntity.id);
+        await api.ExpireAssignment(createdEntity.id as string);
         const list = await api.GetAssignments();
         expect(list.some(a => a.id === createdEntity.id)).toBeFalsy();
     });
 
     it('update Assignment should return updated Assignment', async () => {
         const newTitle = "New Assignment Name";
-        const updatedEntity = await api.UpdateAssignment(createdEntity.id, {
+        const updatedEntity = await api.UpdateAssignment(createdEntity.id as string, {
             ...createdEntity,
             title: newTitle
         } as Assignment);
@@ -173,7 +173,7 @@ describe('Assignment API', () => {
             endTime: "17:30:00",
             sheriffsRequired: 12
         }
-        const updatedEntityWithRecurrence = await api.UpdateAssignment(createdEntity.id, {
+        const updatedEntityWithRecurrence = await api.UpdateAssignment(createdEntity.id as string, {
             ...createdEntityWithRecurrence,
             title: newTitle,
             dutyRecurrences: [
@@ -207,22 +207,22 @@ describe('Assignment API', () => {
         expect(retrieved.dutyRecurrences[0]).toEqual(secondRecurrence);
 
         // When getting assignment by Id, we should grab all of the duty recurrences regardless of expiry
-        const retrievedById = await api.GetAssignmentById(createdEntityWithRecurrence.id);
+        const retrievedById = await api.GetAssignmentById(createdEntityWithRecurrence.id as string);
         expect(retrievedById.dutyRecurrences.map(dr => dr.id)).toEqual(expect.arrayContaining(createdEntityWithRecurrence.dutyRecurrences.map(dr => dr.id)));
     });
 
     it('delete should delete Assignment', async () => {
-        await api.DeleteAssignment(createdEntity.id);
-        const retreived = await api.GetAssignmentById(createdEntity.id);
+        await api.DeleteAssignment(createdEntity.id as string);
+        const retreived = await api.GetAssignmentById(createdEntity.id as string);
         expect(retreived).not.toBeDefined();
     });
 
     it('deleting an assignment should delete its recurrences', async () => {
-        await api.DeleteAssignment(createdEntityWithRecurrence.id);
+        await api.DeleteAssignment(createdEntityWithRecurrence.id as string);
         await createdEntityWithRecurrence.dutyRecurrences
             .map(dr => dr.id)
             .forEach(async id => {
-                const recurrence = await api.GetDutyRecurrenceById(id);
+                const recurrence = await api.GetDutyRecurrenceById(id as string);
                 expect(recurrence).not.toBeDefined();
             })
     });
@@ -266,7 +266,7 @@ describe('Assignment API', () => {
                 courtroomId: testCourtroom.id,
                 title
             });
-            const retreived = await api.GetAssignmentById(noTitleEntity.id);
+            const retreived = await api.GetAssignmentById(noTitleEntity.id as string);
             expect(retreived.title).toEqual(title);
         });
 
