@@ -20,7 +20,7 @@ import {
 import { toTimeString } from '../common/TimeUtils';
 import { ApiError } from '../common/Errors';
 import { TokenPayload } from '../common/authentication';
-import { decodeJwt } from '../common/token';
+import { decodeJwt } from '../common/tokenUtils';
 
 export type DateType = string | Date | moment.Moment | number;
 

@@ -7,11 +7,11 @@ console.log(`Loading environment vars from '${envPath}'`);
 configureEnvironment({
     path:envPath
 });
+import {closeConnectionPool} from './db/connection'
 
-import db from './db/Database';
 // Graceful shutdown on nodemon restart
 process.once('SIGUSR2', async () => {
     console.log("Cleaning up app resources");
-    await db.close();
+    await closeConnectionPool();
     process.kill(process.pid, 'SIGUSR2');
 });

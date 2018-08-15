@@ -1,6 +1,6 @@
 import { Assignment } from '../models/Assignment';
 import { DutyRecurrence } from '../models/DutyRecurrence';
-import ExpirableDatabaseService, { EffectiveQueryOptions } from './ExpirableDatabaseService';
+import ExpirableDatabaseService, { EffectiveQueryOptions } from '../infrastructure/ExpirableDatabaseService';
 import { DutyRecurrenceService } from './DutyRecurrenceService';
 import moment from 'moment';
 import { ValidateError, FieldErrors } from 'tsoa';
@@ -10,10 +10,14 @@ import { JailRoleCodeService } from './JailRoleCodeService';
 import { RunService } from './RunService';
 import { OtherAssignCodeService } from './OtherAssignCodeService';
 import { CourtRoleCodeService } from './CourtRoleCodeService';
+import { AutoWired, Inject, Container } from 'typescript-ioc';
 
+@AutoWired
 export class AssignmentService extends ExpirableDatabaseService<Assignment> {
 
-    private dutyRecurrenceService: DutyRecurrenceService;
+    @Inject
+    private dutyRecurrenceService!: DutyRecurrenceService;
+
     fieldMap = {
         assignment_id: 'id',
         title: 'title',
@@ -28,8 +32,14 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
 
     constructor() {
         super('assignment', 'assignment_id');
-        // Todo: IoC would be better here than explicit construction
-        this.dutyRecurrenceService = new DutyRecurrenceService();
+    }
+
+    private getDutyRecurrenceService(client?: ClientBase): DutyRecurrenceService {
+        const dutyRecurrenceService = Container.get(DutyRecurrenceService) as DutyRecurrenceService;
+        if (client) {
+            dutyRecurrenceService.dbClient = client;
+        }
+        return dutyRecurrenceService;
     }
 
     async getById(id: string) {
@@ -41,7 +51,7 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
         return assignment;
     }
 
-    async getAll(courthouseId?: string, options?: EffectiveQueryOptions) : Promise<Assignment[]> {
+    async getAll(courthouseId?: string, options?: EffectiveQueryOptions): Promise<Assignment[]> {
         const query = super.getEffectiveSelectQuery(options);
 
         if (courthouseId) {
@@ -62,37 +72,31 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
         const query = this.getUpdateQuery(entity);
         let updatedAssignment: Assignment = undefined as any;
         const { dutyRecurrences = [] } = entity;
-        try {
-            await this.db.transaction(async (client) => {
-                // Setup the dutyRecurrenceService for transaction
-                this.dutyRecurrenceService.dbClient = client;
+        return await this.db.transaction(async (client) => {
+            // Setup the dutyRecurrenceService for transaction
+            const dutyRecurrenceService = this.getDutyRecurrenceService(client);
 
-                // Update the Assignment
-                const { rows } = await client.query(query.toString());
-                updatedAssignment = rows[0];
+            // Update the Assignment
+            const { rows } = await client.query(query.toString());
+            updatedAssignment = rows[0];
 
-                const dutyRecurrencesWithAssignmentId = dutyRecurrences.map(dr => ({
-                    ...dr,
-                    assignmentId: entity.id
-                }));
-                // Create new duty recurrences, adding on assignmentId
-                const createPromises = dutyRecurrencesWithAssignmentId
-                    .filter(dr => dr.id == undefined)
-                    .map(dr => this.dutyRecurrenceService.create(dr));
+            const dutyRecurrencesWithAssignmentId = dutyRecurrences.map(dr => ({
+                ...dr,
+                assignmentId: entity.id
+            }));
+            // Create new duty recurrences, adding on assignmentId
+            const createPromises = dutyRecurrencesWithAssignmentId
+                .filter(dr => dr.id == undefined)
+                .map(dr => dutyRecurrenceService.create(dr));
 
-                // Update existing duty recurrences
-                const updatePromises = dutyRecurrencesWithAssignmentId
-                    .filter(dr => dr.id != undefined)
-                    .map(dr => this.dutyRecurrenceService.update(dr));
-                const allDutyRecurrences = await Promise.all(createPromises.concat(updatePromises));
-                updatedAssignment.dutyRecurrences = allDutyRecurrences;
-            });
-        } finally {
-            // transaction finished, reset dutyRecurrence client
-            this.dutyRecurrenceService.dbClient = undefined;
-        }
-
-        return updatedAssignment;
+            // Update existing duty recurrences
+            const updatePromises = dutyRecurrencesWithAssignmentId
+                .filter(dr => dr.id != undefined)
+                .map(dr => dutyRecurrenceService.update(dr));
+            const allDutyRecurrences = await Promise.all(createPromises.concat(updatePromises));
+            updatedAssignment.dutyRecurrences = allDutyRecurrences;
+            return updatedAssignment;
+        });
     }
 
     private validateAssignment(entity: Partial<Assignment>) {
@@ -138,33 +142,33 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
         if (!title || title === "") {
             if (entity.workSectionId === "COURTS") {
                 if (entity.courtroomId) {
-                    const service = new CourtroomService();
+                    const service = Container.get(CourtroomService) as CourtroomService;
                     const courtroom = await service.getById(entity.courtroomId as string);
                     if (courtroom) {
                         title = courtroom.name;
                     }
                 } else {
-                    const service = new CourtRoleCodeService();
+                    const service = Container.get(CourtRoleCodeService) as CourtRoleCodeService;
                     const courtRole = await service.getById(entity.courtRoleId as string);
-                    if(courtRole){
+                    if (courtRole) {
                         title = courtRole.description;
                     }
                 }
 
             } else if (entity.workSectionId === "JAIL") {
-                const service = new JailRoleCodeService();
+                const service = Container.get(JailRoleCodeService) as JailRoleCodeService;
                 const code = await service.getById(entity.jailRoleCode as string);
                 if (code) {
                     title = code.description;
                 }
             } else if (entity.workSectionId === "ESCORTS") {
-                const service = new RunService();
+                const service = Container.get(RunService) as RunService;
                 const run = await service.getById(entity.runId as string);
                 if (run) {
                     title = run.title;
                 }
             } else if (entity.workSectionId === "OTHER") {
-                const service = new OtherAssignCodeService();
+                const service = Container.get(OtherAssignCodeService) as OtherAssignCodeService;
                 const code = await service.getById(entity.otherAssignCode as string);
                 if (code) {
                     title = code.description;
@@ -182,25 +186,18 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
             ...entity,
             title
         });
-        let createdAssignment: Assignment = {} as any;
-        try {
-            await this.db.transaction(async (client) => {
-                this.dutyRecurrenceService.dbClient = client;
-                const { rows } = await client.query(query.toString());
-                createdAssignment = rows[0];
-                createdAssignment.dutyRecurrences = await Promise.all(
-                    dutyRecurrences.map(dr => this.dutyRecurrenceService.create({
-                        ...dr,
-                        assignmentId: createdAssignment.id
-                    }))
-                );
-            });
-        } catch (e) {
-            throw e;
-        } finally {
-            this.dutyRecurrenceService.dbClient = undefined;
-        }
-        return createdAssignment as Assignment;
+        return await this.db.transaction(async (client) => {
+            const dutyRecurrenceService = this.getDutyRecurrenceService(client);
+            const { rows } = await client.query(query.toString());
+            const createdAssignment: Assignment = rows[0];
+            createdAssignment.dutyRecurrences = await Promise.all(
+                dutyRecurrences.map(dr => dutyRecurrenceService.create({
+                    ...dr,
+                    assignmentId: createdAssignment.id
+                }))
+            );
+            return createdAssignment;
+        });
     }
 
     async expire(id: string, expiryDate?: string): Promise<void> {
@@ -208,22 +205,16 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
             expiryDate = moment().toISOString();
         }
         const query = this.getExpireQuery(id, expiryDate);
-        try {
-            this.db.transaction(async client => {
-                this.dutyRecurrenceService.dbClient = client;
-                const dutyRecurrences = this.dutyRecurrenceService.getAllForAssignment(id, { includeExpired: true });
-                // Expire assignment
-                await client.query(query.toString());
-                const dutyRecurrenceIds = (await dutyRecurrences).map(dr => dr.id) as string[];
-                // Expire Duty Recurrences
-                await Promise.all(dutyRecurrenceIds.map(id => this.dutyRecurrenceService.expire(id)));
-            });
-        } finally {
-            // Transaction is finished, unset the dutyRecurrence db client
-            this.dutyRecurrenceService.dbClient = undefined;
-        }
 
-        await this.executeQuery(query.toString());
+        await this.db.transaction(async client => {
+            const dutyRecurrenceService = this.getDutyRecurrenceService(client);
+            const dutyRecurrences = dutyRecurrenceService.getAllForAssignment(id, { includeExpired: true });
+            // Expire assignment
+            await client.query(query.toString());
+            const dutyRecurrenceIds = (await dutyRecurrences).map(dr => dr.id) as string[];
+            // Expire Duty Recurrences
+            await Promise.all(dutyRecurrenceIds.map(id => dutyRecurrenceService.expire(id)));
+        });
     }
 
     async delete(id: string): Promise<void> {

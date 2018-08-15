@@ -1,8 +1,28 @@
 import { Controller } from 'tsoa';
-import { ICrudService } from '../infrastructure';
+import { CrudService } from './CrudService';
+import { AutoWired, Inject } from 'typescript-ioc';
+import { CurrentUser } from './CurrentUser';
 
-export default abstract class ControllerBase<T> extends Controller{
-    abstract get service():ICrudService<T>;
+@AutoWired
+export default abstract class ControllerBase<T,TService extends CrudService<T> = CrudService<T>> extends Controller{
+    
+    @Inject
+    private _currentUser!:CurrentUser;
+    /**
+     * The user associated with the current request
+     *
+     * @readonly
+     * @protected
+     * @memberof ControllerBase
+     */
+    protected get currentUser(){
+        return this._currentUser;
+    }
+
+    protected serviceInstance!: TService;
+    get service():TService{
+        return this.serviceInstance;
+    }
 
     public async getAll(): Promise<T[]>{
         return await this.service.getAll();                

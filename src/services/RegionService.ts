@@ -1,7 +1,8 @@
 import { Region } from '../models/Region';
-import { DatabaseService } from './DatabaseService';
+import { DatabaseService } from '../infrastructure/DatabaseService';
+import { AutoWired } from 'typescript-ioc';
 
-
+@AutoWired
 export class RegionService extends DatabaseService<Region> {
 
     fieldMap: { [key: string]: string; } = {

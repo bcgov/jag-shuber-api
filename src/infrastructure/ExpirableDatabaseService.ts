@@ -1,6 +1,7 @@
 import moment from 'moment';
 import { PostgresInsert, PostgresSelect, PostgresUpdate, Expression } from 'squel';
 import { DatabaseService } from "./DatabaseService";
+import { AutoWired } from 'typescript-ioc';
 
 export interface EffectiveQueryOptions {
     startDate?: string;
@@ -9,6 +10,7 @@ export interface EffectiveQueryOptions {
     fieldAlias?:string;
 }
 
+@AutoWired
 export default abstract class ExpirableDatabaseService<T> extends DatabaseService<T>{
     private effectiveField = "effective_date";
     private expiryField = "expiry_date";
