@@ -63,4 +63,4 @@ function assertAllScopes(payload, scopes) {
     }
 }
 exports.assertAllScopes = assertAllScopes;
-//# sourceMappingURL=../../src/dist/common/authentication.js.map
+//# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/common/authentication.js.map

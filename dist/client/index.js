@@ -14,8 +14,8 @@ var ExtendedClient_1 = require("./ExtendedClient");
 exports.Client = ExtendedClient_1.default;
 __export(require("../common/TimeUtils"));
 __export(require("../common/TypedEvent"));
-__export(require("../common/token"));
+__export(require("../common/tokenUtils"));
 __export(require("../common/authentication"));
 var _errors = __importStar(require("../common/Errors"));
 exports.Errors = _errors;
-//# sourceMappingURL=../../src/dist/client/index.js.map
+//# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/client/index.js.map

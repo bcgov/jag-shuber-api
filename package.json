@@ -1,6 +1,6 @@
 {
   "name": "jag-shuber-api",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Sheriff Scheduling System Api",
   "main": "dist/client/index",
   "typings": "dist/client/index",
