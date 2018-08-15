@@ -2,14 +2,16 @@ import { Body, Delete, Get, Path, Post, Put, Query, Route, BodyProp } from 'tsoa
 import ControllerBase from '../infrastructure/ControllerBase';
 import { SheriffDutyService } from '../services/SheriffDutyService';
 import { SheriffDuty } from '../models/SheriffDuty';
-import { Sheriff } from '../models/Sheriff';
+import { AutoWired, Inject } from 'typescript-ioc';
+import { Security } from '../authentication';
 
 @Route('SheriffDuty')
-export class SheriffDutyController extends ControllerBase<SheriffDuty> {
+@Security('jwt')
+@AutoWired
+export class SheriffDutyController extends ControllerBase<SheriffDuty, SheriffDutyService> {
 
-    get service() {
-        return new SheriffDutyService();
-    }
+    @Inject
+    protected serviceInstance!: SheriffDutyService;
 
     @Get()
     public getSheriffDuties() {

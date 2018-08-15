@@ -3,17 +3,18 @@ import { GenderCode } from '../models/GenderCode';
 import { GenderCodeService } from '../services/GenderCodeService';
 import ControllerBase from '../infrastructure/ControllerBase';
 import { Security } from '../authentication';
+import { AutoWired, Inject } from 'typescript-ioc';
 
 @Route('codes/gender')
 @Security('jwt')
-export class GenderCodesController extends ControllerBase<GenderCode> {
+@AutoWired
+export class GenderCodesController extends ControllerBase<GenderCode, GenderCodeService> {
 
-    get service(){
-        return new GenderCodeService();
-    }
+    @Inject
+    protected serviceInstance!: GenderCodeService;
 
     @Get()
-    public getGenderCodes(){
+    public getGenderCodes() {
         return super.getAll();
     }
 

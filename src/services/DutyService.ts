@@ -9,7 +9,9 @@ import { SheriffDuty } from '../models/SheriffDuty';
 import { SheriffDutyService } from './SheriffDutyService';
 import { ClientBase } from 'pg';
 import { setTime, fromTimeString } from '../common/TimeUtils';
+import { AutoWired, Container } from 'typescript-ioc';
 
+@AutoWired
 export class DutyService extends DatabaseService<Duty> {
     fieldMap = {
         duty_id: 'id',
@@ -25,7 +27,7 @@ export class DutyService extends DatabaseService<Duty> {
     }
 
     getSheriffDutyService(dbClient?: ClientBase) {
-        const service = new SheriffDutyService();
+        const service = Container.get(SheriffDutyService) as SheriffDutyService;
         if (dbClient) {
             service.dbClient = dbClient;
         }
@@ -35,19 +37,18 @@ export class DutyService extends DatabaseService<Duty> {
     async create(entity: Partial<Duty>): Promise<Duty> {
         const { sheriffDuties = [] } = entity;
         const query = this.getInsertQuery({ ...entity });
-        let createdDuty: Duty = {} as any;
-        await this.db.transaction(async (client) => {
+        return await this.db.transaction(async (client) => {
             const sheriffDutyService = this.getSheriffDutyService(client);
             const { rows } = await client.query(query.toString());
-            createdDuty = rows[0];
+            const createdDuty : Duty = rows[0];
             createdDuty.sheriffDuties = await Promise.all(
                 sheriffDuties.map(sd => sheriffDutyService.create({
                     ...sd,
                     dutyId: createdDuty.id
                 }))
             );
+            return createdDuty;
         });
-        return createdDuty;
     }
 
     async getById(id: string) {
@@ -77,16 +78,14 @@ export class DutyService extends DatabaseService<Duty> {
 
     async update(entity: Partial<Duty>): Promise<Duty> {
         const query = this.getUpdateQuery(entity);
-        let updatedEntity: Duty = undefined as any;
         const { sheriffDuties = [] } = entity;
-
-        await this.db.transaction(async (client) => {
+        return await this.db.transaction(async (client) => {
             // Setup the dutyRecurrenceService for transaction
             const sheriffDutyService = this.getSheriffDutyService(client);
 
             // Update the Entity
             const { rows } = await client.query(query.toString());
-            updatedEntity = rows[0];
+            const updatedEntity:Duty = rows[0];
 
             const sheriffDutiesWithDutyId = sheriffDuties.map(dr => ({
                 ...dr,
@@ -103,8 +102,8 @@ export class DutyService extends DatabaseService<Duty> {
                 .map(sd => sheriffDutyService.update(sd));
             const allSheriffDuties = await Promise.all(createPromises.concat(updatePromises));
             updatedEntity.sheriffDuties = allSheriffDuties;
+            return updatedEntity
         });
-        return updatedEntity;
     }
 
     async delete(id: string): Promise<void> {
@@ -160,7 +159,7 @@ export class DutyService extends DatabaseService<Duty> {
             );
 
         const createdDuties = await this.db.transaction(async client => {
-            const service = new DutyService();
+            const service = Container.get(DutyService) as DutyService;
             service.dbClient = client;
 
             const recurrencesToCreate = await service.executeQuery<DutyRecurrence>(query.toString());

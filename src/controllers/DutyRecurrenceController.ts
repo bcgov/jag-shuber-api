@@ -3,14 +3,16 @@ import { DutyRecurrence } from '../models/DutyRecurrence';
 import { DutyRecurrenceService } from '../services/DutyRecurrenceService';
 import ControllerBase from '../infrastructure/ControllerBase';
 import { Security } from '../authentication';
+import { AutoWired, Inject } from 'typescript-ioc';
 
 @Route('DutyRecurrences')
 @Security('jwt')
-export class DutyRecurrenceController extends ControllerBase<DutyRecurrence> {
+@AutoWired
+export class DutyRecurrenceController extends ControllerBase<DutyRecurrence, DutyRecurrenceService> {
 
-    get service() {
-        return new DutyRecurrenceService();
-    }
+    @Inject
+    protected serviceInstance!: DutyRecurrenceService;
+
 
     @Get()
     public getDutyRecurrences(@Query() startDate?: string, @Query() endDate?: string) {

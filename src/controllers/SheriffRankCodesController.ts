@@ -3,17 +3,18 @@ import { SheriffRankCode } from '../models/SheriffRankCode';
 import { SheriffRankCodeService } from '../services/SheriffRankCodeService';
 import ControllerBase from '../infrastructure/ControllerBase';
 import { Security } from '../authentication';
+import { AutoWired, Inject } from 'typescript-ioc';
 
 @Route('codes/sheriffrank')
 @Security('jwt')
-export class SheriffRankCodesController extends ControllerBase<SheriffRankCode> {
+@AutoWired
+export class SheriffRankCodesController extends ControllerBase<SheriffRankCode, SheriffRankCodeService> {
 
-    get service(){
-        return new SheriffRankCodeService();
-    }
+    @Inject
+    protected serviceInstance!: SheriffRankCodeService;
 
     @Get()
-    public getSheriffRankCodes(){
+    public getSheriffRankCodes() {
         return this.service.getAll();
     }
 

@@ -14,11 +14,23 @@ import {
     SITEMINDER_HEADER_USERTYPE,
     TokenPayload
 } from '../../common/authentication';
+import { DatabaseService } from '../../infrastructure/DatabaseService';
+import { AssignmentService } from '../../services/AssignmentService';
+import { CourthouseService } from '../../services/CourthouseService';
+import { SheriffDutyService } from '../../services/SheriffDutyService';
+import { DatabaseRecordMetadata } from '../../infrastructure/DatabaseRecordMetadata';
 
 expect.extend({
     toMatchShapeOf,
     toMatchOneOf
 });
+
+export interface DBRecordMetadata {
+    updatedBy?: string;
+    createdBy?: string;
+    updatedDate?: string;
+    createdDate?: string;
+}
 
 export default class TestUtils {
     public static tables = {
@@ -48,16 +60,40 @@ export default class TestUtils {
         TestUtils.tables.region,
     ]
 
-    public static DefaultAuthConfig :TokenPayload = {
-        userId:'bnye',
-        displayName:'Nye, Bill',
-        guid:'bnyeguid',
-        type:'testing'
+    static async getRecordMetadata(tableName: string, recordId?: string): Promise<DatabaseRecordMetadata> {
+        if (!recordId) {
+            return {};
+        }
+        let service: DatabaseService<any> | undefined = undefined;
+        switch (tableName) {
+            case TestUtils.tables.assignment:
+                service = new AssignmentService();
+                break;
+            case TestUtils.tables.courthouse:
+                service = new CourthouseService();
+                break;
+            case TestUtils.tables.sheriff_duty:
+                service = new SheriffDutyService();
+                break;
+            default:
+                throw "Table not supported, add it to the switch case (where this error was thrown)!!";
+        }
+        if (service) {
+            return await service.getMetadataById(recordId);
+        }
+        return {}
+    }
+
+    static DefaultAuthConfig: TokenPayload = {
+        userId: 'bnye',
+        displayName: 'Nye, Bill',
+        guid: 'bnyeguid',
+        type: 'testing'
     }
 
     static getClientWithAuth(authOverrides?: TokenPayload) {
-        const authConfig = {...TestUtils.DefaultAuthConfig,...authOverrides};
-        const {guid,displayName,userId,type} = authConfig;
+        const authConfig = { ...TestUtils.DefaultAuthConfig, ...authOverrides };
+        const { guid, displayName, userId, type } = authConfig;
         const headers = {};
         headers[SITEMINDER_HEADER_USERGUID] = guid;
         headers[SITEMINDER_HEADER_USERDISPLAYNAME] = displayName;

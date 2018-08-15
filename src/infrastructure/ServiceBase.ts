@@ -13,11 +13,21 @@ export abstract class ServiceBase<T> extends CrudService<T> {
         return this._currentUser;
     }
 
-    abstract getAll(): Promise<T[]>;
-    abstract getById(id: string): Promise<T | undefined>;
-    abstract create(entity: Partial<T>): Promise<T>
-    abstract update(entity: Partial<T>): Promise<T>;
-    abstract delete(id: string): Promise<void>;
+    getAll(): Promise<T[]> {
+        throw new Error('Method not implemented.');
+    }
+    getById(id: string): Promise<T | undefined> {
+        throw new Error('Method not implemented.');
+    }
+    create(entity: Partial<T>): Promise<T> {
+        throw new Error('Method not implemented.');
+    }
+    update(entity: Partial<T>): Promise<T> {
+        throw new Error('Method not implemented.');
+    }
+    delete(id: string): Promise<void> {
+        throw new Error('Method not implemented.');
+    }
 
     generateUuid(): string {
         return uuid();

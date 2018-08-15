@@ -1,6 +1,8 @@
 import { createToken } from '../infrastructure/token';
 import { TokenPayload } from '../common/authentication';
+import { AutoWired } from 'typescript-ioc';
 
+@AutoWired
 export class TokenService {
 
     generateToken(tokenPayload: TokenPayload): any {

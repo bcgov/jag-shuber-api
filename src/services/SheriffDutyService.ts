@@ -1,7 +1,9 @@
 import { Duty } from '../models/Duty';
 import { DatabaseService } from '../infrastructure/DatabaseService';
 import { SheriffDuty } from '../models/SheriffDuty';
+import { AutoWired } from 'typescript-ioc';
 
+@AutoWired
 export class SheriffDutyService extends DatabaseService<SheriffDuty> {
 
     fieldMap = {

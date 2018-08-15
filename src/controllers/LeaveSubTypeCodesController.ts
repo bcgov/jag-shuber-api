@@ -3,14 +3,16 @@ import ControllerBase from '../infrastructure/ControllerBase';
 import { LeaveSubCode } from '../models/LeaveSubCode';
 import { LeaveSubCodeService } from '../services/LeaveSubCodeService';
 import { Security } from '../authentication';
+import { AutoWired, Inject } from 'typescript-ioc';
+
 
 @Route('codes/leave-sub-type')
 @Security('jwt')
-export class LeaveSubTypeCodesController extends ControllerBase<LeaveSubCode> {
+@AutoWired
+export class LeaveSubTypeCodesController extends ControllerBase<LeaveSubCode, LeaveSubCodeService> {
 
-    get service() {
-        return new LeaveSubCodeService();
-    }
+    @Inject
+    protected serviceInstance!: LeaveSubCodeService;
 
     @Get()
     public getLeaveSubCodes() {

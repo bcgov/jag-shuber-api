@@ -1,7 +1,9 @@
 import { DatabaseService } from '../infrastructure/DatabaseService';
 import { Leave } from '../models/Leave';
 import moment from 'moment';
+import { AutoWired } from 'typescript-ioc';
 
+@AutoWired
 export class LeaveService extends DatabaseService<Leave> {
 
     fieldMap: { [key: string]: string; } = {

@@ -3,17 +3,18 @@ import { OtherAssignCode } from '../models/OtherAssignCode';
 import { OtherAssignCodeService } from '../services/OtherAssignCodeService';
 import ControllerBase from '../infrastructure/ControllerBase';
 import { Security } from '../authentication';
+import { AutoWired, Inject } from 'typescript-ioc';
 
 @Route('codes/otherassign')
 @Security('jwt')
-export class OtherAssignCodesController extends ControllerBase<OtherAssignCode> {
+@AutoWired
+export class OtherAssignCodesController extends ControllerBase<OtherAssignCode, OtherAssignCodeService> {
 
-    get service(){
-        return new OtherAssignCodeService();
-    }
+    @Inject
+    protected serviceInstance!: OtherAssignCodeService;
 
     @Get()
-    public getOtherAssignCodes(){
+    public getOtherAssignCodes() {
         return this.service.getAll();
     }
 

@@ -3,38 +3,39 @@ import { Sheriff } from '../models/Sheriff';
 import { SheriffService } from '../services/SheriffService';
 import ControllerBase from '../infrastructure/ControllerBase';
 import { Security } from '../authentication';
+import { AutoWired, Inject } from 'typescript-ioc';
 
 @Route('sheriffs')
 @Security('jwt')
-export class SheriffController extends ControllerBase<Sheriff> {
- 
-    get service(){
-        return new SheriffService();
-    }
- 
+@AutoWired
+export class SheriffController extends ControllerBase<Sheriff, SheriffService> {
+
+    @Inject
+    protected serviceInstance!: SheriffService;
+
     @Get()
-    public getSheriffs(@Query() courthouseId?:string){
+    public getSheriffs(@Query() courthouseId?: string) {
         return this.service.getAll(courthouseId);
     }
 
     @Get('{id}')
-    public getSheriffById(id: string){
+    public getSheriffById(id: string) {
         return super.getById(id);
     }
-    
+
     @Post()
-    public createSheriff(@Body() model: Sheriff){
+    public createSheriff(@Body() model: Sheriff) {
         return super.create(model);
     }
 
 
     @Put('{id}')
     public updateSheriff(@Path() id: string, @Body() model: Sheriff) {
-        return super.update(id,model);
+        return super.update(id, model);
     }
 
     @Delete('{id}')
-    public deleteSheriff(@Path() id:string){
+    public deleteSheriff(@Path() id: string) {
         return super.delete(id);
     }
 }
