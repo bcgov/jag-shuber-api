@@ -1,0 +1,725 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="update_courthouse_justin_start"/>
+    </changeSet>
+
+    <!-- Updates to courthouse/location records to add Justin ID and Code values -->
+	
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_NVN">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="9064.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="2011"/>
+          <where>courthouse_cd='NVN'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='NVN'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_RBS">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="10250.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="2045"/>
+          <where>courthouse_cd='RBS'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='RBS'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_SCH">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="10248.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="2031"/>
+          <where>courthouse_cd='SCH'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='SCH'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_VLC">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="8816.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="6011"/>
+          <where>courthouse_cd='VLC'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='VLC'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_VPC">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="8813.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="2040"/>
+          <where>courthouse_cd='VPC'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='VPC'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_ABS">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="9393.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="3561"/>
+          <where>courthouse_cd='ABS'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='ABS'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_NWS">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="8839.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="3581"/>
+          <where>courthouse_cd='NWS'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='NWS'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_SRY">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="8841.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="3585"/>
+          <where>courthouse_cd='SRY'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='SRY'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_CHL">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="8824.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="3521"/>
+          <where>courthouse_cd='CHL'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='CHL'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_PCQ">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="8834.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="3531"/>
+          <where>courthouse_cd='PCQ'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='PCQ'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_RMD">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="9062.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="2025"/>
+          <where>courthouse_cd='RMD'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='RMD'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_CRB">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="29.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="4711"/>
+          <where>courthouse_cd='CRB'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='CRB'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_KML">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="82.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="4781"/>
+          <where>courthouse_cd='KML'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='KML'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_KLW">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="83.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="4801"/>
+          <where>courthouse_cd='KLW'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='KLW'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_NLS">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="89.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="4871"/>
+          <where>courthouse_cd='NLS'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='NLS'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_PNT">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="91.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="4891"/>
+          <where>courthouse_cd='PNT'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='PNT'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_SLM">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="95.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="4941"/>
+          <where>courthouse_cd='SLM'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='SLM'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_SOE">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="48764.0009"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="4882"/>
+          <where>courthouse_cd='SOE'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='SOE'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_VRN">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="96.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="4971"/>
+          <where>courthouse_cd='VRN'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='VRN'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_CBR">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="9067.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="1031"/>
+          <where>courthouse_cd='CBR'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='CBR'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_CTN">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="9068.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="1041"/>
+          <where>courthouse_cd='CTN'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='CTN'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_DNC">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="10231.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="1051"/>
+          <where>courthouse_cd='DNC'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='DNC'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_NMO">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="8805.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="1091"/>
+          <where>courthouse_cd='NMO'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='NMO'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_PTA">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="10235.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="1121"/>
+          <where>courthouse_cd='PTA'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='PTA'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_PWL">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="10237.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="1145"/>
+          <where>courthouse_cd='PWL'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='PWL'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_VIC">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="8807.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="1201"/>
+          <where>courthouse_cd='VIC'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='VIC'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_WCM">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="10243.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="1211"/>
+          <where>courthouse_cd='WCM'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='WCM'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_DWS">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="110.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="5731"/>
+          <where>courthouse_cd='DWS'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='DWS'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_FSJ">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="114.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="5771"/>
+          <where>courthouse_cd='FSJ'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='FSJ'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_PRG">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="8844.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="5891"/>
+          <where>courthouse_cd='PRG'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='PRG'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_PRP">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="9075.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="5901"/>
+          <where>courthouse_cd='PRP'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='PRP'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_QNL">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="9074.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="5921"/>
+          <where>courthouse_cd='QNL'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='QNL'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_SMT">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="9073.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="5931"/>
+          <where>courthouse_cd='SMT'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='SMT'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="UPD_crth_JUSTIN_TRC">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="justin_id" type="VARCHAR2(20)" value="9072.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="5951"/>
+          <where>courthouse_cd='TRC'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="justin_id" type="VARCHAR2(20)" value="NULL"/>
+              <column name="justin_code" type="VARCHAR2(10)" value="NULL"/>
+              <where>courthouse_cd='TRC'</where>
+          </update>
+      </rollback>
+    </changeSet>
+    
+    
+    <!-- manual changesets for courthouse data corrections -->
+     
+    <changeSet author="Carol Geisler" id="UPD_crth_region_SRY">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'FRASER')"/>
+          <where>courthouse_cd='SRY'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
+              <where>courthouse_cd='SRY'</where>
+          </update>
+      </rollback>
+    </changeSet>
+     
+    <changeSet author="Carol Geisler" id="UPD_crth_region_CHL">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'FRASER')"/>
+          <where>courthouse_cd='CHL'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
+              <where>courthouse_cd='CHL'</where>
+          </update>
+      </rollback>
+    </changeSet>
+     
+    <changeSet author="Carol Geisler" id="UPD_crth_region_NLS">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="courthouse_name" type="VARCHAR(100)" value="Nelson"/>
+          <where>courthouse_cd='NLS'</where>
+      </update>
+      <rollback>
+         <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <column name="courthouse_name" type="VARCHAR(100)" value="Nelsom"/>
+              <where>courthouse_cd='NLS'</where>
+          </update>
+      </rollback>
+    </changeSet>
+   
+
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="update_courthouse_justin_end"/>
+    </changeSet>
+
+</databaseChangeLog>
