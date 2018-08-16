@@ -289,7 +289,7 @@ The API will associate an Api Scope string with each endpoint to determine what 
         </createTable>
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="aud_sheriff_duty" columnNames="sheriff_duty_id,revision_count" constraintName="pk_aud_shrdty"/>
         <sql>
-        	GRANT SELECT ON ${POSTGRES_SCHEMA}.aud_sheriff_duty to ${POSTGRES_APP_USER};
+        	GRANT SELECT, INSERT, UPDATE ON ${POSTGRES_SCHEMA}.aud_sheriff_duty to ${POSTGRES_APP_USER};
         </sql>
         <rollback>
           <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="aud_sheriff_duty"/>
