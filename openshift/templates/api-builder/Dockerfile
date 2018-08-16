@@ -26,7 +26,7 @@ ENV PATH="${LIQUIBASE_ROOT}:${PATH}"
 ENV JAVA_DIR="$HOME/java"
 ENV JAVA_BIN="${JAVA_DIR}/jre1.8.0_172/bin"
 RUN mkdir $JAVA_DIR && \
-    curl -b "oraclelicense=a" -SL -o jre.tar.gz http://download.oracle.com/otn-pub/java/jdk/8u172-b11/a58eab1ec242421181065cdc37240b08/jre-8u172-linux-x64.tar.gz && \
+    curl -b "oraclelicense=a" -SL -o jre.tar.gz http://download.oracle.com/otn-pub/java/jdk/8u172-b11/ef599e322eee42f6769991dd3e3b1a31/jre-8u172-linux-x64.tar.gz && \
     tar -xzf jre.tar.gz -C $JAVA_DIR && \
     chmod -R 755 $JAVA_DIR/
 
