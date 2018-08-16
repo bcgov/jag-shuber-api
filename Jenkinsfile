@@ -57,9 +57,9 @@
             }
         
         try{
-          // echo "Building: " + ARTIFACT_BUILD
-          // openshiftBuild bldCfg: ARTIFACT_BUILD, showBuildLogs: 'true', waitTime: '900000'
-          // openshiftVerifyBuild bldCfg: ARTIFACT_BUILD, showBuildLogs: 'true', waitTime: '900000'
+          echo "Building: " + ARTIFACT_BUILD
+          openshiftBuild bldCfg: ARTIFACT_BUILD, showBuildLogs: 'true', waitTime: '900000'
+          openshiftVerifyBuild bldCfg: ARTIFACT_BUILD, showBuildLogs: 'true', waitTime: '900000'
           echo "Building: " + RUNTIME_BUILD
           openshiftVerifyBuild bldCfg: RUNTIME_BUILD, showBuildLogs: 'true', waitTime: '900000'
           // Don't tag with BUILD_ID so the pruner can do it's job; it won't delete tagged images.
