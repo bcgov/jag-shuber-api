@@ -44,6 +44,9 @@
     
     <!-- schema updates for Leave support -->
     <include file="shersched.db.changelog-ddl.05.xml"/>
+    
+    <!-- schema updates for audit support  -->
+    <include file="shersched.db.changelog-ddl.07.xml"/>
    
     <!-- schema updates for Assignment updates -->
     <include file="shersched.db.changelog-ddl.06.xml"/>
