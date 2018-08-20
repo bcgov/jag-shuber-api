@@ -60,6 +60,9 @@
 		    
     <!-- gender code prod data -->
     <include file="shersched.db.changelog-gendercodedata.prod.xml" relativeToChangelogFile="true"/>
+
+    <!-- Update courthouse/location rows with JUSTIN data -->
+    <include file="data/shersched.db.changelog-courthousejustindata.xml"/>
 		    
     <!-- sheriff prod data -->
     <include file="shersched.db.changelog-sheriffdata.prod.xml" relativeToChangelogFile="true"/>

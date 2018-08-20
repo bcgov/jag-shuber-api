@@ -21,17 +21,10 @@
     <changeSet author="Carol Geisler" id="ADDCOL_location_justin_ids">
     	<comment>Add the missed audit columns to the Leave table</comment>
     	  <addColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courthouse">
-            <column name="justin_id" type="VARCHAR(20)">
-                <constraints nullable="false"/>
-            </column>
-            <column name="justin_code" type="VARCHAR(10)">
-                <constraints nullable="false"/>
-            </column>
+            <column name="justin_id" type="VARCHAR(20)"/>
+            <column name="justin_code" type="VARCHAR(10)"/>
 	    	</addColumn>
     </changeSet>
-
-    <!-- Update courthouse/location rows with JUSTIN data -->
-    <include file="data/shersched.db.changelog-courthousejustindata.xml"/>
     
     <changeSet author="Carol Geisler" id="tag1">
     	<tagDatabase tag="ddl_set_09_justin_ids_end"/>
