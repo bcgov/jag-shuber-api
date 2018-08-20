@@ -1,7 +1,8 @@
 import { DutyRecurrence } from '../models/DutyRecurrence';
-import ExpirableDatabaseService, { EffectiveQueryOptions } from './ExpirableDatabaseService';
+import ExpirableDatabaseService, { EffectiveQueryOptions } from '../infrastructure/ExpirableDatabaseService';
+import { AutoWired } from 'typescript-ioc';
 
-
+@AutoWired
 export class DutyRecurrenceService extends ExpirableDatabaseService<DutyRecurrence> {
     fieldMap = {
         duty_recurrence_id: 'id',

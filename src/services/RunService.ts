@@ -1,7 +1,8 @@
 import { Run } from '../models/Run';
-import { DatabaseService } from './DatabaseService';
+import { DatabaseService } from '../infrastructure/DatabaseService';
+import { AutoWired } from 'typescript-ioc';
 
-
+@AutoWired
 export class RunService extends DatabaseService<Run> {
     fieldMap = {
         run_id: 'id',

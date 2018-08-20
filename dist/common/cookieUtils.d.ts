@@ -1,5 +1,4 @@
-/// <reference types="superagent" />
-import { SuperAgent } from '../../node_modules/@types/superagent';
+import { SuperAgent } from 'superagent';
 /**
  * Retreives a cookie from either the cookie jar of a SuperAgent or from the
  * Document itself.

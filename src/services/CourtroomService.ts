@@ -1,7 +1,8 @@
 import { Courtroom } from '../models/Courtroom';
-import { DatabaseService } from './DatabaseService';
+import { DatabaseService } from '../infrastructure/DatabaseService';
+import { AutoWired } from 'typescript-ioc';
 
-
+@AutoWired
 export class CourtroomService extends DatabaseService<Courtroom> {
     fieldMap = {
         courtroom_id: 'id',

@@ -1,7 +1,8 @@
 import { OtherAssignCode } from '../models/OtherAssignCode';
-import ExpirableDatabaseService from './ExpirableDatabaseService';
+import ExpirableDatabaseService from '../infrastructure/ExpirableDatabaseService';
+import { AutoWired } from 'typescript-ioc';
 
-
+@AutoWired
 export class OtherAssignCodeService extends ExpirableDatabaseService<OtherAssignCode> {
     fieldMap = {
         other_assign_code: 'code',

@@ -1,17 +1,36 @@
 import { toMatchShapeOf, toMatchOneOf } from 'jest-to-match-shape-of';
 import db from '../../db/Database';
+import { closeConnectionPool } from '../../db/connection';
 import ExtendedClient from '../ExtendedClient';
 import { Courthouse, Courtroom, Assignment, Region, DutyRecurrence, Duty, SheriffDuty, Shift, Leave } from '../models';
 import { Sheriff } from '../../models/Sheriff';
 import { ClientBase } from 'pg';
 import './MomentMatchers';
 import moment, { Moment } from 'moment';
-import { SITEMINDER_HEADER_USERGUID } from '../../common/authentication';
+import {
+    SITEMINDER_HEADER_USERGUID,
+    SITEMINDER_HEADER_USERDISPLAYNAME,
+    SITEMINDER_HEADER_USERIDENTIFIER,
+    SITEMINDER_HEADER_USERTYPE,
+    TokenPayload
+} from '../../common/authentication';
+import { DatabaseService } from '../../infrastructure/DatabaseService';
+import { AssignmentService } from '../../services/AssignmentService';
+import { CourthouseService } from '../../services/CourthouseService';
+import { SheriffDutyService } from '../../services/SheriffDutyService';
+import { DatabaseRecordMetadata } from '../../infrastructure/DatabaseRecordMetadata';
 
 expect.extend({
     toMatchShapeOf,
     toMatchOneOf
 });
+
+export interface DBRecordMetadata {
+    updatedBy?: string;
+    createdBy?: string;
+    updatedDate?: string;
+    createdDate?: string;
+}
 
 export default class TestUtils {
     public static tables = {
@@ -40,13 +59,46 @@ export default class TestUtils {
         TestUtils.tables.courthouse,
         TestUtils.tables.region,
     ]
-    constructor() {
 
+    static async getRecordMetadata(tableName: string, recordId?: string): Promise<DatabaseRecordMetadata> {
+        if (!recordId) {
+            return {};
+        }
+        let service: DatabaseService<any> | undefined = undefined;
+        switch (tableName) {
+            case TestUtils.tables.assignment:
+                service = new AssignmentService();
+                break;
+            case TestUtils.tables.courthouse:
+                service = new CourthouseService();
+                break;
+            case TestUtils.tables.sheriff_duty:
+                service = new SheriffDutyService();
+                break;
+            default:
+                throw "Table not supported, add it to the switch case (where this error was thrown)!!";
+        }
+        if (service) {
+            return await service.getMetadataById(recordId);
+        }
+        return {}
     }
 
-    static getClientWithAuth(user: string = 'bnye') {
+    static DefaultAuthConfig: TokenPayload = {
+        userId: 'bnye',
+        displayName: 'Nye, Bill',
+        guid: 'bnyeguid',
+        type: 'testing'
+    }
+
+    static getClientWithAuth(authOverrides?: TokenPayload) {
+        const authConfig = { ...TestUtils.DefaultAuthConfig, ...authOverrides };
+        const { guid, displayName, userId, type } = authConfig;
         const headers = {};
-        headers[SITEMINDER_HEADER_USERGUID] = user;
+        headers[SITEMINDER_HEADER_USERGUID] = guid;
+        headers[SITEMINDER_HEADER_USERDISPLAYNAME] = displayName;
+        headers[SITEMINDER_HEADER_USERIDENTIFIER] = userId;
+        headers[SITEMINDER_HEADER_USERTYPE] = type;
         return this.getClient(headers);
     }
 
@@ -90,7 +142,7 @@ export default class TestUtils {
     }
 
     static async closeDatabase() {
-        await db.close();
+        await closeConnectionPool();
     }
 
     static randomString(length: number) {
@@ -213,7 +265,8 @@ beforeAll(async (done) => {
     done();
 });
 
-afterAll(async () => {
+afterAll(async (done) => {
     // Don't wait for the database to close, hoping it does
-    TestUtils.closeDatabase();
+    await TestUtils.closeDatabase();
+    done();
 });

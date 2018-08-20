@@ -1,5 +1,30 @@
+/*
+ ______  ______  ______  ______  ______  ______  ______  ______  ______  ______  ______ 
+|______||______||______||______||______||______||______||______||______||______||______|
+  ___          _                  _____                                 _             _ 
+ / _ \        | |                |  __ \                               | |           | |
+/ /_\ \ _   _ | |_  ___          | |  \/  ___  _ __    ___  _ __  __ _ | |_  ___   __| |
+|  _  || | | || __|/ _ \         | | __  / _ \| '_ \  / _ \| '__|/ _` || __|/ _ \ / _` |
+| | | || |_| || |_| (_) |        | |_\ \|  __/| | | ||  __/| |  | (_| || |_|  __/| (_| |
+\_| |_/ \__,_| \__|\___/          \____/ \___||_| |_| \___||_|   \__,_| \__|\___| \__,_|
+______                 _   _         _             ___  ___            _  _   __        
+|  _  \               | \ | |       | |            |  \/  |           | |(_) / _|       
+| | | | ___           |  \| |  ___  | |_           | .  . |  ___    __| | _ | |_  _   _ 
+| | | |/ _ \          | . ` | / _ \ | __|          | |\/| | / _ \  / _` || ||  _|| | | |
+| |/ /| (_) |         | |\  || (_) || |_           | |  | || (_) || (_| || || |  | |_| |
+|___/  \___/          \_| \_/ \___/  \__|          \_|  |_/ \___/  \__,_||_||_|   \__, |
+                                                                                   __/ |
+                                                                                  |___/ 
+ ______  ______  ______  ______  ______  ______  ______  ______  ______  ______  ______ 
+|______||______||______||______||______||______||______||______||______||______||______|
+
+Routes are generated from models and controllers
+*/
+
 /* tslint:disable */
 import { Controller, ValidateParam, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
+import { Container, Provider } from 'typescript-ioc';
+import { CurrentUser } from './infrastructure/CurrentUser';
 import { AssignmentController } from './controllers/AssignmentController';
 import { RegionController } from './controllers/RegionController';
 import { CourthouseController } from './controllers/CourthouseController';
@@ -21,6 +46,7 @@ import { LeaveSubTypeCodesController } from './controllers/LeaveSubTypeCodesCont
 import { CourtRoleCodesController } from './controllers/CourtRoleCodesController';
 import { GenderCodesController } from './controllers/GenderCodesController';
 import { TokenController } from './controllers/TokenController';
+import { UserController } from './controllers/UserController';
 import { koaAuthentication } from './authentication';
 
 const models: TsoaRoute.Models = {
@@ -229,6 +255,14 @@ const models: TsoaRoute.Models = {
             "expiryDate": { "dataType": "string" },
         },
     },
+    "User": {
+        "properties": {
+            "guid": { "dataType": "string" },
+            "displayName": { "dataType": "string" },
+            "userId": { "dataType": "string" },
+            "type": { "dataType": "string" },
+        },
+    },
 };
 
 export function RegisterRoutes(router: any) {
@@ -250,7 +284,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new AssignmentController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(AssignmentController) as AssignmentController;
 
             const promise = controller.getAssignments.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -271,7 +311,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new AssignmentController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(AssignmentController) as AssignmentController;
 
             const promise = controller.getAssignmentById.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -292,7 +338,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new AssignmentController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(AssignmentController) as AssignmentController;
 
             const promise = controller.createAssignment.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -314,7 +366,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new AssignmentController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(AssignmentController) as AssignmentController;
 
             const promise = controller.updateAssignment.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -335,7 +393,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new AssignmentController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(AssignmentController) as AssignmentController;
 
             const promise = controller.expireAssignment.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -356,7 +420,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new AssignmentController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(AssignmentController) as AssignmentController;
 
             const promise = controller.deleteAssignment.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -376,7 +446,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new RegionController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(RegionController) as RegionController;
 
             const promise = controller.getRegions.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -397,7 +473,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new RegionController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(RegionController) as RegionController;
 
             const promise = controller.getRegionById.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -418,7 +500,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new RegionController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(RegionController) as RegionController;
 
             const promise = controller.createRegion.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -440,7 +528,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new RegionController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(RegionController) as RegionController;
 
             const promise = controller.updateRegion.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -461,7 +555,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new RegionController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(RegionController) as RegionController;
 
             const promise = controller.deleteRegion.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -481,7 +581,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new CourthouseController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(CourthouseController) as CourthouseController;
 
             const promise = controller.getCourthouses.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -502,7 +608,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new CourthouseController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(CourthouseController) as CourthouseController;
 
             const promise = controller.getCourthouseById.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -523,7 +635,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new CourthouseController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(CourthouseController) as CourthouseController;
 
             const promise = controller.createCourthouse.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -545,7 +663,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new CourthouseController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(CourthouseController) as CourthouseController;
 
             const promise = controller.updateCourthouse.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -566,7 +690,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new CourthouseController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(CourthouseController) as CourthouseController;
 
             const promise = controller.deleteCourthouse.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -587,7 +717,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new SheriffController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(SheriffController) as SheriffController;
 
             const promise = controller.getSheriffs.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -608,7 +744,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new SheriffController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(SheriffController) as SheriffController;
 
             const promise = controller.getSheriffById.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -629,7 +771,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new SheriffController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(SheriffController) as SheriffController;
 
             const promise = controller.createSheriff.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -651,7 +799,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new SheriffController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(SheriffController) as SheriffController;
 
             const promise = controller.updateSheriff.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -672,7 +826,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new SheriffController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(SheriffController) as SheriffController;
 
             const promise = controller.deleteSheriff.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -693,7 +853,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new CourtroomController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(CourtroomController) as CourtroomController;
 
             const promise = controller.getCourtrooms.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -714,7 +880,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new CourtroomController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(CourtroomController) as CourtroomController;
 
             const promise = controller.getCourtroomById.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -735,7 +907,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new CourtroomController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(CourtroomController) as CourtroomController;
 
             const promise = controller.createCourtroom.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -757,7 +935,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new CourtroomController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(CourtroomController) as CourtroomController;
 
             const promise = controller.updateCourtroom.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -778,7 +962,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new CourtroomController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(CourtroomController) as CourtroomController;
 
             const promise = controller.deleteCourtroom.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -798,7 +988,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new JailRoleCodesController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(JailRoleCodesController) as JailRoleCodesController;
 
             const promise = controller.getJailRoleCodes.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -818,7 +1014,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new OtherAssignCodesController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(OtherAssignCodesController) as OtherAssignCodesController;
 
             const promise = controller.getOtherAssignCodes.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -838,7 +1040,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new WorkSectionCodesController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(WorkSectionCodesController) as WorkSectionCodesController;
 
             const promise = controller.getWorkSectionCodes.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -858,7 +1066,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new SheriffRankCodesController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(SheriffRankCodesController) as SheriffRankCodesController;
 
             const promise = controller.getSheriffRankCodes.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -879,7 +1093,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new RunController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(RunController) as RunController;
 
             const promise = controller.getRuns.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -900,7 +1120,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new RunController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(RunController) as RunController;
 
             const promise = controller.getRunById.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -921,7 +1147,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new RunController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(RunController) as RunController;
 
             const promise = controller.createRun.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -943,7 +1175,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new RunController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(RunController) as RunController;
 
             const promise = controller.updateRun.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -964,7 +1202,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new RunController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(RunController) as RunController;
 
             const promise = controller.deleteRun.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -985,7 +1229,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new ShiftController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(ShiftController) as ShiftController;
 
             const promise = controller.getShifts.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1006,7 +1256,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new ShiftController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(ShiftController) as ShiftController;
 
             const promise = controller.getShiftById.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1027,7 +1283,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new ShiftController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(ShiftController) as ShiftController;
 
             const promise = controller.createShift.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1049,7 +1311,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new ShiftController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(ShiftController) as ShiftController;
 
             const promise = controller.updateShift.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1070,7 +1338,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new ShiftController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(ShiftController) as ShiftController;
 
             const promise = controller.deleteShift.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1091,7 +1365,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new ShiftController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(ShiftController) as ShiftController;
 
             const promise = controller.updateMultipleShifts.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1112,7 +1392,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new ShiftController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(ShiftController) as ShiftController;
 
             const promise = controller.copyShifts.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1134,7 +1420,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new DutyRecurrenceController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(DutyRecurrenceController) as DutyRecurrenceController;
 
             const promise = controller.getDutyRecurrences.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1155,7 +1447,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new DutyRecurrenceController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(DutyRecurrenceController) as DutyRecurrenceController;
 
             const promise = controller.getDutyRecurrenceById.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1176,7 +1474,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new DutyRecurrenceController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(DutyRecurrenceController) as DutyRecurrenceController;
 
             const promise = controller.createDutyRecurrence.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1198,7 +1502,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new DutyRecurrenceController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(DutyRecurrenceController) as DutyRecurrenceController;
 
             const promise = controller.updateDutyRecurrence.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1219,7 +1529,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new DutyRecurrenceController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(DutyRecurrenceController) as DutyRecurrenceController;
 
             const promise = controller.expireDutyRecurrence.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1240,7 +1556,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new DutyRecurrenceController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(DutyRecurrenceController) as DutyRecurrenceController;
 
             const promise = controller.deleteDutyRecurrence.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1260,7 +1582,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new DutyController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(DutyController) as DutyController;
 
             const promise = controller.getDuties.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1281,7 +1609,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new DutyController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(DutyController) as DutyController;
 
             const promise = controller.getDutyById.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1302,7 +1636,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new DutyController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(DutyController) as DutyController;
 
             const promise = controller.createDuty.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1324,7 +1664,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new DutyController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(DutyController) as DutyController;
 
             const promise = controller.updateDuty.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1345,7 +1691,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new DutyController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(DutyController) as DutyController;
 
             const promise = controller.deleteDuty.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1366,12 +1718,19 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new DutyController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(DutyController) as DutyController;
 
             const promise = controller.importDefaultDuties.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/SheriffDuty',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
             };
@@ -1385,12 +1744,19 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new SheriffDutyController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(SheriffDutyController) as SheriffDutyController;
 
             const promise = controller.getSheriffDuties.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/SheriffDuty/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1405,12 +1771,19 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new SheriffDutyController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(SheriffDutyController) as SheriffDutyController;
 
             const promise = controller.getSheriffDutyById.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/SheriffDuty',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "SheriffDuty" },
@@ -1425,12 +1798,19 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new SheriffDutyController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(SheriffDutyController) as SheriffDutyController;
 
             const promise = controller.createSheriffDuty.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/SheriffDuty/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1446,12 +1826,19 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new SheriffDutyController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(SheriffDutyController) as SheriffDutyController;
 
             const promise = controller.updateSheriffDuty.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/SheriffDuty/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1466,7 +1853,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new SheriffDutyController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(SheriffDutyController) as SheriffDutyController;
 
             const promise = controller.deleteSheriffDuty.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1486,7 +1879,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new LeaveController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(LeaveController) as LeaveController;
 
             const promise = controller.getLeaves.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1507,7 +1906,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new LeaveController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(LeaveController) as LeaveController;
 
             const promise = controller.getLeaveById.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1528,7 +1933,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new LeaveController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(LeaveController) as LeaveController;
 
             const promise = controller.createLeave.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1550,7 +1961,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new LeaveController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(LeaveController) as LeaveController;
 
             const promise = controller.updateLeave.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1571,7 +1988,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new LeaveController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(LeaveController) as LeaveController;
 
             const promise = controller.deleteLeave.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1591,7 +2014,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new LeaveCancelCodesController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(LeaveCancelCodesController) as LeaveCancelCodesController;
 
             const promise = controller.getLeaveCancelReasonCodes.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1611,7 +2040,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new LeaveTypeCodesController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(LeaveTypeCodesController) as LeaveTypeCodesController;
 
             const promise = controller.getLeaveTypes.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1631,7 +2066,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new LeaveSubTypeCodesController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(LeaveSubTypeCodesController) as LeaveSubTypeCodesController;
 
             const promise = controller.getLeaveSubCodes.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1651,7 +2092,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new CourtRoleCodesController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(CourtRoleCodesController) as CourtRoleCodesController;
 
             const promise = controller.getCourtRoleCodes.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1671,7 +2118,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new GenderCodesController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(GenderCodesController) as GenderCodesController;
 
             const promise = controller.getGenderCodes.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1692,7 +2145,13 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new TokenController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(TokenController) as TokenController;
 
             const promise = controller.getToken.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
@@ -1712,9 +2171,41 @@ export function RegisterRoutes(router: any) {
                 return next();
             }
 
-            const controller = new TokenController();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(TokenController) as TokenController;
 
             const promise = controller.logout.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/User/me',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(UserController) as UserController;
+
+            const promise = controller.getCurrentUser.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
 

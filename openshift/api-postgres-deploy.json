@@ -22,7 +22,8 @@
                 "name": "${API_SERVICE_NAME}",
                 "annotations": {
                     "template.openshift.io/expose-user": "{.data['api-user']}",
-                    "template.openshift.io/expose-password": "{.data['api-password']}"
+                    "template.openshift.io/expose-password": "{.data['api-password']}",
+                    "template.openshift.io/expose-jwt-secret": "{.data['api-jwt-secret']}"
                 },
                 "labels": {
                     "app": "${API_SERVICE_NAME}"
@@ -30,7 +31,8 @@
             },
             "stringData": {
                 "api-user": "${API_DATABASE_USER}",
-                "api-password": "${API_DATABASE_PASS}"
+                "api-password": "${API_DATABASE_PASS}",
+                "jwt-secret":"${API_JWT_SECRET}"
             }
         },
         {
@@ -209,6 +211,15 @@
                                             "secretKeyRef": {
                                                 "name": "${API_SERVICE_NAME}",
                                                 "key": "api-password"
+                                            }
+                                        }
+                                    },
+                                    {
+                                        "name": "JWT_SECRET",
+                                        "valueFrom": {
+                                            "secretKeyRef": {
+                                                "name": "${API_SERVICE_NAME}",
+                                                "key": "api-jwt-secret"
                                             }
                                         }
                                     },
@@ -548,6 +559,14 @@
             "from": "[a-zA-Z0-9]{16}",
             "required": true
         },
+        {
+            "name": "API_JWT_SECRET",
+            "displayName": "API JWT Secret",
+            "description": "The secret used to sign all JWT tokens",
+            "generate": "expression",
+            "from": "[a-zA-Z0-9_-%^#@&!*]{100}",
+            "required": true
+        },        
         {
             "name": "API_MEMORY_LIMIT",
             "displayName": "API Memory Limit",

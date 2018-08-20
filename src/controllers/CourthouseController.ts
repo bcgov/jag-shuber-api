@@ -1,16 +1,16 @@
 import { Body, Delete, Get, Path, Post, Put, Route } from 'tsoa';
 import { Courthouse } from '../models/Courthouse';
 import { CourthouseService } from '../services/CourthouseService';
-import ControllerBase from './ControllerBase';
+import ControllerBase from '../infrastructure/ControllerBase';
 import { Security } from '../authentication';
-
+import { AutoWired, Inject } from 'typescript-ioc';
 @Route('courthouses')
 @Security('jwt')
-export class CourthouseController extends ControllerBase<Courthouse> {
+@AutoWired
+export class CourthouseController extends ControllerBase<Courthouse,CourthouseService> {
 
-    get service(){
-        return new CourthouseService();
-    }
+    @Inject
+    protected serviceInstance!:CourthouseService;
 
     @Get()
     public getCourthouses(){

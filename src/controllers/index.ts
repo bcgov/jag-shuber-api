@@ -19,3 +19,4 @@ export { LeaveSubTypeCodesController } from './LeaveSubTypeCodesController';
 export { CourtRoleCodesController } from './CourtRoleCodesController';
 export { GenderCodesController } from './GenderCodesController';
 export { TokenController } from './TokenController';
+export { UserController } from './UserController';

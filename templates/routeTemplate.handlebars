@@ -1,5 +1,30 @@
+/*
+ ______  ______  ______  ______  ______  ______  ______  ______  ______  ______  ______ 
+|______||______||______||______||______||______||______||______||______||______||______|
+  ___          _                  _____                                 _             _ 
+ / _ \        | |                |  __ \                               | |           | |
+/ /_\ \ _   _ | |_  ___          | |  \/  ___  _ __    ___  _ __  __ _ | |_  ___   __| |
+|  _  || | | || __|/ _ \         | | __  / _ \| '_ \  / _ \| '__|/ _` || __|/ _ \ / _` |
+| | | || |_| || |_| (_) |        | |_\ \|  __/| | | ||  __/| |  | (_| || |_|  __/| (_| |
+\_| |_/ \__,_| \__|\___/          \____/ \___||_| |_| \___||_|   \__,_| \__|\___| \__,_|
+______                 _   _         _             ___  ___            _  _   __        
+|  _  \               | \ | |       | |            |  \/  |           | |(_) / _|       
+| | | | ___           |  \| |  ___  | |_           | .  . |  ___    __| | _ | |_  _   _ 
+| | | |/ _ \          | . ` | / _ \ | __|          | |\/| | / _ \  / _` || ||  _|| | | |
+| |/ /| (_) |         | |\  || (_) || |_           | |  | || (_) || (_| || || |  | |_| |
+|___/  \___/          \_| \_/ \___/  \__|          \_|  |_/ \___/  \__,_||_||_|   \__, |
+                                                                                   __/ |
+                                                                                  |___/ 
+ ______  ______  ______  ______  ______  ______  ______  ______  ______  ______  ______ 
+|______||______||______||______||______||______||______||______||______||______||______|
+
+Routes are generated from models and controllers
+*/
+
 /* tslint:disable */
 import { Controller, ValidateParam, FieldErrors, ValidateError, TsoaRoute } from 'tsoa';
+import { Container, Provider } from 'typescript-ioc';
+import { CurrentUser } from './infrastructure/CurrentUser';
 {{#if iocModule}}
 import { iocContainer } from '{{iocModule}}';
 {{/if}}
@@ -56,7 +81,17 @@ export function RegisterRoutes(router: any) {
             {{#if ../../iocModule}}
             const controller = iocContainer.get<{{../name}}>({{../name}});
             {{else}}
-            const controller = new {{../name}}();
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider : Provider={
+                get:()=> new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get({{../name}}) as {{../name}};
+            {{!-- 
+            // New up new controller
+            const controller = new {{../name}}(); 
+            --}}
             {{/if}}
 
             const promise = controller.{{name}}.apply(controller, validatedArgs);

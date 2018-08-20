@@ -1,19 +1,20 @@
 import { Body, Delete, Get, Path, Post, Put, Query, Route } from 'tsoa';
 import { CourtRoleCode } from '../models/CourtRoleCode';
 import { CourtRoleCodeService } from '../services/CourtRoleCodeService';
-import ControllerBase from './ControllerBase';
+import ControllerBase from '../infrastructure/ControllerBase';
 import { Security } from '../authentication';
+import { AutoWired, Inject } from 'typescript-ioc';
 
 @Route('codes/courtroles')
 @Security('jwt')
-export class CourtRoleCodesController extends ControllerBase<CourtRoleCode> {
+@AutoWired
+export class CourtRoleCodesController extends ControllerBase<CourtRoleCode, CourtRoleCodeService> {
 
-    get service(){
-        return new CourtRoleCodeService();
-    }
+    @Inject
+    protected serviceInstance!: CourtRoleCodeService;
 
     @Get()
-    public getCourtRoleCodes(){
+    public getCourtRoleCodes() {
         return super.getAll();
     }
 

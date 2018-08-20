@@ -2,13 +2,14 @@ import { Body, Delete, Get, Path, Post, Put, Query, Request, Route, Controller }
 import { TokenService } from '../services/TokenService';
 import { Security, setTokenCookie, getTokenCookie, deleteTokenCookie } from '../authentication';
 import { Request as KoaRequest } from 'koa';
+import { AutoWired, Inject } from 'typescript-ioc';
 
 @Route('token')
+@AutoWired
 export class TokenController extends Controller {
 
-    get service() {
-        return new TokenService();
-    }
+    @Inject
+    protected service!: TokenService;
 
     @Get()
     @Security('siteminder')

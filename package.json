@@ -1,6 +1,6 @@
 {
   "name": "jag-shuber-api",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Sheriff Scheduling System Api",
   "main": "dist/client/index",
   "typings": "dist/client/index",
@@ -34,8 +34,8 @@
   },
   "scripts": {
     "start": "export TZ=Etc/UTC && node ./dist/index.js",
-    "start:debug": "nodemon --config nodemon.dev.json --inspect",
-    "start:testing": "nodemon --config nodemon.testing.json --inspect",
+    "start:debug": "nodemon --config nodemon.dev.json",
+    "start:testing": "nodemon --config nodemon.testing.json",
     "build": "./node_modules/.bin/tsc",
     "build:watch": "npm-watch",
     "clean": "del-cli 'dist/**/*' '!dist/.gitignore' '!dist/client/**'",
@@ -61,6 +61,7 @@
     "superagent-prefix": "^0.0.2",
     "superagent-use": "^0.1.0",
     "tsoa": "^2.1.8",
+    "typescript-ioc": "^1.2.4",
     "uuid": "^3.2.1"
   },
   "devDependencies": {
@@ -88,7 +89,7 @@
     "openbrowser": "^1.0.2",
     "swagger-ts-client": "^0.9.6",
     "ts-jest": "^22.4.6",
-    "ts-node": "^6.0.0",
+    "ts-node": "^7.0.1",
     "tslint": "^5.9.1",
     "typescript": "^2.8.3"
   },
@@ -103,7 +104,7 @@
       "<rootDir>/src/**/?(*.)(spec|test).ts?(x)"
     ],
     "transform": {
-      "^.+\\.tsx?$": "<rootDir>/config/jest/typescriptTransform.js",
+      "^.+\\.tsx?$": "ts-jest",
       "^(?!.*\\.(js|jsx|css|json)$)": "<rootDir>/config/jest/fileTransform.js"
     },
     "transformIgnorePatterns": [
