@@ -1,8 +1,7 @@
 // Load shared devops library
-library identifier: 'devops-library@master', retriever: modernSCM([
-  $class: 'GitSCMSource',
-  remote: 'https://github.com/BCDevOps/jenkins-pipeline-shared-lib.git'
-])
+library identifier: 'devops-library@master', retriever: modernSCM(
+  [$class: 'GitSCMSource',
+   remote: 'https://github.com/BCDevOps/jenkins-pipeline-shared-lib.git'])
 
   // Edit your app's name below
   def APP_NAME = 'api'
