@@ -13,7 +13,7 @@ describe('Region API', () => {
     let createdRegion: Region;
 
     beforeAll(async (done) => {
-        api = TestUtils.getClient();
+        api = TestUtils.getClientWithAuth();
         done();
     });
 

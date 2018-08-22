@@ -12,8 +12,10 @@ describe('Courtroom API', () => {
     let createdCourthouse: Courthouse;
 
     beforeAll(async (done) => {
-        api = TestUtils.getClient();
-        testRegion = await api.CreateRegion(testRegion);
+        await TestUtils.setupTestFixtures(async client => {
+            testRegion = await client.CreateRegion(testRegion);
+        })      
+        api = TestUtils.getClientWithAuth();
         done();
     });
 
@@ -46,19 +48,19 @@ describe('Courtroom API', () => {
     });
 
     it('get by id should return courthouse', async () => {
-        const gotCourthouse = await api.GetCourthouseById(createdCourthouse.id);
+        const gotCourthouse = await api.GetCourthouseById(createdCourthouse.id as string);
         expect(gotCourthouse).toMatchObject(createdCourthouse);
     });
 
     it('update courthouse should return updated courthouse', async () => {
         const newName = "New Test Name"
-        const gotEntity = await api.UpdateCourthouse(createdCourthouse.id, { ...createdCourthouse, name: newName });
+        const gotEntity = await api.UpdateCourthouse(createdCourthouse.id as string, { ...createdCourthouse, name: newName });
         expect(gotEntity).toMatchObject({ ...createdCourthouse, name: newName });
     });
 
     it('delete should delete Courthouse', async () => {
-        await api.DeleteCourthouse(createdCourthouse.id);
-        const retreived = await api.GetCourthouseById(createdCourthouse.id);
+        await api.DeleteCourthouse(createdCourthouse.id as string);
+        const retreived = await api.GetCourthouseById(createdCourthouse.id as string);
         expect(retreived).not.toBeDefined();
     });
 }) 

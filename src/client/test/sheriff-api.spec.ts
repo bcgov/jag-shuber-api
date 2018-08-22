@@ -1,5 +1,5 @@
 import ApiClient from '../ExtendedClient';
-import { Courthouse, Region, Sheriff } from '../models';
+import { Courthouse, Region, Sheriff, GenderCode } from '../models';
 import TestUtils from './TestUtils';
 
 const SheriffShape: Sheriff = {
@@ -44,10 +44,15 @@ describe('Sheriff API', () => {
 
         let createdSheriff: Sheriff;
 
+        let testGenderCode: GenderCode;
+
         beforeAll(async (done) => {
-            api = TestUtils.getClient();
-            testRegion = await api.CreateRegion(testRegion);
-            testCourthouse = await api.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
+            await TestUtils.setupTestFixtures(async client=>{
+                testRegion = await client.CreateRegion(testRegion);
+                testCourthouse = await client.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
+                testGenderCode = (await client.GetGenderCodes())[0];
+            });
+            api = TestUtils.getClientWithAuth();
             done();
         });
 
@@ -84,7 +89,7 @@ describe('Sheriff API', () => {
             delete secondTestCourthouse['id'];
             secondTestCourthouse.name = "Test Courthouse 2";
             secondTestCourthouse.code= TestUtils.randomString(5);
-            const secondCourthouse = await api.CreateCourthouse(secondTestCourthouse);
+            const secondCourthouse = await TestUtils.setupTestFixtures(client=>client.CreateCourthouse(secondTestCourthouse));
             const secondSheriff = await api.CreateSheriff({
                 ...sheriffToCreate,
                 firstName: "William",
@@ -110,14 +115,16 @@ describe('Sheriff API', () => {
                 firstName: newName,
                 badgeNo: newBadgeNo,
                 alias:newAlias,
-                currentCourthouseId:testCourthouse.id
+                currentCourthouseId:testCourthouse.id,
+                genderCode: testGenderCode.code
             });
             expect(gotEntity).toMatchObject({
                 ...createdSheriff,
                 firstName: newName,
                 badgeNo: newBadgeNo,
                 alias:newAlias,
-                currentCourthouseId:testCourthouse.id
+                currentCourthouseId:testCourthouse.id,
+                genderCode: testGenderCode.code
             });
         });
 

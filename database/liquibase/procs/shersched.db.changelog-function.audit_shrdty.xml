@@ -27,19 +27,20 @@
         v_transaction_id UUID;
         v_operation_dtm  TIMESTAMP WITH TIME ZONE;
       BEGIN
-        SELECT  app_user_id 
-        INTO    v_app_user_id
-        FROM    ${POSTGRES_SCHEMA}.app_user
-        WHERE   user_auth_id = NEW.updated_by
-        ;
-        
-        IF NOT FOUND THEN
-          v_app_user_id := NULL;
-        END IF;
-        
         IF TG_OP = 'DELETE' THEN
           v_operation_dtm := now();
+          v_app_user_id := NULL;
         ELSE
+          SELECT  app_user_id 
+          INTO    v_app_user_id
+          FROM    ${POSTGRES_SCHEMA}.app_user
+          WHERE   user_auth_id = NEW.updated_by
+          ;
+          
+          IF NOT FOUND THEN
+            v_app_user_id := NULL;
+          END IF;
+          
           v_operation_dtm := NEW.updated_dtm;
         END IF;
         

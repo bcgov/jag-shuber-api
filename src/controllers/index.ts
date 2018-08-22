@@ -15,4 +15,8 @@ export { SheriffDutyController } from './SheriffDutyController';
 export { LeaveController } from './LeaveController';
 export { LeaveCancelCodesController } from './LeaveCancelCodesController';
 export { LeaveTypeCodesController } from './LeaveTypeCodesController';
-export { LeaveSubTypeCodesController } from './LeaveSubTypeCodesController'
+export { LeaveSubTypeCodesController } from './LeaveSubTypeCodesController';
+export { CourtRoleCodesController } from './CourtRoleCodesController';
+export { GenderCodesController } from './GenderCodesController';
+export { TokenController } from './TokenController';
+export { UserController } from './UserController';

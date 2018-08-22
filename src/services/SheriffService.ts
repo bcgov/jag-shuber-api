@@ -1,6 +1,8 @@
 import { Sheriff } from "../models/Sheriff";
-import { DatabaseService } from "./DatabaseService";
+import { DatabaseService } from "../infrastructure/DatabaseService";
+import { AutoWired } from 'typescript-ioc';
 
+@AutoWired
 export class SheriffService extends DatabaseService<Sheriff> {
     fieldMap = {
         sheriff_id: 'id',
@@ -11,7 +13,8 @@ export class SheriffService extends DatabaseService<Sheriff> {
         home_courthouse_id: 'homeCourthouseId',
         current_courthouse_id:'currentCourthouseId',
         sheriff_rank_code: 'rankCode',
-        alias:'alias'
+        alias:'alias',
+        gender_code: 'genderCode'
     };
     constructor() {
         super('sheriff', 'sheriff_id');

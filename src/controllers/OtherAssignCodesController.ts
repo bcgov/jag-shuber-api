@@ -1,17 +1,20 @@
 import { Body, Delete, Get, Path, Post, Put, Query, Route } from 'tsoa';
 import { OtherAssignCode } from '../models/OtherAssignCode';
 import { OtherAssignCodeService } from '../services/OtherAssignCodeService';
-import ControllerBase from './ControllerBase';
+import ControllerBase from '../infrastructure/ControllerBase';
+import { Security } from '../authentication';
+import { AutoWired, Inject } from 'typescript-ioc';
 
 @Route('codes/otherassign')
-export class OtherAssignCodesController extends ControllerBase<OtherAssignCode> {
+@Security('jwt')
+@AutoWired
+export class OtherAssignCodesController extends ControllerBase<OtherAssignCode, OtherAssignCodeService> {
 
-    get service(){
-        return new OtherAssignCodeService();
-    }
+    @Inject
+    protected serviceInstance!: OtherAssignCodeService;
 
     @Get()
-    public getOtherAssignCodes(){
+    public getOtherAssignCodes() {
         return this.service.getAll();
     }
 

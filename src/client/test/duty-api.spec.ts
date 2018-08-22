@@ -31,15 +31,21 @@ describe('Duty API', () => {
         expect(expectedEnd).momentIsSame(actualEnd);
     }
 
+    beforeAll(async (done) => {
+        api = TestUtils.getClientWithAuth();
+        done();
+    })
+
     describe('CRUD Operations', () => {
         beforeAll(async (done) => {
-            api = TestUtils.getClient();
             await TestUtils.clearDatabase();
-            testRegion = await TestUtils.newTestRegion();
-            testCourthouse = await TestUtils.newTestCourthouse(testRegion.id);
-            testCourtroom = await TestUtils.newTestCourtroom(testCourthouse.id);
-            testAssignment = await TestUtils.newTestAssignment(testCourthouse.id, { courtroomId: testCourtroom.id });
-            testSheriff = await TestUtils.newTestSheriff(testCourthouse.id);
+            await TestUtils.setupTestFixtures(async client => {
+                testRegion = await TestUtils.newTestRegion();
+                testCourthouse = await TestUtils.newTestCourthouse(testRegion.id as string);
+                testCourtroom = await TestUtils.newTestCourtroom(testCourthouse.id as string);
+                testAssignment = await TestUtils.newTestAssignment(testCourthouse.id, { courtroomId: testCourtroom.id });
+                testSheriff = await TestUtils.newTestSheriff(testCourthouse.id as string);
+            });
             done();
         });
 
@@ -58,7 +64,7 @@ describe('Duty API', () => {
                 assignmentId: testAssignment.id
             });
             expect(Array.isArray(createdEntity.sheriffDuties)).toBeTruthy();
-            expect(createdEntity.sheriffDuties.length).toEqual(0);
+            expect(createdEntity.sheriffDuties!.length).toEqual(0);
         });
 
         it('create should return new Duty with sheriffDuties if specified', async () => {
@@ -79,16 +85,16 @@ describe('Duty API', () => {
             expect(createdEntityWithSheriffDuties.assignmentId).toEqual(testAssignment.id);
             const sheriffDuties = createdEntityWithSheriffDuties.sheriffDuties;
             expect(Array.isArray(sheriffDuties)).toBeTruthy();
-            expect(sheriffDuties[0].dutyId).toEqual(createdEntityWithSheriffDuties.id);
-            expect(sheriffDuties[0].startDateTime).momentIsSame(entityToCreate.startDateTime);
-            expect(sheriffDuties[0].endDateTime).momentIsSame(entityToCreate.endDateTime);
-            expect(sheriffDuties[0].sheriffId).toEqual(testSheriff.id);
+            expect(sheriffDuties![0].dutyId).toEqual(createdEntityWithSheriffDuties.id);
+            expect(sheriffDuties![0].startDateTime).momentIsSame(entityToCreate.startDateTime);
+            expect(sheriffDuties![0].endDateTime).momentIsSame(entityToCreate.endDateTime);
+            expect(sheriffDuties![0].sheriffId).toEqual(testSheriff.id);
         });
 
         it('get by id should return Duty', async () => {
-            const retrieved = await api.GetDutyById(createdEntity.id);
+            const retrieved = await api.GetDutyById(createdEntity.id as string);
             expect(retrieved).toMatchObject(createdEntity);
-            const retrievedWithChildren = await api.GetDutyById(createdEntityWithSheriffDuties.id);
+            const retrievedWithChildren = await api.GetDutyById(createdEntityWithSheriffDuties.id as string);
             expect(retrievedWithChildren).toMatchObject(createdEntityWithSheriffDuties);
         });
 
@@ -102,7 +108,7 @@ describe('Duty API', () => {
 
         it('update duty should return updated Duty', async () => {
             const newEndDateTime = moment().add(4, 'hour').format()
-            const updatedEntity = await api.UpdateDuty(createdEntity.id, {
+            const updatedEntity = await api.UpdateDuty(createdEntity.id as string, {
                 ...createdEntity,
                 endDateTime: newEndDateTime
             } as Duty);
@@ -119,7 +125,7 @@ describe('Duty API', () => {
                 startDateTime: moment().add(3, 'hour').format(),
                 endDateTime: moment().add(4, 'hour').format()
             }
-            const updatedEntity = await api.UpdateDuty(createdEntityWithSheriffDuties.id, {
+            const updatedEntity = await api.UpdateDuty(createdEntityWithSheriffDuties.id as string, {
                 ...createdEntityWithSheriffDuties,
                 sheriffDuties: [
                     ...createdEntityWithSheriffDuties.sheriffDuties,
@@ -128,12 +134,12 @@ describe('Duty API', () => {
             });
             const sheriffDuties = updatedEntity.sheriffDuties;
             expect(Array.isArray(sheriffDuties)).toBeTruthy();
-            expect(sheriffDuties.length).toEqual(2);
-            const newDuty = sheriffDuties.find(sd => sd.id != createdEntityWithSheriffDuties.sheriffDuties[0].id);
-            expect(newDuty.startDateTime).momentIsSame(newSheriffDuty.startDateTime);
-            expect(newDuty.endDateTime).momentIsSame(newSheriffDuty.endDateTime);
-            expect(newDuty.dutyId).toEqual(createdEntityWithSheriffDuties.id);
-            expect(newDuty.id).toBeDefined();
+            expect(sheriffDuties!.length).toEqual(2);
+            const newDuty = sheriffDuties!.find(sd => sd.id != createdEntityWithSheriffDuties.sheriffDuties![0].id);
+            expect(newDuty!.startDateTime).momentIsSame(newSheriffDuty.startDateTime);
+            expect(newDuty!.endDateTime).momentIsSame(newSheriffDuty.endDateTime);
+            expect(newDuty!.dutyId).toEqual(createdEntityWithSheriffDuties.id);
+            expect(newDuty!.id).toBeDefined();
             createdEntityWithSheriffDuties = updatedEntity;
         });
 
@@ -142,10 +148,10 @@ describe('Duty API', () => {
                 startDateTime: moment().add(8, 'hour').toISOString(),
                 endDateTime: moment().add(9, 'hour').toISOString()
             }
-            const updatedEntity = await api.UpdateDuty(createdEntityWithSheriffDuties.id, {
+            const updatedEntity = await api.UpdateDuty(createdEntityWithSheriffDuties.id as string, {
                 ...createdEntityWithSheriffDuties,
                 sheriffDuties: [
-                    ...createdEntityWithSheriffDuties.sheriffDuties.map(sd => (
+                    ...createdEntityWithSheriffDuties.sheriffDuties!.map(sd => (
                         {
                             ...sd,
                             ...sheriffDutyUpdates
@@ -155,8 +161,8 @@ describe('Duty API', () => {
             });
             const sheriffDuties = updatedEntity.sheriffDuties;
             expect(Array.isArray(sheriffDuties)).toBeTruthy();
-            expect(sheriffDuties.length).toEqual(2);
-            sheriffDuties.forEach(sd => {
+            expect(sheriffDuties!.length).toEqual(2);
+            sheriffDuties!.forEach(sd => {
                 expect(sd.startDateTime).toEqual(sheriffDutyUpdates.startDateTime);
                 expect(sd.endDateTime).toEqual(sheriffDutyUpdates.endDateTime);
                 expect(sd.dutyId).toEqual(createdEntityWithSheriffDuties.id);
@@ -166,21 +172,57 @@ describe('Duty API', () => {
         });
 
         it('delete should delete Duty', async () => {
-            await api.DeleteDuty(createdEntity.id);
-            const retreived = await api.GetDutyById(createdEntity.id);
+            await api.DeleteDuty(createdEntity.id as string);
+            const retreived = await api.GetDutyById(createdEntity.id as string);
             expect(retreived).toBeUndefined();
         });
 
         it('delete should delete Duty and Sheriff Duties', async () => {
-            await api.DeleteDuty(createdEntityWithSheriffDuties.id);
-            const retreived = await api.GetDutyById(createdEntityWithSheriffDuties.id);
+            await api.DeleteDuty(createdEntityWithSheriffDuties.id as string);
+            const retreived = await api.GetDutyById(createdEntityWithSheriffDuties.id as string);
             expect(retreived).toBeUndefined();
-            createdEntityWithSheriffDuties.sheriffDuties.forEach(async (sd) => {
-                const retrievedSd = await api.GetSheriffDutyById(sd.id);
+            createdEntityWithSheriffDuties.sheriffDuties!.forEach(async (sd) => {
+                const retrievedSd = await api.GetSheriffDutyById(sd.id as string);
                 expect(retrievedSd).toBeUndefined();
             });
         });
+
+        describe('Metadata / Auditing', () => {
+            let entityToTest: Duty;
+            it('creating a record should set createdBy and updatedBy', async () => {
+                entityToTest = await api.CreateDuty({
+                    ...entityToCreate,
+                    assignmentId: testAssignment.id,
+                    sheriffDuties: [
+                        {
+                            sheriffId: testSheriff.id,
+                            startDateTime: entityToCreate.startDateTime,
+                            endDateTime: entityToCreate.endDateTime
+                        }
+                    ]
+                });
+                const { createdBy, updatedBy } = await TestUtils.getRecordMetadata(TestUtils.tables.sheriff_duty, entityToTest.sheriffDuties![0].id)
+                expect(createdBy).toEqual(TestUtils.DefaultAuthConfig.displayName);
+                expect(updatedBy).toEqual(TestUtils.DefaultAuthConfig.displayName);
+            });
+
+            it('update should change updatedBy but not createdBy', async () => {
+                const newAuth = { displayName: 'Science, Guy' };
+                const newApi = TestUtils.getClientWithAuth(newAuth)
+                entityToTest = await newApi.UpdateDuty(entityToTest.id as string,{
+                    ...entityToTest,
+                    comments:'new comments'
+                });
+
+                const { createdBy, updatedBy } = await TestUtils.getRecordMetadata(TestUtils.tables.sheriff_duty, entityToTest.sheriffDuties![0].id)
+                expect(createdBy).toEqual(TestUtils.DefaultAuthConfig.displayName);
+                expect(updatedBy).toEqual(newAuth.displayName);
+            });
+
+        })
     });
+
+
 
     describe('Import Default Duties', () => {
         const recurrenceToCreate: DutyRecurrence = {
@@ -206,7 +248,7 @@ describe('Duty API', () => {
 
             const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId });
             expect(Array.isArray(duties)).toBeTruthy();
-            expect(duties.length).toEqual(assignment.dutyRecurrences.length);
+            expect(duties.length).toEqual(assignment.dutyRecurrences!.length);
             TestUtils.assertImportedDuties(duties, assignment);
         });
 
@@ -222,7 +264,7 @@ describe('Duty API', () => {
 
             const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId });
             expect(Array.isArray(duties)).toBeTruthy();
-            expect(duties.length).toEqual(assignment.dutyRecurrences.length);
+            expect(duties.length).toEqual(assignment.dutyRecurrences!.length);
             TestUtils.assertImportedDuties(duties, assignment);
         });
 
@@ -243,7 +285,7 @@ describe('Duty API', () => {
 
             const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId });
             expect(Array.isArray(duties)).toBeTruthy();
-            expect(duties.length).toEqual(assignment.dutyRecurrences.length);
+            expect(duties.length).toEqual(assignment.dutyRecurrences!.length);
             TestUtils.assertImportedDuties(duties, assignment);
         });
 
@@ -297,9 +339,16 @@ describe('Duty API', () => {
                 }
             ];
 
-            const assignment = await TestUtils.newTestAssignment(testCourthouse.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
-            await api.ExpireAssignment(assignment.id);
-            const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId });
+            const assignment = await TestUtils.setupTestFixtures(async client => {
+                const assignment = await TestUtils.newTestAssignment(testCourthouse.id, {
+                    dutyRecurrences: recurrences,
+                    courtroomId: testCourtroom.id
+                });
+                await client.ExpireAssignment(assignment.id as string);
+                return assignment;
+            })
+
+            const duties = await api.ImportDefaultDuties({ courthouseId: assignment!.courthouseId });
             expect(Array.isArray(duties)).toBeTruthy();
             expect(duties.length).toEqual(0);
         });
@@ -314,7 +363,7 @@ describe('Duty API', () => {
 
             const testDate = moment().startOf('day').add(13, 'weeks');
             const assignment = await TestUtils.newTestAssignment(testCourthouse.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
-            await api.ExpireDutyRecurrence(assignment.dutyRecurrences[0].id);
+            await api.ExpireDutyRecurrence(assignment.dutyRecurrences![0].id as string);
             const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId, date: testDate.format() });
             expect(Array.isArray(duties)).toBeTruthy();
             expect(duties.length).toEqual(0);

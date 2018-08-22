@@ -2,15 +2,17 @@ import { Body, Delete, Get, Path, Post, Put, Query, Route } from 'tsoa';
 import { Assignment } from '../models/Assignment';
 import { DutyRecurrence } from '../models/DutyRecurrence';
 import { AssignmentService } from '../services/AssignmentService';
-import ControllerBase from './ControllerBase';
+import ControllerBase from '../infrastructure/ControllerBase';
 import { DutyRecurrenceService } from '../services/DutyRecurrenceService';
+import { Security } from '../authentication';
+import { AutoWired, Inject } from 'typescript-ioc';
 
 @Route('Assignments')
-export class AssignmentController extends ControllerBase<Assignment> {
-
-    get service() {
-        return new AssignmentService();
-    }
+@Security('jwt')
+@AutoWired
+export class AssignmentController extends ControllerBase<Assignment,AssignmentService> {
+    @Inject
+    protected serviceInstance!:AssignmentService;
 
     @Get()
     public getAssignments(@Query() courthouseId?: string, @Query() startDate?: string, @Query() endDate?: string) {

@@ -8,4 +8,5 @@ export interface Sheriff {
     currentCourthouseId?: string;
     rankCode: string;
     alias?: string;
+    genderCode?: string;
 }

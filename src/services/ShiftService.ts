@@ -1,10 +1,13 @@
 import moment from 'moment-timezone';
 import { Shift } from '../models/Shift';
-import { DatabaseService } from './DatabaseService';
+import { DatabaseService } from '../infrastructure/DatabaseService';
 import { MultipleShiftUpdateRequest } from '../models/MultipleShiftUpdateRequest';
 import { ShiftCopyOptions } from '../models/ShiftCopyOptions';
 import { setTime } from '../common/TimeUtils';
+import { AutoWired, Container } from 'typescript-ioc';
+import { ClientBase } from 'pg';
 
+@AutoWired
 export class ShiftService extends DatabaseService<Shift> {
     fieldMap = {
         shift_id: 'id',
@@ -17,6 +20,14 @@ export class ShiftService extends DatabaseService<Shift> {
 
     constructor() {
         super('shift', 'shift_id');
+    }
+
+    getShiftService(client: ClientBase) {
+        const service = Container.get(ShiftService) as ShiftService;
+        if (client) {
+            service.dbClient = client;
+        }
+        return service;
     }
 
     async getAll(courthouseId?: string) {
@@ -71,8 +82,7 @@ export class ShiftService extends DatabaseService<Shift> {
 
 
         return await this.db.transaction(async (client) => {
-            const service = new ShiftService();
-            service.dbClient = client;
+            const service = this.getShiftService(client);
             return Promise.all(shiftUpdates.map(s => service.update(s)));
         });
     }
@@ -88,10 +98,9 @@ export class ShiftService extends DatabaseService<Shift> {
             .where('courthouse_id = ?', courthouseId);
         const sourceShifts = await this.executeQuery<Shift>(selectQuery.toString());
 
-        const copiedShifts = await this.db.transaction(async client => {
-            const shiftService = new ShiftService();
-            shiftService.dbClient = client;
-            const newShifts = await Promise.all(
+        return await this.db.transaction(async client => {
+            const shiftService = this.getShiftService(client);
+            return await Promise.all(
                 sourceShifts.map<Shift>(s => {
                     const { id, startDateTime, endDateTime, sheriffId, ...rest } = s;
                     return {
@@ -102,8 +111,6 @@ export class ShiftService extends DatabaseService<Shift> {
                     }
                 }).map(newShift => shiftService.create(newShift))
             );
-            return newShifts;
-        })
-        return copiedShifts;
+        });
     }
 }

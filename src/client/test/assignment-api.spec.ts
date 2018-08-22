@@ -1,6 +1,6 @@
 import moment from 'moment';
 import ApiClient from '../ExtendedClient';
-import { Assignment, Courthouse, Region, DutyRecurrence, Courtroom, Run, JailRoleCode, OtherAssignCode } from '../models';
+import { Assignment, Courthouse, Region, DutyRecurrence, Courtroom, Run, JailRoleCode, OtherAssignCode, CourtRoleCode } from '../models';
 import TestUtils from './TestUtils';
 import { create } from 'domain';
 
@@ -55,10 +55,12 @@ describe('Assignment API', () => {
     }
 
     beforeAll(async (done) => {
-        api = TestUtils.getClient();
-        testRegion = await api.CreateRegion(testRegion);
-        testCourthouse = await api.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
-        testCourtroom = await api.CreateCourtroom({ ...testCourtroom, courthouseId: testCourthouse.id });
+        await TestUtils.setupTestFixtures(async client=>{
+            testRegion = await client.CreateRegion(testRegion);
+            testCourthouse = await client.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
+            testCourtroom = await client.CreateCourtroom({ ...testCourtroom, courthouseId: testCourthouse.id });
+        }); 
+        api = TestUtils.getClientWithAuth(); 
         done();
     });
 
@@ -86,8 +88,8 @@ describe('Assignment API', () => {
 
         expect(createdEntityWithRecurrence).toBeDefined();
         expect(createdEntityWithRecurrence.dutyRecurrences).toBeDefined();
-        expect(createdEntityWithRecurrence.dutyRecurrences.length).toEqual(1);
-        const createdRecurrence = createdEntityWithRecurrence.dutyRecurrences[0];
+        expect(createdEntityWithRecurrence.dutyRecurrences!.length).toEqual(1);
+        const createdRecurrence = createdEntityWithRecurrence.dutyRecurrences![0];
 
         // Check the shape of the object returned
         expect(createdRecurrence).toMatchShapeOf(recurrenceShape);
@@ -100,9 +102,9 @@ describe('Assignment API', () => {
     });
 
     it('get by id should return Assignment', async () => {
-        const retrieved = await api.GetAssignmentById(createdEntity.id);
+        const retrieved = await api.GetAssignmentById(createdEntity.id as string);
         expect(retrieved).toMatchObject(createdEntity);
-        const retrievedWithRecurrence = await api.GetAssignmentById(createdEntityWithRecurrence.id);
+        const retrievedWithRecurrence = await api.GetAssignmentById(createdEntityWithRecurrence.id as string);
         expect(retrievedWithRecurrence).toMatchObject(createdEntityWithRecurrence);
     });
 
@@ -141,14 +143,14 @@ describe('Assignment API', () => {
     });
 
     it('expire should set expiry date for assignment and hide from get operation', async () => {
-        await api.ExpireAssignment(createdEntity.id);
+        await api.ExpireAssignment(createdEntity.id as string);
         const list = await api.GetAssignments();
         expect(list.some(a => a.id === createdEntity.id)).toBeFalsy();
     });
 
     it('update Assignment should return updated Assignment', async () => {
         const newTitle = "New Assignment Name";
-        const updatedEntity = await api.UpdateAssignment(createdEntity.id, {
+        const updatedEntity = await api.UpdateAssignment(createdEntity.id as string, {
             ...createdEntity,
             title: newTitle
         } as Assignment);
@@ -171,7 +173,7 @@ describe('Assignment API', () => {
             endTime: "17:30:00",
             sheriffsRequired: 12
         }
-        const updatedEntityWithRecurrence = await api.UpdateAssignment(createdEntity.id, {
+        const updatedEntityWithRecurrence = await api.UpdateAssignment(createdEntity.id as string, {
             ...createdEntityWithRecurrence,
             title: newTitle,
             dutyRecurrences: [
@@ -193,10 +195,10 @@ describe('Assignment API', () => {
     });
 
     it('expiring a duty recurrence should hide it from the assignments list but not from get by id', async () => {
-        createdEntityWithRecurrence = await api.GetAssignmentById(createdEntityWithRecurrence.id);
-        const firstRecurrence = createdEntityWithRecurrence.dutyRecurrences[0];
-        const secondRecurrence = createdEntityWithRecurrence.dutyRecurrences[1];
-        await api.ExpireDutyRecurrence(firstRecurrence.id);
+        createdEntityWithRecurrence = await api.GetAssignmentById(createdEntityWithRecurrence.id as string) as Assignment;
+        const firstRecurrence = createdEntityWithRecurrence!.dutyRecurrences![0];
+        const secondRecurrence = createdEntityWithRecurrence!.dutyRecurrences![1];
+        await api.ExpireDutyRecurrence(firstRecurrence.id as string);
 
         const list = await api.GetAssignments();
         const retrieved = list.find(a => a.id === createdEntityWithRecurrence.id);
@@ -205,22 +207,22 @@ describe('Assignment API', () => {
         expect(retrieved.dutyRecurrences[0]).toEqual(secondRecurrence);
 
         // When getting assignment by Id, we should grab all of the duty recurrences regardless of expiry
-        const retrievedById = await api.GetAssignmentById(createdEntityWithRecurrence.id);
+        const retrievedById = await api.GetAssignmentById(createdEntityWithRecurrence.id as string);
         expect(retrievedById.dutyRecurrences.map(dr => dr.id)).toEqual(expect.arrayContaining(createdEntityWithRecurrence.dutyRecurrences.map(dr => dr.id)));
     });
 
     it('delete should delete Assignment', async () => {
-        await api.DeleteAssignment(createdEntity.id);
-        const retreived = await api.GetAssignmentById(createdEntity.id);
+        await api.DeleteAssignment(createdEntity.id as string);
+        const retreived = await api.GetAssignmentById(createdEntity.id as string);
         expect(retreived).not.toBeDefined();
     });
 
     it('deleting an assignment should delete its recurrences', async () => {
-        await api.DeleteAssignment(createdEntityWithRecurrence.id);
+        await api.DeleteAssignment(createdEntityWithRecurrence.id as string);
         await createdEntityWithRecurrence.dutyRecurrences
             .map(dr => dr.id)
             .forEach(async id => {
-                const recurrence = await api.GetDutyRecurrenceById(id);
+                const recurrence = await api.GetDutyRecurrenceById(id as string);
                 expect(recurrence).not.toBeDefined();
             })
     });
@@ -236,6 +238,7 @@ describe('Assignment API', () => {
         }
         let testJailRoleCode: JailRoleCode;
         let testOtherAssignCode: OtherAssignCode;
+        let testCourtRoleCode: CourtRoleCode;
 
         const entitiesToDelete: Assignment[] = [];
 
@@ -250,6 +253,7 @@ describe('Assignment API', () => {
             });
             testJailRoleCode = (await api.GetJailRoleCodes())[0];
             testOtherAssignCode = (await api.GetOtherAssignCodes())[0];
+            testCourtRoleCode = (await api.GetCourtRoleCodes())[0];
             done();
         })
 
@@ -262,11 +266,11 @@ describe('Assignment API', () => {
                 courtroomId: testCourtroom.id,
                 title
             });
-            const retreived = await api.GetAssignmentById(noTitleEntity.id);
+            const retreived = await api.GetAssignmentById(noTitleEntity.id as string);
             expect(retreived.title).toEqual(title);
         });
 
-        it('Court assignment with no courtroom should throw validation error', async () => {
+        it('Court assignment with no courtroom and no court role should throw validation error', async () => {
             expect.assertions(3);
             try {
                 let courtAssignment: Assignment = await api.CreateAssignment({
@@ -283,11 +287,11 @@ describe('Assignment API', () => {
                 } = err;
                 expect(message).toEqual("Invalid Court Assignment");
                 expect(name).toEqual("ValidateError");
-                expect(fields['model.courtroomId']!.message).toEqual("Courtroom must be set for Court assignments");
+                expect(fields['model.courtroomId']!.message).toEqual("Courtroom or Court Role must be set for Court assignments");
             }
         });
 
-        it('Court assignment with no title should default to courtroom name', async () => {
+        it('Court assignment with no title and a courtroom ID should default to courtroom name', async () => {
             let courtAssignment: Assignment = await api.CreateAssignment({
                 ...entityToCreate,
                 title: null,
@@ -299,6 +303,20 @@ describe('Assignment API', () => {
             expect(courtAssignment.workSectionId).toEqual("COURTS");
             expect(courtAssignment.courtroomId).toEqual(testCourtroom.id);
             expect(courtAssignment.title).toEqual(testCourtroom.name);
+        });
+
+        it('Court assignment with no title and a court role code should default to court role description', async () => {
+            let courtAssignment: Assignment = await api.CreateAssignment({
+                ...entityToCreate,
+                title: null,
+                workSectionId: "COURTS",
+                courthouseId: testCourthouse.id,
+                courtRoleId: testCourtRoleCode.code
+            });
+            expect(courtAssignment.id).toBeDefined();
+            expect(courtAssignment.workSectionId).toEqual("COURTS");
+            expect(courtAssignment.courtRoleId).toEqual(testCourtRoleCode.code);
+            expect(courtAssignment.title).toEqual(testCourtRoleCode.description);
         });
 
         it('Jail assignment with no jail should throw validation error', async () => {
@@ -321,6 +339,7 @@ describe('Assignment API', () => {
                 expect(fields['model.jailRoleCode']!.message).toEqual("Jail Role must be set for Jail assignments");
             }
         });
+
 
         it('Jail assignment with no title should default to Jail Role description', async () => {
             const jailAssignment: Assignment = {

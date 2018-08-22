@@ -32,8 +32,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -60,6 +60,26 @@ var __rest = (this && this.__rest) || function (s, e) {
         for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
             t[p[i]] = s[p[i]];
     return t;
+};
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
+var __spread = (this && this.__spread) || function () {
+    for (var ar = [], i = 0; i < arguments.length; i++) ar = ar.concat(__read(arguments[i]));
+    return ar;
 };
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -95,19 +115,45 @@ var ExtendedClient = /** @class */ (function (_super) {
         return this._requestInterceptor ? this._requestInterceptor(req) : req;
     };
     Object.defineProperty(ExtendedClient.prototype, "requestInterceptor", {
+        get: function () {
+            return this._requestInterceptor;
+        },
         set: function (interceptor) {
             this._requestInterceptor = interceptor;
         },
         enumerable: true,
         configurable: true
     });
+    ExtendedClient.prototype.handleResponse = function (response) {
+        return _super.prototype.handleResponse.call(this, response);
+    };
+    ExtendedClient.prototype.ensureToken = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var err_1;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _a.trys.push([0, 2, , 3]);
+                        return [4 /*yield*/, _super.prototype.ensureToken.call(this)];
+                    case 1:
+                        _a.sent();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        err_1 = _a.sent();
+                        console.error("Error fetching api token: '" + (err_1 && err_1.message ? err_1.message : err_1) + "'");
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
+                }
+            });
+        });
+    };
     ExtendedClient.prototype.processError = function (err) {
         var apiError = new Errors_1.ApiError(err);
         return apiError;
     };
     ExtendedClient.prototype.nullOn404 = function (method) {
         return __awaiter(this, void 0, void 0, function () {
-            var err_1;
+            var err_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -115,12 +161,12 @@ var ExtendedClient = /** @class */ (function (_super) {
                         return [4 /*yield*/, method()];
                     case 1: return [2 /*return*/, _a.sent()];
                     case 2:
-                        err_1 = _a.sent();
-                        if (err_1.status === 404) {
+                        err_2 = _a.sent();
+                        if (err_2.status === 404) {
                             return [2 /*return*/, undefined];
                         }
                         else {
-                            throw err_1;
+                            throw err_2;
                         }
                         return [3 /*break*/, 3];
                     case 3: return [2 /*return*/];
@@ -284,11 +330,11 @@ var ExtendedClient = /** @class */ (function (_super) {
     };
     ExtendedClient.prototype.CreateAssignment = function (model) {
         var _a = model.dutyRecurrences, dutyRecurrences = _a === void 0 ? [] : _a;
-        return _super.prototype.CreateAssignment.call(this, __assign({}, model, { dutyRecurrences: this.ensureTimeZone.apply(this, dutyRecurrences) }));
+        return _super.prototype.CreateAssignment.call(this, __assign({}, model, { dutyRecurrences: this.ensureTimeZone.apply(this, __spread(dutyRecurrences)) }));
     };
     ExtendedClient.prototype.UpdateAssignment = function (id, model) {
         var _a = model.dutyRecurrences, dutyRecurrences = _a === void 0 ? [] : _a;
-        return _super.prototype.UpdateAssignment.call(this, id, __assign({}, model, { dutyRecurrences: this.ensureTimeZone.apply(this, dutyRecurrences) }));
+        return _super.prototype.UpdateAssignment.call(this, id, __assign({}, model, { dutyRecurrences: this.ensureTimeZone.apply(this, __spread(dutyRecurrences)) }));
     };
     ExtendedClient.prototype.ensureLeaveTimes = function (model) {
         return __assign({}, model, { startTime: model.startTime ? TimeUtils_1.toTimeString(model.startTime) : undefined, endTime: model.endTime ? TimeUtils_1.toTimeString(model.endTime) : undefined });

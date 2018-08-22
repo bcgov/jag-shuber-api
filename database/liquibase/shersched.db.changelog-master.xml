@@ -42,11 +42,17 @@
     <!-- schema updates for Chilliwack release -->
     <include file="shersched.db.changelog-ddl.04.xml"/>
     
-    <!-- schema updates for Chilliwack release -->
+    <!-- schema updates for Leave support -->
     <include file="shersched.db.changelog-ddl.05.xml"/>
+   
+    <!-- schema updates for Assignment updates -->
+    <include file="shersched.db.changelog-ddl.06.xml"/>
     
     <!-- schema updates for audit support  -->
     <include file="shersched.db.changelog-ddl.07.xml"/>
+    
+    <!-- schema updates for Gender -->
+    <include file="shersched.db.changelog-ddl.08.xml"/>
    
     <!-- load prod data -->
     <include file="data/shersched.db.changelog-data.prod.xml"/>

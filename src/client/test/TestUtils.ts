@@ -1,18 +1,36 @@
 import { toMatchShapeOf, toMatchOneOf } from 'jest-to-match-shape-of';
 import db from '../../db/Database';
+import { closeConnectionPool } from '../../db/connection';
 import ExtendedClient from '../ExtendedClient';
 import { Courthouse, Courtroom, Assignment, Region, DutyRecurrence, Duty, SheriffDuty, Shift, Leave } from '../models';
 import { Sheriff } from '../../models/Sheriff';
 import { ClientBase } from 'pg';
 import './MomentMatchers';
 import moment, { Moment } from 'moment';
+import {
+    SITEMINDER_HEADER_USERGUID,
+    SITEMINDER_HEADER_USERDISPLAYNAME,
+    SITEMINDER_HEADER_USERIDENTIFIER,
+    SITEMINDER_HEADER_USERTYPE,
+    TokenPayload
+} from '../../common/authentication';
+import { DatabaseService } from '../../infrastructure/DatabaseService';
+import { AssignmentService } from '../../services/AssignmentService';
+import { CourthouseService } from '../../services/CourthouseService';
+import { SheriffDutyService } from '../../services/SheriffDutyService';
+import { DatabaseRecordMetadata } from '../../infrastructure/DatabaseRecordMetadata';
 
 expect.extend({
     toMatchShapeOf,
     toMatchOneOf
 });
 
-
+export interface DBRecordMetadata {
+    updatedBy?: string;
+    createdBy?: string;
+    updatedDate?: string;
+    createdDate?: string;
+}
 
 export default class TestUtils {
     public static tables = {
@@ -41,12 +59,73 @@ export default class TestUtils {
         TestUtils.tables.courthouse,
         TestUtils.tables.region,
     ]
-    constructor() {
 
+    static async getRecordMetadata(tableName: string, recordId?: string): Promise<DatabaseRecordMetadata> {
+        if (!recordId) {
+            return {};
+        }
+        let service: DatabaseService<any> | undefined = undefined;
+        switch (tableName) {
+            case TestUtils.tables.assignment:
+                service = new AssignmentService();
+                break;
+            case TestUtils.tables.courthouse:
+                service = new CourthouseService();
+                break;
+            case TestUtils.tables.sheriff_duty:
+                service = new SheriffDutyService();
+                break;
+            default:
+                throw "Table not supported, add it to the switch case (where this error was thrown)!!";
+        }
+        if (service) {
+            return await service.getMetadataById(recordId);
+        }
+        return {}
     }
 
-    static getClient(): ExtendedClient {
-        return new ExtendedClient('http://localhost:3001/api/v1');
+    static DefaultAuthConfig: TokenPayload = {
+        userId: 'bnye',
+        displayName: 'Nye, Bill',
+        guid: 'bnyeguid',
+        type: 'testing'
+    }
+
+    static getClientWithAuth(authOverrides?: TokenPayload) {
+        const authConfig = { ...TestUtils.DefaultAuthConfig, ...authOverrides };
+        const { guid, displayName, userId, type } = authConfig;
+        const headers = {};
+        headers[SITEMINDER_HEADER_USERGUID] = guid;
+        headers[SITEMINDER_HEADER_USERDISPLAYNAME] = displayName;
+        headers[SITEMINDER_HEADER_USERIDENTIFIER] = userId;
+        headers[SITEMINDER_HEADER_USERTYPE] = type;
+        return this.getClient(headers);
+    }
+
+    static getClient(headers: { [key: string]: string } = {}): ExtendedClient {
+        const client = new ExtendedClient('http://localhost:3001/api/v1');
+
+        client.requestInterceptor = (req) => {
+            Object.keys(headers).forEach(k => {
+                req.set(k, headers[k]);
+            });
+            return req;
+        }
+        return client;
+    }
+
+    /**
+     * Authorizes a client instance and passes it to a callback that can be used
+     * for creating / modifying test fixtures necessary for the following tests
+     * @static
+     * @param {(client:ExtendedClient)=>Promise<void>} setupFunc
+     * @memberof TestUtils
+     */
+    static async setupTestFixtures<T>(setupFunc: (client: ExtendedClient) => Promise<T>) {
+        const authedApi = TestUtils.getClientWithAuth();
+        if (setupFunc) {
+            return await setupFunc(authedApi);
+        }
     }
 
     static async clearTable(client?: ClientBase, ...tables: string[]) {
@@ -63,7 +142,7 @@ export default class TestUtils {
     }
 
     static async closeDatabase() {
-        await db.close();
+        await closeConnectionPool();
     }
 
     static randomString(length: number) {
@@ -75,33 +154,31 @@ export default class TestUtils {
     }
 
     static async newTestRegion(): Promise<Region> {
-        const api = TestUtils.getClient();
-        return await api.CreateRegion({
-            name: "TEST Region",
-            code: TestUtils.randomString(5)
-        });
+        return await TestUtils.setupTestFixtures(api =>
+            api.CreateRegion({
+                name: "TEST Region",
+                code: TestUtils.randomString(5)
+            })
+        ) as Region;
     }
 
     static async newTestCourthouse(regionId: string): Promise<Courthouse> {
-        const api = TestUtils.getClient();
-        return await api.CreateCourthouse({
+        return await TestUtils.setupTestFixtures(api => api.CreateCourthouse({
             regionId,
             name: "TEST COURTHOUSE",
             code: TestUtils.randomString(5)
-        });
+        })) as Courthouse;
     }
 
     static async newTestCourtroom(courthouseId: string): Promise<Courtroom> {
-        const api = TestUtils.getClient();
-        return await api.CreateCourtroom({
+        return await TestUtils.setupTestFixtures(api => api.CreateCourtroom({
             name: "TEST COURTROOM",
             courthouseId,
             code: TestUtils.randomString(5)
-        });
+        })) as Courtroom;
     }
 
     static async newTestAssignment(courthouseId, assignmentDetails: Partial<Assignment> = {}): Promise<Assignment> {
-        const api = TestUtils.getClient();
         let workSectionId = "";
         if (assignmentDetails.jailRoleCode) {
             workSectionId = "JAIL";
@@ -112,33 +189,32 @@ export default class TestUtils {
         } else if (assignmentDetails.otherAssignCode) {
             workSectionId = "OTHER";
         }
-        return await api.CreateAssignment({
+        return await TestUtils.setupTestFixtures(api => api.CreateAssignment({
             ...assignmentDetails,
             workSectionId,
             courthouseId
-        });
+        })) as Assignment;
     }
 
     static async newTestSheriff(courthouseId: string, sheriff?: Partial<Sheriff>): Promise<Sheriff> {
-        const api = TestUtils.getClient();
-        return await api.CreateSheriff({
-            badgeNo: TestUtils.randomString(5),
-            firstName: 'Bill',
-            lastName: 'Nye',
-            rankCode: 'DEPUTYSHERIFF',
-            homeCourthouseId: courthouseId
-        }) as Sheriff;
+        return await TestUtils.setupTestFixtures(api =>
+            api.CreateSheriff({
+                badgeNo: TestUtils.randomString(5),
+                firstName: 'Bill',
+                lastName: 'Nye',
+                rankCode: 'DEPUTYSHERIFF',
+                homeCourthouseId: courthouseId
+            })) as Sheriff;
     }
 
     static async newTestShift(courthouseId: string, shift?: Partial<Shift>): Promise<Shift> {
-        const api = TestUtils.getClient();
-        return await api.CreateShift({
+        return await TestUtils.setupTestFixtures(api => api.CreateShift({
             startDateTime: moment().startOf('day').hours(7).format(),
             endDateTime: moment().startOf('day').hours(8).format(),
             workSectionId: 'COURTS',
             ...shift,
             courthouseId
-        });
+        })) as Shift;
     }
 
     static assertDutyRecurrence(actual: DutyRecurrence, expected: DutyRecurrence) {
@@ -150,7 +226,7 @@ export default class TestUtils {
         expect(actual.endTime).toBeSameTime(expected.endTime);
     }
 
-    static assertImportedDuties(created: Duty[], assignment: Assignment, expectedDate: Moment= moment()) {
+    static assertImportedDuties(created: Duty[], assignment: Assignment, expectedDate: Moment = moment()) {
         created.forEach(createdDuty => {
             expect(createdDuty.id).toBeDefined();
             const dutyRecurrences = assignment.dutyRecurrences as DutyRecurrence[];
@@ -189,7 +265,8 @@ beforeAll(async (done) => {
     done();
 });
 
-afterAll(async () => {
+afterAll(async (done) => {
     // Don't wait for the database to close, hoping it does
-    TestUtils.closeDatabase();
+    await TestUtils.closeDatabase();
+    done();
 });

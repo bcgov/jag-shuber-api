@@ -1,14 +1,18 @@
 import { GetFieldBlock, PostgresDelete, PostgresInsert, PostgresSelect, PostgresSquel, PostgresUpdate } from 'squel';
-import { Database, default as db } from '../db/Database';
+import { Database } from '../db/Database';
 import { ServiceBase } from './ServiceBase';
 import { ClientBase } from 'pg';
 import { DatabaseError, isDatabaseError, ValidationError } from '../common/Errors'
 import { ValidateError, FieldErrors } from 'tsoa';
+import { Inject, AutoWired } from 'typescript-ioc';
+import { DatabaseRecordMetadata, DatabaseMetadataFieldMap } from './DatabaseRecordMetadata';
 
 export type DatabaseResult<T> = { rows: T[] }
 
+@AutoWired
 export abstract class DatabaseService<T> extends ServiceBase<T> {
-    private _db: Database = db;
+    @Inject
+    private _db!: Database;
     protected get db() {
         return this._db;
     }
@@ -64,12 +68,12 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
                         const field = matches[1];
                         const value = matches[2];
                         const message = "Already Exists";
-                        const fieldErrors :FieldErrors = {};
+                        const fieldErrors: FieldErrors = {};
                         fieldErrors[this.fieldMap[field]] = {
                             message,
                             value
                         }
-                        returnError = new ValidateError(fieldErrors,"ValidationError");
+                        returnError = new ValidateError(fieldErrors, "ValidationError");
                     }
                 }
             }
@@ -137,6 +141,13 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
             const propValue = entity[objectPropName];
             query.set(dbField, propValue != undefined ? propValue : null);
         });
+    }
+
+    async getMetadataById(id: string): Promise<T & DatabaseRecordMetadata>{
+        const query = this.getSelectQuery(id);
+        query.fields(DatabaseMetadataFieldMap);
+        const rows = await this.executeQuery<DatabaseRecordMetadata & T>(query.toString());
+        return rows[0];
     }
 
     async getAll(): Promise<T[]> {

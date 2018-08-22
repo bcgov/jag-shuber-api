@@ -24,7 +24,7 @@
   def SLACK_DEV_CHANNEL="#sheriffscheduling_dev"
   def SLACK_MAIN_CHANNEL="#sheriff_scheduling"
   // def scmVars = checkout scm
-  def work_space = "${WORKSPACE}@script"
+  def work_space = "/var/lib/jenkins/jobs/jag-shuber-tools/jobs/jag-shuber-tools-shuber-api-pipeline/workspace@script"
   //Trigger remote job
   // def handle = build job: 'Jag-shuber-prod-deploy'
 
@@ -181,7 +181,7 @@
   stage('Deploy ' + TAG_NAMES[1]){
     def environment = TAG_NAMES[1]
     def url = APP_URLS[1]
-    timeout(time:3, unit: 'DAYS'){ input "Deploy to ${environment}?"}
+    timeout(time:3, unit: 'DAYS'){ input id: 'Approval', message: "Deploy to ${environment}?", submitter: 'ronald-garcia-admin,cjam-admin', submitterParameter: 'approvingSubmitter'}
     node{
     try{
       openshiftTag destStream: RUNTIME_BUILD, verbose: 'true', destTag: environment, srcStream: RUNTIME_BUILD, srcTag: "${IMAGE_HASH}", waitTime: '900000'
@@ -238,7 +238,7 @@
       try {
       // Check for current route target
       ROUT_CHK = sh (
-      script: """oc project jag-shuber-prod; oc get route api -o template --template='{{ .spec.to.name }}' > ${work_space}/route-target; cat ${work_space}/route-target""")
+      script: """oc project jag-shuber-prod; oc get route api -o template --template='{{ .spec.to.name }}' > route-target; cat route-target""")
       // echo ">> ROUT_CHK: ${ROUT_CHK}"
       // Tag the new build as "prod"
       openshiftTag destStream: "${newTarget}", verbose: 'true', destTag: environment, srcStream: RUNTIME_BUILD, srcTag: "${IMAGE_HASH}", waitTime: '900000'
@@ -284,7 +284,7 @@
     def newTarget = getNewTarget()
     def currentTarget = getCurrentTarget()
     // Wait for administrator confirmation
-    timeout(time:3, unit: 'DAYS'){ input "Switch Production from ${currentTarget} to ${newTarget} ?"}
+    timeout(time:3, unit: 'DAYS'){ input id: 'Approval', message: 'Switch Production from ${currentTarget} to ${newTarget} ?', submitter: 'ronald-garcia-admin,cjam-admin', submitterParameter: 'approvingSubmitter'}
     node{
       try{
         
@@ -300,7 +300,7 @@
 
 // // Functions to check currentTarget (api-blue)deployment and mark to for deployment to newTarget(api-green) & vice versa
   def getCurrentTarget() {
-  def currentTarget = readFile("${work_space}/route-target")
+  def currentTarget = readFile("route-target")
   return currentTarget
   }
 

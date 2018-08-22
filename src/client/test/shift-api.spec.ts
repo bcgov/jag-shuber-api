@@ -32,9 +32,11 @@ describe('Shift API', () => {
     let createdEntity: Shift;
 
     beforeAll(async (done) => {
-        api = TestUtils.getClient();
-        testRegion = await api.CreateRegion(testRegion);
-        testCourthouse = await api.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
+        await TestUtils.setupTestFixtures(async client=>{
+            testRegion = await client.CreateRegion(testRegion);
+            testCourthouse = await client.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
+        });
+        api = TestUtils.getClientWithAuth();
         done();
     });
 

@@ -1,4 +1,5 @@
-export interface JailRoleCode{
-    code:string;
-    description:string;
+export interface JailRoleCode {
+    code: string;
+    description: string;
+    expiryDate?: string;
 }

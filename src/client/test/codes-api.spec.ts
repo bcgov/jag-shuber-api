@@ -5,20 +5,30 @@ import {
     WorkSectionCode,
     SheriffRankCode,
     LeaveCancelReasonCode,
-    LeaveCode 
+    LeaveCode, 
+    CourtRoleCode,
+    GenderCode,
+    LeaveSubCode
 } from '../models';
 import TestUtils from './TestUtils';
 
-const CodeShape: JailRoleCode | OtherAssignCode | WorkSectionCode | SheriffRankCode | LeaveCancelReasonCode | LeaveCode = {
+const CodeShape: 
+    JailRoleCode | OtherAssignCode | WorkSectionCode | SheriffRankCode | 
+    LeaveCancelReasonCode | LeaveCode | CourtRoleCode | GenderCode = {
     code: 'some string',
     description: 'some string'
 }
 
+const SubCodeShape: LeaveSubCode = {
+    code: 'some string',
+    subCode: 'some string',
+    description: 'some string'
+}
 describe('Codes API', () => {
     let api: ApiClient;
 
     beforeAll(async (done) => {
-        api = TestUtils.getClient();
+        api = TestUtils.getClientWithAuth();
         done();
     });
 
@@ -26,7 +36,7 @@ describe('Codes API', () => {
         const list = await api.GetJailRoleCodes();
         expect(list).toBeDefined();
         expect(Array.isArray(list)).toBeTruthy();
-        expect(list.length).toEqual(4);
+        expect(list.length).toEqual(7);
         list.forEach(c => {
             expect(c).toMatchShapeOf(CodeShape);
         })
@@ -36,7 +46,7 @@ describe('Codes API', () => {
         const list = await api.GetOtherAssignCodes();
         expect(list).toBeDefined();
         expect(Array.isArray(list)).toBeTruthy();
-        expect(list.length).toEqual(5);
+        expect(list.length).toEqual(12);
         list.forEach(c => {
             expect(c).toMatchShapeOf(CodeShape);
         })
@@ -82,4 +92,32 @@ describe('Codes API', () => {
         })
     });
 
+    it('get courtRoleCodes should return list of Court Role Codes', async () => {
+        const list = await api.GetCourtRoleCodes();
+        expect(list).toBeDefined();
+        expect(Array.isArray(list)).toBeTruthy();
+        expect(list.length).toEqual(5);
+        list.forEach(c => {
+            expect(c).toMatchShapeOf(CodeShape);
+        })
+    });
+
+    it('get genderCodes should return a list of Gender Codes', async () => {
+        const list = await api.GetGenderCodes();
+        expect(list).toBeDefined();
+        expect(Array.isArray(list)).toBeTruthy();
+        expect(list.length).toEqual(3);
+        list.forEach(c => {
+            expect(c).toMatchShapeOf(CodeShape);
+        })
+    });
+
+    it('get leave subcodes should return list of Leave Type Sub Codes', async () => {
+        const list = await api.GetLeaveSubCodes();
+        expect(list).toBeDefined();
+        expect(Array.isArray(list)).toBeTruthy();
+        list.forEach(c => {
+            expect(c).toMatchShapeOf(SubCodeShape);
+        })
+    });
 }) 

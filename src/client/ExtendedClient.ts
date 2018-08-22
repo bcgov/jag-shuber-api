@@ -1,11 +1,26 @@
-import moment, { Moment, isMoment } from 'moment';
+import moment from 'moment';
 import * as SA from 'superagent';
 import saPrefix from 'superagent-prefix';
 import superagentUse from 'superagent-use';
 import Client from './Client';
-import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift, DutyImportDefaultsRequest, MultipleShiftUpdateRequest, Leave } from './models';
+import {
+    Assignment,
+    Courthouse,
+    Courtroom,
+    Duty,
+    DutyRecurrence,
+    Region,
+    Run,
+    Sheriff,
+    Shift,
+    DutyImportDefaultsRequest,
+    MultipleShiftUpdateRequest,
+    Leave
+} from './models';
 import { toTimeString } from '../common/TimeUtils';
-import { ValidationError, DatabaseError, ApiError, isDatabaseError, isValidationError } from '../common/Errors';
+import { ApiError } from '../common/Errors';
+import { TokenPayload } from '../common/authentication';
+import { decodeJwt } from '../common/tokenUtils';
 
 export type DateType = string | Date | moment.Moment | number;
 
@@ -28,15 +43,31 @@ export default class ExtendedClient extends Client {
 
     private interceptRequest(req: SA.SuperAgentRequest) {
         req.set('Accept', 'application/javascript');
-        req.set('TZ-Offset', `${this.timezoneOffset}`)
+        req.set('TZ-Offset', `${this.timezoneOffset}`);
         return this._requestInterceptor ? this._requestInterceptor(req) : req;
     }
 
-    set requestInterceptor(interceptor: SuperAgentRequestInterceptor) {
+    set requestInterceptor(interceptor: SuperAgentRequestInterceptor | undefined) {
         this._requestInterceptor = interceptor;
     }
 
-    protected processError(err) : Error {
+    get requestInterceptor(): SuperAgentRequestInterceptor | undefined {
+        return this._requestInterceptor;
+    }
+
+    protected handleResponse<T>(response: SA.Response) {
+        return super.handleResponse<T>(response);
+    }
+
+    protected async ensureToken() {
+        try {
+            await super.ensureToken();
+        } catch (err) {
+            console.error(`Error fetching api token: '${err && err.message ? err.message : err}'`);
+        }
+    }
+
+    protected processError(err): Error {
         let apiError = new ApiError(err);
         return apiError;
     }
@@ -134,7 +165,7 @@ export default class ExtendedClient extends Client {
         );
     }
 
-    GetLeaveById(id:string): Promise<Leave>{
+    GetLeaveById(id: string): Promise<Leave> {
         return this.nullOn404(
             () => super.GetLeaveById(id)
         );
@@ -178,7 +209,7 @@ export default class ExtendedClient extends Client {
         });
     }
 
-    private ensureLeaveTimes(model:Leave){
+    private ensureLeaveTimes(model: Leave) {
         return {
             ...model,
             startTime: model.startTime ? toTimeString(model.startTime) : undefined,
@@ -186,12 +217,12 @@ export default class ExtendedClient extends Client {
         };
     }
 
-    CreateLeave(model:Leave){
+    CreateLeave(model: Leave) {
         return super.CreateLeave(this.ensureLeaveTimes(model));
     }
 
-    UpdateLeave(id:string, model:Leave){
-        return super.UpdateLeave(id,this.ensureLeaveTimes(model));
+    UpdateLeave(id: string, model: Leave) {
+        return super.UpdateLeave(id, this.ensureLeaveTimes(model));
     }
 
     UpdateMultipleShifts(model: MultipleShiftUpdateRequest) {

@@ -1,8 +1,17 @@
-# SHUBER API
+# Sheriff Scheduling API
 This project represents the API for the Sheriff Scheduling (Shuber) application.
 
+### [Project Architecture Documentation](./docs/index)
 
 > TODO: NEED TO UPDATE THESE DOCS.  TALK TO COLTER FOR NOW.
+
+## Commands 
+
+
+`yarn watch` - Launches the backend in dev mode against the development database
+`yarn watch:testing` - Launches the backend in testing mode (wired to the testing database)
+`yarn test` - runs the jest tests for the application (should be done in conjuction with the `yarn watch:testing` command described above)
+
 
 ## Technology Stack Used
 

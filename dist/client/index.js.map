@@ -1,1 +1,1 @@
-{"version":3,"file":"index.js","sourceRoot":"/Users/roughdraft/Projects/CGI/jag-shuber-api/src/","sources":["client/index.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,mDAAkD;AAA1C,kCAAA,OAAO,CAAU;AAEzB,yCAAoC;AAAA,CAAC;AAErC,wDAA4C;AAC/B,QAAA,MAAM,GAAG,OAAO,CAAC"}
+{"version":3,"file":"index.js","sourceRoot":"/Users/roughdraft/Projects/CGI/jag-shuber-api/src/","sources":["client/index.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,mDAAkD;AAA1C,kCAAA,OAAO,CAAU;AAEzB,yCAAoC;AACpC,0CAAqC;AACrC,0CAAqC;AACrC,8CAAyC;AAEzC,wDAA4C;AAC/B,QAAA,MAAM,GAAG,OAAO,CAAC"}
