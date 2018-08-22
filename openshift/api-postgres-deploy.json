@@ -32,7 +32,7 @@
             "stringData": {
                 "api-user": "${API_DATABASE_USER}",
                 "api-password": "${API_DATABASE_PASS}",
-                "jwt-secret":"${API_JWT_SECRET}"
+                "api-jwt-secret":"${API_JWT_SECRET}"
             }
         },
         {
