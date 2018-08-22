@@ -564,7 +564,7 @@
             "displayName": "API JWT Secret",
             "description": "The secret used to sign all JWT tokens",
             "generate": "expression",
-            "from": "[a-zA-Z0-9_-%^#@&!*]{100}",
+            "from": "[a-zA-Z0-9]{100}",
             "required": true
         },        
         {
