@@ -112,6 +112,12 @@ var ExtendedClient = /** @class */ (function (_super) {
     ExtendedClient.prototype.interceptRequest = function (req) {
         req.set('Accept', 'application/javascript');
         req.set('TZ-Offset', "" + this.timezoneOffset);
+        // SITEMINDER does not allow DELETE methods through, so here we use
+        // a POST with the X-HTTP-METHOD-OVERRIDE
+        if (req.method === 'DELETE') {
+            req.method = 'POST';
+            req.set('X-HTTP-METHOD-OVERRIDE', 'DELETE');
+        }
         return this._requestInterceptor ? this._requestInterceptor(req) : req;
     };
     Object.defineProperty(ExtendedClient.prototype, "requestInterceptor", {
