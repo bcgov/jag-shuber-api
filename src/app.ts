@@ -4,6 +4,8 @@ import Router from 'koa-router';
 import './controllers';
 import { RegisterRoutes } from './routes';
 import morgan from 'koa-morgan';
+import {Client} from 'pg';
+
 
 const app = new Koa();
 app.use(bodyParser());
@@ -14,11 +16,27 @@ const router = new Router({
 });
 RegisterRoutes(router);
 
-
 router.get('/', async ctx => {
     ctx.body = {
         data: "Sheriff Scheduling API"
     }
+})
+.get('/status',async ctx=>{
+    let isConnected:boolean = false;
+    const pgClient = new Client();
+    try{        
+        await pgClient.connect();
+        isConnected = true;
+        pgClient.end()
+    }catch(e){
+        console.error(`Error connecting to database: ${e}`);
+    }finally{
+        pgClient.end()
+    }
+  ctx.body = {
+      buildCommit: process.env['OPENSHIFT_BUILD_COMMIT'] || "Unknown Commit",
+      isConnected:isConnected
+  };
 });
 
 // Register our Middleware
@@ -27,6 +45,13 @@ app
         ctx.set('Content-Type', 'application/json');
         ctx.set('Access-Control-Allow-Origin', '*');
         ctx.set('Access-Control-Allow-Headers', 'smgov_userguid,smgov_userdisplayname,Content-Type, Authorization, Content-Length, X-Requested-With');
+        
+        // SITEMINDER does not allow DELETE methods through, so here we use
+        // a POST with the X-HTTP-METHOD-OVERRIDE
+        const methodOverride = ctx.get('X-HTTP-METHOD-OVERRIDE');
+        if(ctx.method === 'POST' && methodOverride==='DELETE'){
+            ctx.method = 'DELETE';
+        }
         await next();
     })
     .use(async (ctx, next) => {
