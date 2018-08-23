@@ -274,7 +274,7 @@
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="app_user_role">
-              <where>app_user_id=(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'JENNIPOT') AND app_role_id=(SELECT s.api_scope_id FROM ${POSTGRES_SCHEMA}.api_scope s WHERE s.api_scope_string = 'READ_WRITE_ALL')</where>
+              <where>app_user_id=(SELECT u.app_user_id FROM ${POSTGRES_SCHEMA}.app_user u WHERE u.user_auth_id= 'JENNIPOT') AND app_role_id=(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'READ_WRITE_ALL')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -293,7 +293,7 @@
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="app_user_role">
-              <where>app_user_id=(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'CARGEISL') AND app_role_id=(SELECT s.api_scope_id FROM ${POSTGRES_SCHEMA}.api_scope s WHERE s.api_scope_string = 'READ_ALL')</where>
+              <where>app_user_id=(SELECT u.app_user_id FROM ${POSTGRES_SCHEMA}.app_user u WHERE u.user_auth_id= 'CARGEISL') AND app_role_id=(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'READ_ALL')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -312,7 +312,7 @@
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="app_user_role">
-              <where>app_user_id=(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'HMCQUAY') AND app_role_id=(SELECT s.api_scope_id FROM ${POSTGRES_SCHEMA}.api_scope s WHERE s.api_scope_string = 'READ_WRITE_ALL')</where>
+              <where>app_user_id=(SELECT u.app_user_id FROM ${POSTGRES_SCHEMA}.app_user u WHERE u.user_auth_id= 'HMCQUAY') AND app_role_id=(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'READ_WRITE_ALL')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -331,7 +331,7 @@
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="app_user_role">
-              <where>app_user_id=(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'HMCQUAY') AND app_role_id=(SELECT s.api_scope_id FROM ${POSTGRES_SCHEMA}.api_scope s WHERE s.api_scope_string = 'READ_WRITE_ALL')</where>
+              <where>app_user_id=(SELECT u.app_user_id FROM ${POSTGRES_SCHEMA}.app_user u WHERE u.user_auth_id= 'HMCQUAY') AND app_role_id=(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'READ_WRITE_ALL')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -349,7 +349,7 @@
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="app_user_role">
-              <where>app_user_id=(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'CMCQUAY') AND app_role_id=(SELECT s.api_scope_id FROM ${POSTGRES_SCHEMA}.api_scope s WHERE s.api_scope_string = 'READ_ALL')</where>
+              <where>app_user_id=(SELECT u.app_user_id FROM ${POSTGRES_SCHEMA}.app_user u WHERE u.user_auth_id= 'CMCQUAY') AND app_role_id=(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'READ_ALL')</where>
           </delete>
       </rollback>
     </changeSet>
