@@ -44,6 +44,10 @@ export default class ExtendedClient extends Client {
     private interceptRequest(req: SA.SuperAgentRequest) {
         req.set('Accept', 'application/javascript');
         req.set('TZ-Offset', `${this.timezoneOffset}`);
+        if (req.method === 'DELETE') {
+            req.method = 'POST';
+            req.set('X-HTTP-METHOD-OVERRIDE', 'DELETE');
+        }
         return this._requestInterceptor ? this._requestInterceptor(req) : req;
     }
 

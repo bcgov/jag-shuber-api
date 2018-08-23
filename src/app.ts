@@ -27,6 +27,10 @@ app
         ctx.set('Content-Type', 'application/json');
         ctx.set('Access-Control-Allow-Origin', '*');
         ctx.set('Access-Control-Allow-Headers', 'smgov_userguid,smgov_userdisplayname,Content-Type, Authorization, Content-Length, X-Requested-With');
+        const methodOverride = ctx.get('X-HTTP-METHOD-OVERRIDE');
+        if(methodOverride==='DELETE'){
+            ctx.method = 'DELETE';
+        }
         await next();
     })
     .use(async (ctx, next) => {
