@@ -295,8 +295,264 @@ The API will associate an Api Scope string with each endpoint to determine what 
           <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="aud_sheriff_duty"/>
         </rollback>
     </changeSet>
-
+  
+    <!-- Create or Replace trigger function for table stamps, and add triggers for each table -->
     <include file="procs/shersched.db.changelog-function.tab_stamp.xml"/>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_adr_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_adr_stamp ON ${POSTGRES_SCHEMA}.address;
+        	CREATE TRIGGER trg_biu_adr_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.address
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_adr_stamp ON ${POSTGRES_SCHEMA}.address;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_asn_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_asn_stamp ON ${POSTGRES_SCHEMA}.assignment;
+        	CREATE TRIGGER trg_biu_asn_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.assignment
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_asn_stamp ON ${POSTGRES_SCHEMA}.assignment;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_crth_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_crth_stamp ON ${POSTGRES_SCHEMA}.courthouse;
+        	CREATE TRIGGER trg_biu_crth_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.courthouse
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_crth_stamp ON ${POSTGRES_SCHEMA}.courthouse;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_crtr_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_crtr_stamp ON ${POSTGRES_SCHEMA}.courtroom;
+        	CREATE TRIGGER trg_biu_crtr_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.courtroom
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_crtr_stamp ON ${POSTGRES_SCHEMA}.courtroom;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_dty_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_dty_stamp ON ${POSTGRES_SCHEMA}.duty;
+        	CREATE TRIGGER trg_biu_dty_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.duty
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_dty_stamp ON ${POSTGRES_SCHEMA}.duty;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_dtyrc_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_dtyrc_stamp ON ${POSTGRES_SCHEMA}.duty_recurrence;
+        	CREATE TRIGGER trg_biu_dtyrc_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.duty_recurrence
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_dtyrc_stamp ON ${POSTGRES_SCHEMA}.duty_recurrence;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_jlrlcd_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_jlrlcd_stamp ON ${POSTGRES_SCHEMA}.jail_role_code;
+        	CREATE TRIGGER trg_biu_jlrlcd_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.jail_role_code
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_jlrlcd_stamp ON ${POSTGRES_SCHEMA}.jail_role_code;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_lve_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_lve_stamp ON ${POSTGRES_SCHEMA}.leave;
+        	CREATE TRIGGER trg_biu_lve_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.leave
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_lve_stamp ON ${POSTGRES_SCHEMA}.leave;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_lvcr_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_lvcr_stamp ON ${POSTGRES_SCHEMA}.leave_cancel_reason_code;
+        	CREATE TRIGGER trg_biu_lvcr_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.leave_cancel_reason_code
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_lvcr_stamp ON ${POSTGRES_SCHEMA}.leave_cancel_reason_code;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_lvcd_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_lvcd_stamp ON ${POSTGRES_SCHEMA}.leave_code;
+        	CREATE TRIGGER trg_biu_lvcd_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.leave_code
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_lvcd_stamp ON ${POSTGRES_SCHEMA}.leave_code;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_lvsbcd_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_lvsbcd_stamp ON ${POSTGRES_SCHEMA}.leave_sub_code;
+        	CREATE TRIGGER trg_biu_lvsbcd_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.leave_sub_code
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_lvsbcd_stamp ON ${POSTGRES_SCHEMA}.leave_sub_code;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_otascd_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_otascd_stamp ON ${POSTGRES_SCHEMA}.other_assign_code;
+        	CREATE TRIGGER trg_biu_otascd_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.other_assign_code
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_otascd_stamp ON ${POSTGRES_SCHEMA}.other_assign_code;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_rgn_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_rgn_stamp ON ${POSTGRES_SCHEMA}.region;
+        	CREATE TRIGGER trg_biu_rgn_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.region
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_rgn_stamp ON ${POSTGRES_SCHEMA}.region;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_rn_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_rn_stamp ON ${POSTGRES_SCHEMA}.run;
+        	CREATE TRIGGER trg_biu_rn_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.run
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_rn_stamp ON ${POSTGRES_SCHEMA}.run;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_shr_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_shr_stamp ON ${POSTGRES_SCHEMA}.sheriff;
+        	CREATE TRIGGER trg_biu_shr_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.sheriff
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_shr_stamp ON ${POSTGRES_SCHEMA}.sheriff;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
     
     <changeSet author="Carol Geisler" id="ADDTRG_shrdty_stamp">
       <sql>
@@ -315,6 +571,57 @@ The API will associate an Api Scope string with each endpoint to determine what 
       </rollback>
     </changeSet>
     
+    <changeSet author="Carol Geisler" id="ADDTRG_shrkcd_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_shrkcd_stamp ON ${POSTGRES_SCHEMA}.sheriff_rank_code;
+        	CREATE TRIGGER trg_biu_shrkcd_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.sheriff_rank_code
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_shrkcd_stamp ON ${POSTGRES_SCHEMA}.sheriff_rank_code;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_shft_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_shft_stamp ON ${POSTGRES_SCHEMA}.shift;
+        	CREATE TRIGGER trg_biu_shft_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.shift
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_shft_stamp ON ${POSTGRES_SCHEMA}.shift;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_wksccd_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_wksccd_stamp ON ${POSTGRES_SCHEMA}.work_section_code;
+        	CREATE TRIGGER trg_biu_wksccd_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.work_section_code
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_wksccd_stamp ON ${POSTGRES_SCHEMA}.work_section_code;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+            
     <changeSet author="Carol Geisler" id="ADDTRG_apsc_stamp">
       <sql>
         BEGIN;
