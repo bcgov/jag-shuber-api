@@ -44,6 +44,9 @@ export default class ExtendedClient extends Client {
     private interceptRequest(req: SA.SuperAgentRequest) {
         req.set('Accept', 'application/javascript');
         req.set('TZ-Offset', `${this.timezoneOffset}`);
+
+        // SITEMINDER does not allow DELETE methods through, so here we use
+        // a POST with the X-HTTP-METHOD-OVERRIDE
         if (req.method === 'DELETE') {
             req.method = 'POST';
             req.set('X-HTTP-METHOD-OVERRIDE', 'DELETE');
