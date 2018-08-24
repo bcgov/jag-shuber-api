@@ -32,7 +32,7 @@
             "stringData": {
                 "api-user": "${API_DATABASE_USER}",
                 "api-password": "${API_DATABASE_PASS}",
-                "jwt-secret":"${API_JWT_SECRET}"
+                "api-jwt-secret":"${API_JWT_SECRET}"
             }
         },
         {
@@ -564,7 +564,7 @@
             "displayName": "API JWT Secret",
             "description": "The secret used to sign all JWT tokens",
             "generate": "expression",
-            "from": "[a-zA-Z0-9_-%^#@&!*]{100}",
+            "from": "[a-zA-Z0-9]{100}",
             "required": true
         },        
         {
