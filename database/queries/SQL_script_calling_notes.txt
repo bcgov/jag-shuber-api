@@ -1,0 +1,32 @@
+Running a query from a SQL file and capturing output via command line
+
+psql
+
+Connection arguments:
+  -h <server>         the server the database is on.  Can also be set via env variable PGHOST
+  -d <db_name>        the name of the database. Can also be set via env varialbe PGDATABASE
+  -p <port>           the port the db uses. Can also be set via env variable PGPORT, and defaults to 5432.
+  -U <username>       the user you wish to connect as. Can also be set via env variable PGUSER
+  
+Note, there is no argument for password. It will either prompt, or you can use a file ~/.pgpass file.
+
+
+Arguments for running query
+
+-A    sets to unaligned.  Use this in combination with setting field separator (below) to output 
+      tab/comma delimited.
+      (default is Aligned, i.e. the text-based tables)
+      
+-v    sets a variable, which can be used in commands, or in SQL.  I have used it to pass the schema      
+      
+-c    Command.  Passes the subsequent quoted command to psql.  Typically the command will have a 
+      psql meta-command, with a backslash, and corresponding arguments
+
+      -c "\pset <arguments>"  used to set formatting parameters
+      -c "\o <filename>"  used to direct query output to a file. Apparently you can also use this to pipe output to a shell command with |
+      -c "\i <filename>"  used to run commands/queries from a file. Use \ir for a file path relative to the calling script
+      
+
+Suggested command line (assumes env variables in place for connection):
+
+psql -v pg_app_schema=schersched -A -c "\pset fieldsep '\t'" -c "\o duty_roster_audit.out" -c "\i duty_roster_audit.sql"
