@@ -1,6 +1,6 @@
 {
   "name": "jag-shuber-api",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "Sheriff Scheduling System Api",
   "main": "dist/client/index",
   "typings": "dist/client/index",
@@ -34,15 +34,15 @@
   },
   "scripts": {
     "start": "export TZ=Etc/UTC && node ./dist/index.js",
-    "start:debug": "nodemon --config nodemon.dev.json",
+    "start:dev": "nodemon --config nodemon.dev.json",
     "start:testing": "nodemon --config nodemon.testing.json",
     "build": "./node_modules/.bin/tsc",
     "build:watch": "npm-watch",
-    "clean": "del-cli 'dist/**/*' '!dist/.gitignore' '!dist/client/**'",
+    "build:clean":"del-cli 'dist/**/*' '!dist/.gitignore' && yarn generate && yarn build",
     "test": "node --inspect=9230 scripts/test.js --env=node",
     "test:coverage": "yarn test --coverage",
     "generate": "tsoa swagger && tsoa routes && swagger-ts-client",
-    "watch": "concurrently --names 'BUILD,GENERATE,SERVER' -c 'bgGreen.bold,bgBlue.bold,bgMagenta.bold' \"npm-watch build\" \"npm-watch generate\"  \"yarn start:debug\" ",
+    "watch:dev": "concurrently --names 'GENERATE,SERVER' -c 'bgBlue.bold,bgMagenta.bold' \"npm-watch generate\"  \"yarn start:dev\" ",
     "watch:testing": "concurrently --names 'GENERATE,SERVER' -c 'bgBlue.bold,bgMagenta.bold' \"npm-watch generate\"  \"yarn start:testing\" ",
     "oc:dev": "nodemon --ignore node_modules/ dist/index.js --inspect=$DEBUG_PORT"
   },

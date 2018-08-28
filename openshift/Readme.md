@@ -1,29 +1,41 @@
 # OpenShift configuration files
 
-I have created some scripts of interest for deploying various aspects to this project:
-
-- **create-oc-api-builds.sh**
-  - Creates the build environment for the api (Should be run in tools project)
-- **deploy-oc-api.sh**
-  - Deploys the api components into an environment (Should be run in dev, test, prod projects)
-
-  > NOTE: In order to be able to pull images from a different project you will need to run the `policy` command to grant authority eg:
-  >
-  > `oc policy add-role-to-user system:image-puller system:serviceaccount:test:default -n tools`
-  > 
-  > would grant the `test` project `image-puller` abilities on the `tools` project
+Some scripts have been created to ease the development workflow when deploying things in your own development environment.  These aren't used in pathfinder as we typically import `json` template files directly.
 
 
-### Setting up Local Development Environment
+# Scripts 
 
-The two scripts described above should work for deploying everything into minishift.  You just need to log into minishift and select the project before running the scripts.  In addition to running these scripts you may want to load some test data into the database, this can be done by doing the following:
+## Setup Local Dev Environment
+This document assumes that you already have minishift setup and running.
 
-- `oc login` to your minishift cluster
-- Select your deployment project `oc project <deploymentProject>`
+> `setup-dev-environments.sh`
+>
+> Sets up the entire tools, dev, test projects and populates them with the appropriate builds and deployments.  This script will effectively get you up and running with the entire backend stack.  It will also generate `.env` files on behalf of the `dev` and `test` environments.  You will just need to fill in the database secrets, which it gives links to in the command line output.
 
-Loading development data:
-- To load development data into the data base, run the following command
+## Support
 
-`oc exec $(oc get pods -l app=api -o jsonpath="{.items[0].metadata.name}") -it -- "./database/deploy-db.sh"`
+> `functions.sh`
+>
+> Importable collection of useful shell functions for setting up development environments.
 
-> This command selects the current api pod and runs the `deploy-db.sh` script inside it.  It will prompt for inputs, but this command is running **INSIDE** of the `api` pod.
+### Legacy Scripts
+These scripts are still useful, however you should be able to get up and running with the script described above.
+
+> `create-oc-api-builds.sh`
+>
+> Creates the builds / pipelines for the api (Should be run in tools project)
+  
+> `deploy-oc-api.sh`
+>
+> Deploys the api components into an environment (Should be run in dev, test, prod projects)
+
+> `expose-postgres.sh`
+>
+> Exposes an ingress port into the postgres service within the given project.  This is now covered within the `functions.sh` script.
+
+> ### NOTE 
+> In order to be able to pull images from a different project you will need to run the `policy` command to grant authority eg:
+>
+> `oc policy add-role-to-user system:image-puller system:serviceaccount:test:default -n tools`
+> 
+> would grant the `test` project `image-puller` abilities on the `tools` project
