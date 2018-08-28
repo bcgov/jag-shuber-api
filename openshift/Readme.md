@@ -29,6 +29,10 @@ These scripts are still useful, however you should be able to get up and running
 >
 > Deploys the api components into an environment (Should be run in dev, test, prod projects)
 
+> `expose-postgres.sh`
+>
+> Exposes an ingress port into the postgres service within the given project.  This is now covered within the `functions.sh` script.
+
 > ### NOTE 
 > In order to be able to pull images from a different project you will need to run the `policy` command to grant authority eg:
 >
