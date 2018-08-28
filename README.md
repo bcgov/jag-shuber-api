@@ -1,9 +1,7 @@
 # Sheriff Scheduling API
-This project represents the API for the Sheriff Scheduling (Shuber) application.
+This project represents the API for the Sheriff Scheduling (Code Named 'Shuber') application.
 
-### [Project Architecture Documentation](./docs/index)
-
-> TODO: NEED TO UPDATE THESE DOCS.  TALK TO COLTER FOR NOW.
+### [Project Architecture Documentation](./docs/index.md)
 
 ## Commands 
 
@@ -86,19 +84,17 @@ These commands typically don't have to be run and are here to support the comman
 
 ## Getting Started
 
-- Deploy backend
-- postgres ingress port
-- setup .env file
+- Deploy the backend to minishift (See [openshift/Readme.md](openshift/Readme.md))
+- The build of the shuber-api will deploy and will migrate the database via `liquibase`, so if you have a branch that has new database changes you will need to build and deploy that branch (in order to migrate the database) before you can run your local development instance against the database.
 
-## Deployment (OpenShift)
-
-See [openshift/Readme.md](openshift/Readme.md)
+### Troubleshooting
+- if you the database migration fails, you may need to destroy the current database (by deleting the storage volume in openshift) and recreating it.  This is because sometimes changesets are changed in development and liquibase keeps hash values for changesets so it will fail if it's already applied a changeset and it changes.
 
 ## How to Contribute
 
 If you would like to contribute, please see our [CONTRIBUTING](CONTRIBUTING.md) guidelines.
 
-Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). 
+Please note that this project is released with a [Contributor Code of Conduct](.github/CODE_OF_CONDUCT.md). 
 By participating in this project you agree to abide by its terms.
 
 ## License
