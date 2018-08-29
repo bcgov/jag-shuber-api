@@ -1,13 +1,37 @@
 # Sheriff Scheduling API
 This project represents the API for the Sheriff Scheduling (Code Named 'Shuber') application.
 
-### [Project Architecture Documentation](./docs/index.md)
+## Project Architecture
+The architecture notes for this project and be found in the [Project Docs](./docs/index.md).
+
+## API Client Installation
+
+This API includes a Typescript / Javascript client within the repo that can be added to your project via
+
+`yarn add github:bcgov/jag-shuber-api`
+
+or 
+
+`npm install github:bcgov/jag-shuber-api`
+
+## Getting Started
+
+### Development Environment
+- Deploy the backend to minishift (See [openshift/Readme.md](openshift/Readme.md))
+- The build of the shuber-api will deploy and will migrate the database via `liquibase`, so if you have a branch that has new database changes you will need to build and deploy that branch (in order to migrate the database) before you can run your local development instance against the database.
+- Once the development environment is set up, you should be able to use the commands described [below](#commands) to get your development / test instances up and running.
+
+### Debugging
+This project was built using [VS Code](https://code.visualstudio.com/) and as such the debugging flow is built around some mechanisms supported in this specific editor. 
+
+You can attach the debugger to the test runner, dev and test instances of the api easily.  Each of these are defined within the [launch.json](.vscode/launch.json) and support multiple debugging sessions at the same time.  Which allows you to debug right from the unit test into the api and back.
 
 ## Commands 
 
 The scripts can be organized into a few categories:
 
 ### Development
+
 >`yarn watch:dev` 
 >
 > Launches the backend in dev mode against the development database.  Running this command will read and use environment variables defined in `.env.dev`.  See the ##Setup## section for instructions on how to have this file generated for you automatically. 
@@ -24,7 +48,7 @@ The scripts can be organized into a few categories:
 
 Generally, I run the following two commands in separate terminal windows so that I can clearly watch the output of both.
 
-> `yarn watch:testing` 
+>`yarn watch:testing` 
 >
 > Launches the backend in dev mode against the testing database.  Running this command will read and use environment variables defined in `.env.testing`.  See the ##Setup## section for instructions on how to have this file generated for you automatically. 
 
@@ -37,7 +61,8 @@ Generally, I run the following two commands in separate terminal windows so that
 > Runs the jest tests for the API Client using code coverage and displays the coverage results in a browser.  Note that the coverage only covers the API Client code and not the API itself.
 
 ### Support
-These commands typically don't have to be run and are here to support the commands described above.
+
+These commands typically don't have to be run and are mostly here to support the commands described above.
 
 >`yarn start`
 >
@@ -51,41 +76,40 @@ These commands typically don't have to be run and are here to support the comman
 >
 > Starts the server loading the `.env.testing` environment varibles, effectively wiring up to your testing database.
 
-> `yarn build`
+>`yarn build`
 >
 > Runs typescript to compile the javascript that ends up in `dist/`
 
-> `yarn build:watch`
+>`yarn build:watch`
 >
 > Watches for changes to typescript files and runs the `build` command described above
 
 >`yarn generate`
 >
-> Uses [TSOA](https://www.npmjs.com/package/tsoa) to generate the [`swagger.json`](dist/swagger.json) and the [`src/routes.ts`](src/routes.ts) based on the [Routes Template](templates/routeTemplate.handlebars) and the Controllers that are imported within the [Controller Index](src/controllers/index.ts) according to the [TSOA Config File](tsoa.json).
-> 
-> The generated `swagger.json` is then used by [swagger-ts-client](https://www.npmjs.com/package/swagger-ts-client) in conjuction with the [Type Definition Template](templates/typeDefinitions.handlebars) and the [Operation Group Template](templates/operationGroup.handlebars) to generate the [Model Definitions](src/client/models.ts) and the [Base Api Client](src/client/Client.ts).
+> Generates code based on the process described in [Generating Code](#generating-code)
 
 >`yarn oc:dev`
 >
 > A development hook to allow debugging within the OpenShift environment.  This is typically never used and is largely untested but remains as a reminder of the possibility.
 
-
 ## Generating Code
 
-*Todo Image of code generation* 
+### API Routes & Swagger
 
-## Technology Stack Used
+In this project, the Controllers used by the application represent all of the endpoints supported by the API.  The Controllers use models to expose the shape of objects that they accept / return.  These controllers and models are used by [TSOA](https://www.npmjs.com/package/tsoa) to generate the [`swagger.json`](dist/swagger.json) and the [`src/routes.ts`](src/routes.ts) based on the [Routes Template](templates/routeTemplate.handlebars) and the Controllers that are imported within the [Controller Index](src/controllers/index.ts) according to the [TSOA Config File](tsoa.json).
 
-- Openshift
-- Postgres
-- nodejs
-- koa
-- tsoa
+The routes that are generated include code for authorization and validation and general error handling, however, the [template](templates/routeTemplate.handlebars) can be changed to match the needs of the application.
+ 
+### API Client
 
-## Getting Started
+The `swagger.json` generated by TSOA (from the controllers and models) is then used by [swagger-ts-client](https://www.npmjs.com/package/swagger-ts-client) to generate a typescript / javascript client for the API.  This client is created using the two templates:
+>  [Type Definition Template](templates/typeDefinitions.handlebars) 
+>
+> Used to generate the [Model Definitions](src/client/models.ts) 
 
-- Deploy the backend to minishift (See [openshift/Readme.md](openshift/Readme.md))
-- The build of the shuber-api will deploy and will migrate the database via `liquibase`, so if you have a branch that has new database changes you will need to build and deploy that branch (in order to migrate the database) before you can run your local development instance against the database.
+> [Operation Group Template](templates/operationsGroup.handlebars) 
+>
+> Used to generate the [Base Api Client](src/client/Client.ts).
 
 ### Troubleshooting
 - if you the database migration fails, you may need to destroy the current database (by deleting the storage volume in openshift) and recreating it.  This is because sometimes changesets are changed in development and liquibase keeps hash values for changesets so it will fail if it's already applied a changeset and it changes.
