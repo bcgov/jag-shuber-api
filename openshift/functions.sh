@@ -105,6 +105,11 @@ write_postgres_envfile(){
     projectName=$(oc project -q)
     ingressPort=$(oc get svc postgresql-ingress -o=jsonpath='{.spec.ports[0].nodePort}')
     ip=$(minishift ip)
+    envFileName=".env.$projectName"
+    if [ -e $envFileName ]
+    then
+        rm $envFileName
+    fi
       cat <<EOT >> .env.$projectName
 PGHOST='$ip'
 PGUSER='shersched'
