@@ -184,7 +184,7 @@ library identifier: 'devops-library@master', retriever: modernSCM([
   stage('Deploy ' + TAG_NAMES[1]){
     def environment = TAG_NAMES[1]
     def url = APP_URLS[1]
-    timeout(time:1, unit: 'WEEKS'){ input id: 'Approval', message: "Deploy to ${environment}?", submitter: 'ronald-garcia-admin,cjam-admin', submitterParameter: 'approvingSubmitter'}
+    timeout(time:7, unit: 'DAYS'){ input id: 'Approval', message: "Deploy to ${environment}?", submitter: 'ronald-garcia-admin,cjam-admin', submitterParameter: 'approvingSubmitter'}
     node{
     try{
       openshiftTag destStream: RUNTIME_BUILD, verbose: 'true', destTag: environment, srcStream: RUNTIME_BUILD, srcTag: "${IMAGE_HASH}", waitTime: '900000'
@@ -235,7 +235,7 @@ library identifier: 'devops-library@master', retriever: modernSCM([
     def url = APP_URLS[2]
     def newTarget = getNewTarget()
     def currentTarget = getCurrentTarget()
-    timeout(time:1, unit: 'WEEKS'){ input "Deploy to ${environment}?"}
+    timeout(time:7, unit: 'DAYS'){ input "Deploy to ${environment}?"}
     node{
       
       try {
@@ -287,7 +287,7 @@ library identifier: 'devops-library@master', retriever: modernSCM([
     def newTarget = getNewTarget()
     def currentTarget = getCurrentTarget()
     // Wait for administrator confirmation
-    timeout(time:1, unit: 'WEEKS'){ input id: 'Approval', message: 'Switch Production from ${currentTarget} to ${newTarget} ?', submitter: 'ronald-garcia-admin,cjam-admin', submitterParameter: 'approvingSubmitter'}
+    timeout(time:7, unit: 'DAYS'){ input id: 'Approval', message: 'Switch Production from ${currentTarget} to ${newTarget} ?', submitter: 'ronald-garcia-admin,cjam-admin', submitterParameter: 'approvingSubmitter'}
     node{
       try{
         
