@@ -6,6 +6,8 @@ GREEN='\033[0;32m'
 DARK_GRAY='\033[1;30m'
 NC='\033[0m'
 
+PATHFINDER_URL="https://console.pathfinder.gov.bc.ca:8443"
+
 log_into_minishift(){
     start_color $DARK_GRAY
     printf "Logging into minishift instance..."
@@ -13,6 +15,31 @@ log_into_minishift(){
     start_color $GREEN
     printf "OK (project='$(oc project -q)')\r\n"
     end_color
+}
+
+log_into_pathfinder(){
+    PATHFINDER_TOKEN=$1
+
+    if [ -z "$PATHFINDER_TOKEN" ]; then
+        open $SERVER_URL/oauth/token/request
+        start_color $YELLOW
+        echo "$SERVER_URL/oauth/token/request has been opened in your browser, paste token below:"
+        read -p "Openshift Token:" PATHFINDER_TOKEN
+        end_color
+    fi
+
+    oc login --token=$PATHFINDER_TOKEN --server=$SERVER_URL 1> /dev/null
+    start_color $GREEN
+    echo "Logged into '$SERVER_URL' as '$(oc whoami)'"
+    end_color
+}
+
+print_command_status(){
+    if [ $? -eq 0 ]; then
+        printf "$GREEN Ok\r\n$DARK_GRAY"
+    else
+        printf "$RED Failed\r\n$DARK_GRAY"
+    fi
 }
 
 start_color(){
