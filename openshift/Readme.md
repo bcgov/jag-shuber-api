@@ -1,4 +1,4 @@
-# OpenShift configuration files
+## OpenShift configuration files
 
 I have created some scripts of interest for deploying various aspects to this project:
 
@@ -14,7 +14,7 @@ I have created some scripts of interest for deploying various aspects to this pr
   > would grant the `test` project `image-puller` abilities on the `tools` project
 
 
-### Setting up Local Development Environment
+## Setting up Local Development Environment
 
 The two scripts described above should work for deploying everything into minishift.  You just need to log into minishift and select the project before running the scripts.  In addition to running these scripts you may want to load some test data into the database, this can be done by doing the following:
 
@@ -27,3 +27,13 @@ Loading development data:
 `oc exec $(oc get pods -l app=api -o jsonpath="{.items[0].metadata.name}") -it -- "./database/deploy-db.sh"`
 
 > This command selects the current api pod and runs the `deploy-db.sh` script inside it.  It will prompt for inputs, but this command is running **INSIDE** of the `api` pod.
+
+## Extracting Audit Data
+
+An interactive scripts has been written to assist in extracting audit data from the running instances in any of the environments.  This can be done by using the following script and following the prompts:
+
+`./extract-audit-data.sh`
+
+This will place all of the exported audit data into a folder called `database-audit-data` and will be prefixed by the openshift project that it was exported from.
+
+The data is in `csv` format for easier consumption by other analysis applications.
