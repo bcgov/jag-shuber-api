@@ -1,5 +1,24 @@
 COPY(
-    SELECT  aud.operation_code, aud.operation_dtm, aud.sheriff_id, shr.badge_no sheriff_badge_no, shr.first_name || ' ' || shr.last_name sheriff_name, aud.duty_id, dty.comment duty_comment, asn.title, aud.start_dtm, aud.end_dtm, aud.revision_count
+    SELECT  aud.operation_code
+          , aud.operation_dtm
+          , aud.sheriff_id
+          , shr.badge_no sheriff_badge_no
+          , shr.first_name || ' ' || shr.last_name sheriff_name
+          , aud.duty_id
+          , dty.comment duty_comment
+          , asn.title
+          , cth.courthouse_name
+          , cth.justin_code
+          , asn.work_section_code
+          , CASE    WHEN asn.work_section_code = 'COURTS' THEN asn.court_role_code 
+                    WHEN asn.work_section_code = 'JAIL' THEN asn.jail_role_code 
+                    WHEN asn.work_section_code = 'OTHER' THEN asn.other_assign_code 
+                    WHEN asn.work_section_code = 'ESCORTS' THEN run.title
+                    ELSE NULL 
+            END role_code
+          , aud.start_dtm
+          , aud.end_dtm
+          , aud.revision_count
     FROM (
     SELECT  'INSERT' as operation_code, created_dtm AS operation_dtm, sheriff_duty_id, sheriff_id, duty_id, start_dtm, end_dtm, created_dtm, updated_dtm, revision_count
     FROM    aud_sheriff_duty ausd
@@ -25,6 +44,8 @@ COPY(
     ) aud
     LEFT OUTER JOIN    duty dty ON dty.duty_id = aud.duty_id
     LEFT OUTER JOIN    assignment asn on asn.assignment_id = dty.assignment_id
+    LEFT OUTER JOIN    courthouse cth ON cth.courthouse_id = asn.courthouse_id
     LEFT OUTER JOIN    sheriff shr ON shr.sheriff_id = aud.sheriff_id
+    LEFT OUTER JOIN    run ON run.run_id = asn.run_id
     ORDER BY aud.sheriff_duty_id, revision_count
 ) TO STDOUT WITH CSV HEADER;
