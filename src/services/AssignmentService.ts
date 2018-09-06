@@ -142,40 +142,37 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
 
     private async getAssignmentTitle(entity: Partial<Assignment>): Promise<string> {
         let title = entity.title;
-
-        if (!title || title === "") {
-            if (entity.workSectionId === "COURTS") {
-                if (entity.courtroomId) {
-                    const service = Container.get(CourtroomService) as CourtroomService;
-                    const courtroom = await service.getById(entity.courtroomId as string);
-                    if (courtroom) {
-                        title = courtroom.code;
-                    }
-                } else {
-                    const service = Container.get(CourtRoleCodeService) as CourtRoleCodeService;
-                    const courtRole = await service.getById(entity.courtRoleId as string);
-                    if (courtRole) {
-                        title = courtRole.description;
-                    }
+        if (entity.workSectionId === "COURTS") {
+            if (entity.courtroomId) {
+                const service = Container.get(CourtroomService) as CourtroomService;
+                const courtroom = await service.getById(entity.courtroomId as string);
+                if (courtroom) {
+                    title = courtroom.code;
                 }
-            } else if (entity.workSectionId === "JAIL") {
-                const service = Container.get(JailRoleCodeService) as JailRoleCodeService;
-                const code = await service.getById(entity.jailRoleCode as string);
-                if (code) {
-                    title = code.description;
+            } else {
+                const service = Container.get(CourtRoleCodeService) as CourtRoleCodeService;
+                const courtRole = await service.getById(entity.courtRoleId as string);
+                if (courtRole) {
+                    title = courtRole.description;
                 }
-            } else if (entity.workSectionId === "ESCORTS") {
-                const service = Container.get(RunService) as RunService;
-                const run = await service.getById(entity.runId as string);
-                if (run) {
-                    title = run.title;
-                }
-            } else if (entity.workSectionId === "OTHER") {
-                const service = Container.get(OtherAssignCodeService) as OtherAssignCodeService;
-                const code = await service.getById(entity.otherAssignCode as string);
-                if (code) {
-                    title = code.description;
-                }
+            }
+        } else if (entity.workSectionId === "JAIL") {
+            const service = Container.get(JailRoleCodeService) as JailRoleCodeService;
+            const code = await service.getById(entity.jailRoleCode as string);
+            if (code) {
+                title = code.description;
+            }
+        } else if (entity.workSectionId === "ESCORTS") {
+            const service = Container.get(RunService) as RunService;
+            const run = await service.getById(entity.runId as string);
+            if (run) {
+                title = run.title;
+            }
+        } else if (entity.workSectionId === "OTHER") {
+            const service = Container.get(OtherAssignCodeService) as OtherAssignCodeService;
+            const code = await service.getById(entity.otherAssignCode as string);
+            if (code) {
+                title = code.description;
             }
         }
         return title as string;

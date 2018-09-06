@@ -60,10 +60,10 @@ describe('Assignment API', () => {
 
     beforeAll(async (done) => {
         await TestUtils.setupTestFixtures(async client => {
-            testRegion = await api.CreateRegion(testRegion);
-            testCourthouse = await api.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
-            testCourtroom = await api.CreateCourtroom({ ...testCourtroom, courthouseId: testCourthouse.id });
-            testCourtroomTwo = await api.CreateCourtroom({ ...testCourtroomTwo, courthouseId: testCourthouse.id });
+            testRegion = await client.CreateRegion(testRegion);
+            testCourthouse = await client.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
+            testCourtroom = await client.CreateCourtroom({ ...testCourtroom, courthouseId: testCourthouse.id });
+            testCourtroomTwo = await client.CreateCourtroom({ ...testCourtroomTwo, courthouseId: testCourthouse.id });
         });
         api = TestUtils.getClientWithAuth();
         done();
