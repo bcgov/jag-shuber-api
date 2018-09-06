@@ -21,8 +21,9 @@ import { toTimeString } from '../common/TimeUtils';
 import { ApiError } from '../common/Errors';
 import { TokenPayload } from '../common/authentication';
 import { decodeJwt } from '../common/tokenUtils';
-
-export type DateType = string | Date | moment.Moment | number;
+import { SheriffDutyAutoAssignRequest } from '../models/SheriffDutyAutoAssignRequest';
+import { DateType } from '../common/types';
+import { getDateString } from '../common/dateUtils';
 
 export type SuperAgentRequestInterceptor = (req: SA.SuperAgentRequest) => SA.SuperAgentRequest
 
@@ -249,7 +250,20 @@ export default class ExtendedClient extends Client {
             date
         } = request;
 
-        const dateMoment = date ? moment(date) : moment().startOf('day');
-        return await super.ImportDefaultDuties({ courthouseId, date: dateMoment.format("YYYY-MM-DD") });
+        return await super.ImportDefaultDuties({ 
+            courthouseId, 
+            date: getDateString(date) 
+        });
+    }
+
+    async AutoAssignSheriffDuties(request: SheriffDutyAutoAssignRequest) {
+        const {
+            courthouseId,
+            date
+        } = request;
+        return await super.AutoAssignSheriffDuties({ 
+            courthouseId, 
+            date: getDateString(date) 
+        });
     }
 }

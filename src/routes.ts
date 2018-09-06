@@ -204,6 +204,12 @@ const models: TsoaRoute.Models = {
             "date": { "dataType": "string" },
         },
     },
+    "SheriffDutyAutoAssignRequest": {
+        "properties": {
+            "courthouseId": { "dataType": "string", "required": true },
+            "date": { "dataType": "string" },
+        },
+    },
     "Leave": {
         "properties": {
             "id": { "dataType": "string" },
@@ -1863,6 +1869,33 @@ export function RegisterRoutes(router: any) {
             const controller = Container.get(SheriffDutyController) as SheriffDutyController;
 
             const promise = controller.deleteSheriffDuty.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.post('/v1/SheriffDuty/auto-assign',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                model: { "in": "body", "name": "model", "required": true, "ref": "SheriffDutyAutoAssignRequest" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            // Using the typescript-ioc container, retrieve controller
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            const controller = Container.get(SheriffDutyController) as SheriffDutyController;
+
+            const promise = controller.autoAssignSheriffDuties.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/leaves',

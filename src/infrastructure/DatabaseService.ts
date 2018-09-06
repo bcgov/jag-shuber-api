@@ -88,6 +88,18 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
         return returnFields;
     }
 
+    /**
+     * Returns a {PostgresSelect} object that will by default select all records
+     * from the table and map the fields using the services fieldMap.
+     * 
+     * If an [id] is specified then it will be used to add a where clause keying on
+     * the record id
+     *
+     * @protected
+     * @param {string} [id]
+     * @returns {PostgresSelect}
+     * @memberof DatabaseService
+     */
     protected getSelectQuery(id?: string): PostgresSelect {
         const query = this.squel.select({ autoQuoteAliasNames: true })
             .from(this.tableName)

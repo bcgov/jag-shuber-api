@@ -1,11 +1,10 @@
 import moment, { Moment } from 'moment';
-
-export type DateType = Moment | string | number | Date | undefined;
+import { DateType } from './types';
 
 export const TIME_FORMAT_NO_TZ = "HH:mm:ss";
 export const TIME_FORMAT_TZ = `${TIME_FORMAT_NO_TZ}Z`;
 
-export function toTimeString(time: DateType) {
+export function toTimeString(time?: DateType) {
     let timeMoment: Moment = moment();
     if (typeof time === typeof 'string') {
         timeMoment = moment(time, [moment.ISO_8601, TIME_FORMAT_NO_TZ, TIME_FORMAT_TZ]);
