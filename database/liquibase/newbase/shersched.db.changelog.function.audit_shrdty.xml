@@ -1,0 +1,64 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="create_function_audit_shrdty_start"/>
+    </changeSet>
+
+    <!-- Comment for changeset group -->
+
+    <!-- Changsets -->
+    
+    <changeSet author="Carol Geisler" id="CRTPRC_audit_shrdty" runOnChange="true">
+      <createProcedure catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}">
+    CREATE OR REPLACE FUNCTION ${POSTGRES_SCHEMA}.audit_shrdty() RETURNS trigger AS $tab_audit$
+      DECLARE
+        v_app_user_id    UUID;
+        v_transaction_id UUID;
+        v_operation_dtm  TIMESTAMP WITH TIME ZONE;
+      BEGIN
+        IF TG_OP = 'DELETE' THEN
+          v_operation_dtm := now();
+          v_app_user_id := NULL;
+        ELSE
+          SELECT  app_user_id 
+          INTO    v_app_user_id
+          FROM    ${POSTGRES_SCHEMA}.app_user
+          WHERE   user_auth_id = NEW.updated_by
+          ;
+          
+          IF NOT FOUND THEN
+            v_app_user_id := NULL;
+          END IF;
+          
+          v_operation_dtm := NEW.updated_dtm;
+        END IF;
+        
+        INSERT INTO ${POSTGRES_SCHEMA}.aud_sheriff_duty VALUES (tg_op, v_operation_dtm, v_app_user_id, NULL, OLD.*);
+		
+        RETURN NULL;
+      END;
+    $tab_audit$ LANGUAGE plpgsql;
+      </createProcedure>
+      <rollback>
+        <sql>
+          DROP FUNCTION IF EXISTS ${POSTGRES_SCHEMA}.audit_shrdty()
+        </sql>
+      </rollback>
+    </changeSet>
+
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="create_function_audit_shrdty_end"/>
+    </changeSet>
+
+</databaseChangeLog>

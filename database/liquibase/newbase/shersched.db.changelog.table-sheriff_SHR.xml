@@ -1,0 +1,88 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <!-- This ChangeLog contains the changeset(s) to generate the table SHERIFF
+         It includes attributes, constraints, keys, indexes and security in one
+         place. Where possible (i.e. where dependencies between subsequent changes 
+         allow) updates to this table should be included as additional changesets
+         within this changelog -->
+
+    <!-- Changsets -->
+    <changeSet author="Carol Geisler" id="CRTTAB_SHR_1_0">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff">
+            <column name="sheriff_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="badge_no" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="first_name" type="VARCHAR(100)"/>
+            <column name="last_name" type="VARCHAR(100)"/>
+            <column name="image_url" remarks="TBD how to store a Sheriff photo" type="VARCHAR(200)"/>
+            <column name="sheriff_rank_code" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="home_courthouse_id" type="UUID" remarks="Permanent location for a sheriff">
+                <constraints nullable="false"/>
+            </column>
+    	  	  <column name="current_courthouse_id" type="UUID"/>
+            <column name="alias" type="varchar(32)"/>
+            <column name="gender_code" type="varchar(10)"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff" columnNames="sheriff_id" constraintName="pk_shr"/>
+        <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff" columnNames="badge_no" constraintName="uk_shrf_bdgn"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="sheriff" baseColumnNames="home_courthouse_id" constraintName="fk_shr_crth" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="courthouse_id" referencedTableName="courthouse"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="sheriff" baseColumnNames="sheriff_rank_code" constraintName="fk_shr_shrkcd" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="sheriff_rank_code" referencedTableName="sheriff_rank_code"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="sheriff" baseColumnNames="gender_code" constraintName="fk_shrf_gndr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="gender_code" referencedTableName="gender_code"/>
+        <createIndex indexName="ix_shr_crth" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff">
+            <column name="home_courthouse_id"/>
+        </createIndex>
+        <createIndex indexName="ix_shr_rkcd" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff">
+            <column name="sheriff_rank_code"/>
+        </createIndex>
+        <sql>
+        	GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.sheriff to ${POSTGRES_APP_USER};
+        </sql>
+        <rollback>
+        	<dropTable  cascadeConstraints="true" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff"/>
+        </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_shr_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_shr_stamp ON ${POSTGRES_SCHEMA}.sheriff;
+        	CREATE TRIGGER trg_biu_shr_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.sheriff
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_shr_stamp ON ${POSTGRES_SCHEMA}.sheriff;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+
+</databaseChangeLog>

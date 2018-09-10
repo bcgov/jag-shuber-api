@@ -1,0 +1,87 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <!-- This ChangeLog contains the changeset(s) to generate the table APP_USER_ROLE
+         It includes attributes, constraints, keys, indexes and security in one
+         place. Where possible (i.e. where dependencies between subsequent changes 
+         allow) updates to this table should be included as additional changesets
+         within this changelog -->
+
+    <!-- Changsets -->
+    <changeSet author="Carol Geisler" id="CRTTAB_APUSRL_1_0">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user_role" 
+        	remarks="APP_USER_ROLE is an XREF table that captures the relationshp between Users and Roles.">
+            <column name="app_user_role_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="app_user_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="app_role_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="effective_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiry_date" type="date"/>
+            <column name="location_id" type="UUID"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user_role" columnNames="app_user_role_id" constraintName="pk_apusrl"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="app_user_role" baseColumnNames="app_role_id" constraintName="fk_apusrl_aprl" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedTableName="app_role" referencedColumnNames="app_role_id"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="app_user_role" baseColumnNames="app_user_id" constraintName="fk_apusrl_usr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedTableName="app_user" referencedColumnNames="app_user_id"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="app_user_role" baseColumnNames="location_id" constraintName="fk_apusrl_crth" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedTableName="courthouse" referencedColumnNames="courthouse_id"/>
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user_role" indexName="ix_usrl_aprl">
+            <column name="app_role_id"/>
+        </createIndex>
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user_role" indexName="ix_usrl_crth">
+            <column name="location_id"/>
+        </createIndex>
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user_role" indexName="ix_usrl_usr">
+            <column name="app_user_id"/>
+        </createIndex>
+        <sql>
+        	GRANT SELECT, INSERT, UPDATE ON ${POSTGRES_SCHEMA}.app_user_role to ${POSTGRES_APP_USER};
+        </sql>
+        <rollback>
+          <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user_role"/>
+        </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_usrl_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_usrl_stamp ON ${POSTGRES_SCHEMA}.app_user_role;
+        	CREATE TRIGGER trg_biu_usrl_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.app_user_role
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_usrl_stamp ON ${POSTGRES_SCHEMA}.app_user_role;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+
+</databaseChangeLog>

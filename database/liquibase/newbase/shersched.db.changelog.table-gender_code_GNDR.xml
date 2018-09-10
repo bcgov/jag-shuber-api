@@ -1,0 +1,75 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <!-- This ChangeLog contains the changeset(s) to generate the table GENDER_CODE
+         It includes attributes, constraints, keys, indexes and security in one
+         place. Where possible (i.e. where dependencies between subsequent changes 
+         allow) updates to this table should be included as additional changesets
+         within this changelog -->
+
+    <!-- Changsets -->
+    <changeSet author="Carol Geisler" id="CRTTAB_GNDR_1_0">
+    	<comment>Create the Gender Code table to standardize system values for gender.</comment>
+				<createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="gender_code" 
+        	remarks="Gender Code captures the standard system values for gender
+				Male
+				Female
+				Other">
+            <column name="gender_code" type="VARCHAR(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="effective_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiry_date" type="date"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+				</createTable>
+        <addPrimaryKey columnNames="gender_code" constraintName="pk_gndr" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="gender_code"/>
+        <sql>
+        	GRANT SELECT ON ${POSTGRES_SCHEMA}.gender_code to ${POSTGRES_APP_USER};
+        </sql>
+        <rollback>
+        	<dropTable  cascadeConstraints="true" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="gender_code"/>
+        </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_gndr_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_gndr_stamp ON ${POSTGRES_SCHEMA}.gender_code;
+        	CREATE TRIGGER trg_biu_gndrd_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.gender_code
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_gndr_stamp ON ${POSTGRES_SCHEMA}.gender_code;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+
+</databaseChangeLog>

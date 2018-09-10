@@ -1,0 +1,89 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <!-- This ChangeLog contains the changeset(s) to generate the table LEAVE
+         It includes attributes, constraints, keys, indexes and security in one
+         place. Where possible (i.e. where dependencies between subsequent changes 
+         allow) updates to this table should be included as additional changesets
+         within this changelog -->
+
+    <!-- Changsets -->
+    <changeSet author="Carol Geisler" id="CRTTAB_LVCD_1_0">
+    	<comment>Create the Leave table to capture planned sheriff leaves of absence.</comment>
+				<createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="leave" 
+        	remarks="Leave captures data related to absence from regular duty for one or more full days.">
+            <column name="leave_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sheriff_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="leave_code" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="leave_sub_code" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="DATE WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_date" type="DATE WITH TIME ZONE"/>
+            <column name="start_time" type="TIME WITH TIME ZONE"/>
+            <column name="end_time" type="TIME WITH TIME ZONE"/>
+            <column name="partial_day_ind" type="INTEGER" defaultValueNumeric="0">
+            	  <constraints nullable="false"/>
+            </column>
+            <column name="comment" type="VARCHAR(200)"/>
+            <column name="cancelled_dtm" type="TIMESTAMP WITH TIME ZONE"/>
+            <column name="leave_cancel_reason_code" type="VARCHAR(20)"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="leave_id" constraintName="pk_lve" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="leave"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="leave_code,leave_sub_code" baseTableName="leave" constraintName="fk_lve_lvsbcd" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="leave_code,leave_sub_code" referencedTableName="leave_sub_code"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="leave_cancel_reason_code" baseTableName="leave" constraintName="fk_lve_lvcr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="leave_cancel_reason_code" referencedTableName="leave_cancel_reason_code"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="sheriff_id" baseTableName="leave" constraintName="fk_lve_shrf" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="sheriff_id" referencedTableName="sheriff"/>
+        <sql>
+        	GRANT SELECT, INSERT, UPDATE ON ${POSTGRES_SCHEMA}.leave to ${POSTGRES_APP_USER};
+        </sql>
+        <rollback>
+        	<dropTable  cascadeConstraints="true" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="leave"/>
+        </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_lve_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_lve_stamp ON ${POSTGRES_SCHEMA}.leave;
+        	CREATE TRIGGER trg_biu_lve_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.leave
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_lve_stamp ON ${POSTGRES_SCHEMA}.leave;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+
+</databaseChangeLog>

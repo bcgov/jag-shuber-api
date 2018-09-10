@@ -1,0 +1,86 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <!-- This ChangeLog contains the changeset(s) to generate the table DUTY_RECURRENCE
+         It includes attributes, constraints, keys, indexes and security in one
+         place. Where possible (i.e. where dependencies between subsequent changes 
+         allow) updates to this table should be included as additional changesets
+         within this changelog -->
+
+    <!-- Changsets -->
+    <changeSet author="Carol Geisler" id="CRTTAB_DTYRC_1_0">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_recurrence">
+            <column name="duty_recurrence_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_time" type="TIME WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="end_time" type="TIME WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="days_bitmap" type="numeric(10)" remarks="1=mo,2=tu,4=we,8=th,16=fr,32=sa,64=su">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sheriffs_required" type="numeric(2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="assignment_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="effective_date" type="date" defaultValueComputed="now()">
+                <constraints nullable="false"/>
+            </column>  
+            <column name="expiry_date" type="date"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_recurrence" columnNames="duty_recurrence_id" constraintName="pk_dtyrc"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="duty_recurrence" baseColumnNames="assignment_id" constraintName="fk_dtyrc_asn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="assignment_id" referencedTableName="assignment"/>
+        <createIndex indexName="ix_dtyrc_asn" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_recurrence">
+            <column name="assignment_id"/>
+        </createIndex>
+        <sql>
+        	GRANT SELECT, INSERT, UPDATE ON ${POSTGRES_SCHEMA}.duty_recurrence to ${POSTGRES_APP_USER};
+        </sql>
+        <rollback>
+        	<dropTable  cascadeConstraints="true" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_recurrence"/>
+        </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_dtyrc_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_dtyrc_stamp ON ${POSTGRES_SCHEMA}.duty_recurrence;
+        	CREATE TRIGGER trg_biu_dtyrc_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.duty_recurrence
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_dtyrc_stamp ON ${POSTGRES_SCHEMA}.duty_recurrence;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,74 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <!-- This ChangeLog contains the changeset(s) to generate the table API_SCOPE
+         It includes attributes, constraints, keys, indexes and security in one
+         place. Where possible (i.e. where dependencies between subsequent changes 
+         allow) updates to this table should be included as additional changesets
+         within this changelog -->
+
+    <!-- Changsets -->
+    <changeSet author="Carol Geisler" id="CRTTAB_APSC_1_0">
+      <comment>Create the Api Scope table to map to api endpoints, either single or clusters.</comment>
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="api_scope" 
+        	remarks="API_SCOPE captures the definition of a piece or group of functionality within the Sheriff Scheduling App. An Api Scope may be linked to an App Role to allow access to the functionality.
+The API will associate an Api Scope string with each endpoint to determine what endpoints a given session is authorized for, and to adapt the ui accordingly.">
+            <column name="api_scope_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="api_scope_string" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="read_only_ind" type="INTEGER" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(200)"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="api_scope" columnNames="api_scope_id" constraintName="pk_apsc"/>
+        <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="api_scope" columnNames="api_scope_string" constraintName="uk_apsc_str"/>
+        <sql>
+        	GRANT SELECT ON ${POSTGRES_SCHEMA}.api_scope to ${POSTGRES_APP_USER};
+        </sql>
+        <rollback>
+          <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="api_scope"/>
+        </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="ADDTRG_apsc_stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS trg_biu_apsc_stamp ON ${POSTGRES_SCHEMA}.api_scope;
+        	CREATE TRIGGER trg_biu_apsc_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.api_scope
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS trg_biu_apsc_stamp ON ${POSTGRES_SCHEMA}.api_scope;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+
+</databaseChangeLog>

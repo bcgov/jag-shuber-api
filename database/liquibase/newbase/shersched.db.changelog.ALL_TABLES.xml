@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    
+    <!-- empty database -->
+    <changeSet author="Carol Geisler" id="master_01">
+    	<tagDatabase tag="00_EmptyDB"/>
+    </changeSet>
+
+    <!-- ** create roles, schemas, and other db env prereqs 
+         ** TEMP - Included here only for testing purposes during refactoring work -->
+    <include file="shersched.db.changelog.env.schemas_roles_extensions.xml"/>
+    <include file="shersched.db.changelog.function.tab_stamp.xml"/>
+    
+    <!-- Initially, one include per table, in order of dependency and logical grouping -->
+    
+    <!-- Code Tables -->
+    <include file="shersched.db.changelog.table-work_section_code_WKSCCD.xml"/>
+    <include file="shersched.db.changelog.table-court_role_code_CRCD.xml"/>
+    <include file="shersched.db.changelog.table-jail_role_code_JLRLCD.xml"/>
+    <include file="shersched.db.changelog.table-other_assign_code_OTASCD.xml"/>
+
+    <include file="shersched.db.changelog.table-leave_code_LVCD.xml"/>
+    <include file="shersched.db.changelog.table-leave_sub_code_LVSBCD.xml"/>
+    <include file="shersched.db.changelog.table-leave_cancel_reason_code_LVCR.xml"/>
+    
+    <include file="shersched.db.changelog.table-sheriff_rank_code_SHRKCD.xml"/>
+    <include file="shersched.db.changelog.table-gender_code_GNDR.xml"/>
+
+    <!-- Location Tables -->
+    <include file="shersched.db.changelog.table-region_RGN.xml"/>
+    <include file="shersched.db.changelog.table-address_ADR.xml"/>
+    <include file="shersched.db.changelog.table-courthouse_CRTH.xml"/>
+    <include file="shersched.db.changelog.table-courtroom_CRTR.xml"/>
+    
+    <!-- Config & Base Data Tables -->
+    <include file="shersched.db.changelog.table-sheriff_SHR.xml"/>
+    <include file="shersched.db.changelog.table-run_RUN.xml"/>
+    <include file="shersched.db.changelog.table-assignment_ASN.xml"/>
+    
+    <!-- Authorization Tables -->
+    <include file="shersched.db.changelog.table-api_scope_APSC.xml"/>
+    <include file="shersched.db.changelog.table-app_role_APRL.xml"/>
+    <include file="shersched.db.changelog.table-app_role_api_scope_APRLAPSC.xml"/>
+    <include file="shersched.db.changelog.table-app_user_USR.xml"/>
+    <include file="shersched.db.changelog.table-app_user_role_APUSRL.xml"/>
+    
+    <!-- Active Application Tables -->
+    <include file="shersched.db.changelog.table-duty_recurrence_DTYRC.xml"/>
+    <include file="shersched.db.changelog.table-duty_DTY.xml"/>
+    <include file="shersched.db.changelog.table-sheriff_duty_SHRDTY.xml"/>
+    <include file="shersched.db.changelog.table-shift_SHFT.xml"/>
+    <include file="shersched.db.changelog.table-leave_LVE.xml"/>
+    
+    <!-- Audit Tables -->
+    <include file="shersched.db.changelog.table-audit_sheriff_duty_AUD_SHRDTY.xml"/>
+    
+    <!-- Triggers -->
+    <include file="shersched.db.changelog.triggers-tab_stamp.xml"/>
+    
+    <!-- auth table dev data -->
+    <!--include file="shersched.db.changelog.data.dev.auth_tables.xml"/-->
+    
+</databaseChangeLog>
