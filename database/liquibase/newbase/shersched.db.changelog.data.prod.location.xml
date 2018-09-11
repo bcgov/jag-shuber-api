@@ -1,0 +1,852 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="location_data_prod_start"/>
+    </changeSet>
+    
+    <!-- Location (Courthouse) Code data -->
+    <!-- Locations in COASTAL region -->
+    
+    <changeSet author="Carol Geisler" id="INS_crth_NVN">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="NVN"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="9064.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="2011"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="North Vancouver"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='NVN'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_OPS">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="OPS"/>
+          <column name="justin_id" type="VARCHAR2(20)" value=""/>
+          <column name="justin_code" type="VARCHAR2(10)" value=""/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Office of Professional Standards"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='OPS'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_OCS">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="OCS"/>
+          <column name="justin_id" type="VARCHAR2(20)" value=""/>
+          <column name="justin_code" type="VARCHAR2(10)" value=""/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Office of the Chief Sheriff"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='OCS'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_RBS">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="RBS"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="10250.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="2045"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Robson Square"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='RBS'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_SCH">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="SCH"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="10248.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="2031"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Sechelt"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='SCH'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_SPOC">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="SPOC"/>
+          <column name="justin_id" type="VARCHAR2(20)" value=""/>
+          <column name="justin_code" type="VARCHAR2(10)" value=""/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Sheriff Provincial Operation Centre"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='SPOC'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_VLC">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="VLC"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="8816.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="6011"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Vancouver Law Courts"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='VLC'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_VPC">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="VPC"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="8813.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="2040"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Vancouver Provincial Courts"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='VPC'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <!-- Locations in FRASER region -->
+    
+    <changeSet author="Carol Geisler" id="INS_crth_ABS">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="ABS"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="9393.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="3561"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Abbotsford"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'FRASER')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='ABS'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_CFP">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="CFP"/>
+          <column name="justin_id" type="VARCHAR2(20)" value=""/>
+          <column name="justin_code" type="VARCHAR2(10)" value=""/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Central Float Pool"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'FRASER')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='CFP'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_NWS">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="NWS"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="8839.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="3581"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="New Westminster"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'FRASER')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='NWS'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_SRY">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="SRY"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="8841.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="3585"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Surrey"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'FRASER')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='SRY'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_CHL">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="CHL"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="8824.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="3521"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Chilliwack"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'FRASER')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='CHL'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_PCQ">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="PCQ"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="8834.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="3531"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Port Coquitlam"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'FRASER')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='PCQ'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_RMD">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="RMD"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="9062.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="2025"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Richmond"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'FRASER')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='RMD'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <!-- Locations in INTERIOR region -->
+    
+    <changeSet author="Carol Geisler" id="INS_crth_CRB">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="CRB"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="29.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="4711"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Cranbrook"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'INTERIOR')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='CRB'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_ITAU">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="ITAU"/>
+          <column name="justin_id" type="VARCHAR2(20)" value=""/>
+          <column name="justin_code" type="VARCHAR2(10)" value=""/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="ITAU"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'INTERIOR')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='ITAU'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_KML">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="KML"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="82.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="4781"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Kamloops"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'INTERIOR')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='KML'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_KLW">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="KLW"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="83.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="4801"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Kelowna"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'INTERIOR')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='KLW'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_NLS">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="NLS"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="89.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="4871"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Nelson"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'INTERIOR')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='NLS'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_PNT">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="PNT"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="91.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="4891"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Pentiction"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'INTERIOR')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='PNT'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_SLM">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="SLM"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="95.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="4941"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Salmon Arm"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'INTERIOR')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='SLM'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_SOE">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="SOE"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="48764.0009"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="4882"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="South Okanagan Escort Centre"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'INTERIOR')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='SOE'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_VRN">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="VRN"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="96.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="4971"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Vernon"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'INTERIOR')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='VRN'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <!-- Locations in ISLAND region -->
+    
+    <changeSet author="Carol Geisler" id="INS_crth_CBR">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="CBR"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="9067.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="1031"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Campbell River"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'ISLAND')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='CBR'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_CTN">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="CTN"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="9068.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="1041"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Courtenay"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'ISLAND')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='CTN'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_DNC">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="DNC"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="10231.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="1051"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Duncan"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'ISLAND')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='DNC'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_NMO">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="NMO"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="8805.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="1091"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Nanaimo"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'ISLAND')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='NMO'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_PTA">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="PTA"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="10235.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="1121"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Port Alberni"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'ISLAND')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='PTA'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_PWL">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="PWL"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="10237.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="1145"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Powell River"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'ISLAND')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='PWL'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_VIC">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="VIC"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="8807.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="1201"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Victoria"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'ISLAND')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='VIC'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_WCM">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="WCM"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="10243.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="1211"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Western Communities"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'ISLAND')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='WCM'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <!-- Locations in NORTHERN region -->
+    
+    <changeSet author="Carol Geisler" id="INS_crth_DWS">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="DWS"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="110.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="5731"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Dawson Creek"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'NORTHERN')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='DWS'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_FSJ">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="FSJ"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="114.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="5771"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Fort St. John"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'NORTHERN')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='FSJ'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_PRG">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="PRG"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="8844.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="5891"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Prince George"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'NORTHERN')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='PRG'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_PRP">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="PRP"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="9075.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="5901"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Prince Rupert"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'NORTHERN')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='PRP'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_QNL">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="QNL"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="9074.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="5921"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Quesnel"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'NORTHERN')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='QNL'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_SMT">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="SMT"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="9073.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="5931"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Smithers"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'NORTHERN')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='SMT'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crth_TRC">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+          <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courthouse_cd" type="VARCHAR(5)" value="TRC"/>
+          <column name="justin_id" type="VARCHAR2(20)" value="9072.0007"/>
+          <column name="justin_code" type="VARCHAR2(10)" value="5951"/>
+          <column name="courthouse_name" type="VARCHAR(100)" value="Terrace"/>
+          <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'NORTHERN')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courthouse">
+              <where>courthouse_cd='TRC'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="location_data_prod_end"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -6,7 +6,7 @@
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
     
     <!-- empty database -->
-    <changeSet author="Carol Geisler" id="master_01">
+    <changeSet author="Carol Geisler" id="structure_00">
     	<tagDatabase tag="00_EmptyDB"/>
     </changeSet>
 
@@ -60,7 +60,12 @@
     
     <!-- Triggers -->
     <include file="shersched.db.changelog.triggers-tab_stamp.xml"/>
+
+    <changeSet author="Carol Geisler" id="structure_01">
+    	<tagDatabase tag="01_EmptyDB"/>
+    </changeSet>
     
+    <include file="shersched.db.changelog.ALL_DATA.xml"/>
     <!-- auth table dev data -->
     <!--include file="shersched.db.changelog.data.dev.auth_tables.xml"/-->
     
