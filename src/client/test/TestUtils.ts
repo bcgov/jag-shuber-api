@@ -5,7 +5,7 @@ import ExtendedClient from '../ExtendedClient';
 import { Courthouse, Courtroom, Assignment, Region, DutyRecurrence, Duty, SheriffDuty, Shift, Leave } from '../models';
 import { Sheriff } from '../../models/Sheriff';
 import { ClientBase } from 'pg';
-import './MomentMatchers';
+import '../../support/MomentMatchers';
 import moment, { Moment } from 'moment';
 import {
     SITEMINDER_HEADER_USERGUID,

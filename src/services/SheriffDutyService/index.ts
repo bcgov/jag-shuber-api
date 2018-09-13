@@ -1,13 +1,13 @@
-import { Duty } from '../models/Duty';
-import { DatabaseService } from '../infrastructure/DatabaseService';
-import { SheriffDuty } from '../models/SheriffDuty';
-import { AutoWired, Container } from 'typescript-ioc';
-import { SheriffDutyAutoAssignRequest } from '../models/SheriffDutyAutoAssignRequest';
-import { ShiftService } from './ShiftService';
+import { DatabaseService } from '../../infrastructure/DatabaseService';
+import { SheriffDuty } from '../../models/SheriffDuty';
+import { AutoWired } from 'typescript-ioc';
+import { SheriffDutyAutoAssignRequest } from '../../models/SheriffDutyAutoAssignRequest';
+import { ShiftService } from '../ShiftService';
 import moment from 'moment';
-import { DutyService } from './DutyService';
-import { AssignmentService } from './AssignmentService';
-import { ClientBase } from 'pg';
+import { DutyService } from '../DutyService';
+import { AssignmentService } from '../AssignmentService';
+import SheriffDutyAutoAssigner from './SheriffDutyAutoAssigner';
+import { SheriffDutyWithAssignment } from './SheriffDutyAssignmentMap';
 
 @AutoWired
 export class SheriffDutyService extends DatabaseService<SheriffDuty> {
@@ -60,19 +60,16 @@ export class SheriffDutyService extends DatabaseService<SheriffDuty> {
             // - Are linked to an assignment 
             // - From the given courthouse
             // - On the given date
-            const shifts = await shiftService.select(query => {
+            const shiftsPromise = shiftService.select(query => {
                 return query
                     .where(`date_trunc('day',${shiftService.dbTableName}.start_dtm)=DATE('${dateMoment.toISOString()}')`)
                     .where(`courthouse_id='${courthouseId}'`)
                     .where(`assignment_id IS NOT NULL`);
             });
 
-            // Select all SheriffDuties that are
-            // 1. Not assigned
-            // 2. Associated with one of the assignments above
-            // 3. Associated with the given courthouse
-            // 4. On the given date            
-            // this.getSelectQuery().where('duty_id IN (SELECT ');
+            // Select all SheriffDuties & AssignmentId that are:
+            // 1. Associated with the given courthouse
+            // 2. On the given date    
             const sheriffDutyTableAlias = 'sd';
             const dutyTableAlias = 'd';
             const assignmentTableAlias = 'a';
@@ -83,41 +80,20 @@ export class SheriffDutyService extends DatabaseService<SheriffDuty> {
                 .join(dutyService.dbTableName, dutyTableAlias, `${sheriffDutyTableAlias}.duty_id=${dutyTableAlias}.duty_id`)
                 .join(assignmentService.dbTableName, assignmentTableAlias, `${dutyTableAlias}.assignment_id=${assignmentTableAlias}.assignment_id`)
                 .where(`${assignmentTableAlias}.courthouse_id='${courthouseId}'`)
-                .where(`${sheriffDutyTableAlias}.sheriff_id IS NULL`)
                 .where(`date_trunc('day',${sheriffDutyTableAlias}.start_dtm)=DATE('${dateMoment.toISOString()}')`)
-                .where(`${assignmentTableAlias}.assignment_id IN ?`, shifts.map(s => s.assignmentId))
                 .toString();
 
-            const sheriffDutiesToAssign = await sheriffDutyService.executeQuery<SheriffDuty & { assignmentId: string }>(sheriffDutyQuery);
+            const allSheriffDuties = await sheriffDutyService.executeQuery<SheriffDutyWithAssignment>(sheriffDutyQuery);
 
-            const sheriffDutiesToUpdate: SheriffDuty[] = [];
-            shifts.forEach(shift => {
-                const shiftStart = moment(shift.startDateTime);
-                // Sort the sheriffDutiesToAssign based difference between shift startTime
-                // and startTime of SheriffDuty, filtering out ones that have already been
-                //
-                const sheriffDutyToUpdate = sheriffDutiesToAssign
-                    .filter(sd => sd.assignmentId === shift.assignmentId)
-                    .map(({ assignmentId, ...sd }) => sd)
-                    .filter(sd => sheriffDutiesToUpdate.every(sdtu => sdtu.id !== sd.id))
-                    .sort((a, b) => {
-                        return Math.abs(shiftStart.diff(moment(a.startDateTime))) - Math.abs(shiftStart.diff(moment(b.startDateTime)));
-                    })[0];
+            // Wait for our shifts request since we need it below
+            const shifts = await shiftsPromise;
 
-                if (sheriffDutyToUpdate) {
-                    // todo: figure out why datetimes aren't working well here
-                    sheriffDutiesToUpdate.push({
-                        ...sheriffDutyToUpdate,
-                        startDateTime: moment(sheriffDutyToUpdate.startDateTime).format(),
-                        endDateTime: moment(sheriffDutyToUpdate.endDateTime).format(),
-                        sheriffId: shift.sheriffId
-                    });
-                }
-            });
-
+            const autoAssignStrategy = new SheriffDutyAutoAssigner();
+            
+            const sheriffDutiesToUpdate = autoAssignStrategy.autoAssignDuties(allSheriffDuties,shifts);
+            
+            console.log(sheriffDutiesToUpdate);
             // Update SheriffDuties
-            // Set sheriffDuty.sheriff_id = shift.sheriff_id where
-            // the |sheriffDuty.startTime - shift.startTime| is a minimum
             return await Promise.all(sheriffDutiesToUpdate.map(sd => sheriffDutyService.update(sd)));
         });
         return assignedSheriffDuties;
