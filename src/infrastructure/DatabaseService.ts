@@ -1,7 +1,7 @@
 import { GetFieldBlock, PostgresDelete, PostgresInsert, PostgresSelect, PostgresSquel, PostgresUpdate } from 'squel';
 import { Database } from '../db/Database';
 import { ServiceBase } from './ServiceBase';
-import { ClientBase } from 'pg';
+import { ClientBase, Client } from 'pg';
 import { DatabaseError, isDatabaseError, ValidationError } from '../common/Errors'
 import { ValidateError, FieldErrors } from 'tsoa';
 import { Inject, AutoWired } from 'typescript-ioc';
@@ -88,6 +88,14 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
         return returnFields;
     }
 
+    public select(queryAugmenter?: (q: PostgresSelect) => PostgresSelect, tableAlias?: string): Promise<T[]> {
+        const query = this.squel.select({ autoQuoteAliasNames: true, tableAliasQuoteCharacter: "" })
+            .from(this.tableName, tableAlias)
+            .fields(tableAlias ? this.getAliasedFieldMap(tableAlias) : this.fieldMap);
+        const newQuery = queryAugmenter ? queryAugmenter(query) : query;
+        return this.executeQuery(newQuery.toString());
+    }
+
     /**
      * Returns a {PostgresSelect} object that will by default select all records
      * from the table and map the fields using the services fieldMap.
@@ -155,7 +163,7 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
         });
     }
 
-    async getMetadataById(id: string): Promise<T & DatabaseRecordMetadata>{
+    async getMetadataById(id: string): Promise<T & DatabaseRecordMetadata> {
         const query = this.getSelectQuery(id);
         query.fields(DatabaseMetadataFieldMap);
         const rows = await this.executeQuery<DatabaseRecordMetadata & T>(query.toString());

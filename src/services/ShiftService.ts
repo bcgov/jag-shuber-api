@@ -23,14 +23,6 @@ export class ShiftService extends DatabaseService<Shift> {
         super('shift', 'shift_id');
     }
 
-    getShiftService(client: ClientBase) {
-        const service = Container.get(ShiftService) as ShiftService;
-        if (client) {
-            service.dbClient = client;
-        }
-        return service;
-    }
-
     async getAll(courthouseId?: string) {
         const query = super.getSelectQuery();
         if (courthouseId) {
@@ -82,8 +74,8 @@ export class ShiftService extends DatabaseService<Shift> {
         });
 
 
-        return await this.db.transaction(async (client) => {
-            const service = this.getShiftService(client);
+        return await this.db.transaction(async ({getService}) => {
+            const service = getService<ShiftService>(ShiftService);
             return Promise.all(shiftUpdates.map(s => service.update(s)));
         });
     }
@@ -99,8 +91,8 @@ export class ShiftService extends DatabaseService<Shift> {
             .where('courthouse_id = ?', courthouseId);
         const sourceShifts = await this.executeQuery<Shift>(selectQuery.toString());
 
-        return await this.db.transaction(async client => {
-            const shiftService = this.getShiftService(client);
+        return await this.db.transaction(async ({getService}) => {
+            const shiftService = getService<ShiftService>(ShiftService);
             return await Promise.all(
                 sourceShifts.map<Shift>(s => {
                     const { id, startDateTime, endDateTime, sheriffId, ...rest } = s;
