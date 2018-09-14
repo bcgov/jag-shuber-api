@@ -36,7 +36,7 @@ The scripts can be organized into a few categories:
 >
 > Launches the backend in dev mode against the development database.  Running this command will read and use environment variables defined in `.env.dev`.  See the ##Setup## section for instructions on how to have this file generated for you automatically. 
 
->`yarn build:clean`
+>`yarn rebuild`
 >
 > Cleans all compiled files (found in the `dist/`) with the exception of the `dist/.gitignore` folder. Then regenerates all typescript files and rebuilds.  **This should be done before issuing / completing Pull Requests**
 
