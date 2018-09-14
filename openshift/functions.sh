@@ -18,17 +18,18 @@ log_into_minishift(){
 }
 
 log_into_pathfinder(){
-    PATHFINDER_TOKEN=$1
-
-    if [ -z "$PATHFINDER_TOKEN" ]; then
-        open $SERVER_URL/oauth/token/request
-        start_color $YELLOW
-        echo "$SERVER_URL/oauth/token/request has been opened in your browser, paste token below:"
-        read -p "Openshift Token:" PATHFINDER_TOKEN
-        end_color
+    oc whoami 1> /dev/null
+    if [ "$?" = "1" ]; then
+        PATHFINDER_TOKEN=$1
+        if [ -z "$PATHFINDER_TOKEN" ]; then
+            open $SERVER_URL/oauth/token/request
+            start_color $YELLOW
+            echo "$SERVER_URL/oauth/token/request has been opened in your browser, paste token below:"
+            read -p "Openshift Token:" PATHFINDER_TOKEN
+            end_color
+        fi
+        oc login --token=$PATHFINDER_TOKEN --server=$SERVER_URL 1> /dev/null
     fi
-
-    oc login --token=$PATHFINDER_TOKEN --server=$SERVER_URL 1> /dev/null
     start_color $GREEN
     echo "Logged into '$SERVER_URL' as '$(oc whoami)'"
     end_color
@@ -170,33 +171,3 @@ create_deployment_project(){
     expose_postgres
     write_postgres_envfile
 }
-
-
-
-
-
-
-# echo "You should log into OpenShift and select your project before running this script."
-
-# read -p "Delete resources from environment? (y/N)" delete
-# delete=${delete:-n}
-# delete=$(echo $delete |awk '{print tolower($0)}')
-
-# if [ "$delete" == "y" ]; then
-#     oc delete all --all
-# fi
-
-# read -p "Create Builds? (Y/n): " ok
-# ok=${ok:-y}
-# ok=$(echo $ok |awk '{print tolower($0)}')
-
-# #params="-p GIT_REF=node-api"
-# #params=""
-
-# if [ "$ok" == "y" ]; then
-#     echo "Deploying api build environment..."
-#     oc process -f "$SCRIPT_DIR/templates/api-builder/api-builder-build.json" $params | oc create -f -
-#     oc process -f "$SCRIPT_DIR/templates/api/api-build.json" $params | oc create -f -
-# else
-#     exit 0
-# fi

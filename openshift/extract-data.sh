@@ -2,12 +2,14 @@
 SCRIPT_DIR=`dirname $0`
 SERVER_URL="https://console.pathfinder.gov.bc.ca:8443"
 PROJECT_IDENTIFIER="shuber"
+EXTRACTED_DATA_DIR="$PWD/EXTRACTED-DATA"
 source "$SCRIPT_DIR/functions.sh"
+
 
 log_into_pathfinder $TOKEN
 
 extract_data(){
-    AUDITING_DIR_NAME="auditing"
+    AUDITING_DIR_NAME="extracts"
     POD_TMP_DIR="/tmp/audit-extraction/"
     POD_TMP_AUDIT_DIR="$POD_TMP_DIR/$AUDITING_DIR_NAME"
     
@@ -29,7 +31,7 @@ extract_data(){
     oc exec $POSTGRES_POD_NAME -- bash $POD_TMP_AUDIT_DIR/extract-audits.sh
     print_command_status
 
-    OUTPUT_DIR="$PWD/database-audit-data/$1"
+    OUTPUT_DIR="$EXTRACTED_DATA_DIR/$1"
     printf "Copying extracted audit data to '$OUTPUT_DIR'..."    
     mkdir -p $OUTPUT_DIR
     oc cp $POSTGRES_POD_NAME:"$POD_TMP_AUDIT_DIR/output" "$OUTPUT_DIR" 2> /dev/null 
@@ -42,18 +44,19 @@ extract_data(){
     end_color
 }
 
-
-QUIT_OPTION="Quit"
-PS3=$'\033[0;33mSelect a project from the list to extract audit data for: \033[0m'
-projects=($(oc projects -q | grep $PROJECT_IDENTIFIER) $QUIT_OPTION)
+COLUMNS=0
+PS3=$'\033[0;33mSelect a project from the list to extract audit data for (q to quit): \033[0m'
+projects=($(oc projects -q | grep $PROJECT_IDENTIFIER))
 select opt in "${projects[@]}"
 do
-    if [ -z "$opt" ]; then
-        echo "Invalid selection"
-    elif [ "$opt" = "$QUIT_OPTION" ]; then
+    if [ "$REPLY" = "q" ]; then
         echo "Goodbye"
         break
-    else 
+    elif [ -z "$opt" ]; then
+        echo "Invalid selection"
+    else
         extract_data $opt
+        open $EXTRACTED_DATA_DIR
+        break
     fi
 done
