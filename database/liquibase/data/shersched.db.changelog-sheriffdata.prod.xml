@@ -26111,6 +26111,7 @@
       <sql>
         UPDATE ${POSTGRES_SCHEMA}.sheriff SET gender_code = UPPER(gender_code)
       </sql>
+      <rollback/>
     </changeSet>
     
     <changeSet author="Carol Geisler" id="ADDFK_shrf_gndr">
