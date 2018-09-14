@@ -23,8 +23,8 @@ describe('SheriffDuty API', () => {
             testSheriff = await TestUtils.newTestSheriff(testCourthouse.id as string);
             testDuty = await client.CreateDuty({
                 assignmentId: testAssignment.id,
-                startDateTime: moment().format(),
-                endDateTime: moment().add(2, 'hours').format()
+                startDateTime: moment().startOf('day').add(6, 'hours').format(),
+                endDateTime: moment().startOf('day').add(12, 'hours').format()
             })
         });
         api = TestUtils.getClientWithAuth();
@@ -77,7 +77,7 @@ describe('SheriffDuty API', () => {
         });
     });
 
-    describe.only('Auto Assign Sheriff Duties based on shifts', () => {
+    describe('Auto Assign Sheriff Duties based on shifts', () => {
 
         let sheriffDutyToCreate: SheriffDuty;
         let shiftToCreate: Shift;
@@ -226,9 +226,9 @@ describe('SheriffDuty API', () => {
             // The order in which sheriffs are assigned is not currently
             // deterministic, so here we make sure that each of our 
             // assigned sheriff duties are within the expected returns
-            autoAssigned.forEach(sd=>{
+            autoAssigned.forEach(sd => {
                 expect(possibleAssignments).toContainEqual(sd)
-            });            
+            });
 
             // Delete the test resources
             await api.DeleteShift(shift2.id);
@@ -243,16 +243,22 @@ describe('SheriffDuty API', () => {
             let assignedSheriffDuty: SheriffDuty;
             let sheriffDuty: SheriffDuty;
             await TestUtils.setupTestFixtures(async client => {
-                // Create sheriff Duty that is already assigned
-                assignedSheriffDuty = await client.CreateSheriffDuty({
-                    ...sheriffDutyToCreate,
-                    sheriffId: testSheriff.id
-                });
-                sheriffDuty = await client.CreateSheriffDuty({
-                    ...sheriffDutyToCreate
-                });
                 // Create shift and associate it with the same assignment
                 shift = await client.CreateShift(shiftToCreate);
+
+                // Create two sheriff duties, one already assigned
+                // one unassigned
+                // Adjust times to make sure there is no overlap
+                assignedSheriffDuty = await client.CreateSheriffDuty({
+                    ...sheriffDutyToCreate,
+                    sheriffId: testSheriff.id,
+                    endDateTime: moment(shift.startDateTime).add(2, 'hours').format()
+                });
+                sheriffDuty = await client.CreateSheriffDuty({
+                    ...sheriffDutyToCreate,
+                    startDateTime: moment(assignedSheriffDuty.endDateTime).format()
+                });
+
             });
             const autoAssigned = await api.AutoAssignSheriffDuties({
                 courthouseId: testCourthouse.id,
@@ -270,7 +276,7 @@ describe('SheriffDuty API', () => {
             await Promise.all([
                 api.DeleteShift(shift.id),
                 api.DeleteSheriffDuty(assignedSheriffDuty.id),
-                api.DeleteSheriffDuty(assignedSheriffDuty.id)
+                api.DeleteSheriffDuty(sheriffDuty.id)
             ]);
         });
 
@@ -301,7 +307,10 @@ describe('SheriffDuty API', () => {
             });
 
             expect(autoAssigned).toBeDefined();
-            expect(autoAssigned.length).toEqual(0);
+            expect(autoAssigned.length).toEqual(1);
+            expect(autoAssigned).toEqual(expect.arrayContaining([
+                { ...sheriffDuty, sheriffId: testSheriff.id }
+            ]));
 
 
             // Delete the test resources            
@@ -317,9 +326,14 @@ describe('SheriffDuty API', () => {
             let assignedSheriffDuty: SheriffDuty;
             await TestUtils.setupTestFixtures(async client => {
                 // Create sheriff Duty that is already assigned
-                sheriffDuty = await client.CreateSheriffDuty({
+                assignedSheriffDuty = await client.CreateSheriffDuty({
                     ...sheriffDutyToCreate,
                     sheriffId: testSheriff.id
+                });
+                sheriffDuty = await client.CreateSheriffDuty({
+                    ...sheriffDutyToCreate,
+                    startDateTime: moment(assignedSheriffDuty.startDateTime).add(15, 'minutes').format(),
+                    endDateTime: moment(assignedSheriffDuty.endDateTime).subtract(15, 'minutes').format()
                 });
                 // Create shift and associate it with the same assignment
                 shift = await client.CreateShift(shiftToCreate);
@@ -330,18 +344,41 @@ describe('SheriffDuty API', () => {
             });
 
             expect(autoAssigned).toBeDefined();
-            expect(autoAssigned.length).toEqual(0);
+            expect(autoAssigned).toHaveLength(0);
 
             // Delete the test resources
             await Promise.all([
                 api.DeleteShift(shift.id),
-                api.DeleteSheriffDuty(sheriffDuty.id)
+                api.DeleteSheriffDuty(sheriffDuty.id),
+                api.DeleteSheriffDuty(assignedSheriffDuty.id)
             ]);
-            throw "TODO: FINISH THIS"
         });
 
-        it('Should not auto assign sheriff to sheriff duty if sheriff duty falls mainly outside of shift', async () => {
-            throw "NEED TESTS";
+        it('Should not auto assign sheriff to sheriff duty if sheriff duty falls outside of shift', async () => {
+            let shift: Shift;
+            let sheriffDuty: SheriffDuty;
+            await TestUtils.setupTestFixtures(async client => {
+                // Create shift and associate it with the same assignment
+                shift = await client.CreateShift(shiftToCreate);
+
+                // Create sheriff Duty tied to different assignment
+                sheriffDuty = await client.CreateSheriffDuty({
+                    ...sheriffDutyToCreate,
+                    startDateTime: moment(shift.endDateTime).format(),
+                    endDateTime: moment(shift.endDateTime).add(2,'hours').format()
+                });
+            });
+            const autoAssigned = await api.AutoAssignSheriffDuties({
+                courthouseId: testCourthouse.id,
+                date: sheriffDuty.startDateTime
+            });
+
+            expect(autoAssigned).toBeDefined();
+            expect(autoAssigned.length).toEqual(0);
+
+            // Delete the test resources            
+            await api.DeleteShift(shift.id);
+            await api.DeleteSheriffDuty(sheriffDuty.id);
         });
     });
 }) 
