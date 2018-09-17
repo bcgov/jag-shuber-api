@@ -32,31 +32,31 @@ The scripts can be organized into a few categories:
 
 ### Development
 
->`yarn watch:dev` 
+#### `yarn watch:dev` 
 >
 > Launches the backend in dev mode against the development database.  Running this command will read and use environment variables defined in `.env.dev`.  See the ##Setup## section for instructions on how to have this file generated for you automatically. 
 
->`yarn rebuild`
+#### `yarn rebuild`
 >
 > Cleans all compiled files (found in the `dist/`) with the exception of the `dist/.gitignore` folder. Then regenerates all typescript files and rebuilds.  **This should be done before issuing / completing Pull Requests**
 
 ### Testing
 
->### DO NOT RUN TESTS AGAINST ANY DATABASE THAT YOU CARE ABOUT
+### DO NOT RUN TESTS AGAINST ANY DATABASE THAT YOU CARE ABOUT
 >
 > The Tests have *setup* and *teardown* hooks that clear many of the database tables so that CRUD functionality of the API can be verified (i.e. numbers of records etc.)  
 
 Generally, I run the following two commands in separate terminal windows so that I can clearly watch the output of both.
 
->`yarn watch:testing` 
+#### `yarn watch:testing` 
 >
 > Launches the backend in dev mode against the testing database.  Running this command will read and use environment variables defined in `.env.testing`.  See the ##Setup## section for instructions on how to have this file generated for you automatically. 
 
->`yarn test`
+#### `yarn test`
 >
 > runs the jest tests for the application (should be done in conjuction with the `yarn watch:testing` command described above)
 
->`yarn test:coverage`
+#### `yarn test:coverage`
 >
 > Runs the jest tests for the API Client using code coverage and displays the coverage results in a browser.  Note that the coverage only covers the API Client code and not the API itself.
 
@@ -64,31 +64,31 @@ Generally, I run the following two commands in separate terminal windows so that
 
 These commands typically don't have to be run and are mostly here to support the commands described above.
 
->`yarn start`
+#### `yarn start`
 >
 > Starts the production instance of the API Server.  This generally not run on dev machines but instead is used by the openshift container running the application.
 
->`yarn start:dev`
+#### `yarn start:dev`
 >
 > Starts the server loading the `.env.dev` environment variables, effectively wiring up to your development database.
 
->`yarn start:testing`
+#### `yarn start:testing`
 >
 > Starts the server loading the `.env.testing` environment varibles, effectively wiring up to your testing database.
 
->`yarn build`
+#### `yarn build`
 >
 > Runs typescript to compile the javascript that ends up in `dist/`
 
->`yarn build:watch`
+#### `yarn build:watch`
 >
 > Watches for changes to typescript files and runs the `build` command described above
 
->`yarn generate`
+#### `yarn generate`
 >
 > Generates code based on the process described in [Generating Code](#generating-code)
 
->`yarn oc:dev`
+#### `yarn oc:dev`
 >
 > A development hook to allow debugging within the OpenShift environment.  This is typically never used and is largely untested but remains as a reminder of the possibility.
 
