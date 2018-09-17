@@ -1,0 +1,65 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd"
+	  context="AUTHDEV">
+
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="approle_data_dev_start"/>
+    </changeSet>
+
+    <!--  These AUTHDEV changesets were created to populate some preliminary 
+          data into the auth tables to facilitate development and testing. -->
+
+    <!-- App Role records -->
+
+    <changeSet author="Carol Geisler" id="INS_aprl_READ_WRITE_ALL">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="app_role">
+          <column name="app_role_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="app_role_name" type="VARCHAR(32)" value="READ_WRITE_ALL"/>
+          <column name="description" type="VARCHAR(200)" value="To facilitate initial integration with Siteminder and authorization, this is one of two default Roles. As the security model is refined, these should be replaced by business specific roles."/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_APRL_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="app_role">
+              <where>app_role_name='READ_WRITE_ALL'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_aprl_READ_ALL">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="app_role">
+          <column name="app_role_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="app_role_name" type="VARCHAR(32)" value="READ_ALL"/>
+          <column name="description" type="VARCHAR(200)" value="To facilitate initial integration with Siteminder and authorization, this is one of two default Roles. As the security model is refined, these should be replaced by business specific roles."/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_APRL_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="app_role">
+              <where>app_role_name='READ_ALL'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="approle_data_dev_end"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -31,7 +31,6 @@
             <column name="region_id" type="UUID">
                 <constraints nullable="false"/>
             </column>
-            <column name="address_id" type="UUID"/>
             <column name="created_by" type="VARCHAR(32)">
                 <constraints nullable="false"/>
             </column>
@@ -51,7 +50,6 @@
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courthouse" columnNames="courthouse_id" constraintName="pk_crth"/>
         <addUniqueConstraint columnNames="courthouse_cd" constraintName="uk_crth_cd" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courthouse"/>
         <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="courthouse" baseColumnNames="region_id" constraintName="fk_crth_rgn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedTableName="region" referencedColumnNames="region_id"/>
-        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="courthouse" baseColumnNames="address_id" constraintName="fk_crth_adr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="address_id" referencedTableName="address"/>
         <createIndex indexName="ix_crth_prt" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courthouse">
             <column name="parent_courthouse_id"/>
         </createIndex>

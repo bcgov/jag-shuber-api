@@ -40,11 +40,7 @@
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="PM Escort"/>
           <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
@@ -60,13 +56,9 @@
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
-          <column name="title" type="VARCHAR(100)" value="AM Escort"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'CHL')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="title" type="VARCHAR(100)" value="Chwk RCMP"/>
+          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
@@ -84,11 +76,7 @@
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Agg RCMP"/>
           <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
@@ -106,11 +94,7 @@
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Hope RCMP"/>
           <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
@@ -128,11 +112,7 @@
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Fed Run"/>
           <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
@@ -150,11 +130,7 @@
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Coast Run"/>
           <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'KML')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
@@ -172,11 +148,7 @@
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Local Run 1"/>
           <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'KML')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
@@ -194,11 +166,7 @@
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Local Run 2"/>
           <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'KML')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
@@ -216,11 +184,7 @@
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="AM Run 13"/>
           <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
@@ -238,11 +202,7 @@
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="LLY/WRock"/>
           <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
@@ -260,11 +220,7 @@
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="West Run"/>
           <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
@@ -282,11 +238,7 @@
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="North Run"/>
           <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
@@ -304,11 +256,7 @@
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="South Run"/>
           <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
@@ -326,11 +274,7 @@
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Alberta"/>
           <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
@@ -348,11 +292,7 @@
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Flight"/>
           <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
@@ -370,11 +310,7 @@
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="VCP "/>
           <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
@@ -392,11 +328,7 @@
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Air"/>
           <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
@@ -414,11 +346,7 @@
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Local Run"/>
           <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
@@ -436,11 +364,7 @@
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Up-Island"/>
           <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
@@ -458,11 +382,7 @@
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Local Run"/>
           <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'RBS')"/>
-          <column name="created_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
-          <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE" valueDate="now()"/>
-          <column name="revision_count" type="NUMERIC" valueNumeric="0"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"

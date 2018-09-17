@@ -47,7 +47,7 @@
         </rollback>
     </changeSet>
     
-    <include file="shersched.db.changelog.function.audit_shrdty.xml"/>
+    <include file="source/shersched.db.changelog.function-audit_shrdty.xml"/>
     
     <changeSet author="Carol Geisler" id="ADDTRG_audit_shrdty">
       <sql>

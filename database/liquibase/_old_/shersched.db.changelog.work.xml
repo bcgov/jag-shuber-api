@@ -1,0 +1,202 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="carol.geisler (generated)" id="1526076848337-1">
+        <createTable tableName="app_function">
+            <column name="app_function_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1526076848337-2">
+        <createTable tableName="app_role">
+            <column name="app_role_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1526076848337-3">
+        <createTable tableName="app_role_function">
+            <column name="app_role_function_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="app_role_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="app_function_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1526076848337-4">
+        <createTable tableName="app_user">
+            <column name="app_user_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="idir" type="VARCHAR(32)"/>
+            <column name="default_courthouse_id" type="UUID"/>
+            <column name="first_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="last_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="image_url" type="VARCHAR(200)"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1526076848337-5">
+        <createTable tableName="app_user_role">
+            <column name="app_user_role_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="app_user_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="app_role_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="now()" name="effective_date" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="expiry_date" type="date"/>
+            <column name="courthouse_id" type="UUID"/>
+            <column name="created_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1526076848337-6">
+        <addPrimaryKey columnNames="app_function_id" constraintName="pk_apfn" tableName="app_function"/>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1526076848337-7">
+        <addPrimaryKey columnNames="app_role_id" constraintName="pk_aprl" tableName="app_role"/>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1526076848337-8">
+        <addPrimaryKey columnNames="app_role_function_id" constraintName="pk_aprlfn" tableName="app_role_function"/>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1526076848337-9">
+        <addPrimaryKey columnNames="app_user_id" constraintName="pk_usr" tableName="app_user"/>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1526076848337-10">
+        <addPrimaryKey columnNames="app_user_role_id" constraintName="pk_usrl" tableName="app_user_role"/>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1526076848337-11">
+        <createIndex indexName="ix_rlfn_apfn" tableName="app_role_function">
+            <column name="app_function_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1526076848337-12">
+        <createIndex indexName="ix_rlfn_aprl" tableName="app_role_function">
+            <column name="app_role_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1526076848337-13">
+        <createIndex indexName="ix_usr_dfcrths" tableName="app_user">
+            <column name="default_courthouse_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1526076848337-14">
+        <createIndex indexName="ix_usrl_aprl" tableName="app_user_role">
+            <column name="app_role_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1526076848337-15">
+        <createIndex indexName="ix_usrl_crth" tableName="app_user_role">
+            <column name="courthouse_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1526076848337-16">
+        <createIndex indexName="ix_usrl_usr" tableName="app_user_role">
+            <column name="app_user_id"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1526076848337-17">
+        <addForeignKeyConstraint baseColumnNames="app_function_id" baseTableName="app_role_function" constraintName="fk_rlfn_apfn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="app_function_id" referencedTableName="app_function"/>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1526076848337-18">
+        <addForeignKeyConstraint baseColumnNames="app_role_id" baseTableName="app_role_function" constraintName="fk_rlfn_aprl" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="app_role_id" referencedTableName="app_role"/>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1526076848337-19">
+        <addForeignKeyConstraint baseColumnNames="app_role_id" baseTableName="app_user_role" constraintName="fk_usrl_aprl" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="app_role_id" referencedTableName="app_role"/>
+    </changeSet>
+    <changeSet author="carol.geisler (generated)" id="1526076848337-20">
+        <addForeignKeyConstraint baseColumnNames="app_user_id" baseTableName="app_user_role" constraintName="fk_usrl_usr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="app_user_id" referencedTableName="app_user"/>
+    </changeSet>
+</databaseChangeLog>

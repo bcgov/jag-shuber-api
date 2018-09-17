@@ -1,0 +1,42 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd"
+	  context="prod">
+
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="sheriff_data_prod_02_start"/>
+    </changeSet>
+
+    <!-- Comment for changeset group -->
+
+    <!-- Changsets -->
+    <changeSet author="Carol Geisler" id="INS_shrf_839">
+      <update catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="alias" type="VARCHAR(100)" value="B-01"/>
+          <where>badge_no = '839'</where>
+      </update>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='157'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="sheriff_data_prod_02_end"/>
+    </changeSet>
+
+</databaseChangeLog>

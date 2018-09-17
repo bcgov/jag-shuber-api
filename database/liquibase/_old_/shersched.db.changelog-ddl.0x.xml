@@ -1,0 +1,60 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<!--
+__DONE-changelog schema 4
+
+__DONE make shift.work_section_code NULLABLE
+__DONE drop column Duty.sheriffs_required (when Duties gen'd from recurrence, sheriff_duty records generated from sheriffs_required on recurrence. For ad hoc duties, sheriff_duty records added as required)
+__DONE add column alias to sheriff
+  add alias data update for VLC, conditional on this change
+__DONE rename column courthouse_id to home_courthouse_id (for clarity and consistency with API)
+
+__DONE  Add column rank_order to sheriff_rank_code, NULLABLE
+__DONE  call rank_order data update
+__DONE  make column mandatory
+  
+__DONE Add authorization tables
+  app_user
+  app_role
+  app_user_role
+  app_function
+  app_role_function
+  
+  
+Add days_bitmap_code table
+
+Add sheriff_aud table
+
+_DONE Alter column types start_time and end_time on Duty_recurrence to include timezone
+
+Add FK from sheriff to app_user (
+
+Add search_path set to db.env
+
+Add gender code table
+  
+rename table run to escort_run (renamed to avoid ambiguity)
+-->
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd"
+	  context="prod">
+
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="ddl_set_04_start"/>
+    </changeSet>
+    
+
+
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="ddl_set_04_end"/>
+    </changeSet>
+
+</databaseChangeLog>

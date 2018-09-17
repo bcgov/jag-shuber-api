@@ -14,7 +14,7 @@
     	<tagDatabase tag="location_data_prod_start"/>
     </changeSet>
     
-    <!-- Location (Courthouse) Code data -->
+    <!-- Location (Courthouse) data -->
     <!-- Locations in COASTAL region -->
     
     <changeSet author="Carol Geisler" id="INS_crth_NVN">
@@ -44,8 +44,8 @@
               tableName="courthouse">
           <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courthouse_cd" type="VARCHAR(5)" value="OPS"/>
-          <column name="justin_id" type="VARCHAR2(20)" value=""/>
-          <column name="justin_code" type="VARCHAR2(10)" value=""/>
+          <column name="justin_id" type="VARCHAR2(20)" valueComputed="NULL"/>
+          <column name="justin_code" type="VARCHAR2(10)" valueComputed="NULL"/>
           <column name="courthouse_name" type="VARCHAR(100)" value="Office of Professional Standards"/>
           <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
@@ -65,8 +65,8 @@
               tableName="courthouse">
           <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courthouse_cd" type="VARCHAR(5)" value="OCS"/>
-          <column name="justin_id" type="VARCHAR2(20)" value=""/>
-          <column name="justin_code" type="VARCHAR2(10)" value=""/>
+          <column name="justin_id" type="VARCHAR2(20)" valueComputed="NULL"/>
+          <column name="justin_code" type="VARCHAR2(10)" valueComputed="NULL"/>
           <column name="courthouse_name" type="VARCHAR(100)" value="Office of the Chief Sheriff"/>
           <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
@@ -128,8 +128,8 @@
               tableName="courthouse">
           <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courthouse_cd" type="VARCHAR(5)" value="SPOC"/>
-          <column name="justin_id" type="VARCHAR2(20)" value=""/>
-          <column name="justin_code" type="VARCHAR2(10)" value=""/>
+          <column name="justin_id" type="VARCHAR2(20)" valueComputed="NULL"/>
+          <column name="justin_code" type="VARCHAR2(10)" valueComputed="NULL"/>
           <column name="courthouse_name" type="VARCHAR(100)" value="Sheriff Provincial Operation Centre"/>
           <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'COASTAL')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
@@ -214,8 +214,8 @@
               tableName="courthouse">
           <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courthouse_cd" type="VARCHAR(5)" value="CFP"/>
-          <column name="justin_id" type="VARCHAR2(20)" value=""/>
-          <column name="justin_code" type="VARCHAR2(10)" value=""/>
+          <column name="justin_id" type="VARCHAR2(20)" valueComputed="NULL"/>
+          <column name="justin_code" type="VARCHAR2(10)" valueComputed="NULL"/>
           <column name="courthouse_name" type="VARCHAR(100)" value="Central Float Pool"/>
           <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'FRASER')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
@@ -363,8 +363,8 @@
               tableName="courthouse">
           <column name="courthouse_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="courthouse_cd" type="VARCHAR(5)" value="ITAU"/>
-          <column name="justin_id" type="VARCHAR2(20)" value=""/>
-          <column name="justin_code" type="VARCHAR2(10)" value=""/>
+          <column name="justin_id" type="VARCHAR2(20)" valueComputed="NULL"/>
+          <column name="justin_code" type="VARCHAR2(10)" valueComputed="NULL"/>
           <column name="courthouse_name" type="VARCHAR(100)" value="ITAU"/>
           <column name="region_id" type="UUID" valueComputed="(SELECT r.region_id FROM ${POSTGRES_SCHEMA}.region r WHERE r.region_cd = 'INTERIOR')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTHOUSE_PROD"/>
