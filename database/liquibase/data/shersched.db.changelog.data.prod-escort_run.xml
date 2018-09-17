@@ -16,379 +16,379 @@
     </changeSet>
     
     <!-- Escort Run data -->
-    <changeSet author="Carol Geisler" id="INS_run_CHL_AM Escort" >
+    <changeSet author="Carol Geisler" id="INS_esrn_CHL_AM Escort" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
-          <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="AM Escort"/>
           <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
+              tableName="escort_run">
               <where>title='AM Escort' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_CHL_PM Escort" >
+    <changeSet author="Carol Geisler" id="INS_esrn_CHL_PM Escort" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
-          <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="PM Escort"/>
           <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
+              tableName="escort_run">
               <where>title='PM Escort' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_CHL_Chwk RCMP" >
+    <changeSet author="Carol Geisler" id="INS_esrn_CHL_Chwk RCMP" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
-          <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Chwk RCMP"/>
           <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
+              tableName="escort_run">
               <where>title='Chwk RCMP' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_CHL_Agg RCMP" >
+    <changeSet author="Carol Geisler" id="INS_esrn_CHL_Agg RCMP" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
-          <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Agg RCMP"/>
           <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
+              tableName="escort_run">
               <where>title='Agg RCMP' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_CHL_Hope RCMP" >
+    <changeSet author="Carol Geisler" id="INS_esrn_CHL_Hope RCMP" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
-          <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Hope RCMP"/>
           <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
+              tableName="escort_run">
               <where>title='Hope RCMP' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_CHL_Fed Run" >
+    <changeSet author="Carol Geisler" id="INS_esrn_CHL_Fed Run" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
-          <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Fed Run"/>
           <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
+              tableName="escort_run">
               <where>title='Fed Run' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_KML_Coast Run" >
+    <changeSet author="Carol Geisler" id="INS_esrn_KML_Coast Run" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
-          <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Coast Run"/>
           <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'KML')"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
+              tableName="escort_run">
               <where>title='Coast Run' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'KML')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_KML_Local Run 1" >
+    <changeSet author="Carol Geisler" id="INS_esrn_KML_Local Run 1" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
-          <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Local Run 1"/>
           <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'KML')"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
+              tableName="escort_run">
               <where>title='Local Run 1' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'KML')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_KML_Local Run 2" >
+    <changeSet author="Carol Geisler" id="INS_esrn_KML_Local Run 2" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
-          <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Local Run 2"/>
           <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'KML')"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
+              tableName="escort_run">
               <where>title='Local Run 2' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'KML')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_SRY_AM Run 13" >
+    <changeSet author="Carol Geisler" id="INS_esrn_SRY_AM Run 13" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
-          <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="AM Run 13"/>
           <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'SRY')"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
+              tableName="escort_run">
               <where>title='AM Run 13' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'SRY')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_SRY_LLY/WRock" >
+    <changeSet author="Carol Geisler" id="INS_esrn_SRY_LLY/WRock" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
-          <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="LLY/WRock"/>
           <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'SRY')"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
+              tableName="escort_run">
               <where>title='LLY/WRock' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'SRY')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_PRG_West Run" >
+    <changeSet author="Carol Geisler" id="INS_esrn_PRG_West Run" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
-          <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="West Run"/>
           <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'PRG')"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
+              tableName="escort_run">
               <where>title='West Run' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'PRG')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_PRG_North Run" >
+    <changeSet author="Carol Geisler" id="INS_esrn_PRG_North Run" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
-          <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="North Run"/>
           <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'PRG')"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
+              tableName="escort_run">
               <where>title='North Run' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'PRG')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_PRG_South Run" >
+    <changeSet author="Carol Geisler" id="INS_esrn_PRG_South Run" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
-          <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="South Run"/>
           <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'PRG')"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
+              tableName="escort_run">
               <where>title='South Run' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'PRG')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_PRG_Alberta" >
+    <changeSet author="Carol Geisler" id="INS_esrn_PRG_Alberta" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
-          <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Alberta"/>
           <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'PRG')"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
+              tableName="escort_run">
               <where>title='Alberta' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'PRG')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_PRG_Flight" >
+    <changeSet author="Carol Geisler" id="INS_esrn_PRG_Flight" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
-          <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Flight"/>
           <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'PRG')"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
+              tableName="escort_run">
               <where>title='Flight' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'PRG')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_VIC_VCP " >
+    <changeSet author="Carol Geisler" id="INS_esrn_VIC_VCP " >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
-          <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="VCP "/>
           <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VIC')"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
+              tableName="escort_run">
               <where>title='VCP ' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_VIC_Air" >
+    <changeSet author="Carol Geisler" id="INS_esrn_VIC_Air" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
-          <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Air"/>
           <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VIC')"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
+              tableName="escort_run">
               <where>title='Air' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_VIC_Local Run" >
+    <changeSet author="Carol Geisler" id="INS_esrn_VIC_Local Run" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
-          <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Local Run"/>
           <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VIC')"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
+              tableName="escort_run">
               <where>title='Local Run' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_VIC_Up-Island" >
+    <changeSet author="Carol Geisler" id="INS_esrn_VIC_Up-Island" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
-          <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Up-Island"/>
           <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VIC')"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
+              tableName="escort_run">
               <where>title='Up-Island' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="INS_run_RBS_Local Run" >
+    <changeSet author="Carol Geisler" id="INS_esrn_RBS_Local Run" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
-          <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Local Run"/>
           <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'RBS')"/>
-          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
-              tableName="run">
+              tableName="escort_run">
               <where>title='Local Run' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'RBS')</where>
           </delete>
       </rollback>

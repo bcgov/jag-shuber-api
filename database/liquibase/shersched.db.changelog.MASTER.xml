@@ -71,7 +71,7 @@
     
     <!-- Config & Base Data Tables -->
     <include file="structure/shersched.db.changelog.table-sheriff_SHR.xml"/>
-    <include file="structure/shersched.db.changelog.table-run_RUN.xml"/>
+    <include file="structure/shersched.db.changelog.table-escort_run_ESRN.xml"/>
     <include file="structure/shersched.db.changelog.table-assignment_ASN.xml"/>
     
     <!-- Authorization Tables -->

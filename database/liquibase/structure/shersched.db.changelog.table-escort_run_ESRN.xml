@@ -6,16 +6,16 @@
         baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
     -->
 
-    <!-- This ChangeLog contains the changeset(s) to generate the table RUN
+    <!-- This ChangeLog contains the changeset(s) to generate the table ESCORT_RUN
          It includes attributes, constraints, keys, indexes and security in one
          place. Where possible (i.e. where dependencies between subsequent changes 
          allow) updates to this table should be included as additional changesets
          within this changelog -->
 
     <!-- Changsets -->
-    <changeSet author="Carol Geisler" id="CRTTAB_RUN_1_0">
-        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="run">
-            <column name="run_id" type="UUID">
+    <changeSet author="Carol Geisler" id="CRTTAB_ESRN_1_0">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="escort_run">
+            <column name="escort_run_id" type="UUID">
                 <constraints nullable="false"/>
             </column>
             <column name="title" type="VARCHAR(100)">
@@ -40,9 +40,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="run" columnNames="run_id" constraintName="pk_rn"/>
-        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="run" baseColumnNames="location_id" constraintName="fk_rn_locn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="location_id" referencedTableName="location"/>
-        <createIndex indexName="ix_rn_locn" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="run">
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="escort_run" columnNames="escort_run_id" constraintName="pk_esrn"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="escort_run" baseColumnNames="location_id" constraintName="fk_esrn_locn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="location_id" referencedTableName="location"/>
+        <createIndex indexName="ix_esrn_locn" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="escort_run">
             <column name="location_id"/>
         </createIndex>
         <!--sql>
@@ -52,22 +52,22 @@
         	GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.run to ${POSTGRES_APP_USER};
         </sql>
         <rollback>
-        	<dropTable  cascadeConstraints="true" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="run"/>
+        	<dropTable  cascadeConstraints="true" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="escort_run"/>
         </rollback>
     </changeSet>
     
     <changeSet author="Carol Geisler" id="ADDTRG_rn_stamp">
       <sql>
         BEGIN;
-        	DROP TRIGGER IF EXISTS trg_biu_rn_stamp ON ${POSTGRES_SCHEMA}.run;
-        	CREATE TRIGGER trg_biu_rn_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.run
+        	DROP TRIGGER IF EXISTS trg_biu_esrn_stamp ON ${POSTGRES_SCHEMA}.escort_run;
+        	CREATE TRIGGER trg_biu_esrn_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.escort_run
 	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
         COMMIT;
       </sql>
       <rollback>
         <sql>
           BEGIN;
-          	DROP TRIGGER IF EXISTS trg_biu_rn_stamp ON ${POSTGRES_SCHEMA}.run;
+          	DROP TRIGGER IF EXISTS trg_biu_esrn_stamp ON ${POSTGRES_SCHEMA}.escort_run;
           COMMIT;
         </sql>
       </rollback>
