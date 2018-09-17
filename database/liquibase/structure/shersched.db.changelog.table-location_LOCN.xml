@@ -6,28 +6,31 @@
         baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
     -->
 
-    <!-- This ChangeLog contains the changeset(s) to generate the table COURTHOUSE
+    <!-- This ChangeLog contains the changeset(s) to generate the table LOCATION
          It includes attributes, constraints, keys, indexes and security in one
          place. Where possible (i.e. where dependencies between subsequent changes 
          allow) updates to this table should be included as additional changesets
-         within this changelog -->
+         within this changelog 
+         
+         2018-09-17:  Renamed Courthouse to Location, to reflect client language,
+                      and that there are non-courthouse locations managed within.
+    -->
 
     <!-- Changsets -->
-    <changeSet author="Carol Geisler" id="CRTTAB_CRTH_1_0">
-        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courthouse">
-            <column name="courthouse_id" type="UUID">
+    <changeSet author="Carol Geisler" id="CRTTAB_LOCN_1_0">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="location">
+            <column name="location_id" type="UUID">
                 <constraints nullable="false"/>
             </column>
-            <column name="courthouse_cd" type="VARCHAR(5)" remarks="business key">
+            <column name="location_cd" type="VARCHAR(5)" remarks="business key">
                 <constraints nullable="false"/>
             </column>
             <column name="justin_id" type="VARCHAR(20)"/>
             <column name="justin_code" type="VARCHAR(10)"/>
-            <column name="courthouse_name" type="VARCHAR(100)">
+            <column name="location_name" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
-            <column name="location" type="POINT"/>
-            <column name="parent_courthouse_id" type="UUID"/>
+            <column name="parent_location_id" type="UUID"/>
             <column name="region_id" type="UUID">
                 <constraints nullable="false"/>
             </column>
@@ -47,11 +50,11 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courthouse" columnNames="courthouse_id" constraintName="pk_crth"/>
-        <addUniqueConstraint columnNames="courthouse_cd" constraintName="uk_crth_cd" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courthouse"/>
-        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="courthouse" baseColumnNames="region_id" constraintName="fk_crth_rgn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedTableName="region" referencedColumnNames="region_id"/>
-        <createIndex indexName="ix_crth_prt" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courthouse">
-            <column name="parent_courthouse_id"/>
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="location" columnNames="location_id" constraintName="pk_locn"/>
+        <addUniqueConstraint columnNames="location_cd" constraintName="uk_locn_cd" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="location"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="location" baseColumnNames="region_id" constraintName="fk_locn_reg" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedTableName="region" referencedColumnNames="region_id"/>
+        <createIndex indexName="ix_locn_prt" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="location">
+            <column name="parent_location_id"/>
         </createIndex>
         <!--sql>
         	GRANT SELECT ON ${POSTGRES_SCHEMA}.courthouse to ${POSTGRES_APP_USER};
@@ -60,22 +63,22 @@
         	GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.courthouse to ${POSTGRES_APP_USER};
         </sql>
         <rollback>
-        	<dropTable  cascadeConstraints="true" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courthouse"/>
+        	<dropTable  cascadeConstraints="true" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="location"/>
         </rollback>
     </changeSet>
     
-    <changeSet author="Carol Geisler" id="ADDTRG_crth_stamp">
+    <changeSet author="Carol Geisler" id="ADDTRG_locn_stamp">
       <sql>
         BEGIN;
-        	DROP TRIGGER IF EXISTS trg_biu_crth_stamp ON ${POSTGRES_SCHEMA}.courthouse;
-        	CREATE TRIGGER trg_biu_crth_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.courthouse
+        	DROP TRIGGER IF EXISTS trg_biu_locn_stamp ON ${POSTGRES_SCHEMA}.location;
+        	CREATE TRIGGER trg_biu_locn_stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.location
 	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
         COMMIT;
       </sql>
       <rollback>
         <sql>
           BEGIN;
-          	DROP TRIGGER IF EXISTS trg_biu_crth_stamp ON ${POSTGRES_SCHEMA}.courthouse;
+          	DROP TRIGGER IF EXISTS trg_biu_locn_stamp ON ${POSTGRES_SCHEMA}.location;
           COMMIT;
         </sql>
       </rollback>

@@ -66,7 +66,7 @@
 
     <!-- Location Tables -->
     <include file="structure/shersched.db.changelog.table-region_RGN.xml"/>
-    <include file="structure/shersched.db.changelog.table-courthouse_CRTH.xml"/>
+    <include file="structure/shersched.db.changelog.table-location_LOCN.xml"/>
     <include file="structure/shersched.db.changelog.table-courtroom_CRTR.xml"/>
     
     <!-- Config & Base Data Tables -->

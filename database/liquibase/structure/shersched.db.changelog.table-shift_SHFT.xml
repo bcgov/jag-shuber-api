@@ -20,7 +20,7 @@
             </column>
             <column name="work_section_code" type="VARCHAR(20)"/>
             <column name="assignment_id" type="UUID"/>
-            <column name="courthouse_id" type="UUID">
+            <column name="location_id" type="UUID">
                 <constraints nullable="false"/>
             </column>
             <column name="sheriff_id" type="UUID"/>
@@ -49,13 +49,13 @@
         <addPrimaryKey columnNames="shift_id" constraintName="pk_shft" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="shift"/>
         <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="shift" baseColumnNames="work_section_code" constraintName="fk_shft_wsc" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="work_section_code" referencedTableName="work_section_code"/>
         <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="shift" baseColumnNames="assignment_id" constraintName="fk_shft_asn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedTableName="assignment" referencedColumnNames="assignment_id"/>
-        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="shift" baseColumnNames="courthouse_id" constraintName="fk_shft_crth" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="courthouse_id" referencedTableName="courthouse"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="shift" baseColumnNames="location_id" constraintName="fk_shft_locn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="location_id" referencedTableName="location"/>
         <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="shift" baseColumnNames="sheriff_id" constraintName="fk_shft_shr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="sheriff_id" referencedTableName="sheriff"/>
         <createIndex indexName="ix_shft_wsc" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="shift">
             <column name="work_section_code"/>
         </createIndex>
-        <createIndex indexName="ix_shft_crth" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="shift">
-            <column name="courthouse_id"/>
+        <createIndex indexName="ix_shft_locn" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="shift">
+            <column name="location_id"/>
         </createIndex>
         <createIndex indexName="ix_shft_shr" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="shift">
             <column name="sheriff_id"/>

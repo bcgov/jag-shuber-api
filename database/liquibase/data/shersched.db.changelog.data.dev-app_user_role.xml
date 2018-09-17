@@ -20,7 +20,6 @@
           data into the auth tables to facilitate development and testing. -->
 
     <!-- App User Role XRef Records -->
-    
     <changeSet author="Carol Geisler" id="INS_apusrl_JENNIPOT_READ_WRITE_ALL_VIC">
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
@@ -28,14 +27,14 @@
           <column name="app_user_role_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="app_user_id" type="UUID" valueComputed="(SELECT u.app_user_id FROM ${POSTGRES_SCHEMA}.app_user u WHERE u.user_auth_id= 'JENNIPOT')"/>
           <column name="app_role_id" type="UUID" valueComputed="(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'READ_WRITE_ALL')"/>
-          <column name="location_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VIC')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_APUSRL_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="app_user_role">
-              <where>app_user_id=(SELECT u.app_user_id FROM ${POSTGRES_SCHEMA}.app_user u WHERE u.user_auth_id = 'JENNIPOT') AND app_role_id=(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'READ_WRITE_ALL')</where>
+              <where>app_user_id=(SELECT u.app_user_id FROM ${POSTGRES_SCHEMA}.app_user u WHERE u.user_auth_id= 'JENNIPOT') AND app_role_id=(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'READ_WRITE_ALL')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -47,14 +46,14 @@
           <column name="app_user_role_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="app_user_id" type="UUID" valueComputed="(SELECT u.app_user_id FROM ${POSTGRES_SCHEMA}.app_user u WHERE u.user_auth_id= 'CARGEISL')"/>
           <column name="app_role_id" type="UUID" valueComputed="(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'READ_ALL')"/>
-          <column name="location_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VIC')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_APUSRL_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="app_user_role">
-              <where>app_user_id=(SELECT u.app_user_id FROM ${POSTGRES_SCHEMA}.app_user u WHERE u.user_auth_id = 'CARGEISL') AND app_role_id=(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'READ_ALL')</where>
+              <where>app_user_id=(SELECT u.app_user_id FROM ${POSTGRES_SCHEMA}.app_user u WHERE u.user_auth_id= 'CARGEISL') AND app_role_id=(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'READ_ALL')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -66,14 +65,14 @@
           <column name="app_user_role_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="app_user_id" type="UUID" valueComputed="(SELECT u.app_user_id FROM ${POSTGRES_SCHEMA}.app_user u WHERE u.user_auth_id= 'HMCQUAY')"/>
           <column name="app_role_id" type="UUID" valueComputed="(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'READ_WRITE_ALL')"/>
-          <column name="location_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_APUSRL_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="app_user_role">
-              <where>app_user_id=(SELECT u.app_user_id FROM ${POSTGRES_SCHEMA}.app_user u WHERE u.user_auth_id = 'HMCQUAY') AND app_role_id=(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'READ_WRITE_ALL')</where>
+              <where>app_user_id=(SELECT u.app_user_id FROM ${POSTGRES_SCHEMA}.app_user u WHERE u.user_auth_id= 'HMCQUAY') AND app_role_id=(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'READ_WRITE_ALL')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -85,14 +84,14 @@
           <column name="app_user_role_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="app_user_id" type="UUID" valueComputed="(SELECT u.app_user_id FROM ${POSTGRES_SCHEMA}.app_user u WHERE u.user_auth_id= 'HMCQUAY')"/>
           <column name="app_role_id" type="UUID" valueComputed="(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'READ_WRITE_ALL')"/>
-          <column name="location_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VIC')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_APUSRL_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="app_user_role">
-              <where>app_user_id=(SELECT u.app_user_id FROM ${POSTGRES_SCHEMA}.app_user u WHERE u.user_auth_id = 'HMCQUAY') AND app_role_id=(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'READ_WRITE_ALL')</where>
+              <where>app_user_id=(SELECT u.app_user_id FROM ${POSTGRES_SCHEMA}.app_user u WHERE u.user_auth_id= 'HMCQUAY') AND app_role_id=(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'READ_WRITE_ALL')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -110,7 +109,7 @@
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="app_user_role">
-              <where>app_user_id=(SELECT u.app_user_id FROM ${POSTGRES_SCHEMA}.app_user u WHERE u.user_auth_id = 'CMCQUAY') AND app_role_id=(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'READ_ALL')</where>
+              <where>app_user_id=(SELECT u.app_user_id FROM ${POSTGRES_SCHEMA}.app_user u WHERE u.user_auth_id= 'CMCQUAY') AND app_role_id=(SELECT r.app_role_id FROM ${POSTGRES_SCHEMA}.app_role r WHERE r.app_role_name = 'READ_ALL')</where>
           </delete>
       </rollback>
     </changeSet>

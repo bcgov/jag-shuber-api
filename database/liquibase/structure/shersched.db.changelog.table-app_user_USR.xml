@@ -15,7 +15,7 @@
     <!-- Changsets -->
     <changeSet author="Carol Geisler" id="CRTTAB_USR_1_0">
         <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user" 
-          remarks="APP_USER captures the the definition for users who can access the Sheriff Scheduling application.  An App User may be associated with a Sheriff, as well as Role and Courthouse information to manage authorization to data and app features.">
+          remarks="APP_USER captures the the definition for users who can access the Sheriff Scheduling application.  An App User may be associated with a Sheriff, as well as Role and Location information to manage authorization to data and app features.">
             <column name="app_user_id" type="UUID">
                 <constraints nullable="false"/>
             </column>
@@ -46,9 +46,9 @@
             </column>
         </createTable>
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user" columnNames="app_user_id" constraintName="pk_usr"/>
-        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="app_user" baseColumnNames="default_location_id" constraintName="fk_usr_dfcrth" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedTableName="courthouse" referencedColumnNames="courthouse_id"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="app_user" baseColumnNames="default_location_id" constraintName="fk_usr_dflocn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedTableName="location" referencedColumnNames="location_id"/>
         <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="app_user" baseColumnNames="sheriff_id" constraintName="fk_usr_shr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedTableName="sheriff" referencedColumnNames="sheriff_id"/>
-        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user" indexName="ix_usr_dfcrths">
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user" indexName="ix_usr_dflocn">
             <column name="default_location_id"/>
         </createIndex>
         <sql>

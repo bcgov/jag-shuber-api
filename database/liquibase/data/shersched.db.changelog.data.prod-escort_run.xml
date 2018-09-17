@@ -3,7 +3,8 @@
 	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
 	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
 	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd"
+	  context="prod">
     
     <!--
         catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
@@ -21,14 +22,14 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="AM Escort"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='AM Escort' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')</where>
+              <where>title='AM Escort' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -39,14 +40,14 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="PM Escort"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='PM Escort' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')</where>
+              <where>title='PM Escort' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -57,14 +58,14 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Chwk RCMP"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='Chwk RCMP' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')</where>
+              <where>title='Chwk RCMP' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -75,14 +76,14 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Agg RCMP"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='Agg RCMP' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')</where>
+              <where>title='Agg RCMP' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -93,14 +94,14 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Hope RCMP"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='Hope RCMP' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')</where>
+              <where>title='Hope RCMP' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -111,14 +112,14 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Fed Run"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='Fed Run' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')</where>
+              <where>title='Fed Run' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -129,14 +130,14 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Coast Run"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'KML')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'KML')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='Coast Run' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'KML')</where>
+              <where>title='Coast Run' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'KML')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -147,14 +148,14 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Local Run 1"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'KML')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'KML')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='Local Run 1' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'KML')</where>
+              <where>title='Local Run 1' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'KML')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -165,14 +166,14 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Local Run 2"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'KML')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'KML')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='Local Run 2' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'KML')</where>
+              <where>title='Local Run 2' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'KML')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -183,14 +184,14 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="AM Run 13"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'SRY')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='AM Run 13' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')</where>
+              <where>title='AM Run 13' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'SRY')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -201,14 +202,14 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="LLY/WRock"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'SRY')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='LLY/WRock' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'SRY')</where>
+              <where>title='LLY/WRock' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'SRY')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -219,14 +220,14 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="West Run"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'PRG')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='West Run' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')</where>
+              <where>title='West Run' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'PRG')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -237,14 +238,14 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="North Run"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'PRG')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='North Run' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')</where>
+              <where>title='North Run' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'PRG')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -255,14 +256,14 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="South Run"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'PRG')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='South Run' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')</where>
+              <where>title='South Run' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'PRG')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -273,14 +274,14 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Alberta"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'PRG')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='Alberta' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')</where>
+              <where>title='Alberta' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'PRG')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -291,14 +292,14 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Flight"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'PRG')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='Flight' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'PRG')</where>
+              <where>title='Flight' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'PRG')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -309,14 +310,14 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="VCP "/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VIC')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='VCP ' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>title='VCP ' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -327,14 +328,14 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Air"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VIC')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='Air' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>title='Air' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -345,14 +346,14 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Local Run"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VIC')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='Local Run' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>title='Local Run' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -363,14 +364,14 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Up-Island"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VIC')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='Up-Island' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')</where>
+              <where>title='Up-Island' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VIC')</where>
           </delete>
       </rollback>
     </changeSet>
@@ -381,14 +382,14 @@
               tableName="run">
           <column name="run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
           <column name="title" type="VARCHAR(100)" value="Local Run"/>
-          <column name="courthouse_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'RBS')"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'RBS')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_RUN_PROD"/>
       </insert>
       <rollback>
          <delete catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="run">
-              <where>title='Local Run' AND courthouse_id=(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'RBS')</where>
+              <where>title='Local Run' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'RBS')</where>
           </delete>
       </rollback>
     </changeSet>

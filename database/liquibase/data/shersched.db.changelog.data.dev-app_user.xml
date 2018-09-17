@@ -28,7 +28,7 @@
           <column name="user_auth_id" type="VARCHAR(32)" value="JENNIPOT"/>
           <column name="display_name" type="VARCHAR(100)" value="Jenn Potter"/>
           <column name="system_account_ind" type="INTEGER" valueNumeric="0"/>
-          <column name="default_location_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="default_location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VIC')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_USR_PROD"/>
       </insert>
       <rollback>
@@ -48,7 +48,7 @@
           <column name="user_auth_id" type="VARCHAR(32)" value="CARGEISL"/>
           <column name="display_name" type="VARCHAR(100)" value="Carol Geisler"/>
           <column name="system_account_ind" type="INTEGER" valueNumeric="0"/>
-          <column name="default_location_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'VIC')"/>
+          <column name="default_location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VIC')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_USR_PROD"/>
       </insert>
       <rollback>
@@ -68,7 +68,7 @@
           <column name="user_auth_id" type="VARCHAR(32)" value="HMCQUAY"/>
           <column name="display_name" type="VARCHAR(100)" value="Holly McQuay"/>
           <column name="system_account_ind" type="INTEGER" valueNumeric="0"/>
-          <column name="default_location_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="default_location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_USR_PROD"/>
       </insert>
       <rollback>
@@ -88,7 +88,7 @@
           <column name="user_auth_id" type="VARCHAR(32)" value="CMCQUAY"/>
           <column name="display_name" type="VARCHAR(100)" value="Colter McQuay"/>
           <column name="system_account_ind" type="INTEGER" valueNumeric="0"/>
-          <column name="default_location_id" type="UUID" valueComputed="(SELECT c.courthouse_id FROM ${POSTGRES_SCHEMA}.courthouse c WHERE c.courthouse_cd = 'CHL')"/>
+          <column name="default_location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
           <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_USR_PROD"/>
       </insert>
       <rollback>

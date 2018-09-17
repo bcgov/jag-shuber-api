@@ -22,7 +22,7 @@
             <column name="work_section_code" type="VARCHAR(20)">
                 <constraints nullable="false"/>
             </column>
-            <column name="courthouse_id" type="UUID">
+            <column name="location_id" type="UUID">
                 <constraints nullable="false"/>
             </column>
             <column name="courtroom_id" type="UUID"/>
@@ -52,14 +52,14 @@
         </createTable>
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="assignment" columnNames="assignment_id" constraintName="pk_asn"/>
         <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="assignment" baseColumnNames="work_section_code" constraintName="fk_asn_wksccd" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="work_section_code" referencedTableName="work_section_code"/>
-        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="assignment" baseColumnNames="courthouse_id" constraintName="fk_asn_crth" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="courthouse_id" referencedTableName="courthouse"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="assignment" baseColumnNames="location_id" constraintName="fk_asn_locn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="location_id" referencedTableName="location"/>
         <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="assignment" baseColumnNames="courtroom_id" constraintName="fk_asn_crtr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="courtroom_id" referencedTableName="courtroom"/>
         <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="assignment" baseColumnNames="court_role_code" constraintName="fk_asn_crcd" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="court_role_code" referencedTableName="court_role_code"/>
         <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="assignment" baseColumnNames="jail_role_code" constraintName="fk_asn_jlrlcd" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="jail_role_code" referencedTableName="jail_role_code"/>
         <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="assignment" baseColumnNames="other_assign_code" constraintName="fk_asn_otascd" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="other_assign_code" referencedTableName="other_assign_code"/>
         <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="assignment" baseColumnNames="run_id" constraintName="fk_asn_rn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="run_id" referencedTableName="run"/>
-        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="assignment" indexName="ix_asn_crth">
-            <column name="courthouse_id"/>
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="assignment" indexName="ix_asn_locn">
+            <column name="location_id"/>
         </createIndex>
         <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="assignment" indexName="ix_asn_wsc">
             <column name="work_section_code"/>

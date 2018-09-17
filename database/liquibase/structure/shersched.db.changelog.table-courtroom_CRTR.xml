@@ -24,7 +24,7 @@
             <column name="courtroom_name" type="VARCHAR(100)">
                 <constraints nullable="false"/>
             </column>
-            <column name="courthouse_id" type="UUID">
+            <column name="location_id" type="UUID">
                 <constraints nullable="false"/>
             </column>
             <column name="created_by" type="VARCHAR(32)">
@@ -44,14 +44,16 @@
             </column>
         </createTable>
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courtroom" columnNames="courtroom_id" constraintName="pk_crtr"/>
-        <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courtroom" columnNames="courthouse_id,courtroom_cd" constraintName="uk_crth_crtr_cd"/>
+        <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courtroom" columnNames="location_id,courtroom_cd" constraintName="uk_locn_crtr_cd"/>
         <createIndex indexName="ix_crtr_rm" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courtroom">
             <column name="courtroom_name"/>
         </createIndex>
-        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="courtroom" baseColumnNames="courthouse_id" constraintName="fk_crtr_crth" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedTableName="courthouse" referencedColumnNames="courthouse_id"/>
-        <!--sql>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="courtroom" baseColumnNames="location_id" constraintName="fk_crtr_locn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedTableName="location" referencedColumnNames="location_id"/>
+        <!--
+        <sql>
         	GRANT SELECT ON ${POSTGRES_SCHEMA}.courtroom to ${POSTGRES_APP_USER};
-        </sql-->
+        </sql>
+        -->
         <sql>
         	GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.courtroom to ${POSTGRES_APP_USER};
         </sql>
