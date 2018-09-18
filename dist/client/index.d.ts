@@ -4,5 +4,7 @@ export * from '../common/TimeUtils';
 export * from '../common/TypedEvent';
 export * from '../common/tokenUtils';
 export * from '../common/authentication';
+export * from '../common/dateUtils';
+export * from '../common/types';
 import * as _errors from '../common/Errors';
 export declare const Errors: typeof _errors;

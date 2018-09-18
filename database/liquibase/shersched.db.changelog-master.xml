@@ -53,7 +53,10 @@
     
     <!-- schema updates for Gender -->
     <include file="shersched.db.changelog-ddl.08.xml"/>
-   
+
+    <!-- schema updates for Shift Assignment foreign key -->
+    <include file="shersched.db.changelog-ddl.09.xml"/>
+
     <!-- schema updates for Justin IDs -->
     <include file="shersched.db.changelog-ddl.10.xml"/>
    

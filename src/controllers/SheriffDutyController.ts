@@ -4,6 +4,7 @@ import { SheriffDutyService } from '../services/SheriffDutyService';
 import { SheriffDuty } from '../models/SheriffDuty';
 import { AutoWired, Inject } from 'typescript-ioc';
 import { Security } from '../authentication';
+import { SheriffDutyAutoAssignRequest } from '../models/SheriffDutyAutoAssignRequest';
 
 @Route('SheriffDuty')
 @Security('jwt')
@@ -37,5 +38,11 @@ export class SheriffDutyController extends ControllerBase<SheriffDuty, SheriffDu
     @Delete('{id}')
     public deleteSheriffDuty(@Path() id: string) {
         return super.delete(id);
+    }
+
+    @Post('auto-assign/')
+    public async autoAssignSheriffDuties(@Body() model: SheriffDutyAutoAssignRequest) : Promise<SheriffDuty[]> {
+        console.log("AUTO ASSIGN", model);
+        return await this.service.autoAssignFromShifts(model);             
     }
 }

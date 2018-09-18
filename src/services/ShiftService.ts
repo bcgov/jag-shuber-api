@@ -15,19 +15,12 @@ export class ShiftService extends DatabaseService<Shift> {
         courthouse_id: 'courthouseId',
         sheriff_id: 'sheriffId',
         start_dtm: 'startDateTime',
-        end_dtm: 'endDateTime'
+        end_dtm: 'endDateTime',
+        assignment_id: 'assignmentId'
     };
 
     constructor() {
         super('shift', 'shift_id');
-    }
-
-    getShiftService(client: ClientBase) {
-        const service = Container.get(ShiftService) as ShiftService;
-        if (client) {
-            service.dbClient = client;
-        }
-        return service;
     }
 
     async getAll(courthouseId?: string) {
@@ -40,7 +33,7 @@ export class ShiftService extends DatabaseService<Shift> {
     }
 
     async updateMultipleShifts(multipleShiftsUpdateRequest: MultipleShiftUpdateRequest): Promise<Shift[]> {
-        const { shiftIds = [], workSectionId, endTime, startTime, sheriffId } = multipleShiftsUpdateRequest;
+        const { shiftIds = [], workSectionId, endTime, startTime, sheriffId, assignmentId } = multipleShiftsUpdateRequest;
         const currentShiftQuery = this.getSelectQuery()
             .where('shift_id IN ?', shiftIds);
         const currentShifts = await this.executeQuery<Shift>(currentShiftQuery.toString());
@@ -55,6 +48,14 @@ export class ShiftService extends DatabaseService<Shift> {
                 shiftToUpdate.workSectionId = workSectionId;
             } else if (workSectionId === "") {
                 shiftToUpdate.workSectionId = null as any;
+            }
+
+            // Undefined / null means 'varied' (i.e. don't change) so 
+            // if we want to clear the workSection we pass in ""
+            if (assignmentId) {
+                shiftToUpdate.assignmentId = assignmentId;
+            } else if (assignmentId === "") {
+                shiftToUpdate.assignmentId = null as any;
             }
 
             // Undefined / null means 'varied' (i.e. don't change) so 
@@ -81,8 +82,8 @@ export class ShiftService extends DatabaseService<Shift> {
         });
 
 
-        return await this.db.transaction(async (client) => {
-            const service = this.getShiftService(client);
+        return await this.db.transaction(async ({getService}) => {
+            const service = getService<ShiftService>(ShiftService);
             return Promise.all(shiftUpdates.map(s => service.update(s)));
         });
     }
@@ -98,8 +99,8 @@ export class ShiftService extends DatabaseService<Shift> {
             .where('courthouse_id = ?', courthouseId);
         const sourceShifts = await this.executeQuery<Shift>(selectQuery.toString());
 
-        return await this.db.transaction(async client => {
-            const shiftService = this.getShiftService(client);
+        return await this.db.transaction(async ({getService}) => {
+            const shiftService = getService<ShiftService>(ShiftService);
             return await Promise.all(
                 sourceShifts.map<Shift>(s => {
                     const { id, startDateTime, endDateTime, sheriffId, ...rest } = s;

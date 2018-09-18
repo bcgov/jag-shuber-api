@@ -34,14 +34,6 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
         super('assignment', 'assignment_id');
     }
 
-    private getDutyRecurrenceService(client?: ClientBase): DutyRecurrenceService {
-        const dutyRecurrenceService = Container.get(DutyRecurrenceService) as DutyRecurrenceService;
-        if (client) {
-            dutyRecurrenceService.dbClient = client;
-        }
-        return dutyRecurrenceService;
-    }
-
     async getById(id: string) {
         const dutyRecurrences = this.dutyRecurrenceService.getAllForAssignment(id, { includeExpired: true });
         const assignment = await super.getById(id);
@@ -69,12 +61,16 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
     }
 
     async update(entity: Partial<Assignment>): Promise<Assignment> {
-        const query = this.getUpdateQuery(entity);
+        const title = await this.getAssignmentTitle(entity);
+        const query = this.getUpdateQuery({
+            ...entity,
+            title
+        });
         let updatedAssignment: Assignment = undefined as any;
         const { dutyRecurrences = [] } = entity;
-        return await this.db.transaction(async (client) => {
+        return await this.db.transaction(async ({ client, getService }) => {
             // Setup the dutyRecurrenceService for transaction
-            const dutyRecurrenceService = this.getDutyRecurrenceService(client);
+            const dutyRecurrenceService = getService<DutyRecurrenceService>(DutyRecurrenceService);
 
             // Update the Assignment
             const { rows } = await client.query(query.toString());
@@ -100,7 +96,6 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
     }
 
     private validateAssignment(entity: Partial<Assignment>) {
-        const fieldErrors: FieldErrors = {};
         if (entity.workSectionId === "COURTS") {
             if (entity.courtroomId == undefined && entity.courtRoleId == undefined) {
                 throw new ValidateError({
@@ -138,41 +133,37 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
 
     private async getAssignmentTitle(entity: Partial<Assignment>): Promise<string> {
         let title = entity.title;
-
-        if (!title || title === "") {
-            if (entity.workSectionId === "COURTS") {
-                if (entity.courtroomId) {
-                    const service = Container.get(CourtroomService) as CourtroomService;
-                    const courtroom = await service.getById(entity.courtroomId as string);
-                    if (courtroom) {
-                        title = courtroom.name;
-                    }
-                } else {
-                    const service = Container.get(CourtRoleCodeService) as CourtRoleCodeService;
-                    const courtRole = await service.getById(entity.courtRoleId as string);
-                    if (courtRole) {
-                        title = courtRole.description;
-                    }
+        if (entity.workSectionId === "COURTS") {
+            if (entity.courtroomId) {
+                const service = Container.get(CourtroomService) as CourtroomService;
+                const courtroom = await service.getById(entity.courtroomId as string);
+                if (courtroom) {
+                    title = courtroom.code;
                 }
-
-            } else if (entity.workSectionId === "JAIL") {
-                const service = Container.get(JailRoleCodeService) as JailRoleCodeService;
-                const code = await service.getById(entity.jailRoleCode as string);
-                if (code) {
-                    title = code.description;
+            } else {
+                const service = Container.get(CourtRoleCodeService) as CourtRoleCodeService;
+                const courtRole = await service.getById(entity.courtRoleId as string);
+                if (courtRole) {
+                    title = courtRole.description;
                 }
-            } else if (entity.workSectionId === "ESCORTS") {
-                const service = Container.get(RunService) as RunService;
-                const run = await service.getById(entity.runId as string);
-                if (run) {
-                    title = run.title;
-                }
-            } else if (entity.workSectionId === "OTHER") {
-                const service = Container.get(OtherAssignCodeService) as OtherAssignCodeService;
-                const code = await service.getById(entity.otherAssignCode as string);
-                if (code) {
-                    title = code.description;
-                }
+            }
+        } else if (entity.workSectionId === "JAIL") {
+            const service = Container.get(JailRoleCodeService) as JailRoleCodeService;
+            const code = await service.getById(entity.jailRoleCode as string);
+            if (code) {
+                title = code.description;
+            }
+        } else if (entity.workSectionId === "ESCORTS") {
+            const service = Container.get(RunService) as RunService;
+            const run = await service.getById(entity.runId as string);
+            if (run) {
+                title = run.title;
+            }
+        } else if (entity.workSectionId === "OTHER") {
+            const service = Container.get(OtherAssignCodeService) as OtherAssignCodeService;
+            const code = await service.getById(entity.otherAssignCode as string);
+            if (code) {
+                title = code.description;
             }
         }
         return title as string;
@@ -186,8 +177,8 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
             ...entity,
             title
         });
-        return await this.db.transaction(async (client) => {
-            const dutyRecurrenceService = this.getDutyRecurrenceService(client);
+        return await this.db.transaction(async ({ client, getService }) => {
+            const dutyRecurrenceService = getService<DutyRecurrenceService>(DutyRecurrenceService);
             const { rows } = await client.query(query.toString());
             const createdAssignment: Assignment = rows[0];
             createdAssignment.dutyRecurrences = await Promise.all(
@@ -206,8 +197,8 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
         }
         const query = this.getExpireQuery(id, expiryDate);
 
-        await this.db.transaction(async client => {
-            const dutyRecurrenceService = this.getDutyRecurrenceService(client);
+        await this.db.transaction(async ({ client, getService }) => {
+            const dutyRecurrenceService = getService<DutyRecurrenceService>(DutyRecurrenceService);
             const dutyRecurrences = dutyRecurrenceService.getAllForAssignment(id, { includeExpired: true });
             // Expire assignment
             await client.query(query.toString());
@@ -219,7 +210,7 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
 
     async delete(id: string): Promise<void> {
         const delAssignmentQuery = this.getDeleteQuery(id);
-        await this.db.transaction(async (client) => {
+        await this.db.transaction(async ({client}) => {
             const delRecurrenceQuery = this.squel.delete()
                 .from(this.dutyRecurrenceService.dbTableName)
                 .where(`assignment_id='${id}'`);

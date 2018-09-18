@@ -7,7 +7,8 @@ export class SheriffRankCodeService extends ExpirableDatabaseService<SheriffRank
     fieldMap = {
         sheriff_rank_code: 'code',
         description: 'description',
-        expiry_date: 'expiryDate'
+        expiry_date: 'expiryDate',
+        rank_order: 'order'
     };
 
     constructor() {

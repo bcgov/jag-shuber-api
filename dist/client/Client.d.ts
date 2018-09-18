@@ -1,6 +1,6 @@
 import * as superAgent from "superagent";
 import { TypedEvent } from '../common/TypedEvent';
-import { Assignment, Region, Courthouse, Sheriff, Courtroom, JailRoleCode, OtherAssignCode, WorkSectionCode, SheriffRankCode, Run, Shift, MultipleShiftUpdateRequest, ShiftCopyOptions, DutyRecurrence, Duty, DutyImportDefaultsRequest, SheriffDuty, Leave, LeaveCancelReasonCode, LeaveCode, LeaveSubCode, CourtRoleCode, GenderCode, User } from "./models";
+import { Assignment, Region, Courthouse, Sheriff, Courtroom, JailRoleCode, OtherAssignCode, WorkSectionCode, SheriffRankCode, Run, Shift, MultipleShiftUpdateRequest, ShiftCopyOptions, DutyRecurrence, Duty, DutyImportDefaultsRequest, SheriffDuty, SheriffDutyAutoAssignRequest, Leave, LeaveCancelReasonCode, LeaveCode, LeaveSubCode, CourtRoleCode, GenderCode, User } from "./models";
 export default class Client {
     private _agent;
     private _previousToken;
@@ -129,6 +129,7 @@ export default class Client {
     GetSheriffDutyById(id: string): Promise<SheriffDuty>;
     UpdateSheriffDuty(id: string, model: SheriffDuty): Promise<SheriffDuty>;
     DeleteSheriffDuty(id: string): Promise<void>;
+    AutoAssignSheriffDuties(model: SheriffDutyAutoAssignRequest): Promise<Array<SheriffDuty>>;
     GetLeaves(): Promise<Array<Leave>>;
     CreateLeave(model: Leave): Promise<Leave>;
     GetLeaveById(id: string): Promise<Leave>;

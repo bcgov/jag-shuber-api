@@ -9,10 +9,14 @@ import { SheriffDuty } from '../models/SheriffDuty';
 import { SheriffDutyService } from './SheriffDutyService';
 import { ClientBase } from 'pg';
 import { setTime, fromTimeString } from '../common/TimeUtils';
-import { AutoWired, Container } from 'typescript-ioc';
+import { AutoWired, Container, Inject } from 'typescript-ioc';
 
 @AutoWired
 export class DutyService extends DatabaseService<Duty> {
+    
+    @Inject
+    private standardSheriffDutyService!: SheriffDutyService;
+
     fieldMap = {
         duty_id: 'id',
         start_dtm: 'startDateTime',
@@ -26,21 +30,13 @@ export class DutyService extends DatabaseService<Duty> {
         super('duty', 'duty_id');
     }
 
-    getSheriffDutyService(dbClient?: ClientBase) {
-        const service = Container.get(SheriffDutyService) as SheriffDutyService;
-        if (dbClient) {
-            service.dbClient = dbClient;
-        }
-        return service;
-    }
-
     async create(entity: Partial<Duty>): Promise<Duty> {
         const { sheriffDuties = [] } = entity;
         const query = this.getInsertQuery({ ...entity });
-        return await this.db.transaction(async (client) => {
-            const sheriffDutyService = this.getSheriffDutyService(client);
+        return await this.db.transaction(async ({ client, getService }) => {
+            const sheriffDutyService = getService<SheriffDutyService>(SheriffDutyService);
             const { rows } = await client.query(query.toString());
-            const createdDuty : Duty = rows[0];
+            const createdDuty: Duty = rows[0];
             createdDuty.sheriffDuties = await Promise.all(
                 sheriffDuties.map(sd => sheriffDutyService.create({
                     ...sd,
@@ -52,7 +48,7 @@ export class DutyService extends DatabaseService<Duty> {
     }
 
     async getById(id: string) {
-        const sheriffDuties = this.getSheriffDutyService().getAllForDuty(id);
+        const sheriffDuties = this.standardSheriffDutyService.getAllForDuty(id);
         const duty = await super.getById(id);
         if (duty) {
             duty.sheriffDuties = await sheriffDuties
@@ -67,7 +63,7 @@ export class DutyService extends DatabaseService<Duty> {
         };
         const duties = await this.executeQuery<Duty>(query.toString());
         const dutyIds = duties.map(a => a.id) as string[];
-        const sheriffDuties = await this.getSheriffDutyService().getAllForDuties(dutyIds);
+        const sheriffDuties = await this.standardSheriffDutyService.getAllForDuties(dutyIds);
         return duties.map(duty => (
             {
                 ...duty,
@@ -79,13 +75,13 @@ export class DutyService extends DatabaseService<Duty> {
     async update(entity: Partial<Duty>): Promise<Duty> {
         const query = this.getUpdateQuery(entity);
         const { sheriffDuties = [] } = entity;
-        return await this.db.transaction(async (client) => {
+        return await this.db.transaction(async ({client,getService}) => {
             // Setup the dutyRecurrenceService for transaction
-            const sheriffDutyService = this.getSheriffDutyService(client);
+            const sheriffDutyService = getService<SheriffDutyService>(SheriffDutyService);
 
             // Update the Entity
             const { rows } = await client.query(query.toString());
-            const updatedEntity:Duty = rows[0];
+            const updatedEntity: Duty = rows[0];
 
             const sheriffDutiesWithDutyId = sheriffDuties.map(dr => ({
                 ...dr,
@@ -108,9 +104,9 @@ export class DutyService extends DatabaseService<Duty> {
 
     async delete(id: string): Promise<void> {
         const deleteQuery = this.getDeleteQuery(id);
-        await this.db.transaction(async (client) => {
+        await this.db.transaction(async ({client}) => {
             const delChildrenQuery = this.squel.delete()
-                .from(this.getSheriffDutyService().dbTableName)
+                .from(this.standardSheriffDutyService.dbTableName)
                 .where(`duty_id='${id}'`);
             await client.query(delChildrenQuery.toString());
             await client.query(deleteQuery.toString());
@@ -120,10 +116,9 @@ export class DutyService extends DatabaseService<Duty> {
     async importDefaults(request: DutyImportDefaultsRequest): Promise<Duty[]> {
         const { courthouseId, date } = request;
         const dateMoment = date ? moment(date) : moment();
-        // Setup transaction for creating all of the duties / sheriff duties
 
-        const assignmentService = new AssignmentService();
-        const dutyReccurenceService = new DutyRecurrenceService();
+        const assignmentService = Container.get(AssignmentService) as AssignmentService;
+        const dutyReccurenceService = Container.get(DutyRecurrenceService) as DutyRecurrenceService;
 
         // todo: This should be in utility shared by client / backend
         const dayOfInterest = 1 << (dateMoment.isoWeekday() - 1);
@@ -138,12 +133,12 @@ export class DutyService extends DatabaseService<Duty> {
             .fields(dutyReccurenceService.getAliasedFieldMap(dutyRecurrenceTableAlias))
             .join(assignmentService.dbTableName, 'a', `${dutyRecurrenceTableAlias}.assignment_id=a.assignment_id`)
             .where(assignmentService.getEffectiveWhereClause({
-                startDate:dateMoment.format(),
-                fieldAlias:'a'
+                startDate: dateMoment.format(),
+                fieldAlias: 'a'
             }))
             .where(dutyReccurenceService.getEffectiveWhereClause({
-                startDate:dateMoment.format(),
-                fieldAlias:'dr'
+                startDate: dateMoment.format(),
+                fieldAlias: 'dr'
             }))
             .where(`a.courthouse_id='${courthouseId}'`)
             .where(`(cast(${dutyRecurrenceTableAlias}.days_bitmap::bigint as bit(7)) & day_of_interest)=day_of_interest`)
@@ -158,10 +153,9 @@ export class DutyService extends DatabaseService<Duty> {
                 )
             );
 
-        const createdDuties = await this.db.transaction(async client => {
-            const service = Container.get(DutyService) as DutyService;
-            service.dbClient = client;
-
+        // Setup transaction for creating all of the duties / sheriff duties
+        const createdDuties = await this.db.transaction(async ({client,getService}) => {
+            const service = getService<DutyService>(DutyService);
             const recurrencesToCreate = await service.executeQuery<DutyRecurrence>(query.toString());
 
             // For each of the recurrences, create the duty and sheriff Duties

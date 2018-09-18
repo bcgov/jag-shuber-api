@@ -1,7 +1,6 @@
 import * as squel from 'squel';
+import moment from 'moment';
 const pgSquel = squel.useFlavour("postgres");
-
-
 
 // append to string if non-empty
 function _pad(str, pad) {

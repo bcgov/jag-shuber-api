@@ -1,7 +1,8 @@
 import MatcherUtils = jest.MatcherUtils;
 import moment, { Moment } from "moment";
 import { matcherHint, printExpected, printReceived } from 'jest-matcher-utils'
-import { toTimeString } from "..";
+import { toTimeString } from '../common/TimeUtils';
+
 
 export declare type JestResult = {
     message: () => string;

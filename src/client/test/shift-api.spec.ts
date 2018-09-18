@@ -5,7 +5,9 @@ import {
     Shift,
     MultipleShiftUpdateRequest,
     Sheriff,
-    ShiftCopyOptions
+    ShiftCopyOptions,
+    Assignment,
+    CourtRoleCode
 } from '../models';
 import TestUtils from './TestUtils';
 import moment from 'moment';
@@ -21,6 +23,8 @@ describe('Shift API', () => {
         name: "Shift Testing Courthouse",
         code: TestUtils.randomString(5)
     }
+
+    
 
     const entityToCreate: Shift = {
         courthouseId: "To Replace",
@@ -44,7 +48,8 @@ describe('Shift API', () => {
         it('create should return new Shift', async () => {
             createdEntity = await api.CreateShift({
                 ...entityToCreate,
-                courthouseId: testCourthouse.id
+                courthouseId: testCourthouse.id,
+                
             });
             expect(createdEntity).toBeDefined();
             expect(createdEntity.id).toBeDefined();
@@ -109,13 +114,38 @@ describe('Shift API', () => {
             expect(updatedEntity).toMatchObject({
                 ...expectedEntity,
             });
+        });it('linking a shift to an assignment should return the updated shift', async () => {
+            let testCourtRoleCode: CourtRoleCode;
+            testCourtRoleCode = (await api.GetCourtRoleCodes())[0];
+
+            const testAssignment = await api.CreateAssignment({
+                title: "Test Assignment",
+                workSectionId: "COURTS",
+                courthouseId: testCourthouse.id,
+                dutyRecurrences: [],
+                courtRoleId: testCourtRoleCode.code
+            });
+            
+            const updatedEntity = await api.UpdateShift( createdEntity.id, {
+                ...createdEntity,
+                assignmentId: testAssignment.id
+            } as Shift);
+            
+            expect(updatedEntity).toMatchObject({
+                ...createdEntity,
+                assignmentId: testAssignment.id
+            });
         });
+
+
 
         it('delete should delete Shift', async () => {
             await api.DeleteShift(createdEntity.id);
             const retreived = await api.GetShiftById(createdEntity.id);
             expect(retreived).not.toBeDefined();
         });
+
+        
     });
 
     describe('Edit Multiple Shifts', () => {

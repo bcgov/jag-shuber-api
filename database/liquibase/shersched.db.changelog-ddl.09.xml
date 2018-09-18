@@ -1,0 +1,32 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="ddl_set_09_shift_assignment_fk_start"/>
+    </changeSet>
+
+    <!-- Add foreign key from shift to assignment to support anticipated assignments in duty roster -->
+
+    <!-- Changsets -->
+    <changeSet author="Carol Geisler" id="ADDFK_sheriff_assignment">
+      <addColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="shift">
+        <column name="assignment_id" type="UUID"/>
+      </addColumn>
+      <addForeignKeyConstraint  baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="shift" baseColumnNames="assignment_id" constraintName="fk_shft_asn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedTableName="assignment" referencedColumnNames="assignment_id"/>
+    </changeSet>
+
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="ddl_set_09_shift_assignment_fk_end"/>
+    </changeSet>
+
+</databaseChangeLog>

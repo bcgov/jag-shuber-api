@@ -1,9 +1,10 @@
-import { ClientBase, Pool, PoolClient } from 'pg';
+import { ClientBase, Pool, PoolClient, Client } from 'pg';
 import { FunctionBlock, InsertFieldValueMixin, PostgresInsert, PostgresSquel, PostgresUpdate } from 'squel';
 import squel from './squel';
 import { getConnectionPool, closeConnectionPool } from './connection';
-import { Inject, AutoWired } from 'typescript-ioc';
+import { Inject, AutoWired, Container } from 'typescript-ioc';
 import { CurrentUser } from '../infrastructure/CurrentUser';
+import TransactionContext from '../infrastructure/TransactionContext';
 
 @AutoWired
 export class Database {
@@ -11,7 +12,7 @@ export class Database {
     private _currentUser!: CurrentUser;
 
     get currentUserName() {
-        return this._currentUser.displayName.substr(0,32);        
+        return this._currentUser.displayName.substr(0, 32);
     }
 
     private get connection() {
@@ -71,11 +72,12 @@ export class Database {
         return query;
     }
 
-    async transaction<T>(doWork: (client: ClientBase) => Promise<T>) {
+    async transaction<T>(doWork: (transaction: TransactionContext) => Promise<T>) {
         const client = await this.getClient();
+        const transactionContext = new TransactionContext(client);
         try {
             await client.query("BEGIN");
-            const result = await doWork(client);
+            const result = await doWork(transactionContext);
             await client.query("COMMIT");
             return result;
         } catch (e) {

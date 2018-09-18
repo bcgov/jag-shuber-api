@@ -43,6 +43,7 @@ import {
     Duty,
     DutyImportDefaultsRequest,
     SheriffDuty,
+    SheriffDutyAutoAssignRequest,
     Leave,
     LeaveCancelReasonCode,
     LeaveCode,
@@ -565,6 +566,13 @@ export default class Client {
     public async DeleteSheriffDuty( id:string ):Promise<void>{
         return this.tryRequest<void>(async () => {
             const response: superAgent.Response = await this.agent.delete(`/SheriffDuty/${id}`)
+            return response;
+        });
+    }    
+    public async AutoAssignSheriffDuties( model:SheriffDutyAutoAssignRequest ):Promise<Array<SheriffDuty>>{
+        return this.tryRequest<Array<SheriffDuty>>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/SheriffDuty/auto-assign`)
+                .send(model)
             return response;
         });
     }    

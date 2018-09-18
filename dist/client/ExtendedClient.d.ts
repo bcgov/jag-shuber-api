@@ -1,8 +1,7 @@
-import moment from 'moment';
 import * as SA from 'superagent';
 import Client from './Client';
-import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift, DutyImportDefaultsRequest, MultipleShiftUpdateRequest, Leave } from './models';
-export declare type DateType = string | Date | moment.Moment | number;
+import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift, DutyImportDefaultsRequest, MultipleShiftUpdateRequest, Leave, SheriffDuty, SheriffDutyAutoAssignRequest } from './models';
+import { DateType } from '../common/types';
 export declare type SuperAgentRequestInterceptor = (req: SA.SuperAgentRequest) => SA.SuperAgentRequest;
 export default class ExtendedClient extends Client {
     private _requestInterceptor?;
@@ -41,4 +40,5 @@ export default class ExtendedClient extends Client {
     UpdateLeave(id: string, model: Leave): Promise<Leave>;
     UpdateMultipleShifts(model: MultipleShiftUpdateRequest): Promise<Shift[]>;
     ImportDefaultDuties(request: DutyImportDefaultsRequest): Promise<Duty[]>;
+    AutoAssignSheriffDuties(request: SheriffDutyAutoAssignRequest): Promise<SheriffDuty[]>;
 }

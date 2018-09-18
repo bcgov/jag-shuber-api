@@ -5,7 +5,7 @@ import ExtendedClient from '../ExtendedClient';
 import { Courthouse, Courtroom, Assignment, Region, DutyRecurrence, Duty, SheriffDuty, Shift, Leave } from '../models';
 import { Sheriff } from '../../models/Sheriff';
 import { ClientBase } from 'pg';
-import './MomentMatchers';
+import '../../support/MomentMatchers';
 import moment, { Moment } from 'moment';
 import {
     SITEMINDER_HEADER_USERGUID,
@@ -46,14 +46,18 @@ export default class TestUtils {
         region: 'region',
         leave: 'leave'
     }
+
+    // Tables in the following array should be listed 
+    // in order of dependence to avoid foreign key constraints
+    // when clearing tables.
     private static tablesToClear = [
         TestUtils.tables.sheriff_duty,
         TestUtils.tables.duty,
         TestUtils.tables.duty_recurrence,
+        TestUtils.tables.shift,
         TestUtils.tables.assignment,
         TestUtils.tables.courtroom,
         TestUtils.tables.run,
-        TestUtils.tables.shift,
         TestUtils.tables.leave,
         TestUtils.tables.sheriff,
         TestUtils.tables.courthouse,
@@ -134,7 +138,7 @@ export default class TestUtils {
     }
 
     static async clearDatabase() {
-        await db.transaction(async (client) => {
+        await db.transaction(async ({client}) => {
             await TestUtils.tablesToClear.forEach(async (table) => {
                 await TestUtils.clearTable(client, table);
             });

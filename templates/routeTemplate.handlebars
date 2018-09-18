@@ -85,8 +85,8 @@ export function RegisterRoutes(router: any) {
             const currentUserProvider : Provider={
                 get:()=> new CurrentUser(context.request.user)
             }
-            // Using the typescript-ioc container, retrieve controller
             Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
             const controller = Container.get({{../name}}) as {{../name}};
             {{!-- 
             // New up new controller

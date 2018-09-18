@@ -15,14 +15,16 @@ import {
     Shift,
     DutyImportDefaultsRequest,
     MultipleShiftUpdateRequest,
-    Leave
+    Leave,
+    SheriffDuty,
+    SheriffDutyAutoAssignRequest
 } from './models';
 import { toTimeString } from '../common/TimeUtils';
 import { ApiError } from '../common/Errors';
 import { TokenPayload } from '../common/authentication';
 import { decodeJwt } from '../common/tokenUtils';
-
-export type DateType = string | Date | moment.Moment | number;
+import { DateType } from '../common/types';
+import { getDateString } from '../common/dateUtils';
 
 export type SuperAgentRequestInterceptor = (req: SA.SuperAgentRequest) => SA.SuperAgentRequest
 
@@ -243,13 +245,26 @@ export default class ExtendedClient extends Client {
         return super.UpdateMultipleShifts(request);
     }
 
-    async ImportDefaultDuties(request: DutyImportDefaultsRequest) {
+    async ImportDefaultDuties(request: DutyImportDefaultsRequest) : Promise<Duty[]> {
         const {
             courthouseId,
             date
         } = request;
 
-        const dateMoment = date ? moment(date) : moment().startOf('day');
-        return await super.ImportDefaultDuties({ courthouseId, date: dateMoment.format("YYYY-MM-DD") });
+        return await super.ImportDefaultDuties({ 
+            courthouseId, 
+            date: getDateString(date) 
+        });
+    }
+
+    async AutoAssignSheriffDuties(request: SheriffDutyAutoAssignRequest) : Promise<SheriffDuty[]> {
+        const {
+            courthouseId,
+            date
+        } = request;
+        return await super.AutoAssignSheriffDuties({ 
+            courthouseId, 
+            date: getDateString(date) 
+        });
     }
 }

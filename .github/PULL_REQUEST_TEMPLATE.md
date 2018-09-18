@@ -14,5 +14,7 @@
 > - [ ] Bump the version in `package.json` according to [Semver](https://semver.org/) 
 >  - [ ] Commit `package.json` along with all changes within `/dist/` with description of API Updates
 
+- [ ] Update the Changelog!
+
 
 
