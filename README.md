@@ -14,6 +14,16 @@ or
 
 `npm install github:bcgov/jag-shuber-api`
 
+### Package Development
+
+If you are working on developing the Client api, the typical flow is as follows:
+
+Within this project folder run `yarn link` This registers this project as a local package.
+
+Then within your frontend project run `yarn link jag-shuber-api`, which will simlink in the registered local pacakge into your node_modules.
+
+Then you'll want to run this project in dev mode (i.e. `yarn watch:dev`) and start your frontend project in dev mode which will point the api proxy to this instance.
+
 ## Getting Started
 
 ### Development Environment
