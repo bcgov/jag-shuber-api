@@ -37,12 +37,14 @@ export default class SheriffDutyAutoAssigner {
     autoAssignDuties(sheriffDuties: SheriffDutyWithAssignment[], shifts: Shift[]): SheriffDuty[] {
         const assignMap = new SheriffDutyAssignmentMap(sheriffDuties);
         shifts.forEach(shift => {
+            const isSameAssignmentFilter = (sd:SheriffDuty)=>assignMap.getAssociatedAssignmentId(sd) === shift.assignmentId;
             const withinShiftFilter = SheriffDutyAutoAssigner.withinShiftSheriffDutyFilter(shift);
             const notDoubleBookedFilter = (sd:SheriffDuty)=>(!assignMap.wouldDoubleBookSheriff(sd,shift.sheriffId as string));
             const temporalProximitySort = SheriffDutyAutoAssigner.shiftRelativeSheriffDutySorter(shift);
             let sheriffDutyToAssign: SheriffDuty;
             do {
                 sheriffDutyToAssign = assignMap.unassignedSheriffDuties
+                    .filter(isSameAssignmentFilter)
                     .filter(withinShiftFilter)
                     .filter((sd)=>notDoubleBookedFilter(sd))
                     .sort(temporalProximitySort)[0]

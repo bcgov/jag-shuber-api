@@ -43,7 +43,6 @@ describe('SheriffDutyAutoAssigner', () => {
             expect(sorted[0]).toBe(closeSheriffDuty);
             expect(sorted[1]).toBe(farSheriffDuty);
         });
-
         it('Should sort according to temporal proximity with negative start time deltas', () => {
             const closeSheriffDuty: SheriffDuty = {
                 ...testSD,
@@ -122,6 +121,22 @@ describe('SheriffDutyAutoAssigner', () => {
                 ])
             );
         });
+        it('Should only assign sheriff duties that match assignment id', () => {
+            const sheriffId = "Sherrif1";
+            const shift: Shift = {
+                ...testShift,
+                sheriffId,
+                assignmentId:"Some other assignment"
+            }
+            const sheriffDuties = [
+                {
+                    ...testSDWA
+                }
+            ]
+            const assigner = new SheriffDutyAutoAssigner();
+            const assignedDuties = assigner.autoAssignDuties(sheriffDuties, [shift]);
+            expect(assignedDuties).toHaveLength(0);
+        });
 
         it('Should auto assign multiple sheriffDuties to same sheriff if they dont overlap', () => {
             const sheriffId = "testSheriff";
@@ -160,7 +175,6 @@ describe('SheriffDutyAutoAssigner', () => {
                 sheriffDuties.map(({ assignmentId, ...sd }) => ({ ...sd, sheriffId })))
             );
         });
-
 
         it('Should auto assign multiple but only if they arent already assigned', () => {
             const sheriffId = "testSheriff";

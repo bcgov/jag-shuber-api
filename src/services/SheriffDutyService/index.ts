@@ -64,7 +64,8 @@ export class SheriffDutyService extends DatabaseService<SheriffDuty> {
                 return query
                     .where(`date_trunc('day',${shiftService.dbTableName}.start_dtm)=DATE('${dateMoment.toISOString()}')`)
                     .where(`courthouse_id='${courthouseId}'`)
-                    .where(`assignment_id IS NOT NULL`);
+                    .where(`assignment_id IS NOT NULL`)
+                    .where(`sheriff_id IS NOT NULL`);
             });
 
             // Select all SheriffDuties & AssignmentId that are:
@@ -92,7 +93,6 @@ export class SheriffDutyService extends DatabaseService<SheriffDuty> {
             
             const sheriffDutiesToUpdate = autoAssignStrategy.autoAssignDuties(allSheriffDuties,shifts);
             
-            console.log(sheriffDutiesToUpdate);
             // Update SheriffDuties
             return await Promise.all(sheriffDutiesToUpdate.map(sd => sheriffDutyService.update(sd)));
         });

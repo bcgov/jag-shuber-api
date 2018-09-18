@@ -11,7 +11,7 @@ export default class SheriffDutyAssignmentMap {
     private sheriffDutyLookup: { [key: string]: SheriffDuty } = {};
     private sheriffLookup: { [key: string]: SheriffDuty[] } = {}
     private assignmentLookup: { [key: string]: SheriffDuty[] } = {}
-    private revserseAssignmentLookup: { [key: string]: string } = {};
+    private reverseAssignmentLookup: { [key: string]: string } = {};
     private _updatedSheriffDuties: SheriffDuty[] = [];
 
     constructor(allSheriffDuties: SheriffDutyWithAssignment[]) {
@@ -22,7 +22,7 @@ export default class SheriffDutyAssignmentMap {
             const sheriffDuty = this.sheriffDutyLookup[sdId];
 
             // add item to assignment sheriffduty lookup
-            this.revserseAssignmentLookup[sdId] = assignmentId;
+            this.reverseAssignmentLookup[sdId] = assignmentId;
             this.assignmentLookup[assignmentId] = this.assignmentLookup[assignmentId] || [];
             this.assignmentLookup[assignmentId].push(sheriffDuty);
 
@@ -31,6 +31,10 @@ export default class SheriffDutyAssignmentMap {
             this.sheriffLookup[sheriffId] = this.sheriffLookup[sheriffId] || [];
             this.sheriffLookup[sheriffId].push(sheriffDuty);
         });
+    }
+
+    getAssociatedAssignmentId(sheriffDuty:SheriffDuty){
+        return this.reverseAssignmentLookup[sheriffDuty.id as string];
     }
 
     getSheriffDutiesBySheriff(sheriffId?: string) {
