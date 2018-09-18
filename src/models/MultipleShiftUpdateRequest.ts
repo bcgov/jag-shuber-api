@@ -4,4 +4,5 @@ export interface MultipleShiftUpdateRequest {
     startTime?: string;
     endTime?: string;
     workSectionId?: string;
+    assignmentId?: string;
 }

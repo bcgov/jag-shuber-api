@@ -141,6 +141,7 @@ const models: TsoaRoute.Models = {
             "code": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
             "expiryDate": { "dataType": "string" },
+            "order": { "dataType": "double", "required": true },
         },
     },
     "Run": {
@@ -168,6 +169,7 @@ const models: TsoaRoute.Models = {
             "startTime": { "dataType": "string" },
             "endTime": { "dataType": "string" },
             "workSectionId": { "dataType": "string" },
+            "assignmentId": { "dataType": "string" },
         },
     },
     "ShiftCopyOptions": {

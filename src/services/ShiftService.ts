@@ -33,7 +33,7 @@ export class ShiftService extends DatabaseService<Shift> {
     }
 
     async updateMultipleShifts(multipleShiftsUpdateRequest: MultipleShiftUpdateRequest): Promise<Shift[]> {
-        const { shiftIds = [], workSectionId, endTime, startTime, sheriffId } = multipleShiftsUpdateRequest;
+        const { shiftIds = [], workSectionId, endTime, startTime, sheriffId, assignmentId } = multipleShiftsUpdateRequest;
         const currentShiftQuery = this.getSelectQuery()
             .where('shift_id IN ?', shiftIds);
         const currentShifts = await this.executeQuery<Shift>(currentShiftQuery.toString());
@@ -48,6 +48,14 @@ export class ShiftService extends DatabaseService<Shift> {
                 shiftToUpdate.workSectionId = workSectionId;
             } else if (workSectionId === "") {
                 shiftToUpdate.workSectionId = null as any;
+            }
+
+            // Undefined / null means 'varied' (i.e. don't change) so 
+            // if we want to clear the workSection we pass in ""
+            if (assignmentId) {
+                shiftToUpdate.assignmentId = assignmentId;
+            } else if (assignmentId === "") {
+                shiftToUpdate.assignmentId = null as any;
             }
 
             // Undefined / null means 'varied' (i.e. don't change) so 
