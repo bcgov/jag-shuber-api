@@ -42,7 +42,7 @@
     "test": "node --inspect=9230 scripts/test.js --env=node",
     "test:coverage": "yarn test --coverage",
     "generate": "tsoa swagger && tsoa routes && swagger-ts-client",
-    "watch:dev": "concurrently --names 'GENERATE,SERVER' -c 'bgBlue.bold,bgMagenta.bold' \"npm-watch generate\"  \"yarn start:dev\" ",
+    "watch:dev": "concurrently --names 'GENERATE,SERVER,BUILD' -c 'bgBlue.bold,bgMagenta.bold,bgGreen.bold' \"npm-watch generate\" \"yarn start:dev\" \"npm-watch build\"",
     "watch:testing": "concurrently --names 'GENERATE,SERVER' -c 'bgBlue.bold,bgMagenta.bold' \"npm-watch generate\"  \"yarn start:testing\" ",
     "oc:dev": "nodemon --ignore node_modules/ dist/index.js --inspect=$DEBUG_PORT"
   },
