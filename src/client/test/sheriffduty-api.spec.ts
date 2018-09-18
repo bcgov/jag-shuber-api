@@ -307,11 +307,7 @@ describe('SheriffDuty API', () => {
             });
 
             expect(autoAssigned).toBeDefined();
-            expect(autoAssigned.length).toEqual(1);
-            expect(autoAssigned).toEqual(expect.arrayContaining([
-                { ...sheriffDuty, sheriffId: testSheriff.id }
-            ]));
-
+            expect(autoAssigned.length).toEqual(0);
 
             // Delete the test resources            
             await api.DeleteShift(shift.id);
