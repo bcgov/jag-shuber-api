@@ -70,6 +70,7 @@ export interface SheriffRankCode {
     code?: string;
     description?: string;
     expiryDate?: string;
+    order?: number;
 }
 export interface Run {
     id?: string;
@@ -91,6 +92,7 @@ export interface MultipleShiftUpdateRequest {
     startTime?: string;
     endTime?: string;
     workSectionId?: string;
+    assignmentId?: string;
 }
 export interface ShiftCopyOptions {
     shouldIncludeSheriffs?: boolean;
@@ -115,6 +117,10 @@ export interface Duty {
     comments?: string;
 }
 export interface DutyImportDefaultsRequest {
+    courthouseId?: string;
+    date?: string;
+}
+export interface SheriffDutyAutoAssignRequest {
     courthouseId?: string;
     date?: string;
 }

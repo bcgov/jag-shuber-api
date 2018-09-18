@@ -16,6 +16,7 @@ __export(require("../common/TimeUtils"));
 __export(require("../common/TypedEvent"));
 __export(require("../common/tokenUtils"));
 __export(require("../common/authentication"));
+__export(require("../common/dateUtils"));
 var _errors = __importStar(require("../common/Errors"));
 exports.Errors = _errors;
 //# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/client/index.js.map

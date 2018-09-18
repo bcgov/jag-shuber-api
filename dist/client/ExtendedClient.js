@@ -99,6 +99,7 @@ var superagent_use_1 = __importDefault(require("superagent-use"));
 var Client_1 = __importDefault(require("./Client"));
 var TimeUtils_1 = require("../common/TimeUtils");
 var Errors_1 = require("../common/Errors");
+var dateUtils_1 = require("../common/dateUtils");
 var ExtendedClient = /** @class */ (function (_super) {
     __extends(ExtendedClient, _super);
     function ExtendedClient(baseUrl) {
@@ -358,13 +359,31 @@ var ExtendedClient = /** @class */ (function (_super) {
     };
     ExtendedClient.prototype.ImportDefaultDuties = function (request) {
         return __awaiter(this, void 0, void 0, function () {
-            var courthouseId, date, dateMoment;
+            var courthouseId, date;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         courthouseId = request.courthouseId, date = request.date;
-                        dateMoment = date ? moment_1.default(date) : moment_1.default().startOf('day');
-                        return [4 /*yield*/, _super.prototype.ImportDefaultDuties.call(this, { courthouseId: courthouseId, date: dateMoment.format("YYYY-MM-DD") })];
+                        return [4 /*yield*/, _super.prototype.ImportDefaultDuties.call(this, {
+                                courthouseId: courthouseId,
+                                date: dateUtils_1.getDateString(date)
+                            })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    ExtendedClient.prototype.AutoAssignSheriffDuties = function (request) {
+        return __awaiter(this, void 0, void 0, function () {
+            var courthouseId, date;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        courthouseId = request.courthouseId, date = request.date;
+                        return [4 /*yield*/, _super.prototype.AutoAssignSheriffDuties.call(this, {
+                                courthouseId: courthouseId,
+                                date: dateUtils_1.getDateString(date)
+                            })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });

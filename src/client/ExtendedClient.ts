@@ -15,13 +15,14 @@ import {
     Shift,
     DutyImportDefaultsRequest,
     MultipleShiftUpdateRequest,
-    Leave
+    Leave,
+    SheriffDuty,
+    SheriffDutyAutoAssignRequest
 } from './models';
 import { toTimeString } from '../common/TimeUtils';
 import { ApiError } from '../common/Errors';
 import { TokenPayload } from '../common/authentication';
 import { decodeJwt } from '../common/tokenUtils';
-import { SheriffDutyAutoAssignRequest } from '../models/SheriffDutyAutoAssignRequest';
 import { DateType } from '../common/types';
 import { getDateString } from '../common/dateUtils';
 
@@ -244,7 +245,7 @@ export default class ExtendedClient extends Client {
         return super.UpdateMultipleShifts(request);
     }
 
-    async ImportDefaultDuties(request: DutyImportDefaultsRequest) {
+    async ImportDefaultDuties(request: DutyImportDefaultsRequest) : Promise<Duty[]> {
         const {
             courthouseId,
             date
@@ -256,7 +257,7 @@ export default class ExtendedClient extends Client {
         });
     }
 
-    async AutoAssignSheriffDuties(request: SheriffDutyAutoAssignRequest) {
+    async AutoAssignSheriffDuties(request: SheriffDutyAutoAssignRequest) : Promise<SheriffDuty[]> {
         const {
             courthouseId,
             date

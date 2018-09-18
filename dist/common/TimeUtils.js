@@ -51,4 +51,52 @@ function setTime(momentToSet, timeToSet) {
     }).utc();
 }
 exports.setTime = setTime;
+function rangeToMoments(range) {
+    return {
+        start: moment_1.default(range.startTime),
+        end: moment_1.default(range.endTime)
+    };
+}
+/**
+ * Normalizes a given time range so that the start is before the end
+ *
+ * @export
+ * @param {TimeRange} range
+ * @returns {TimeRange}
+ */
+function normalizeTimeRange(range) {
+    return moment_1.default(range.startTime).isAfter(moment_1.default(range.endTime))
+        ? { startTime: range.endTime, endTime: range.startTime }
+        : range;
+}
+exports.normalizeTimeRange = normalizeTimeRange;
+/**
+ * Returns a boolean indicating wether or not a given time falls within a given TimeRange
+ * Note that this comparison defaults to being inclusive i.e. "[]"
+ * @export
+ * @param {TimeType} time
+ * @param {TimeRange} range
+ * @param {boolean} [inclusive="[]"]
+ * @returns {boolean}
+ */
+function isTimeWithin(time, range, inclusivity) {
+    var timeMoment = moment_1.default(time);
+    var _a = rangeToMoments(normalizeTimeRange(range)), rangeStart = _a.start, rangeEnd = _a.end;
+    return timeMoment.isBetween(rangeStart, rangeEnd, undefined, inclusivity);
+}
+exports.isTimeWithin = isTimeWithin;
+function areTimeRangesSame(timeRangeA, timeRangeB) {
+    var _a = normalizeTimeRange(timeRangeA), startA = _a.startTime, endA = _a.endTime;
+    var _b = normalizeTimeRange(timeRangeB), startB = _b.startTime, endB = _b.endTime;
+    return (moment_1.default(startA).isSame(moment_1.default(startB)) && moment_1.default(endA).isSame(moment_1.default(endB)));
+}
+exports.areTimeRangesSame = areTimeRangesSame;
+function doTimeRangesOverlap(timeRangeA, timeRangeB) {
+    return areTimeRangesSame(timeRangeA, timeRangeB)
+        || isTimeWithin(timeRangeA.startTime, timeRangeB)
+        || isTimeWithin(timeRangeA.endTime, timeRangeB)
+        || isTimeWithin(timeRangeB.startTime, timeRangeA)
+        || isTimeWithin(timeRangeB.endTime, timeRangeA);
+}
+exports.doTimeRangesOverlap = doTimeRangesOverlap;
 //# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/common/TimeUtils.js.map
