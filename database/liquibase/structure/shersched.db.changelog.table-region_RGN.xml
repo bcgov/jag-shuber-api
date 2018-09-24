@@ -43,8 +43,11 @@
         </createTable>
         <addPrimaryKey columnNames="region_id" constraintName="pk_rgn" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="region"/>
         <addUniqueConstraint columnNames="region_cd" constraintName="uk_rgn_cd" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="region"/>
-        <sql>
+        <!--sql>
         	GRANT SELECT ON ${POSTGRES_SCHEMA}.region to ${POSTGRES_APP_USER};
+        </sql-->
+        <sql>
+        	GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.region to ${POSTGRES_APP_USER};
         </sql>
         <rollback>
         	<dropTable  cascadeConstraints="true" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="region"/>

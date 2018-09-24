@@ -45,8 +45,11 @@
         <createIndex indexName="ix_rn_crth" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="run">
             <column name="courthouse_id"/>
         </createIndex>
-        <sql>
+        <!--sql>
         	GRANT SELECT, INSERT, UPDATE ON ${POSTGRES_SCHEMA}.run to ${POSTGRES_APP_USER};
+        </sql-->
+        <sql>
+        	GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.run to ${POSTGRES_APP_USER};
         </sql>
         <rollback>
         	<dropTable  cascadeConstraints="true" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="run"/>

@@ -67,8 +67,11 @@
         <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="assignment" indexName="ix_asn_crtr">
             <column name="courtroom_id"/>
         </createIndex>
-        <sql>
+        <!--sql>
         	GRANT SELECT, INSERT, UPDATE ON ${POSTGRES_SCHEMA}.assignment to ${POSTGRES_APP_USER};
+        </sql-->
+        <sql>
+        	GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.assignment to ${POSTGRES_APP_USER};
         </sql>
         <rollback>
         	<dropTable  cascadeConstraints="true" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="assignment"/>
