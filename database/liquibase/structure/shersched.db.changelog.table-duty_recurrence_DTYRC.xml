@@ -18,8 +18,8 @@
             <column name="duty_recurrence_id" type="UUID">
                 <constraints nullable="false"/>
             </column>
-            <column name="start_time" type="TIME WITH TIME ZONE">
-            <column name="end_time" type="TIME WITH TIME ZONE">
+            <column name="start_time" type="TIME WITH TIME ZONE"/>
+            <column name="end_time" type="TIME WITH TIME ZONE"/>
             <column name="days_bitmap" type="numeric(10)" remarks="1=mo,2=tu,4=we,8=th,16=fr,32=sa,64=su">
                 <constraints nullable="false"/>
             </column>
@@ -58,7 +58,7 @@
         	GRANT SELECT, INSERT, UPDATE ON ${POSTGRES_SCHEMA}.duty_recurrence to ${POSTGRES_APP_USER};
         </sql-->
         <sql>
-        	GRANT SELECT, INSERT, UPDATE ON ${POSTGRES_SCHEMA}.duty_recurrence to ${POSTGRES_APP_USER};
+        	GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.duty_recurrence to ${POSTGRES_APP_USER};
         </sql>
         <rollback>
         	<dropTable  cascadeConstraints="true" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="duty_recurrence"/>
