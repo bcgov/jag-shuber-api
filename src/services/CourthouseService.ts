@@ -10,8 +10,7 @@ export class CourthouseService extends DatabaseService<Courthouse> {
         courthouse_name: 'name',
         location: 'location',
         parent_courthouse_id: 'parentCourthouseId',
-        region_id: 'regionId',
-        address_id: 'addressId'
+        region_id: 'regionId'
     };
 
     constructor() {

@@ -313,7 +313,7 @@ describe('SheriffDuty API', () => {
             await api.DeleteShift(shift.id);
             await api.DeleteSheriffDuty(sheriffDuty.id);
             await api.DeleteDuty(otherDuty.id);
-            await api.DeleteAssignment(otherAssignment.id);
+            await TestUtils.deleteAssignment(otherAssignment.id);
         });
 
         it('should not auto assign sheriff duties if it will result in double booking', async () => {

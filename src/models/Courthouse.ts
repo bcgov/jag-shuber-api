@@ -4,6 +4,5 @@ export interface Courthouse {
     name: string;
     parentCourthouseId?: string;
     regionId: string;
-    addressId?: string;
     location?: any;
 }

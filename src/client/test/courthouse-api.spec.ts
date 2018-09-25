@@ -32,7 +32,6 @@ describe('Courtroom API', () => {
         expect(createdCourthouse.id).toBeDefined();
         expect(createdCourthouse).toEqual({
             ...newCourthouse,
-            addressId: null,
             id: createdCourthouse.id,
             location: null,
             parentCourthouseId: null

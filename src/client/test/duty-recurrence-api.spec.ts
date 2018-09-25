@@ -2,6 +2,7 @@ import moment from 'moment';
 import ApiClient from '../ExtendedClient';
 import { Assignment, Courthouse, Region, DutyRecurrence, Courtroom } from '../models';
 import TestUtils from './TestUtils';
+import { ERROR_DEPRECATED_DELETE_DUTYRECURRENCE } from '../../common/Messages';
 
 describe('Duty Recurrence API', () => {
     let api: ApiClient;
@@ -79,9 +80,7 @@ describe('Duty Recurrence API', () => {
         });        
     });
 
-    it('delete should delete Duty Recurrence', async () => {
-        await api.DeleteDutyRecurrence(createdEntity.id);
-        const retreived = await api.GetDutyRecurrenceById(createdEntity.id);
-        expect(retreived).not.toBeDefined();
+    it('delete should throw error indicating that it is deprecated', async () => {
+        await expect(api.DeleteDutyRecurrence('some id')).rejects.toEqual(new Error(ERROR_DEPRECATED_DELETE_DUTYRECURRENCE));
     });
 }) 

@@ -41,4 +41,12 @@ export default class ExtendedClient extends Client {
     UpdateMultipleShifts(model: MultipleShiftUpdateRequest): Promise<Shift[]>;
     ImportDefaultDuties(request: DutyImportDefaultsRequest): Promise<Duty[]>;
     AutoAssignSheriffDuties(request: SheriffDutyAutoAssignRequest): Promise<SheriffDuty[]>;
+    /**
+     * @deprecated Please use ExpireAssignment instead.
+     */
+    DeleteAssignment(id: string): Promise<void>;
+    /**
+     * @deprecated Please use ExpireDutyRecurrence instead.
+     */
+    DeleteDutyRecurrence(id: string): Promise<void>;
 }

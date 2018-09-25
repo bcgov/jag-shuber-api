@@ -132,13 +132,18 @@ export default class TestUtils {
         }
     }
 
+    static async deleteAssignment(assignmentId: string, client?: ClientBase): Promise<void> {
+        const dbClient = client ? client : await db.getClient();
+        await dbClient.query(`DELETE FROM ${this.tables.assignment} WHERE assignment_id='${assignmentId}'`)
+    }
+
     static async clearTable(client?: ClientBase, ...tables: string[]) {
         const dbClient = client ? client : await db.getClient();
         await Promise.all(tables.map(tn => dbClient.query(`DELETE FROM ${tn};`)));
     }
 
     static async clearDatabase() {
-        await db.transaction(async ({client}) => {
+        await db.transaction(async ({ client }) => {
             await TestUtils.tablesToClear.forEach(async (table) => {
                 await TestUtils.clearTable(client, table);
             });

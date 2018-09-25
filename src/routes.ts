@@ -89,7 +89,6 @@ const models: TsoaRoute.Models = {
             "name": { "dataType": "string", "required": true },
             "parentCourthouseId": { "dataType": "string" },
             "regionId": { "dataType": "string", "required": true },
-            "addressId": { "dataType": "string" },
             "location": { "dataType": "any" },
         },
     },
@@ -418,6 +417,7 @@ export function RegisterRoutes(router: any) {
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
             };
 
             let validatedArgs: any[] = [];
@@ -1554,6 +1554,7 @@ export function RegisterRoutes(router: any) {
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
             };
 
             let validatedArgs: any[] = [];

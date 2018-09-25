@@ -100,6 +100,7 @@ var Client_1 = __importDefault(require("./Client"));
 var TimeUtils_1 = require("../common/TimeUtils");
 var Errors_1 = require("../common/Errors");
 var dateUtils_1 = require("../common/dateUtils");
+var Messages_1 = require("../common/Messages");
 var ExtendedClient = /** @class */ (function (_super) {
     __extends(ExtendedClient, _super);
     function ExtendedClient(baseUrl) {
@@ -386,6 +387,26 @@ var ExtendedClient = /** @class */ (function (_super) {
                             })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
+            });
+        });
+    };
+    /**
+     * @deprecated Please use ExpireAssignment instead.
+     */
+    ExtendedClient.prototype.DeleteAssignment = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                throw new Error(Messages_1.ERROR_DEPRECATED_DELETE_ASSIGNMENT);
+            });
+        });
+    };
+    /**
+     * @deprecated Please use ExpireDutyRecurrence instead.
+     */
+    ExtendedClient.prototype.DeleteDutyRecurrence = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                throw new Error(Messages_1.ERROR_DEPRECATED_DELETE_DUTYRECURRENCE);
             });
         });
     };

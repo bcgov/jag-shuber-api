@@ -36,7 +36,7 @@ describe('Codes API', () => {
         const list = await api.GetJailRoleCodes();
         expect(list).toBeDefined();
         expect(Array.isArray(list)).toBeTruthy();
-        expect(list.length).toEqual(7);
+        expect(list.length).toBeGreaterThan(0);
         list.forEach(c => {
             expect(c).toMatchShapeOf(CodeShape);
         })
@@ -46,7 +46,7 @@ describe('Codes API', () => {
         const list = await api.GetOtherAssignCodes();
         expect(list).toBeDefined();
         expect(Array.isArray(list)).toBeTruthy();
-        expect(list.length).toEqual(12);
+        expect(list.length).toBeGreaterThan(0);
         list.forEach(c => {
             expect(c).toMatchShapeOf(CodeShape);
         })
@@ -56,7 +56,7 @@ describe('Codes API', () => {
         const list = await api.GetWorkSectionCodes();
         expect(list).toBeDefined();
         expect(Array.isArray(list)).toBeTruthy();
-        expect(list.length).toEqual(4);
+        expect(list.length).toBeGreaterThan(0);
         list.forEach(c => {
             expect(c).toMatchShapeOf(CodeShape);
         })
@@ -66,7 +66,7 @@ describe('Codes API', () => {
         const list = await api.GetSheriffRankCodes();
         expect(list).toBeDefined();
         expect(Array.isArray(list)).toBeTruthy();
-        expect(list.length).toEqual(7);
+        expect(list.length).toBeGreaterThan(0);
         list.forEach(c => {
             expect(c).toMatchShapeOf(CodeShape);
         })
@@ -76,7 +76,7 @@ describe('Codes API', () => {
         const list = await api.GetLeaveCancelReasonCodes();
         expect(list).toBeDefined();
         expect(Array.isArray(list)).toBeTruthy();
-        expect(list.length).toEqual(3);
+        expect(list.length).toBeGreaterThan(0);
         list.forEach(c => {
             expect(c).toMatchShapeOf(CodeShape);
         })
@@ -86,7 +86,7 @@ describe('Codes API', () => {
         const list = await api.GetLeaveTypes();
         expect(list).toBeDefined();
         expect(Array.isArray(list)).toBeTruthy();
-        expect(list.length).toEqual(2);
+        expect(list.length).toBeGreaterThan(0);
         list.forEach(c => {
             expect(c).toMatchShapeOf(CodeShape);
         })
@@ -96,7 +96,7 @@ describe('Codes API', () => {
         const list = await api.GetCourtRoleCodes();
         expect(list).toBeDefined();
         expect(Array.isArray(list)).toBeTruthy();
-        expect(list.length).toEqual(5);
+        expect(list.length).toBeGreaterThan(0);
         list.forEach(c => {
             expect(c).toMatchShapeOf(CodeShape);
         })
@@ -106,7 +106,7 @@ describe('Codes API', () => {
         const list = await api.GetGenderCodes();
         expect(list).toBeDefined();
         expect(Array.isArray(list)).toBeTruthy();
-        expect(list.length).toEqual(3);
+        expect(list.length).toBeGreaterThan(0);
         list.forEach(c => {
             expect(c).toMatchShapeOf(CodeShape);
         })
@@ -116,6 +116,7 @@ describe('Codes API', () => {
         const list = await api.GetLeaveSubCodes();
         expect(list).toBeDefined();
         expect(Array.isArray(list)).toBeTruthy();
+        expect(list.length).toBeGreaterThan(0);
         list.forEach(c => {
             expect(c).toMatchShapeOf(SubCodeShape);
         })

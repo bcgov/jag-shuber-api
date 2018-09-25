@@ -2,7 +2,7 @@ import moment from 'moment';
 import ApiClient from '../ExtendedClient';
 import { Assignment, Courthouse, Region, DutyRecurrence, Courtroom, Run, JailRoleCode, OtherAssignCode, CourtRoleCode } from '../models';
 import TestUtils from './TestUtils';
-import { create } from 'domain';
+import { ERROR_DEPRECATED_DELETE_ASSIGNMENT } from '../../common/Messages';
 
 describe('Assignment API', () => {
     let api: ApiClient;
@@ -218,21 +218,8 @@ describe('Assignment API', () => {
         });
 
         it('delete should delete Assignment', async () => {
-            await api.DeleteAssignment(createdEntity.id);
-            const retreived = await api.GetAssignmentById(createdEntity.id);
-            expect(retreived).not.toBeDefined();
+            await expect(api.DeleteAssignment('some id')).rejects.toEqual(new Error(ERROR_DEPRECATED_DELETE_ASSIGNMENT));
         });
-
-        it('deleting an assignment should delete its recurrences', async () => {
-            await api.DeleteAssignment(createdEntityWithRecurrence.id);
-            await createdEntityWithRecurrence.dutyRecurrences
-                .map(dr => dr.id)
-                .forEach(async id => {
-                    const recurrence = await api.GetDutyRecurrenceById(id);
-                    expect(recurrence).not.toBeDefined();
-                })
-        });
-
     });
 
     describe('Different types of assignments', () => {

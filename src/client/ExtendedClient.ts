@@ -25,6 +25,7 @@ import { TokenPayload } from '../common/authentication';
 import { decodeJwt } from '../common/tokenUtils';
 import { DateType } from '../common/types';
 import { getDateString } from '../common/dateUtils';
+import { ERROR_DEPRECATED_DELETE_DUTYRECURRENCE, ERROR_DEPRECATED_DELETE_ASSIGNMENT } from '../common/Messages';
 
 export type SuperAgentRequestInterceptor = (req: SA.SuperAgentRequest) => SA.SuperAgentRequest
 
@@ -266,5 +267,19 @@ export default class ExtendedClient extends Client {
             courthouseId, 
             date: getDateString(date) 
         });
+    }
+
+    /**
+     * @deprecated Please use ExpireAssignment instead.
+     */
+    async DeleteAssignment(id:string):Promise<void>{
+        throw new Error(ERROR_DEPRECATED_DELETE_ASSIGNMENT);
+    }
+
+    /**
+     * @deprecated Please use ExpireDutyRecurrence instead.
+     */
+    async DeleteDutyRecurrence(id:string):Promise<void>{
+        throw new Error(ERROR_DEPRECATED_DELETE_DUTYRECURRENCE);
     }
 }

@@ -1,11 +1,13 @@
-import { Body, Delete, Get, Path, Post, Put, Query, Route } from 'tsoa';
+import { Body, Delete, Get, Path, Post, Put, Query, Route, Request } from 'tsoa';
 import { Assignment } from '../models/Assignment';
 import { DutyRecurrence } from '../models/DutyRecurrence';
 import { AssignmentService } from '../services/AssignmentService';
 import ControllerBase from '../infrastructure/ControllerBase';
 import { DutyRecurrenceService } from '../services/DutyRecurrenceService';
+import {Request as KoaRequest} from 'koa';
 import { Security } from '../authentication';
 import { AutoWired, Inject } from 'typescript-ioc';
+import { ERROR_DEPRECATED_DELETE_ASSIGNMENT } from '../common/Messages';
 
 @Route('Assignments')
 @Security('jwt')
@@ -39,8 +41,16 @@ export class AssignmentController extends ControllerBase<Assignment,AssignmentSe
         return this.service.expire(id);
     }
 
+    
+    /**
+     * @deprecated Use expireAssignment Instead
+     *
+     * @param {string} id
+     * @returns
+     * @memberof AssignmentController
+     */
     @Delete('{id}')
-    public deleteAssignment(@Path() id: string) {
-        return super.delete(id);
+    public deleteAssignment(@Path() id: string, @Request() request:KoaRequest) {
+        request.ctx.throw(ERROR_DEPRECATED_DELETE_ASSIGNMENT,410);
     }
 }
