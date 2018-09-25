@@ -190,3 +190,42 @@ create_deployment_project(){
     expose_postgres
     write_postgres_envfile
 }
+
+clean_postgres(){
+    oc project $1
+    start_color $DARK_GRAY
+    echo "Scaling down postgres"
+    oc scale dc postgres --replicas=0 --timeout=1m
+    echo "Deleting postgres Volume Claim"
+    oc delete pvc postgres 2>/dev/null
+    echo "Recreating postgres Volume Claim"
+    # oc process -f ""
+    cat <<EOF | oc process -f - | oc create -f -
+    {
+        "kind": "Template",
+        "apiVersion": "v1",
+        "objects":[
+            {
+                "kind": "PersistentVolumeClaim",
+                "apiVersion": "v1",
+                "metadata": {
+                    "name": "postgres"
+                },
+                "spec": {
+                    "accessModes": [
+                        "ReadWriteOnce"
+                    ],
+                    "resources": {
+                        "requests": {
+                            "storage": "1Gi"
+                        }
+                    }
+                }
+            }
+        ]
+    }
+EOF
+    echo "Scaling up postgres"
+    oc scale dc postgres --replicas=1 --timeout=1m
+    end_color
+}
