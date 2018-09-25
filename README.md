@@ -64,7 +64,8 @@ Generally, I run the following two commands in separate terminal windows so that
 
 #### `yarn test`
 >
-> runs the jest tests for the application (should be done in conjuction with the `yarn watch:testing` command described above)
+> runs the jest tests for the application (should be done in conjuction with the `yarn watch:testing` command described above).  This command will use the values of `.env.jest` to override the values within `.env.testing` this is to allow the test runner to have admin access to the database so that tables and records can be deleted and cleaned for testing purposes.
+
 
 #### `yarn test:coverage`
 >

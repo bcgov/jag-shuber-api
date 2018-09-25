@@ -14,4 +14,6 @@ delete_project_if_exists $TESTING_PROJECT
 
 create_tools_project $TOOLS_PROJECT
 create_deployment_project $DEV_PROJECT $TOOLS_PROJECT
+# Testing Deployment
 create_deployment_project $TESTING_PROJECT $TOOLS_PROJECT
+write_jest_envfile

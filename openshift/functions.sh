@@ -151,6 +151,25 @@ EOT
     print_color $YELLOW "You can find necessary credentials at: \r\n\thttps://$ip:8443/console/project/$projectName/browse/secrets/api\r\n"
 }
 
+write_jest_envfile(){
+    start_color $DARK_GRAY
+    projectName=$(oc project -q)
+    ingressPort=$(oc get svc postgresql-ingress -o=jsonpath='{.spec.ports[0].nodePort}')
+    ip=$(minishift ip)
+    envFileName=".env.jest"
+    if [ -e $envFileName ]
+    then
+        rm $envFileName
+    fi
+      cat <<EOT >> .env.jest
+PGUSER='postgres'
+PGPASSWORD=''
+EOT
+    end_color
+    print_color $CYAN "Admin Postgres connection info (for jest) written to '.env.jest'\r\n"
+    print_color $YELLOW "You can find necessary credentials at: \r\n\thttps://$ip:8443/console/project/$projectName/browse/secrets/postgres\r\n"
+}
+
 create_tools_project(){
     create_project $1
     start_color $DARK_GRAY
