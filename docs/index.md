@@ -1,6 +1,6 @@
 # Project Architecture 
 
-![Container Diagrma](Container%20diagram%20for%20Scheduling%20System.png)
+![Container Diagram](Container%20diagram%20for%20Scheduling%20System.png)
 
 ## Technology
 
