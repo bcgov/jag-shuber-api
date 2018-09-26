@@ -1,5 +1,7 @@
 # Project Architecture 
 
+![Container Diagrma](Container%20diagram%20for%20Scheduling%20System.png)
+
 ## Technology
 
 - [typescript](https://www.typescriptlang.org/) - Language of choice
