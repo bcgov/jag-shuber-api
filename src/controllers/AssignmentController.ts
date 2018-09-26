@@ -1,9 +1,7 @@
 import { Body, Delete, Get, Path, Post, Put, Query, Route, Request } from 'tsoa';
 import { Assignment } from '../models/Assignment';
-import { DutyRecurrence } from '../models/DutyRecurrence';
 import { AssignmentService } from '../services/AssignmentService';
 import ControllerBase from '../infrastructure/ControllerBase';
-import { DutyRecurrenceService } from '../services/DutyRecurrenceService';
 import {Request as KoaRequest} from 'koa';
 import { Security } from '../authentication';
 import { AutoWired, Inject } from 'typescript-ioc';
@@ -17,8 +15,8 @@ export class AssignmentController extends ControllerBase<Assignment,AssignmentSe
     protected serviceInstance!:AssignmentService;
 
     @Get()
-    public getAssignments(@Query() courthouseId?: string, @Query() startDate?: string, @Query() endDate?: string) {
-        return this.service.getAll(courthouseId, { startDate, endDate });
+    public getAssignments(@Query() locationId?: string, @Query() startDate?: string, @Query() endDate?: string) {
+        return this.service.getAll(locationId, { startDate, endDate });
     }
 
     @Get('{id}')

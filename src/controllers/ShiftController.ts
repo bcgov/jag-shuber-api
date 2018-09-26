@@ -16,8 +16,8 @@ export class ShiftController extends ControllerBase<Shift, ShiftService> {
     protected serviceInstance!: ShiftService;
 
     @Get()
-    public getShifts(@Query() courthouseId?: string) {
-        return this.service.getAll(courthouseId);
+    public getShifts(@Query() locationId?: string) {
+        return this.service.getAll(locationId);
     }
 
     @Get('{id}')

@@ -1,5 +1,5 @@
 import ApiClient from '../ExtendedClient';
-import { Assignment, Courthouse, Region, Duty, Courtroom, DutyRecurrence, Sheriff, SheriffDuty, Shift } from '../models';
+import { Assignment, Location, Region, Duty, Courtroom, DutyRecurrence, Sheriff, SheriffDuty, Shift } from '../models';
 import TestUtils from './TestUtils';
 import moment from 'moment';
 
@@ -7,7 +7,7 @@ describe('SheriffDuty API', () => {
     let api: ApiClient;
 
     let testRegion: Region;
-    let testCourthouse: Courthouse;
+    let testLocation: Location;
     let testCourtroom: Courtroom;
     let testAssignment: Assignment;
     let testSheriff: Sheriff;
@@ -17,10 +17,10 @@ describe('SheriffDuty API', () => {
         await TestUtils.clearDatabase();
         await TestUtils.setupTestFixtures(async client => {
             testRegion = await TestUtils.newTestRegion();
-            testCourthouse = await TestUtils.newTestCourthouse(testRegion.id as string);
-            testCourtroom = await TestUtils.newTestCourtroom(testCourthouse.id as string);
-            testAssignment = await TestUtils.newTestAssignment(testCourthouse.id, { courtroomId: testCourtroom.id });
-            testSheriff = await TestUtils.newTestSheriff(testCourthouse.id as string);
+            testLocation = await TestUtils.newTestLocation(testRegion.id as string);
+            testCourtroom = await TestUtils.newTestCourtroom(testLocation.id as string);
+            testAssignment = await TestUtils.newTestAssignment(testLocation.id, { courtroomId: testCourtroom.id });
+            testSheriff = await TestUtils.newTestSheriff(testLocation.id as string);
             testDuty = await client.CreateDuty({
                 assignmentId: testAssignment.id,
                 startDateTime: moment().startOf('day').add(6, 'hours').format(),
@@ -90,7 +90,7 @@ describe('SheriffDuty API', () => {
             }
             shiftToCreate = {
                 assignmentId: testAssignment.id,
-                courthouseId: testAssignment.courthouseId,
+                locationId: testAssignment.locationId,
                 startDateTime: sheriffDutyToCreate.startDateTime,
                 endDateTime: sheriffDutyToCreate.endDateTime,
                 workSectionId: testAssignment.workSectionId,
@@ -109,7 +109,7 @@ describe('SheriffDuty API', () => {
                 shift = await client.CreateShift(shiftToCreate);
             });
             const autoAssigned = await api.AutoAssignSheriffDuties({
-                courthouseId: testCourthouse.id,
+                locationId: testLocation.id,
                 date: sheriffDuty.startDateTime
             });
 
@@ -148,7 +148,7 @@ describe('SheriffDuty API', () => {
             });
 
             const autoAssigned = await api.AutoAssignSheriffDuties({
-                courthouseId: testCourthouse.id,
+                locationId: testLocation.id,
                 date: testDuty.startDateTime
             });
 
@@ -189,7 +189,7 @@ describe('SheriffDuty API', () => {
                 // Create shift and associate it with the same assignment
                 shift = await client.CreateShift(shiftToCreate);
 
-                otherSheriff = await TestUtils.newTestSheriff(testCourthouse.id, { firstName: "Roger" });
+                otherSheriff = await TestUtils.newTestSheriff(testLocation.id, { firstName: "Roger" });
                 // Create shift and associate it with the same assignment
                 shift2 = await client.CreateShift({
                     ...shiftToCreate,
@@ -199,7 +199,7 @@ describe('SheriffDuty API', () => {
             });
 
             const autoAssigned = await api.AutoAssignSheriffDuties({
-                courthouseId: testCourthouse.id,
+                locationId: testLocation.id,
                 date: testDuty.startDateTime
             });
 
@@ -261,7 +261,7 @@ describe('SheriffDuty API', () => {
 
             });
             const autoAssigned = await api.AutoAssignSheriffDuties({
-                courthouseId: testCourthouse.id,
+                locationId: testLocation.id,
                 date: assignedSheriffDuty.startDateTime
             });
 
@@ -287,7 +287,7 @@ describe('SheriffDuty API', () => {
             let otherDuty: Duty;
             await TestUtils.setupTestFixtures(async client => {
                 // Create sheriff Duty tied to different assignment
-                otherAssignment = await TestUtils.newTestAssignment(testCourthouse.id, { courtroomId: testCourtroom.id });
+                otherAssignment = await TestUtils.newTestAssignment(testLocation.id, { courtroomId: testCourtroom.id });
                 otherDuty = await client.CreateDuty({
                     assignmentId: otherAssignment.id,
                     startDateTime: testDuty.startDateTime,
@@ -302,7 +302,7 @@ describe('SheriffDuty API', () => {
                 shift = await client.CreateShift(shiftToCreate);
             });
             const autoAssigned = await api.AutoAssignSheriffDuties({
-                courthouseId: testCourthouse.id,
+                locationId: testLocation.id,
                 date: sheriffDuty.startDateTime
             });
 
@@ -335,7 +335,7 @@ describe('SheriffDuty API', () => {
                 shift = await client.CreateShift(shiftToCreate);
             });
             const autoAssigned = await api.AutoAssignSheriffDuties({
-                courthouseId: testCourthouse.id,
+                locationId: testLocation.id,
                 date: sheriffDuty.startDateTime
             });
 
@@ -365,7 +365,7 @@ describe('SheriffDuty API', () => {
                 });
             });
             const autoAssigned = await api.AutoAssignSheriffDuties({
-                courthouseId: testCourthouse.id,
+                locationId: testLocation.id,
                 date: sheriffDuty.startDateTime
             });
 

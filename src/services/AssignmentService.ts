@@ -7,7 +7,7 @@ import { ValidateError, FieldErrors } from 'tsoa';
 import { ClientBase } from 'pg';
 import { CourtroomService } from './CourtroomService';
 import { JailRoleCodeService } from './JailRoleCodeService';
-import { RunService } from './RunService';
+import { EscortRunService } from './EscortRunService';
 import { OtherAssignCodeService } from './OtherAssignCodeService';
 import { CourtRoleCodeService } from './CourtRoleCodeService';
 import { AutoWired, Inject, Container } from 'typescript-ioc';
@@ -21,9 +21,9 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
     fieldMap = {
         assignment_id: 'id',
         title: 'title',
-        courthouse_id: 'courthouseId',
+        location_id: 'locationId',
         courtroom_id: 'courtroomId',
-        run_id: 'runId',
+        escort_run_id: 'escortRunId',
         jail_role_code: 'jailRoleCode',
         other_assign_code: 'otherAssignCode',
         work_section_code: 'workSectionId',
@@ -43,11 +43,11 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
         return assignment;
     }
 
-    async getAll(courthouseId?: string, options?: EffectiveQueryOptions): Promise<Assignment[]> {
+    async getAll(locationId?: string, options?: EffectiveQueryOptions): Promise<Assignment[]> {
         const query = super.getEffectiveSelectQuery(options);
 
-        if (courthouseId) {
-            query.where(`courthouse_id='${courthouseId}'`);
+        if (locationId) {
+            query.where(`location_id='${locationId}'`);
         };
         const assignments = await this.executeQuery<Assignment>(query.toString());
         const assignmentIds = assignments.map(a => a.id) as string[];
@@ -121,10 +121,10 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
                 }, "Invalid Other Assignment")
             }
         } else if (entity.workSectionId === "ESCORTS") {
-            if (entity.runId == undefined) {
+            if (entity.escortRunId == undefined) {
                 throw new ValidateError({
-                    'model.runId': {
-                        message: "Run must be set for Escort assignments"
+                    'model.escortRunId': {
+                        message: "Escort Run must be set for Escort assignments"
                     }
                 }, "Invalid Escort Assignment")
             }
@@ -154,8 +154,8 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
                 title = code.description;
             }
         } else if (entity.workSectionId === "ESCORTS") {
-            const service = Container.get(RunService) as RunService;
-            const run = await service.getById(entity.runId as string);
+            const service = Container.get(EscortRunService) as EscortRunService;
+            const run = await service.getById(entity.escortRunId as string);
             if (run) {
                 title = run.title;
             }

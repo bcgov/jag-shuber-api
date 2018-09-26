@@ -14,8 +14,8 @@ export class CourtroomController extends ControllerBase<Courtroom, CourtroomServ
     protected serviceInstance!: CourtroomService;
 
     @Get()
-    public getCourtrooms(@Query() courthouseId?: string) {
-        return this.service.getAll(courthouseId);
+    public getCourtrooms(@Query() locationId?: string) {
+        return this.service.getAll(locationId);
     }
 
     @Get('{id}')

@@ -1,6 +1,6 @@
 import * as SA from 'superagent';
 import Client from './Client';
-import { Assignment, Courthouse, Courtroom, Duty, DutyRecurrence, Region, Run, Sheriff, Shift, DutyImportDefaultsRequest, MultipleShiftUpdateRequest, Leave, SheriffDuty, SheriffDutyAutoAssignRequest } from './models';
+import { Assignment, Location, Courtroom, Duty, DutyRecurrence, Region, EscortRun, Sheriff, Shift, DutyImportDefaultsRequest, MultipleShiftUpdateRequest, Leave, SheriffDuty, SheriffDutyAutoAssignRequest } from './models';
 import { DateType } from '../common/types';
 export declare type SuperAgentRequestInterceptor = (req: SA.SuperAgentRequest) => SA.SuperAgentRequest;
 export default class ExtendedClient extends Client {
@@ -14,16 +14,16 @@ export default class ExtendedClient extends Client {
     protected processError(err: any): Error;
     private nullOn404;
     GetRegionById(id: string): Promise<Region>;
-    GetCourthouseById(id: string): Promise<Courthouse>;
+    GetLocationById(id: string): Promise<Location>;
     GetSheriffById(id: string): Promise<Sheriff>;
-    GetSheriffs(courthouseId?: string): Promise<Sheriff[]>;
+    GetSheriffs(locationId?: string): Promise<Sheriff[]>;
     GetCourtroomById(id: string): Promise<Courtroom>;
-    GetCourtrooms(courthouseId?: string): Promise<Courtroom[]>;
+    GetCourtrooms(locationId?: string): Promise<Courtroom[]>;
     GetAssignmentById(id: string): Promise<Assignment>;
-    GetAssignments(courthouseId?: string, startDate?: DateType, endDate?: DateType): Promise<Assignment[]>;
-    GetRuns(courthouseId?: string): Promise<Run[]>;
-    GetRunById(id: string): Promise<Run>;
-    GetShifts(courthouseId?: string): Promise<Shift[]>;
+    GetAssignments(locationId?: string, startDate?: DateType, endDate?: DateType): Promise<Assignment[]>;
+    GetEscortRuns(locationId?: string): Promise<EscortRun[]>;
+    GetEscortRunById(id: string): Promise<EscortRun>;
+    GetShifts(locationId?: string): Promise<Shift[]>;
     GetShiftById(id: string): Promise<Shift>;
     GetDutyRecurrenceById(id: string): Promise<DutyRecurrence>;
     GetDutyRecurrences(startDate?: DateType, endDate?: DateType): Promise<DutyRecurrence[]>;

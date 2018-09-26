@@ -2,7 +2,7 @@ import { toMatchShapeOf, toMatchOneOf } from 'jest-to-match-shape-of';
 import db from '../../db/Database';
 import { closeConnectionPool } from '../../db/connection';
 import ExtendedClient from '../ExtendedClient';
-import { Courthouse, Courtroom, Assignment, Region, DutyRecurrence, Duty, SheriffDuty, Shift, Leave } from '../models';
+import { Location, Courtroom, Assignment, Region, DutyRecurrence, Duty, SheriffDuty, Shift, Leave } from '../models';
 import { Sheriff } from '../../models/Sheriff';
 import { ClientBase } from 'pg';
 import '../../support/MomentMatchers';
@@ -16,7 +16,7 @@ import {
 } from '../../common/authentication';
 import { DatabaseService } from '../../infrastructure/DatabaseService';
 import { AssignmentService } from '../../services/AssignmentService';
-import { CourthouseService } from '../../services/CourthouseService';
+import { LocationService } from '../../services/LocationService';
 import { SheriffDutyService } from '../../services/SheriffDutyService';
 import { DatabaseRecordMetadata } from '../../infrastructure/DatabaseRecordMetadata';
 
@@ -39,10 +39,10 @@ export default class TestUtils {
         duty_recurrence: 'duty_recurrence',
         assignment: 'assignment',
         courtroom: 'courtroom',
-        run: 'run',
+        escort_run: 'escort_run',
         shift: 'shift',
         sheriff: 'sheriff',
-        courthouse: 'courthouse',
+        location: 'location',
         region: 'region',
         leave: 'leave'
     }
@@ -57,10 +57,10 @@ export default class TestUtils {
         TestUtils.tables.shift,
         TestUtils.tables.assignment,
         TestUtils.tables.courtroom,
-        TestUtils.tables.run,
+        TestUtils.tables.escort_run,
         TestUtils.tables.leave,
         TestUtils.tables.sheriff,
-        TestUtils.tables.courthouse,
+        TestUtils.tables.location,
         TestUtils.tables.region,
     ]
 
@@ -73,8 +73,8 @@ export default class TestUtils {
             case TestUtils.tables.assignment:
                 service = new AssignmentService();
                 break;
-            case TestUtils.tables.courthouse:
-                service = new CourthouseService();
+            case TestUtils.tables.location:
+                service = new LocationService();
                 break;
             case TestUtils.tables.sheriff_duty:
                 service = new SheriffDutyService();
@@ -171,27 +171,27 @@ export default class TestUtils {
         ) as Region;
     }
 
-    static async newTestCourthouse(regionId: string): Promise<Courthouse> {
-        return await TestUtils.setupTestFixtures(api => api.CreateCourthouse({
+    static async newTestLocation(regionId: string): Promise<Location> {
+        return await TestUtils.setupTestFixtures(api => api.CreateLocation({
             regionId,
             name: "TEST COURTHOUSE",
             code: TestUtils.randomString(5)
-        })) as Courthouse;
+        })) as Location;
     }
 
-    static async newTestCourtroom(courthouseId: string): Promise<Courtroom> {
+    static async newTestCourtroom(locationId: string): Promise<Courtroom> {
         return await TestUtils.setupTestFixtures(api => api.CreateCourtroom({
             name: "TEST COURTROOM",
-            courthouseId,
+            locationId,
             code: TestUtils.randomString(5)
         })) as Courtroom;
     }
 
-    static async newTestAssignment(courthouseId, assignmentDetails: Partial<Assignment> = {}): Promise<Assignment> {
+    static async newTestAssignment(locationId, assignmentDetails: Partial<Assignment> = {}): Promise<Assignment> {
         let workSectionId = "";
         if (assignmentDetails.jailRoleCode) {
             workSectionId = "JAIL";
-        } else if (assignmentDetails.runId) {
+        } else if (assignmentDetails.escortRunId) {
             workSectionId = "ESCORTS";
         } else if (assignmentDetails.courtroomId) {
             workSectionId = "COURTS";
@@ -201,28 +201,28 @@ export default class TestUtils {
         return await TestUtils.setupTestFixtures(api => api.CreateAssignment({
             ...assignmentDetails,
             workSectionId,
-            courthouseId
+            locationId
         })) as Assignment;
     }
 
-    static async newTestSheriff(courthouseId: string, sheriff?: Partial<Sheriff>): Promise<Sheriff> {
+    static async newTestSheriff(locationId: string, sheriff?: Partial<Sheriff>): Promise<Sheriff> {
         return await TestUtils.setupTestFixtures(api =>
             api.CreateSheriff({
                 badgeNo: TestUtils.randomString(5),
                 firstName: 'Bill',
                 lastName: 'Nye',
                 rankCode: 'DEPUTYSHERIFF',
-                homeCourthouseId: courthouseId
+                homeLocationId: locationId
             })) as Sheriff;
     }
 
-    static async newTestShift(courthouseId: string, shift?: Partial<Shift>): Promise<Shift> {
+    static async newTestShift(locationId: string, shift?: Partial<Shift>): Promise<Shift> {
         return await TestUtils.setupTestFixtures(api => api.CreateShift({
             startDateTime: moment().startOf('day').hours(7).format(),
             endDateTime: moment().startOf('day').hours(8).format(),
             workSectionId: 'COURTS',
             ...shift,
-            courthouseId
+            locationId
         })) as Shift;
     }
 

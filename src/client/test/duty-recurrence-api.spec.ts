@@ -1,6 +1,6 @@
 import moment from 'moment';
 import ApiClient from '../ExtendedClient';
-import { Assignment, Courthouse, Region, DutyRecurrence, Courtroom } from '../models';
+import { Assignment, Location, Region, DutyRecurrence, Courtroom } from '../models';
 import TestUtils from './TestUtils';
 import { ERROR_DEPRECATED_DELETE_DUTYRECURRENCE } from '../../common/Messages';
 
@@ -8,7 +8,7 @@ describe('Duty Recurrence API', () => {
     let api: ApiClient;
 
     let testRegion: Region;
-    let testCourthouse: Courthouse;
+    let testLocation: Location;
     let testCourtroom:Courtroom;
     let testAssignment: Assignment;
 
@@ -24,9 +24,9 @@ describe('Duty Recurrence API', () => {
 
     beforeAll(async (done) => {
         testRegion = await TestUtils.newTestRegion();
-        testCourthouse = await TestUtils.newTestCourthouse(testRegion.id);
-        testCourtroom = await TestUtils.newTestCourtroom(testCourthouse.id);
-        testAssignment = await TestUtils.newTestAssignment(testCourthouse.id, { courtroomId: testCourtroom.id });
+        testLocation = await TestUtils.newTestLocation(testRegion.id);
+        testCourtroom = await TestUtils.newTestCourtroom(testLocation.id);
+        testAssignment = await TestUtils.newTestAssignment(testLocation.id, { courtroomId: testCourtroom.id });
         api = TestUtils.getClientWithAuth();
         done();
     });

@@ -28,14 +28,14 @@ import {
 
     Assignment,
     Region,
-    Courthouse,
+    Location,
     Sheriff,
     Courtroom,
     JailRoleCode,
     OtherAssignCode,
     WorkSectionCode,
     SheriffRankCode,
-    Run,
+    EscortRun,
     Shift,
     MultipleShiftUpdateRequest,
     ShiftCopyOptions,
@@ -165,9 +165,9 @@ export default class Client {
         }
     }
 
-    public async GetAssignments( courthouseId:string , startDate:string , endDate:string ):Promise<Array<Assignment>>{
+    public async GetAssignments( locationId:string , startDate:string , endDate:string ):Promise<Array<Assignment>>{
         const params = { 
-            "courthouseId":courthouseId,
+            "locationId":locationId,
             "startDate":startDate,
             "endDate":endDate 
         };
@@ -241,41 +241,41 @@ export default class Client {
             return response;
         });
     }    
-    public async GetCourthouses():Promise<Array<Courthouse>>{
-        return this.tryRequest<Array<Courthouse>>(async () => {
-            const response: superAgent.Response = await this.agent.get(`/courthouses`)
+    public async GetLocations():Promise<Array<Location>>{
+        return this.tryRequest<Array<Location>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/locations`)
             return response;
         });
     }    
-    public async CreateCourthouse( model:Courthouse ):Promise<Courthouse>{
-        return this.tryRequest<Courthouse>(async () => {
-            const response: superAgent.Response = await this.agent.post(`/courthouses`)
+    public async CreateLocation( model:Location ):Promise<Location>{
+        return this.tryRequest<Location>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/locations`)
                 .send(model)
             return response;
         });
     }    
-    public async GetCourthouseById( id:string ):Promise<Courthouse>{
-        return this.tryRequest<Courthouse>(async () => {
-            const response: superAgent.Response = await this.agent.get(`/courthouses/${id}`)
+    public async GetLocationById( id:string ):Promise<Location>{
+        return this.tryRequest<Location>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/locations/${id}`)
             return response;
         });
     }    
-    public async UpdateCourthouse( id:string , model:Courthouse ):Promise<Courthouse>{
-        return this.tryRequest<Courthouse>(async () => {
-            const response: superAgent.Response = await this.agent.put(`/courthouses/${id}`)
+    public async UpdateLocation( id:string , model:Location ):Promise<Location>{
+        return this.tryRequest<Location>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/locations/${id}`)
                 .send(model)
             return response;
         });
     }    
-    public async DeleteCourthouse( id:string ):Promise<void>{
+    public async DeleteLocation( id:string ):Promise<void>{
         return this.tryRequest<void>(async () => {
-            const response: superAgent.Response = await this.agent.delete(`/courthouses/${id}`)
+            const response: superAgent.Response = await this.agent.delete(`/locations/${id}`)
             return response;
         });
     }    
-    public async GetSheriffs( courthouseId:string ):Promise<Array<Sheriff>>{
+    public async GetSheriffs( locationId:string ):Promise<Array<Sheriff>>{
         const params = { 
-            "courthouseId":courthouseId 
+            "locationId":locationId 
         };
         return this.tryRequest<Array<Sheriff>>(async () => {
             const response: superAgent.Response = await this.agent.get(`/sheriffs`)
@@ -309,9 +309,9 @@ export default class Client {
             return response;
         });
     }    
-    public async GetCourtrooms( courthouseId:string ):Promise<Array<Courtroom>>{
+    public async GetCourtrooms( locationId:string ):Promise<Array<Courtroom>>{
         const params = { 
-            "courthouseId":courthouseId 
+            "locationId":locationId 
         };
         return this.tryRequest<Array<Courtroom>>(async () => {
             const response: superAgent.Response = await this.agent.get(`/courtrooms`)
@@ -369,45 +369,45 @@ export default class Client {
             return response;
         });
     }    
-    public async GetRuns( courthouseId:string ):Promise<Array<Run>>{
+    public async GetEscortRuns( locationId:string ):Promise<Array<EscortRun>>{
         const params = { 
-            "courthouseId":courthouseId 
+            "locationId":locationId 
         };
-        return this.tryRequest<Array<Run>>(async () => {
-            const response: superAgent.Response = await this.agent.get(`/runs`)
+        return this.tryRequest<Array<EscortRun>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/escort-runs`)
                 .query(params)
             return response;
         });
     }    
-    public async CreateRun( model:Run ):Promise<Run>{
-        return this.tryRequest<Run>(async () => {
-            const response: superAgent.Response = await this.agent.post(`/runs`)
+    public async CreateEscortRun( model:EscortRun ):Promise<EscortRun>{
+        return this.tryRequest<EscortRun>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/escort-runs`)
                 .send(model)
             return response;
         });
     }    
-    public async GetRunById( id:string ):Promise<Run>{
-        return this.tryRequest<Run>(async () => {
-            const response: superAgent.Response = await this.agent.get(`/runs/${id}`)
+    public async GetEscortRunById( id:string ):Promise<EscortRun>{
+        return this.tryRequest<EscortRun>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/escort-runs/${id}`)
             return response;
         });
     }    
-    public async UpdateRun( id:string , model:Run ):Promise<Run>{
-        return this.tryRequest<Run>(async () => {
-            const response: superAgent.Response = await this.agent.put(`/runs/${id}`)
+    public async UpdateEscortRun( id:string , model:EscortRun ):Promise<EscortRun>{
+        return this.tryRequest<EscortRun>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/escort-runs/${id}`)
                 .send(model)
             return response;
         });
     }    
-    public async DeleteRun( id:string ):Promise<void>{
+    public async DeleteEscortRun( id:string ):Promise<void>{
         return this.tryRequest<void>(async () => {
-            const response: superAgent.Response = await this.agent.delete(`/runs/${id}`)
+            const response: superAgent.Response = await this.agent.delete(`/escort-runs/${id}`)
             return response;
         });
     }    
-    public async GetShifts( courthouseId:string ):Promise<Array<Shift>>{
+    public async GetShifts( locationId:string ):Promise<Array<Shift>>{
         const params = { 
-            "courthouseId":courthouseId 
+            "locationId":locationId 
         };
         return this.tryRequest<Array<Shift>>(async () => {
             const response: superAgent.Response = await this.agent.get(`/Shifts`)

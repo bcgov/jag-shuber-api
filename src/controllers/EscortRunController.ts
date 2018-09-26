@@ -1,41 +1,41 @@
 import { Body, Delete, Get, Path, Post, Put, Query, Route } from 'tsoa';
-import { Sheriff } from '../models/Sheriff';
-import { SheriffService } from '../services/SheriffService';
+import { EscortRun } from '../models/EscortRun';
+import { EscortRunService } from '../services/EscortRunService';
 import ControllerBase from '../infrastructure/ControllerBase';
 import { Security } from '../authentication';
 import { AutoWired, Inject } from 'typescript-ioc';
 
-@Route('sheriffs')
+@Route('escort-runs')
 @Security('jwt')
 @AutoWired
-export class SheriffController extends ControllerBase<Sheriff, SheriffService> {
+export class EscortRunController extends ControllerBase<EscortRun, EscortRunService> {
 
     @Inject
-    protected serviceInstance!: SheriffService;
+    protected serviceInstance!: EscortRunService;
 
     @Get()
-    public getSheriffs(@Query() locationId?: string) {
+    public getEscortRuns(@Query() locationId?: string) {
         return this.service.getAll(locationId);
     }
 
     @Get('{id}')
-    public getSheriffById(id: string) {
+    public getEscortRunById(id: string) {
         return super.getById(id);
     }
 
     @Post()
-    public createSheriff(@Body() model: Sheriff) {
+    public createEscortRun(@Body() model: EscortRun) {
         return super.create(model);
     }
 
 
     @Put('{id}')
-    public updateSheriff(@Path() id: string, @Body() model: Sheriff) {
+    public updateEscortRun(@Path() id: string, @Body() model: EscortRun) {
         return super.update(id, model);
     }
 
     @Delete('{id}')
-    public deleteSheriff(@Path() id: string) {
+    public deleteEscortRun(@Path() id: string) {
         return super.delete(id);
     }
 }

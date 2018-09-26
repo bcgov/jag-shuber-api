@@ -1,4 +1,4 @@
 export  interface DutyImportDefaultsRequest{
-    courthouseId:string;
+    locationId:string;
     date?:string;
 }

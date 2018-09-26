@@ -6,12 +6,58 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0] - 2018-09-??
+
 ### Deprecated
 - `deleteAssignment` in favour of `expireAssignment`
 - `deleteDutyRecurrence` in favour of `expireDutyRecurrence`
 
 ### Removed
-- `courthouse.addressId` has been removed as it was not being used
+- `models/Courthouse.location` has been removed as it was not being used
+
+### Changed
+
+#### API Client
+| Original | New |
+|:---|:---|
+|`GetCourthouses` | `GetLocations`|
+|`CreateCourthouse` | `CreateLocation` |
+|`GetCourthouseById` | `GetLocationById`|
+|`UpdateCourthouse` | `UpdateLocation` |
+|`DeleteCourthouse` | `DeleteLocation` |
+|`GetRuns`  | `GetEscortRuns`|
+|`CreateRun`  | `CreateEscortRun`|
+|`GetRunById`  | `GetEscortRunById`|
+|`UpdateRun`  | `UpdateEscortRun`|
+|`DeleteRun`  | `DeleteEscortRun`|
+
+#### Models
+| Original | New |
+|:---|:---|
+| `Courthouse` | `Location` |
+| `Assignment.courthouseId` | `Assignment.locationId`  |
+| `Assignment.runId` | `Assignment.escortRunId`  |
+| `Courthouse.parentCourthouseId` | `Courthouse.parentLocationId`  |
+| `Sheriff.homeCourthouseId` | `Sheriff.homeLocationId`  |
+| `Sheriff.currentCourthouseId` | `Sheriff.currentLocationId`  |
+| `Courtroom.courthouseId` | `Courtroom.locationId`  |
+| `Run` | `EscortRun` |
+| `Run.courthouseId` | `EscortRun.locationId` |
+| `Shift.courthouseId` | `Shift.locationId` |
+| `ShiftCopyOptions.courthouseId` | `ShiftCopyOptions.locationId` |
+| `DutyImportDefaultsRequest.courthouseId` | `DutyImportDefaultsRequest.locationId` |
+| `SheriffDutyAutoAssignRequest.courthouseId` | `SheriffDutyAutoAssignRequest.locationId` |
+
+#### API
+
+|Type | Original | New |
+|:---|:---|:---|
+| Service | `CourthouseService` | `LocationService` |
+| Controller |`CourthouseController` | `LocationController` |
+| Endpoint | `/courthouses` | `/locations` |
+
+> Model Changes described above apply to both the client and backend of the API
+
 
 ## [1.5.0] - 2018-09-18
 ### Changed

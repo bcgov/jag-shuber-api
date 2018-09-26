@@ -1,6 +1,6 @@
 import ApiClient from '../ExtendedClient';
 import {
-    Courthouse,
+    Location,
     Region,
     Shift,
     MultipleShiftUpdateRequest,
@@ -19,15 +19,15 @@ describe('Shift API', () => {
         name: "Shift Testing Region",
         code: TestUtils.randomString(5)
     }
-    let testCourthouse: Courthouse = {
-        name: "Shift Testing Courthouse",
+    let testLocation: Location = {
+        name: "Shift Testing Location",
         code: TestUtils.randomString(5)
     }
 
     
 
     const entityToCreate: Shift = {
-        courthouseId: "To Replace",
+        locationId: "To Replace",
         workSectionId: "COURTS",
         startDateTime: moment().toISOString(),
         endDateTime: moment().add(1, 'hour').toISOString()
@@ -38,7 +38,7 @@ describe('Shift API', () => {
     beforeAll(async (done) => {
         await TestUtils.setupTestFixtures(async client=>{
             testRegion = await client.CreateRegion(testRegion);
-            testCourthouse = await client.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
+            testLocation = await client.CreateLocation({ ...testLocation, regionId: testRegion.id });
         });
         api = TestUtils.getClientWithAuth();
         done();
@@ -48,16 +48,16 @@ describe('Shift API', () => {
         it('create should return new Shift', async () => {
             createdEntity = await api.CreateShift({
                 ...entityToCreate,
-                courthouseId: testCourthouse.id,
+                locationId: testLocation.id,
                 
             });
             expect(createdEntity).toBeDefined();
             expect(createdEntity.id).toBeDefined();
-            expect(createdEntity.courthouseId).toEqual(testCourthouse.id);
+            expect(createdEntity.locationId).toEqual(testLocation.id);
             expect(createdEntity).toEqual({
                 ...createdEntity,
                 ...entityToCreate,
-                courthouseId: testCourthouse.id
+                locationId: testLocation.id
             });
         });
 
@@ -73,21 +73,21 @@ describe('Shift API', () => {
             expect(list.length).toEqual(1);
         });
 
-        it('get list should return only those shifts in courthouse if specified', async () => {
-            const secondTestCourthouse = { ...testCourthouse }
-            delete secondTestCourthouse['id'];
-            secondTestCourthouse.name = "Test Courthouse 2";
-            secondTestCourthouse.code = "TCH32";
-            const secondCourthouse = await api.CreateCourthouse(secondTestCourthouse);
+        it('get list should return only those shifts in location if specified', async () => {
+            const secondTestLocation = { ...testLocation }
+            delete secondTestLocation['id'];
+            secondTestLocation.name = "Test Location 2";
+            secondTestLocation.code = "TCH32";
+            const secondLocation = await api.CreateLocation(secondTestLocation);
             const secondEntity = await api.CreateShift({
                 ...entityToCreate,
-                courthouseId: secondCourthouse.id
+                locationId: secondLocation.id
             } as Shift);
 
             let list = await api.GetShifts();
             expect(list.length).toEqual(2);
 
-            list = await api.GetShifts(secondCourthouse.id);
+            list = await api.GetShifts(secondLocation.id);
             expect(list.length).toEqual(1);
             expect(list[0]).toEqual(secondEntity);
         });
@@ -121,7 +121,7 @@ describe('Shift API', () => {
             const testAssignment = await api.CreateAssignment({
                 title: "Test Assignment",
                 workSectionId: "COURTS",
-                courthouseId: testCourthouse.id,
+                locationId: testLocation.id,
                 dutyRecurrences: [],
                 courtRoleId: testCourtRoleCode.code
             });
@@ -157,7 +157,7 @@ describe('Shift API', () => {
                 lastName: 'Nye',
                 badgeNo: '12345678',
                 rankCode: "DEPUTYSHERIFF",
-                homeCourthouseId: testCourthouse.id
+                homeLocationId: testLocation.id
             };
 
             createdSheriff = await api.CreateSheriff(sheriffToCreate);
@@ -170,7 +170,7 @@ describe('Shift API', () => {
             const workSectionIds = ['COURTS', 'JAIL', 'ESCORTS', 'OTHER'];
             testShifts = await Promise.all(workSectionIds.map((id, index) =>
                 api.CreateShift({
-                    courthouseId: testCourthouse.id,
+                    locationId: testLocation.id,
                     startDateTime: moment().startOf('day').add(index, 'day').hours(7).toISOString(),
                     endDateTime: moment().startOf('day').add(index, 'day').hours(8 + 1).toISOString(),
                     workSectionId: id
@@ -185,8 +185,8 @@ describe('Shift API', () => {
                 workSectionId: 'COURTS'
             }
             const updatedShifts = await api.UpdateMultipleShifts(updates);
-            const courthouseShifts = await api.GetShifts(testCourthouse.id);
-            const retrieved = courthouseShifts.filter(s => testShiftIds.includes(s.id));
+            const locationShifts = await api.GetShifts(testLocation.id);
+            const retrieved = locationShifts.filter(s => testShiftIds.includes(s.id));
 
             expect(updatedShifts).toEqual(expect.arrayContaining(retrieved));
             expect(updatedShifts.every(s => s.workSectionId === 'COURTS')).toBeTruthy();
@@ -199,8 +199,8 @@ describe('Shift API', () => {
                 workSectionId: ''
             }
             const updatedShifts = await api.UpdateMultipleShifts(updates);
-            const courthouseShifts = await api.GetShifts(testCourthouse.id);
-            const retrieved = courthouseShifts.filter(s => testShiftIds.includes(s.id));
+            const locationShifts = await api.GetShifts(testLocation.id);
+            const retrieved = locationShifts.filter(s => testShiftIds.includes(s.id));
 
             expect(updatedShifts).toEqual(expect.arrayContaining(retrieved));
             updatedShifts.forEach(s => {
@@ -216,8 +216,8 @@ describe('Shift API', () => {
                 startTime: newStartTime.format()
             }
             const updatedShifts = await api.UpdateMultipleShifts(updates);
-            const courthouseShifts = await api.GetShifts(testCourthouse.id);
-            const retrieved = courthouseShifts.filter(s => testShiftIds.includes(s.id));
+            const locationShifts = await api.GetShifts(testLocation.id);
+            const retrieved = locationShifts.filter(s => testShiftIds.includes(s.id));
 
             expect(updatedShifts).toEqual(expect.arrayContaining(retrieved));
             updatedShifts.map(s => moment(s.startDateTime)).forEach(startTime => expect(startTime).toBeSameTime(newStartTime));
@@ -239,8 +239,8 @@ describe('Shift API', () => {
                 endTime: newEndTime.format()
             }
             const updatedShifts = await api.UpdateMultipleShifts(updates);
-            const courthouseShifts = await api.GetShifts(testCourthouse.id);
-            const retrieved = courthouseShifts.filter(s => testShiftIds.includes(s.id));
+            const locationShifts = await api.GetShifts(testLocation.id);
+            const retrieved = locationShifts.filter(s => testShiftIds.includes(s.id));
             expect(updatedShifts).toEqual(expect.arrayContaining(retrieved));
 
             // Make sure all of the times are correct
@@ -266,8 +266,8 @@ describe('Shift API', () => {
                 endTime: newEndTime.format()
             }
             const updatedShifts = await api.UpdateMultipleShifts(updates);
-            const courthouseShifts = await api.GetShifts(testCourthouse.id);
-            const retrieved = courthouseShifts.filter(s => testShiftIds.includes(s.id));
+            const locationShifts = await api.GetShifts(testLocation.id);
+            const retrieved = locationShifts.filter(s => testShiftIds.includes(s.id));
 
             expect(updatedShifts).toEqual(expect.arrayContaining(retrieved));
             updatedShifts.map(s => moment(s.endDateTime)).forEach(endTime => expect(endTime).toBeSameTime(newEndTime));
@@ -291,8 +291,8 @@ describe('Shift API', () => {
                 sheriffId: createdSheriff.id
             }
             const updatedShifts = await api.UpdateMultipleShifts(updates);
-            const courthouseShifts = await api.GetShifts(testCourthouse.id);
-            const retrieved = courthouseShifts.filter(s => testShiftIds.includes(s.id));
+            const locationShifts = await api.GetShifts(testLocation.id);
+            const retrieved = locationShifts.filter(s => testShiftIds.includes(s.id));
 
             expect(updatedShifts).toEqual(expect.arrayContaining(retrieved));
             expect(updatedShifts.every(s => s.sheriffId === createdSheriff.id)).toBeTruthy();
@@ -306,8 +306,8 @@ describe('Shift API', () => {
                 sheriffId: ""
             }
             const updatedShifts = await api.UpdateMultipleShifts(updates);
-            const courthouseShifts = await api.GetShifts(testCourthouse.id);
-            const retrieved = courthouseShifts.filter(s => testShiftIds.includes(s.id));
+            const locationShifts = await api.GetShifts(testLocation.id);
+            const retrieved = locationShifts.filter(s => testShiftIds.includes(s.id));
 
             expect(updatedShifts).toEqual(expect.arrayContaining(retrieved));
             updatedShifts.forEach(s => expect(s.sheriffId).toBeNull());
@@ -320,7 +320,7 @@ describe('Shift API', () => {
         let createdSheriff: Sheriff = {};
         const startOfWeekSourceMoment = moment().startOf('week').add(1, 'week'); //May 27
         beforeAll(async (done) => {
-            createdSheriff = await TestUtils.newTestSheriff(testCourthouse.id);
+            createdSheriff = await TestUtils.newTestSheriff(testLocation.id);
             done();
         });
 
@@ -329,7 +329,7 @@ describe('Shift API', () => {
             const workSectionIds = ['COURTS', 'JAIL', 'ESCORTS', 'OTHER'];
             testShifts = await Promise.all(workSectionIds.map((id, index) =>
                 api.CreateShift({
-                    courthouseId: testCourthouse.id,
+                    locationId: testLocation.id,
                     startDateTime: moment(startOfWeekSourceMoment).add(index + 1, 'day').add(8, 'hour').toISOString(),
                     endDateTime: moment(startOfWeekSourceMoment).add(index + 1, 'day').add(16, 'hour').toISOString(),
                     workSectionId: id,
@@ -362,10 +362,10 @@ describe('Shift API', () => {
                 shouldIncludeSheriffs: false,
                 startOfWeekSource: startOfWeekSourceMoment.toISOString(),
                 startOfWeekDestination: moment(startOfWeekSourceMoment).add(1, 'week').toISOString(),
-                courthouseId: testCourthouse.id
+                locationId: testLocation.id
             }
-            const initialCourthouseShifts = await api.GetShifts(testCourthouse.id);
-            const initialRetreivedCourthouseShifts = initialCourthouseShifts.filter(s => testShiftIds.includes(s.id));
+            const initialLocationShifts = await api.GetShifts(testLocation.id);
+            const initialRetreivedLocationShifts = initialLocationShifts.filter(s => testShiftIds.includes(s.id));
 
             const copiedShifts = await api.CopyShifts(copyOptions);
 
@@ -379,10 +379,10 @@ describe('Shift API', () => {
                 shouldIncludeSheriffs: true,
                 startOfWeekSource: startOfWeekSourceMoment.toISOString(),
                 startOfWeekDestination: moment(startOfWeekSourceMoment).add(1, 'week').toISOString(),
-                courthouseId: testCourthouse.id
+                locationId: testLocation.id
             }
-            const initialCourthouseShifts = await api.GetShifts(testCourthouse.id);
-            const initialRetreivedCourthouseShifts = initialCourthouseShifts.filter(s => testShiftIds.includes(s.id));
+            const initialLocationShifts = await api.GetShifts(testLocation.id);
+            const initialRetreivedLocationShifts = initialLocationShifts.filter(s => testShiftIds.includes(s.id));
 
             const copiedShifts = await api.CopyShifts(copyOptions);
 

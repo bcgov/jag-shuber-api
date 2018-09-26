@@ -193,12 +193,12 @@ var ExtendedClient = /** @class */ (function (_super) {
             });
         });
     };
-    ExtendedClient.prototype.GetCourthouseById = function (id) {
+    ExtendedClient.prototype.GetLocationById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.nullOn404(function () { return _super.prototype.GetCourthouseById.call(_this, id); })];
+                    case 0: return [4 /*yield*/, this.nullOn404(function () { return _super.prototype.GetLocationById.call(_this, id); })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
@@ -215,9 +215,9 @@ var ExtendedClient = /** @class */ (function (_super) {
             });
         });
     };
-    ExtendedClient.prototype.GetSheriffs = function (courthouseId) {
-        if (courthouseId === void 0) { courthouseId = ""; }
-        return _super.prototype.GetSheriffs.call(this, courthouseId);
+    ExtendedClient.prototype.GetSheriffs = function (locationId) {
+        if (locationId === void 0) { locationId = ""; }
+        return _super.prototype.GetSheriffs.call(this, locationId);
     };
     ExtendedClient.prototype.GetCourtroomById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
@@ -230,9 +230,9 @@ var ExtendedClient = /** @class */ (function (_super) {
             });
         });
     };
-    ExtendedClient.prototype.GetCourtrooms = function (courthouseId) {
-        if (courthouseId === void 0) { courthouseId = ""; }
-        return _super.prototype.GetCourtrooms.call(this, courthouseId);
+    ExtendedClient.prototype.GetCourtrooms = function (locationId) {
+        if (locationId === void 0) { locationId = ""; }
+        return _super.prototype.GetCourtrooms.call(this, locationId);
     };
     ExtendedClient.prototype.GetAssignmentById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
@@ -245,30 +245,30 @@ var ExtendedClient = /** @class */ (function (_super) {
             });
         });
     };
-    ExtendedClient.prototype.GetAssignments = function (courthouseId, startDate, endDate) {
-        if (courthouseId === void 0) { courthouseId = ""; }
+    ExtendedClient.prototype.GetAssignments = function (locationId, startDate, endDate) {
+        if (locationId === void 0) { locationId = ""; }
         var startMoment = moment_1.default(startDate);
         var endMoment = endDate ? moment_1.default(endDate) : moment_1.default(startMoment);
-        return _super.prototype.GetAssignments.call(this, courthouseId, startMoment.toISOString(), endMoment.toISOString());
+        return _super.prototype.GetAssignments.call(this, locationId, startMoment.toISOString(), endMoment.toISOString());
     };
-    ExtendedClient.prototype.GetRuns = function (courthouseId) {
-        if (courthouseId === void 0) { courthouseId = ""; }
-        return _super.prototype.GetRuns.call(this, courthouseId);
+    ExtendedClient.prototype.GetEscortRuns = function (locationId) {
+        if (locationId === void 0) { locationId = ""; }
+        return _super.prototype.GetEscortRuns.call(this, locationId);
     };
-    ExtendedClient.prototype.GetRunById = function (id) {
+    ExtendedClient.prototype.GetEscortRunById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.nullOn404(function () { return _super.prototype.GetRunById.call(_this, id); })];
+                    case 0: return [4 /*yield*/, this.nullOn404(function () { return _super.prototype.GetEscortRunById.call(_this, id); })];
                     case 1: return [2 /*return*/, _a.sent()];
                 }
             });
         });
     };
-    ExtendedClient.prototype.GetShifts = function (courthouseId) {
-        if (courthouseId === void 0) { courthouseId = ""; }
-        return _super.prototype.GetShifts.call(this, courthouseId);
+    ExtendedClient.prototype.GetShifts = function (locationId) {
+        if (locationId === void 0) { locationId = ""; }
+        return _super.prototype.GetShifts.call(this, locationId);
     };
     ExtendedClient.prototype.GetShiftById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
@@ -360,13 +360,13 @@ var ExtendedClient = /** @class */ (function (_super) {
     };
     ExtendedClient.prototype.ImportDefaultDuties = function (request) {
         return __awaiter(this, void 0, void 0, function () {
-            var courthouseId, date;
+            var locationId, date;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        courthouseId = request.courthouseId, date = request.date;
+                        locationId = request.locationId, date = request.date;
                         return [4 /*yield*/, _super.prototype.ImportDefaultDuties.call(this, {
-                                courthouseId: courthouseId,
+                                locationId: locationId,
                                 date: dateUtils_1.getDateString(date)
                             })];
                     case 1: return [2 /*return*/, _a.sent()];
@@ -376,13 +376,13 @@ var ExtendedClient = /** @class */ (function (_super) {
     };
     ExtendedClient.prototype.AutoAssignSheriffDuties = function (request) {
         return __awaiter(this, void 0, void 0, function () {
-            var courthouseId, date;
+            var locationId, date;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        courthouseId = request.courthouseId, date = request.date;
+                        locationId = request.locationId, date = request.date;
                         return [4 /*yield*/, _super.prototype.AutoAssignSheriffDuties.call(this, {
-                                courthouseId: courthouseId,
+                                locationId: locationId,
                                 date: dateUtils_1.getDateString(date)
                             })];
                     case 1: return [2 /*return*/, _a.sent()];

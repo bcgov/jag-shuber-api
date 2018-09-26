@@ -43,7 +43,7 @@ export class SheriffDutyService extends DatabaseService<SheriffDuty> {
 
     async autoAssignFromShifts(payload: SheriffDutyAutoAssignRequest): Promise<SheriffDuty[]> {
         const {
-            courthouseId,
+            locationId,
             date
         } = payload;
         const dateMoment = moment(date);
@@ -58,18 +58,18 @@ export class SheriffDutyService extends DatabaseService<SheriffDuty> {
 
             // Select all shifts that
             // - Are linked to an assignment 
-            // - From the given courthouse
+            // - From the given location
             // - On the given date
             const shiftsPromise = shiftService.select(query => {
                 return query
                     .where(`date_trunc('day',${shiftService.dbTableName}.start_dtm)=DATE('${dateMoment.toISOString()}')`)
-                    .where(`courthouse_id='${courthouseId}'`)
+                    .where(`location_id='${locationId}'`)
                     .where(`assignment_id IS NOT NULL`)
                     .where(`sheriff_id IS NOT NULL`);
             });
 
             // Select all SheriffDuties & AssignmentId that are:
-            // 1. Associated with the given courthouse
+            // 1. Associated with the given location
             // 2. On the given date    
             const sheriffDutyTableAlias = 'sd';
             const dutyTableAlias = 'd';
@@ -80,7 +80,7 @@ export class SheriffDutyService extends DatabaseService<SheriffDuty> {
                 .field(`${assignmentTableAlias}.assignment_id`, 'assignmentId')
                 .join(dutyService.dbTableName, dutyTableAlias, `${sheriffDutyTableAlias}.duty_id=${dutyTableAlias}.duty_id`)
                 .join(assignmentService.dbTableName, assignmentTableAlias, `${dutyTableAlias}.assignment_id=${assignmentTableAlias}.assignment_id`)
-                .where(`${assignmentTableAlias}.courthouse_id='${courthouseId}'`)
+                .where(`${assignmentTableAlias}.location_id='${locationId}'`)
                 .where(`date_trunc('day',${sheriffDutyTableAlias}.start_dtm)=DATE('${dateMoment.toISOString()}')`)
                 .toString();
 

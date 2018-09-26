@@ -10,8 +10,8 @@ export class SheriffService extends DatabaseService<Sheriff> {
         first_name: 'firstName',
         last_name: 'lastName',
         image_url: 'imageUrl',
-        home_courthouse_id: 'homeCourthouseId',
-        current_courthouse_id:'currentCourthouseId',
+        home_location_id: 'homeLocationId',
+        current_location_id:'currentLocationId',
         sheriff_rank_code: 'rankCode',
         alias:'alias',
         gender_code: 'genderCode'
@@ -20,10 +20,10 @@ export class SheriffService extends DatabaseService<Sheriff> {
         super('sheriff', 'sheriff_id');
     }
 
-    async getAll(courthouseId?: string) {
+    async getAll(locationId?: string) {
         const query = super.getSelectQuery();
-        if (courthouseId) {
-            query.where(`home_courthouse_id='${courthouseId}' OR current_courthouse_id='${courthouseId}'`);
+        if (locationId) {
+            query.where(`home_location_id='${locationId}' OR current_location_id='${locationId}'`);
         };
         const rows = await this.executeQuery<Sheriff>(query.toString());
         return rows;

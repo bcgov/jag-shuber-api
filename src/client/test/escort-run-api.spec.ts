@@ -1,26 +1,25 @@
 import ApiClient from '../ExtendedClient';
-import { Location, Courtroom, Region } from '../models';
+import { Location, Region, EscortRun } from '../models';
 import TestUtils from './TestUtils';
 
-describe('Courtroom API', () => {
+describe('EscortRun API', () => {
     let api: ApiClient;
 
     let testRegion: Region = {
-        name: "Courtroom Testing Region",
+        name: "EscortRun Testing Region",
         code: TestUtils.randomString(5)
     }
     let testLocation: Location = {
-        name: "Courtroom Testing Location",
+        name: "EscortRun Testing Location",
         code: TestUtils.randomString(5)
     }
 
-    const entityToCreate: Courtroom = {
-        code: TestUtils.randomString(5),
-        name: "Test Courtroom",
+    const entityToCreate: EscortRun = {
+        title: "EscortRun Testing Title",
         locationId: "ToReplace"
     };
 
-    let createdEntity: Courtroom;
+    let createdEntity: EscortRun;
 
     beforeAll(async (done) => {
         await TestUtils.setupTestFixtures(async client=>{
@@ -31,8 +30,8 @@ describe('Courtroom API', () => {
         done();
     });
 
-    it('create should return new Courtroom', async () => {
-        createdEntity = await api.CreateCourtroom({
+    it('create should return new EscortRun', async () => {
+        createdEntity = await api.CreateEscortRun({
             ...entityToCreate,
             locationId: testLocation.id
         });
@@ -46,58 +45,53 @@ describe('Courtroom API', () => {
         });
     });
 
-    it('get by id should return Courtroom', async () => {
-        const retrieved = await api.GetCourtroomById(createdEntity.id);
+    it('get by id should return EscortRun', async () => {
+        const retrieved = await api.GetEscortRunById(createdEntity.id);
         expect(retrieved).toMatchObject(createdEntity);
     });
 
-    it('get List should return list of Courtrooms', async () => {
-        const list = await api.GetCourtrooms();
+    it('get List should return list of EscortRuns', async () => {
+        const list = await api.GetEscortRuns();
         expect(list).toBeDefined();
         expect(Array.isArray(list)).toBeTruthy();
         expect(list.length).toEqual(1);
     });
 
-    it('get list should return only those Courtrooms in location if specified', async () => {
+    it('get list should return only those runs in location if specified', async () => {
         const secondTestLocation = { ...testLocation }
         delete secondTestLocation['id'];
         secondTestLocation.name = "Test Location 2";
         secondTestLocation.code= TestUtils.randomString(5);
-        let secondLocation:Location;        
-        await TestUtils.setupTestFixtures(async client=>{
-            secondLocation = await client.CreateLocation(secondTestLocation);
-        })
-        
-        const secondEntity = await api.CreateCourtroom({
+        const secondLocation = await TestUtils.setupTestFixtures(client=> client.CreateLocation(secondTestLocation));
+        const secondEntity = await api.CreateEscortRun({
             ...entityToCreate,
-            name: "second courtroom",
             locationId: secondLocation.id
-        } as Courtroom);
+        } as EscortRun);
 
-        let list = await api.GetCourtrooms();
+        let list = await api.GetEscortRuns();
         expect(list.length).toEqual(2);
 
-        list = await api.GetCourtrooms(secondLocation.id);
+        list = await api.GetEscortRuns(secondLocation.id);
         expect(list.length).toEqual(1);
         expect(list[0]).toEqual(secondEntity);
     });
 
 
-    it('update Courtroom should return updated Courtroom', async () => {
-        const newName = "New Courtroom Name";
-        const updatedEntity = await api.UpdateCourtroom(createdEntity.id, {
+    it('update run should return updated EscortRun', async () => {
+        const newTitle = "New EscortRun Title";
+        const updatedEntity = await api.UpdateEscortRun(createdEntity.id, {
             ...createdEntity,
-            name: newName
-        } as Courtroom);
+            title: newTitle
+        } as EscortRun);
         expect(updatedEntity).toMatchObject({
             ...createdEntity,
-            name: newName,
+            title: newTitle,
         });
     });
 
-    it('delete should delete Courtroom', async () => {
-        await api.DeleteCourtroom(createdEntity.id);
-        const retreived = await api.GetCourtroomById(createdEntity.id);
+    it('delete should delete EscortRun', async () => {
+        await api.DeleteEscortRun(createdEntity.id);
+        const retreived = await api.GetEscortRunById(createdEntity.id);
         expect(retreived).not.toBeDefined();
     });
 }) 

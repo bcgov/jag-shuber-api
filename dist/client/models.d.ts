@@ -10,10 +10,10 @@ export interface Assignment {
     id?: string;
     title?: string;
     workSectionId?: string;
-    courthouseId?: string;
+    locationId?: string;
     courtroomId?: string;
     courtRoleId?: string;
-    runId?: string;
+    escortRunId?: string;
     jailRoleCode?: string;
     otherAssignCode?: string;
     dutyRecurrences?: Array<DutyRecurrence>;
@@ -24,13 +24,12 @@ export interface Region {
     name?: string;
     location?: any;
 }
-export interface Courthouse {
+export interface Location {
     id?: string;
     code?: string;
     name?: string;
-    parentCourthouseId?: string;
+    parentLocationId?: string;
     regionId?: string;
-    location?: any;
 }
 export interface Sheriff {
     id?: string;
@@ -38,8 +37,8 @@ export interface Sheriff {
     lastName?: string;
     badgeNo?: string;
     imageUrl?: string;
-    homeCourthouseId?: string;
-    currentCourthouseId?: string;
+    homeLocationId?: string;
+    currentLocationId?: string;
     rankCode?: string;
     alias?: string;
     genderCode?: string;
@@ -48,7 +47,7 @@ export interface Courtroom {
     id?: string;
     code?: string;
     name?: string;
-    courthouseId?: string;
+    locationId?: string;
 }
 export interface JailRoleCode {
     code?: string;
@@ -71,15 +70,15 @@ export interface SheriffRankCode {
     expiryDate?: string;
     order?: number;
 }
-export interface Run {
+export interface EscortRun {
     id?: string;
     title?: string;
-    courthouseId?: string;
+    locationId?: string;
 }
 export interface Shift {
     id?: string;
     workSectionId?: string;
-    courthouseId?: string;
+    locationId?: string;
     sheriffId?: string;
     startDateTime?: string;
     endDateTime?: string;
@@ -97,7 +96,7 @@ export interface ShiftCopyOptions {
     shouldIncludeSheriffs?: boolean;
     startOfWeekSource?: string;
     startOfWeekDestination?: string;
-    courthouseId?: string;
+    locationId?: string;
 }
 export interface SheriffDuty {
     id?: string;
@@ -116,11 +115,11 @@ export interface Duty {
     comments?: string;
 }
 export interface DutyImportDefaultsRequest {
-    courthouseId?: string;
+    locationId?: string;
     date?: string;
 }
 export interface SheriffDutyAutoAssignRequest {
-    courthouseId?: string;
+    locationId?: string;
     date?: string;
 }
 export interface Leave {
