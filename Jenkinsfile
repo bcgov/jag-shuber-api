@@ -23,7 +23,7 @@ def APP_URLS = [
 // You shouldn't have to edit these if you're following the conventions
 def BUILDER_BUILD = APP_NAME + '-builder-build'
 def RUNTIME_BUILD = 'shuber-' + APP_NAME
-def IMAGESTREAM_NAME = APP_NAME
+def IMAGESTREAM_NAME = RUNTIME_BUILD
 def SLACK_DEV_CHANNEL="#sheriffscheduling_dev"
 def SLACK_MAIN_CHANNEL="#sheriff_scheduling"
 // def scmVars = checkout scm
