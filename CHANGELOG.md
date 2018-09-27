@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.0.0] - 2018-09-??
+## [2.0.0] - 2018-09-27
 
 ### Deprecated
 - `deleteAssignment` in favour of `expireAssignment`
