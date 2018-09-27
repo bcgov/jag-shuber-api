@@ -35,9 +35,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | Original | New |
 |:---|:---|
 | `Courthouse` | `Location` |
+| `Courthouse.parentCourthouseId` | `Location.parentLocationId`  |
 | `Assignment.courthouseId` | `Assignment.locationId`  |
 | `Assignment.runId` | `Assignment.escortRunId`  |
-| `Courthouse.parentCourthouseId` | `Courthouse.parentLocationId`  |
 | `Sheriff.homeCourthouseId` | `Sheriff.homeLocationId`  |
 | `Sheriff.currentCourthouseId` | `Sheriff.currentLocationId`  |
 | `Courtroom.courthouseId` | `Courtroom.locationId`  |
