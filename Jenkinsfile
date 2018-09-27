@@ -26,10 +26,8 @@ def RUNTIME_BUILD = 'shuber-' + APP_NAME
 def IMAGESTREAM_NAME = RUNTIME_BUILD
 def SLACK_DEV_CHANNEL="#sheriffscheduling_dev"
 def SLACK_MAIN_CHANNEL="#sheriff_scheduling"
-// def scmVars = checkout scm
+// Specify workspace so that template files can be used
 def work_space = "/var/lib/jenkins/jobs/jag-shuber-tools/jobs/jag-shuber-tools-shuber-api-pipeline/workspace@script"
-//Trigger remote job
-// def handle = build job: 'Jag-shuber-prod-deploy'
 
 // Gets the container hash for the latest image in an image stream
 def getLatestHash = {imageStreamName ->
