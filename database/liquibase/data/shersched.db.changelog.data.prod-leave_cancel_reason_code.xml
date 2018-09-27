@@ -1,0 +1,77 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="leavecancelreasoncode_data_prod_start"/>
+    </changeSet>
+    
+    <!-- Leave Cancel Reason Code data -->
+    <changeSet author="Carol Geisler" id="INS_lvcr_OPERDEMAND">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_cancel_reason_code">
+          <column name="leave_cancel_reason_code" type="VARCHAR(20)" value="OPERDEMAND"/>
+          <column name="description" type="VARCHAR(200)" value="Cover Operational Demands"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_LEAVE_CANCEL_REASON_CODE"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_cancel_reason_code">
+              <where>leave_cancel_reason_code='OPERDEMAND'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_lvcr_PERSONAL">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_cancel_reason_code">
+          <column name="leave_cancel_reason_code" type="VARCHAR(20)" value="PERSONAL"/>
+          <column name="description" type="VARCHAR(200)" value="Personal Decision"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_LEAVE_CANCEL_REASON_CODE"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_cancel_reason_code">
+              <where>leave_cancel_reason_code='PERSONAL'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_lvcr_ENTRYERR">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_cancel_reason_code">
+          <column name="leave_cancel_reason_code" type="VARCHAR(20)" value="ENTRYERR"/>
+          <column name="description" type="VARCHAR(200)" value="Entry Error"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_LEAVE_CANCEL_REASON_CODE"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_cancel_reason_code">
+              <where>leave_cancel_reason_code='ENTRYERR'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+        
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="leavecancelreasoncode_data_prod_end"/>
+    </changeSet>
+
+</databaseChangeLog>

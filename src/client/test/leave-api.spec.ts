@@ -1,5 +1,5 @@
 import ApiClient from '../ExtendedClient';
-import { Region, Leave, Sheriff, Courthouse } from '../models';
+import { Region, Leave, Sheriff, Location } from '../models';
 import TestUtils from './TestUtils';
 import moment from 'moment';
 
@@ -21,8 +21,8 @@ describe('Leave API', () => {
         code: TestUtils.randomString(5)
     }
 
-    let testCourthouse: Courthouse = {
-        name: "Shift Testing Courthouse",
+    let testLocation: Location = {
+        name: "Shift Testing Location",
         code: TestUtils.randomString(5)
     }
 
@@ -31,14 +31,14 @@ describe('Leave API', () => {
     beforeAll(async (done) => {
         await TestUtils.setupTestFixtures(async client => {
             testRegion = await client.CreateRegion(testRegion);
-            testCourthouse = await client.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
+            testLocation = await client.CreateLocation({ ...testLocation, regionId: testRegion.id });
             testSheriff = await client.CreateSheriff(
                 {
                     firstName: 'Bill',
                     lastName: 'Nye',
                     badgeNo: '12345678',
                     rankCode: "DEPUTYSHERIFF",
-                    homeCourthouseId: testCourthouse.id
+                    homeLocationId: testLocation.id
                 }
             )
         });

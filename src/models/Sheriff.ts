@@ -4,8 +4,8 @@ export interface Sheriff {
     lastName: string;
     badgeNo: string;
     imageUrl?: string;
-    homeCourthouseId: string;
-    currentCourthouseId?: string;
+    homeLocationId: string;
+    currentLocationId?: string;
     rankCode: string;
     alias?: string;
     genderCode?: string;

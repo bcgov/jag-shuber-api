@@ -1,8 +1,8 @@
 import moment from 'moment';
 import ApiClient from '../ExtendedClient';
-import { Assignment, Courthouse, Region, DutyRecurrence, Courtroom, Run, JailRoleCode, OtherAssignCode, CourtRoleCode } from '../models';
+import { Assignment, Location, Region, DutyRecurrence, Courtroom, EscortRun, JailRoleCode, OtherAssignCode, CourtRoleCode } from '../models';
 import TestUtils from './TestUtils';
-import { create } from 'domain';
+import { ERROR_DEPRECATED_DELETE_ASSIGNMENT } from '../../common/Messages';
 
 describe('Assignment API', () => {
     let api: ApiClient;
@@ -11,8 +11,8 @@ describe('Assignment API', () => {
         name: "Assignment Testing Region",
         code: TestUtils.randomString(5)
     }
-    let testCourthouse: Courthouse = {
-        name: "Assignment Testing Courthouse",
+    let testLocation: Location = {
+        name: "Assignment Testing Location",
         code: TestUtils.randomString(5)
     }
 
@@ -28,7 +28,7 @@ describe('Assignment API', () => {
 
     const entityToCreate: Assignment = {
         workSectionId: "COURTS",
-        courthouseId: "ToReplace",
+        locationId: "ToReplace",
         dutyRecurrences: []
     };
 
@@ -52,7 +52,7 @@ describe('Assignment API', () => {
     function getEntity(): Assignment {
         const assign: Assignment = {
             ...entityToCreate,
-            courthouseId: testCourthouse.id,
+            locationId: testLocation.id,
             courtroomId: testCourtroom.id
         }
         return assign;
@@ -61,9 +61,9 @@ describe('Assignment API', () => {
     beforeAll(async (done) => {
         await TestUtils.setupTestFixtures(async client => {
             testRegion = await client.CreateRegion(testRegion);
-            testCourthouse = await client.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
-            testCourtroom = await client.CreateCourtroom({ ...testCourtroom, courthouseId: testCourthouse.id });
-            testCourtroomTwo = await client.CreateCourtroom({ ...testCourtroomTwo, courthouseId: testCourthouse.id });
+            testLocation = await client.CreateLocation({ ...testLocation, regionId: testRegion.id });
+            testCourtroom = await client.CreateCourtroom({ ...testCourtroom, locationId: testLocation.id });
+            testCourtroomTwo = await client.CreateCourtroom({ ...testCourtroomTwo, locationId: testLocation.id });
         });
         api = TestUtils.getClientWithAuth();
         done();
@@ -75,11 +75,11 @@ describe('Assignment API', () => {
             createdEntity = await api.CreateAssignment({ ...getEntity() });
             expect(createdEntity).toBeDefined();
             expect(createdEntity.id).toBeDefined();
-            expect(createdEntity.courthouseId).toEqual(testCourthouse.id);
+            expect(createdEntity.locationId).toEqual(testLocation.id);
             expect(createdEntity).toEqual({
                 ...createdEntity,
                 ...entityToCreate,
-                courthouseId: testCourthouse.id
+                locationId: testLocation.id
             });
 
             createdEntities.push(createdEntity);
@@ -122,23 +122,23 @@ describe('Assignment API', () => {
             expect(list).toEqual(expect.arrayContaining(createdEntities));
         });
 
-        it('get list should return only those Assignments in courthouse if specified', async () => {
-            const secondTestCourthouse = { ...testCourthouse }
-            delete secondTestCourthouse['id'];
-            secondTestCourthouse.name = "Test Courthouse 2";
-            secondTestCourthouse.code = TestUtils.randomString(5);
-            const secondCourthouse = await api.CreateCourthouse(secondTestCourthouse);
+        it('get list should return only those Assignments in location if specified', async () => {
+            const secondTestLocation = { ...testLocation }
+            delete secondTestLocation['id'];
+            secondTestLocation.name = "Test Location 2";
+            secondTestLocation.code = TestUtils.randomString(5);
+            const secondLocation = await api.CreateLocation(secondTestLocation);
             const secondEntity = await api.CreateAssignment({
                 ...getEntity(),
                 name: "second Assignment",
-                courthouseId: secondCourthouse.id
+                locationId: secondLocation.id
             } as Assignment);
             createdEntities.push(secondEntity);
 
             let list = await api.GetAssignments();
             expect(list).toEqual(expect.arrayContaining(createdEntities));
 
-            list = await api.GetAssignments(secondCourthouse.id);
+            list = await api.GetAssignments(secondLocation.id);
             expect(list).toEqual(expect.arrayContaining([secondEntity]));
         });
 
@@ -181,7 +181,7 @@ describe('Assignment API', () => {
             }
             const updatedEntityWithRecurrence = await api.UpdateAssignment(createdEntity.id, {
                 ...createdEntityWithRecurrence,
-                courthouseId: testCourthouse.id,
+                locationId: testLocation.id,
                 dutyRecurrences: [
                     additionalRecurrence,
                     recurrenceToUpdate
@@ -218,25 +218,12 @@ describe('Assignment API', () => {
         });
 
         it('delete should delete Assignment', async () => {
-            await api.DeleteAssignment(createdEntity.id);
-            const retreived = await api.GetAssignmentById(createdEntity.id);
-            expect(retreived).not.toBeDefined();
+            await expect(api.DeleteAssignment('some id')).rejects.toEqual(new Error(ERROR_DEPRECATED_DELETE_ASSIGNMENT));
         });
-
-        it('deleting an assignment should delete its recurrences', async () => {
-            await api.DeleteAssignment(createdEntityWithRecurrence.id);
-            await createdEntityWithRecurrence.dutyRecurrences
-                .map(dr => dr.id)
-                .forEach(async id => {
-                    const recurrence = await api.GetDutyRecurrenceById(id);
-                    expect(recurrence).not.toBeDefined();
-                })
-        });
-
     });
 
     describe('Different types of assignments', () => {
-        let testRun: Run = {
+        let testRun: EscortRun = {
             title: "Test Run",
         }
 
@@ -252,13 +239,13 @@ describe('Assignment API', () => {
         const entitiesToDelete: Assignment[] = [];
 
         beforeAll(async (done) => {
-            testRun = await api.CreateRun({
+            testRun = await api.CreateEscortRun({
                 ...testRun,
-                courthouseId: testCourthouse.id
+                locationId: testLocation.id
             });
             testCourtroom = await api.CreateCourtroom({
                 ...testCourtroom,
-                courthouseId: testCourthouse.id
+                locationId: testLocation.id
             });
             testJailRoleCode = (await api.GetJailRoleCodes())[0];
             testOtherAssignCode = (await api.GetOtherAssignCodes())[0];
@@ -272,7 +259,7 @@ describe('Assignment API', () => {
                 ...entityToCreate,
                 workSectionId: "COURTS",
                 title: null,
-                courthouseId: testCourthouse.id
+                locationId: testLocation.id
             })).rejects.toMatchObject({
                 message: "Invalid Court Assignment",
                 name: "ValidateError",
@@ -289,7 +276,7 @@ describe('Assignment API', () => {
                 ...entityToCreate,
                 title: null,
                 workSectionId: "COURTS",
-                courthouseId: testCourthouse.id,
+                locationId: testLocation.id,
                 courtroomId: testCourtroom.id
             });
             expect(courtAssignment.id).toBeDefined();
@@ -303,7 +290,7 @@ describe('Assignment API', () => {
                 ...entityToCreate,
                 title: null,
                 workSectionId: "COURTS",
-                courthouseId: testCourthouse.id,
+                locationId: testLocation.id,
                 courtRoleId: testCourtRoleCode.code
             });
             expect(courtAssignment.id).toBeDefined();
@@ -317,7 +304,7 @@ describe('Assignment API', () => {
                 ...entityToCreate,
                 title: null,
                 workSectionId: "COURTS",
-                courthouseId: testCourthouse.id,
+                locationId: testLocation.id,
                 courtRoleId: testCourtRoleCode.code
             });
             expect(courtAssignment.id).toBeDefined();
@@ -341,7 +328,7 @@ describe('Assignment API', () => {
                 ...entityToCreate,
                 workSectionId: "JAIL",
                 title: null,
-                courthouseId: testCourthouse.id
+                locationId: testLocation.id
             })).rejects.toMatchObject({
                 message: "Invalid Jail Assignment",
                 name: "ValidateError",
@@ -359,7 +346,7 @@ describe('Assignment API', () => {
                 ...entityToCreate,
                 title: null,
                 workSectionId: "JAIL",
-                courthouseId: testCourthouse.id,
+                locationId: testLocation.id,
                 jailRoleCode: testJailRoleCode.code
             }
 
@@ -375,29 +362,29 @@ describe('Assignment API', () => {
                 ...entityToCreate,
                 workSectionId: "ESCORTS",
                 title: null,
-                courthouseId: testCourthouse.id
+                locationId: testLocation.id
             })).rejects.toMatchObject({
                 message: "Invalid Escort Assignment",
                 name: "ValidateError",
                 fields: {
-                    "model.runId": {
-                        message: "Run must be set for Escort assignments"
+                    "model.escortRunId": {
+                        message: "Escort Run must be set for Escort assignments"
                     }
                 }
             });
         });
 
-        it('Escort assignment with no title should default to Run Name', async () => {
+        it('Escort assignment with no title should default to EscortRun Name', async () => {
             let assignment: Assignment = await api.CreateAssignment({
                 ...entityToCreate,
                 title: null,
                 workSectionId: "ESCORTS",
-                courthouseId: testCourthouse.id,
-                runId: testRun.id
+                locationId: testLocation.id,
+                escortRunId: testRun.id
             });
             expect(assignment.id).toBeDefined();
             expect(assignment.workSectionId).toEqual("ESCORTS");
-            expect(assignment.runId).toEqual(testRun.id);
+            expect(assignment.escortRunId).toEqual(testRun.id);
             expect(assignment.title).toEqual(testRun.title);
         });
 
@@ -407,7 +394,7 @@ describe('Assignment API', () => {
                 ...entityToCreate,
                 workSectionId: "OTHER",
                 title: null,
-                courthouseId: testCourthouse.id
+                locationId: testLocation.id
             })).rejects.toMatchObject({
                 message: "Invalid Other Assignment",
                 name: "ValidateError",
@@ -424,7 +411,7 @@ describe('Assignment API', () => {
                 ...entityToCreate,
                 title: null,
                 workSectionId: "OTHER",
-                courthouseId: testCourthouse.id,
+                locationId: testLocation.id,
                 otherAssignCode: testOtherAssignCode.code
             });
             expect(assignment.id).toBeDefined();

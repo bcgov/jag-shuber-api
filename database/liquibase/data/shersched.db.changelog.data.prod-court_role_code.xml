@@ -1,0 +1,113 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="courtrolecode_data_prod_start"/>
+    </changeSet>
+    
+    <!-- Court Role Code data -->
+    <changeSet author="Carol Geisler" id="INS_crcd_VIDEO">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="court_role_code">
+          <column name="court_role_code" type="VARCHAR(20)" value="VIDEO"/>
+          <column name="description" type="VARCHAR(200)" value="Video"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURT_ROLE_CODE"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="court_role_code">
+              <where>court_role_code='VIDEO'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crcd_ROVER">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="court_role_code">
+          <column name="court_role_code" type="VARCHAR(20)" value="ROVER"/>
+          <column name="description" type="VARCHAR(200)" value="Rover"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURT_ROLE_CODE"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="court_role_code">
+              <where>court_role_code='ROVER'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crcd_CORONERINQUEST">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="court_role_code">
+          <column name="court_role_code" type="VARCHAR(20)" value="CORONERINQUEST"/>
+          <column name="description" type="VARCHAR(200)" value="Coroner's Inquest"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURT_ROLE_CODE"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="court_role_code">
+              <where>court_role_code='CORONERINQUEST'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crcd_SUPERVISOR">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="court_role_code">
+          <column name="court_role_code" type="VARCHAR(20)" value="SUPERVISOR"/>
+          <column name="description" type="VARCHAR(200)" value="Supervisor"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURT_ROLE_CODE"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="court_role_code">
+              <where>court_role_code='SUPERVISOR'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_crcd_SEARCHGATE">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="court_role_code">
+          <column name="court_role_code" type="VARCHAR(20)" value="SEARCHGATE"/>
+          <column name="description" type="VARCHAR(200)" value="Search Gate"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURT_ROLE_CODE"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="court_role_code">
+              <where>court_role_code='SEARCHGATE'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="courtrolecode_data_prod_end"/>
+    </changeSet>
+
+</databaseChangeLog>

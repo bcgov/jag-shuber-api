@@ -3,21 +3,23 @@ Sheriff Scheduling Liquibase Notes
 liquibase folder structure
 		.
 			 	The core changelogs, including the master, and any changelogs affecting 
-			 	database environment or structure
+			 	database environment
+	  ./structure
+	      Changelogs that create or update tables and their related structures, 
+	      including indexes, keys, triggers
 		./data
 				Changelogs that create or update the data in code and supporting tables,
 				excluding data clearly intended for dev only (e.g. Flintstones characters)
-		./dev
-				Changelogs that are targeted specifically for non-production environments,
-				primarily data
-		./useful
-				Files for reference, such as templates, or command line samples.
+	  ./source
+	      Changelogs that create or update postgres functions, views
 		./docs
 				Readme (relevant change history) and usage notes (this file)
+		./useful
+				Files for reference, such as templates, or command line samples.
 
 Liquibase command line arguments
 	  The following arguments are specific to a given environment, and unlikely 
-	  to change once configured. Refer to the liquibase 
+	  to change once configured. Refer to the liquibase documentation
 				driver
 				classpath
 				changeLogFile
@@ -73,13 +75,6 @@ The following parameters are referenced within the liquibase changesets for Sher
 	  		This parameter specifies the password that should be set for the user
 	  		specified above.
 	  		
-		RELEASE_TAG (proposed)
-				This parameter could potentially be used to allow a database tag to be
-				applied that relates to a specific deployment, to facilitate a rollback
-				of a deployment.
-				There are some kinks to be worked out and understood before this can
-				be relied upon, but I am noting the idea here for reference.
-
 Preconditions and error handling
 
 		Liqubase allows for having preconditions for a given changeSet, to alter
@@ -102,26 +97,22 @@ Contexts
 		though the precedence is a little fuzzy if they're combined.
 		A changeSet with no context will always be run (assuming 
 		preconditions and such are met)
-		prod
+		PROD
 				This is used to identify changes that are intended for 
 				prod environments (as distinct from dev only changes).
 				Primarily used for loading data.
-		dev
+		AUTHDEV
 				This is used to identify changes that are not intended for 
 				prod environments. Primarily used for dummy data.
 				Many of the earlier dev scripts now have corresponding 
 				prod scripts, which are better quality and can be used 
 				for dev as well
-		cleandev
-				These are scripts which were created to remove data added
-				by the early dev scripts
-		deprecated
+		DEPRECATED
 				Not yet applied, but may be used to tag changes that 
 				should not be applied in future environments.  The idea
 				is that 'deprecated' would never be passed as a context
 				argument to liquibase, so these changes would no longer
 				be run. 
-				The old dev and cleandev scripts may be first to use this
 
 Changelog conventions
 		filenames
@@ -163,7 +154,7 @@ Changelog conventions
 	  		follow these rough guidelines
 	  		
 	  		1.  IDs start with an uppercase code for the change type,
-	  				such as INS for data insert, or CRTAB for create 
+	  				such as INS for data insert, or CRTTAB for create 
 	  				table or DRPCOL to drop a column.
 	  		
 	  		2.  After the type code and _, include relevant identifiers
@@ -180,7 +171,7 @@ Changelog conventions
 	  						Insert a row to the escort_run table for run VCP
 	  						under courtlocation VIC
 	  				
-	  				"CRTAB_app_role_function"
+	  				"CRTTAB_app_role_function"
 	  						Create a new table, app_role_function
 	  						
 	  				"MODCOL_duty_recurrence_start_end_times"

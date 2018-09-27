@@ -4,10 +4,10 @@ export interface Assignment {
     id?: string;
     title?: string;
     workSectionId: string;
-    courthouseId: string;
+    locationId: string;
     courtroomId?: string;
     courtRoleId?: string;
-    runId?:string;
+    escortRunId?:string;
     jailRoleCode?:string;
     otherAssignCode?:string;
     dutyRecurrences?:DutyRecurrence[]

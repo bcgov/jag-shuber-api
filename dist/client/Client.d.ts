@@ -1,6 +1,6 @@
 import * as superAgent from "superagent";
 import { TypedEvent } from '../common/TypedEvent';
-import { Assignment, Region, Courthouse, Sheriff, Courtroom, JailRoleCode, OtherAssignCode, WorkSectionCode, SheriffRankCode, Run, Shift, MultipleShiftUpdateRequest, ShiftCopyOptions, DutyRecurrence, Duty, DutyImportDefaultsRequest, SheriffDuty, SheriffDutyAutoAssignRequest, Leave, LeaveCancelReasonCode, LeaveCode, LeaveSubCode, CourtRoleCode, GenderCode, User } from "./models";
+import { Assignment, Region, Location, Sheriff, Courtroom, JailRoleCode, OtherAssignCode, WorkSectionCode, SheriffRankCode, EscortRun, Shift, MultipleShiftUpdateRequest, ShiftCopyOptions, DutyRecurrence, Duty, DutyImportDefaultsRequest, SheriffDuty, SheriffDutyAutoAssignRequest, Leave, LeaveCancelReasonCode, LeaveCode, LeaveSubCode, CourtRoleCode, GenderCode, User } from "./models";
 export default class Client {
     private _agent;
     private _previousToken;
@@ -70,7 +70,7 @@ export default class Client {
      * @memberof Client
      */
     protected tryRequest<T>(worker: () => Promise<superAgent.Response>): Promise<T>;
-    GetAssignments(courthouseId: string, startDate: string, endDate: string): Promise<Array<Assignment>>;
+    GetAssignments(locationId: string, startDate: string, endDate: string): Promise<Array<Assignment>>;
     CreateAssignment(model: Assignment): Promise<Assignment>;
     GetAssignmentById(id: string): Promise<Assignment>;
     UpdateAssignment(id: string, model: Assignment): Promise<Assignment>;
@@ -81,17 +81,17 @@ export default class Client {
     GetRegionById(id: string): Promise<Region>;
     UpdateRegion(id: string, model: Region): Promise<Region>;
     DeleteRegion(id: string): Promise<void>;
-    GetCourthouses(): Promise<Array<Courthouse>>;
-    CreateCourthouse(model: Courthouse): Promise<Courthouse>;
-    GetCourthouseById(id: string): Promise<Courthouse>;
-    UpdateCourthouse(id: string, model: Courthouse): Promise<Courthouse>;
-    DeleteCourthouse(id: string): Promise<void>;
-    GetSheriffs(courthouseId: string): Promise<Array<Sheriff>>;
+    GetLocations(): Promise<Array<Location>>;
+    CreateLocation(model: Location): Promise<Location>;
+    GetLocationById(id: string): Promise<Location>;
+    UpdateLocation(id: string, model: Location): Promise<Location>;
+    DeleteLocation(id: string): Promise<void>;
+    GetSheriffs(locationId: string): Promise<Array<Sheriff>>;
     CreateSheriff(model: Sheriff): Promise<Sheriff>;
     GetSheriffById(id: string): Promise<Sheriff>;
     UpdateSheriff(id: string, model: Sheriff): Promise<Sheriff>;
     DeleteSheriff(id: string): Promise<void>;
-    GetCourtrooms(courthouseId: string): Promise<Array<Courtroom>>;
+    GetCourtrooms(locationId: string): Promise<Array<Courtroom>>;
     CreateCourtroom(model: Courtroom): Promise<Courtroom>;
     GetCourtroomById(id: string): Promise<Courtroom>;
     UpdateCourtroom(id: string, model: Courtroom): Promise<Courtroom>;
@@ -100,12 +100,12 @@ export default class Client {
     GetOtherAssignCodes(): Promise<Array<OtherAssignCode>>;
     GetWorkSectionCodes(): Promise<Array<WorkSectionCode>>;
     GetSheriffRankCodes(): Promise<Array<SheriffRankCode>>;
-    GetRuns(courthouseId: string): Promise<Array<Run>>;
-    CreateRun(model: Run): Promise<Run>;
-    GetRunById(id: string): Promise<Run>;
-    UpdateRun(id: string, model: Run): Promise<Run>;
-    DeleteRun(id: string): Promise<void>;
-    GetShifts(courthouseId: string): Promise<Array<Shift>>;
+    GetEscortRuns(locationId: string): Promise<Array<EscortRun>>;
+    CreateEscortRun(model: EscortRun): Promise<EscortRun>;
+    GetEscortRunById(id: string): Promise<EscortRun>;
+    UpdateEscortRun(id: string, model: EscortRun): Promise<EscortRun>;
+    DeleteEscortRun(id: string): Promise<void>;
+    GetShifts(locationId: string): Promise<Array<Shift>>;
     CreateShift(model: Shift): Promise<Shift>;
     GetShiftById(id: string): Promise<Shift>;
     UpdateShift(id: string, model: Shift): Promise<Shift>;

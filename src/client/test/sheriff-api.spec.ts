@@ -1,5 +1,5 @@
 import ApiClient from '../ExtendedClient';
-import { Courthouse, Region, Sheriff, GenderCode } from '../models';
+import { Location, Region, Sheriff, GenderCode } from '../models';
 import TestUtils from './TestUtils';
 
 const SheriffShape: Sheriff = {
@@ -29,8 +29,8 @@ describe('Sheriff API', () => {
             name: "Sheriff Testing Region",
             code: TestUtils.randomString(5)
         }
-        let testCourthouse: Courthouse = {
-            name: "Sheriff Testing Courthouse",
+        let testLocation: Location = {
+            name: "Sheriff Testing Location",
             code: TestUtils.randomString(5)
         }
 
@@ -49,7 +49,7 @@ describe('Sheriff API', () => {
         beforeAll(async (done) => {
             await TestUtils.setupTestFixtures(async client=>{
                 testRegion = await client.CreateRegion(testRegion);
-                testCourthouse = await client.CreateCourthouse({ ...testCourthouse, regionId: testRegion.id });
+                testLocation = await client.CreateLocation({ ...testLocation, regionId: testRegion.id });
                 testGenderCode = (await client.GetGenderCodes())[0];
             });
             api = TestUtils.getClientWithAuth();
@@ -59,15 +59,15 @@ describe('Sheriff API', () => {
         it('create should return new sheriff', async () => {
             createdSheriff = await api.CreateSheriff({
                 ...sheriffToCreate,
-                homeCourthouseId: testCourthouse.id
+                homeLocationId: testLocation.id
             });
             expect(createdSheriff).toBeDefined();
             expect(createdSheriff.id).toBeDefined();
-            expect(createdSheriff.homeCourthouseId).toEqual(testCourthouse.id);
+            expect(createdSheriff.homeLocationId).toEqual(testLocation.id);
             expect(createdSheriff).toEqual({
                 ...createdSheriff,
                 ...sheriffToCreate,
-                homeCourthouseId: testCourthouse.id
+                homeLocationId: testLocation.id
             });
 
         });
@@ -84,23 +84,23 @@ describe('Sheriff API', () => {
             expect(list.length).toEqual(1);
         });
 
-        it('get List should return only those Sheriffs in courthouse if specified', async () => {
-            const secondTestCourthouse = { ...testCourthouse }
-            delete secondTestCourthouse['id'];
-            secondTestCourthouse.name = "Test Courthouse 2";
-            secondTestCourthouse.code= TestUtils.randomString(5);
-            const secondCourthouse = await TestUtils.setupTestFixtures(client=>client.CreateCourthouse(secondTestCourthouse));
+        it('get List should return only those Sheriffs in location if specified', async () => {
+            const secondTestLocation = { ...testLocation }
+            delete secondTestLocation['id'];
+            secondTestLocation.name = "Test Location 2";
+            secondTestLocation.code= TestUtils.randomString(5);
+            const secondLocation = await TestUtils.setupTestFixtures(client=>client.CreateLocation(secondTestLocation));
             const secondSheriff = await api.CreateSheriff({
                 ...sheriffToCreate,
                 firstName: "William",
                 badgeNo: "23456",
-                homeCourthouseId: secondCourthouse.id
+                homeLocationId: secondLocation.id
             });
 
             let list = await api.GetSheriffs();
             expect(list.length).toEqual(2);
 
-            list = await api.GetSheriffs(secondCourthouse.id);
+            list = await api.GetSheriffs(secondLocation.id);
             expect(list.length).toEqual(1);
             expect(list[0]).toEqual(secondSheriff);
         });
@@ -115,7 +115,7 @@ describe('Sheriff API', () => {
                 firstName: newName,
                 badgeNo: newBadgeNo,
                 alias:newAlias,
-                currentCourthouseId:testCourthouse.id,
+                currentLocationId:testLocation.id,
                 genderCode: testGenderCode.code
             });
             expect(gotEntity).toMatchObject({
@@ -123,7 +123,7 @@ describe('Sheriff API', () => {
                 firstName: newName,
                 badgeNo: newBadgeNo,
                 alias:newAlias,
-                currentCourthouseId:testCourthouse.id,
+                currentLocationId:testLocation.id,
                 genderCode: testGenderCode.code
             });
         });

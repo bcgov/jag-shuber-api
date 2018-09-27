@@ -7,7 +7,7 @@ export class CourtroomService extends DatabaseService<Courtroom> {
     fieldMap = {
         courtroom_id: 'id',
         courtroom_cd: 'code',
-        courthouse_id: 'courthouseId',
+        location_id: 'locationId',
         courtroom_name: 'name'
     };
 
@@ -15,10 +15,10 @@ export class CourtroomService extends DatabaseService<Courtroom> {
         super('courtroom', 'courtroom_id');
     }
 
-    async getAll(courthouseId?: string) {
+    async getAll(locationId?: string) {
         const query = super.getSelectQuery();
-        if (courthouseId) {
-            query.where(`courthouse_id='${courthouseId}'`);
+        if (locationId) {
+            query.where(`location_id='${locationId}'`);
         };
         const rows = await this.executeQuery<Courtroom>(query.toString());
         return rows;

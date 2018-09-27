@@ -1,9 +1,11 @@
-import { Body, Delete, Get, Path, Post, Put, Query, Route } from 'tsoa';
+import { Body, Delete, Get, Path, Post, Put, Query, Route, Request } from 'tsoa';
+import { Request as KoaRequest } from 'koa';
 import { DutyRecurrence } from '../models/DutyRecurrence';
 import { DutyRecurrenceService } from '../services/DutyRecurrenceService';
 import ControllerBase from '../infrastructure/ControllerBase';
 import { Security } from '../authentication';
 import { AutoWired, Inject } from 'typescript-ioc';
+import { ERROR_DEPRECATED_DELETE_DUTYRECURRENCE } from '../common/Messages';
 
 @Route('DutyRecurrences')
 @Security('jwt')
@@ -39,8 +41,16 @@ export class DutyRecurrenceController extends ControllerBase<DutyRecurrence, Dut
         return this.service.expire(id);
     }
 
+
+    /**
+     *
+     * @deprecated Please use expireDutyRecurrence instead
+     * @param {string} id
+     * @returns
+     * @memberof DutyRecurrenceController
+     */
     @Delete('{id}')
-    public deleteDutyRecurrence(@Path() id: string) {
-        return super.delete(id);
+    public deleteDutyRecurrence(@Path() id: string, @Request() request: KoaRequest) {
+        request.ctx.throw(410, ERROR_DEPRECATED_DELETE_DUTYRECURRENCE);
     }
 }

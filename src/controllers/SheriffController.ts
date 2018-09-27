@@ -14,8 +14,8 @@ export class SheriffController extends ControllerBase<Sheriff, SheriffService> {
     protected serviceInstance!: SheriffService;
 
     @Get()
-    public getSheriffs(@Query() courthouseId?: string) {
-        return this.service.getAll(courthouseId);
+    public getSheriffs(@Query() locationId?: string) {
+        return this.service.getAll(locationId);
     }
 
     @Get('{id}')

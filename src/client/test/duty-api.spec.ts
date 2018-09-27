@@ -1,5 +1,5 @@
 import ApiClient from '../ExtendedClient';
-import { Assignment, Courthouse, Region, Duty, Courtroom, DutyRecurrence, Sheriff, SheriffDuty } from '../models';
+import { Assignment, Location, Region, Duty, Courtroom, DutyRecurrence, Sheriff, SheriffDuty } from '../models';
 import TestUtils from './TestUtils';
 import moment from 'moment';
 
@@ -7,7 +7,7 @@ describe('Duty API', () => {
     let api: ApiClient;
 
     let testRegion: Region;
-    let testCourthouse: Courthouse;
+    let testLocation: Location;
     let testCourtroom: Courtroom;
     let testAssignment: Assignment;
     let testSheriff: Sheriff;
@@ -41,10 +41,10 @@ describe('Duty API', () => {
             await TestUtils.clearDatabase();
             await TestUtils.setupTestFixtures(async client => {
                 testRegion = await TestUtils.newTestRegion();
-                testCourthouse = await TestUtils.newTestCourthouse(testRegion.id as string);
-                testCourtroom = await TestUtils.newTestCourtroom(testCourthouse.id as string);
-                testAssignment = await TestUtils.newTestAssignment(testCourthouse.id, { courtroomId: testCourtroom.id });
-                testSheriff = await TestUtils.newTestSheriff(testCourthouse.id as string);
+                testLocation = await TestUtils.newTestLocation(testRegion.id as string);
+                testCourtroom = await TestUtils.newTestCourtroom(testLocation.id as string);
+                testAssignment = await TestUtils.newTestAssignment(testLocation.id, { courtroomId: testCourtroom.id });
+                testSheriff = await TestUtils.newTestSheriff(testLocation.id as string);
             });
             done();
         });
@@ -222,8 +222,6 @@ describe('Duty API', () => {
         })
     });
 
-
-
     describe('Import Default Duties', () => {
         const recurrenceToCreate: DutyRecurrence = {
             daysBitmap: 1 << moment().isoWeekday() - 1,
@@ -244,11 +242,11 @@ describe('Duty API', () => {
                     ...recurrenceToCreate
                 }
             ];
-            const assignment = await TestUtils.newTestAssignment(testCourthouse.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
+            const assignment = await TestUtils.newTestAssignment(testLocation.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
 
-            const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId });
+            const duties = await api.ImportDefaultDuties({ locationId: assignment.locationId });
             expect(Array.isArray(duties)).toBeTruthy();
-            expect(duties.length).toEqual(assignment.dutyRecurrences!.length);
+            expect(duties).toHaveLength(assignment.dutyRecurrences!.length);
             TestUtils.assertImportedDuties(duties, assignment);
         });
 
@@ -260,9 +258,9 @@ describe('Duty API', () => {
                     endTime: "22:00:00-07"
                 }
             ];
-            const assignment = await TestUtils.newTestAssignment(testCourthouse.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
+            const assignment = await TestUtils.newTestAssignment(testLocation.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
 
-            const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId });
+            const duties = await api.ImportDefaultDuties({ locationId: assignment.locationId });
             expect(Array.isArray(duties)).toBeTruthy();
             expect(duties.length).toEqual(assignment.dutyRecurrences!.length);
             TestUtils.assertImportedDuties(duties, assignment);
@@ -281,9 +279,9 @@ describe('Duty API', () => {
                 }
             ];
 
-            const assignment = await TestUtils.newTestAssignment(testCourthouse.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
+            const assignment = await TestUtils.newTestAssignment(testLocation.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
 
-            const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId });
+            const duties = await api.ImportDefaultDuties({ locationId: assignment.locationId });
             expect(Array.isArray(duties)).toBeTruthy();
             expect(duties.length).toEqual(assignment.dutyRecurrences!.length);
             TestUtils.assertImportedDuties(duties, assignment);
@@ -302,9 +300,9 @@ describe('Duty API', () => {
                 }
             ];
 
-            const assignment = await TestUtils.newTestAssignment(testCourthouse.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
-            const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId });
-            const secondImport = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId });
+            const assignment = await TestUtils.newTestAssignment(testLocation.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
+            const duties = await api.ImportDefaultDuties({ locationId: assignment.locationId });
+            const secondImport = await api.ImportDefaultDuties({ locationId: assignment.locationId });
             expect(Array.isArray(secondImport)).toBeTruthy();
             expect(secondImport.length).toEqual(0);
         });
@@ -324,8 +322,8 @@ describe('Duty API', () => {
             ];
 
             const testDate = moment().startOf('day').add(1, 'week');
-            const assignment = await TestUtils.newTestAssignment(testCourthouse.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
-            const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId, date: testDate.format() });
+            const assignment = await TestUtils.newTestAssignment(testLocation.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
+            const duties = await api.ImportDefaultDuties({ locationId: assignment.locationId, date: testDate.format() });
             expect(Array.isArray(duties)).toBeTruthy();
             expect(duties.length).toEqual(1);
             TestUtils.assertImportedDuties(duties, assignment, testDate);
@@ -340,7 +338,7 @@ describe('Duty API', () => {
             ];
 
             const assignment = await TestUtils.setupTestFixtures(async client => {
-                const assignment = await TestUtils.newTestAssignment(testCourthouse.id, {
+                const assignment = await TestUtils.newTestAssignment(testLocation.id, {
                     dutyRecurrences: recurrences,
                     courtroomId: testCourtroom.id
                 });
@@ -348,7 +346,7 @@ describe('Duty API', () => {
                 return assignment;
             })
 
-            const duties = await api.ImportDefaultDuties({ courthouseId: assignment!.courthouseId });
+            const duties = await api.ImportDefaultDuties({ locationId: assignment!.locationId });
             expect(Array.isArray(duties)).toBeTruthy();
             expect(duties.length).toEqual(0);
         });
@@ -362,9 +360,9 @@ describe('Duty API', () => {
             ];
 
             const testDate = moment().startOf('day').add(13, 'weeks');
-            const assignment = await TestUtils.newTestAssignment(testCourthouse.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
+            const assignment = await TestUtils.newTestAssignment(testLocation.id, { dutyRecurrences: recurrences, courtroomId: testCourtroom.id });
             await api.ExpireDutyRecurrence(assignment.dutyRecurrences![0].id as string);
-            const duties = await api.ImportDefaultDuties({ courthouseId: assignment.courthouseId, date: testDate.format() });
+            const duties = await api.ImportDefaultDuties({ locationId: assignment.locationId, date: testDate.format() });
             expect(Array.isArray(duties)).toBeTruthy();
             expect(duties.length).toEqual(0);
         });

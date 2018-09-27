@@ -151,6 +151,25 @@ EOT
     print_color $YELLOW "You can find necessary credentials at: \r\n\thttps://$ip:8443/console/project/$projectName/browse/secrets/api\r\n"
 }
 
+write_jest_envfile(){
+    start_color $DARK_GRAY
+    projectName=$(oc project -q)
+    ingressPort=$(oc get svc postgresql-ingress -o=jsonpath='{.spec.ports[0].nodePort}')
+    ip=$(minishift ip)
+    envFileName=".env.jest"
+    if [ -e $envFileName ]
+    then
+        rm $envFileName
+    fi
+      cat <<EOT >> .env.jest
+PGUSER='postgres'
+PGPASSWORD=''
+EOT
+    end_color
+    print_color $CYAN "Admin Postgres connection info (for jest) written to '.env.jest'\r\n"
+    print_color $YELLOW "You can find necessary credentials at: \r\n\thttps://$ip:8443/console/project/$projectName/browse/secrets/postgres\r\n"
+}
+
 create_tools_project(){
     create_project $1
     start_color $DARK_GRAY
@@ -170,4 +189,43 @@ create_deployment_project(){
     end_color
     expose_postgres
     write_postgres_envfile
+}
+
+clean_postgres(){
+    oc project $1
+    start_color $DARK_GRAY
+    echo "Scaling down postgres"
+    oc scale dc postgres --replicas=0 --timeout=1m
+    echo "Deleting postgres Volume Claim"
+    oc delete pvc postgres 2>/dev/null
+    echo "Recreating postgres Volume Claim"
+    # oc process -f ""
+    cat <<EOF | oc process -f - | oc create -f -
+    {
+        "kind": "Template",
+        "apiVersion": "v1",
+        "objects":[
+            {
+                "kind": "PersistentVolumeClaim",
+                "apiVersion": "v1",
+                "metadata": {
+                    "name": "postgres"
+                },
+                "spec": {
+                    "accessModes": [
+                        "ReadWriteOnce"
+                    ],
+                    "resources": {
+                        "requests": {
+                            "storage": "1Gi"
+                        }
+                    }
+                }
+            }
+        ]
+    }
+EOF
+    echo "Scaling up postgres"
+    oc scale dc postgres --replicas=1 --timeout=1m
+    end_color
 }

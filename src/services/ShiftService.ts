@@ -12,7 +12,7 @@ export class ShiftService extends DatabaseService<Shift> {
     fieldMap = {
         shift_id: 'id',
         work_section_code: 'workSectionId',
-        courthouse_id: 'courthouseId',
+        location_id: 'locationId',
         sheriff_id: 'sheriffId',
         start_dtm: 'startDateTime',
         end_dtm: 'endDateTime',
@@ -23,10 +23,10 @@ export class ShiftService extends DatabaseService<Shift> {
         super('shift', 'shift_id');
     }
 
-    async getAll(courthouseId?: string) {
+    async getAll(locationId?: string) {
         const query = super.getSelectQuery();
-        if (courthouseId) {
-            query.where(`courthouse_id='${courthouseId}'`);
+        if (locationId) {
+            query.where(`location_id='${locationId}'`);
         };
         const rows = await this.executeQuery<Shift>(query.toString());
         return rows;
@@ -89,14 +89,14 @@ export class ShiftService extends DatabaseService<Shift> {
     }
 
     async copyShifts(shiftCopyOptions: ShiftCopyOptions): Promise<Shift[]> {
-        const { shouldIncludeSheriffs, startOfWeekDestination, startOfWeekSource, courthouseId } = shiftCopyOptions;
+        const { shouldIncludeSheriffs, startOfWeekDestination, startOfWeekSource, locationId } = shiftCopyOptions;
         const startOfWeekSourceUTC = moment(startOfWeekSource).utc().toISOString();
         const endOfWeekSourceUTC = moment(startOfWeekSource).endOf('week').utc().toISOString();
 
         const selectQuery = super.getSelectQuery();
         selectQuery
             .where(`DATE(start_dtm) BETWEEN '${startOfWeekSourceUTC}' AND '${endOfWeekSourceUTC}'`)
-            .where('courthouse_id = ?', courthouseId);
+            .where('location_id = ?', locationId);
         const sourceShifts = await this.executeQuery<Shift>(selectQuery.toString());
 
         return await this.db.transaction(async ({getService}) => {

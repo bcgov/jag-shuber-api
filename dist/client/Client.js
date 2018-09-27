@@ -209,13 +209,13 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.GetAssignments = function (courthouseId, startDate, endDate) {
+    Client.prototype.GetAssignments = function (locationId, startDate, endDate) {
         return __awaiter(this, void 0, void 0, function () {
             var params;
             var _this = this;
             return __generator(this, function (_a) {
                 params = {
-                    "courthouseId": courthouseId,
+                    "locationId": locationId,
                     "startDate": startDate,
                     "endDate": endDate
                 };
@@ -418,7 +418,7 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.GetCourthouses = function () {
+    Client.prototype.GetLocations = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
@@ -426,7 +426,7 @@ var Client = /** @class */ (function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.get("/courthouses")];
+                                case 0: return [4 /*yield*/, this.agent.get("/locations")];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];
@@ -436,7 +436,7 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.CreateCourthouse = function (model) {
+    Client.prototype.CreateLocation = function (model) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
@@ -444,7 +444,7 @@ var Client = /** @class */ (function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.post("/courthouses")
+                                case 0: return [4 /*yield*/, this.agent.post("/locations")
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
@@ -455,7 +455,7 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.GetCourthouseById = function (id) {
+    Client.prototype.GetLocationById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
@@ -463,7 +463,7 @@ var Client = /** @class */ (function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.get("/courthouses/" + id)];
+                                case 0: return [4 /*yield*/, this.agent.get("/locations/" + id)];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];
@@ -473,7 +473,7 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.UpdateCourthouse = function (id, model) {
+    Client.prototype.UpdateLocation = function (id, model) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
@@ -481,7 +481,7 @@ var Client = /** @class */ (function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.put("/courthouses/" + id)
+                                case 0: return [4 /*yield*/, this.agent.put("/locations/" + id)
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
@@ -492,7 +492,7 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.DeleteCourthouse = function (id) {
+    Client.prototype.DeleteLocation = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
@@ -500,7 +500,7 @@ var Client = /** @class */ (function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.delete("/courthouses/" + id)];
+                                case 0: return [4 /*yield*/, this.agent.delete("/locations/" + id)];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];
@@ -510,13 +510,13 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.GetSheriffs = function (courthouseId) {
+    Client.prototype.GetSheriffs = function (locationId) {
         return __awaiter(this, void 0, void 0, function () {
             var params;
             var _this = this;
             return __generator(this, function (_a) {
                 params = {
-                    "courthouseId": courthouseId
+                    "locationId": locationId
                 };
                 return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
@@ -607,13 +607,13 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.GetCourtrooms = function (courthouseId) {
+    Client.prototype.GetCourtrooms = function (locationId) {
         return __awaiter(this, void 0, void 0, function () {
             var params;
             var _this = this;
             return __generator(this, function (_a) {
                 params = {
-                    "courthouseId": courthouseId
+                    "locationId": locationId
                 };
                 return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
@@ -776,19 +776,19 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.GetRuns = function (courthouseId) {
+    Client.prototype.GetEscortRuns = function (locationId) {
         return __awaiter(this, void 0, void 0, function () {
             var params;
             var _this = this;
             return __generator(this, function (_a) {
                 params = {
-                    "courthouseId": courthouseId
+                    "locationId": locationId
                 };
                 return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.get("/runs")
+                                case 0: return [4 /*yield*/, this.agent.get("/escort-runs")
                                         .query(params)];
                                 case 1:
                                     response = _a.sent();
@@ -799,7 +799,7 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.CreateRun = function (model) {
+    Client.prototype.CreateEscortRun = function (model) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
@@ -807,7 +807,7 @@ var Client = /** @class */ (function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.post("/runs")
+                                case 0: return [4 /*yield*/, this.agent.post("/escort-runs")
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
@@ -818,7 +818,7 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.GetRunById = function (id) {
+    Client.prototype.GetEscortRunById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
@@ -826,7 +826,7 @@ var Client = /** @class */ (function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.get("/runs/" + id)];
+                                case 0: return [4 /*yield*/, this.agent.get("/escort-runs/" + id)];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];
@@ -836,7 +836,7 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.UpdateRun = function (id, model) {
+    Client.prototype.UpdateEscortRun = function (id, model) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
@@ -844,7 +844,7 @@ var Client = /** @class */ (function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.put("/runs/" + id)
+                                case 0: return [4 /*yield*/, this.agent.put("/escort-runs/" + id)
                                         .send(model)];
                                 case 1:
                                     response = _a.sent();
@@ -855,7 +855,7 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.DeleteRun = function (id) {
+    Client.prototype.DeleteEscortRun = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
@@ -863,7 +863,7 @@ var Client = /** @class */ (function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.delete("/runs/" + id)];
+                                case 0: return [4 /*yield*/, this.agent.delete("/escort-runs/" + id)];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];
@@ -873,13 +873,13 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.GetShifts = function (courthouseId) {
+    Client.prototype.GetShifts = function (locationId) {
         return __awaiter(this, void 0, void 0, function () {
             var params;
             var _this = this;
             return __generator(this, function (_a) {
                 params = {
-                    "courthouseId": courthouseId
+                    "locationId": locationId
                 };
                 return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;

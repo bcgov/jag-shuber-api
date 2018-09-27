@@ -10,12 +10,12 @@ cd "${SCRIPTDIR}/liquibase/"
 
 liquibase --driver=org.postgresql.Driver \
           --contexts="$LIQUIBASE_CONTEXTS" \
-          --changeLogFile=shersched.db.changelog-master.xml \
+          --changeLogFile=shersched.db.changelog.MASTER.xml \
           --url="jdbc:postgresql://postgres:$POSTGRES_SERVICE_PORT/$PG_DATABASE" \
           --username=$PG_ADMIN_USER \
           --password=$PG_ADMIN_PASSWORD \
           --defaultSchemaName=$PG_DEFAULT_SCHEMA \
-          --logLevel=debug update \
+          --logLevel=info update \
           -DPOSTGRES_APP_USER=$PG_USER \
           -DPOSTGRES_APP_PASS=$PG_PASSWORD \
           -DPOSTGRES_CATALOG=$PG_DATABASE \

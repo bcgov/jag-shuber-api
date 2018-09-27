@@ -5,12 +5,12 @@ import superagentUse from 'superagent-use';
 import Client from './Client';
 import {
     Assignment,
-    Courthouse,
+    Location,
     Courtroom,
     Duty,
     DutyRecurrence,
     Region,
-    Run,
+    EscortRun,
     Sheriff,
     Shift,
     DutyImportDefaultsRequest,
@@ -25,6 +25,7 @@ import { TokenPayload } from '../common/authentication';
 import { decodeJwt } from '../common/tokenUtils';
 import { DateType } from '../common/types';
 import { getDateString } from '../common/dateUtils';
+import { ERROR_DEPRECATED_DELETE_DUTYRECURRENCE, ERROR_DEPRECATED_DELETE_ASSIGNMENT } from '../common/Messages';
 
 export type SuperAgentRequestInterceptor = (req: SA.SuperAgentRequest) => SA.SuperAgentRequest
 
@@ -97,9 +98,9 @@ export default class ExtendedClient extends Client {
         return await this.nullOn404(() => super.GetRegionById(id));
     }
 
-    async GetCourthouseById(id: string): Promise<Courthouse> {
+    async GetLocationById(id: string): Promise<Location> {
         return await this.nullOn404(
-            () => super.GetCourthouseById(id)
+            () => super.GetLocationById(id)
         );
     }
 
@@ -108,8 +109,8 @@ export default class ExtendedClient extends Client {
             () => super.GetSheriffById(id)
         );
     }
-    GetSheriffs(courthouseId: string = ""): Promise<Sheriff[]> {
-        return super.GetSheriffs(courthouseId);
+    GetSheriffs(locationId: string = ""): Promise<Sheriff[]> {
+        return super.GetSheriffs(locationId);
     }
 
 
@@ -119,8 +120,8 @@ export default class ExtendedClient extends Client {
         );
     }
 
-    GetCourtrooms(courthouseId: string = ""): Promise<Courtroom[]> {
-        return super.GetCourtrooms(courthouseId);
+    GetCourtrooms(locationId: string = ""): Promise<Courtroom[]> {
+        return super.GetCourtrooms(locationId);
     }
 
 
@@ -130,24 +131,24 @@ export default class ExtendedClient extends Client {
         );
     }
 
-    GetAssignments(courthouseId: string = "", startDate?: DateType, endDate?: DateType): Promise<Assignment[]> {
+    GetAssignments(locationId: string = "", startDate?: DateType, endDate?: DateType): Promise<Assignment[]> {
         const startMoment = moment(startDate);
         const endMoment = endDate ? moment(endDate) : moment(startMoment);
-        return super.GetAssignments(courthouseId, startMoment.toISOString(), endMoment.toISOString());
+        return super.GetAssignments(locationId, startMoment.toISOString(), endMoment.toISOString());
     }
 
-    GetRuns(courthouseId: string = ""): Promise<Run[]> {
-        return super.GetRuns(courthouseId);
+    GetEscortRuns(locationId: string = ""): Promise<EscortRun[]> {
+        return super.GetEscortRuns(locationId);
     }
 
-    async GetRunById(id: string): Promise<Run> {
+    async GetEscortRunById(id: string): Promise<EscortRun> {
         return await this.nullOn404(
-            () => super.GetRunById(id)
+            () => super.GetEscortRunById(id)
         );
     }
 
-    GetShifts(courthouseId: string = ""): Promise<Shift[]> {
-        return super.GetShifts(courthouseId);
+    GetShifts(locationId: string = ""): Promise<Shift[]> {
+        return super.GetShifts(locationId);
     }
 
     async GetShiftById(id: string): Promise<Shift> {
@@ -247,24 +248,38 @@ export default class ExtendedClient extends Client {
 
     async ImportDefaultDuties(request: DutyImportDefaultsRequest) : Promise<Duty[]> {
         const {
-            courthouseId,
+            locationId,
             date
         } = request;
 
         return await super.ImportDefaultDuties({ 
-            courthouseId, 
+            locationId, 
             date: getDateString(date) 
         });
     }
 
     async AutoAssignSheriffDuties(request: SheriffDutyAutoAssignRequest) : Promise<SheriffDuty[]> {
         const {
-            courthouseId,
+            locationId,
             date
         } = request;
         return await super.AutoAssignSheriffDuties({ 
-            courthouseId, 
+            locationId, 
             date: getDateString(date) 
         });
+    }
+
+    /**
+     * @deprecated Please use ExpireAssignment instead.
+     */
+    async DeleteAssignment(id:string):Promise<void>{
+        throw new Error(ERROR_DEPRECATED_DELETE_ASSIGNMENT);
+    }
+
+    /**
+     * @deprecated Please use ExpireDutyRecurrence instead.
+     */
+    async DeleteDutyRecurrence(id:string):Promise<void>{
+        throw new Error(ERROR_DEPRECATED_DELETE_DUTYRECURRENCE);
     }
 }

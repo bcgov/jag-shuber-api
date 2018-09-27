@@ -1,0 +1,53 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="create_function_tab_stamp_start"/>
+    </changeSet>
+
+    <!-- Comment for changeset group -->
+
+    <!-- Changsets -->
+    
+    <changeSet author="Carol Geisler" id="CRTPRC_tab_stamp" runOnChange="true">
+      <createProcedure catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}">
+    CREATE OR REPLACE FUNCTION ${POSTGRES_SCHEMA}.tab_stamp() RETURNS trigger AS $tab_stamp$
+      BEGIN
+        IF NEW.updated_by IS NULL THEN
+          NEW.updated_by := 'anon$' || current_user;
+        END IF;
+        NEW.updated_dtm := current_timestamp;
+        IF TG_OP = 'INSERT' THEN
+          NEW.created_by := NEW.updated_by;
+          NEW.created_dtm := NEW.updated_dtm;
+          NEW.revision_count = 0;
+        ELSE
+          NEW.revision_count = OLD.revision_count + 1;
+        END IF;
+  
+        RETURN NEW;
+      END;
+    $tab_stamp$ LANGUAGE plpgsql;
+      </createProcedure>
+      <rollback>
+        <sql>
+          DROP FUNCTION IF EXISTS ${POSTGRES_SCHEMA}.tab_stamp()
+        </sql>
+      </rollback>
+    </changeSet>
+
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="create_function_tab_stamp_end"/>
+    </changeSet>
+
+</databaseChangeLog>

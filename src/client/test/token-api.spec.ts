@@ -94,7 +94,7 @@ describe('Token API', () => {
             expect(payload.scopes).toEqual(expect.arrayContaining(DEFAULT_SCOPES));
             return req;
         }
-        await api.GetCourthouses();
+        await api.GetLocations();
     });
 
 

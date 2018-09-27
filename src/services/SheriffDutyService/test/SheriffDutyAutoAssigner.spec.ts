@@ -16,7 +16,7 @@ describe('SheriffDutyAutoAssigner', () => {
         ...testSD
     }
     const testShift: Shift = {
-        courthouseId: "c1",
+        locationId: "c1",
         id: "shift1",
         assignmentId: testSDWA.assignmentId,
         startDateTime: testSD.startDateTime,

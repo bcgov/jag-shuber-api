@@ -6,6 +6,7 @@ types.setTypeParser(1700, (val) => (Number(val)))
 const schema = process.env["API_DATABASE_SCHEMA"] || 'shersched';
 const extensionsSchema = process.env["POSTGRES_EXT_SCHEMA"] || 'extensions';
 const port = process.env["PGPORT"];
+const user = process.env["PGUSER"];
 
 const connection: { instance?: Pool } = {};
 
@@ -50,8 +51,8 @@ export function getConnectionPool() {
         const searchPath = `SET search_path TO ${schema},${extensionsSchema}`;
         await client.query(searchPath);
     })
-
-    console.log(`DB Connection Pool Initialized using '${schema}' schema`);
+    
+    console.log(`DB Connection Pool Initialized using the '${user}' user`);
     console.log(`DB connection established on port: ${port}`)
     console.log('Adding schemas to search path: ', schema, extensionsSchema)
 

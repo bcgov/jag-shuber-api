@@ -56,10 +56,10 @@ export class DutyService extends DatabaseService<Duty> {
         return duty;
     }
 
-    async getAll(courthouseId?: string) {
+    async getAll(locationId?: string) {
         const query = super.getSelectQuery();
-        if (courthouseId) {
-            query.where(`courthouse_id='${courthouseId}'`);
+        if (locationId) {
+            query.where(`location_id='${locationId}'`);
         };
         const duties = await this.executeQuery<Duty>(query.toString());
         const dutyIds = duties.map(a => a.id) as string[];
@@ -114,7 +114,7 @@ export class DutyService extends DatabaseService<Duty> {
     }
 
     async importDefaults(request: DutyImportDefaultsRequest): Promise<Duty[]> {
-        const { courthouseId, date } = request;
+        const { locationId, date } = request;
         const dateMoment = date ? moment(date) : moment();
 
         const assignmentService = Container.get(AssignmentService) as AssignmentService;
@@ -140,7 +140,7 @@ export class DutyService extends DatabaseService<Duty> {
                 startDate: dateMoment.format(),
                 fieldAlias: 'dr'
             }))
-            .where(`a.courthouse_id='${courthouseId}'`)
+            .where(`a.location_id='${locationId}'`)
             .where(`(cast(${dutyRecurrenceTableAlias}.days_bitmap::bigint as bit(7)) & day_of_interest)=day_of_interest`)
             .where('NOT EXISTS ?',
                 this.squel.str(
