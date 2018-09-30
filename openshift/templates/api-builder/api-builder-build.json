@@ -33,11 +33,7 @@
           },
           "contextDir": "${SOURCE_CONTEXT_DIR}"
         },
-        "triggers": [
-          {
-              "type": "ConfigChange"
-          }
-      ],
+        "triggers": [],
         "strategy": {
           "type": "Docker"
         },

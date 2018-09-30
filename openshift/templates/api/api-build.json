@@ -16,10 +16,7 @@
                 }
             },
             "spec": {
-                "triggers": [{
-                    "type": "ImageChange",
-                    "ImageChange": {}
-                }],
+                "triggers": [],
                 "runPolicy": "Serial",
                 "source": {
                     "type": "Git",
@@ -102,7 +99,7 @@
             "name": "API_SERVICE_NAME",
             "displayName": "Api Service Name",
             "description": "The name of the API Service to be built.",
-            "value": "shuber-api",
+            "value": "api",
             "required": true
         },
         {
