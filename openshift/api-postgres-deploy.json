@@ -156,7 +156,7 @@
                             ],
                             "from": {
                                 "kind": "ImageStreamTag",
-                                "name": "${API_IMAGE_STREAM}:latest",
+                                "name": "${API_IMAGE_STREAM}:${API_IMAGE_TAG}",
                                 "namespace": "${API_IMAGE_NAMESPACE}"
                             }
                         }
@@ -242,6 +242,28 @@
                                         "memory": "${API_MEMORY_LIMIT}",
                                         "cpu":"${API_CPU_LIMIT}"
                                     }
+                                },
+                                "livenessProbe":{
+                                    "failureThreshold":3,
+                                    "httpGet":{
+                                        "path": "/api/status",
+                                        "port": 8080,
+                                        "scheme": "HTTP"
+                                    },
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 1                                    
+                                },
+                                "readinessProbe":{
+                                    "failureThreshold":3,
+                                    "httpGet":{
+                                        "path": "/api/status",
+                                        "port": 8080,
+                                        "scheme": "HTTP"
+                                    },
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 1                                    
                                 },
                                 "terminationMessagePath": "/dev/termination-log",
                                 "terminationMessagePolicy": "File",
@@ -510,13 +532,6 @@
     ],
     "parameters": [
         {
-            "name": "API_DATA_CONTEXTS",
-            "displayName": "API Data Contexts",
-            "description": "The liquibase contexts to include for this environment.  (See [liquibase contexts](http://www.liquibase.org/documentation/contexts.html) for more info)",
-            "required": false,
-            "value":"prod"
-        },
-        {
             "name": "API_IMAGE_NAMESPACE",
             "displayName": "Api ImageStream Project",
             "description": "The OpenShift Project where the Api ImageStream resides.",
@@ -528,7 +543,21 @@
             "displayName": "Api Image Stream",
             "description": "The name of the API image stream.",
             "required": true,
-            "value":"shuber-api"
+            "value":"api"
+        },
+        {
+            "name": "API_IMAGE_TAG",
+            "displayName": "Api Image Tag",
+            "description": "The tag of the Api Image that should be deployed",
+            "required": true,
+            "value":"dev"
+        },
+        {
+            "name": "API_DATA_CONTEXTS",
+            "displayName": "API Data Contexts",
+            "description": "The liquibase contexts to include for this environment.  (See [liquibase contexts](http://www.liquibase.org/documentation/contexts.html) for more info)",
+            "required": false,
+            "value":"prod"
         },
         {
             "name": "API_SERVICE_NAME",
