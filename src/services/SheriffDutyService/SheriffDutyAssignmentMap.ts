@@ -13,6 +13,7 @@ export default class SheriffDutyAssignmentMap {
     private assignmentLookup: { [key: string]: SheriffDuty[] } = {}
     private reverseAssignmentLookup: { [key: string]: string } = {};
     private _updatedSheriffDuties: SheriffDuty[] = [];
+    private _createdSheriffDuties: SheriffDuty[] = [];
 
     constructor(allSheriffDuties: SheriffDutyWithAssignment[]) {
         this.sheriffLookup[SheriffDutyAssignmentMap.UNASSIGNED_SHERIFF_DUTIES] = [];
@@ -82,6 +83,16 @@ export default class SheriffDutyAssignmentMap {
 
     }
 
+    createSheriffDuty(dutyId: string, startTime: string, endTime: string) {
+        // create new unassigned SherrifDuty based
+        const newUnassignedSheriffDuty = <SheriffDuty> { 
+            dutyId: dutyId,
+            startDateTime: startTime,
+            endDateTime: endTime            
+        };
+        this._createdSheriffDuties.push(newUnassignedSheriffDuty);
+    }
+
     assignSheriff(sheriffDuty: SheriffDuty, sheriffId: string) {
         const unassignedIndex = this.sheriffLookup[SheriffDutyAssignmentMap.UNASSIGNED_SHERIFF_DUTIES].findIndex(sd => sd.id === sheriffDuty.id);
         if (unassignedIndex > -1) {
@@ -104,6 +115,16 @@ export default class SheriffDutyAssignmentMap {
 
     get updatedSheriffDuties() {
         return this._updatedSheriffDuties.map(({ startDateTime, endDateTime, ...sd }) =>
+            ({
+                ...sd,
+                startDateTime: moment(startDateTime).format(),
+                endDateTime: moment(endDateTime).format()
+            }) as SheriffDuty
+        );
+    }
+
+    get createdSheriffDuties() {
+        return this._createdSheriffDuties.map(({ startDateTime, endDateTime, ...sd }) =>
             ({
                 ...sd,
                 startDateTime: moment(startDateTime).format(),
