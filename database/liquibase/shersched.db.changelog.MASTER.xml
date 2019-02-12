@@ -122,17 +122,17 @@
 
     <!-- Base Data Changelogs -->
     <!--   Generated from spreadsheet Code_Table_Data_Prod_Release.xls -->
-    <include file="data/shersched.db.changelog.data.prod-work_section_code.xml"/>
-    <include file="data/shersched.db.changelog.data.prod-court_role_code.xml"/>
-    <include file="data/shersched.db.changelog.data.prod-jail_role_code.xml"/>
-    <include file="data/shersched.db.changelog.data.prod-other_assign_code.xml"/>
+    <include file="data/shersched.db.changelog.data.dev-work_section_code.xml"/>
+    <include file="data/shersched.db.changelog.data.dev-court_role_code.xml"/>
+    <include file="data/shersched.db.changelog.data.dev-jail_role_code.xml"/>
+    <include file="data/shersched.db.changelog.data.dev-other_assign_code.xml"/>
     
-    <include file="data/shersched.db.changelog.data.prod-leave_code.xml"/>
-    <include file="data/shersched.db.changelog.data.prod-leave_sub_code.xml"/>
-    <include file="data/shersched.db.changelog.data.prod-leave_cancel_reason_code.xml"/>
+    <include file="data/shersched.db.changelog.data.dev-leave_code.xml"/>
+    <include file="data/shersched.db.changelog.data.dev-leave_sub_code.xml"/>
+    <include file="data/shersched.db.changelog.data.dev-leave_cancel_reason_code.xml"/>
 
-    <include file="data/shersched.db.changelog.data.prod-sheriff_rank_code.xml"/>
-    <include file="data/shersched.db.changelog.data.prod-gender_code.xml"/>
+    <include file="data/shersched.db.changelog.data.dev-sheriff_rank_code.xml"/>
+    <include file="data/shersched.db.changelog.data.dev-gender_code.xml"/>
     
     <!-- Authorization Data -->
     <!--    Dev changelogs below are tagged with a context of AUTHDEV. 
@@ -153,17 +153,17 @@
 
     <!-- Location Data Changelogs -->
     <!--   Generated from spreadsheet Location_Data_Prod_Release.xls -->
-    <include file="data/shersched.db.changelog.data.prod-region.xml"/>
-    <include file="data/shersched.db.changelog.data.prod-location.xml"/>
-    <include file="data/shersched.db.changelog.data.prod-courtroom.xml"/>
+    <include file="data/shersched.db.changelog.data.dev-region.xml"/>
+    <include file="data/shersched.db.changelog.data.dev-location.xml"/>
+    <include file="data/shersched.db.changelog.data.dev-courtroom.xml"/>
     
     <!-- Config & Base Data Tables -->
     <!--    Generated from spreadsheet Location_Data_Prod_Release.xls 
             Note, these scripts are offered as a starting point, and 
             may be removed in future data is updated via the application 
     -->
-    <include file="data/shersched.db.changelog.data.prod-sheriff.xml"/>
-    <include file="data/shersched.db.changelog.data.prod-escort_run.xml"/>
+    <include file="data/shersched.db.changelog.data.dev-sheriff.xml"/>
+    <include file="data/shersched.db.changelog.data.dev-escort_run.xml"/>
 
     <changeSet author="Carol Geisler" id="data_01">
     	<tagDatabase tag="01_AllBaseData"/>
