@@ -1,0 +1,202 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="otherassigncode_data_prod_start"/>
+    </changeSet>
+    
+    <!-- Other Assignment Code data -->
+    <changeSet author="Carol Geisler" id="INS_otascd_TRAVEL" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="other_assign_code">
+          <column name="other_assign_code" type="VARCHAR(20)" value="TRAVEL"/>
+          <column name="description" type="VARCHAR(200)" value="Travel"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_OTHER_ASSIGN_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="other_assign_code">
+              <where>other_assign_code='TRAVEL'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_otascd_VEHICLEMAINT" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="other_assign_code">
+          <column name="other_assign_code" type="VARCHAR(20)" value="VEHICLEMAINT"/>
+          <column name="description" type="VARCHAR(200)" value="Vehicle Maintenance"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_OTHER_ASSIGN_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="other_assign_code">
+              <where>other_assign_code='VEHICLEMAINT'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_otascd_PROVTRAININGOFFICER" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="other_assign_code">
+          <column name="other_assign_code" type="VARCHAR(20)" value="PROVTRAININGOFFICER"/>
+          <column name="description" type="VARCHAR(200)" value="Provincial Training Officer"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_OTHER_ASSIGN_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="other_assign_code">
+              <where>other_assign_code='PROVTRAININGOFFICER'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_otascd_INTEL" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="other_assign_code">
+          <column name="other_assign_code" type="VARCHAR(20)" value="INTEL"/>
+          <column name="description" type="VARCHAR(200)" value="Intel"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_OTHER_ASSIGN_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="other_assign_code">
+              <where>other_assign_code='INTEL'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_otascd_SIR" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="other_assign_code">
+          <column name="other_assign_code" type="VARCHAR(20)" value="SIR"/>
+          <column name="description" type="VARCHAR(200)" value="SIR / Investigation"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_OTHER_ASSIGN_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="other_assign_code">
+              <where>other_assign_code='SIR'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_otascd_CPICJUSTIN" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="other_assign_code">
+          <column name="other_assign_code" type="VARCHAR(20)" value="CPICJUSTIN"/>
+          <column name="description" type="VARCHAR(200)" value="CPIC / Justin"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_OTHER_ASSIGN_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="other_assign_code">
+              <where>other_assign_code='CPICJUSTIN'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_otascd_DNA" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="other_assign_code">
+          <column name="other_assign_code" type="VARCHAR(20)" value="DNA"/>
+          <column name="description" type="VARCHAR(200)" value="DNA Samples"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_OTHER_ASSIGN_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="other_assign_code">
+              <where>other_assign_code='DNA'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_otascd_JURYSELECT" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="other_assign_code">
+          <column name="other_assign_code" type="VARCHAR(20)" value="JURYSELECT"/>
+          <column name="description" type="VARCHAR(200)" value="Jury Selection"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_OTHER_ASSIGN_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="other_assign_code">
+              <where>other_assign_code='JURYSELECT'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_otascd_JURYDELIB" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="other_assign_code">
+          <column name="other_assign_code" type="VARCHAR(20)" value="JURYDELIB"/>
+          <column name="description" type="VARCHAR(200)" value="Jury Deliberation"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_OTHER_ASSIGN_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="other_assign_code">
+              <where>other_assign_code='JURYDELIB'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_otascd_DOCUMENTS" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="other_assign_code">
+          <column name="other_assign_code" type="VARCHAR(20)" value="DOCUMENTS"/>
+          <column name="description" type="VARCHAR(200)" value="Documents"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_OTHER_ASSIGN_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="other_assign_code">
+              <where>other_assign_code='DOCUMENTS'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="otherassigncode_data_prod_end"/>
+    </changeSet>
+
+</databaseChangeLog>

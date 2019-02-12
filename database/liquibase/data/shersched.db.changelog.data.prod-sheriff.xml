@@ -1,0 +1,355 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd"
+	  context="prod">
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <changeSet author="Tiago Graf" id="tag0">
+    	<tagDatabase tag="sheriff_data_dev_start"/>
+    </changeSet>
+    
+    <!-- Sheriff data -->
+    <!-- Sheriff data inserts for location VIC-->
+    
+    <changeSet author="Tiago Graf" id="INS_shrf_BN10000">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="BN10000"/>
+          <column name="first_name" type="VARCHAR(100)" value="Fred"/>
+          <column name="last_name" type="VARCHAR(100)" value="Flintstone"/>
+          <column name="gender_code" type="VARCHAR2(10)" value="MALE"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
+          <column name="home_location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="Tiago_Graf"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='BN10000'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Tiago Graf" id="INS_shrf_BN10001">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="BN10001"/>
+          <column name="first_name" type="VARCHAR(100)" value="Wilma"/>
+          <column name="last_name" type="VARCHAR(100)" value="Flintstone"/>
+          <column name="gender_code" type="VARCHAR2(10)" value="FEMALE"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="home_location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="Tiago_Graf"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='BN10001'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+    <changeSet author="Tiago Graf" id="INS_shrf_BN10002">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="BN10002"/>
+          <column name="first_name" type="VARCHAR(100)" value="Pebbles"/>
+          <column name="last_name" type="VARCHAR(100)" value="Flintstone"/>
+          <column name="gender_code" type="VARCHAR2(10)" value="FEMALE"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="home_location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="Tiago_Graf"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='BN10002'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Tiago Graf" id="INS_shrf_BN10003">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="BN10003"/>
+          <column name="first_name" type="VARCHAR(100)" value="Mr."/>
+          <column name="last_name" type="VARCHAR(100)" value="Slate"/>
+          <column name="gender_code" type="VARCHAR2(10)" value="MALE"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="STAFFSERGEANT"/>
+          <column name="home_location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="Tiago_Graf"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='BN10003'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+	<changeSet author="Tiago Graf" id="INS_shrf_BN10004">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="BN10004"/>
+          <column name="first_name" type="VARCHAR(100)" value="Betty"/>
+          <column name="last_name" type="VARCHAR(100)" value="Rubble"/>
+          <column name="gender_code" type="VARCHAR2(10)" value="FEMALE"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
+          <column name="home_location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="Tiago_Graf"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='BN10004'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+	<changeSet author="Tiago Graf" id="INS_shrf_BN10005">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="BN10005"/>
+          <column name="first_name" type="VARCHAR(100)" value="Barney"/>
+          <column name="last_name" type="VARCHAR(100)" value="Rubble"/>
+          <column name="gender_code" type="VARCHAR2(10)" value="MALE"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
+          <column name="home_location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="Tiago_Graf"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='BN10005'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+	<changeSet author="Tiago Graf" id="INS_shrf_BN10006">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="BN10006"/>
+          <column name="first_name" type="VARCHAR(100)" value="Minnie"/>
+          <column name="last_name" type="VARCHAR(100)" value="Mouse"/>
+          <column name="gender_code" type="VARCHAR2(10)" value="FEMALE"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="home_location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="Tiago_Graf"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='BN10006'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+	
+	<changeSet author="Tiago Graf" id="INS_shrf_BN10007">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="BN10007"/>
+          <column name="first_name" type="VARCHAR(100)" value="Mickey"/>
+          <column name="last_name" type="VARCHAR(100)" value="Mouse"/>
+          <column name="gender_code" type="VARCHAR2(10)" value="MALE"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="STAFFSERGEANT"/>
+          <column name="home_location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="Tiago_Graf"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='BN10007'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+	<changeSet author="Tiago Graf" id="INS_shrf_BN10008">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="BN10008"/>
+          <column name="first_name" type="VARCHAR(100)" value="Donald"/>
+          <column name="last_name" type="VARCHAR(100)" value="Duck"/>
+          <column name="gender_code" type="VARCHAR2(10)" value="MALE"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
+          <column name="home_location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="Tiago_Graf"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='BN10008'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+	<changeSet author="Tiago Graf" id="INS_shrf_BN10009">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="BN10009"/>
+          <column name="first_name" type="VARCHAR(100)" value="Bugs"/>
+          <column name="last_name" type="VARCHAR(100)" value="Bunny"/>
+          <column name="gender_code" type="VARCHAR2(10)" value="MALE"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="home_location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="Tiago_Graf"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='BN10009'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+	<changeSet author="Tiago Graf" id="INS_shrf_BN10010">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="BN10010"/>
+          <column name="first_name" type="VARCHAR(100)" value="Daffy"/>
+          <column name="last_name" type="VARCHAR(100)" value="Duck"/>
+          <column name="gender_code" type="VARCHAR2(10)" value="MALE"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="home_location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="Tiago_Graf"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='BN10010'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+	<changeSet author="Tiago Graf" id="INS_shrf_BN10011">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="BN10011"/>
+          <column name="first_name" type="VARCHAR(100)" value="Elmer"/>
+          <column name="last_name" type="VARCHAR(100)" value="Fudd"/>
+          <column name="gender_code" type="VARCHAR2(10)" value="MALE"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
+          <column name="home_location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="Tiago_Graf"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='BN10011'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+	
+	<changeSet author="Tiago Graf" id="INS_shrf_BN10012">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="BN10012"/>
+          <column name="first_name" type="VARCHAR(100)" value="Papa"/>
+          <column name="last_name" type="VARCHAR(100)" value="Smurf"/>
+          <column name="gender_code" type="VARCHAR2(10)" value="MALE"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="INSPECTOR"/>
+          <column name="home_location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="Tiago_Graf"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='BN10012'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+	<changeSet author="Tiago Graf" id="INS_shrf_BN10013">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="BN10013"/>
+          <column name="first_name" type="VARCHAR(100)" value="Brainy"/>
+          <column name="last_name" type="VARCHAR(100)" value="Smurf"/>
+          <column name="gender_code" type="VARCHAR2(10)" value="MALE"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
+          <column name="home_location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="Tiago_Graf"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='BN10013'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+	<changeSet author="Tiago Graf" id="INS_shrf_BN10014">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+          <column name="sheriff_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="badge_no" type="VARCHAR(20)" value="BN10014"/>
+          <column name="first_name" type="VARCHAR(100)" value="Smurfette"/>
+          <column name="last_name" type="VARCHAR(100)" value="Smurf"/>
+          <column name="gender_code" type="VARCHAR2(10)" value="FEMALE"/>
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="home_location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'CHL')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="Tiago_Graf"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff">
+              <where>badge_no='BN10014'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+    <changeSet author="Tiago Graf" id="tag1">
+    	<tagDatabase tag="sheriff_data_prod_end"/>
+    </changeSet>
+
+</databaseChangeLog>
