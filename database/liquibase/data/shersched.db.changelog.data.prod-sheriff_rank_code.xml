@@ -1,0 +1,155 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="otherassigncode_data_prod_start"/>
+    </changeSet>
+    
+    <!-- Sheriff Rank Code data -->
+    <changeSet author="Carol Geisler" id="INS_shrk_CHIEFSHERIFF">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff_rank_code">
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="CHIEFSHERIFF"/>
+          <column name="rank_order" type="INTEGER" value="1"/>
+          <column name="description" type="VARCHAR(200)" value="Chief Sheriff"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_RANK_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff_rank_code">
+              <where>sheriff_rank_code='CHIEFSHERIFF'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_shrk_SUPERINTENDENT">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff_rank_code">
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="SUPERINTENDENT"/>
+          <column name="rank_order" type="INTEGER" value="2"/>
+          <column name="description" type="VARCHAR(200)" value="Superintendent"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_RANK_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff_rank_code">
+              <where>sheriff_rank_code='SUPERINTENDENT'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_shrk_STAFFINSPECTOR">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff_rank_code">
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="STAFFINSPECTOR"/>
+          <column name="rank_order" type="INTEGER" value="3"/>
+          <column name="description" type="VARCHAR(200)" value="Staff Inspector"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_RANK_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff_rank_code">
+              <where>sheriff_rank_code='STAFFINSPECTOR'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_shrk_INSPECTOR">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff_rank_code">
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="INSPECTOR"/>
+          <column name="rank_order" type="INTEGER" value="4"/>
+          <column name="description" type="VARCHAR(200)" value="Inspector"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_RANK_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff_rank_code">
+              <where>sheriff_rank_code='INSPECTOR'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_shrk_STAFFSERGEANT">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff_rank_code">
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="STAFFSERGEANT"/>
+          <column name="rank_order" type="INTEGER" value="5"/>
+          <column name="description" type="VARCHAR(200)" value="Staff Sergeant"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_RANK_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff_rank_code">
+              <where>sheriff_rank_code='STAFFSERGEANT'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_shrk_SERGEANT">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff_rank_code">
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="SERGEANT"/>
+          <column name="rank_order" type="INTEGER" value="6"/>
+          <column name="description" type="VARCHAR(200)" value="Sergeant"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_RANK_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff_rank_code">
+              <where>sheriff_rank_code='SERGEANT'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_shrk_DEPUTYSHERIFF">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff_rank_code">
+          <column name="sheriff_rank_code" type="VARCHAR(20)" value="DEPUTYSHERIFF"/>
+          <column name="rank_order" type="INTEGER" value="7"/>
+          <column name="description" type="VARCHAR(200)" value="Deputy Sheriff"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_SHERIFF_RANK_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="sheriff_rank_code">
+              <where>sheriff_rank_code='DEPUTYSHERIFF'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="sheriffrankcode_data_prod_end"/>
+    </changeSet>
+
+</databaseChangeLog>
