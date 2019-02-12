@@ -1,0 +1,271 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="leavesubcode_data_prod_start"/>
+    </changeSet>
+    
+    <!-- Leave Sub Code data -->
+    <changeSet author="Carol Geisler" id="INS_lvsc_PERSONAL_STIP">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+          <column name="leave_code" type="VARCHAR(20)" value="PERSONAL"/>
+          <column name="leave_sub_code" type="VARCHAR(20)" value="STIP"/>
+          <column name="description" type="VARCHAR(200)" value="STIP"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_LEAVE_SUB_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+              <where>leave_code='PERSONAL'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_lvsc_PERSONAL_ANNUAL">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+          <column name="leave_code" type="VARCHAR(20)" value="PERSONAL"/>
+          <column name="leave_sub_code" type="VARCHAR(20)" value="ANNUAL"/>
+          <column name="description" type="VARCHAR(200)" value="Annual"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_LEAVE_SUB_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+              <where>leave_code='PERSONAL'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_lvsc_PERSONAL_ILLNESS">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+          <column name="leave_code" type="VARCHAR(20)" value="PERSONAL"/>
+          <column name="leave_sub_code" type="VARCHAR(20)" value="ILLNESS"/>
+          <column name="description" type="VARCHAR(200)" value="Illness"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_LEAVE_SUB_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+              <where>leave_code='PERSONAL'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_lvsc_PERSONAL_SPECIAL">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+          <column name="leave_code" type="VARCHAR(20)" value="PERSONAL"/>
+          <column name="leave_sub_code" type="VARCHAR(20)" value="SPECIAL"/>
+          <column name="description" type="VARCHAR(200)" value="Special"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_LEAVE_SUB_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+              <where>leave_code='PERSONAL'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_lvsc_TRAINING_CEW">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+          <column name="leave_code" type="VARCHAR(20)" value="TRAINING"/>
+          <column name="leave_sub_code" type="VARCHAR(20)" value="CEW"/>
+          <column name="description" type="VARCHAR(200)" value="CEW (Taser)"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_LEAVE_SUB_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+              <where>leave_code='TRAINING'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_lvsc_TRAINING_DNA">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+          <column name="leave_code" type="VARCHAR(20)" value="TRAINING"/>
+          <column name="leave_sub_code" type="VARCHAR(20)" value="DNA"/>
+          <column name="description" type="VARCHAR(200)" value="DNA"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_LEAVE_SUB_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+              <where>leave_code='TRAINING'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_lvsc_TRAINING_FRO">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+          <column name="leave_code" type="VARCHAR(20)" value="TRAINING"/>
+          <column name="leave_sub_code" type="VARCHAR(20)" value="FRO"/>
+          <column name="description" type="VARCHAR(200)" value="FRO"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_LEAVE_SUB_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+              <where>leave_code='TRAINING'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_lvsc_TRAINING_FIREARM">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+          <column name="leave_code" type="VARCHAR(20)" value="TRAINING"/>
+          <column name="leave_sub_code" type="VARCHAR(20)" value="FIREARM"/>
+          <column name="description" type="VARCHAR(200)" value="Fire Arm"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_LEAVE_SUB_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+              <where>leave_code='TRAINING'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_lvsc_TRAINING_FIRSTAID">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+          <column name="leave_code" type="VARCHAR(20)" value="TRAINING"/>
+          <column name="leave_sub_code" type="VARCHAR(20)" value="FIRSTAID"/>
+          <column name="description" type="VARCHAR(200)" value="First Aid"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_LEAVE_SUB_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+              <where>leave_code='TRAINING'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_lvsc_TRAINING_AESPC">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+          <column name="leave_code" type="VARCHAR(20)" value="TRAINING"/>
+          <column name="leave_sub_code" type="VARCHAR(20)" value="AESPC"/>
+          <column name="description" type="VARCHAR(200)" value="Advanced Escort SPC (AESOC)"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_LEAVE_SUB_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+              <where>leave_code='TRAINING'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_lvsc_TRAINING_EXSPC">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+          <column name="leave_code" type="VARCHAR(20)" value="TRAINING"/>
+          <column name="leave_sub_code" type="VARCHAR(20)" value="EXSPC"/>
+          <column name="description" type="VARCHAR(200)" value="Extenuating Circumstances SPC (EXSPC)"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_LEAVE_SUB_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+              <where>leave_code='TRAINING'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_lvsc_TRAINING_SEARCHGATE">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+          <column name="leave_code" type="VARCHAR(20)" value="TRAINING"/>
+          <column name="leave_sub_code" type="VARCHAR(20)" value="SEARCHGATE"/>
+          <column name="description" type="VARCHAR(200)" value="Search Gate"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_LEAVE_SUB_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+              <where>leave_code='TRAINING'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_lvsc_TRAINING_OTHER">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+          <column name="leave_code" type="VARCHAR(20)" value="TRAINING"/>
+          <column name="leave_sub_code" type="VARCHAR(20)" value="OTHER"/>
+          <column name="description" type="VARCHAR(200)" value="Other (see comment)"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_LEAVE_SUB_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="leave_sub_code">
+              <where>leave_code='TRAINING'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+
+        
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="leavesubcode_data_prod_end"/>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,131 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <changeSet author="Carol Geisler" id="tag0">
+    	<tagDatabase tag="jailrolecode_data_prod_start"/>
+    </changeSet>
+    
+    <!-- Jail Role Code data -->
+    <changeSet author="Carol Geisler" id="INS_jrcd_SUPERVISOR" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="jail_role_code">
+          <column name="jail_role_code" type="VARCHAR(20)" value="SUPERVISOR"/>
+          <column name="description" type="VARCHAR(200)" value="Supervisor"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_JAIL_ROLE_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="jail_role_code">
+              <where>jail_role_code='SUPERVISOR'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_jrcd_DEPUTYSERGEANT" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="jail_role_code">
+          <column name="jail_role_code" type="VARCHAR(20)" value="DEPUTYSERGEANT"/>
+          <column name="description" type="VARCHAR(200)" value="Deputy Sergeant"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_JAIL_ROLE_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="jail_role_code">
+              <where>jail_role_code='DEPUTYSERGEANT'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_jrcd_CONTROL" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="jail_role_code">
+          <column name="jail_role_code" type="VARCHAR(20)" value="CONTROL"/>
+          <column name="description" type="VARCHAR(200)" value="Control"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_JAIL_ROLE_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="jail_role_code">
+              <where>jail_role_code='CONTROL'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_jrcd_PRETRIAL" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="jail_role_code">
+          <column name="jail_role_code" type="VARCHAR(20)" value="PRETRIAL"/>
+          <column name="description" type="VARCHAR(200)" value="Pre Trial"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_JAIL_ROLE_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="jail_role_code">
+              <where>jail_role_code='PRETRIAL'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_jrcd_RECORDS" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="jail_role_code">
+          <column name="jail_role_code" type="VARCHAR(20)" value="RECORDS"/>
+          <column name="description" type="VARCHAR(200)" value="Records"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_JAIL_ROLE_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="jail_role_code">
+              <where>jail_role_code='RECORDS'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+    <changeSet author="Carol Geisler" id="INS_jrcd_JAILFLOOR" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="jail_role_code">
+          <column name="jail_role_code" type="VARCHAR(20)" value="JAILFLOOR"/>
+          <column name="description" type="VARCHAR(200)" value="Jail Floor"/>
+          <column name="effective_date" type="DATE" valueDate="now()"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_JAIL_ROLE_CODE_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="jail_role_code">
+              <where>jail_role_code='JAILFLOOR'</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+
+    <changeSet author="Carol Geisler" id="tag1">
+    	<tagDatabase tag="jailrolecode_data_prod_end"/>
+    </changeSet>
+
+</databaseChangeLog>
