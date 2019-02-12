@@ -91,10 +91,13 @@ export class SheriffDutyService extends DatabaseService<SheriffDuty> {
 
             const autoAssignStrategy = new SheriffDutyAutoAssigner();
             
-            const sheriffDutiesToUpdate = autoAssignStrategy.autoAssignDuties(allSheriffDuties,shifts);
+            const autoAssignResult = autoAssignStrategy.autoAssignDuties(allSheriffDuties,shifts);
             
             // Update SheriffDuties
-            return await Promise.all(sheriffDutiesToUpdate.map(sd => sheriffDutyService.update(sd)));
+            const updatedSheriffDuties = await Promise.all(autoAssignResult.updatedSheriffDuties.map(sd => sheriffDutyService.update(sd)));
+            const createdSheriffDuties = await Promise.all(autoAssignResult.createdSheriffDuties.map(sd => sheriffDutyService.create(sd)));
+
+            return await Promise.all(updatedSheriffDuties.concat(createdSheriffDuties));
         });
         return assignedSheriffDuties;
     }

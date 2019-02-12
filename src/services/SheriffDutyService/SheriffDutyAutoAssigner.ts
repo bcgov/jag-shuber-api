@@ -4,6 +4,7 @@ import { SheriffDuty } from '../../models/SheriffDuty';
 import SheriffDutyAssignmentMap, { SheriffDutyWithAssignment } from './SheriffDutyAssignmentMap';
 import { TimeRange } from '../../common/types';
 import { isTimeWithin } from '../../common/TimeUtils';
+import { start } from 'repl';
 
 /**
  * This is a internal class that is here to make the AutoAssign Heuristic
@@ -18,13 +19,12 @@ export default class SheriffDutyAutoAssigner {
         return (a, b) => Math.abs(shiftStart.diff(moment(a.startDateTime))) - Math.abs(shiftStart.diff(moment(b.startDateTime)));
     }
 
-    static withinShiftSheriffDutyFilter({ startDateTime, endDateTime }: Shift): (sheriffDuty: SheriffDuty) => boolean {
-        const shiftRange: TimeRange = {
-            startTime: startDateTime,
-            endTime: endDateTime
-        }
+    static withinShiftSheriffDutyFilter(shift: Shift): (sheriffDuty: SheriffDuty) => boolean {
         return ({ startDateTime, endDateTime }) =>
-            isTimeWithin(startDateTime, shiftRange, "[]") && isTimeWithin(endDateTime, shiftRange, "[]");
+        {
+            const dutyRange = { startTime: startDateTime, endTime: endDateTime } as TimeRange;
+            return isTimeWithin(shift.startDateTime, dutyRange, "[]") || isTimeWithin(shift.endDateTime, dutyRange, "[]")
+        };
     }
 
     /**
@@ -34,7 +34,7 @@ export default class SheriffDutyAutoAssigner {
      * @returns {SheriffDuty[]} updated SheriffDuty models that need to be persisted to database
      * @memberof SheriffDutyAutoAssigner
      */
-    autoAssignDuties(sheriffDuties: SheriffDutyWithAssignment[], shifts: Shift[]): SheriffDuty[] {
+    autoAssignDuties(sheriffDuties: SheriffDutyWithAssignment[], shifts: Shift[]): { updatedSheriffDuties: SheriffDuty[], createdSheriffDuties: SheriffDuty[] } {
         const assignMap = new SheriffDutyAssignmentMap(sheriffDuties);
         shifts.forEach(shift => {
             const isSameAssignmentFilter = (sd:SheriffDuty)=>assignMap.getAssociatedAssignmentId(sd) === shift.assignmentId;
@@ -49,10 +49,26 @@ export default class SheriffDutyAutoAssigner {
                     .filter((sd)=>notDoubleBookedFilter(sd))
                     .sort(temporalProximitySort)[0]
                 if (sheriffDutyToAssign) {
+                    // if shift begins after the duty then create an assignment for the remaining time
+                    if (shift.startDateTime > sheriffDutyToAssign.startDateTime)
+                    {
+                        assignMap.createSheriffDuty(sheriffDutyToAssign.dutyId!, sheriffDutyToAssign.startDateTime, shift.startDateTime);
+                        sheriffDutyToAssign.startDateTime = shift.startDateTime;
+                    }
+                    
+                    // if shift ends before the duty then create an assignment for the remaining time
+                    if (shift.endDateTime < sheriffDutyToAssign.endDateTime)
+                    {
+                        assignMap.createSheriffDuty(sheriffDutyToAssign.dutyId!, shift.endDateTime, sheriffDutyToAssign.endDateTime);
+                        sheriffDutyToAssign.endDateTime = shift.endDateTime;
+                    }
                     assignMap.assignSheriff(sheriffDutyToAssign, shift.sheriffId as string)
                 }
             } while (sheriffDutyToAssign != undefined)
         });
-        return assignMap.updatedSheriffDuties;
+        return { 
+            updatedSheriffDuties: assignMap.updatedSheriffDuties,
+            createdSheriffDuties: assignMap.createdSheriffDuties 
+        };
     }
 }
