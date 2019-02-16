@@ -108,12 +108,12 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
      * @returns {PostgresSelect}
      * @memberof DatabaseService
      */
-    protected getSelectQuery(id?: string): PostgresSelect {
+    protected getSelectQuery(id?: string, tableAlias?: string): PostgresSelect {
         const query = this.squel.select({ autoQuoteAliasNames: true })
-            .from(this.tableName)
-            .fields(this.fieldMap);
+            .from(this.tableName, tableAlias)
+            .fields(tableAlias ? this.getAliasedFieldMap(tableAlias) : this.getAliasedFieldMap(this.tableName));
         if (id) {
-            query.where(`${this.primaryKey}='${id}'`)
+            query.where(tableAlias ? `${tableAlias}.${this.primaryKey}='${id}'` : `${this.primaryKey}='${id}'`)
         }
         return query;
     }

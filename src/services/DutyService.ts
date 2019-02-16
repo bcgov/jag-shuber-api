@@ -60,6 +60,8 @@ export class DutyService extends DatabaseService<Duty> {
     async getAll(locationId?: string, startDate?: DateType, endDate?: DateType) {
         const query = super.getSelectQuery();
         if (locationId) {
+            const assignmentService = Container.get(AssignmentService) as AssignmentService;
+            query.join(assignmentService.dbTableName, undefined, "duty.assignment_id=assignment.assignment_id");
             query.where(`location_id='${locationId}'`);
         };
         if (startDate) {
