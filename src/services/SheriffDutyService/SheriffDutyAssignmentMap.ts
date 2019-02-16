@@ -94,19 +94,10 @@ export default class SheriffDutyAssignmentMap {
     }
 
     assignSheriff(sheriffDuty: SheriffDuty, sheriffId: string) {
-        const unassignedIndex = this.sheriffLookup[SheriffDutyAssignmentMap.UNASSIGNED_SHERIFF_DUTIES].findIndex(sd => sd.id === sheriffDuty.id);
-        if (unassignedIndex > -1) {
-            // remove item from unassigned lookup
-            this.sheriffLookup[SheriffDutyAssignmentMap.UNASSIGNED_SHERIFF_DUTIES].splice(unassignedIndex, 1);
-
-            // update item within main lookup with the duty assigned
-            const storedSheriffDuty = this.sheriffDutyLookup[sheriffDuty.id as string];
-            storedSheriffDuty.sheriffId = sheriffId;
-
-            this.sheriffLookup[sheriffId] = this.sheriffLookup[sheriffId] || [];
-            this.sheriffLookup[sheriffId].push(storedSheriffDuty);
-            this._updatedSheriffDuties.push(storedSheriffDuty);
-        }
+        sheriffDuty.sheriffId = sheriffId;
+        this.sheriffLookup[sheriffId] = this.sheriffLookup[sheriffId] || [];
+        this.sheriffLookup[sheriffId].push(sheriffDuty);
+        this._updatedSheriffDuties.push(sheriffDuty);
     }
 
     get unassignedSheriffDuties() {
