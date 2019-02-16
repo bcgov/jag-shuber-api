@@ -14,19 +14,6 @@ import { start } from 'repl';
  */
 export default class SheriffDutyAutoAssigner {
 
-    static shiftRelativeSheriffDutySorter(shift: Shift): (a: SheriffDuty, b: SheriffDuty) => number {
-        const shiftStart = moment(shift.startDateTime);
-        return (a, b) => Math.abs(shiftStart.diff(moment(a.startDateTime))) - Math.abs(shiftStart.diff(moment(b.startDateTime)));
-    }
-
-    static withinShiftSheriffDutyFilter(shift: Shift): (sheriffDuty: SheriffDuty) => boolean {
-        return ({ startDateTime, endDateTime }) =>
-        {
-            const dutyRange = { startTime: startDateTime, endTime: endDateTime } as TimeRange;
-            return isTimeWithin(shift.startDateTime, dutyRange, "[]") || isTimeWithin(shift.endDateTime, dutyRange, "[]")
-        };
-    }
-
     /**
      * Auto assigns sheriffs to SheriffDuties in memory based on shifts.
      *
@@ -36,35 +23,43 @@ export default class SheriffDutyAutoAssigner {
      */
     autoAssignDuties(sheriffDuties: SheriffDutyWithAssignment[], shifts: Shift[]): { updatedSheriffDuties: SheriffDuty[], createdSheriffDuties: SheriffDuty[] } {
         const assignMap = new SheriffDutyAssignmentMap(sheriffDuties);
-        shifts.forEach(shift => {
-            const isSameAssignmentFilter = (sd:SheriffDuty)=>assignMap.getAssociatedAssignmentId(sd) === shift.assignmentId;
-            const withinShiftFilter = SheriffDutyAutoAssigner.withinShiftSheriffDutyFilter(shift);
-            const notDoubleBookedFilter = (sd:SheriffDuty)=>(!assignMap.wouldDoubleBookSheriff(sd,shift.sheriffId as string));
-            const temporalProximitySort = SheriffDutyAutoAssigner.shiftRelativeSheriffDutySorter(shift);
-            let sheriffDutyToAssign: SheriffDuty;
-            do {
-                sheriffDutyToAssign = assignMap.unassignedSheriffDuties
-                    .filter(isSameAssignmentFilter)
-                    .filter(withinShiftFilter)
-                    .filter((sd)=>notDoubleBookedFilter(sd))
-                    .sort(temporalProximitySort)[0]
-                if (sheriffDutyToAssign) {
-                    // if shift begins after the duty then create an assignment for the remaining time
-                    if (shift.startDateTime > sheriffDutyToAssign.startDateTime)
-                    {
-                        assignMap.createSheriffDuty(sheriffDutyToAssign.dutyId!, sheriffDutyToAssign.startDateTime, shift.startDateTime);
-                        sheriffDutyToAssign.startDateTime = shift.startDateTime;
-                    }
-                    
-                    // if shift ends before the duty then create an assignment for the remaining time
-                    if (shift.endDateTime < sheriffDutyToAssign.endDateTime)
-                    {
-                        assignMap.createSheriffDuty(sheriffDutyToAssign.dutyId!, shift.endDateTime, sheriffDutyToAssign.endDateTime);
-                        sheriffDutyToAssign.endDateTime = shift.endDateTime;
-                    }
-                    assignMap.assignSheriff(sheriffDutyToAssign, shift.sheriffId as string)
+        
+        assignMap.unassignedSheriffDuties.forEach(sheriffDutyToAssign => {
+            const shift: Shift = shifts
+                .filter((shift: Shift) => 
+                    // Filter Same assigment
+                    assignMap.getAssociatedAssignmentId(sheriffDutyToAssign) === shift.assignmentId)
+                .filter((shift: Shift) => {
+                    // Filter Shift within Duty time range
+                    const shiftRange = { startTime: shift.startDateTime, endTime: shift.endDateTime } as TimeRange;
+                    return isTimeWithin(sheriffDutyToAssign.startDateTime, shiftRange, "[]") || isTimeWithin(sheriffDutyToAssign.endDateTime, shiftRange, "[]")
+                })
+                .filter((shift:Shift) => 
+                    // Filter double book sheriff
+                    (!assignMap.wouldDoubleBookSheriff(sheriffDutyToAssign, shift.sheriffId as string)))
+                .sort((shiftA:Shift, shiftB:Shift) => {
+                    // static shiftRelativeSheriffDutySorter(duty: SheriffDuty): (a: Shift, b: Shift) => number {
+                    const start = moment(sheriffDutyToAssign.startDateTime);
+                    return Math.abs(start.diff(moment(shiftA.startDateTime))) - Math.abs(start.diff(moment(shiftB.startDateTime)));
+                })[0]
+            
+            if (shift) {
+                // if shift begins after the duty then create an assignment for the remaining time
+                if (shift.startDateTime > sheriffDutyToAssign.startDateTime)
+                {
+                    assignMap.createSheriffDuty(sheriffDutyToAssign.dutyId!, sheriffDutyToAssign.startDateTime, shift.startDateTime);
+                    sheriffDutyToAssign.startDateTime = shift.startDateTime;
                 }
-            } while (sheriffDutyToAssign != undefined)
+                
+                // if shift ends before the duty then create an assignment for the remaining time
+                if (shift.endDateTime < sheriffDutyToAssign.endDateTime)
+                {
+                    assignMap.createSheriffDuty(sheriffDutyToAssign.dutyId!, shift.endDateTime, sheriffDutyToAssign.endDateTime);
+                    sheriffDutyToAssign.endDateTime = shift.endDateTime;
+                }
+
+                assignMap.assignSheriff(sheriffDutyToAssign, shift.sheriffId as string)
+            }
         });
         return { 
             updatedSheriffDuties: assignMap.updatedSheriffDuties,

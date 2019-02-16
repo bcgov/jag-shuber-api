@@ -17,8 +17,8 @@ export class DutyController extends ControllerBase<Duty, DutyService> {
 
 
     @Get()
-    public getDuties() {
-        return this.service.getAll();
+    public getDuties(@Query() locationId?: string, @Query() startDate?: string, @Query() endDate?: string) {
+        return this.service.getAll(locationId, startDate, endDate);
     }
 
     @Get('{id}')

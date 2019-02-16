@@ -10,6 +10,7 @@ import { SheriffDutyService } from './SheriffDutyService';
 import { ClientBase } from 'pg';
 import { setTime, fromTimeString } from '../common/TimeUtils';
 import { AutoWired, Container, Inject } from 'typescript-ioc';
+import { DateType } from '../client';
 
 @AutoWired
 export class DutyService extends DatabaseService<Duty> {
@@ -56,10 +57,16 @@ export class DutyService extends DatabaseService<Duty> {
         return duty;
     }
 
-    async getAll(locationId?: string) {
+    async getAll(locationId?: string, startDate?: DateType, endDate?: DateType) {
         const query = super.getSelectQuery();
         if (locationId) {
             query.where(`location_id='${locationId}'`);
+        };
+        if (startDate) {
+            query.where(`start_dtm>=Date('${moment(startDate).toISOString()}')`);
+        };
+        if (endDate) {
+            query.where(`end_dtm<=Date('${moment(endDate).toISOString()}')`);
         };
         const duties = await this.executeQuery<Duty>(query.toString());
         const dutyIds = duties.map(a => a.id) as string[];
