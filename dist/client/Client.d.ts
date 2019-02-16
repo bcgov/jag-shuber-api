@@ -118,7 +118,7 @@ export default class Client {
     UpdateDutyRecurrence(id: string, model: DutyRecurrence): Promise<DutyRecurrence>;
     ExpireDutyRecurrence(id: string): Promise<void>;
     DeleteDutyRecurrence(id: string): Promise<void>;
-    GetDuties(): Promise<Array<any>>;
+    GetDuties(locationId: string, startDate: string, endDate: string): Promise<Array<any>>;
     CreateDuty(model: Duty): Promise<Duty>;
     GetDutyById(id: string): Promise<Duty>;
     UpdateDuty(id: string, model: Duty): Promise<Duty>;
