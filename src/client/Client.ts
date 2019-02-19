@@ -498,9 +498,15 @@ export default class Client {
             return response;
         });
     }    
-    public async GetDuties():Promise<Array<any>>{
+    public async GetDuties( locationId:string , startDate:string , endDate:string ):Promise<Array<any>>{
+        const params = { 
+            "locationId":locationId,
+            "startDate":startDate,
+            "endDate":endDate 
+        };
         return this.tryRequest<Array<any>>(async () => {
             const response: superAgent.Response = await this.agent.get(`/Duty`)
+                .query(params)
             return response;
         });
     }    
