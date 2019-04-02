@@ -32,7 +32,7 @@ export default class SheriffDutyAutoAssigner {
                 .filter((shift: Shift) => {
                     // Filter Shift within Duty time range
                     const shiftRange = { startTime: shift.startDateTime, endTime: shift.endDateTime } as TimeRange;
-                    return isTimeWithin(sheriffDutyToAssign.startDateTime, shiftRange, "[]") || isTimeWithin(sheriffDutyToAssign.endDateTime, shiftRange, "[]")
+                    return isTimeWithin(sheriffDutyToAssign.startDateTime, shiftRange, "()") || isTimeWithin(sheriffDutyToAssign.endDateTime, shiftRange, "()")
                 })
                 .filter((shift:Shift) => 
                     // Filter double book sheriff
