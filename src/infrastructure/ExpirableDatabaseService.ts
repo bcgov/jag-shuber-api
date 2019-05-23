@@ -56,8 +56,15 @@ export default abstract class ExpirableDatabaseService<T> extends DatabaseServic
             .returning(this.getReturningFields());
         this.setQueryFields(query, entity);
 
-        // Set the effective date field to NOW
-        query.set(this.effectiveField, this.squel.str('NOW()'));
+        // Take the Field Map keys and map properties from the object
+        const objectPropName = this.fieldMap[this.effectiveField];
+        const propValue = entity[objectPropName];
+
+        if (!propValue) {
+            // If the effective date field was not provided
+            // Set it to NOW
+            query.set(this.effectiveField, this.squel.str('NOW()'));
+        }
         return query;
     }
 
