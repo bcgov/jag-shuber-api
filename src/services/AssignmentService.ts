@@ -27,7 +27,9 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
         jail_role_code: 'jailRoleCode',
         other_assign_code: 'otherAssignCode',
         work_section_code: 'workSectionId',
-        court_role_code: 'courtRoleId'
+        court_role_code: 'courtRoleId',
+        effective_date: 'startDateTime',
+        expiry_date: 'endDateTime'
     };
 
     constructor() {
@@ -175,7 +177,7 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
         const title = await this.getAssignmentTitle(entity);
         const query = this.getInsertQuery({
             ...entity,
-            title
+            title   
         });
         return await this.db.transaction(async ({ client, getService }) => {
             const dutyRecurrenceService = getService<DutyRecurrenceService>(DutyRecurrenceService);

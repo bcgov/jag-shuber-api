@@ -11,4 +11,6 @@ export interface Assignment {
     jailRoleCode?:string;
     otherAssignCode?:string;
     dutyRecurrences?:DutyRecurrence[]
+    startDateTime: string,
+    endDateTime: string,
 }
