@@ -34,6 +34,7 @@
   },
   "scripts": {
     "start": "export TZ=Etc/UTC && node ./dist/index.js",
+    "start:local": "nodemon --config nodemon.local.json",
     "start:dev": "nodemon --config nodemon.dev.json",
     "start:testing": "nodemon --config nodemon.testing.json",
     "build": "./node_modules/.bin/tsc",
