@@ -8,48 +8,38 @@ import { Security } from '../authentication';
 import { Inject, AutoWired } from 'typescript-ioc';
 import { UserService } from '../services/UserService';
 import { User } from '../models/User';
+import { RolePermissionService } from '../services/RolePermissionService';
+import { RolePermission } from '../models/RolePermission';
 
-@Route('User')
+@Route('RolePermission')
 @Security('jwt')
 @AutoWired
-export class UserController extends ControllerBase<any, UserService> {
+export class RolePermissionController extends ControllerBase<any, RolePermissionService> {
     @Inject
-    protected serviceInstance!: UserService;
-
-    @Get('me')
-    public getCurrentUser(): User {
-        const { token: {
-            guid = '',
-            displayName = '',
-            type = '',
-            userId = ''
-        } = {} } = this.currentUser;
-        const user: User = { guid, displayName, type, userId };
-        return user;
-    }
+    protected serviceInstance!: RolePermissionService;
 
     @Get()
-    public getUsers(){
+    public getRolePermissions(){
         return super.getAll();
     }
 
     @Get('{id}')
-    public getUserById(id: string){
+    public getRolePermissionById(id: string){
         return super.getById(id);
     }
 
     @Post()
-    public createUser(@Body() model: User){
+    public createRolePermission(@Body() model: RolePermission){
         return super.create(model);
     }
 
     @Put('{id}')
-    public updateUser(@Path() id: string, @Body() model: User) {
+    public updateRolePermission(@Path() id: string, @Body() model: RolePermission) {
         return super.update(id,model);
     }
 
     @Delete('{id}')
-    public deleteUser(@Path() id:string){
+    public deleteRolePermission(@Path() id:string){
         return super.delete(id);
     }
 }

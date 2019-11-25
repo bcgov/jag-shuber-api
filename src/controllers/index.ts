@@ -20,3 +20,6 @@ export { CourtRoleCodesController } from './CourtRoleCodesController';
 export { GenderCodesController } from './GenderCodesController';
 export { TokenController } from './TokenController';
 export { UserController } from './UserController';
+export { UserRoleController } from './UserRoleController';
+export { RoleController } from './RoleController';
+export { RolePermissionController } from './RolePermissionController';

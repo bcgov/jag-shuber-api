@@ -1,3 +1,5 @@
+import { RolePermission } from './RolePermission'
+
 /**
  * Scoped access to API routes.
  */
@@ -6,6 +8,7 @@ export interface RoleApiScope {
     guid?: string;
     roleApiScopeId?:string;
     roleId?:string;
+    rolePermissions:Array<RolePermission | undefined>;
     createdBy?:string;
     updatedBy?:string;
     createdDtm?:string;
