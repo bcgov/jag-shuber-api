@@ -10,10 +10,10 @@
 # SOURCE_IMAGE_NAME=backup
 # IMAGE_NAMESPACE=jag-shuber-tools
 TAG_NAME=dev
-# DATABASE_DEPLOYMENT_NAME=postgres
-# WALLET_DB_HOST_NAME=wallet
-# DATABASE_USER_KEY_NAME=database-admin-user
-# DATABASE_PASSWORD_KEY_NAME=database-admin-password
+# DATABASE_DEPLOYMENT_NAME=api
+# DATABASE_USER_KEY_NAME=api-user
+# DATABASE_PASSWORD_KEY_NAME=api-password
+# TABLE_SCHEMA=shersched
 # BACKUP_STRATEGY=rolling
 # WEBHOOK_URL=
 # ENVIRONMENT_FRIENDLY_NAME=Sheriff Scheduling (dev)

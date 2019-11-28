@@ -175,6 +175,10 @@
                     "value": "${MONTHLY_BACKUPS}"
                   },
                   {
+                    "name": "TABLE_SCHEMA",
+                    "value": "${TABLE_SCHEMA}"
+                  },
+                  {
                     "name": "POSTGRES_USER",
                     "valueFrom": {
                       "secretKeyRef": {
@@ -301,28 +305,28 @@
       "displayName": "Database Deployment Name",
       "description": "The name associated to the database deployment resources.  In particular, this is used to wire up the credentials associated to the database.",
       "required": true,
-      "value": "postgres"
-    },
-    {
-      "name": "WALLET_DB_HOST_NAME",
-      "displayName": "Wallet Database Hostname",
-      "description": "The name associated to the wallet database deployment resources.  In particular, this is used to wire up the credentials associated to the database.",
-      "required": true,
-      "value": "wallet"
+      "value": "api"
     },
     {
       "name": "DATABASE_USER_KEY_NAME",
       "displayName": "Database User Key Name",
       "description": "The datbase user key name stoed in database deployment resources specified by DATABASE_DEPLOYMENT_NAME.",
       "required": true,
-      "value": "database-admin-user"
+      "value": "api-user"
     },
     {
       "name": "DATABASE_PASSWORD_KEY_NAME",
       "displayName": "Database Password Key Name",
       "description": "The database password key name stored in database deployment resources specified by DATABASE_DEPLOYMENT_NAME.",
       "required": true,
-      "value": "database-admin-password"
+      "value": "api-password"
+    },
+    {
+      "name": "TABLE_SCHEMA",
+      "displayName": "Table Schema",
+      "description": "The table schema for your database.",
+      "required": true,
+      "value": "shersched"
     },
     {
       "name": "BACKUP_STRATEGY",
