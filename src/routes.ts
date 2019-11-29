@@ -47,6 +47,9 @@ import { CourtRoleCodesController } from './controllers/CourtRoleCodesController
 import { GenderCodesController } from './controllers/GenderCodesController';
 import { TokenController } from './controllers/TokenController';
 import { UserController } from './controllers/UserController';
+import { UserRoleController } from './controllers/UserRoleController';
+import { RoleController } from './controllers/RoleController';
+import { RolePermissionController } from './controllers/RolePermissionController';
 import { koaAuthentication } from './authentication';
 
 const models: TsoaRoute.Models = {
@@ -72,6 +75,8 @@ const models: TsoaRoute.Models = {
             "jailRoleCode": { "dataType": "string" },
             "otherAssignCode": { "dataType": "string" },
             "dutyRecurrences": { "dataType": "array", "array": { "ref": "DutyRecurrence" } },
+            "startDateTime": { "dataType": "string", "required": true },
+            "endDateTime": { "dataType": "string", "required": true },
         },
     },
     "Region": {
@@ -265,9 +270,90 @@ const models: TsoaRoute.Models = {
     "User": {
         "properties": {
             "guid": { "dataType": "string" },
-            "displayName": { "dataType": "string" },
             "userId": { "dataType": "string" },
+            "displayName": { "dataType": "string" },
             "type": { "dataType": "string" },
+            "defaultLocationId": { "dataType": "string" },
+            "systemAccountInd": { "dataType": "string" },
+            "sheriffId": { "dataType": "string" },
+            "createdBy": { "dataType": "string" },
+            "updatedBy": { "dataType": "string" },
+            "createdDtm": { "dataType": "string" },
+            "updatedDtm": { "dataType": "string" },
+            "revisionCount": { "dataType": "double" },
+        },
+    },
+    "UserRole": {
+        "properties": {
+            "guid": { "dataType": "string" },
+            "userId": { "dataType": "string" },
+            "roleId": { "dataType": "string" },
+            "effectiveDate": { "dataType": "string" },
+            "expiryDate": { "dataType": "string" },
+            "locationId": { "dataType": "string" },
+            "createdBy": { "dataType": "string" },
+            "updatedBy": { "dataType": "string" },
+            "createdDtm": { "dataType": "string" },
+            "updatedDtm": { "dataType": "string" },
+            "revisionCount": { "dataType": "double" },
+        },
+    },
+    "Role": {
+        "properties": {
+            "guid": { "dataType": "string" },
+            "roleId": { "dataType": "string" },
+            "roleName": { "dataType": "string" },
+            "roleCode": { "dataType": "string" },
+            "systemCodeInd": { "dataType": "string" },
+            "description": { "dataType": "string" },
+            "createdBy": { "dataType": "string" },
+            "updatedBy": { "dataType": "string" },
+            "createdDtm": { "dataType": "string" },
+            "updatedDtm": { "dataType": "string" },
+            "revisionCount": { "dataType": "double" },
+        },
+    },
+    "RoleApiScope": {
+        "properties": {
+            "guid": { "dataType": "string" },
+            "roleApiScopeId": { "dataType": "string" },
+            "roleId": { "dataType": "string" },
+            "rolePermissions": { "dataType": "array", "array": { "dataType": "object" }, "required": true },
+            "createdBy": { "dataType": "string" },
+            "updatedBy": { "dataType": "string" },
+            "createdDtm": { "dataType": "string" },
+            "updatedDtm": { "dataType": "string" },
+            "revisionCount": { "dataType": "double" },
+        },
+    },
+    "RoleFrontendScope": {
+        "properties": {
+            "guid": { "dataType": "string" },
+            "roleFrontendScopeId": { "dataType": "string" },
+            "roleId": { "dataType": "string" },
+            "rolePermissions": { "dataType": "array", "array": { "dataType": "object" }, "required": true },
+            "createdBy": { "dataType": "string" },
+            "updatedBy": { "dataType": "string" },
+            "createdDtm": { "dataType": "string" },
+            "updatedDtm": { "dataType": "string" },
+            "revisionCount": { "dataType": "double" },
+        },
+    },
+    "RolePermission": {
+        "properties": {
+            "guid": { "dataType": "string" },
+            "rolePermissionId": { "dataType": "string" },
+            "roleId": { "dataType": "string" },
+            "roleScopeString": { "dataType": "string", "required": true },
+            "roleApiScope": { "ref": "RoleApiScope", "required": true },
+            "roleFrontendScope": { "ref": "RoleFrontendScope", "required": true },
+            "displayName": { "dataType": "string" },
+            "description": { "dataType": "string" },
+            "createdBy": { "dataType": "string" },
+            "updatedBy": { "dataType": "string" },
+            "createdDtm": { "dataType": "string" },
+            "updatedDtm": { "dataType": "string" },
+            "revisionCount": { "dataType": "double" },
         },
     },
 };
@@ -2245,6 +2331,600 @@ export function RegisterRoutes(router: any) {
             const controller = Container.get(UserController) as UserController;
 
             const promise = controller.getCurrentUser.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/User',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(UserController) as UserController;
+
+            const promise = controller.getUsers.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/User/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(UserController) as UserController;
+
+            const promise = controller.getUserById.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.post('/v1/User',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                model: { "in": "body", "name": "model", "required": true, "ref": "User" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(UserController) as UserController;
+
+            const promise = controller.createUser.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.put('/v1/User/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+                model: { "in": "body", "name": "model", "required": true, "ref": "User" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(UserController) as UserController;
+
+            const promise = controller.updateUser.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.delete('/v1/User/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(UserController) as UserController;
+
+            const promise = controller.deleteUser.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/UserRole/me',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(UserRoleController) as UserRoleController;
+
+            const promise = controller.getCurrentUserRoles.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/UserRole',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(UserRoleController) as UserRoleController;
+
+            const promise = controller.getUserRoles.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/UserRole/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(UserRoleController) as UserRoleController;
+
+            const promise = controller.getUserRoleById.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.post('/v1/UserRole',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                model: { "in": "body", "name": "model", "required": true, "ref": "UserRole" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(UserRoleController) as UserRoleController;
+
+            const promise = controller.createUserRole.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.post('/v1/UserRole/:id/expire',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+                model: { "in": "body", "name": "model", "required": true, "ref": "UserRole" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(UserRoleController) as UserRoleController;
+
+            const promise = controller.expireUserRole.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.put('/v1/UserRole/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+                model: { "in": "body", "name": "model", "required": true, "ref": "UserRole" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(UserRoleController) as UserRoleController;
+
+            const promise = controller.updateUserRole.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.delete('/v1/UserRole/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(UserRoleController) as UserRoleController;
+
+            const promise = controller.deleteUserRole.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/Role',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(RoleController) as RoleController;
+
+            const promise = controller.getRoles.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/Role/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(RoleController) as RoleController;
+
+            const promise = controller.getRoleById.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.post('/v1/Role',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                model: { "in": "body", "name": "model", "required": true, "ref": "Role" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(RoleController) as RoleController;
+
+            const promise = controller.createRole.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.put('/v1/Role/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+                model: { "in": "body", "name": "model", "required": true, "ref": "Role" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(RoleController) as RoleController;
+
+            const promise = controller.updateRole.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.delete('/v1/Role/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(RoleController) as RoleController;
+
+            const promise = controller.deleteRole.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/RolePermission',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(RolePermissionController) as RolePermissionController;
+
+            const promise = controller.getRolePermissions.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/RolePermission/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(RolePermissionController) as RolePermissionController;
+
+            const promise = controller.getRolePermissionById.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.post('/v1/RolePermission',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                model: { "in": "body", "name": "model", "required": true, "ref": "RolePermission" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(RolePermissionController) as RolePermissionController;
+
+            const promise = controller.createRolePermission.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.put('/v1/RolePermission/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+                model: { "in": "body", "name": "model", "required": true, "ref": "RolePermission" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(RolePermissionController) as RolePermissionController;
+
+            const promise = controller.updateRolePermission.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.delete('/v1/RolePermission/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(RolePermissionController) as RolePermissionController;
+
+            const promise = controller.deleteRolePermission.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
 

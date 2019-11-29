@@ -50,7 +50,10 @@ import {
     LeaveSubCode,
     CourtRoleCode,
     GenderCode,
-    User 
+    User,
+    UserRole,
+    Role,
+    RolePermission 
 } from "./models"
 
 
@@ -498,9 +501,15 @@ export default class Client {
             return response;
         });
     }    
-    public async GetDuties():Promise<Array<any>>{
+    public async GetDuties( locationId:string , startDate:string , endDate:string ):Promise<Array<any>>{
+        const params = { 
+            "locationId":locationId,
+            "startDate":startDate,
+            "endDate":endDate 
+        };
         return this.tryRequest<Array<any>>(async () => {
             const response: superAgent.Response = await this.agent.get(`/Duty`)
+                .query(params)
             return response;
         });
     }    
@@ -658,6 +667,147 @@ export default class Client {
     public async GetCurrentUser():Promise<User>{
         return this.tryRequest<User>(async () => {
             const response: superAgent.Response = await this.agent.get(`/User/me`)
+            return response;
+        });
+    }    
+    public async GetUsers():Promise<Array<any>>{
+        return this.tryRequest<Array<any>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/User`)
+            return response;
+        });
+    }    
+    public async CreateUser( model:User ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/User`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async GetUserById( id:string ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/User/${id}`)
+            return response;
+        });
+    }    
+    public async UpdateUser( id:string , model:User ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/User/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async DeleteUser( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/User/${id}`)
+            return response;
+        });
+    }    
+    public async GetCurrentUserRoles():Promise<Array<any>>{
+        return this.tryRequest<Array<any>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/UserRole/me`)
+            return response;
+        });
+    }    
+    public async GetUserRoles():Promise<Array<any>>{
+        return this.tryRequest<Array<any>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/UserRole`)
+            return response;
+        });
+    }    
+    public async CreateUserRole( model:UserRole ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/UserRole`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async GetUserRoleById( id:string ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/UserRole/${id}`)
+            return response;
+        });
+    }    
+    public async UpdateUserRole( id:string , model:UserRole ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/UserRole/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async DeleteUserRole( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/UserRole/${id}`)
+            return response;
+        });
+    }    
+    public async ExpireUserRole( id:string , model:UserRole ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/UserRole/${id}/expire`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async GetRoles():Promise<Array<any>>{
+        return this.tryRequest<Array<any>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/Role`)
+            return response;
+        });
+    }    
+    public async CreateRole( model:Role ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/Role`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async GetRoleById( id:string ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/Role/${id}`)
+            return response;
+        });
+    }    
+    public async UpdateRole( id:string , model:Role ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/Role/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async DeleteRole( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/Role/${id}`)
+            return response;
+        });
+    }    
+    public async GetRolePermissions():Promise<Array<any>>{
+        return this.tryRequest<Array<any>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/RolePermission`)
+            return response;
+        });
+    }    
+    public async CreateRolePermission( model:RolePermission ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/RolePermission`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async GetRolePermissionById( id:string ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/RolePermission/${id}`)
+            return response;
+        });
+    }    
+    public async UpdateRolePermission( id:string , model:RolePermission ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/RolePermission/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async DeleteRolePermission( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/RolePermission/${id}`)
             return response;
         });
     }    
