@@ -1,10 +1,9 @@
 // TODO: What fields should be required?
 export interface Role {
-    guid?: string;
-    roleId?:string;
+    id?:string; // GUID app_role_id
     roleName?:string; // Human-friendly role name
-    roleCode?:string; // Code type for the role
-    systemCodeInd?: string; // Is the code type a SYSTEM code
+    roleCode?:string; // Code type for the role // TODO: Not implemented
+    systemCodeInd?: number; // Is the code type a SYSTEM code // TODO: Not implemented
     description?:string; // Role description
     createdBy?:string;
     updatedBy?:string;

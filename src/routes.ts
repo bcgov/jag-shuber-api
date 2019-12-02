@@ -269,12 +269,10 @@ const models: TsoaRoute.Models = {
     },
     "User": {
         "properties": {
-            "guid": { "dataType": "string" },
-            "userId": { "dataType": "string" },
+            "id": { "dataType": "string" },
             "displayName": { "dataType": "string" },
-            "type": { "dataType": "string" },
             "defaultLocationId": { "dataType": "string" },
-            "systemAccountInd": { "dataType": "string" },
+            "systemAccountInd": { "dataType": "double" },
             "sheriffId": { "dataType": "string" },
             "createdBy": { "dataType": "string" },
             "updatedBy": { "dataType": "string" },
@@ -285,8 +283,7 @@ const models: TsoaRoute.Models = {
     },
     "UserRole": {
         "properties": {
-            "guid": { "dataType": "string" },
-            "userId": { "dataType": "string" },
+            "id": { "dataType": "string" },
             "roleId": { "dataType": "string" },
             "effectiveDate": { "dataType": "string" },
             "expiryDate": { "dataType": "string" },
@@ -300,11 +297,10 @@ const models: TsoaRoute.Models = {
     },
     "Role": {
         "properties": {
-            "guid": { "dataType": "string" },
-            "roleId": { "dataType": "string" },
+            "id": { "dataType": "string" },
             "roleName": { "dataType": "string" },
             "roleCode": { "dataType": "string" },
-            "systemCodeInd": { "dataType": "string" },
+            "systemCodeInd": { "dataType": "double" },
             "description": { "dataType": "string" },
             "createdBy": { "dataType": "string" },
             "updatedBy": { "dataType": "string" },

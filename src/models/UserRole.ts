@@ -1,7 +1,6 @@
 // TODO: What fields should be required?
 export interface UserRole {
-    guid?: string;
-    userId?:string;
+    id?:string; // GUID app_user_role_id
     roleId?:string;
     effectiveDate?:string; // See expiryDate...
     expiryDate?:string; // Roles don't inherently expire, but a user's role assignment can

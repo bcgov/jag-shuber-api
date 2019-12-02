@@ -5,9 +5,14 @@ import { AutoWired } from 'typescript-ioc';
 @AutoWired
 export class RoleService extends DatabaseService<Role> {
     fieldMap = {
-        role_code: 'code',
+        app_role_id: 'id',
+        app_role_name: 'roleName',
         description: 'description',
-        expiry_date: 'expiryDate'
+        created_by: 'createdBy',
+        updated_by: 'updatedBy',
+        created_dtm: 'createdDtm',
+        updated_dtm: 'updatedDtm',
+        revision_count: 'revisionCount'
     };
 
     constructor() {
