@@ -164,6 +164,7 @@
     -->
     <include file="data/shersched.db.changelog.data.dev-sheriff.xml"/>
     <include file="data/shersched.db.changelog.data.dev-escort_run.xml"/>
+    <include file="data/shersched.db.changelog.data.dev-escort_run_add_assignments.xml"/>
 
     <changeSet author="Carol Geisler" id="data_01">
     	<tagDatabase tag="01_AllBaseData"/>
