@@ -124,3 +124,20 @@ GRANT ALL ON TABLE app_role_permission TO postgres;
 --ALTER TABLE shersched.app_user ALTER COLUMN user_auth_id DROP NOT NULL;
 -- RUN as superuser
 --CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+
+-- Seed initial users and roles data
+INSERT INTO shersched.app_user (app_user_id,siteminder_id,user_auth_id,display_name,system_account_ind,default_location_id,created_by,sheriff_id,updated_by,created_dtm,updated_dtm,revision_count) VALUES
+('d9772aab-6e5e-4b41-87b2-3294009e6d28',NULL,NULL,'Test User',0,'65b2e8fb-0d64-4f63-853c-76d8d359760e','anon$shersched','67eb2070-d359-40cf-a309-0a3ba0049b72','anon$shersched','2019-12-02 00:04:40.757','2019-12-02 00:04:40.757',0)
+;
+
+INSERT INTO shersched.app_role (app_role_id,app_role_name,description,created_by,updated_by,created_dtm,updated_dtm,revision_count) VALUES
+('80294c81-cad7-4e58-ace1-76587d36530e','Administrator','Administrator','anon$shersched','anon$shersched','2019-12-02 09:51:28.701','2019-12-02 09:51:28.701',0)
+,('2b0e8dd8-fd2f-4b28-bdea-0f9c20cf5bc0','Sheriff','Sheriff','anon$shersched','anon$shersched','2019-12-02 09:52:15.936','2019-12-02 09:52:15.936',0)
+,('3bbdae43-0ba5-4430-babb-b4875e637e24','System','System User','anon$shersched','anon$shersched','2019-12-02 09:52:35.244','2019-12-02 09:52:35.244',0)
+;
+
+INSERT INTO shersched.app_user_role (app_user_role_id,app_user_id,app_role_id,effective_date,expiry_date,location_id,created_by,updated_by,created_dtm,updated_dtm,revision_count) VALUES
+('65121c5d-8940-4afb-ac4e-b69444345b6a','d9772aab-6e5e-4b41-87b2-3294009e6d28','80294c81-cad7-4e58-ace1-76587d36530e','2019-12-02',NULL,'d7bdbd23-1215-4088-958a-b00c78bf147c','anon$shersched','anon$shersched','2019-12-02 10:24:15.420','2019-12-02 10:24:15.420',0)
+,('4e4927ce-466c-4dee-acd8-75cfc0618ec6','d9772aab-6e5e-4b41-87b2-3294009e6d28','2b0e8dd8-fd2f-4b28-bdea-0f9c20cf5bc0','2019-12-02',NULL,'d7bdbd23-1215-4088-958a-b00c78bf147c','anon$shersched','anon$shersched','2019-12-02 10:24:32.329','2019-12-02 10:24:32.329',0)
+;
