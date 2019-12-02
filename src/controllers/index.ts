@@ -23,3 +23,7 @@ export { UserController } from './UserController';
 export { UserRoleController } from './UserRoleController';
 export { RoleController } from './RoleController';
 export { RolePermissionController } from './RolePermissionController';
+export { ApiScopeController } from './ApiScopeController';
+export { FrontendScopeController } from './FrontendScopeController';
+export { RoleApiScopeController } from './RoleApiScopeController';
+export { RoleFrontendScopeController } from './RoleFrontendScopeController';

@@ -1,4 +1,3 @@
-// TODO: What fields should be required?
 export interface User {
     id?:string; // GUID app_user_id
     displayName?:string; // Display name for the user

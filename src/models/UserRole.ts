@@ -1,4 +1,3 @@
-// TODO: What fields should be required?
 export interface UserRole {
     id?:string; // GUID app_user_role_id
     userId?:string; // GUID

@@ -7,17 +7,16 @@ import { RoleFrontendScope } from './RoleFrontendScope';
 // type RoleScope = RoleApiScope | RoleFrontendScope;
 
 /**
- * Scoped access to API routes.
+ * Scoped permissions for API routes and frontend components.
  */
-// TODO: What fields should be required?
 export interface RolePermission {
-    guid?: string;
-    rolePermissionId?:string;
-    roleId?:string;
-    roleScopeString:string; // TODO: frontend | api ?
+    id?:string; // GUID
+    roleId?:string; // GUID
     // roleScope: RoleScope // TODO: frontend | api ?
-    roleApiScope: RoleApiScope // TODO: frontend | api ?
-    roleFrontendScope:RoleFrontendScope // TODO: frontend | api ?
+    roleApiScopeId?:string; // GUID
+    roleApiScope?: RoleApiScope // TODO: not sure if I need this...
+    roleFrontendScopeId?:string; // GUID
+    roleFrontendScope?:RoleFrontendScope // TODO: not sure if I need this...
     displayName?:string;
     description?:string;
     createdBy?:string;

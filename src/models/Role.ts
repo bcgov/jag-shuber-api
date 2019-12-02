@@ -1,4 +1,3 @@
-// TODO: What fields should be required?
 export interface Role {
     id?:string; // GUID app_role_id
     roleName?:string; // Human-friendly role name

@@ -53,7 +53,11 @@ import {
     User,
     UserRole,
     Role,
-    RolePermission 
+    RolePermission,
+    ApiScope,
+    FrontendScope,
+    RoleApiScope,
+    RoleFrontendScope 
 } from "./models"
 
 
@@ -808,6 +812,134 @@ export default class Client {
     public async DeleteRolePermission( id:string ):Promise<void>{
         return this.tryRequest<void>(async () => {
             const response: superAgent.Response = await this.agent.delete(`/RolePermission/${id}`)
+            return response;
+        });
+    }    
+    public async GetApiScopes():Promise<Array<any>>{
+        return this.tryRequest<Array<any>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/ApiScope`)
+            return response;
+        });
+    }    
+    public async CreateApiScope( model:ApiScope ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/ApiScope`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async GetApiScopeById( id:string ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/ApiScope/${id}`)
+            return response;
+        });
+    }    
+    public async UpdateApiScope( id:string , model:ApiScope ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/ApiScope/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async DeleteApiScope( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/ApiScope/${id}`)
+            return response;
+        });
+    }    
+    public async GetFrontendScopes():Promise<Array<any>>{
+        return this.tryRequest<Array<any>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/FrontendScope`)
+            return response;
+        });
+    }    
+    public async CreateFrontendScope( model:FrontendScope ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/FrontendScope`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async GetFrontendScopeById( id:string ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/FrontendScope/${id}`)
+            return response;
+        });
+    }    
+    public async UpdateFrontendScope( id:string , model:FrontendScope ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/FrontendScope/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async DeleteFrontendScope( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/FrontendScope/${id}`)
+            return response;
+        });
+    }    
+    public async GetRoleApiScopes():Promise<Array<any>>{
+        return this.tryRequest<Array<any>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/RoleApiScope`)
+            return response;
+        });
+    }    
+    public async CreateRoleApiScope( model:RoleApiScope ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/RoleApiScope`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async GetRoleApiScopeById( id:string ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/RoleApiScope/${id}`)
+            return response;
+        });
+    }    
+    public async UpdateRoleApiScope( id:string , model:RoleApiScope ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/RoleApiScope/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async DeleteRoleApiScope( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/RoleApiScope/${id}`)
+            return response;
+        });
+    }    
+    public async GetRoleFrontendScopes():Promise<Array<any>>{
+        return this.tryRequest<Array<any>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/RoleFrontendScope`)
+            return response;
+        });
+    }    
+    public async CreateRoleFrontendScope( model:RoleFrontendScope ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/RoleFrontendScope`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async GetRoleFrontendScopeById( id:string ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/RoleFrontendScope/${id}`)
+            return response;
+        });
+    }    
+    public async UpdateRoleFrontendScope( id:string , model:RoleFrontendScope ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/RoleFrontendScope/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async DeleteRoleFrontendScope( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/RoleFrontendScope/${id}`)
             return response;
         });
     }    

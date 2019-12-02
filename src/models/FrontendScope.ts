@@ -3,11 +3,10 @@
  * Scopes may contain permissions.
  */
 export interface FrontendScope {
-    guid?: string;
-    frontendScopeId?:string;
+    id?: string; // GUID frontend_scope_id
     scopeName?:string; // Human-friendly scope name
     scopeCode?:string; // Code type for the scope
-    systemScopeInd?: string; // Is the scope required by the SYSTEM
+    systemCodeInd?: number; // Is the scope required by the SYSTEM
     description?:string; // Scope description
     createdBy?:string;
     updatedBy?:string;

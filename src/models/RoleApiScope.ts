@@ -3,11 +3,10 @@ import { RolePermission } from './RolePermission'
 /**
  * Scoped access to API routes.
  */
-// TODO: What fields should be required?
 export interface RoleApiScope {
-    guid?: string;
-    roleApiScopeId?:string;
-    roleId?:string;
+    id?:string; // GUID app_role_api_scope_id
+    roleId?:string; // GUID
+    apiScopeId?:string; // GUID
     rolePermissions:Array<RolePermission | undefined>;
     createdBy?:string;
     updatedBy?:string;

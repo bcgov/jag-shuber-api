@@ -6,11 +6,10 @@ import { RolePermission } from './RolePermission'
  * but seeing as there is only one consumer of this API, it's overkill
  * for our current needs.
  */
-// TODO: What fields should be required?
 export interface RoleFrontendScope {
-    guid?: string;
-    roleFrontendScopeId?:string;
-    roleId?:string;
+    id?:string; // GUID app_role_frontend_scope_id
+    roleId?:string; // GUID
+    frontendScopeId?:string; // GUID
     rolePermissions:Array<RolePermission | undefined>;
     createdBy?:string;
     updatedBy?:string;
