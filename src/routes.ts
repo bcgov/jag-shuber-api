@@ -284,6 +284,7 @@ const models: TsoaRoute.Models = {
     "UserRole": {
         "properties": {
             "id": { "dataType": "string" },
+            "userId": { "dataType": "string" },
             "roleId": { "dataType": "string" },
             "effectiveDate": { "dataType": "string" },
             "expiryDate": { "dataType": "string" },

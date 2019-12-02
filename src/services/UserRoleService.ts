@@ -6,9 +6,17 @@ import { AutoWired } from 'typescript-ioc';
 @AutoWired
 export class UserRoleService extends ExpirableDatabaseService<UserRole> {
     fieldMap = {
-        user_role_code: 'code',
-        description: 'description',
-        expiry_date: 'expiryDate'
+        app_user_role_id: 'id',
+        app_user_id: 'userId',
+        app_role_id: 'roleId',
+        location_id: 'locationId',
+        effective_date: 'effectiveDate',
+        expiry_date: 'expiryDate',
+        created_by: 'createdBy',
+        updated_by: 'updatedBy',
+        created_dtm: 'createdDtm',
+        updated_dtm: 'updatedDtm',
+        revision_count: 'revisionCount'
     };
 
     constructor() {
