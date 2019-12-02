@@ -6,7 +6,7 @@ export interface ApiScope {
     scopeString?:string; // TODO: Remove this from the model and DB... we use scopeCode instead
     scopeName?:string; // Human-friendly scope name
     scopeCode?:string; // Code type for the scope
-    systemCodeInd?: number; // Is the scope required by the SYSTEM
+    systemCodeInd?: boolean; // Is the scope required by the SYSTEM
     description?:string; // Scope description
     createdBy?:string;
     updatedBy?:string;

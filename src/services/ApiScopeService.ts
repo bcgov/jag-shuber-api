@@ -5,9 +5,16 @@ import { AutoWired } from 'typescript-ioc';
 @AutoWired
 export class ApiScopeService extends DatabaseService<ApiScope> {
     fieldMap = {
-        role_code: 'code',
+        api_scope_id: 'id',
+        scope_name: 'scopeName',
+        scope_code: 'scopeCode',
+        system_scope_ind: 'systemScopeInd',
         description: 'description',
-        expiry_date: 'expiryDate'
+        created_by: 'createdBy',
+        updated_by: 'updatedBy',
+        created_dtm: 'createdDtm',
+        updated_dtm: 'updatedDtm',
+        revision_count: 'revisionCount'
     };
 
     constructor() {
