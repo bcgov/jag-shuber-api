@@ -34,6 +34,7 @@
   },
   "scripts": {
     "start": "export TZ=Etc/UTC && node ./dist/index.js",
+    "start:local": "nodemon --config nodemon.local.json",
     "start:dev": "nodemon --config nodemon.dev.json",
     "start:testing": "nodemon --config nodemon.testing.json",
     "build": "./node_modules/.bin/tsc",
@@ -42,6 +43,7 @@
     "test": "node --inspect=9230 scripts/test.js --env=node",
     "test:coverage": "yarn test --coverage",
     "generate": "tsoa swagger && tsoa routes && swagger-ts-client",
+    "generate:replace": "rm -f ./src/client/models.ts ./src/client/Client.ts && yarn generate",
     "watch:dev": "concurrently --names 'GENERATE,SERVER,BUILD' -c 'bgBlue.bold,bgMagenta.bold,bgGreen.bold' \"npm-watch generate\" \"yarn start:dev\" \"npm-watch build\"",
     "watch:testing": "concurrently --names 'GENERATE,SERVER' -c 'bgBlue.bold,bgMagenta.bold' \"npm-watch generate\"  \"yarn start:testing\" ",
     "oc:dev": "nodemon --ignore node_modules/ dist/index.js --inspect=$DEBUG_PORT"
