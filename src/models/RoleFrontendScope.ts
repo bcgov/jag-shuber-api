@@ -9,7 +9,7 @@ import { RolePermission } from './RolePermission'
 export interface RoleFrontendScope {
     id?:string; // GUID app_role_frontend_scope_id
     roleId?:string; // GUID
-    frontendScopeId?:string; // GUID
+    scopeId?:string; // GUID
     rolePermissions:Array<RolePermission | undefined>;
     createdBy?:string;
     updatedBy?:string;

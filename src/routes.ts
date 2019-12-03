@@ -318,7 +318,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "id": { "dataType": "string" },
             "roleId": { "dataType": "string" },
-            "apiScopeId": { "dataType": "string" },
+            "scopeId": { "dataType": "string" },
             "rolePermissions": { "dataType": "array", "array": { "dataType": "object" }, "required": true },
             "createdBy": { "dataType": "string" },
             "updatedBy": { "dataType": "string" },
@@ -331,7 +331,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "id": { "dataType": "string" },
             "roleId": { "dataType": "string" },
-            "frontendScopeId": { "dataType": "string" },
+            "scopeId": { "dataType": "string" },
             "rolePermissions": { "dataType": "array", "array": { "dataType": "object" }, "required": true },
             "createdBy": { "dataType": "string" },
             "updatedBy": { "dataType": "string" },
@@ -362,6 +362,7 @@ const models: TsoaRoute.Models = {
             "id": { "dataType": "string" },
             "scopeString": { "dataType": "string" },
             "scopeName": { "dataType": "string" },
+            "scopeId": { "dataType": "string" },
             "scopeCode": { "dataType": "string" },
             "systemCodeInd": { "dataType": "boolean" },
             "description": { "dataType": "string" },

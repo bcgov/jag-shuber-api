@@ -125,6 +125,12 @@ GRANT ALL ON TABLE app_role_permission TO postgres;
 -- RUN as superuser
 --CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
+-- Seed application role scopes
+INSERT INTO shersched.frontend_scope (frontend_scope_id,scope_name,scope_code,system_scope_ind,description,created_by,updated_by,created_dtm,updated_dtm,revision_count) VALUES
+('cf35acb6-f21c-4a8b-9261-c48df69056a6','Sheriff Profile Roles Plugin','SHERIFF_PROFILE_PLUGIN_ROLES',false,'Sheriff Profile Roles Plugin','','','2019-12-02 00:04:40.000','2019-12-02 00:04:40.000',0)
+,('e96a6dd8-4bd0-4bd2-ae45-33840477be3e','Admin Roles','ADMIN_ROLES',false,'Roles Administration Page','','','2019-12-02 00:04:40.000','2019-12-02 00:04:40.000',0)
+,('18e73e5a-ffbf-4797-b478-0f02ac236e78','Admin Users','ADMIN_USERS',false,'Users Administration Page','','','2019-12-02 00:04:40.000','2019-12-02 00:04:40.000',0)
+;
 
 -- Seed initial users and roles data
 INSERT INTO shersched.app_user (app_user_id,siteminder_id,user_auth_id,display_name,system_account_ind,default_location_id,created_by,sheriff_id,updated_by,created_dtm,updated_dtm,revision_count) VALUES
@@ -140,4 +146,10 @@ INSERT INTO shersched.app_role (app_role_id,app_role_name,description,created_by
 INSERT INTO shersched.app_user_role (app_user_role_id,app_user_id,app_role_id,effective_date,expiry_date,location_id,created_by,updated_by,created_dtm,updated_dtm,revision_count) VALUES
 ('65121c5d-8940-4afb-ac4e-b69444345b6a','d9772aab-6e5e-4b41-87b2-3294009e6d28','80294c81-cad7-4e58-ace1-76587d36530e','2019-12-02',NULL,'d7bdbd23-1215-4088-958a-b00c78bf147c','anon$shersched','anon$shersched','2019-12-02 10:24:15.420','2019-12-02 10:24:15.420',0)
 ,('4e4927ce-466c-4dee-acd8-75cfc0618ec6','d9772aab-6e5e-4b41-87b2-3294009e6d28','2b0e8dd8-fd2f-4b28-bdea-0f9c20cf5bc0','2019-12-02',NULL,'d7bdbd23-1215-4088-958a-b00c78bf147c','anon$shersched','anon$shersched','2019-12-02 10:24:32.329','2019-12-02 10:24:32.329',0)
+;
+
+INSERT INTO shersched.app_role_frontend_scope (app_role_frontend_scope_id,app_role_id,frontend_scope_id,created_by,updated_by,created_dtm,updated_dtm,revision_count) VALUES
+('b8daf3ae-c3e1-4ca2-81b0-6d62d68b06f6','80294c81-cad7-4e58-ace1-76587d36530e','cf35acb6-f21c-4a8b-9261-c48df69056a6','Name, Your','Name, Your','2019-12-02 18:26:47.778','2019-12-02 18:26:47.778',0)
+,('68856336-a28e-4afe-bfeb-a4a09f049a89','80294c81-cad7-4e58-ace1-76587d36530e','e96a6dd8-4bd0-4bd2-ae45-33840477be3e','Name, Your','Name, Your','2019-12-02 18:26:58.502','2019-12-02 18:26:58.502',0)
+,('5aa7b20c-95e5-498b-aa8e-f2719f3c14f1','80294c81-cad7-4e58-ace1-76587d36530e','18e73e5a-ffbf-4797-b478-0f02ac236e78','Name, Your','Name, Your','2019-12-02 18:27:09.022','2019-12-02 18:27:09.022',0)
 ;

@@ -6,6 +6,7 @@ import { AutoWired } from 'typescript-ioc';
 export class ApiScopeService extends DatabaseService<ApiScope> {
     fieldMap = {
         api_scope_id: 'id',
+        api_scope_string: 'scopeString', // TODO: Remove this from the model and DB... we use scopeCode instead
         scope_name: 'scopeName',
         scope_code: 'scopeCode',
         system_scope_ind: 'systemScopeInd',

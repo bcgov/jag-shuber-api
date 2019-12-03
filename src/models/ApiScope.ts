@@ -3,8 +3,9 @@
  */
 export interface ApiScope {
     id?: string; // GUID api_scope_id
-    scopeString?:string; // TODO: Remove this from the model and DB... we use scopeCode instead
+    scopeString?:string; // TODO: Remove this from the model and DB... we use scopeCode instead?
     scopeName?:string; // Human-friendly scope name
+    scopeId?:string; // Code type for the scope
     scopeCode?:string; // Code type for the scope
     systemCodeInd?: boolean; // Is the scope required by the SYSTEM
     description?:string; // Scope description
