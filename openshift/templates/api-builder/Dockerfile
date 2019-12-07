@@ -1,6 +1,11 @@
 # Pull in nodejs-8 centos container
 FROM centos/nodejs-8-centos7
 
+# Installs Java
+RUN yum install -y java-1.8.0-openjdk && \
+    yum clean all
+
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 # Temp Directory for downloads
 RUN TMPDIR="$HOME/tmp" && \
     mkdir -p $TMPDIR && \
@@ -8,7 +13,7 @@ RUN TMPDIR="$HOME/tmp" && \
 
 # Install Yarn and Add it to the path
 RUN curl -o- -L https://yarnpkg.com/install.sh | bash
-ENV PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+ENV PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$JAVA_HOME/bin:$PATH"
 
 # Install liquibase, postgres driver
 ENV LIQUIBASE_ROOT="$HOME/liquibase"
