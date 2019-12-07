@@ -1,11 +1,16 @@
 # Pull in nodejs-8 centos container
 FROM centos/nodejs-8-centos7
 
-# Installs Java
+# Installs Java under root user
+USER root
+
 RUN yum install -y java-1.8.0-openjdk && \
     yum clean all
 
+USER 1001
+
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
+
 # Temp Directory for downloads
 RUN TMPDIR="$HOME/tmp" && \
     mkdir -p $TMPDIR && \
