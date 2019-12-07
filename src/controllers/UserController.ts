@@ -24,7 +24,7 @@ export class UserController extends ControllerBase<any, UserService> {
             type = '',
             userId = ''
         } = {} } = this.currentUser;
-        const user: User = { guid, displayName, type, userId };
+        const user: User = { id: guid, displayName, type, sheriffId: userId };
         return user;
     }
 
