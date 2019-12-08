@@ -1,0 +1,97 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <changeSet author="Tiago Graf" id="tag0">
+    	<tagDatabase tag="dml_add_new_escort_assignment_start"/>
+    </changeSet>
+
+    <!-- Add new Escort assignment types -->
+
+    <!-- Changsets -->
+   <changeSet author="Tiago Graf" id="INS_esrn_VLC_Vancouver Provincial" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="title" type="VARCHAR(100)" value="Vancouver Provincial"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VLC')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="escort_run">
+              <where>title='Vancouver Provincial' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VLC')</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+   <changeSet author="Tiago Graf" id="INS_esrn_VLC_Level 1" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="title" type="VARCHAR(100)" value="Level 1"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VLC')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="escort_run">
+              <where>title='Level 1' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VLC')</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+   <changeSet author="Tiago Graf" id="INS_esrn_VLC_Level 2" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="title" type="VARCHAR(100)" value="Level 2"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VLC')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="escort_run">
+              <where>title='Level 2' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VLC')</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+   <changeSet author="Tiago Graf" id="INS_esrn_VLC_Vancouver Jail" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="title" type="VARCHAR(100)" value="Vancouver Jail"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VLC')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="escort_run">
+              <where>title='Vancouver Jail' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VLC')</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+
+
+    <changeSet author="Tiago Graf" id="tag1">
+    	<tagDatabase tag="dml_add_new_escort_assignment_end"/>
+    </changeSet>
+</databaseChangeLog>
