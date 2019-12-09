@@ -14,18 +14,19 @@ export class LocationController extends ControllerBase<Location,LocationService>
 
     @Get()
     public getLocations(){
-        return super.getAll();
+        return super.getAll();              
     }
 
     @Get('{id}')
     public getLocationById(id: string){
         return super.getById(id);
     }
-
+    
     @Post()
     public createLocation(@Body() model: Location){
         return super.create(model);
     }
+
 
     @Put('{id}')
     public updateLocation(@Path() id: string, @Body() model: Location) {

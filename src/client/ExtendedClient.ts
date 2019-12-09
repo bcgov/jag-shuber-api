@@ -17,15 +17,7 @@ import {
     MultipleShiftUpdateRequest,
     Leave,
     SheriffDuty,
-    SheriffDutyAutoAssignRequest,
-    User,
-    Role,
-    UserRole,
-    ApiScope,
-    RoleApiScope,
-    FrontendScope,
-    RoleFrontendScope,
-    RolePermission
+    SheriffDutyAutoAssignRequest
 } from './models';
 import { toTimeString } from '../common/TimeUtils';
 import { ApiError } from '../common/Errors';
@@ -260,9 +252,9 @@ export default class ExtendedClient extends Client {
             date
         } = request;
 
-        return await super.ImportDefaultDuties({
-            locationId,
-            date: getDateString(date)
+        return await super.ImportDefaultDuties({ 
+            locationId, 
+            date: getDateString(date) 
         });
     }
 
@@ -271,9 +263,9 @@ export default class ExtendedClient extends Client {
             locationId,
             date
         } = request;
-        return await super.AutoAssignSheriffDuties({
-            locationId,
-            date: getDateString(date)
+        return await super.AutoAssignSheriffDuties({ 
+            locationId, 
+            date: getDateString(date) 
         });
     }
 
@@ -289,55 +281,5 @@ export default class ExtendedClient extends Client {
      */
     async DeleteDutyRecurrence(id:string):Promise<void>{
         throw new Error(ERROR_DEPRECATED_DELETE_DUTYRECURRENCE);
-    }
-
-    GetUsers(): Promise<User[]> {
-        return super.GetUsers();
-    }
-
-    GetUsersByLocationId(locationId: string = ""): Promise<User[]> {
-        return super.GetUsers();
-    }
-
-    async GetUserById(id: string): Promise<User> {
-        return await this.nullOn404(
-            () => super.GetSheriffById(id)
-        );
-    }
-
-    GetRoles(): Promise<Role[]> {
-        return super.GetRoles();
-    }
-
-    async GetRoleById(id: string): Promise<Role> {
-        return await this.nullOn404(
-            () => super.GetRoleById(id)
-        );
-    }
-
-    async GetUserRoleById(id: string): Promise<UserRole> {
-        return await this.nullOn404(
-            () => super.GetUserRoleById(id)
-        );
-    }
-
-    GetApiScopes(): Promise<ApiScope[]> {
-        return super.GetApiScopes();
-    }
-
-    GetFrontendScopes(): Promise<FrontendScope[]> {
-        return super.GetFrontendScopes();
-    }
-
-    GetRoleApiScopes(): Promise<RoleApiScope[]> {
-        return super.GetRoleApiScopes();
-    }
-
-    GetRoleFrontendScopes(): Promise<RoleFrontendScope[]> {
-        return super.GetRoleFrontendScopes();
-    }
-
-    GetRolePermissions(): Promise<RolePermission[]> {
-        return super.GetRolePermissions();
     }
 }

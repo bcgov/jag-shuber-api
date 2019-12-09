@@ -24,32 +24,7 @@ export class UserController extends ControllerBase<any, UserService> {
             type = '',
             userId = ''
         } = {} } = this.currentUser;
-        const user: User = { id: guid, displayName, type, sheriffId: userId };
+        const user: User = { guid, displayName, type, userId };
         return user;
-    }
-
-    @Get()
-    public getUsers(){
-        return super.getAll();
-    }
-
-    @Get('{id}')
-    public getUserById(id: string){
-        return super.getById(id);
-    }
-
-    @Post()
-    public createUser(@Body() model: User){
-        return super.create(model);
-    }
-
-    @Put('{id}')
-    public updateUser(@Path() id: string, @Body() model: User) {
-        return super.update(id,model);
-    }
-
-    @Delete('{id}')
-    public deleteUser(@Path() id:string){
-        return super.delete(id);
     }
 }
