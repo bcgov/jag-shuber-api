@@ -89,6 +89,96 @@
       </rollback>
     </changeSet>
 
+    <changeSet author="Ron Garcia" id="INS_esrn_VLC_Other" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="title" type="VARCHAR(100)" value="Other"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VLC')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="escort_run">
+              <where>title='Other' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VLC')</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+    <changeSet author="Ron Garcia" id="INS_esrn_VPC_Run 14" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="title" type="VARCHAR(100)" value="Run 14"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VPC')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="escort_run">
+              <where>title='Run 14' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VPC')</where>
+          </delete>
+      </rollback>
+    </changeSet>
+    
+   <changeSet author="Ron Garcia" id="INS_esrn_VPC_Level 1" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="title" type="VARCHAR(100)" value="Level 1"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VPC')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="escort_run">
+              <where>title='Level 1' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VPC')</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+   <changeSet author="Ron Garcia" id="INS_esrn_VPC_Level 2" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="title" type="VARCHAR(100)" value="Level 2"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VPC')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="escort_run">
+              <where>title='Level 2' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VPC')</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+    <changeSet author="Ron Garcia" id="INS_esrn_VPC_Other" >
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="escort_run">
+          <column name="escort_run_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="title" type="VARCHAR(100)" value="Other"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VPC')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_ESCORT_RUN_PROD"/>
+      </insert>
+      <rollback>
+         <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="escort_run">
+              <where>title='Other' AND location_id=(SELECT l.location_id FROM ${POSTGRES_SCHEMA}.location l WHERE l.location_cd = 'VPC')</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
 
 
     <changeSet author="Tiago Graf" id="tag1">
