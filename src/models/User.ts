@@ -1,6 +1,13 @@
 export interface User {
-    guid?: string;
-    displayName?:string;
-    userId?:string;
-    type?:string;
+    id?:string; // GUID app_user_id
+    displayName?:string; // Display name for the user
+    // type?:string; // This isn't in the database table TODO: deprecate?
+    defaultLocationId?: string; // GUID Set a default location for the user
+    systemAccountInd?: number; // Is the user a system user
+    sheriffId?:string; // If the user is a sheriff, this needs to be populated
+    createdBy?:string;
+    updatedBy?:string;
+    createdDtm?:string;
+    updatedDtm?:string;
+    revisionCount?:number;
 }

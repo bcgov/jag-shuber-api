@@ -19,4 +19,4 @@ __export(require("../common/authentication"));
 __export(require("../common/dateUtils"));
 var _errors = __importStar(require("../common/Errors"));
 exports.Errors = _errors;
-//# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/client/index.js.map
+//# sourceMappingURL=/Users/Shared/Relocated Items/Security/Workspaces/jag-shuber-api/dist/client/index.js.map

@@ -1,5 +1,5 @@
-import { Sheriff } from "../models/Sheriff";
 import { DatabaseService } from "../infrastructure/DatabaseService";
+import { Sheriff } from "../models/Sheriff";
 import { AutoWired } from 'typescript-ioc';
 
 @AutoWired

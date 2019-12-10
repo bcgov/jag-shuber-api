@@ -17,6 +17,8 @@ export interface Assignment {
     jailRoleCode?: string;
     otherAssignCode?: string;
     dutyRecurrences?: Array<DutyRecurrence>;
+    startDateTime?: string;
+    endDateTime?: string;
 }
 export interface Region {
     id?: string;
@@ -163,8 +165,100 @@ export interface GenderCode {
     expiryDate?: string;
 }
 export interface User {
-    guid?: string;
+    id?: string;
     displayName?: string;
+    defaultLocationId?: string;
+    systemAccountInd?: number;
+    sheriffId?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
+export interface UserRole {
+    id?: string;
     userId?: string;
-    type?: string;
+    roleId?: string;
+    effectiveDate?: string;
+    expiryDate?: string;
+    locationId?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
+export interface Role {
+    id?: string;
+    roleName?: string;
+    roleCode?: string;
+    systemCodeInd?: number;
+    description?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
+export interface RoleApiScope {
+    id?: string;
+    roleId?: string;
+    scopeId?: string;
+    rolePermissions?: Array<any>;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
+export interface RoleFrontendScope {
+    id?: string;
+    roleId?: string;
+    scopeId?: string;
+    rolePermissions?: Array<any>;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
+export interface RolePermission {
+    id?: string;
+    roleId?: string;
+    roleApiScopeId?: string;
+    roleApiScope?: RoleApiScope;
+    roleFrontendScopeId?: string;
+    roleFrontendScope?: RoleFrontendScope;
+    displayName?: string;
+    description?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
+export interface ApiScope {
+    id?: string;
+    scopeName?: string;
+    scopeCode?: string;
+    systemCodeInd?: boolean;
+    description?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
+export interface FrontendScope {
+    id?: string;
+    scopeName?: string;
+    scopeCode?: string;
+    systemCodeInd?: boolean;
+    description?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
 }
