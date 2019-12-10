@@ -20,5 +20,4 @@ export class ApiScopeService extends DatabaseService<ApiScope> {
     constructor() {
         super('api_scope', 'api_scope_id');
     }
-
 }
