@@ -1124,15 +1124,22 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.GetDuties = function () {
+    Client.prototype.GetDuties = function (locationId, startDate, endDate) {
         return __awaiter(this, void 0, void 0, function () {
+            var params;
             var _this = this;
             return __generator(this, function (_a) {
+                params = {
+                    "locationId": locationId,
+                    "startDate": startDate,
+                    "endDate": endDate
+                };
                 return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.get("/Duty")];
+                                case 0: return [4 /*yield*/, this.agent.get("/Duty")
+                                        .query(params)];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];
@@ -1581,7 +1588,780 @@ var Client = /** @class */ (function () {
             });
         });
     };
+    Client.prototype.GetUsers = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/User")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.CreateUser = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/User")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.GetUserById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/User/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.UpdateUser = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/User/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.DeleteUser = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/User/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.GetCurrentUserRoles = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/UserRole/me")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.GetUserRoles = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/UserRole")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.CreateUserRole = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/UserRole")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.GetUserRoleById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/UserRole/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.UpdateUserRole = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/UserRole/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.DeleteUserRole = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/UserRole/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.ExpireUserRole = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/UserRole/" + id + "/expire")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.GetRoles = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/Role")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.CreateRole = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/Role")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.GetRoleById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/Role/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.UpdateRole = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/Role/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.DeleteRole = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/Role/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.GetRolePermissions = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/RolePermission")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.CreateRolePermission = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/RolePermission")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.GetRolePermissionById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/RolePermission/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.UpdateRolePermission = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/RolePermission/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.DeleteRolePermission = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/RolePermission/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.GetApiScopes = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/ApiScope")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.CreateApiScope = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/ApiScope")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.GetApiScopeById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/ApiScope/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.UpdateApiScope = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/ApiScope/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.DeleteApiScope = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/ApiScope/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.GetFrontendScopes = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/FrontendScope")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.CreateFrontendScope = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/FrontendScope")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.GetFrontendScopeById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/FrontendScope/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.UpdateFrontendScope = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/FrontendScope/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.DeleteFrontendScope = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/FrontendScope/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.GetRoleApiScopes = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/RoleApiScope")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.CreateRoleApiScope = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/RoleApiScope")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.GetRoleApiScopeById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/RoleApiScope/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.UpdateRoleApiScope = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/RoleApiScope/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.DeleteRoleApiScope = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/RoleApiScope/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.GetRoleFrontendScopes = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/RoleFrontendScope")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.CreateRoleFrontendScope = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/RoleFrontendScope")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.GetRoleFrontendScopeById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/RoleFrontendScope/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.UpdateRoleFrontendScope = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/RoleFrontendScope/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.DeleteRoleFrontendScope = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/RoleFrontendScope/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
     return Client;
 }());
 exports.default = Client;
-//# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/client/Client.js.map
+//# sourceMappingURL=/Users/Shared/Relocated Items/Security/Workspaces/jag-shuber-api/dist/client/Client.js.map

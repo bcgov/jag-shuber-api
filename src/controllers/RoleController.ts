@@ -8,49 +8,38 @@ import { Security } from '../authentication';
 import { Inject, AutoWired } from 'typescript-ioc';
 import { UserService } from '../services/UserService';
 import { User } from '../models/User';
+import { RoleService } from '../services/RoleService';
+import { Role } from '../models/Role';
 
-@Route('User')
+@Route('Role')
 @Security('jwt')
 @AutoWired
-export class UserController extends ControllerBase<any, UserService> {
+export class RoleController extends ControllerBase<any, RoleService> {
     @Inject
-    protected serviceInstance!: UserService;
-
-    @Get('me')
-    public getCurrentUser(): User {
-        const { token: {
-            guid = '',
-            displayName = '',
-            type = '',
-            userId = ''
-        } = {} } = this.currentUser;
-        // const user: User = { guid, displayName, type, userId };
-        const user: User = {};
-        return user;
-    }
+    protected serviceInstance!: RoleService;
 
     @Get()
-    public getUsers(){
+    public getRoles(){
         return super.getAll();
     }
 
     @Get('{id}')
-    public getUserById(id: string){
+    public getRoleById(id: string){
         return super.getById(id);
     }
 
     @Post()
-    public createUser(@Body() model: User){
+    public createRole(@Body() model: Role){
         return super.create(model);
     }
 
     @Put('{id}')
-    public updateUser(@Path() id: string, @Body() model: User) {
+    public updateRole(@Path() id: string, @Body() model: Role) {
         return super.update(id,model);
     }
 
     @Delete('{id}')
-    public deleteUser(@Path() id:string){
+    public deleteRole(@Path() id:string){
         return super.delete(id);
     }
 }

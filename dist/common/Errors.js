@@ -63,4 +63,4 @@ var ApiError = /** @class */ (function (_super) {
     return ApiError;
 }(Error));
 exports.ApiError = ApiError;
-//# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/common/Errors.js.map
+//# sourceMappingURL=/Users/Shared/Relocated Items/Security/Workspaces/jag-shuber-api/dist/common/Errors.js.map

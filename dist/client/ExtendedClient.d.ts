@@ -1,6 +1,6 @@
 import * as SA from 'superagent';
 import Client from './Client';
-import { Assignment, Location, Courtroom, Duty, DutyRecurrence, Region, EscortRun, Sheriff, Shift, DutyImportDefaultsRequest, MultipleShiftUpdateRequest, Leave, SheriffDuty, SheriffDutyAutoAssignRequest } from './models';
+import { Assignment, Location, Courtroom, Duty, DutyRecurrence, Region, EscortRun, Sheriff, Shift, DutyImportDefaultsRequest, MultipleShiftUpdateRequest, Leave, SheriffDuty, SheriffDutyAutoAssignRequest, User, Role, UserRole, ApiScope, RoleApiScope, FrontendScope, RoleFrontendScope, RolePermission } from './models';
 import { DateType } from '../common/types';
 export declare type SuperAgentRequestInterceptor = (req: SA.SuperAgentRequest) => SA.SuperAgentRequest;
 export default class ExtendedClient extends Client {
@@ -49,4 +49,15 @@ export default class ExtendedClient extends Client {
      * @deprecated Please use ExpireDutyRecurrence instead.
      */
     DeleteDutyRecurrence(id: string): Promise<void>;
+    GetUsers(): Promise<User[]>;
+    GetUsersByLocationId(locationId?: string): Promise<User[]>;
+    GetUserById(id: string): Promise<User>;
+    GetRoles(): Promise<Role[]>;
+    GetRoleById(id: string): Promise<Role>;
+    GetUserRoleById(id: string): Promise<UserRole>;
+    GetApiScopes(): Promise<ApiScope[]>;
+    GetFrontendScopes(): Promise<FrontendScope[]>;
+    GetRoleApiScopes(): Promise<RoleApiScope[]>;
+    GetRoleFrontendScopes(): Promise<RoleFrontendScope[]>;
+    GetRolePermissions(): Promise<RolePermission[]>;
 }

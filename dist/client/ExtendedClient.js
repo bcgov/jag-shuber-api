@@ -410,7 +410,65 @@ var ExtendedClient = /** @class */ (function (_super) {
             });
         });
     };
+    ExtendedClient.prototype.GetUsers = function () {
+        return _super.prototype.GetUsers.call(this);
+    };
+    ExtendedClient.prototype.GetUsersByLocationId = function (locationId) {
+        if (locationId === void 0) { locationId = ""; }
+        return _super.prototype.GetUsers.call(this);
+    };
+    ExtendedClient.prototype.GetUserById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.nullOn404(function () { return _super.prototype.GetSheriffById.call(_this, id); })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    ExtendedClient.prototype.GetRoles = function () {
+        return _super.prototype.GetRoles.call(this);
+    };
+    ExtendedClient.prototype.GetRoleById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.nullOn404(function () { return _super.prototype.GetRoleById.call(_this, id); })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    ExtendedClient.prototype.GetUserRoleById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.nullOn404(function () { return _super.prototype.GetUserRoleById.call(_this, id); })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    ExtendedClient.prototype.GetApiScopes = function () {
+        return _super.prototype.GetApiScopes.call(this);
+    };
+    ExtendedClient.prototype.GetFrontendScopes = function () {
+        return _super.prototype.GetFrontendScopes.call(this);
+    };
+    ExtendedClient.prototype.GetRoleApiScopes = function () {
+        return _super.prototype.GetRoleApiScopes.call(this);
+    };
+    ExtendedClient.prototype.GetRoleFrontendScopes = function () {
+        return _super.prototype.GetRoleFrontendScopes.call(this);
+    };
+    ExtendedClient.prototype.GetRolePermissions = function () {
+        return _super.prototype.GetRolePermissions.call(this);
+    };
     return ExtendedClient;
 }(Client_1.default));
 exports.default = ExtendedClient;
-//# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/client/ExtendedClient.js.map
+//# sourceMappingURL=/Users/Shared/Relocated Items/Security/Workspaces/jag-shuber-api/dist/client/ExtendedClient.js.map
