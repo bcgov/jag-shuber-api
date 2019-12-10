@@ -7,6 +7,7 @@ export class RoleService extends DatabaseService<Role> {
     fieldMap = {
         app_role_id: 'id',
         app_role_name: 'roleName',
+        app_role_code: 'roleCode',
         description: 'description',
         created_by: 'createdBy',
         updated_by: 'updatedBy',
