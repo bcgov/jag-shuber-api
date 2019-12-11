@@ -1,0 +1,213 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog 
+	  xmlns="http://www.liquibase.org/xml/ns/dbchangelog" 
+	  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" 
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <!--
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+    -->
+
+    <changeSet author="Ron Garcia" id="tag0">
+    	<tagDatabase tag="dml_add_new_courtrooms_start"/>
+    </changeSet>
+
+    <!-- Changsets -->
+    <!-- Courtrooms for location CRB -->
+    <changeSet author="Ron Garcia" id="INS_crtr_CRB_110">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courtroom">
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courtroom_cd" type="VARCHAR(32)" value="110"/>
+          <column name="courtroom_name" type="VARCHAR(100)" value="Court Room 110"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT ln.location_id FROM ${POSTGRES_SCHEMA}.location ln WHERE ln.location_cd = 'CRB')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
+      </insert>
+      <rollback>
+          <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courtroom">
+              <where>courtroom_cd='110' AND location_id=(SELECT ln.location_id FROM ${POSTGRES_SCHEMA}.location ln WHERE ln.location_cd = 'CRB')</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+    <changeSet author="Ron Garcia" id="INS_crtr_CRB_122">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courtroom">
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courtroom_cd" type="VARCHAR(32)" value="122"/>
+          <column name="courtroom_name" type="VARCHAR(100)" value="Court Room 122"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT ln.location_id FROM ${POSTGRES_SCHEMA}.location ln WHERE ln.location_cd = 'CRB')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
+      </insert>
+      <rollback>
+          <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courtroom">
+              <where>courtroom_cd='122' AND location_id=(SELECT ln.location_id FROM ${POSTGRES_SCHEMA}.location ln WHERE ln.location_cd = 'CRB')</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+    <changeSet author="Ron Garcia" id="INS_crtr_CRB_143">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courtroom">
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courtroom_cd" type="VARCHAR(32)" value="143"/>
+          <column name="courtroom_name" type="VARCHAR(100)" value="Court Room 143"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT ln.location_id FROM ${POSTGRES_SCHEMA}.location ln WHERE ln.location_cd = 'CRB')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
+      </insert>
+      <rollback>
+          <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courtroom">
+              <where>courtroom_cd='143' AND location_id=(SELECT ln.location_id FROM ${POSTGRES_SCHEMA}.location ln WHERE ln.location_cd = 'CRB')</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+    <changeSet author="Ron Garcia" id="INS_crtr_CRB_224">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courtroom">
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courtroom_cd" type="VARCHAR(32)" value="224"/>
+          <column name="courtroom_name" type="VARCHAR(100)" value="Court Room 224"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT ln.location_id FROM ${POSTGRES_SCHEMA}.location ln WHERE ln.location_cd = 'CRB')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
+      </insert>
+      <rollback>
+          <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courtroom">
+              <where>courtroom_cd='224' AND location_id=(SELECT ln.location_id FROM ${POSTGRES_SCHEMA}.location ln WHERE ln.location_cd = 'CRB')</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+    <changeSet author="Ron Garcia" id="INS_crtr_CRB_242">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courtroom">
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courtroom_cd" type="VARCHAR(32)" value="242"/>
+          <column name="courtroom_name" type="VARCHAR(100)" value="Court Room 242"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT ln.location_id FROM ${POSTGRES_SCHEMA}.location ln WHERE ln.location_cd = 'CRB')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
+      </insert>
+      <rollback>
+          <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courtroom">
+              <where>courtroom_cd='242' AND location_id=(SELECT ln.location_id FROM ${POSTGRES_SCHEMA}.location ln WHERE ln.location_cd = 'CRB')</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+    <changeSet author="Ron Garcia" id="INS_crtr_CRB_Creston">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courtroom">
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courtroom_cd" type="VARCHAR(32)" value="Creston"/>
+          <column name="courtroom_name" type="VARCHAR(100)" value="Creston"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT ln.location_id FROM ${POSTGRES_SCHEMA}.location ln WHERE ln.location_cd = 'CRB')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
+      </insert>
+      <rollback>
+          <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courtroom">
+              <where>courtroom_cd='Creston' AND location_id=(SELECT ln.location_id FROM ${POSTGRES_SCHEMA}.location ln WHERE ln.location_cd = 'CRB')</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+    <changeSet author="Ron Garcia" id="INS_crtr_CRB_Fernie">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courtroom">
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courtroom_cd" type="VARCHAR(32)" value="Fernie"/>
+          <column name="courtroom_name" type="VARCHAR(100)" value="Fernie"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT ln.location_id FROM ${POSTGRES_SCHEMA}.location ln WHERE ln.location_cd = 'CRB')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
+      </insert>
+      <rollback>
+          <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courtroom">
+              <where>courtroom_cd='Fernie' AND location_id=(SELECT ln.location_id FROM ${POSTGRES_SCHEMA}.location ln WHERE ln.location_cd = 'CRB')</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+    <changeSet author="Ron Garcia" id="INS_crtr_CRB_Invermere">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courtroom">
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courtroom_cd" type="VARCHAR(32)" value="Invermere"/>
+          <column name="courtroom_name" type="VARCHAR(100)" value="Invermere"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT ln.location_id FROM ${POSTGRES_SCHEMA}.location ln WHERE ln.location_cd = 'CRB')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
+      </insert>
+      <rollback>
+          <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courtroom">
+              <where>courtroom_cd='Invermere' AND location_id=(SELECT ln.location_id FROM ${POSTGRES_SCHEMA}.location ln WHERE ln.location_cd = 'CRB')</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+    <changeSet author="Ron Garcia" id="INS_crtr_CRB_Sparwood">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courtroom">
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courtroom_cd" type="VARCHAR(32)" value="Sparwood"/>
+          <column name="courtroom_name" type="VARCHAR(100)" value="Sparwood"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT ln.location_id FROM ${POSTGRES_SCHEMA}.location ln WHERE ln.location_cd = 'CRB')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
+      </insert>
+      <rollback>
+          <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courtroom">
+              <where>courtroom_cd='Sparwood' AND location_id=(SELECT ln.location_id FROM ${POSTGRES_SCHEMA}.location ln WHERE ln.location_cd = 'CRB')</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+    <changeSet author="Ron Garcia" id="INS_crtr_CRB_Golden">
+      <insert catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courtroom">
+          <column name="courtroom_id" type="UUID" valueComputed="${POSTGRES_EXT_SCHEMA}.uuid_generate_v4()"/>
+          <column name="courtroom_cd" type="VARCHAR(32)" value="Golden"/>
+          <column name="courtroom_name" type="VARCHAR(100)" value="Golden"/>
+          <column name="location_id" type="UUID" valueComputed="(SELECT ln.location_id FROM ${POSTGRES_SCHEMA}.location ln WHERE ln.location_cd = 'CRB')"/>
+          <column name="updated_by" type="VARCHAR(32)" value="SCRIPT_COURTROOM_PROD"/>
+      </insert>
+      <rollback>
+          <delete catalogName="${POSTGRES_CATALOG}"
+              schemaName="${POSTGRES_SCHEMA}"
+              tableName="courtroom">
+              <where>courtroom_cd='Golden' AND location_id=(SELECT ln.location_id FROM ${POSTGRES_SCHEMA}.location ln WHERE ln.location_cd = 'CRB')</where>
+          </delete>
+      </rollback>
+    </changeSet>
+
+
+    <changeSet author="Ron Garcia" id="tag1">
+    	<tagDatabase tag="dml_add_new_courtrooms_end"/>
+    </changeSet>
+</databaseChangeLog>
