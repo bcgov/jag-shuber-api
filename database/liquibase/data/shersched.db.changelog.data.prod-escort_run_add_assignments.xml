@@ -179,7 +179,7 @@
       </rollback>
     </changeSet>
 
-    <changeSet author="Ron Garcia" id="INS_esrn_CRB_Other" >
+    <changeSet author="Ron Garcia" id="INS_esrn_CRB_Local" >
       <insert catalogName="${POSTGRES_CATALOG}"
               schemaName="${POSTGRES_SCHEMA}"
               tableName="escort_run">
