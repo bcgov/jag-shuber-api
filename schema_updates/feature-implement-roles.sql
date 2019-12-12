@@ -75,6 +75,25 @@ ALTER TABLE shersched.frontend_scope OWNER TO shersched;
 GRANT ALL ON TABLE shersched.frontend_scope TO shersched;
 GRANT ALL ON TABLE frontend_scope TO postgres;
 
+CREATE TABLE IF NOT EXISTS shersched.frontend_scope_permission (
+    frontend_scope_permission_id uuid NOT NULL,
+	frontend_scope_id uuid NOT NULL,
+	display_name varchar(128) NOT NULL,
+	permission_code varchar(128) NOT NULL,
+	description varchar(255) NULL,
+	created_by varchar(32) NULL,
+	updated_by varchar(32) NULL,
+	created_dtm timestamptz NOT NULL,
+	updated_dtm timestamptz NOT NULL,
+	revision_count numeric NOT NULL,
+    CONSTRAINT pk_frontend_scope_permission PRIMARY KEY (frontend_scope_permission_id),
+    CONSTRAINT fk_frontend_scope FOREIGN KEY (frontend_scope_id) REFERENCES shersched.frontend_scope(frontend_scope_id)
+);
+
+ALTER TABLE shersched.frontend_scope_permission OWNER TO shersched;
+GRANT ALL ON TABLE frontend_scope_permission TO shersched;
+GRANT ALL ON TABLE frontend_scope_permission TO postgres;
+
 CREATE TABLE IF NOT EXISTS shersched.app_user_role (
 	app_user_role_id uuid NOT NULL,
 	app_user_id uuid NOT NULL,
