@@ -230,6 +230,8 @@ export interface RolePermission {
     roleApiScope?: RoleApiScope;
     roleFrontendScopeId?: string;
     roleFrontendScope?: RoleFrontendScope;
+    apiScopePermissionId?: string;
+    frontendScopePermissionId?: string;
     displayName?: string;
     description?: string;
     createdBy?: string;
@@ -255,6 +257,18 @@ export interface FrontendScope {
     scopeName?: string;
     scopeCode?: string;
     systemCodeInd?: boolean;
+    description?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
+export interface FrontendScopePermission {
+    id?: string;
+    frontendScopeId?: string;
+    permissionCode?: string;
+    displayName?: string;
     description?: string;
     createdBy?: string;
     updatedBy?: string;

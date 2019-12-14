@@ -25,5 +25,6 @@ export { RoleController } from './RoleController';
 export { RolePermissionController } from './RolePermissionController';
 export { ApiScopeController } from './ApiScopeController';
 export { FrontendScopeController } from './FrontendScopeController';
+export { FrontendScopePermissionController } from './FrontendScopePermissionController';
 export { RoleApiScopeController } from './RoleApiScopeController';
 export { RoleFrontendScopeController } from './RoleFrontendScopeController';
