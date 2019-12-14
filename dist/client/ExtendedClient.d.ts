@@ -1,6 +1,6 @@
 import * as SA from 'superagent';
 import Client from './Client';
-import { Assignment, Location, Courtroom, Duty, DutyRecurrence, Region, EscortRun, Sheriff, Shift, DutyImportDefaultsRequest, MultipleShiftUpdateRequest, Leave, SheriffDuty, SheriffDutyAutoAssignRequest, User, Role, UserRole, ApiScope, RoleApiScope, FrontendScope, RoleFrontendScope, RolePermission } from './models';
+import { Assignment, Location, Courtroom, Duty, DutyRecurrence, Region, EscortRun, Sheriff, Shift, DutyImportDefaultsRequest, MultipleShiftUpdateRequest, Leave, SheriffDuty, SheriffDutyAutoAssignRequest, User, Role, UserRole, ApiScope, RoleApiScope, FrontendScope, FrontendScopePermission, RoleFrontendScope, RolePermission } from './models';
 import { DateType } from '../common/types';
 export declare type SuperAgentRequestInterceptor = (req: SA.SuperAgentRequest) => SA.SuperAgentRequest;
 export default class ExtendedClient extends Client {
@@ -57,6 +57,7 @@ export default class ExtendedClient extends Client {
     GetUserRoleById(id: string): Promise<UserRole>;
     GetApiScopes(): Promise<ApiScope[]>;
     GetFrontendScopes(): Promise<FrontendScope[]>;
+    GetFrontendScopePermissions(): Promise<FrontendScopePermission[]>;
     GetRoleApiScopes(): Promise<RoleApiScope[]>;
     GetRoleFrontendScopes(): Promise<RoleFrontendScope[]>;
     GetRolePermissions(): Promise<RolePermission[]>;

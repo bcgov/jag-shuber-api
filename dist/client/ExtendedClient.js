@@ -459,6 +459,9 @@ var ExtendedClient = /** @class */ (function (_super) {
     ExtendedClient.prototype.GetFrontendScopes = function () {
         return _super.prototype.GetFrontendScopes.call(this);
     };
+    ExtendedClient.prototype.GetFrontendScopePermissions = function () {
+        return _super.prototype.GetFrontendScopePermissions.call(this);
+    };
     ExtendedClient.prototype.GetRoleApiScopes = function () {
         return _super.prototype.GetRoleApiScopes.call(this);
     };
