@@ -24,6 +24,7 @@ import {
     ApiScope,
     RoleApiScope,
     FrontendScope,
+    FrontendScopePermission,
     RoleFrontendScope,
     RolePermission
 } from './models';
@@ -327,6 +328,10 @@ export default class ExtendedClient extends Client {
 
     GetFrontendScopes(): Promise<FrontendScope[]> {
         return super.GetFrontendScopes();
+    }
+
+    GetFrontendScopePermissions(): Promise<FrontendScopePermission[]> {
+        return super.GetFrontendScopePermissions();
     }
 
     GetRoleApiScopes(): Promise<RoleApiScope[]> {
