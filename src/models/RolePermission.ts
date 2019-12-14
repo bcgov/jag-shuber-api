@@ -1,7 +1,6 @@
 import { RoleApiScope } from './RoleApiScope';
 import { RoleFrontendScope } from './RoleFrontendScope';
 
-
 // It doesn't look like tsoa supports this:
 // "Note that type aliases are only supported for string literal types like type status = 'Happy' | 'Sad'"
 // type RoleScope = RoleApiScope | RoleFrontendScope;
@@ -17,8 +16,10 @@ export interface RolePermission {
     roleApiScope?: RoleApiScope // TODO: not sure if I need this...
     roleFrontendScopeId?:string; // GUID
     roleFrontendScope?:RoleFrontendScope // TODO: not sure if I need this...
-    displayName?:string;
-    description?:string;
+    apiScopePermissionId?:string;
+    frontendScopePermissionId?:string;
+    displayName?:string; // TODO: Rip this out!
+    description?:string; // TODO: Rip this out!
     createdBy?:string;
     updatedBy?:string;
     createdDtm?:string;

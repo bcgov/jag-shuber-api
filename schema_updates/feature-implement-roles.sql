@@ -161,6 +161,8 @@ CREATE TABLE IF NOT EXISTS shersched.app_role_permission (
 	app_role_id uuid NOT NULL,
 	app_role_frontend_scope_id uuid NULL,
 	app_role_api_scope_id uuid NULL,
+	frontend_scope_permission_id uuid NULL;
+	api_scope_permission_id uuid NULL;
 	display_name varchar(128) NOT NULL,
 	description varchar(255) NULL,
 	created_by varchar(32) NULL,
@@ -171,7 +173,8 @@ CREATE TABLE IF NOT EXISTS shersched.app_role_permission (
     CONSTRAINT pk_app_role_permission PRIMARY KEY (app_role_permission_id),
     CONSTRAINT fk_app_role FOREIGN KEY (app_role_id) REFERENCES shersched.app_role(app_role_id),
     CONSTRAINT fk_app_role_frontend_scope FOREIGN KEY (app_role_frontend_scope_id) REFERENCES shersched.app_role_frontend_scope(app_role_frontend_scope_id),
-    CONSTRAINT fk_app_role_api_scope FOREIGN KEY (app_role_api_scope_id) REFERENCES shersched.app_role_api_scope(app_role_api_scope_id)
+    CONSTRAINT fk_app_role_api_scope FOREIGN KEY (app_role_api_scope_id) REFERENCES shersched.app_role_api_scope(app_role_api_scope_id),
+    CONSTRAINT fk_frontend_permission_id FOREIGN KEY (frontend_scope_permission_id) REFERENCES shersched.frontend_scope_permission(frontend_scope_permission_id)
 );
 
 ALTER TABLE shersched.app_role_permission OWNER TO shersched;

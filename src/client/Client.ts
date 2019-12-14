@@ -56,6 +56,7 @@ import {
     RolePermission,
     ApiScope,
     FrontendScope,
+    FrontendScopePermission,
     RoleApiScope,
     RoleFrontendScope 
 } from "./models"
@@ -876,6 +877,38 @@ export default class Client {
     public async DeleteFrontendScope( id:string ):Promise<void>{
         return this.tryRequest<void>(async () => {
             const response: superAgent.Response = await this.agent.delete(`/FrontendScope/${id}`)
+            return response;
+        });
+    }    
+    public async GetFrontendScopePermissions():Promise<Array<any>>{
+        return this.tryRequest<Array<any>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/FrontendScopePermission`)
+            return response;
+        });
+    }    
+    public async CreateFrontendScopePermission( model:FrontendScopePermission ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/FrontendScopePermission`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async GetFrontendScopePermissionById( id:string ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/FrontendScopePermission/${id}`)
+            return response;
+        });
+    }    
+    public async UpdateFrontendScopePermission( id:string , model:FrontendScopePermission ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/FrontendScopePermission/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async DeleteFrontendScopePermission( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/FrontendScopePermission/${id}`)
             return response;
         });
     }    
