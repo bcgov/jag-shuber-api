@@ -205,7 +205,6 @@ export interface RoleApiScope {
     id?: string;
     roleId?: string;
     scopeId?: string;
-    rolePermissions?: Array<any>;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;
@@ -216,7 +215,6 @@ export interface RoleFrontendScope {
     id?: string;
     roleId?: string;
     scopeId?: string;
-    rolePermissions?: Array<any>;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;
