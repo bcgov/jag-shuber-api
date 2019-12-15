@@ -10,7 +10,7 @@ export interface RoleFrontendScope {
     id?:string; // GUID app_role_frontend_scope_id
     roleId?:string; // GUID
     scopeId?:string; // GUID
-    rolePermissions:Array<RolePermission | undefined>;
+    // rolePermissions?:Array<RolePermission | undefined>;
     createdBy?:string;
     updatedBy?:string;
     createdDtm?:string;
