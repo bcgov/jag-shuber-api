@@ -7,4 +7,4 @@ import { SuperAgent } from 'superagent';
  * @returns
  * @memberof Client
  */
-export declare function retreiveCookieValue(cookieName: string, agent?: SuperAgent<any>): string | undefined;
+export declare function retreiveCookieValue(cookieName: string, agent?: SuperAgent<any>): string;

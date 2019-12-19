@@ -17,6 +17,6 @@ __export(require("../common/TypedEvent"));
 __export(require("../common/tokenUtils"));
 __export(require("../common/authentication"));
 __export(require("../common/dateUtils"));
-var _errors = __importStar(require("../common/Errors"));
+const _errors = __importStar(require("../common/Errors"));
 exports.Errors = _errors;
-//# sourceMappingURL=/Users/Shared/Relocated Items/Security/Workspaces/jag-shuber-api/dist/client/index.js.map
+//# sourceMappingURL=../../src/dist/client/index.js.map

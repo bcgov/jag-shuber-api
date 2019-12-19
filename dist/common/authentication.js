@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var SCOPE_ASSERTION_MESSAGE = "JWT did not have required scope for this action";
-var SITEMINDER_AUTH_ERROR_MESSAGE = "Couldn't authenticate request.";
+const SCOPE_ASSERTION_MESSAGE = "JWT did not have required scope for this action";
+const SITEMINDER_AUTH_ERROR_MESSAGE = "Couldn't authenticate request.";
 exports.SITEMINDER_AUTH_ERROR = new Error(SITEMINDER_AUTH_ERROR_MESSAGE);
 exports.JWT_AUTH_ERROR = new Error(SCOPE_ASSERTION_MESSAGE);
 exports.SITEMINDER_HEADER_USERGUID = 'smgov_userguid';
@@ -19,7 +19,7 @@ exports.TOKEN_COOKIE_NAME = "app_token";
  * @returns {boolean}
  */
 function hasScope(payload, scope) {
-    var _a = (payload || {}).scopes, scopes = _a === void 0 ? [] : _a;
+    const { scopes = [] } = payload || {};
     return scopes.indexOf(scope) >= 0;
 }
 exports.hasScope = hasScope;
@@ -44,9 +44,8 @@ exports.assertScope = assertScope;
  * @param {...Scope[]} scopes
  * @returns {boolean}
  */
-function hasAllScopes(payload, scopes) {
-    if (scopes === void 0) { scopes = []; }
-    return !scopes.some(function (s) { return !hasScope(payload, s); });
+function hasAllScopes(payload, scopes = []) {
+    return !scopes.some(s => !hasScope(payload, s));
 }
 exports.hasAllScopes = hasAllScopes;
 /**
@@ -56,11 +55,10 @@ exports.hasAllScopes = hasAllScopes;
  * @param {TokenPayload} payload
  * @param {Scope[]} [scopes=[]]
  */
-function assertAllScopes(payload, scopes) {
-    if (scopes === void 0) { scopes = []; }
+function assertAllScopes(payload, scopes = []) {
     if (!hasAllScopes(payload, scopes)) {
         throw new Error(SCOPE_ASSERTION_MESSAGE);
     }
 }
 exports.assertAllScopes = assertAllScopes;
-//# sourceMappingURL=/Users/Shared/Relocated Items/Security/Workspaces/jag-shuber-api/dist/common/authentication.js.map
+//# sourceMappingURL=../../src/dist/common/authentication.js.map

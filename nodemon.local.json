@@ -1,0 +1,16 @@
+{
+    "verbose": false,
+    "exec": "node --inspect-brk=9232 -r ts-node/register ./src/index.ts",
+    "watch": [
+        "./src/"
+    ],
+    "ext": "ts,json",
+    "env":{
+        "DOTENV_PATH":".env.local",
+        "TZ": "Etc/UTC"
+    },
+    "ignore": [
+        "*.spec.ts"
+    ],
+    "delay": 500
+}

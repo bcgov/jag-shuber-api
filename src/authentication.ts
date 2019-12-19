@@ -18,7 +18,7 @@ import { verifyToken } from './infrastructure/token';
 /**
  * The type of security that should be applied to the endpoint.
  * siteminder -> extracts user information from siteminder headers
- * jwt -> extracs user information / scopes from JSON Web Token
+ * jwt -> extracts user information / scopes from JSON Web Token
  */
 export type SecurityType = "siteminder" | "jwt";
 
@@ -62,7 +62,7 @@ export function getTokenCookie(request: Request): string {
     return request.ctx.cookies.get(TOKEN_COOKIE_NAME)
 }
 
-export function deleteTokenCookie(request: Request) {    
+export function deleteTokenCookie(request: Request) {
     request.ctx.cookies.set(TOKEN_COOKIE_NAME, getTokenCookie(request), {
         overwrite: true,
         httpOnly: false,
@@ -86,9 +86,9 @@ function getTokenPayloadFromHeaders(request: Request): TokenPayload {
 }
 
 /**
- * The authentication middleware used by TSOA 
+ * The authentication middleware used by TSOA
  * see https://github.com/lukeautry/tsoa#authentication
- * 
+ *
  * @export
  * @param {Request} request
  * @param {string} securityName

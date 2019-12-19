@@ -1,3 +1,127 @@
+export interface User {
+    id?: string;
+    displayName?: string;
+    defaultLocationId?: string;
+    systemAccountInd?: number;
+    sheriffId?: string;
+    sheriff?: Sheriff;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
+export interface Sheriff {
+    id?: string;
+    firstName?: string;
+    lastName?: string;
+    badgeNo?: string;
+    imageUrl?: string;
+    homeLocationId?: string;
+    currentLocationId?: string;
+    rankCode?: string;
+    alias?: string;
+    genderCode?: string;
+    user?: User;
+}
+export interface UserRole {
+    id?: string;
+    userId?: string;
+    roleId?: string;
+    effectiveDate?: string;
+    expiryDate?: string;
+    locationId?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
+export interface Role {
+    id?: string;
+    roleName?: string;
+    roleCode?: string;
+    systemCodeInd?: number;
+    description?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
+export interface RoleApiScope {
+    id?: string;
+    roleId?: string;
+    scopeId?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
+export interface RoleFrontendScope {
+    id?: string;
+    roleId?: string;
+    scopeId?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
+export interface RolePermission {
+    id?: string;
+    roleId?: string;
+    roleApiScopeId?: string;
+    roleApiScope?: RoleApiScope;
+    roleFrontendScopeId?: string;
+    roleFrontendScope?: RoleFrontendScope;
+    apiScopePermissionId?: string;
+    frontendScopePermissionId?: string;
+    displayName?: string;
+    description?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
+export interface ApiScope {
+    id?: string;
+    scopeName?: string;
+    scopeCode?: string;
+    systemCodeInd?: boolean;
+    description?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
+export interface FrontendScope {
+    id?: string;
+    scopeName?: string;
+    scopeCode?: string;
+    systemCodeInd?: boolean;
+    description?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
+export interface FrontendScopePermission {
+    id?: string;
+    frontendScopeId?: string;
+    permissionCode?: string;
+    displayName?: string;
+    description?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
 export interface DutyRecurrence {
     id?: string;
     startTime?: string;
@@ -32,18 +156,6 @@ export interface Location {
     name?: string;
     parentLocationId?: string;
     regionId?: string;
-}
-export interface Sheriff {
-    id?: string;
-    firstName?: string;
-    lastName?: string;
-    badgeNo?: string;
-    imageUrl?: string;
-    homeLocationId?: string;
-    currentLocationId?: string;
-    rankCode?: string;
-    alias?: string;
-    genderCode?: string;
 }
 export interface Courtroom {
     id?: string;
@@ -163,114 +275,4 @@ export interface GenderCode {
     code?: string;
     description?: string;
     expiryDate?: string;
-}
-export interface User {
-    id?: string;
-    displayName?: string;
-    defaultLocationId?: string;
-    systemAccountInd?: number;
-    sheriffId?: string;
-    createdBy?: string;
-    updatedBy?: string;
-    createdDtm?: string;
-    updatedDtm?: string;
-    revisionCount?: number;
-}
-export interface UserRole {
-    id?: string;
-    userId?: string;
-    roleId?: string;
-    effectiveDate?: string;
-    expiryDate?: string;
-    locationId?: string;
-    createdBy?: string;
-    updatedBy?: string;
-    createdDtm?: string;
-    updatedDtm?: string;
-    revisionCount?: number;
-}
-export interface Role {
-    id?: string;
-    roleName?: string;
-    roleCode?: string;
-    systemCodeInd?: number;
-    description?: string;
-    createdBy?: string;
-    updatedBy?: string;
-    createdDtm?: string;
-    updatedDtm?: string;
-    revisionCount?: number;
-}
-export interface RoleApiScope {
-    id?: string;
-    roleId?: string;
-    scopeId?: string;
-    createdBy?: string;
-    updatedBy?: string;
-    createdDtm?: string;
-    updatedDtm?: string;
-    revisionCount?: number;
-}
-export interface RoleFrontendScope {
-    id?: string;
-    roleId?: string;
-    scopeId?: string;
-    createdBy?: string;
-    updatedBy?: string;
-    createdDtm?: string;
-    updatedDtm?: string;
-    revisionCount?: number;
-}
-export interface RolePermission {
-    id?: string;
-    roleId?: string;
-    roleApiScopeId?: string;
-    roleApiScope?: RoleApiScope;
-    roleFrontendScopeId?: string;
-    roleFrontendScope?: RoleFrontendScope;
-    apiScopePermissionId?: string;
-    frontendScopePermissionId?: string;
-    displayName?: string;
-    description?: string;
-    createdBy?: string;
-    updatedBy?: string;
-    createdDtm?: string;
-    updatedDtm?: string;
-    revisionCount?: number;
-}
-export interface ApiScope {
-    id?: string;
-    scopeName?: string;
-    scopeCode?: string;
-    systemCodeInd?: boolean;
-    description?: string;
-    createdBy?: string;
-    updatedBy?: string;
-    createdDtm?: string;
-    updatedDtm?: string;
-    revisionCount?: number;
-}
-export interface FrontendScope {
-    id?: string;
-    scopeName?: string;
-    scopeCode?: string;
-    systemCodeInd?: boolean;
-    description?: string;
-    createdBy?: string;
-    updatedBy?: string;
-    createdDtm?: string;
-    updatedDtm?: string;
-    revisionCount?: number;
-}
-export interface FrontendScopePermission {
-    id?: string;
-    frontendScopeId?: string;
-    permissionCode?: string;
-    displayName?: string;
-    description?: string;
-    createdBy?: string;
-    updatedBy?: string;
-    createdDtm?: string;
-    updatedDtm?: string;
-    revisionCount?: number;
 }

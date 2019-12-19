@@ -1,3 +1,5 @@
+import { Sheriff } from './Sheriff';
+
 export interface User {
     id?:string; // GUID app_user_id
     displayName?:string; // Display name for the user
@@ -5,6 +7,7 @@ export interface User {
     defaultLocationId?: string; // GUID Set a default location for the user
     systemAccountInd?: number; // Is the user a system user
     sheriffId?:string; // If the user is a sheriff, this needs to be populated
+    sheriff?: Sheriff;
     createdBy?:string;
     updatedBy?:string;
     createdDtm?:string;

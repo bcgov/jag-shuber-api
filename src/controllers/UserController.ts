@@ -1,9 +1,5 @@
 import { Body, Delete, Get, Path, Post, Put, Query, Route } from 'tsoa';
-import { Assignment } from '../models/Assignment';
-import { DutyRecurrence } from '../models/DutyRecurrence';
-import { AssignmentService } from '../services/AssignmentService';
 import ControllerBase from '../infrastructure/ControllerBase';
-import { DutyRecurrenceService } from '../services/DutyRecurrenceService';
 import { Security } from '../authentication';
 import { Inject, AutoWired } from 'typescript-ioc';
 import { UserService } from '../services/UserService';
@@ -35,13 +31,18 @@ export class UserController extends ControllerBase<any, UserService> {
     }
 
     @Get('{id}')
-    public getUserById(id: string){
+    public getUserById(id: string) {
         return super.getById(id);
     }
 
     @Post()
-    public createUser(@Body() model: User){
+    public createUser(@Body() model: User) {
         return super.create(model);
+    }
+    
+    @Post('generateAll')
+    public generateUsersForSheriffs() {
+        return this.service.generateUsersForSheriffs();
     }
 
     @Put('{id}')
@@ -50,7 +51,7 @@ export class UserController extends ControllerBase<any, UserService> {
     }
 
     @Delete('{id}')
-    public deleteUser(@Path() id:string){
+    public deleteUser(@Path() id:string) {
         return super.delete(id);
     }
 }
