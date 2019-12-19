@@ -17,6 +17,6 @@ __export(require("../common/TypedEvent"));
 __export(require("../common/tokenUtils"));
 __export(require("../common/authentication"));
 __export(require("../common/dateUtils"));
-const _errors = __importStar(require("../common/Errors"));
+var _errors = __importStar(require("../common/Errors"));
 exports.Errors = _errors;
 //# sourceMappingURL=../../src/dist/client/index.js.map

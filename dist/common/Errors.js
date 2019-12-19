@@ -1,4 +1,17 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var ValidationError;
 (function (ValidationError) {
@@ -9,7 +22,7 @@ var ValidationError;
     ValidationError.decorate = decorate;
 })(ValidationError = exports.ValidationError || (exports.ValidationError = {}));
 function isValidationError(err) {
-    const { name = "" } = err;
+    var _a = err.name, name = _a === void 0 ? "" : _a;
     return name === ValidationError.Validation_Error_Name;
 }
 exports.isValidationError = isValidationError;
@@ -23,31 +36,34 @@ var DatabaseError;
     DatabaseError.decorate = decorate;
 })(DatabaseError = exports.DatabaseError || (exports.DatabaseError = {}));
 function isDatabaseError(err) {
-    const { type = "" } = err;
+    var _a = err.type, type = _a === void 0 ? "" : _a;
     return type === DatabaseError.DATABASE_ERROR_TYPE_NAME;
 }
 exports.isDatabaseError = isDatabaseError;
-class ApiError extends Error {
-    constructor(error) {
-        super();
-        const { message, stack, response } = error;
-        this.message = message;
-        this.stack = stack;
+var ApiError = /** @class */ (function (_super) {
+    __extends(ApiError, _super);
+    function ApiError(error) {
+        var _this = _super.call(this) || this;
+        var message = error.message, stack = error.stack, response = error.response;
+        _this.message = message;
+        _this.stack = stack;
         // If there is http response in error
         if (response) {
-            const { body = {}, error: httpError } = response;
+            var _a = response.body, body_1 = _a === void 0 ? {} : _a, httpError = response.error;
             if (httpError) {
-                this.httpError = httpError;
-                this.status = httpError.status;
+                _this.httpError = httpError;
+                _this.status = httpError.status;
             }
-            if (body) {
+            if (body_1) {
                 // Clones all of the values in the body object into this error
-                Object.keys(body).forEach(key => {
-                    this[key] = JSON.parse(JSON.stringify(body[key]));
+                Object.keys(body_1).forEach(function (key) {
+                    _this[key] = JSON.parse(JSON.stringify(body_1[key]));
                 });
             }
         }
+        return _this;
     }
-}
+    return ApiError;
+}(Error));
 exports.ApiError = ApiError;
 //# sourceMappingURL=../../src/dist/common/Errors.js.map
