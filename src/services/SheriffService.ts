@@ -1,6 +1,8 @@
-import { DatabaseService } from "../infrastructure/DatabaseService";
-import { Sheriff } from "../models/Sheriff";
-import { AutoWired } from 'typescript-ioc';
+import { DatabaseService } from '../infrastructure/DatabaseService';
+import { UserService } from './UserService';
+import { Sheriff } from '../models/Sheriff';
+import { User } from '../models/User';
+import { AutoWired, Inject, Container } from 'typescript-ioc';
 
 @AutoWired
 export class SheriffService extends DatabaseService<Sheriff> {
@@ -16,6 +18,10 @@ export class SheriffService extends DatabaseService<Sheriff> {
         alias:'alias',
         gender_code: 'genderCode'
     };
+
+    // @Inject
+    // private userService!: UserService;
+
     constructor() {
         super('sheriff', 'sheriff_id');
     }

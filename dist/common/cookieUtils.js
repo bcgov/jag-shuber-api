@@ -9,24 +9,24 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @memberof Client
  */
 function retreiveCookieValue(cookieName, agent) {
-    var token = undefined;
+    let token = undefined;
     if (agent && agent.jar) {
-        var nodeCookieAccessInfo = {
+        const nodeCookieAccessInfo = {
             path: '/',
             script: true
         };
-        var cookie = agent.jar.getCookie(cookieName, nodeCookieAccessInfo);
+        const cookie = agent.jar.getCookie(cookieName, nodeCookieAccessInfo);
         if (cookie) {
             token = cookie.value;
         }
     }
     else {
-        var cookieString = document.cookie.split(';').find(function (cs) { return cs.startsWith(cookieName); });
+        const cookieString = document.cookie.split(';').find(cs => cs.startsWith(cookieName));
         if (cookieString) {
-            token = cookieString.replace(cookieName + "=", '');
+            token = cookieString.replace(`${cookieName}=`, '');
         }
     }
     return token;
 }
 exports.retreiveCookieValue = retreiveCookieValue;
-//# sourceMappingURL=/Users/Shared/Relocated Items/Security/Workspaces/jag-shuber-api/dist/common/cookieUtils.js.map
+//# sourceMappingURL=../../src/dist/common/cookieUtils.js.map

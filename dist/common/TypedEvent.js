@@ -3,37 +3,35 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Typed Event represents an event that can be listened to
  */
-var TypedEvent = /** @class */ (function () {
-    function TypedEvent() {
-        var _this = this;
+class TypedEvent {
+    constructor() {
         this.listeners = [];
         this.listenersOnce = [];
-        this.on = function (listener) {
-            _this.listeners.push(listener);
+        this.on = (listener) => {
+            this.listeners.push(listener);
             return {
-                dispose: function () { return _this.off(listener); }
+                dispose: () => this.off(listener)
             };
         };
-        this.once = function (listener) {
-            _this.listenersOnce.push(listener);
+        this.once = (listener) => {
+            this.listenersOnce.push(listener);
         };
-        this.off = function (listener) {
-            var callbackIndex = _this.listeners.indexOf(listener);
+        this.off = (listener) => {
+            var callbackIndex = this.listeners.indexOf(listener);
             if (callbackIndex > -1)
-                _this.listeners.splice(callbackIndex, 1);
+                this.listeners.splice(callbackIndex, 1);
         };
-        this.emit = function (event) {
+        this.emit = (event) => {
             /** Update any general listeners */
-            _this.listeners.forEach(function (listener) { return listener(event); });
+            this.listeners.forEach((listener) => listener(event));
             /** Clear the `once` queue */
-            _this.listenersOnce.forEach(function (listener) { return listener(event); });
-            _this.listenersOnce = [];
+            this.listenersOnce.forEach((listener) => listener(event));
+            this.listenersOnce = [];
         };
-        this.pipe = function (te) {
-            return _this.on(function (e) { return te.emit(e); });
+        this.pipe = (te) => {
+            return this.on((e) => te.emit(e));
         };
     }
-    return TypedEvent;
-}());
+}
 exports.TypedEvent = TypedEvent;
-//# sourceMappingURL=/Users/Shared/Relocated Items/Security/Workspaces/jag-shuber-api/dist/common/TypedEvent.js.map
+//# sourceMappingURL=../../src/dist/common/TypedEvent.js.map

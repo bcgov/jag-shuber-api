@@ -12,7 +12,7 @@ export class TokenController extends Controller {
     protected service!: TokenService;
 
     @Get()
-    @Security('siteminder')
+    // @Security('siteminder')
     public async getToken(@Request() request: KoaRequest): Promise<any> {
         let token = getTokenCookie(request);
         if (!token) {

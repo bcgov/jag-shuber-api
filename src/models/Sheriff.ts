@@ -1,3 +1,5 @@
+import { User } from './User';
+
 export interface Sheriff {
     id?: string;
     firstName: string;
@@ -9,4 +11,5 @@ export interface Sheriff {
     rankCode: string;
     alias?: string;
     genderCode?: string;
+    user?: User;
 }

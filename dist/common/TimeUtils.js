@@ -3,11 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var moment_1 = __importDefault(require("moment"));
+const moment_1 = __importDefault(require("moment"));
 exports.TIME_FORMAT_NO_TZ = "HH:mm:ss";
-exports.TIME_FORMAT_TZ = exports.TIME_FORMAT_NO_TZ + "Z";
+exports.TIME_FORMAT_TZ = `${exports.TIME_FORMAT_NO_TZ}Z`;
 function toTimeString(time) {
-    var timeMoment = moment_1.default();
+    let timeMoment = moment_1.default();
     if (typeof time === typeof 'string') {
         timeMoment = moment_1.default(time, [moment_1.default.ISO_8601, exports.TIME_FORMAT_NO_TZ, exports.TIME_FORMAT_TZ]);
     }
@@ -21,7 +21,7 @@ function toTimeString(time) {
 }
 exports.toTimeString = toTimeString;
 function fromTimeString(timeString) {
-    var returnMoment = moment_1.default.parseZone(timeString, [moment_1.default.ISO_8601, exports.TIME_FORMAT_NO_TZ, exports.TIME_FORMAT_TZ], true);
+    const returnMoment = moment_1.default.parseZone(timeString, [moment_1.default.ISO_8601, exports.TIME_FORMAT_NO_TZ, exports.TIME_FORMAT_TZ], true);
     if (!returnMoment.isValid()) {
         return moment_1.default.parseZone(timeString);
     }
@@ -31,7 +31,7 @@ function fromTimeString(timeString) {
 }
 exports.fromTimeString = fromTimeString;
 function setTime(momentToSet, timeToSet) {
-    var timeMoment;
+    let timeMoment;
     if (typeof timeToSet === typeof "string") {
         timeMoment = fromTimeString(timeToSet);
     }
@@ -40,7 +40,7 @@ function setTime(momentToSet, timeToSet) {
         timeMoment = moment_1.default.parseZone(timeToSet);
     }
     // Shift the moment that we want to alter into the same time offset
-    var newMoment = moment_1.default(momentToSet)
+    const newMoment = moment_1.default(momentToSet)
         .utcOffset(timeMoment.utcOffset());
     // Then set the hours, mins, seconds and shift it back into utc
     return newMoment
@@ -80,14 +80,14 @@ exports.normalizeTimeRange = normalizeTimeRange;
  * @returns {boolean}
  */
 function isTimeWithin(time, range, inclusivity) {
-    var timeMoment = moment_1.default(time);
-    var _a = rangeToMoments(normalizeTimeRange(range)), rangeStart = _a.start, rangeEnd = _a.end;
+    const timeMoment = moment_1.default(time);
+    const { start: rangeStart, end: rangeEnd } = rangeToMoments(normalizeTimeRange(range));
     return timeMoment.isBetween(rangeStart, rangeEnd, undefined, inclusivity);
 }
 exports.isTimeWithin = isTimeWithin;
 function areTimeRangesSame(timeRangeA, timeRangeB) {
-    var _a = normalizeTimeRange(timeRangeA), startA = _a.startTime, endA = _a.endTime;
-    var _b = normalizeTimeRange(timeRangeB), startB = _b.startTime, endB = _b.endTime;
+    const { startTime: startA, endTime: endA } = normalizeTimeRange(timeRangeA);
+    const { startTime: startB, endTime: endB } = normalizeTimeRange(timeRangeB);
     return (moment_1.default(startA).isSame(moment_1.default(startB)) && moment_1.default(endA).isSame(moment_1.default(endB)));
 }
 exports.areTimeRangesSame = areTimeRangesSame;
@@ -99,4 +99,4 @@ function doTimeRangesOverlap(timeRangeA, timeRangeB) {
         || isTimeWithin(timeRangeB.endTime, timeRangeA);
 }
 exports.doTimeRangesOverlap = doTimeRangesOverlap;
-//# sourceMappingURL=/Users/Shared/Relocated Items/Security/Workspaces/jag-shuber-api/dist/common/TimeUtils.js.map
+//# sourceMappingURL=../../src/dist/common/TimeUtils.js.map
