@@ -9,21 +9,21 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * @memberof Client
  */
 function retreiveCookieValue(cookieName, agent) {
-    let token = undefined;
+    var token = undefined;
     if (agent && agent.jar) {
-        const nodeCookieAccessInfo = {
+        var nodeCookieAccessInfo = {
             path: '/',
             script: true
         };
-        const cookie = agent.jar.getCookie(cookieName, nodeCookieAccessInfo);
+        var cookie = agent.jar.getCookie(cookieName, nodeCookieAccessInfo);
         if (cookie) {
             token = cookie.value;
         }
     }
     else {
-        const cookieString = document.cookie.split(';').find(cs => cs.startsWith(cookieName));
+        var cookieString = document.cookie.split(';').find(function (cs) { return cs.startsWith(cookieName); });
         if (cookieString) {
-            token = cookieString.replace(`${cookieName}=`, '');
+            token = cookieString.replace(cookieName + "=", '');
         }
     }
     return token;
