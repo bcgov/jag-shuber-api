@@ -73,8 +73,9 @@ export default class Client {
     GetToken(): Promise<any>;
     Logout(): Promise<any>;
     GetCurrentUser(): Promise<User>;
-    GetUsers(): Promise<Array<any>>;
+    GetUsers(locationId: string): Promise<any>;
     CreateUser(model: User): Promise<any>;
+    QueryUsers(firstName: string, lastName: string, badgeNo: number, sheriffRankCode: string, locationId: string, currentLocationId: string, homeLocationId: string): Promise<any>;
     GetUserById(id: string): Promise<any>;
     UpdateUser(id: string, model: User): Promise<any>;
     DeleteUser(id: string): Promise<void>;

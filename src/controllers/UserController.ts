@@ -2,7 +2,7 @@ import { Body, Delete, Get, Path, Post, Put, Query, Route } from 'tsoa';
 import ControllerBase from '../infrastructure/ControllerBase';
 import { Security } from '../authentication';
 import { Inject, AutoWired } from 'typescript-ioc';
-import { UserService } from '../services/UserService';
+import { UserService, UserQuery } from '../services/UserService';
 import { User } from '../models/User';
 
 @Route('User')
@@ -26,8 +26,32 @@ export class UserController extends ControllerBase<any, UserService> {
     }
 
     @Get()
-    public getUsers(){
-        return super.getAll();
+    public getUsers(
+        @Query() locationId?: string) {
+        return this.service.getAll(locationId);
+    }
+
+    @Get('search')
+    public queryUsers(
+        @Query() firstName?: string,
+        @Query() lastName?: string,
+        @Query() badgeNo?: number,
+        @Query() sheriffRankCode?: string,
+        @Query() locationId?: string, 
+        @Query() currentLocationId?: string, 
+        @Query() homeLocationId?: string) {
+        
+        const query: UserQuery = {
+            firstName,
+            lastName,
+            badgeNo,
+            sheriffRankCode,
+            locationId,
+            currentLocationId,
+            homeLocationId
+        } as UserQuery;
+
+        return this.service.queryAll(query);
     }
 
     @Get('{id}')

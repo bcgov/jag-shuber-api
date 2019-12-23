@@ -196,9 +196,13 @@ export default class Client {
             return response;
         });
     }    
-    public async GetUsers():Promise<Array<any>>{
-        return this.tryRequest<Array<any>>(async () => {
+    public async GetUsers( locationId:string ):Promise<any>{
+        const params = { 
+            "locationId":locationId 
+        };
+        return this.tryRequest<any>(async () => {
             const response: superAgent.Response = await this.agent.get(`/User`)
+                .query(params)
             return response;
         });
     }    
@@ -206,6 +210,22 @@ export default class Client {
         return this.tryRequest<any>(async () => {
             const response: superAgent.Response = await this.agent.post(`/User`)
                 .send(model)
+            return response;
+        });
+    }    
+    public async QueryUsers( firstName:string , lastName:string , badgeNo:number , sheriffRankCode:string , locationId:string , currentLocationId:string , homeLocationId:string ):Promise<any>{
+        const params = { 
+            "firstName":firstName,
+            "lastName":lastName,
+            "badgeNo":badgeNo,
+            "sheriffRankCode":sheriffRankCode,
+            "locationId":locationId,
+            "currentLocationId":currentLocationId,
+            "homeLocationId":homeLocationId 
+        };
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/User/search`)
+                .query(params)
             return response;
         });
     }    

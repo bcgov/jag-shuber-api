@@ -49,7 +49,7 @@ export default class ExtendedClient extends Client {
      * @deprecated Please use ExpireDutyRecurrence instead.
      */
     DeleteDutyRecurrence(id: string): Promise<void>;
-    GetUsers(): Promise<User[]>;
+    GetUsers(locationId?: any): Promise<User[]>;
     GetUsersByLocationId(locationId?: string): Promise<User[]>;
     GetUserById(id: string): Promise<User>;
     GetRoles(): Promise<Role[]>;

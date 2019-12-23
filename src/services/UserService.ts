@@ -4,6 +4,16 @@ import { User } from '../models/User';
 import { AutoWired, Inject, Container } from 'typescript-ioc';
 import { Sheriff } from '../models/Sheriff';
 
+export interface UserQuery {
+    firstName?: string,
+    lastName?: string,
+    badgeNo?: string | number,
+    sheriffRankCode?: string,
+    locationId?: string,
+    currentLocationId?: string,
+    homeLocationId?: string
+}
+
 @AutoWired
 export class UserService extends DatabaseService<User> {
     // TODO: Some of these fields are covered in the base classes
@@ -33,9 +43,58 @@ export class UserService extends DatabaseService<User> {
 
     async getAll(locationId?: string) {
         const query = super.getSelectQuery();
+        // TODO: What if the location is on the sheriff, and not the user
         if (locationId) {
-            query.where(`home_location_id='${locationId}' OR current_location_id='${locationId}'`);
+            query.where(`default_location_id='${locationId}'`);
+            // query.where(`home_location_id='${locationId}' OR current_location_id='${locationId}'`);
         };
+        const rows = await this.executeQuery<User>(query.toString());
+
+        const results = rows.map(async entity => {
+            if (entity.sheriffId) {
+                const sheriffEntity = await this.sheriffService.getById(entity.sheriffId);
+                if (sheriffEntity) {
+                    entity.sheriff = sheriffEntity as Sheriff;
+                }
+            }
+            return entity;
+        });
+
+        return Promise.all(results);
+    }
+
+    async queryAll(params: UserQuery) {
+        const query = super.getSelectQuery();
+        // TODO: What if the location is on the sheriff, and not the user
+        if (params.locationId) {
+            query.where(`home_location_id='${params.locationId}' OR current_location_id='${params.locationId}'`);
+        };
+
+        if (params.homeLocationId) {
+            query.where(`home_location_id='${params.homeLocationId}'`);
+        };
+
+        if (params.currentLocationId) {
+            query.where(`current_location_id='${params.currentLocationId}'`);
+        };
+
+        // TODO: Search on the sheriff too!
+        if (params.firstName) {
+            query.where(`display_name LIKE '%${params.firstName}%'`);
+        };
+
+        if (params.lastName) {
+            query.where(`display_name LIKE '%${params.lastName}%'`);
+        };
+
+        if (params.badgeNo) {
+            query.where(`badge_no LIKE '%${params.badgeNo}%'`);
+        };
+
+        if (params.sheriffRankCode) {
+            query.where(`sheriff_rank_code LIKE '%${params.sheriffRankCode}%'`);
+        };
+
         const rows = await this.executeQuery<User>(query.toString());
 
         const results = rows.map(async entity => {
@@ -79,6 +138,8 @@ export class UserService extends DatabaseService<User> {
     async generateUsersForSheriffs(): Promise<void> {
         // Get all the sheriffs
         const rows = await this.sheriffService.getAll();
+
+        const rowCount = rows.length;
 
         const ops = rows.map(async (sheriffEntity, idx) => {
             // TODO: Set a limit, we'll need to throttle this or something... 
