@@ -487,6 +487,7 @@ export function RegisterRoutes(router: any) {
         authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
+                locationId: { "in": "query", "name": "locationId", "dataType": "string" },
             };
 
             let validatedArgs: any[] = [];
@@ -507,6 +508,39 @@ export function RegisterRoutes(router: any) {
             const controller = Container.get(UserController) as UserController;
 
             const promise = controller.getUsers.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/User/search',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                firstName: { "in": "query", "name": "firstName", "dataType": "string" },
+                lastName: { "in": "query", "name": "lastName", "dataType": "string" },
+                badgeNo: { "in": "query", "name": "badgeNo", "dataType": "double" },
+                sheriffRankCode: { "in": "query", "name": "sheriffRankCode", "dataType": "string" },
+                locationId: { "in": "query", "name": "locationId", "dataType": "string" },
+                currentLocationId: { "in": "query", "name": "currentLocationId", "dataType": "string" },
+                homeLocationId: { "in": "query", "name": "homeLocationId", "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(UserController) as UserController;
+
+            const promise = controller.queryUsers.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/User/:id',

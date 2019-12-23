@@ -416,12 +416,12 @@ var ExtendedClient = /** @class */ (function (_super) {
             });
         });
     };
-    ExtendedClient.prototype.GetUsers = function () {
-        return _super.prototype.GetUsers.call(this);
+    ExtendedClient.prototype.GetUsers = function (locationId) {
+        return _super.prototype.GetUsers.call(this, locationId);
     };
     ExtendedClient.prototype.GetUsersByLocationId = function (locationId) {
         if (locationId === void 0) { locationId = ""; }
-        return _super.prototype.GetUsers.call(this);
+        return _super.prototype.GetUsers.call(this, locationId);
     };
     ExtendedClient.prototype.GetUserById = function (id) {
         return __awaiter(this, void 0, void 0, function () {

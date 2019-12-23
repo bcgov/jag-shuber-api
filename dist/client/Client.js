@@ -262,15 +262,20 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.GetUsers = function () {
+    Client.prototype.GetUsers = function (locationId) {
         return __awaiter(this, void 0, void 0, function () {
+            var params;
             var _this = this;
             return __generator(this, function (_a) {
+                params = {
+                    "locationId": locationId
+                };
                 return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.get("/User")];
+                                case 0: return [4 /*yield*/, this.agent.get("/User")
+                                        .query(params)];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];
@@ -290,6 +295,35 @@ var Client = /** @class */ (function () {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.post("/User")
                                         .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.QueryUsers = function (firstName, lastName, badgeNo, sheriffRankCode, locationId, currentLocationId, homeLocationId) {
+        return __awaiter(this, void 0, void 0, function () {
+            var params;
+            var _this = this;
+            return __generator(this, function (_a) {
+                params = {
+                    "firstName": firstName,
+                    "lastName": lastName,
+                    "badgeNo": badgeNo,
+                    "sheriffRankCode": sheriffRankCode,
+                    "locationId": locationId,
+                    "currentLocationId": currentLocationId,
+                    "homeLocationId": homeLocationId
+                };
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.get("/User/search")
+                                        .query(params)];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];

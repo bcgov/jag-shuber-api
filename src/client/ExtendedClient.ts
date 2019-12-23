@@ -292,12 +292,12 @@ export default class ExtendedClient extends Client {
         throw new Error(ERROR_DEPRECATED_DELETE_DUTYRECURRENCE);
     }
 
-    GetUsers(): Promise<User[]> {
-        return super.GetUsers();
+    GetUsers(locationId?): Promise<User[]> {
+        return super.GetUsers(locationId);
     }
 
     GetUsersByLocationId(locationId: string = ""): Promise<User[]> {
-        return super.GetUsers();
+        return super.GetUsers(locationId);
     }
 
     async GetUserById(id: string): Promise<User> {
