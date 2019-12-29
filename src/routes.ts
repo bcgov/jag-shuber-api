@@ -458,7 +458,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/User/me',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:users"] }]),
         async (context, next) => {
             const args = {
             };
@@ -484,7 +484,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/User',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:users"] }]),
         async (context, next) => {
             const args = {
                 locationId: { "in": "query", "name": "locationId", "dataType": "string" },
@@ -511,7 +511,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/User/search',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:users"] }]),
         async (context, next) => {
             const args = {
                 firstName: { "in": "query", "name": "firstName", "dataType": "string" },
@@ -544,7 +544,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/User/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:users"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -571,7 +571,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/User',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:users"] }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "User" },
@@ -598,7 +598,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/User/generateAll',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:users"] }]),
         async (context, next) => {
             const args = {
             };
@@ -624,7 +624,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/User/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:users"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -652,7 +652,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/User/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:users"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -679,7 +679,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/UserRole/me',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:users", "admin:user:roles"] }]),
         async (context, next) => {
             const args = {
             };
@@ -705,7 +705,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/UserRole',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:users", "admin:user:roles"] }]),
         async (context, next) => {
             const args = {
             };
@@ -731,7 +731,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/UserRole/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:users", "admin:user:roles"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -758,7 +758,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/UserRole',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:users", "admin:user:roles"] }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "UserRole" },
@@ -785,7 +785,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/UserRole/:id/expire',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:users", "admin:user:roles"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -813,7 +813,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/UserRole/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:users", "admin:user:roles"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -841,7 +841,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/UserRole/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:users", "admin:user:roles"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -868,7 +868,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/Role',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:user:roles"] }]),
         async (context, next) => {
             const args = {
             };
@@ -894,7 +894,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/Role/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:user:roles"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -921,7 +921,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/Role',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:user:roles"] }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "Role" },
@@ -948,7 +948,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/Role/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:user:roles"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -976,7 +976,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/Role/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:user:roles"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1003,7 +1003,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/RolePermission',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:user:roles"] }]),
         async (context, next) => {
             const args = {
             };
@@ -1029,7 +1029,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/RolePermission/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:user:roles"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1056,7 +1056,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/RolePermission',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:user:roles"] }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "RolePermission" },
@@ -1083,7 +1083,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/RolePermission/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:user:roles"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1111,7 +1111,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/RolePermission/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:user:roles"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1138,7 +1138,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/ApiScope',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["system:scopes:api"] }]),
         async (context, next) => {
             const args = {
             };
@@ -1164,7 +1164,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/ApiScope/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["system:scopes:api"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1191,7 +1191,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/ApiScope',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["system:scopes:api"] }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "ApiScope" },
@@ -1218,7 +1218,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/ApiScope/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["system:scopes:api"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1246,7 +1246,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/ApiScope/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["system:scopes:api"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1273,7 +1273,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/FrontendScope',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["system:scopes:ui"] }]),
         async (context, next) => {
             const args = {
             };
@@ -1299,7 +1299,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/FrontendScope/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["system:scopes:ui"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1326,7 +1326,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/FrontendScope',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["system:scopes:ui"] }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "FrontendScope" },
@@ -1353,7 +1353,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/FrontendScope/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["system:scopes:ui"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1381,7 +1381,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/FrontendScope/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["system:scopes:ui"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1408,7 +1408,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/FrontendScopePermission',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["system:scopes:ui"] }]),
         async (context, next) => {
             const args = {
             };
@@ -1434,7 +1434,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/FrontendScopePermission/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["system:scopes:ui"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1461,7 +1461,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/FrontendScopePermission',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["system:scopes:ui"] }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "FrontendScopePermission" },
@@ -1488,7 +1488,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/FrontendScopePermission/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["system:scopes:ui"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1516,7 +1516,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/FrontendScopePermission/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["system:scopes:ui"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1543,7 +1543,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/RoleApiScope',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:user:roles"] }]),
         async (context, next) => {
             const args = {
             };
@@ -1569,7 +1569,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/RoleApiScope/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:user:roles"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1596,7 +1596,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/RoleApiScope',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:user:roles"] }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "RoleApiScope" },
@@ -1623,7 +1623,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/RoleApiScope/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:user:roles"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1651,7 +1651,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/RoleApiScope/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:user:roles"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1678,7 +1678,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/RoleFrontendScope',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:user:roles"] }]),
         async (context, next) => {
             const args = {
             };
@@ -1704,7 +1704,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/RoleFrontendScope/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:user:roles"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1731,7 +1731,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.post('/v1/RoleFrontendScope',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:user:roles"] }]),
         async (context, next) => {
             const args = {
                 model: { "in": "body", "name": "model", "required": true, "ref": "RoleFrontendScope" },
@@ -1758,7 +1758,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.put('/v1/RoleFrontendScope/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:user:roles"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1786,7 +1786,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/RoleFrontendScope/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:user:roles"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },

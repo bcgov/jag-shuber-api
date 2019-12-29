@@ -6,7 +6,7 @@ import { UserRoleService } from '../services/UserRoleService';
 import { UserRole } from '../models/UserRole';
 
 @Route('UserRole')
-@Security('jwt')
+@Security('jwt', ['admin:users', 'admin:user:roles'])
 @AutoWired
 export class UserRoleController extends ControllerBase<any, UserRoleService> {
     @Inject

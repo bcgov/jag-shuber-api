@@ -12,7 +12,7 @@ import { RoleService } from '../services/RoleService';
 import { Role } from '../models/Role';
 
 @Route('Role')
-@Security('jwt')
+@Security('jwt', ['admin:user:roles'])
 @AutoWired
 export class RoleController extends ControllerBase<any, RoleService> {
     @Inject

@@ -6,7 +6,7 @@ import { RolePermissionService } from '../services/RolePermissionService';
 import { RolePermission } from '../models/RolePermission';
 
 @Route('RolePermission')
-@Security('jwt')
+@Security('jwt', ['admin:user:roles'])
 @AutoWired
 export class RolePermissionController extends ControllerBase<any, RolePermissionService> {
     @Inject
