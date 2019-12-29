@@ -6,7 +6,7 @@ import { FrontendScopePermissionService } from '../services/FrontendScopePermiss
 import { FrontendScopePermission } from '../models/FrontendScopePermission';
 
 @Route('FrontendScopePermission')
-@Security('jwt')
+@Security('jwt', ['system:scopes:ui'])
 @AutoWired
 export class FrontendScopePermissionController extends ControllerBase<any, FrontendScopePermissionService> {
     @Inject

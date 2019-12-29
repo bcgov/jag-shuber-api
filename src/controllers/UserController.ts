@@ -6,7 +6,7 @@ import { UserService, UserQuery } from '../services/UserService';
 import { User } from '../models/User';
 
 @Route('User')
-@Security('jwt')
+@Security('jwt', ['admin:users'])
 @AutoWired
 export class UserController extends ControllerBase<any, UserService> {
     @Inject

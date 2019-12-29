@@ -6,7 +6,7 @@ import { RoleFrontendScopeService } from '../services/RoleFrontendScopeService';
 import { RoleFrontendScope } from '../models/RoleFrontendScope';
 
 @Route('RoleFrontendScope')
-@Security('jwt')
+@Security('jwt', ['admin:user:roles'])
 @AutoWired
 export class RoleFrontendScopeController extends ControllerBase<any, RoleFrontendScopeService> {
     @Inject

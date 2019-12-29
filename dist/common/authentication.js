@@ -37,7 +37,7 @@ function assertScope(payload, scope) {
 }
 exports.assertScope = assertScope;
 /**
- * Checks a TokenPayload for all given scopes
+ * Checks a TokenPayload for all given scopes.
  *
  * @export
  * @param {TokenPayload} payload
@@ -50,7 +50,7 @@ function hasAllScopes(payload, scopes) {
 }
 exports.hasAllScopes = hasAllScopes;
 /**
- * Asserts that all scopes are present in a given TokenPayload
+ * Asserts that all scopes are present in a given TokenPayload.
  *
  * @export
  * @param {TokenPayload} payload

@@ -5,12 +5,12 @@ import { AutoWired, Inject, Container } from 'typescript-ioc';
 import { Sheriff } from '../models/Sheriff';
 
 export interface UserQuery {
-    firstName?: string,
-    lastName?: string,
-    badgeNo?: string | number,
-    sheriffRankCode?: string,
-    locationId?: string,
-    currentLocationId?: string,
+    firstName?: string;
+    lastName?: string;
+    badgeNo?: string | number;
+    sheriffRankCode?: string;
+    locationId?: string;
+    currentLocationId?: string;
     homeLocationId?: string
 }
 

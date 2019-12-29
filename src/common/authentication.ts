@@ -12,14 +12,33 @@ export const SITEMINDER_HEADER_USERIDENTIFIER = 'smgov_useridentifier';
 export const DEFAULT_SCOPES: Scope[] = ['default'];
 export const TOKEN_COOKIE_NAME = "app_token";
 
-export interface Scopes {
+/**
+ * Define all the available OAuth scopes.
+ */
+ export interface Scopes {
     default: 'default',
     none: 'none'
+    admin_users: 'admin:users',
+    admin_user_roles: 'admin:user:roles',
+    admin_sheriff_leaves: 'admin:sheriff:leaves',
+    admin_sheriff_locations: 'admin:sheriff:locations',
+    admin_sheriff_training: 'admin:sheriff:training',
+    sheriffs_add: 'sheriffs:add',
+    sheriffs_deactivate: 'sheriffs:deactivate',
+    sheriffs_delete: 'sheriffs:delete',
+    sheriffs_edit: 'sheriffs:edit',
+    sheriffs_view: 'sheriffs:view',
+    system_locations: 'system:locations',
+    system_scopes_api: 'system:scopes:api',
+    system_scopes_ui: 'system:scopes:ui',
+    system_types_assignment: 'system:types:assignment',
+    system_types_leaves: 'system:types:leaves',
+    system_types_training: 'system:types:training'
 }
 
 /** 
- * The different types of user scopes/claims within the system
-*/
+ * The different types of user scopes/claims within the system.
+ */
 export type Scope = Scopes[keyof (Scopes)];
 
 /**
@@ -63,7 +82,7 @@ export function assertScope(payload: TokenPayload, scope: Scope) {
 }
 
 /**
- * Checks a TokenPayload for all given scopes
+ * Checks a TokenPayload for all given scopes.
  *
  * @export
  * @param {TokenPayload} payload
@@ -75,7 +94,7 @@ export function hasAllScopes(payload: TokenPayload, scopes: Scope[] = []): boole
 }
 
 /**
- * Asserts that all scopes are present in a given TokenPayload
+ * Asserts that all scopes are present in a given TokenPayload.
  *
  * @export
  * @param {TokenPayload} payload
