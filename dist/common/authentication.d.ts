@@ -45,6 +45,7 @@ export interface TokenPayload {
     userId?: string;
     type?: string;
     scopes?: Scope[];
+    appScopes?: string[];
 }
 /**
  * Checks a TokenPayload for the given scope

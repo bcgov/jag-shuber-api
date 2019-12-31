@@ -11,6 +11,9 @@ import { Scope, Scopes } from '../common/authentication'
 import { UserRole } from '../models/UserRole';
 import { RoleFrontendScope } from '../models/RoleFrontendScope';
 import { RoleApiScope } from '../models/RoleApiScope';
+import { ApiScopeService } from './ApiScopeService';
+
+const TEST_USER_ID = 'd9772aab-6e5e-4b41-87b2-3294009e6d28';
 
 @AutoWired
 export class TokenService {
@@ -18,14 +21,35 @@ export class TokenService {
         // Token payload is the request's user object
         // We don't care what that is right now just hard code in a user for now
         // userId is for 'Test User'
-        const userId = 'd9772aab-6e5e-4b41-87b2-3294009e6d28'; // tokenPayload.userId;
-        const userService = Container.get(UserService);
-        const user = await userService.getById(userId);
+        const userId = (tokenPayload && tokenPayload.userId) 
+            ? tokenPayload.userId 
+            : TEST_USER_ID;  // Test User ID
 
-        const authScopes = await this.buildUserAuthScopes(userId);
+        const apiScopeService = Container.get(ApiScopeService);
+
+        if (!tokenPayload || (tokenPayload.userId !== TEST_USER_ID)) {
+            console.log('-----------------------------------------------------------------------------------------------------------');
+            console.log(`Notice! No siteminder user detected, granting all roles to Test User [${TEST_USER_ID}]`);
+            console.log('-----------------------------------------------------------------------------------------------------------');
+        }
+
+        let authScopes;
+        
+        if (tokenPayload && tokenPayload.userId) {
+            authScopes = await this.buildUserAuthScopes(userId)
+        } else {
+            authScopes = await apiScopeService.getAll();
+            authScopes = authScopes.reduce((scopes, scope) => {
+                scopes.push(scope.scopeCode as Scope);
+                return scopes;
+            }, [] as Scope[]);
+        }
+
         const appScopes = await this.buildUserAppScopes(userId);
-        // console.log(`User [${userId}] OAuth scopes`);
-        // console.log(authScopes);
+        if (!tokenPayload || (tokenPayload.userId !== TEST_USER_ID)) {
+            console.log(`Test User [${TEST_USER_ID}] OAuth scopes`);
+            console.log(authScopes);
+        }
 
         const token = await createToken({
             scopes: authScopes as Scope[],
