@@ -10,6 +10,7 @@ export interface User {
     createdDtm?: string;
     updatedDtm?: string;
     revisionCount?: number;
+    userRoles?: Array<UserRole>;
 }
 export interface Sheriff {
     id?: string;
@@ -24,35 +25,12 @@ export interface Sheriff {
     genderCode?: string;
     user?: User;
 }
-export interface UserRole {
+export interface FrontendScope {
     id?: string;
-    userId?: string;
-    roleId?: string;
-    effectiveDate?: string;
-    expiryDate?: string;
-    locationId?: string;
-    createdBy?: string;
-    updatedBy?: string;
-    createdDtm?: string;
-    updatedDtm?: string;
-    revisionCount?: number;
-}
-export interface Role {
-    id?: string;
-    roleName?: string;
-    roleCode?: string;
-    systemCodeInd?: number;
+    scopeName?: string;
+    scopeCode?: string;
+    systemCodeInd?: boolean;
     description?: string;
-    createdBy?: string;
-    updatedBy?: string;
-    createdDtm?: string;
-    updatedDtm?: string;
-    revisionCount?: number;
-}
-export interface RoleApiScope {
-    id?: string;
-    roleId?: string;
-    scopeId?: string;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;
@@ -63,23 +41,7 @@ export interface RoleFrontendScope {
     id?: string;
     roleId?: string;
     scopeId?: string;
-    createdBy?: string;
-    updatedBy?: string;
-    createdDtm?: string;
-    updatedDtm?: string;
-    revisionCount?: number;
-}
-export interface RolePermission {
-    id?: string;
-    roleId?: string;
-    roleApiScopeId?: string;
-    roleApiScope?: RoleApiScope;
-    roleFrontendScopeId?: string;
-    roleFrontendScope?: RoleFrontendScope;
-    apiScopePermissionId?: string;
-    frontendScopePermissionId?: string;
-    displayName?: string;
-    description?: string;
+    scope?: FrontendScope;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;
@@ -98,11 +60,55 @@ export interface ApiScope {
     updatedDtm?: string;
     revisionCount?: number;
 }
-export interface FrontendScope {
+export interface RoleApiScope {
     id?: string;
-    scopeName?: string;
-    scopeCode?: string;
-    systemCodeInd?: boolean;
+    roleId?: string;
+    scopeId?: string;
+    scope?: ApiScope;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
+export interface Role {
+    id?: string;
+    roleName?: string;
+    roleCode?: string;
+    systemCodeInd?: number;
+    description?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+    roleFrontendScopes?: Array<RoleFrontendScope>;
+    roleApiScopes?: Array<RoleApiScope>;
+}
+export interface UserRole {
+    id?: string;
+    userId?: string;
+    roleId?: string;
+    role?: Role;
+    effectiveDate?: string;
+    expiryDate?: string;
+    locationId?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
+export interface RolePermission {
+    id?: string;
+    roleId?: string;
+    roleApiScopeId?: string;
+    roleApiScope?: RoleApiScope;
+    roleFrontendScopeId?: string;
+    roleFrontendScope?: RoleFrontendScope;
+    apiScopePermissionId?: string;
+    frontendScopePermissionId?: string;
+    displayName?: string;
     description?: string;
     createdBy?: string;
     updatedBy?: string;
