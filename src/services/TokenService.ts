@@ -23,30 +23,58 @@ export class TokenService {
         const user = await userService.getById(userId);
 
         const authScopes = await this.buildUserAuthScopes(userId);
+        const appScopes = await this.buildUserAppScopes(userId);
         // console.log(`User [${userId}] OAuth scopes`);
         // console.log(authScopes);
 
-        return createToken({
+        const token = await createToken({
             scopes: authScopes as Scope[],
+            appScopes: appScopes as string[],
             ...tokenPayload
         });
+
+        // console.log(`User [${userId}] token payload`);
+        // console.log(tokenPayload);
+
+        // console.log(`User [${userId}] token`);
+        // console.log(token);
+        return token;
     }
 
-    private async buildUserFrontendScopes(userId: string): Promise<any> {
+    private async buildUserAppScopes(userId: string): Promise<any> {
         const userRoleService = Container.get(UserRoleService);
         const userRoles = await userRoleService.getByUserId(userId);
 
         const roleService = Container.get(RoleService);
         
-        const scopes = Promise.all(userRoles.map(async (ur: UserRole) => {
+        const scopes = await userRoles.reduce(async (userScopeCodes: Promise<string[]>, ur: UserRole) => {
+            let results = await userScopeCodes;
             // For each UserRole, attach the role
             if (ur && ur.roleId) {
-                ur.role = await roleService.getById(ur.roleId);
+                const role = await roleService.getById(ur.roleId);
                 // RoleFrontendScopes and RoleApiScopes will be populated
-                // Let's loop over the RoleFrontendScopes
-                
+                // Let's loop over the RoleApiScopes
+                ur.role = role;
+                const roleScopeCodes: string[] = (ur.role && ur.role.roleFrontendScopes) 
+                    ? ur.role.roleFrontendScopes
+                        .reduce((scopeCodes: string[], cur: RoleFrontendScope) => {
+                            if (cur.scope && cur.scope.scopeCode) {
+                                scopeCodes.push(cur.scope.scopeCode as string);
+                            }
+                            return scopeCodes;
+                        }, [])
+
+                    : [];
+
+                if (roleScopeCodes.length > 0) {
+                    return results.concat(roleScopeCodes as string[]);
+                }
             }
-        }));
+
+            return userScopeCodes;
+        }, Promise.resolve(['DEFAULT'] as string[]));
+
+        return scopes;
     }
 
     private async buildUserAuthScopes(userId: string): Promise<Scope[]> {
