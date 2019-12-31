@@ -40,9 +40,9 @@ export class TokenService {
         } else {
             authScopes = await apiScopeService.getAll();
             authScopes = authScopes.reduce((scopes, scope) => {
-                scopes.push(scope.scopeCode as Scope);
+                scopes.push(scope.scopeCode as Scope); 
                 return scopes;
-            }, [] as Scope[]);
+            }, ['default'] as Scope[]);
         }
 
         const appScopes = await this.buildUserAppScopes(userId);
