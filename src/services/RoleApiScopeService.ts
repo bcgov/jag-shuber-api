@@ -26,7 +26,7 @@ export class RoleApiScopeService extends DatabaseService<RoleApiScope> {
         const query = this.getSelectQuery(id);
         const rows = await this.executeQuery<RoleApiScope>(query.toString());
 
-        // Attach roleFrontendScopes and roleApiScopes by default for convenience
+        // Attach ApiScope by default for convenience
         const apiScopeService = Container.get(ApiScopeService);
         if (rows && rows.length > 0) {
             let row = rows[0];
@@ -38,7 +38,7 @@ export class RoleApiScopeService extends DatabaseService<RoleApiScope> {
 
     async getByRoleId(roleId: string): Promise<RoleApiScope[]> {
         const rows = await this.getWhereFieldEquals('roleId', roleId);
-        // Attach roleFrontendScopes and roleApiScopes by default for convenience
+        // Attach ApiScope by default for convenience
         const apiScopeService = Container.get(ApiScopeService);
         return Promise.all(rows.map(async (row) => {
             row.scope = await apiScopeService.getById(row.scopeId);

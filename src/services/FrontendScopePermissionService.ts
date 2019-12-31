@@ -1,6 +1,6 @@
 import { DatabaseService } from '../infrastructure/DatabaseService';
 import { FrontendScopePermission } from '../models/FrontendScopePermission';
-import { AutoWired } from 'typescript-ioc';
+import { AutoWired, Container } from 'typescript-ioc';
 
 @AutoWired
 export class FrontendScopePermissionService extends DatabaseService<FrontendScopePermission> {
@@ -19,5 +19,10 @@ export class FrontendScopePermissionService extends DatabaseService<FrontendScop
 
     constructor() {
         super('frontend_scope_permission', 'frontend_scope_permission_id');
+    }
+
+    async getByScopeId(scopeId: string): Promise<FrontendScopePermission[]> {
+        const rows = await this.getWhereFieldEquals('frontendScopeId', scopeId);
+        return rows;
     }
 }

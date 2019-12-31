@@ -1,6 +1,9 @@
 import { DatabaseService } from '../infrastructure/DatabaseService';
 import { RolePermission } from '../models/RolePermission';
-import { AutoWired } from 'typescript-ioc';
+import { FrontendScopePermission } from '../models/FrontendScopePermission';
+import { AutoWired, Container } from 'typescript-ioc';
+
+import { FrontendScopePermissionService } from './FrontendScopePermissionService';
 
 @AutoWired
 export class RolePermissionService extends DatabaseService<RolePermission> {
@@ -22,5 +25,9 @@ export class RolePermissionService extends DatabaseService<RolePermission> {
 
     constructor() {
         super('app_role_permission', 'app_role_permission_id');
+    }
+
+    async getByRoleFrontendScopeId(roleFrontendScopeId: string): Promise<FrontendScopePermission[]> {
+        return await this.getWhereFieldEquals('roleFrontendScopeId', roleFrontendScopeId);
     }
 }
