@@ -12,6 +12,7 @@ import { RolePermissionService } from './RolePermissionService';
 
 import { Scope, Scopes } from '../common/authentication'
 
+import { AppScopePermission } from '../models/AppScope';
 import { UserRole } from '../models/UserRole';
 import { RoleFrontendScope } from '../models/RoleFrontendScope';
 import { RoleApiScope } from '../models/RoleApiScope';
@@ -62,7 +63,7 @@ export class TokenService {
 
         const token = await createToken({
             scopes: authScopes as Scope[],
-            appScopes: appScopes,
+            appScopes: appScopes as { [key: string]: AppScopePermission[] | boolean }[],
             ...tokenPayload
         });
 
@@ -116,15 +117,15 @@ export class TokenService {
 
         const roleService = Container.get(RoleService);
         
-        const scopes = await userRoles.reduce(async (asyncUserScopeCodes: Promise<{ [key: string]: string }[]>, ur: UserRole) => {
-            let userScopeCodes = await asyncUserScopeCodes;
+        const scopes = await userRoles.reduce(async (asyncUserScopeCodes: Promise<{ [key: string]: AppScopePermission[] | boolean }[]>, ur: UserRole) => {
+            let userRoleScopes = await asyncUserScopeCodes;
             // For each UserRole, attach the role
             if (ur && ur.roleId) {
                 const role = await roleService.getById(ur.roleId);
                 ur.role = role;
-                const roleScopes: { [key: string]: string }[] = (ur.role && ur.role.roleFrontendScopes) 
+                const roleScopes: { [key: string]: AppScopePermission[] }[] = (ur.role && ur.role.roleFrontendScopes) 
                     ?  await ur.role.roleFrontendScopes
-                        .reduce(async (asyncScopeCodes: Promise<string[]>, cur: RoleFrontendScope) => {
+                        .reduce(async (asyncScopeCodes: Promise<AppScopePermission[]>, cur: RoleFrontendScope) => {
                             let scopeCodes = await asyncScopeCodes;
 
                             if (cur.scope && cur.scope.scopeCode) {
@@ -135,12 +136,10 @@ export class TokenService {
                         }, Promise.resolve([]))
                     : [];
 
-                if (Object.keys(roleScopes).length > 0) {
-                    return Object.assign({}, userScopeCodes, roleScopes);
-                }
+                userRoleScopes = Object.assign({}, userRoleScopes, roleScopes);
             }
 
-            return userScopeCodes;
+            return userRoleScopes;
         }, Promise.resolve({}));
 
         // console.log(scopes);
@@ -151,42 +150,27 @@ export class TokenService {
     /** 
      * Build out the permissions configuration for a given role scope.
      */
-    private async buildRoleFrontendScopePermissions(roleFrontendScope: RoleFrontendScope, currentScope: FrontendScope): Promise<any[]> {
+    private async buildRoleFrontendScopePermissions(roleFrontendScope: RoleFrontendScope, currentScope: FrontendScope): Promise<AppScopePermission[]> {
         const scopePermissionService = Container.get(FrontendScopePermissionService);
         const rolePermissionService = Container.get(RolePermissionService);
     
         const scopePermissions = await scopePermissionService.getByScopeId(currentScope.id);
         const assignedPermissions = await rolePermissionService.getByRoleFrontendScopeId(roleFrontendScope.id);
 
-        return scopePermissions.map((fsp: FrontendScopePermission): RoleFrontendScopePermission => {
-            // RolePermission doesn't have a frontendScopeId or a scopeId reference directly on it.
-            // This is by design.
-            // We basically just apply a RolePermission - if it exists - on top of a RoleFrontendScopePermission,
-            // which combines the FrontendScopePermission and RolePermission shapes, and which is also the actual
-            // model used by the UI in redux-form FormArrays.
-            let roleScopePermission = assignedPermissions.find((ap) => ap.frontendScopePermissionId === fsp.id) as RoleFrontendScopePermission;
+        return scopePermissions.map((fsp: FrontendScopePermission): AppScopePermission => {
+            let roleScopePermission = assignedPermissions.find((ap) => ap.frontendScopePermissionId === fsp.id);
 
             let hasPermission = false;
             if (roleScopePermission && roleScopePermission.id) {
                 hasPermission = true;
-            } else {
-                roleScopePermission = {} as RoleFrontendScopePermission;
             }
 
-            roleScopePermission.roleId = roleFrontendScope.roleId;
-            roleScopePermission.roleFrontendScopeId = roleFrontendScope.id;
-            roleScopePermission.frontendScopePermissionId = fsp.id;
-            roleScopePermission.displayName = fsp.displayName;
-            roleScopePermission.description = fsp.description;
-            roleScopePermission.hasPermission = hasPermission;
-            // roleScopePermission.scope = currentScope;
-            // roleScopePermission.roleScope = roleFrontendScope;
-            // roleScopePermission.scopePermission = fsp;
+            const result = {
+                permissionCode: fsp.permissionCode,
+                hasPermission
+            } as AppScopePermission;
 
-            return {
-                ...roleScopePermission,
-                ...fsp
-            };
+            return result;
         });
     }
 }

@@ -1,3 +1,4 @@
+import { AppScopePermission } from '../models/AppScope';
 
 const SCOPE_ASSERTION_MESSAGE = "JWT did not have required scope for this action";
 const SITEMINDER_AUTH_ERROR_MESSAGE = "Couldn't authenticate request.";
@@ -53,7 +54,7 @@ export interface TokenPayload {
     userId?: string;
     type?: string;
     scopes?: Scope[];
-    appScopes?: any;
+    appScopes?: { [key: string]: AppScopePermission[] | boolean }[];
 }
 
 /**
@@ -106,6 +107,3 @@ export function assertAllScopes(payload: TokenPayload, scopes: Scope[] = []) {
         throw new Error(SCOPE_ASSERTION_MESSAGE);
     }
 }
-
-
-
