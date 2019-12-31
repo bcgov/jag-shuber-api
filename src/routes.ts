@@ -412,6 +412,7 @@ const models: TsoaRoute.Models = {
 
 export function RegisterRoutes(router: any) {
     router.get('/v1/token',
+        authenticateMiddleware([{ "name": "siteminder" }]),
         async (context, next) => {
             const args = {
                 request: { "in": "request", "name": "request", "required": true, "dataType": "object" },

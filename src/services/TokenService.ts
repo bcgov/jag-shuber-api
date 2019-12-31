@@ -62,7 +62,7 @@ export class TokenService {
 
         const token = await createToken({
             scopes: authScopes as Scope[],
-            appScopes: appScopes as string[],
+            appScopes: appScopes,
             ...tokenPayload
         });
 
