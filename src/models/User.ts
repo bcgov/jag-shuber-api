@@ -1,4 +1,5 @@
 import { Sheriff } from './Sheriff';
+import { UserRole } from './UserRole';
 
 export interface User {
     id?:string; // GUID app_user_id
@@ -13,4 +14,5 @@ export interface User {
     createdDtm?:string;
     updatedDtm?:string;
     revisionCount?:number;
+    userRoles?: UserRole[];
 }

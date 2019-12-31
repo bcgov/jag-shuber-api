@@ -1,7 +1,13 @@
 import ExpirableDatabaseService from '../infrastructure/ExpirableDatabaseService';
 import { Role } from '../models/Role';
 import { UserRole } from '../models/UserRole';
-import { AutoWired } from 'typescript-ioc';
+import { AutoWired, Container } from 'typescript-ioc';
+
+import { RoleFrontendScopeService } from '../services/RoleFrontendScopeService';
+import { RolePermissionService } from '../services/RolePermissionService';
+import { FrontendScopePermissionService } from '../services/FrontendScopePermissionService';
+import { RoleApiScopeService } from '../services/RoleApiScopeService';
+import { ApiScopeService } from '../services/ApiScopeService';
 
 @AutoWired
 export class UserRoleService extends ExpirableDatabaseService<UserRole> {
@@ -21,5 +27,9 @@ export class UserRoleService extends ExpirableDatabaseService<UserRole> {
 
     constructor() {
         super('app_user_role', 'app_user_role_id');
+    }
+
+    async getByUserId(userId: string) {
+        return await this.getWhereFieldEquals('userId', userId);
     }
 }

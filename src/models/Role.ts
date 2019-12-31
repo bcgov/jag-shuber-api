@@ -1,3 +1,6 @@
+import { RoleFrontendScope } from './RoleFrontendScope';
+import { RoleApiScope } from './RoleApiScope';
+
 export interface Role {
     id?:string; // GUID app_role_id
     roleName?:string; // Human-friendly role name
@@ -9,4 +12,6 @@ export interface Role {
     createdDtm?:string;
     updatedDtm?:string;
     revisionCount?:number;
+    roleFrontendScopes?: RoleFrontendScope[];
+    roleApiScopes?: RoleApiScope[];
 }

@@ -47,6 +47,17 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
 
     abstract get fieldMap(): { [key: string]: string };
 
+    /**
+     * Returns the inverse of fieldMap!
+     */
+    protected get columnMap(): { [key: string]: string } {
+        const fieldMap = this.fieldMap;
+        return Object.keys(fieldMap).reduce((map: any, key: string) => {
+            map[fieldMap[key]] = map[fieldMap[key]] && map[fieldMap[key]].concat(key) || [key];
+            return map;
+        }, {});
+    }
+
     protected async executeQuery<T>(query: string): Promise<T[]> {
         try {
             let result: DatabaseResult<T> = { rows: [] };
@@ -180,6 +191,14 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
         const query = this.getSelectQuery(id);
         const rows = await this.executeQuery<T>(query.toString());
         return rows[0];
+    }
+
+    async getWhereFieldEquals(fieldName: string, value: string | number): Promise<T[]> {
+        const query = this.getSelectQuery()
+            .where(`${this.columnMap[fieldName]}='${value}'`);
+        
+        const rows = await this.executeQuery<T>(query.toString());
+        return rows;
     }
 
     async create(entity: Partial<T>): Promise<T> {
