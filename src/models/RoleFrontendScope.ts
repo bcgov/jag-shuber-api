@@ -1,5 +1,4 @@
-import { RolePermission } from './RolePermission'
-
+import { FrontendScope } from './FrontendScope';
 /**
  * Scoped permissions for the frontend application.
  * This could be re-implemented in a modular fashion if necessary,
@@ -10,7 +9,7 @@ export interface RoleFrontendScope {
     id?:string; // GUID app_role_frontend_scope_id
     roleId?:string; // GUID
     scopeId?:string; // GUID
-    // rolePermissions?:Array<RolePermission | undefined>;
+    scope?: FrontendScope;
     createdBy?:string;
     updatedBy?:string;
     createdDtm?:string;
