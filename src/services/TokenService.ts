@@ -67,11 +67,6 @@ export class TokenService {
             ...tokenPayload
         });
 
-        // console.log(`User [${userId}] token payload`);
-        // console.log(tokenPayload);
-
-        // console.log(`User [${userId}] token`);
-        // console.log(token);
         return token;
     }
 
@@ -142,7 +137,6 @@ export class TokenService {
             return userRoleScopes;
         }, Promise.resolve({}));
 
-        // console.log(scopes);
         return scopes;
     }
 

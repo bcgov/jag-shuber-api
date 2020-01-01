@@ -18,7 +18,7 @@ export const TOKEN_COOKIE_NAME = "app_token";
  */
  export interface Scopes {
     default: 'default',
-    none: 'none'
+    none: 'none',
     admin_users: 'admin:users',
     admin_user_roles: 'admin:user:roles',
     admin_sheriff_leaves: 'admin:sheriff:leaves',
