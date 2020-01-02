@@ -22,7 +22,8 @@ import { RolePermission } from '../models/RolePermission';
 import { FrontendScopePermission } from '../models/FrontendScopePermission';
 import { RoleFrontendScopePermission } from '../models/RoleFrontendScopePermission';
 
-const TEST_USER_ID = 'd9772aab-6e5e-4b41-87b2-3294009e6d28';
+const TEST_USER_ID = 'd9772aab-6e5e-4b41-87b2-3294009e6d28'; // Admin
+// const TEST_USER_ID = 'b1898d19-a3ea-4f05-9491-6ef8c7b21cdd'; // Sheriff
 
 @AutoWired
 export class TokenService {
