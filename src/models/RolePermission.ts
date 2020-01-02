@@ -18,8 +18,6 @@ export interface RolePermission {
     roleFrontendScope?:RoleFrontendScope // TODO: not sure if I need this...
     apiScopePermissionId?:string;
     frontendScopePermissionId?:string;
-    displayName?:string; // TODO: Rip this out!
-    description?:string; // TODO: Rip this out!
     createdBy?:string;
     updatedBy?:string;
     createdDtm?:string;

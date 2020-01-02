@@ -14,8 +14,6 @@ export class RolePermissionService extends DatabaseService<RolePermission> {
         app_role_frontend_scope_id: 'roleFrontendScopeId',
         api_scope_permission_id: 'apiScopePermissionId',
         frontend_scope_permission_id: 'frontendScopePermissionId',
-        display_name: 'displayName', // TODO: Rip this out!
-        description: 'description', // TODO: Rip this out!
         created_by: 'createdBy',
         updated_by: 'updatedBy',
         created_dtm: 'createdDtm',
