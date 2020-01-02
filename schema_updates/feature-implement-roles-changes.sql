@@ -1,68 +1,21 @@
-CREATE TABLE IF NOT EXISTS shersched.app_user (
-	app_user_id uuid NOT NULL,
-	siteminder_id uuid NULL,
-	user_auth_id varchar(32) NULL,
-	display_name varchar(100) NULL,
-	system_account_ind int4 NOT NULL DEFAULT 0,
-	default_location_id uuid NULL,
-	created_by varchar(32) NOT NULL,
-	sheriff_id uuid NULL,
-	updated_by varchar(32) NOT NULL,
-	created_dtm timestamptz NOT NULL,
-	updated_dtm timestamptz NOT NULL,
-	revision_count numeric(10) NOT NULL,
-	CONSTRAINT pk_usr PRIMARY KEY (app_user_id),
-	CONSTRAINT fk_usr_dflocn FOREIGN KEY (default_location_id) REFERENCES shersched.location(location_id),
-	CONSTRAINT fk_usr_shr FOREIGN KEY (sheriff_id) REFERENCES shersched.sheriff(sheriff_id)
-);
+-- changes to table: [api_scope]
+ALTER TABLE shersched.api_scope DROP COLUMN api_scope_string;
+ALTER TABLE shersched.api_scope DROP COLUMN read_only_ind;
+ALTER TABLE shersched.api_scope ADD scope_name varchar(128) NOT NULL AFTER api_scope_id;
+ALTER TABLE shersched.api_scope ADD scope_code varchar(128) NOT NULL AFTER scope_name;
+ALTER TABLE shersched.api_scope ADD system_scope_ind boolean NOT NULL DEFAULT false AFTER scope_code;
 
-ALTER TABLE shersched.app_user OWNER TO shersched;
-GRANT ALL ON TABLE shersched.app_user TO shersched;
-GRANT ALL ON TABLE shersched.app_user TO postgres;
+-- changes to table: [app_role]
+ALTER TABLE shersched.app_role ALTER COLUMN app_role_name varchar(128) NOT NULL;
+ALTER TABLE shersched.app_role ADD COLUMN app_role_code varchar(128) NOT NULL;
 
-CREATE INDEX ix_usr_dflocn ON shersched.app_user USING btree (default_location_id);
-
-CREATE TABLE IF NOT EXISTS shersched.app_role (
-	app_role_id uuid NOT NULL,
-	app_role_name varchar(32) NOT NULL,
-	app_role_code varchar(64) NULL,
-	description varchar(200) NOT NULL,
-	created_by varchar(32) NOT NULL,
-	updated_by varchar(32) NOT NULL,
-	created_dtm timestamptz NOT NULL,
-	updated_dtm timestamptz NOT NULL,
-	revision_count numeric(10) NOT NULL,
-	CONSTRAINT pk_aprl PRIMARY KEY (app_role_id)
-);
-
-ALTER TABLE shersched.app_role OWNER TO shersched;
-GRANT ALL ON TABLE shersched.app_role TO shersched;
-GRANT ALL ON TABLE shersched.app_role TO postgres;
-
-CREATE TABLE IF NOT EXISTS shersched.api_scope (
-    api_scope_id uuid NOT NULL,
-	scope_name varchar(128) NOT NULL,
-	scope_code varchar(128) NOT NULL,
-	system_scope_ind bool NOT NULL DEFAULT false,
-	description varchar(255) NULL,
-	created_by varchar(32) NULL,
-	updated_by varchar(32) NULL,
-	created_dtm timestamptz NOT NULL,
-	updated_dtm timestamptz NOT NULL,
-	revision_count numeric NOT NULL,
-    CONSTRAINT pk_api_scope PRIMARY KEY (api_scope_id)
-);
-
-ALTER TABLE shersched.api_scope OWNER TO shersched;
-GRANT ALL ON TABLE shersched.api_scope TO shersched;
-GRANT ALL ON TABLE shersched.api_scope TO postgres;
-
+-- new table: [frontend_scope]
 CREATE TABLE IF NOT EXISTS shersched.frontend_scope (
     frontend_scope_id uuid NOT NULL,
 	scope_name varchar(128) NOT NULL,
 	scope_code varchar(128) NOT NULL,
 	system_scope_ind bool NOT NULL DEFAULT false,
-	description varchar(255) NULL,
+	description varchar(200) NULL,
 	created_by varchar(32) NULL,
 	updated_by varchar(32) NULL,
 	created_dtm timestamptz NOT NULL,
@@ -75,12 +28,13 @@ ALTER TABLE shersched.frontend_scope OWNER TO shersched;
 GRANT ALL ON TABLE shersched.frontend_scope TO shersched;
 GRANT ALL ON TABLE frontend_scope TO postgres;
 
+-- new table: [frontend_scope_permission]
 CREATE TABLE IF NOT EXISTS shersched.frontend_scope_permission (
     frontend_scope_permission_id uuid NOT NULL,
 	frontend_scope_id uuid NOT NULL,
 	display_name varchar(128) NOT NULL,
 	permission_code varchar(128) NOT NULL,
-	description varchar(255) NULL,
+	description varchar(200) NULL,
 	created_by varchar(32) NULL,
 	updated_by varchar(32) NULL,
 	created_dtm timestamptz NOT NULL,
@@ -94,50 +48,16 @@ ALTER TABLE shersched.frontend_scope_permission OWNER TO shersched;
 GRANT ALL ON TABLE frontend_scope_permission TO shersched;
 GRANT ALL ON TABLE frontend_scope_permission TO postgres;
 
-CREATE TABLE IF NOT EXISTS shersched.app_user_role (
-	app_user_role_id uuid NOT NULL,
-	app_user_id uuid NOT NULL,
-	app_role_id uuid NOT NULL,
-	effective_date date NOT NULL DEFAULT now(),
-	expiry_date date NULL,
-	location_id uuid NULL,
-	created_by varchar(32) NOT NULL,
-	updated_by varchar(32) NOT NULL,
-	created_dtm timestamptz NOT NULL,
-	updated_dtm timestamptz NOT NULL,
-	revision_count numeric(10) NOT NULL,
-	CONSTRAINT pk_apusrl PRIMARY KEY (app_user_role_id),
-	CONSTRAINT fk_apusrl_aprl FOREIGN KEY (app_role_id) REFERENCES shersched.app_role(app_role_id),
-	CONSTRAINT fk_apusrl_locn FOREIGN KEY (location_id) REFERENCES shersched.location(location_id),
-	CONSTRAINT fk_apusrl_usr FOREIGN KEY (app_user_id) REFERENCES shersched.app_user(app_user_id)
-);
+-- drop and recreate constraints for table: [app_role_api_scope]
+ALTER TABLE shersched.app_role_api_scope DROP CONSTRAINT pk_aprlapsc;
+ALTER TABLE shersched.app_role_api_scope DROP CONSTRAINT fk_aprlapsc_aprl;
+ALTER TABLE shersched.app_role_api_scope DROP CONSTRAINT fk_aprlapsc_apsc;
 
-ALTER TABLE shersched.app_user_role OWNER TO shersched;
-GRANT ALL ON TABLE shersched.app_user_role TO shersched;
-GRANT ALL ON TABLE shersched.app_user_role TO postgres;
+ALTER TABLE shersched.app_role_api_scope ADD CONSTRAINT pk_app_role_api_scope PRIMARY KEY (app_role_api_scope_id);
+ALTER TABLE shersched.app_role_api_scope ADD CONSTRAINT fk_app_role FOREIGN KEY (app_role_id) REFERENCES shersched.app_role(app_role_id);
+ALTER TABLE shersched.app_role_api_scope ADD CONSTRAINT fk_api_scope FOREIGN KEY (api_scope_id) REFERENCES shersched.api_scope(api_scope_id);
 
-CREATE INDEX ix_usrl_aprl ON shersched.app_user_role USING btree (app_role_id);
-CREATE INDEX ix_usrl_locn ON shersched.app_user_role USING btree (location_id);
-CREATE INDEX ix_usrl_usr ON shersched.app_user_role USING btree (app_user_id);
-
-CREATE TABLE IF NOT EXISTS shersched.app_role_api_scope (
-    app_role_api_scope_id uuid NOT NULL,
-	app_role_id uuid NOT NULL,
-	api_scope_id uuid NOT NULL,
-	created_by varchar(32) NULL,
-	updated_by varchar(32) NULL,
-	created_dtm timestamptz NOT NULL,
-	updated_dtm timestamptz NOT NULL,
-	revision_count numeric NOT NULL,
-    CONSTRAINT pk_app_role_api_scope PRIMARY KEY (app_role_api_scope_id),
-    CONSTRAINT fk_app_role FOREIGN KEY (app_role_id) REFERENCES shersched.app_role(app_role_id),
-    CONSTRAINT fk_api_scope FOREIGN KEY (api_scope_id) REFERENCES shersched.api_scope(api_scope_id)
-);
-
-ALTER TABLE shersched.app_role_api_scope OWNER TO shersched;
-GRANT ALL ON TABLE shersched.app_role_api_scope TO shersched;
-GRANT ALL ON TABLE shersched.app_role_api_scope TO postgres;
-
+-- new table: [app_role_frontend_scope]
 CREATE TABLE IF NOT EXISTS shersched.app_role_frontend_scope (
     app_role_frontend_scope_id uuid NOT NULL,
 	app_role_id uuid NOT NULL,
@@ -156,6 +76,7 @@ ALTER TABLE shersched.app_role_frontend_scope OWNER TO shersched;
 GRANT ALL ON TABLE app_role_frontend_scope TO shersched;
 GRANT ALL ON TABLE app_role_frontend_scope TO postgres;
 
+-- new table: [app_role_permission]
 CREATE TABLE IF NOT EXISTS shersched.app_role_permission (
     app_role_permission_id uuid NOT NULL,
 	app_role_id uuid NOT NULL,
@@ -179,22 +100,6 @@ ALTER TABLE shersched.app_role_permission OWNER TO shersched;
 GRANT ALL ON TABLE app_role_permission TO shersched;
 GRANT ALL ON TABLE app_role_permission TO postgres;
 
---insert into api_scope () values()
---insert into frontend_scope () values ()
---insert into app_role () values()
---insert into app_role_permissions() values ()
---insert into app_role_frontend_scope () values ()
---insert into app_role_api_scope () values ()
---insert into app_user_role () values()
-
-
--- New stuff
---ALTER TABLE shersched.app_user ALTER COLUMN system_account_ind TYPE bool USING system_account_ind::bool;
---ALTER TABLE shersched.app_user ALTER COLUMN user_auth_id DROP NOT NULL;
--- RUN as superuser
---CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
--- Seed application role scopes
 -- Insert api scopes
 INSERT INTO shersched.api_scope (api_scope_id,scope_name,scope_code,system_scope_ind,description,created_by,updated_by,created_dtm,updated_dtm,revision_count) VALUES 
 ('65f90a7e-b242-4206-adf5-f0a16010d8b6','Admin Sheriff Leaves','admin:sheriff:leaves',false,'Admin Sheriff Leaves','DEV - FRONTEND','DEV - FRONTEND','2019-12-28 23:54:00.385','2019-12-28 23:54:00.385',0)
@@ -362,34 +267,3 @@ INSERT INTO shersched.app_role_permission (app_role_permission_id,app_role_id,ap
 ,('c8466027-8562-4eff-a870-d8a538618914','80294c81-cad7-4e58-ace1-76587d36530e','0130dccc-269f-469f-bdd1-ee3a8548c921',NULL,'d7599834-97be-4279-aa70-96e77715dcde',NULL,'DEV - FRONTEND','DEV - FRONTEND','2020-01-02 00:23:38.507','2020-01-02 00:23:38.507',0)
 ,('db7334cf-a9b9-4cf2-a439-c7737414dbb3','80294c81-cad7-4e58-ace1-76587d36530e','0130dccc-269f-469f-bdd1-ee3a8548c921',NULL,'1a8dd13d-747d-4b64-ae93-81d984cf0f5f',NULL,'DEV - FRONTEND','DEV - FRONTEND','2020-01-02 00:23:38.507','2020-01-02 00:23:38.507',0)
 ;
-
--- Test structure and data --
--- Just a couple queries to make sure things look right
-
--- Test user, roles, scopes & permissions:
-/*
-select au.display_name, ar.app_role_name,
-ar.description, aur.effective_date, l.location_name,
-"fs".scope_name, "fs".scope_code, arp.display_name
-from app_user au
-left join app_user_role aur on (aur.app_user_id = au.app_user_id)
-left join app_role ar on (aur.app_role_id = ar.app_role_id)
-left join "location" l on (aur.location_id = l.location_id)
-left join app_role_frontend_scope arfs on (arfs.app_role_id = ar.app_role_id)
-left join frontend_scope "fs" on ("fs".frontend_scope_id = arfs.frontend_scope_id)
-left join app_role_permission arp on (arfs.app_role_frontend_scope_id = arp.app_role_frontend_scope_id)
-*/
--- Test permissions only
-/*
-select au.display_name, ar.app_role_name,
-ar.description, aur.effective_date, l.location_name,
-"fs".scope_name, "fs".scope_code, arp.display_name
-from app_user au
-left join app_user_role aur on (aur.app_user_id = au.app_user_id)
-left join app_role ar on (aur.app_role_id = ar.app_role_id)
-left join "location" l on (aur.location_id = l.location_id)
-left join app_role_frontend_scope arfs on (arfs.app_role_id = ar.app_role_id)
-left join frontend_scope "fs" on ("fs".frontend_scope_id = arfs.frontend_scope_id)
-right join app_role_permission arp on (arfs.app_role_frontend_scope_id = arp.app_role_frontend_scope_id)
-*/
-
