@@ -167,6 +167,9 @@
     <include file="data/shersched.db.changelog.data.prod-escort_run_add_assignments.xml"/>
     <include file="data/shersched.db.changelog.data.prod-courtroom_run_add_courtrooms.xml"/>
 
+    <!-- Authorization Tables - Admin Module Implementation -->
+    <include file="structure/shersched.db.changelog.table-api_scope_APSC_AuthorizationImpl.xml"/>
+
     <changeSet author="Carol Geisler" id="data_01">
     	<tagDatabase tag="01_AllBaseData"/>
     </changeSet>
