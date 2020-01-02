@@ -63,7 +63,7 @@ export class TokenService {
 
         const token = await createToken({
             scopes: authScopes as Scope[],
-            appScopes: appScopes as { [key: string]: AppScopePermission[] | boolean }[],
+            appScopes: appScopes as { [key: string]: string[] | boolean }[],
             ...tokenPayload
         });
 
@@ -118,14 +118,14 @@ export class TokenService {
             if (ur && ur.roleId) {
                 const role = await roleService.getById(ur.roleId);
                 ur.role = role;
-                const roleScopes: { [key: string]: AppScopePermission[] }[] = (ur.role && ur.role.roleFrontendScopes) 
+                const roleScopes: { [key: string]: string[] }[] = (ur.role && ur.role.roleFrontendScopes) 
                     ?  await ur.role.roleFrontendScopes
-                        .reduce(async (asyncScopeCodes: Promise<AppScopePermission[]>, cur: RoleFrontendScope) => {
+                        .reduce(async (asyncScopeCodes: Promise<string[]>, cur: RoleFrontendScope) => {
                             let scopeCodes = await asyncScopeCodes;
 
                             if (cur.scope && cur.scope.scopeCode) {
                                 const permissions = await this.buildRoleFrontendScopePermissions(cur, cur.scope)
-                                scopeCodes[cur.scope.scopeCode as string] = (permissions.length > 0) ? permissions : true;
+                                scopeCodes[cur.scope.scopeCode as string] = (permissions instanceof Array && permissions.length > 0) ? permissions : true;
                             }
                             return scopeCodes;
                         }, Promise.resolve([]))
@@ -144,27 +144,23 @@ export class TokenService {
     /** 
      * Build out the permissions configuration for a given role scope.
      */
-    private async buildRoleFrontendScopePermissions(roleFrontendScope: RoleFrontendScope, currentScope: FrontendScope): Promise<AppScopePermission[]> {
+    private async buildRoleFrontendScopePermissions(roleFrontendScope: RoleFrontendScope, currentScope: FrontendScope): Promise<string[] | boolean> {
         const scopePermissionService = Container.get(FrontendScopePermissionService);
         const rolePermissionService = Container.get(RolePermissionService);
     
         const scopePermissions = await scopePermissionService.getByScopeId(currentScope.id);
         const assignedPermissions = await rolePermissionService.getByRoleFrontendScopeId(roleFrontendScope.id);
 
-        return scopePermissions.map((fsp: FrontendScopePermission): AppScopePermission => {
-            let roleScopePermission = assignedPermissions.find((ap) => ap.frontendScopePermissionId === fsp.id);
+        // If there are no scope permissions for a given scope, just grant access to the scope
+        if (scopePermissions.length === 0) {
+            return true;
+        }
 
-            let hasPermission = false;
-            if (roleScopePermission && roleScopePermission.id) {
-                hasPermission = true;
-            }
-
-            const result = {
-                permissionCode: fsp.permissionCode,
-                hasPermission
-            } as AppScopePermission;
-
-            return result;
-        });
+        return scopePermissions
+            .map((fsp: FrontendScopePermission) => {
+                const roleScopePermission = assignedPermissions.find((ap) => ap.frontendScopePermissionId === fsp.id);
+                return (roleScopePermission) ? fsp.permissionCode : undefined;
+            })
+            .filter(fsp => fsp !== undefined);
     }
 }
