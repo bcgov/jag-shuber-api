@@ -1,13 +1,13 @@
 -- changes to table: [api_scope]
 ALTER TABLE shersched.api_scope DROP COLUMN api_scope_string;
 ALTER TABLE shersched.api_scope DROP COLUMN read_only_ind;
-ALTER TABLE shersched.api_scope ADD scope_name varchar(128) NOT NULL AFTER api_scope_id;
-ALTER TABLE shersched.api_scope ADD scope_code varchar(128) NOT NULL AFTER scope_name;
-ALTER TABLE shersched.api_scope ADD system_scope_ind boolean NOT NULL DEFAULT false AFTER scope_code;
+ALTER TABLE shersched.api_scope ADD scope_name varchar(128) NOT NULL;
+ALTER TABLE shersched.api_scope ADD scope_code varchar(128) NOT NULL;
+ALTER TABLE shersched.api_scope ADD system_scope_ind boolean NOT NULL DEFAULT false;
 
 -- changes to table: [app_role]
 ALTER TABLE shersched.app_role ALTER COLUMN app_role_name varchar(128) NOT NULL;
-ALTER TABLE shersched.app_role ADD COLUMN app_role_code varchar(128) NOT NULL;
+ALTER TABLE shersched.app_role ADD app_role_code varchar(128) NOT NULL;
 
 -- new table: [frontend_scope]
 CREATE TABLE IF NOT EXISTS shersched.frontend_scope (
