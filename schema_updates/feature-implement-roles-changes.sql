@@ -1,3 +1,6 @@
+-- changes to table: [app_user]
+ALTER TABLE shersched.app_user ALTER COLUMN user_auth_id DROP NOT NULL;
+
 -- changes to table: [api_scope]
 ALTER TABLE shersched.api_scope DROP COLUMN api_scope_string;
 ALTER TABLE shersched.api_scope DROP COLUMN read_only_ind;
