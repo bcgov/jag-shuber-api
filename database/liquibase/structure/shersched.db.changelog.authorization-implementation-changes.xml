@@ -7,7 +7,7 @@
       <!-- ALTER app_role table -->
       <addColumn catalogName="${POSTGRES_CATALOG}"
             schemaName="${POSTGRES_SCHEMA}"
-            tableName="api_role">
+            tableName="app_role">
         <column name="app_role_code" type="varchar(64)"/>
       </addColumn>
     </changeSet>
