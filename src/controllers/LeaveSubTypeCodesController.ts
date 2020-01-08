@@ -40,16 +40,8 @@ export class LeaveSubTypeCodesController extends ControllerBase<LeaveSubCode, Le
         return this.service.expire(id);
     }
 
-    
-    /**
-     * @deprecated Use expireLeaveSubCode Instead
-     *
-     * @param {string} id
-     * @returns
-     * @memberof LeaveSubCodeController
-     */
     @Delete('{id}')
-    public deleteLeaveSubCode(@Path() id: string, @Request() request: KoaRequest) {
-        // request.ctx.throw(ERROR_DEPRECATED_DELETE_ASSIGNMENT,410);
+    public deleteLeaveSubCode(@Path() id: string) {
+        return this.service.expire(id);
     }
 }

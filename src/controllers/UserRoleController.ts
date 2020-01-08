@@ -19,7 +19,7 @@ export class UserRoleController extends ControllerBase<any, UserRoleService> {
 
     @Get()
     public getUserRoles(@Query() locationId?: string, @Query() startDate?: string, @Query() endDate?: string) {
-        return this.service.getAll(locationId, { startDate, endDate });
+        return this.service.getAll(undefined, { startDate, endDate });
     }
 
     @Get('{id}')
