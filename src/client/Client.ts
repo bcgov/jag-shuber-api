@@ -989,9 +989,46 @@ export default class Client {
             return response;
         });
     }    
-    public async GetLeaveSubCodes():Promise<Array<LeaveSubCode>>{
+    public async GetLeaveSubCodes( startDate:string , endDate:string ):Promise<Array<LeaveSubCode>>{
+        const params = { 
+            "startDate":startDate,
+            "endDate":endDate 
+        };
         return this.tryRequest<Array<LeaveSubCode>>(async () => {
             const response: superAgent.Response = await this.agent.get(`/codes/leave-sub-type`)
+                .query(params)
+            return response;
+        });
+    }    
+    public async CreateLeaveSubCode( model:LeaveSubCode ):Promise<LeaveSubCode>{
+        return this.tryRequest<LeaveSubCode>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/codes/leave-sub-type`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async GetLeaveSubCodeById( id:string ):Promise<LeaveSubCode>{
+        return this.tryRequest<LeaveSubCode>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/codes/leave-sub-type/${id}`)
+            return response;
+        });
+    }    
+    public async UpdateLeaveSubCode( id:string , model:LeaveSubCode ):Promise<LeaveSubCode>{
+        return this.tryRequest<LeaveSubCode>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/codes/leave-sub-type/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async ExpireLeaveSubCode( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/codes/leave-sub-type/${id}`)
+            return response;
+        });
+    }    
+    public async DeleteLeaveSubCode( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/codes/leave-sub-type/${id}`)
             return response;
         });
     }    
