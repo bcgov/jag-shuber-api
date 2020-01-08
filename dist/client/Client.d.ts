@@ -81,12 +81,12 @@ export default class Client {
     DeleteUser(id: string): Promise<void>;
     GenerateUsersForSheriffs(): Promise<void>;
     GetCurrentUserRoles(): Promise<Array<any>>;
-    GetUserRoles(): Promise<Array<any>>;
+    GetUserRoles(locationId: string, startDate: string, endDate: string): Promise<Array<UserRole>>;
     CreateUserRole(model: UserRole): Promise<any>;
     GetUserRoleById(id: string): Promise<any>;
     UpdateUserRole(id: string, model: UserRole): Promise<any>;
     DeleteUserRole(id: string): Promise<void>;
-    ExpireUserRole(id: string, model: UserRole): Promise<any>;
+    ExpireUserRole(id: string): Promise<void>;
     GetRoles(): Promise<Array<any>>;
     CreateRole(model: Role): Promise<any>;
     GetRoleById(id: string): Promise<any>;
@@ -189,7 +189,12 @@ export default class Client {
     DeleteLeave(id: string): Promise<void>;
     GetLeaveCancelReasonCodes(): Promise<Array<LeaveCancelReasonCode>>;
     GetLeaveTypes(): Promise<Array<LeaveCode>>;
-    GetLeaveSubCodes(): Promise<Array<LeaveSubCode>>;
+    GetLeaveSubCodes(startDate: string, endDate: string): Promise<Array<LeaveSubCode>>;
+    CreateLeaveSubCode(model: LeaveSubCode): Promise<LeaveSubCode>;
+    GetLeaveSubCodeById(id: string): Promise<LeaveSubCode>;
+    UpdateLeaveSubCode(id: string, model: LeaveSubCode): Promise<LeaveSubCode>;
+    ExpireLeaveSubCode(id: string): Promise<void>;
+    DeleteLeaveSubCode(id: string): Promise<void>;
     GetCourtRoleCodes(): Promise<Array<CourtRoleCode>>;
     GetGenderCodes(): Promise<Array<GenderCode>>;
 }

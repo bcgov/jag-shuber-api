@@ -18,23 +18,23 @@ export class UserRoleController extends ControllerBase<any, UserRoleService> {
     }
 
     @Get()
-    public getUserRoles(){
-        return super.getAll();
+    public getUserRoles(@Query() locationId?: string, @Query() startDate?: string, @Query() endDate?: string) {
+        return this.service.getAll(undefined, { startDate, endDate });
     }
 
     @Get('{id}')
-    public getUserRoleById(id: string){
+    public getUserRoleById(id: string) {
         return super.getById(id);
     }
 
     @Post()
-    public createUserRole(@Body() model: UserRole){
+    public createUserRole(@Body() model: UserRole) {
         return super.create(model);
     }
 
     @Post('{id}/expire')
-    public expireUserRole(@Path() id:string, @Body() model: UserRole){
-        return super.update(id, model);
+    public expireUserRole(@Path() id:string) {
+        return this.service.expire(id);
     }
 
     @Put('{id}')
@@ -43,7 +43,7 @@ export class UserRoleController extends ControllerBase<any, UserRoleService> {
     }
 
     @Delete('{id}')
-    public deleteUserRole(@Path() id:string){
+    public deleteUserRole(@Path() id:string) {
         return super.delete(id);
     }
 }

@@ -47,7 +47,7 @@ export interface TokenPayload {
     type?: string;
     scopes?: Scope[];
     appScopes?: {
-        [key: string]: AppScopePermission[] | boolean;
+        [key: string]: string[] | boolean;
     }[];
 }
 /**
