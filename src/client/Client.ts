@@ -260,9 +260,15 @@ export default class Client {
             return response;
         });
     }    
-    public async GetUserRoles():Promise<Array<any>>{
-        return this.tryRequest<Array<any>>(async () => {
+    public async GetUserRoles( locationId:string , startDate:string , endDate:string ):Promise<Array<UserRole>>{
+        const params = { 
+            "locationId":locationId,
+            "startDate":startDate,
+            "endDate":endDate 
+        };
+        return this.tryRequest<Array<UserRole>>(async () => {
             const response: superAgent.Response = await this.agent.get(`/UserRole`)
+                .query(params)
             return response;
         });
     }    

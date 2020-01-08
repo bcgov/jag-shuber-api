@@ -23,12 +23,12 @@ export class UserRoleController extends ControllerBase<any, UserRoleService> {
     }
 
     @Get('{id}')
-    public getUserRoleById(id: string){
+    public getUserRoleById(id: string) {
         return super.getById(id);
     }
 
     @Post()
-    public createUserRole(@Body() model: UserRole){
+    public createUserRole(@Body() model: UserRole) {
         return super.create(model);
     }
 
@@ -43,7 +43,7 @@ export class UserRoleController extends ControllerBase<any, UserRoleService> {
     }
 
     @Delete('{id}')
-    public deleteUserRole(@Path() id:string){
+    public deleteUserRole(@Path() id:string) {
         return super.delete(id);
     }
 }

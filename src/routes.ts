@@ -712,6 +712,9 @@ export function RegisterRoutes(router: any) {
         authenticateMiddleware([{ "name": "jwt", "scopes": ["admin:users", "admin:user:roles"] }]),
         async (context, next) => {
             const args = {
+                locationId: { "in": "query", "name": "locationId", "dataType": "string" },
+                startDate: { "in": "query", "name": "startDate", "dataType": "string" },
+                endDate: { "in": "query", "name": "endDate", "dataType": "string" },
             };
 
             let validatedArgs: any[] = [];

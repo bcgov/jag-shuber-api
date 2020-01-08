@@ -81,7 +81,7 @@ export default class Client {
     DeleteUser(id: string): Promise<void>;
     GenerateUsersForSheriffs(): Promise<void>;
     GetCurrentUserRoles(): Promise<Array<any>>;
-    GetUserRoles(): Promise<Array<any>>;
+    GetUserRoles(locationId: string, startDate: string, endDate: string): Promise<Array<UserRole>>;
     CreateUserRole(model: UserRole): Promise<any>;
     GetUserRoleById(id: string): Promise<any>;
     UpdateUserRole(id: string, model: UserRole): Promise<any>;
