@@ -86,7 +86,7 @@ export default class Client {
     GetUserRoleById(id: string): Promise<any>;
     UpdateUserRole(id: string, model: UserRole): Promise<any>;
     DeleteUserRole(id: string): Promise<void>;
-    ExpireUserRole(id: string, model: UserRole): Promise<any>;
+    ExpireUserRole(id: string): Promise<void>;
     GetRoles(): Promise<Array<any>>;
     CreateRole(model: Role): Promise<any>;
     GetRoleById(id: string): Promise<any>;

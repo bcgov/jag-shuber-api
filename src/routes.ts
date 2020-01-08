@@ -185,8 +185,6 @@ const models: TsoaRoute.Models = {
             "roleFrontendScope": { "ref": "RoleFrontendScope" },
             "apiScopePermissionId": { "dataType": "string" },
             "frontendScopePermissionId": { "dataType": "string" },
-            "displayName": { "dataType": "string" },
-            "description": { "dataType": "string" },
             "createdBy": { "dataType": "string" },
             "updatedBy": { "dataType": "string" },
             "createdDtm": { "dataType": "string" },
@@ -795,7 +793,6 @@ export function RegisterRoutes(router: any) {
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
-                model: { "in": "body", "name": "model", "required": true, "ref": "UserRole" },
             };
 
             let validatedArgs: any[] = [];

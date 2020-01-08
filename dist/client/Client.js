@@ -516,7 +516,7 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.ExpireUserRole = function (id, model) {
+    Client.prototype.ExpireUserRole = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
@@ -524,8 +524,7 @@ var Client = /** @class */ (function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.post("/UserRole/" + id + "/expire")
-                                        .send(model)];
+                                case 0: return [4 /*yield*/, this.agent.post("/UserRole/" + id + "/expire")];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];

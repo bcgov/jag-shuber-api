@@ -292,10 +292,9 @@ export default class Client {
             return response;
         });
     }    
-    public async ExpireUserRole( id:string , model:UserRole ):Promise<any>{
-        return this.tryRequest<any>(async () => {
+    public async ExpireUserRole( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
             const response: superAgent.Response = await this.agent.post(`/UserRole/${id}/expire`)
-                .send(model)
             return response;
         });
     }    

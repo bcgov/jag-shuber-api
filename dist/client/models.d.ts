@@ -108,8 +108,6 @@ export interface RolePermission {
     roleFrontendScope?: RoleFrontendScope;
     apiScopePermissionId?: string;
     frontendScopePermissionId?: string;
-    displayName?: string;
-    description?: string;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;

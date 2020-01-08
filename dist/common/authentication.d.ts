@@ -1,4 +1,3 @@
-import { AppScopePermission } from '../models/AppScope';
 export declare const SITEMINDER_AUTH_ERROR: Error;
 export declare const JWT_AUTH_ERROR: Error;
 export declare const SITEMINDER_HEADER_USERGUID = "smgov_userguid";
@@ -47,7 +46,7 @@ export interface TokenPayload {
     type?: string;
     scopes?: Scope[];
     appScopes?: {
-        [key: string]: AppScopePermission[] | boolean;
+        [key: string]: string[] | boolean;
     }[];
 }
 /**

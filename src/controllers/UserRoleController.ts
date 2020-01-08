@@ -33,8 +33,8 @@ export class UserRoleController extends ControllerBase<any, UserRoleService> {
     }
 
     @Post('{id}/expire')
-    public expireUserRole(@Path() id:string, @Body() model: UserRole){
-        return super.update(id, model);
+    public expireUserRole(@Path() id:string) {
+        return this.service.expire(id);
     }
 
     @Put('{id}')
