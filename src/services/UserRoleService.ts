@@ -1,13 +1,7 @@
-import ExpirableDatabaseService from '../infrastructure/ExpirableDatabaseService';
-import { Role } from '../models/Role';
-import { UserRole } from '../models/UserRole';
 import { AutoWired, Container } from 'typescript-ioc';
+import ExpirableDatabaseService, { EffectiveQueryOptions } from '../infrastructure/ExpirableDatabaseService';
 
-import { RoleFrontendScopeService } from '../services/RoleFrontendScopeService';
-import { RolePermissionService } from '../services/RolePermissionService';
-import { FrontendScopePermissionService } from '../services/FrontendScopePermissionService';
-import { RoleApiScopeService } from '../services/RoleApiScopeService';
-import { ApiScopeService } from '../services/ApiScopeService';
+import { UserRole } from '../models/UserRole';
 
 @AutoWired
 export class UserRoleService extends ExpirableDatabaseService<UserRole> {
@@ -27,6 +21,17 @@ export class UserRoleService extends ExpirableDatabaseService<UserRole> {
 
     constructor() {
         super('app_user_role', 'app_user_role_id');
+    }
+
+    async getAll(locationId?: string, options?: EffectiveQueryOptions): Promise<UserRole[]> {
+        const query = super.getEffectiveSelectQuery(options);
+
+        if (locationId) {
+            query.where(`location_id='${locationId}'`);
+        };
+    
+        const rows = await this.executeQuery<UserRole>(query.toString());
+        return rows;    
     }
 
     async getByUserId(userId: string) {
