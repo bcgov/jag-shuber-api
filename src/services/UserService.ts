@@ -1,3 +1,4 @@
+import { TokenPayload } from '../common/authentication';
 import { DatabaseService } from '../infrastructure/DatabaseService';
 import { SheriffService } from './SheriffService';
 import { User } from '../models/User';
@@ -19,6 +20,8 @@ export class UserService extends DatabaseService<User> {
     // TODO: Some of these fields are covered in the base classes
     fieldMap = {
         app_user_id: 'id',
+        siteminder_id: 'siteminderId',
+        user_auth_id: 'userAuthId',
         display_name: 'displayName',
         default_location_id: 'defaultLocationId',
         system_account_ind: 'systemAccountInd',
@@ -164,6 +167,23 @@ export class UserService extends DatabaseService<User> {
         const query = this.getSelectQuery()
             .where(`sheriff_id='${sheriffId}'`)
             .limit(1);
+
+        const rows = await this.executeQuery<User>(query.toString());
+        return rows[0];
+    }
+
+    async getByToken(tokenPayload: TokenPayload) {
+        const {  guid, userId, type } = tokenPayload;
+
+        const userService = Container.get(UserService);
+
+        let query = userService.getSelectQuery()
+            
+        // Siteminder ID may be NULL or undefined in the token ONLY if in DEV env, with the siteminder
+        // security definition on TokenController.getToken disabled (which allows us to debug the backend app)
+        query = (guid) ? query.where(`siteminder_id='${guid}'`) : query; // TODO: Why does this extra NULL check not work? query.where(`siteminder_id=NULL`)
+        query = (userId) ? query.where(`user_auth_id='${userId}'`): query;
+        query = query.limit(1);
 
         const rows = await this.executeQuery<User>(query.toString());
         return rows[0];

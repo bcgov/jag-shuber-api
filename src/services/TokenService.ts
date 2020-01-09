@@ -1,3 +1,4 @@
+import moment from 'moment';
 import { createToken } from '../infrastructure/token';
 import { TokenPayload } from '../common/authentication';
 import { AutoWired, Container } from 'typescript-ioc';
@@ -13,6 +14,7 @@ import { RolePermissionService } from './RolePermissionService';
 import { Scope, Scopes } from '../common/authentication'
 
 import { AppScopePermission } from '../models/AppScope';
+import { User } from '../models/User';
 import { UserRole } from '../models/UserRole';
 import { RoleFrontendScope } from '../models/RoleFrontendScope';
 import { RoleApiScope } from '../models/RoleApiScope';
@@ -22,44 +24,86 @@ import { RolePermission } from '../models/RolePermission';
 import { FrontendScopePermission } from '../models/FrontendScopePermission';
 import { RoleFrontendScopePermission } from '../models/RoleFrontendScopePermission';
 
-const TEST_USER_ID = 'd9772aab-6e5e-4b41-87b2-3294009e6d28'; // Admin
-// const TEST_USER_ID = 'b1898d19-a3ea-4f05-9491-6ef8c7b21cdd'; // Sheriff
+const SA_USER_IDS = ['d728E4B78FFFC489DBCE916BEC8A0E2BC']; // Super-Admin Siteminder User IDs
+// TODO: Get these from env vars
+const TEST_USER_AUTH_ID = 'TESTUSR'; // Admin (Test User)
 
 @AutoWired
 export class TokenService {
-    async generateToken(tokenPayload: TokenPayload): Promise<any> {
-        // Token payload is the request's user object
-        // We don't care what that is right now just hard code in a user for now
-        // userId is for 'Test User'
-        const userId = (tokenPayload && tokenPayload.userId) 
-            ? tokenPayload.userId 
-            : TEST_USER_ID;  // Test User ID
-
-        const apiScopeService = Container.get(ApiScopeService);
-
-        if (!tokenPayload || (tokenPayload.userId !== TEST_USER_ID)) {
-            console.log('-----------------------------------------------------------------------------------------------------------');
-            console.log(`Notice! No siteminder user detected, granting all roles to Test User [${TEST_USER_ID}]`);
-            console.log('-----------------------------------------------------------------------------------------------------------');
+    private async getOrCreateTestUser(): Promise<User | undefined> {
+        // No admin user was found using the token, check to see if the test user account exists
+        console.log(`Check to see if the test user account exists`);
+        const userService = Container.get(UserService);
+        let user = await userService.getByToken({ siteminderId: null, userId: TEST_USER_AUTH_ID });
+        if (!user) {
+            console.log(`Could not find the test user account - creating a new test account.`);
+            user = await userService.create({
+                displayName: 'Test User',
+                siteminderId: null, // Ignore, we won't have one
+                userAuthId: 'TESTUSR', // 7 chars, same as IDIR
+                defaultLocationId: '65b2e8fb-0d64-4f63-853c-76d8d359760e', // GUID Set a default location for the user
+                systemAccountInd: 0, // Is the user a system user
+                sheriffId: null, // If the user is a sheriff, this needs to be populated
+                createdBy: 'SYSTEM',
+                updatedBy: 'SYSTEM',
+                createdDtm: moment(new Date()).toISOString(),
+                updatedDtm: moment(new Date()).toISOString(),
+                revisionCount:0
+            } as User);
+            console.log(`Using user account: ${user.displayName} [${user.id}]`);
         }
 
-        let authScopes;
+        return user;
+    }
+
+    async generateToken(tokenPayload: TokenPayload): Promise<any> {
+        // Token payload is the request's user object
+        // We don't care what that is right now just hard code 
+        // in a user for now userId is for 'Test User'
+        const isDev = true; // TODO: Use ENV VAR
+        const userService = Container.get(UserService);
+        let user;
         
-        if (tokenPayload && tokenPayload.userId) {
-            authScopes = await this.buildUserAuthScopes(userId)
+        if (!isDev) {
+            if (!(tokenPayload && tokenPayload.userId)) {
+                throw `No siteminder token provided.`;
+            }
+
+            user = await userService.getByToken(tokenPayload);
         } else {
+            // We need this if siteminder is disabled as the security on the TokenController
+            if (!(tokenPayload && tokenPayload.userId)) {
+                console.warn(`No siteminder token provided. In production this will throw an error. The message you're seeing is because you're in dev.`);
+                user = await this.getOrCreateTestUser();
+            } else {
+                user = await userService.getByToken(tokenPayload);
+            }
+        }
+
+        if (!user) throw `No user found, cannot continue, exiting.`;
+
+        const apiScopeService = Container.get(ApiScopeService);
+        const frontendScopeService = Container.get(FrontendScopeService);
+        
+        let authScopes;
+        let appScopes;
+
+        if (!isDev) {
+            authScopes = await this.buildUserAuthScopes(user.id);
+            appScopes = await this.buildUserAppScopes(user.id);
+        } else {
+            // Grant all to dev user
             authScopes = await apiScopeService.getAll();
             authScopes = authScopes.reduce((scopes, scope) => {
                 scopes.push(scope.scopeCode as Scope); 
                 return scopes;
             }, ['default'] as Scope[]);
-        }
-
-        const appScopes = await this.buildUserAppScopes(userId);
-        if (!tokenPayload || (tokenPayload.userId !== TEST_USER_ID)) {
-            console.log(`Test User [${TEST_USER_ID}] OAuth scopes`);
-            console.log(authScopes);
-            console.log(appScopes);
+            // Grant all to dev user
+            appScopes = await frontendScopeService.getAll();
+            appScopes = appScopes.reduce((scopes, scope) => {
+                scopes[scope.scopeCode] = true; 
+                return scopes;
+            }, {} as { [key: string]: any });
         }
 
         const token = await createToken({
