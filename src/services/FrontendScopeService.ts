@@ -21,4 +21,12 @@ export class FrontendScopeService extends DatabaseService<FrontendScope> {
         super('frontend_scope', 'frontend_scope_id');
     }
 
+    async getByScopeCode(code: string) {
+        const query = this.getSelectQuery()
+            .where(`scope_code='${code}'`)
+            .limit(1);
+
+        const rows = await this.executeQuery<FrontendScope>(query.toString());
+        return rows[0];
+    }
 }

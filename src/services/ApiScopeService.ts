@@ -20,4 +20,13 @@ export class ApiScopeService extends DatabaseService<ApiScope> {
     constructor() {
         super('api_scope', 'api_scope_id');
     }
+
+    async getByScopeCode(code: string) {
+        const query = this.getSelectQuery()
+            .where(`scope_code='${code}'`)
+            .limit(1);
+
+        const rows = await this.executeQuery<ApiScope>(query.toString());
+        return rows[0];
+    }
 }
