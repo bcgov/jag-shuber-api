@@ -5,10 +5,10 @@ import { AutoWired, Container } from 'typescript-ioc';
 
 import { ApiScopeService } from './ApiScopeService';
 import { FrontendScopeService } from './FrontendScopeService';
-import { FrontendScopePermissionService } from '../services/FrontendScopePermissionService';
-import { UserService } from '../services/UserService';
-import { UserRoleService } from '../services/UserRoleService';
-import { RoleService } from '../services/RoleService';
+import { FrontendScopePermissionService } from './FrontendScopePermissionService';
+import { UserService } from './UserService';
+import { UserRoleService } from './UserRoleService';
+import { RoleService } from './RoleService';
 import { RolePermissionService } from './RolePermissionService';
 
 import { Scope, Scopes } from '../common/authentication'
@@ -24,446 +24,33 @@ import { RolePermission } from '../models/RolePermission';
 import { FrontendScopePermission } from '../models/FrontendScopePermission';
 import { RoleFrontendScopePermission } from '../models/RoleFrontendScopePermission';
 
-const SA_USER_IDS = ['d728E4B78FFFC489DBCE916BEC8A0E2BC']; // Super-Admin Siteminder User IDs
-// TODO: Get these from env vars
-const TEST_USER_AUTH_ID = 'TESTUSR'; // Admin (Test User)
-
-const createdDtm = moment(new Date()).toISOString();
-const updatedDtm = moment(new Date()).toISOString();
-const SYSTEM_USER = 'SYSTEM';
-const createdBy = SYSTEM_USER;
-const updatedBy = SYSTEM_USER;
-
 /**
- * IMPORTANT! These scopes MUST EXIST IN THE SYSTEM FOR ROLES IMPLEMENTATION TO FUNCTION.
- * DO NOT REMOVE!
+ * Import the default system scopes configuration. These scopes, which are embedded in the user token, are required by the
+ * frontend application and control which plugins, parts of the user interface, and which APIs a user can have access to.
  */
-const apiScopeData = [
-    {
-        scopeName: 'Admin Sheriff Leaves', // Human-friendly scope name
-        scopeCode: 'admin:sheriff:leaves', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Admin Sheriff Locations', // Human-friendly scope name
-        scopeCode: 'admin:sheriff:locations', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Admin Sheriff Training', // Human-friendly scope name
-        scopeCode: 'admin:sheriff:training', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Admin User Roles', // Human-friendly scope name
-        scopeCode: 'admin:user:roles', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Admin Users', // Human-friendly scope name
-        scopeCode: 'admin:users', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Add Sheriffs', // Human-friendly scope name
-        scopeCode: 'sheriffs:add', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Deactivate Sheriffs', // Human-friendly scope name
-        scopeCode: 'sheriffs:deactivate', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Delete Sheriffs', // Human-friendly scope name
-        scopeCode: 'sheriffs:delete', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Edit Sheriffs', // Human-friendly scope name
-        scopeCode: 'sheriffs:edit', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'View + Search Sheriffs', // Human-friendly scope name
-        scopeCode: 'sheriffs:view', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'System Locations', // Human-friendly scope name
-        scopeCode: 'system:locations', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'System API Scopes', // Human-friendly scope name
-        scopeCode: 'system:scopes:api', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'System UI Components', // Human-friendly scope name
-        scopeCode: 'system:scopes:ui', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'System Assignment Types', // Human-friendly scope name
-        scopeCode: 'system:types:assignments', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'System Leave Types', // Human-friendly scope name
-        scopeCode: 'system:types:leaves', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'System Training Types', // Human-friendly scope name
-        scopeCode: 'system:types:training', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    }
-];
+import { defaultFrontendScopes, defaultApiScopes } from '../common/systemScopes';
 
-/**
- * IMPORTANT! These scopes MUST EXIST IN THE SYSTEM FOR ROLES IMPLEMENTATION TO FUNCTION.
- * DO NOT REMOVE!
- */
-const frontendScopeData = [
-    {
-        scopeName: 'Admin Users Page', // Human-friendly scope name
-        scopeCode: 'ADMIN_PAGE_USERS', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Admin API Scopes Plugin', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_API_SCOPES', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Admin Courtrooms Plugin', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_COURTROOMS', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Admin Frontend Scopes Plugin', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_FRONTEND_SCOPES', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Admin Leave Types Plugin', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_LEAVE_TYPES', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Admin Locations Plugin', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_LOCATIONS', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Admin Roles Plugin', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_ROLES', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Admin Training Types Plugin', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Admin User Roles Plugin', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_USER_ROLES', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Sheriff Profile Identification Plugin', // Human-friendly scope name
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_IDENT', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Sheriff Profile Leaves Plugin', // Human-friendly scope name
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_LEAVES', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Sheriff Profile Location Plugin', // Human-friendly scope name
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_LOCATION', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Sheriff Profile Roles Plugin', // Human-friendly scope name
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_ROLES', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Sheriff Profile Training Plugin', // Human-friendly scope name
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_TRAINING', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    }
-];
+import {
+    SA_SITEMINDER_ID, SA_AUTH_ID,
+    DEV_SA_SITEMINDER_ID, DEV_SA_AUTH_ID,
+    TEST_USER_AUTH_ID, TEST_USER_DISPLAY_NAME,
+    SYSTEM_USER_DISPLAY_NAME
+} from '../common/authentication';
 
 @AutoWired
 export class TokenService {
-    private async getOrCreateTestUser(): Promise<User | undefined> {
-        // No admin user was found using the token, check to see if the test user account exists
-        console.log(`Check to see if the test user account exists`);
-        const userService = Container.get(UserService);
-        let user = await userService.getByToken({ siteminderId: null, userId: TEST_USER_AUTH_ID });
-        if (!user) {
-            console.log(`Could not find the test user account - creating a new test account.`);
-            user = await userService.create({
-                displayName: 'Test User',
-                siteminderId: null, // Ignore, we won't have one
-                userAuthId: 'TESTUSR', // 7 chars, same as IDIR
-                defaultLocationId: '65b2e8fb-0d64-4f63-853c-76d8d359760e', // GUID Set a default location for the user
-                systemAccountInd: 0, // Is the user a system user
-                sheriffId: null, // If the user is a sheriff, this needs to be populated
-                createdBy: 'SYSTEM',
-                updatedBy: 'SYSTEM',
-                createdDtm: moment(new Date()).toISOString(),
-                updatedDtm: moment(new Date()).toISOString(),
-                revisionCount:0
-            } as User);
-            console.log(`Using user account: ${user.displayName} [${user.id}]`);
-        }
-
-        return user;
-    }
-
-    private async getOrCreateSiteminderAuthorizedTestUser(tokenPayload: TokenPayload): Promise<User | undefined> {
-        // No admin user was found using the token, check to see if the test user account exists
-        console.log(`Check to see if the test user account exists`);
-        const userService = Container.get(UserService);
-        let user = await userService.getByToken(tokenPayload);
-        if (!user) {
-            console.log(`Could not find the test user's account - creating a new test account.`);
-            user = await userService.create({
-                displayName: tokenPayload.displayName,
-                siteminderId: tokenPayload.guid,
-                userAuthId: tokenPayload.userId,
-                defaultLocationId: '65b2e8fb-0d64-4f63-853c-76d8d359760e', // GUID Set a default location for the user
-                systemAccountInd: 0, // Is the user a system user
-                sheriffId: null, // If the user is a sheriff, this needs to be populated
-                createdBy: 'SYSTEM',
-                updatedBy: 'SYSTEM',
-                createdDtm: moment(new Date()).toISOString(),
-                updatedDtm: moment(new Date()).toISOString(),
-                revisionCount:0
-            } as User);
-            
-        }
-
-        console.log(`Using test user account: ${user.displayName} [${user.id}]`);
-        console.log(user);
-        return user;
-    }
-
-    async generateApiScopes() {
-        const scopeService = Container.get(ApiScopeService);
-        const ops = apiScopeData.map(async (scope) => {
-            if (!(await scopeService.getByScopeCode(scope.scopeCode))) {
-                return await scopeService.create(scope);
-            }
-        })
-
-        await Promise.all(ops);
-    }
-
-    async generateFrontendScopes() {
-        const scopeService = Container.get(FrontendScopeService);
-        const ops = frontendScopeData.map(async (scope) => {
-            if (!(await scopeService.getByScopeCode(scope.scopeCode))) {
-                return await scopeService.create(scope);
-            }
-        })
-
-        await Promise.all(ops);
-    }
-
+    /**
+     * Generates and configures the JSON Web Token that is passed to the frontend application.
+     * @param tokenPayload
+     */
     async generateToken(tokenPayload: TokenPayload): Promise<any> {
         // Token payload is the request's user object
-        // We don't care what that is right now just hard code 
+        // We don't care what that is right now just hard code
         // in a user for now userId is for 'Test User'
         const isDev = true; // TODO: Use ENV VAR
         const userService = Container.get(UserService);
         let user;
-        
+
         if (!isDev) {
             if (!(tokenPayload && tokenPayload.userId)) {
                 throw `No siteminder token provided.`;
@@ -479,10 +66,10 @@ export class TokenService {
                 console.warn(`No siteminder token provided. In production this will throw an error. The message you're seeing is because you're in dev.`);
                 user = await this.getOrCreateTestUser();
             } else {
-                // If siteminder is enabled as the security on the TokenController, the token will contain a reference to the siteminder user 
+                // If siteminder is enabled as the security on the TokenController, the token will contain a reference to the siteminder user
                 // TODO: Tie in ENV vars
                 // If the siteminder user doesn't exist and DEV mode is enabled, then create a corresponding user account;
-                // then, if the siteminder's user account is whitelisted as an admin via ENV vars (not implemented yet), 
+                // then, if the siteminder's user account is whitelisted as an admin via ENV vars (not implemented yet),
                 // grant all privileges below...
                 user = await this.getOrCreateSiteminderAuthorizedTestUser(tokenPayload);
             }
@@ -500,7 +87,7 @@ export class TokenService {
             authScopes = await this.buildUserAuthScopes(user.id);
             appScopes = await this.buildUserAppScopes(user.id);
         } else {
-            // Generate API Scopes - all system scopes must be present in the DB 
+            // Generate API Scopes - all system scopes must be present in the DB
             await this.generateApiScopes();
             // Generate Frontend Scopes - all system scopes must be present in the DB
             await this.generateFrontendScopes();
@@ -508,13 +95,13 @@ export class TokenService {
             // Grant all to dev user
             authScopes = await apiScopeService.getAll();
             authScopes = authScopes.reduce((scopes, scope) => {
-                scopes.push(scope.scopeCode as Scope); 
+                scopes.push(scope.scopeCode as Scope);
                 return scopes;
             }, ['default'] as Scope[]);
             // Grant all to dev user
             appScopes = await frontendScopeService.getAll();
             appScopes = appScopes.reduce((scopes, scope) => {
-                scopes[scope.scopeCode] = true; 
+                scopes[scope.scopeCode] = true;
                 return scopes;
             }, {} as { [key: string]: any });
         }
@@ -528,12 +115,16 @@ export class TokenService {
         return token;
     }
 
+    /**
+     * Builds a list of OAuth app scopes that are passed to the frontend application using the authorization token.
+     * @param userId
+     */
     private async buildUserAuthScopes(userId: string): Promise<Scope[]> {
         const userRoleService = Container.get(UserRoleService);
         const userRoles = await userRoleService.getByUserId(userId);
 
         const roleService = Container.get(RoleService);
-        
+
         const scopes = await userRoles.reduce(async (userScopeCodes: Promise<Scope[]>, ur: UserRole) => {
             let results = await userScopeCodes;
             // For each UserRole, attach the role
@@ -542,7 +133,7 @@ export class TokenService {
                 // RoleFrontendScopes and RoleApiScopes will be populated
                 // Let's loop over the RoleApiScopes
                 ur.role = role;
-                const roleScopeCodes: Scope[] = (ur.role && ur.role.roleApiScopes) 
+                const roleScopeCodes: Scope[] = (ur.role && ur.role.roleApiScopes)
                     ? ur.role.roleApiScopes
                         .reduce((scopeCodes: Scope[], cur: RoleApiScope) => {
                             if (cur.scope && cur.scope.scopeCode) {
@@ -564,19 +155,23 @@ export class TokenService {
         return scopes;
     }
 
+    /**
+     * Builds a list of user app scopes that are passed to the frontend application using the authorization token.
+     * @param userId
+     */
     private async buildUserAppScopes(userId: string): Promise<any> {
         const userRoleService = Container.get(UserRoleService);
         const userRoles = await userRoleService.getByUserId(userId);
 
         const roleService = Container.get(RoleService);
-        
+
         const scopes = await userRoles.reduce(async (asyncUserScopeCodes: Promise<{ [key: string]: AppScopePermission[] | boolean }[]>, ur: UserRole) => {
             let userRoleScopes = await asyncUserScopeCodes;
             // For each UserRole, attach the role
             if (ur && ur.roleId) {
                 const role = await roleService.getById(ur.roleId);
                 ur.role = role;
-                const roleScopes: { [key: string]: string[] }[] = (ur.role && ur.role.roleFrontendScopes) 
+                const roleScopes: { [key: string]: string[] }[] = (ur.role && ur.role.roleFrontendScopes)
                     ?  await ur.role.roleFrontendScopes
                         .reduce(async (asyncScopeCodes: Promise<string[]>, cur: RoleFrontendScope) => {
                             let scopeCodes = await asyncScopeCodes;
@@ -598,14 +193,13 @@ export class TokenService {
         return scopes;
     }
 
-    
-    /** 
+    /**
      * Build out the permissions configuration for a given role scope.
      */
     private async buildRoleFrontendScopePermissions(roleFrontendScope: RoleFrontendScope, currentScope: FrontendScope): Promise<string[] | boolean> {
         const scopePermissionService = Container.get(FrontendScopePermissionService);
         const rolePermissionService = Container.get(RolePermissionService);
-    
+
         const scopePermissions = await scopePermissionService.getByScopeId(currentScope.id);
         const assignedPermissions = await rolePermissionService.getByRoleFrontendScopeId(roleFrontendScope.id);
 
@@ -620,5 +214,99 @@ export class TokenService {
                 return (roleScopePermission) ? fsp.permissionCode : undefined;
             })
             .filter(fsp => fsp !== undefined);
+    }
+
+    /**
+     * Get or create the test user. The test user is only used when developing locally, where a Siteminder user does not
+     * exist (unless configured using FakeMinder or some other mock implementation) and is granted full access to
+     * frontend plugins and components, user interface features, and all API routes / OAuth scopes.
+     */
+    private async getOrCreateTestUser(): Promise<User | undefined> {
+        // No admin user was found using the token, check to see if the test user account exists
+        console.log(`Check to see if the test user account exists`);
+        const userService = Container.get(UserService);
+        let user = await userService.getByToken({ siteminderId: null, userId: TEST_USER_AUTH_ID });
+        if (!user) {
+            console.log(`Could not find the test user account - creating a new test account.`);
+            user = await userService.create({
+                displayName: TEST_USER_DISPLAY_NAME,
+                siteminderId: null, // Ignore, we won't have one
+                userAuthId: TEST_USER_AUTH_ID, // 7 chars, same as IDIR
+                defaultLocationId: '65b2e8fb-0d64-4f63-853c-76d8d359760e', // GUID Set a default location for the user
+                systemAccountInd: 0, // Is the user a system user
+                sheriffId: null, // If the user is a sheriff, this needs to be populated
+                createdBy: SYSTEM_USER_DISPLAY_NAME,
+                updatedBy: SYSTEM_USER_DISPLAY_NAME,
+                createdDtm: moment(new Date()).toISOString(),
+                updatedDtm: moment(new Date()).toISOString(),
+                revisionCount:0
+            } as User);
+            console.log(`Using user account: ${user.displayName} [${user.id}]`);
+        }
+
+        return user;
+    }
+
+    /**
+     * Get or create a test user account for a given Siteminder user who has been granted access to the system. This
+     * account is granted full access to frontend plugins and components, user interface features, and all API
+     * routes / OAuth scopes, and represents what a Super Administrator or Top Level Administrator would have access to.
+     */
+    private async getOrCreateSiteminderAuthorizedTestUser(tokenPayload: TokenPayload): Promise<User | undefined> {
+        // No admin user was found using the token, check to see if the test user account exists
+        console.log(`Check to see if the test user account exists`);
+        const userService = Container.get(UserService);
+        let user = await userService.getByToken(tokenPayload);
+        if (!user) {
+            console.log(`Could not find the test user's account - creating a new test account.`);
+            user = await userService.create({
+                displayName: tokenPayload.displayName,
+                siteminderId: tokenPayload.guid,
+                userAuthId: tokenPayload.userId,
+                defaultLocationId: '65b2e8fb-0d64-4f63-853c-76d8d359760e', // GUID Set a default location for the user
+                systemAccountInd: 0, // Is the user a system user
+                sheriffId: null, // If the user is a sheriff, this needs to be populated
+                createdBy: SYSTEM_USER_DISPLAY_NAME,
+                updatedBy: SYSTEM_USER_DISPLAY_NAME,
+                createdDtm: moment(new Date()).toISOString(),
+                updatedDtm: moment(new Date()).toISOString(),
+                revisionCount:0
+            } as User);
+
+        }
+
+        console.log(`Using test user account: ${user.displayName} [${user.id}]`);
+        console.log(user);
+        return user;
+    }
+
+    /**
+     * Re-generate any ApiScopes that are required by and missing in the system.
+     * Default scopes are defined in src/common/systemScopes.ts
+     */
+    private async generateApiScopes() {
+        const scopeService = Container.get(ApiScopeService);
+        const ops = defaultApiScopes.map(async (scope: ApiScope) => {
+            if (!(await scopeService.getByScopeCode(scope.scopeCode))) {
+                return await scopeService.create(scope);
+            }
+        })
+
+        await Promise.all(ops);
+    }
+
+    /**
+     * Re-generate any FrontendScopes that are required by and missing in the system.
+     * Default scopes are defined in src/common/systemScopes.ts
+     */
+    private async generateFrontendScopes() {
+        const scopeService = Container.get(FrontendScopeService);
+        const ops = defaultFrontendScopes.map(async (scope: FrontendScope) => {
+            if (!(await scopeService.getByScopeCode(scope.scopeCode))) {
+                return await scopeService.create(scope);
+            }
+        })
+
+        await Promise.all(ops);
     }
 }
