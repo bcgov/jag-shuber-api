@@ -173,17 +173,6 @@ const apiScopeData = [
     },
     {
         scopeName: 'System UI Components', // Human-friendly scope name
-        scopeCode: '', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'System Assignment Types', // Human-friendly scope name
         scopeCode: 'system:scopes:ui', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
         description: '', // Scope description
@@ -194,7 +183,7 @@ const apiScopeData = [
         revisionCount: 0
     },
     {
-        scopeName: 'System Leave Types', // Human-friendly scope name
+        scopeName: 'System Assignment Types', // Human-friendly scope name
         scopeCode: 'system:types:assignments', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
         description: '', // Scope description
@@ -205,10 +194,21 @@ const apiScopeData = [
         revisionCount: 0
     },
     {
-        scopeName: 'System Training Types', // Human-friendly scope name
+        scopeName: 'System Leave Types', // Human-friendly scope name
         scopeCode: 'system:types:leaves', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: 'system:types:training', // Scope description
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        scopeName: 'System Training Types', // Human-friendly scope name
+        scopeCode: 'system:types:training', // Code type for the scope
+        systemScopeInd: true, // Is the scope required by the SYSTEM
+        description: '', // Scope description
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -406,6 +406,34 @@ export class TokenService {
         return user;
     }
 
+    private async getOrCreateSiteminderAuthorizedTestUser(tokenPayload: TokenPayload): Promise<User | undefined> {
+        // No admin user was found using the token, check to see if the test user account exists
+        console.log(`Check to see if the test user account exists`);
+        const userService = Container.get(UserService);
+        let user = await userService.getByToken(tokenPayload);
+        if (!user) {
+            console.log(`Could not find the test user's account - creating a new test account.`);
+            user = await userService.create({
+                displayName: tokenPayload.displayName,
+                siteminderId: tokenPayload.guid,
+                userAuthId: tokenPayload.userId,
+                defaultLocationId: '65b2e8fb-0d64-4f63-853c-76d8d359760e', // GUID Set a default location for the user
+                systemAccountInd: 0, // Is the user a system user
+                sheriffId: null, // If the user is a sheriff, this needs to be populated
+                createdBy: 'SYSTEM',
+                updatedBy: 'SYSTEM',
+                createdDtm: moment(new Date()).toISOString(),
+                updatedDtm: moment(new Date()).toISOString(),
+                revisionCount:0
+            } as User);
+            
+        }
+
+        console.log(`Using test user account: ${user.displayName} [${user.id}]`);
+        console.log(user);
+        return user;
+    }
+
     async generateApiScopes() {
         const scopeService = Container.get(ApiScopeService);
         const ops = apiScopeData.map(async (scope) => {
@@ -443,12 +471,20 @@ export class TokenService {
 
             user = await userService.getByToken(tokenPayload);
         } else {
-            // We need this if siteminder is disabled as the security on the TokenController
+            // We're in DEV mode
+
+            // If siteminder is disabled as the security on the TokenController, we won't have a token / siteminder user to work with
+            // Use the built in dummy account (TESTUSR)
             if (!(tokenPayload && tokenPayload.userId)) {
                 console.warn(`No siteminder token provided. In production this will throw an error. The message you're seeing is because you're in dev.`);
                 user = await this.getOrCreateTestUser();
             } else {
-                user = await userService.getByToken(tokenPayload);
+                // If siteminder is enabled as the security on the TokenController, the token will contain a reference to the siteminder user 
+                // TODO: Tie in ENV vars
+                // If the siteminder user doesn't exist and DEV mode is enabled, then create a corresponding user account;
+                // then, if the siteminder's user account is whitelisted as an admin via ENV vars (not implemented yet), 
+                // grant all privileges below...
+                user = await this.getOrCreateSiteminderAuthorizedTestUser(tokenPayload);
             }
         }
 
