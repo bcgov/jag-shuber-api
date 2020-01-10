@@ -1,3 +1,14 @@
+export { TokenController } from './TokenController';
+export { UserController } from './UserController';
+export { UserRoleController } from './UserRoleController';
+export { RoleController } from './RoleController';
+export { RolePermissionController } from './RolePermissionController';
+export { ApiScopeController } from './ApiScopeController';
+export { FrontendScopeController } from './FrontendScopeController';
+export { FrontendScopePermissionController } from './FrontendScopePermissionController';
+export { RoleApiScopeController } from './RoleApiScopeController';
+export { RoleFrontendScopeController } from './RoleFrontendScopeController';
+
 export { AssignmentController } from './AssignmentController';
 export { RegionController } from './RegionController';
 export { LocationController } from './LocationController';
@@ -18,5 +29,3 @@ export { LeaveTypeCodesController } from './LeaveTypeCodesController';
 export { LeaveSubTypeCodesController } from './LeaveSubTypeCodesController';
 export { CourtRoleCodesController } from './CourtRoleCodesController';
 export { GenderCodesController } from './GenderCodesController';
-export { TokenController } from './TokenController';
-export { UserController } from './UserController';

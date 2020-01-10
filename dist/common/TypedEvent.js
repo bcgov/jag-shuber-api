@@ -36,4 +36,4 @@ var TypedEvent = /** @class */ (function () {
     return TypedEvent;
 }());
 exports.TypedEvent = TypedEvent;
-//# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/common/TypedEvent.js.map
+//# sourceMappingURL=../../src/dist/common/TypedEvent.js.map

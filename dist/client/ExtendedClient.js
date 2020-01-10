@@ -1,21 +1,27 @@
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    }
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __assign = (this && this.__assign) || Object.assign || function(t) {
-    for (var s, i = 1, n = arguments.length; i < n; i++) {
-        s = arguments[i];
-        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-            t[p] = s[p];
-    }
-    return t;
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
 };
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -410,7 +416,68 @@ var ExtendedClient = /** @class */ (function (_super) {
             });
         });
     };
+    ExtendedClient.prototype.GetUsers = function (locationId) {
+        return _super.prototype.GetUsers.call(this, locationId);
+    };
+    ExtendedClient.prototype.GetUsersByLocationId = function (locationId) {
+        if (locationId === void 0) { locationId = ""; }
+        return _super.prototype.GetUsers.call(this, locationId);
+    };
+    ExtendedClient.prototype.GetUserById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.nullOn404(function () { return _super.prototype.GetSheriffById.call(_this, id); })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    ExtendedClient.prototype.GetRoles = function () {
+        return _super.prototype.GetRoles.call(this);
+    };
+    ExtendedClient.prototype.GetRoleById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.nullOn404(function () { return _super.prototype.GetRoleById.call(_this, id); })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    ExtendedClient.prototype.GetUserRoleById = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.nullOn404(function () { return _super.prototype.GetUserRoleById.call(_this, id); })];
+                    case 1: return [2 /*return*/, _a.sent()];
+                }
+            });
+        });
+    };
+    ExtendedClient.prototype.GetApiScopes = function () {
+        return _super.prototype.GetApiScopes.call(this);
+    };
+    ExtendedClient.prototype.GetFrontendScopes = function () {
+        return _super.prototype.GetFrontendScopes.call(this);
+    };
+    ExtendedClient.prototype.GetFrontendScopePermissions = function () {
+        return _super.prototype.GetFrontendScopePermissions.call(this);
+    };
+    ExtendedClient.prototype.GetRoleApiScopes = function () {
+        return _super.prototype.GetRoleApiScopes.call(this);
+    };
+    ExtendedClient.prototype.GetRoleFrontendScopes = function () {
+        return _super.prototype.GetRoleFrontendScopes.call(this);
+    };
+    ExtendedClient.prototype.GetRolePermissions = function () {
+        return _super.prototype.GetRolePermissions.call(this);
+    };
     return ExtendedClient;
 }(Client_1.default));
 exports.default = ExtendedClient;
-//# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/client/ExtendedClient.js.map
+//# sourceMappingURL=../../src/dist/client/ExtendedClient.js.map

@@ -18,14 +18,15 @@ export async function createToken(payload: TokenPayload, secret: string = JWT_SE
     if (payload) {
         return jwt.sign({
             scopes: [],
+            appScopes: [],
             ...payload
         }, secret, {
-                algorithm: 'HS256',
-                issuer: 'jag-shuber-api',
-                audience: 'jag-shuber-client',
-                expiresIn: '30m',
-                ...signOptions
-            })
+            algorithm: 'HS256',
+            issuer: 'jag-shuber-api',
+            audience: 'jag-shuber-client',
+            expiresIn: '30m',
+            ...signOptions
+        })
     }
 }
 

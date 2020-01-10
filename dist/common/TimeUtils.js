@@ -99,4 +99,4 @@ function doTimeRangesOverlap(timeRangeA, timeRangeB) {
         || isTimeWithin(timeRangeB.endTime, timeRangeA);
 }
 exports.doTimeRangesOverlap = doTimeRangesOverlap;
-//# sourceMappingURL=/Users/roughdraft/Projects/CGI/jag-shuber-api/dist/common/TimeUtils.js.map
+//# sourceMappingURL=../../src/dist/common/TimeUtils.js.map

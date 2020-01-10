@@ -1,9 +1,37 @@
+import { AppScopePermission } from '../models/AppScope';
 
 const SCOPE_ASSERTION_MESSAGE = "JWT did not have required scope for this action";
 const SITEMINDER_AUTH_ERROR_MESSAGE = "Couldn't authenticate request.";
 export const SITEMINDER_AUTH_ERROR = new Error(SITEMINDER_AUTH_ERROR_MESSAGE);
 export const JWT_AUTH_ERROR = new Error(SCOPE_ASSERTION_MESSAGE);
 
+/**
+ * These env vars are used to configure which user is granted full access rights to the system in a production environment.
+ * It is / will be used to seed access privileges for the built-in super admin user, and to associate it with a specific
+ * CA Siteminder user ID and corresponding IDIR, which is configured using OpenShift.
+ */
+export const SA_SITEMINDER_ID = process.env.SA_SITEMINDER_ID || null; // Super-Admin User's Siteminder User ID (Prod)
+export const SA_AUTH_ID = process.env.SA_IDIR || null; // Super-Admin's IDIR (Prod)
+/**
+ * These are the same as the SA_SITEMINDER_ID and SA_AUTH_ID env vars, except they control which user is granted
+ * full access rights to the system in a development environment.
+ */
+export const DEV_SA_SITEMINDER_ID = process.env.DEV_SA_SITEMINDER_ID || null; // Super-Admin User's Siteminder User ID (Dev)
+export const DEV_SA_AUTH_ID = process.env.DEV_SA_IDIR || null; // Super-Admin's IDIR (Dev)
+/**
+ * This is used to configure a fake IDIR account name for local development purposes.
+ */
+export const TEST_USER_DISPLAY_NAME = 'Test User'; // Test User Display Name
+export const TEST_USER_AUTH_ID = 'TESTUSR'; // Test User Auth ID (substitute for IDIR)
+/**
+ * System user display name. Just a value to use when the application updates a database record, and the action is not
+ * attributable to a user, for whatever reason.
+ */
+export const SYSTEM_USER_DISPLAY_NAME = 'System User';
+
+/**
+ * Configure siteminder headers.
+ */
 export const SITEMINDER_HEADER_USERGUID = 'smgov_userguid';
 export const SITEMINDER_HEADER_USERDISPLAYNAME = 'smgov_userdisplayname';
 export const SITEMINDER_HEADER_USERTYPE = 'smgov_usertype';
@@ -12,14 +40,39 @@ export const SITEMINDER_HEADER_USERIDENTIFIER = 'smgov_useridentifier';
 export const DEFAULT_SCOPES: Scope[] = ['default'];
 export const TOKEN_COOKIE_NAME = "app_token";
 
-export interface Scopes {
+/**
+ * Define OAuth scopes that are applied to application routes using tsoa's @Security decorator.
+ * eg. @Security('jwt', ['system:scopes:api']) Note! These scopes configure how tsoa will generate routes.ts.
+ *
+ * This is distinct from the related but separate read-only System Scopes entries that are automatically populated
+ * into the application's database. In order to assign a scope defined here to a user, a corresponding system scope
+ * record must exist in the database. However, those are defined separately. See systemScopes.ts, located in the
+ * same folder as this file to change the configuration.
+ */
+ export interface Scopes {
     default: 'default',
-    none: 'none'
+    none: 'none',
+    admin_users: 'admin:users',
+    admin_user_roles: 'admin:user:roles',
+    admin_sheriff_leaves: 'admin:sheriff:leaves',
+    admin_sheriff_locations: 'admin:sheriff:locations',
+    admin_sheriff_training: 'admin:sheriff:training',
+    sheriffs_add: 'sheriffs:add',
+    sheriffs_deactivate: 'sheriffs:deactivate',
+    sheriffs_delete: 'sheriffs:delete',
+    sheriffs_edit: 'sheriffs:edit',
+    sheriffs_view: 'sheriffs:view',
+    system_locations: 'system:locations',
+    system_scopes_api: 'system:scopes:api',
+    system_scopes_ui: 'system:scopes:ui',
+    system_types_assignment: 'system:types:assignment',
+    system_types_leaves: 'system:types:leaves',
+    system_types_training: 'system:types:training'
 }
 
-/** 
- * The different types of user scopes/claims within the system
-*/
+/**
+ * The different types of user scopes/claims within the system.
+ */
 export type Scope = Scopes[keyof (Scopes)];
 
 /**
@@ -34,6 +87,7 @@ export interface TokenPayload {
     userId?: string;
     type?: string;
     scopes?: Scope[];
+    appScopes?: { [key: string]: string[] | boolean }[];
 }
 
 /**
@@ -63,7 +117,7 @@ export function assertScope(payload: TokenPayload, scope: Scope) {
 }
 
 /**
- * Checks a TokenPayload for all given scopes
+ * Checks a TokenPayload for all given scopes.
  *
  * @export
  * @param {TokenPayload} payload
@@ -75,7 +129,7 @@ export function hasAllScopes(payload: TokenPayload, scopes: Scope[] = []): boole
 }
 
 /**
- * Asserts that all scopes are present in a given TokenPayload
+ * Asserts that all scopes are present in a given TokenPayload.
  *
  * @export
  * @param {TokenPayload} payload
@@ -86,6 +140,3 @@ export function assertAllScopes(payload: TokenPayload, scopes: Scope[] = []) {
         throw new Error(SCOPE_ASSERTION_MESSAGE);
     }
 }
-
-
-

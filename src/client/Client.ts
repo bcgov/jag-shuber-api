@@ -26,6 +26,15 @@ import { TypedEvent } from '../common/TypedEvent';
 import { retreiveCookieValue } from '../common/cookieUtils';
 import { 
 
+    User,
+    UserRole,
+    Role,
+    RolePermission,
+    ApiScope,
+    FrontendScope,
+    FrontendScopePermission,
+    RoleApiScope,
+    RoleFrontendScope,
     Assignment,
     Region,
     Location,
@@ -49,8 +58,7 @@ import {
     LeaveCode,
     LeaveSubCode,
     CourtRoleCode,
-    GenderCode,
-    User 
+    GenderCode 
 } from "./models"
 
 
@@ -165,6 +173,361 @@ export default class Client {
         }
     }
 
+    public async GetToken():Promise<any>{
+        // For getting the token, we need to bypass the tryRequest as 
+        // it will ensure token which will call this method again
+        try{
+            const response: superAgent.Response = await this.agent.get(`/token`)
+            const { token:tokenString } = this.handleResponse<{ token: string }>(response);
+            this.handleNewToken(tokenString);
+            return tokenString;
+        }catch(e){
+            this.handleNewToken();
+            throw e;
+        }
+    }    
+    public async Logout():Promise<any>{
+        await this.agent.post(`/token/delete`)
+        this.handleNewToken();
+    }    
+    public async GetCurrentUser():Promise<User>{
+        return this.tryRequest<User>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/User/me`)
+            return response;
+        });
+    }    
+    public async GetUsers( locationId:string ):Promise<any>{
+        const params = { 
+            "locationId":locationId 
+        };
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/User`)
+                .query(params)
+            return response;
+        });
+    }    
+    public async CreateUser( model:User ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/User`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async QueryUsers( firstName:string , lastName:string , badgeNo:number , sheriffRankCode:string , locationId:string , currentLocationId:string , homeLocationId:string ):Promise<any>{
+        const params = { 
+            "firstName":firstName,
+            "lastName":lastName,
+            "badgeNo":badgeNo,
+            "sheriffRankCode":sheriffRankCode,
+            "locationId":locationId,
+            "currentLocationId":currentLocationId,
+            "homeLocationId":homeLocationId 
+        };
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/User/search`)
+                .query(params)
+            return response;
+        });
+    }    
+    public async GetUserById( id:string ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/User/${id}`)
+            return response;
+        });
+    }    
+    public async UpdateUser( id:string , model:User ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/User/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async DeleteUser( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/User/${id}`)
+            return response;
+        });
+    }    
+    public async GenerateUsersForSheriffs():Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/User/generateAll`)
+            return response;
+        });
+    }    
+    public async GetCurrentUserRoles():Promise<Array<any>>{
+        return this.tryRequest<Array<any>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/UserRole/me`)
+            return response;
+        });
+    }    
+    public async GetUserRoles( locationId:string , startDate:string , endDate:string ):Promise<Array<UserRole>>{
+        const params = { 
+            "locationId":locationId,
+            "startDate":startDate,
+            "endDate":endDate 
+        };
+        return this.tryRequest<Array<UserRole>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/UserRole`)
+                .query(params)
+            return response;
+        });
+    }    
+    public async CreateUserRole( model:UserRole ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/UserRole`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async GetUserRoleById( id:string ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/UserRole/${id}`)
+            return response;
+        });
+    }    
+    public async UpdateUserRole( id:string , model:UserRole ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/UserRole/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async DeleteUserRole( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/UserRole/${id}`)
+            return response;
+        });
+    }    
+    public async ExpireUserRole( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/UserRole/${id}/expire`)
+            return response;
+        });
+    }    
+    public async GetRoles():Promise<Array<any>>{
+        return this.tryRequest<Array<any>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/Role`)
+            return response;
+        });
+    }    
+    public async CreateRole( model:Role ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/Role`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async GetRoleById( id:string ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/Role/${id}`)
+            return response;
+        });
+    }    
+    public async UpdateRole( id:string , model:Role ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/Role/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async DeleteRole( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/Role/${id}`)
+            return response;
+        });
+    }    
+    public async GetRolePermissions():Promise<Array<any>>{
+        return this.tryRequest<Array<any>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/RolePermission`)
+            return response;
+        });
+    }    
+    public async CreateRolePermission( model:RolePermission ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/RolePermission`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async GetRolePermissionById( id:string ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/RolePermission/${id}`)
+            return response;
+        });
+    }    
+    public async UpdateRolePermission( id:string , model:RolePermission ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/RolePermission/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async DeleteRolePermission( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/RolePermission/${id}`)
+            return response;
+        });
+    }    
+    public async GetApiScopes():Promise<Array<any>>{
+        return this.tryRequest<Array<any>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/ApiScope`)
+            return response;
+        });
+    }    
+    public async CreateApiScope( model:ApiScope ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/ApiScope`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async GetApiScopeById( id:string ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/ApiScope/${id}`)
+            return response;
+        });
+    }    
+    public async UpdateApiScope( id:string , model:ApiScope ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/ApiScope/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async DeleteApiScope( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/ApiScope/${id}`)
+            return response;
+        });
+    }    
+    public async GetFrontendScopes():Promise<Array<any>>{
+        return this.tryRequest<Array<any>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/FrontendScope`)
+            return response;
+        });
+    }    
+    public async CreateFrontendScope( model:FrontendScope ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/FrontendScope`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async GetFrontendScopeById( id:string ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/FrontendScope/${id}`)
+            return response;
+        });
+    }    
+    public async UpdateFrontendScope( id:string , model:FrontendScope ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/FrontendScope/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async DeleteFrontendScope( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/FrontendScope/${id}`)
+            return response;
+        });
+    }    
+    public async GetFrontendScopePermissions():Promise<Array<any>>{
+        return this.tryRequest<Array<any>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/FrontendScopePermission`)
+            return response;
+        });
+    }    
+    public async CreateFrontendScopePermission( model:FrontendScopePermission ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/FrontendScopePermission`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async GetFrontendScopePermissionById( id:string ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/FrontendScopePermission/${id}`)
+            return response;
+        });
+    }    
+    public async UpdateFrontendScopePermission( id:string , model:FrontendScopePermission ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/FrontendScopePermission/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async DeleteFrontendScopePermission( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/FrontendScopePermission/${id}`)
+            return response;
+        });
+    }    
+    public async GetRoleApiScopes():Promise<Array<any>>{
+        return this.tryRequest<Array<any>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/RoleApiScope`)
+            return response;
+        });
+    }    
+    public async CreateRoleApiScope( model:RoleApiScope ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/RoleApiScope`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async GetRoleApiScopeById( id:string ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/RoleApiScope/${id}`)
+            return response;
+        });
+    }    
+    public async UpdateRoleApiScope( id:string , model:RoleApiScope ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/RoleApiScope/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async DeleteRoleApiScope( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/RoleApiScope/${id}`)
+            return response;
+        });
+    }    
+    public async GetRoleFrontendScopes():Promise<Array<any>>{
+        return this.tryRequest<Array<any>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/RoleFrontendScope`)
+            return response;
+        });
+    }    
+    public async CreateRoleFrontendScope( model:RoleFrontendScope ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/RoleFrontendScope`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async GetRoleFrontendScopeById( id:string ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/RoleFrontendScope/${id}`)
+            return response;
+        });
+    }    
+    public async UpdateRoleFrontendScope( id:string , model:RoleFrontendScope ):Promise<any>{
+        return this.tryRequest<any>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/RoleFrontendScope/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async DeleteRoleFrontendScope( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/RoleFrontendScope/${id}`)
+            return response;
+        });
+    }    
     public async GetAssignments( locationId:string , startDate:string , endDate:string ):Promise<Array<Assignment>>{
         const params = { 
             "locationId":locationId,
@@ -498,9 +861,15 @@ export default class Client {
             return response;
         });
     }    
-    public async GetDuties():Promise<Array<any>>{
+    public async GetDuties( locationId:string , startDate:string , endDate:string ):Promise<Array<any>>{
+        const params = { 
+            "locationId":locationId,
+            "startDate":startDate,
+            "endDate":endDate 
+        };
         return this.tryRequest<Array<any>>(async () => {
             const response: superAgent.Response = await this.agent.get(`/Duty`)
+                .query(params)
             return response;
         });
     }    
@@ -620,9 +989,46 @@ export default class Client {
             return response;
         });
     }    
-    public async GetLeaveSubCodes():Promise<Array<LeaveSubCode>>{
+    public async GetLeaveSubCodes( startDate:string , endDate:string ):Promise<Array<LeaveSubCode>>{
+        const params = { 
+            "startDate":startDate,
+            "endDate":endDate 
+        };
         return this.tryRequest<Array<LeaveSubCode>>(async () => {
             const response: superAgent.Response = await this.agent.get(`/codes/leave-sub-type`)
+                .query(params)
+            return response;
+        });
+    }    
+    public async CreateLeaveSubCode( model:LeaveSubCode ):Promise<LeaveSubCode>{
+        return this.tryRequest<LeaveSubCode>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/codes/leave-sub-type`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async GetLeaveSubCodeById( id:string ):Promise<LeaveSubCode>{
+        return this.tryRequest<LeaveSubCode>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/codes/leave-sub-type/${id}`)
+            return response;
+        });
+    }    
+    public async UpdateLeaveSubCode( id:string , model:LeaveSubCode ):Promise<LeaveSubCode>{
+        return this.tryRequest<LeaveSubCode>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/codes/leave-sub-type/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async ExpireLeaveSubCode( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/codes/leave-sub-type/${id}`)
+            return response;
+        });
+    }    
+    public async DeleteLeaveSubCode( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/codes/leave-sub-type/${id}`)
             return response;
         });
     }    
@@ -635,29 +1041,6 @@ export default class Client {
     public async GetGenderCodes():Promise<Array<GenderCode>>{
         return this.tryRequest<Array<GenderCode>>(async () => {
             const response: superAgent.Response = await this.agent.get(`/codes/gender`)
-            return response;
-        });
-    }    
-    public async GetToken():Promise<any>{
-        // For getting the token, we need to bypass the tryRequest as 
-        // it will ensure token which will call this method again
-        try{
-            const response: superAgent.Response = await this.agent.get(`/token`)
-            const { token:tokenString } = this.handleResponse<{ token: string }>(response);
-            this.handleNewToken(tokenString);
-            return tokenString;
-        }catch(e){
-            this.handleNewToken();
-            throw e;
-        }
-    }    
-    public async Logout():Promise<any>{
-        await this.agent.post(`/token/delete`)
-        this.handleNewToken();
-    }    
-    public async GetCurrentUser():Promise<User>{
-        return this.tryRequest<User>(async () => {
-            const response: superAgent.Response = await this.agent.get(`/User/me`)
             return response;
         });
     }    

@@ -39,11 +39,11 @@
     "start:testing": "nodemon --config nodemon.testing.json",
     "build": "./node_modules/.bin/tsc",
     "build:watch": "npm-watch",
-    "rebuild":"del-cli 'dist/**/*' '!dist/.gitignore' && yarn generate && yarn build",
+    "rebuild": "yarn run purge:client && del-cli 'dist/**/*' '!dist/.gitignore' && yarn generate && yarn build",
     "test": "node --inspect=9230 scripts/test.js --env=node",
     "test:coverage": "yarn test --coverage",
     "generate": "tsoa swagger && tsoa routes && swagger-ts-client",
-    "generate:replace": "rm -f ./src/client/models.ts ./src/client/Client.ts && yarn generate",
+    "purge:client": "rm -f ./src/client/models.ts ./src/client/Client.ts",
     "watch:dev": "concurrently --names 'GENERATE,SERVER,BUILD' -c 'bgBlue.bold,bgMagenta.bold,bgGreen.bold' \"npm-watch generate\" \"yarn start:dev\" \"npm-watch build\"",
     "watch:testing": "concurrently --names 'GENERATE,SERVER' -c 'bgBlue.bold,bgMagenta.bold' \"npm-watch generate\"  \"yarn start:testing\" ",
     "oc:dev": "nodemon --ignore node_modules/ dist/index.js --inspect=$DEBUG_PORT"
@@ -93,7 +93,7 @@
     "ts-jest": "^22.4.6",
     "ts-node": "^7.0.1",
     "tslint": "^5.9.1",
-    "typescript": "^2.8.3"
+    "typescript": "^3.1.6"
   },
   "jest": {
     "testEnvironment": "node",
