@@ -170,7 +170,8 @@
     <!-- Authorization Tables - Admin Module Implementation -->
     <include file="structure/shersched.db.changelog.table-api_scope_APSC_AuthorizationImpl.xml"/>
     <include file="structure/shersched.db.changelog.authorization-implementation-changes.xml"/>
-
+    <include file="structure/shersched.db.changelog.authorization-fixing-permissions.xml"/>
+    
     <changeSet author="Carol Geisler" id="data_01">
     	<tagDatabase tag="01_AllBaseData"/>
     </changeSet>
