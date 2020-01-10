@@ -61,6 +61,7 @@ const models: TsoaRoute.Models = {
     "User": {
         "properties": {
             "id": { "dataType": "string" },
+            "siteminderId": { "dataType": "string" },
             "displayName": { "dataType": "string" },
             "defaultLocationId": { "dataType": "string" },
             "systemAccountInd": { "dataType": "double" },
@@ -94,7 +95,7 @@ const models: TsoaRoute.Models = {
             "id": { "dataType": "string" },
             "scopeName": { "dataType": "string" },
             "scopeCode": { "dataType": "string" },
-            "systemCodeInd": { "dataType": "boolean" },
+            "systemScopeInd": { "dataType": "boolean" },
             "description": { "dataType": "string" },
             "createdBy": { "dataType": "string" },
             "updatedBy": { "dataType": "string" },
@@ -121,7 +122,7 @@ const models: TsoaRoute.Models = {
             "id": { "dataType": "string" },
             "scopeName": { "dataType": "string" },
             "scopeCode": { "dataType": "string" },
-            "systemCodeInd": { "dataType": "boolean" },
+            "systemScopeInd": { "dataType": "boolean" },
             "description": { "dataType": "string" },
             "createdBy": { "dataType": "string" },
             "updatedBy": { "dataType": "string" },
@@ -228,8 +229,8 @@ const models: TsoaRoute.Models = {
             "jailRoleCode": { "dataType": "string" },
             "otherAssignCode": { "dataType": "string" },
             "dutyRecurrences": { "dataType": "array", "array": { "ref": "DutyRecurrence" } },
-            "startDateTime": { "dataType": "string", "required": true },
-            "endDateTime": { "dataType": "string", "required": true },
+            "startDateTime": { "dataType": "string" },
+            "endDateTime": { "dataType": "string" },
         },
     },
     "Region": {
@@ -252,9 +253,9 @@ const models: TsoaRoute.Models = {
     "Courtroom": {
         "properties": {
             "id": { "dataType": "string" },
-            "code": { "dataType": "string", "required": true },
-            "name": { "dataType": "string", "required": true },
-            "locationId": { "dataType": "string", "required": true },
+            "code": { "dataType": "string" },
+            "name": { "dataType": "string" },
+            "locationId": { "dataType": "string" },
         },
     },
     "JailRoleCode": {
@@ -410,6 +411,7 @@ const models: TsoaRoute.Models = {
 
 export function RegisterRoutes(router: any) {
     router.get('/v1/token',
+        authenticateMiddleware([{ "name": "siteminder" }]),
         async (context, next) => {
             const args = {
                 request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
@@ -3777,7 +3779,6 @@ export function RegisterRoutes(router: any) {
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
-                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
             };
 
             let validatedArgs: any[] = [];

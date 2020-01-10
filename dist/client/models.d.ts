@@ -1,5 +1,6 @@
 export interface User {
     id?: string;
+    siteminderId?: string;
     displayName?: string;
     defaultLocationId?: string;
     systemAccountInd?: number;
@@ -29,7 +30,7 @@ export interface FrontendScope {
     id?: string;
     scopeName?: string;
     scopeCode?: string;
-    systemCodeInd?: boolean;
+    systemScopeInd?: boolean;
     description?: string;
     createdBy?: string;
     updatedBy?: string;
@@ -52,7 +53,7 @@ export interface ApiScope {
     id?: string;
     scopeName?: string;
     scopeCode?: string;
-    systemCodeInd?: boolean;
+    systemScopeInd?: boolean;
     description?: string;
     createdBy?: string;
     updatedBy?: string;

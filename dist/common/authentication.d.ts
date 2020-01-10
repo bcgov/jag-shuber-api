@@ -1,6 +1,31 @@
-import { AppScopePermission } from '../models/AppScope';
 export declare const SITEMINDER_AUTH_ERROR: Error;
 export declare const JWT_AUTH_ERROR: Error;
+/**
+ * These env vars are used to configure which user is granted full access rights to the system in a production environment.
+ * It is / will be used to seed access privileges for the built-in super admin user, and to associate it with a specific
+ * CA Siteminder user ID and corresponding IDIR, which is configured using OpenShift.
+ */
+export declare const SA_SITEMINDER_ID: string;
+export declare const SA_AUTH_ID: string;
+/**
+ * These are the same as the SA_SITEMINDER_ID and SA_AUTH_ID env vars, except they control which user is granted
+ * full access rights to the system in a development environment.
+ */
+export declare const DEV_SA_SITEMINDER_ID: string;
+export declare const DEV_SA_AUTH_ID: string;
+/**
+ * This is used to configure a fake IDIR account name for local development purposes.
+ */
+export declare const TEST_USER_DISPLAY_NAME = "Test User";
+export declare const TEST_USER_AUTH_ID = "TESTUSR";
+/**
+ * System user display name. Just a value to use when the application updates a database record, and the action is not
+ * attributable to a user, for whatever reason.
+ */
+export declare const SYSTEM_USER_DISPLAY_NAME = "System User";
+/**
+ * Configure siteminder headers.
+ */
 export declare const SITEMINDER_HEADER_USERGUID = "smgov_userguid";
 export declare const SITEMINDER_HEADER_USERDISPLAYNAME = "smgov_userdisplayname";
 export declare const SITEMINDER_HEADER_USERTYPE = "smgov_usertype";
@@ -8,7 +33,13 @@ export declare const SITEMINDER_HEADER_USERIDENTIFIER = "smgov_useridentifier";
 export declare const DEFAULT_SCOPES: Scope[];
 export declare const TOKEN_COOKIE_NAME = "app_token";
 /**
- * Define all the available OAuth scopes.
+ * Define OAuth scopes that are applied to application routes using tsoa's @Security decorator.
+ * eg. @Security('jwt', ['system:scopes:api']) Note! These scopes configure how tsoa will generate routes.ts.
+ *
+ * This is distinct from the related but separate read-only System Scopes entries that are automatically populated
+ * into the application's database. In order to assign a scope defined here to a user, a corresponding system scope
+ * record must exist in the database. However, those are defined separately. See systemScopes.ts, located in the
+ * same folder as this file to change the configuration.
  */
 export interface Scopes {
     default: 'default';
