@@ -8,28 +8,16 @@
         GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.api_scope to ${POSTGRES_APP_USER};
       </sql>
       <sql>
+        GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.app_role_permission to ${POSTGRES_APP_USER};
+      </sql>
+      <sql>
         GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.frontend_scope to ${POSTGRES_APP_USER};
-      </sql>
-      <sql>
-        GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.frontend_scope_permission to ${POSTGRES_APP_USER};
-      </sql>
-      <sql>
-        GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.app_role to ${POSTGRES_APP_USER};
-      </sql>
-      <sql>
-        GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.app_role_api_scope to ${POSTGRES_APP_USER};
       </sql>
       <sql>
         GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.app_role_frontend_scope to ${POSTGRES_APP_USER};
       </sql>
       <sql>
-        GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.app_role_permission to ${POSTGRES_APP_USER};
-      </sql>
-      <sql>
-        GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.app_user to ${POSTGRES_APP_USER};
-      </sql>
-      <sql>
-        GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.app_user_role to ${POSTGRES_APP_USER};
+        GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.frontend_scope_permission to ${POSTGRES_APP_USER};
       </sql>
     </changeSet>
     
