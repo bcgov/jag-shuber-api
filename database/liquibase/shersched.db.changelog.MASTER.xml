@@ -172,6 +172,7 @@
     <include file="structure/shersched.db.changelog.authorization-implementation-changes.xml"/>
     <include file="structure/shersched.db.changelog.authorization-fixing-permissions.xml"/>
     <include file="structure/shersched.db.changelog.authorization-grant-table-permissions.xml"/>
+    <include file="structure/shersched.db.changelog.authorization-rename-frontend-scope-permission-cols.xml"/>
     
     <changeSet author="Carol Geisler" id="data_01">
     	<tagDatabase tag="01_AllBaseData"/>
