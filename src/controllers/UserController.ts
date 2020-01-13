@@ -63,11 +63,6 @@ export class UserController extends ControllerBase<any, UserService> {
     public createUser(@Body() model: User) {
         return super.create(model);
     }
-    
-    @Post('generateAll')
-    public generateUsersForSheriffs() {
-        return this.service.generateUsersForSheriffs();
-    }
 
     @Put('{id}')
     public updateUser(@Path() id: string, @Body() model: User) {

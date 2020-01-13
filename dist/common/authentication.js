@@ -5,6 +5,11 @@ var SITEMINDER_AUTH_ERROR_MESSAGE = "Couldn't authenticate request.";
 exports.SITEMINDER_AUTH_ERROR = new Error(SITEMINDER_AUTH_ERROR_MESSAGE);
 exports.JWT_AUTH_ERROR = new Error(SCOPE_ASSERTION_MESSAGE);
 /**
+ * FakeMinder stuff, just for local development
+ */
+exports.FAKEMINDER_IDIR = "yname";
+exports.FAKEMINDER_GUID = "SOMEGUIDGOESHERE";
+/**
  * These env vars are used to configure which user is granted full access rights to the system in a production environment.
  * It is / will be used to seed access privileges for the built-in super admin user, and to associate it with a specific
  * CA Siteminder user ID and corresponding IDIR, which is configured using OpenShift.

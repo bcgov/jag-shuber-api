@@ -6,7 +6,6 @@ import { RegisterRoutes } from './routes';
 import morgan from 'koa-morgan';
 import {Client} from 'pg';
 
-
 const app = new Koa();
 app.use(bodyParser());
 

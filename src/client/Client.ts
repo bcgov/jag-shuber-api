@@ -248,12 +248,6 @@ export default class Client {
             return response;
         });
     }    
-    public async GenerateUsersForSheriffs():Promise<void>{
-        return this.tryRequest<void>(async () => {
-            const response: superAgent.Response = await this.agent.post(`/User/generateAll`)
-            return response;
-        });
-    }    
     public async GetCurrentUserRoles():Promise<Array<any>>{
         return this.tryRequest<Array<any>>(async () => {
             const response: superAgent.Response = await this.agent.get(`/UserRole/me`)

@@ -6,6 +6,12 @@ export const SITEMINDER_AUTH_ERROR = new Error(SITEMINDER_AUTH_ERROR_MESSAGE);
 export const JWT_AUTH_ERROR = new Error(SCOPE_ASSERTION_MESSAGE);
 
 /**
+ * FakeMinder stuff, just for local development
+ */
+export const FAKEMINDER_IDIR = "yname";
+export const FAKEMINDER_GUID = "SOMEGUIDGOESHERE";
+
+/**
  * These env vars are used to configure which user is granted full access rights to the system in a production environment.
  * It is / will be used to seed access privileges for the built-in super admin user, and to associate it with a specific
  * CA Siteminder user ID and corresponding IDIR, which is configured using OpenShift.

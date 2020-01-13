@@ -113,56 +113,6 @@ export class UserService extends DatabaseService<User> {
         return Promise.all(results);
     }
 
-    async generateUserForSheriff(sheriff: Sheriff): Promise<User | undefined> {
-        try {
-            const newUserEntity = await this.create({
-                // TODO: We gotta do something better than this...
-                displayName: `${sheriff.firstName} ${sheriff.lastName}`,
-                systemAccountInd: 0,
-                // siteminderId: 1, // TODO: We don't need these yet, they're just in the DB table
-                // userAuthId: null, // TODO: We don't need these yet, they're just in the DB table
-                defaultLocationId: sheriff.homeLocationId,
-                sheriffId: sheriff.id,
-                createdBy: 'DEV - BACKEND',
-                updatedBy: 'DEV - BACKEND',
-                createdDtm: new Date().toISOString(),
-                updatedDtm: new Date().toISOString(),
-                revisionCount: 0
-            });
-
-            console.log(`Generated user "${newUserEntity.id}" for sheriff_id: ${newUserEntity.sheriffId}, name: ${newUserEntity.displayName}`);
-            return newUserEntity;
-        
-        } catch (err) {
-            console.log(`Error generating user for sheriff_id: ${sheriff.id}`)
-        }    
-    }
-
-    async generateUsersForSheriffs(): Promise<void> {
-        // Get all the sheriffs
-        const rows = await this.sheriffService.getAll();
-
-        const rowCount = rows.length;
-
-        const ops = rows.map(async (sheriffEntity, idx) => {
-            // TODO: Set a limit, we'll need to throttle this or something... 
-            // Increate the number of records and this starts to blow up, probably too much memory.
-            if (!(idx < 10)) return;
-            
-            if (sheriffEntity.id) {
-                const userEntity = await this.getBySheriffId(sheriffEntity.id);
-
-                if (!userEntity) {
-                    console.log(`Generating user for sheriff_id: ${sheriffEntity.id}`);
-                    this.generateUserForSheriff(sheriffEntity);   
-                }
-            }
-            return;
-        });
-
-        Promise.all(ops);
-    }
-
     async getBySheriffId(sheriffId: string) {
         const query = this.getSelectQuery()
             .where(`sheriff_id='${sheriffId}'`)
