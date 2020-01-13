@@ -78,7 +78,7 @@ export class GeneratorService {
                 siteminderId: null, // Ignore, we won't have one
                 userAuthId: TEST_USER_AUTH_ID, // 7 chars, same as IDIR
                 defaultLocationId: '65b2e8fb-0d64-4f63-853c-76d8d359760e', // GUID Set a default location for the user
-                systemAccountInd: 0, // Is the user a system user
+                systemAccountInd: 1, // Is the user a system user
                 sheriffId: null, // If the user is a sheriff, this needs to be populated
                 createdBy: SYSTEM_USER_DISPLAY_NAME,
                 updatedBy: SYSTEM_USER_DISPLAY_NAME,
@@ -127,15 +127,14 @@ export class GeneratorService {
 
         try {
             const newUserEntity = await userService.create({
-                // TODO: We gotta do something better than this...
                 displayName: `${sheriff.firstName} ${sheriff.lastName}`,
                 systemAccountInd: 0,
-                // siteminderId: 1, // TODO: We don't need these yet, they're just in the DB table
-                // userAuthId: null, // TODO: We don't need these yet, they're just in the DB table
+                siteminderId: '',
+                userAuthId: '',
                 defaultLocationId: sheriff.homeLocationId,
                 sheriffId: sheriff.id,
-                createdBy: 'DEV - BACKEND',
-                updatedBy: 'DEV - BACKEND',
+                createdBy: SYSTEM_USER_DISPLAY_NAME,
+                updatedBy: SYSTEM_USER_DISPLAY_NAME,
                 createdDtm: new Date().toISOString(),
                 updatedDtm: new Date().toISOString(),
                 revisionCount: 0

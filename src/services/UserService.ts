@@ -124,6 +124,9 @@ export class UserService extends DatabaseService<User> {
 
     async getByToken(tokenPayload: TokenPayload) {
         const {  guid, userId, type } = tokenPayload;
+        if ((!guid || guid === '') && (!userId || userId === '')) {
+            return;
+        }
 
         const userService = Container.get(UserService);
 
@@ -131,8 +134,8 @@ export class UserService extends DatabaseService<User> {
             
         // Siteminder ID may be NULL or undefined in the token ONLY if in DEV env, with the siteminder
         // security definition on TokenController.getToken disabled (which allows us to debug the backend app)
-        query = (guid) ? query.where(`siteminder_id='${guid}'`) : query; // TODO: Why does this extra NULL check not work? query.where(`siteminder_id=NULL`)
-        query = (userId) ? query.where(`user_auth_id='${userId}'`): query;
+        query = (guid && guid !== '') ? query.where(`siteminder_id='${guid}'`) : query; // TODO: Why does this extra NULL check not work? query.where(`siteminder_id=NULL`)
+        query = (userId && userId !== '') ? query.where(`user_auth_id='${userId}'`): query;
         query = query.limit(1);
 
         const rows = await this.executeQuery<User>(query.toString());
