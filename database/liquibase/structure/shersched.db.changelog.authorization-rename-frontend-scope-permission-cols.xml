@@ -2,58 +2,17 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
     <!-- Changesets -->
     <changeSet author="Lucas Lopatka" id="authorization-rename-frontend-scope-permission-cols">
-      <renameColumn 
-        catalogName="${POSTGRES_CATALOG}"
+      <renameColumn catalogName="${POSTGRES_CATALOG}"
         schemaName="${POSTGRES_SCHEMA}"
         tableName="frontend_scope_permission" 
         columnDataType="varchar(128)"
         newColumnName="display_name"
-        oldColumnName="scope_name"
-        
-      />
-      <renameColumn 
-        catalogName="${POSTGRES_CATALOG}"
+        oldColumnName="scope_name"/>
+      <renameColumn catalogName="${POSTGRES_CATALOG}"
         schemaName="${POSTGRES_SCHEMA}"
         tableName="frontend_scope_permission" 
         columnDataType="varchar(128)"
         newColumnName="permission_code"
-        oldColumnName="scope_code"
-      />
-
-      <!--
-      <dropColumn 
-        catalogName="${POSTGRES_CATALOG}"
-        schemaName="${POSTGRES_SCHEMA}"
-        tableName="frontend_scope_permission" 
-        columnName="id">
-        <column name="scope_name" type="varchar(128)"/>
-      </dropColumn>
-      <dropColumn 
-        catalogName="${POSTGRES_CATALOG}"
-        schemaName="${POSTGRES_SCHEMA}"
-        tableName="frontend_scope_permission" 
-        columnName="id">
-        <column name="scope_code" type="varchar(128)"/>
-      </dropColumn>
-
-      <addColumn 
-        catalogName="${POSTGRES_CATALOG}"
-        schemaName="${POSTGRES_SCHEMA}"
-        tableName="frontend_scope_permission" 
-        columnName="id">
-        <column name="display_name" type="varchar(128)">
-          <constraints nullable="false"/>
-        </column>
-      </addColumn>
-       <addColumn 
-        catalogName="${POSTGRES_CATALOG}"
-        schemaName="${POSTGRES_SCHEMA}"
-        tableName="frontend_scope_permission" 
-        columnName="id">
-        <column name="permission_code" type="varchar(128)">
-          <constraints nullable="false"/>
-        </column>
-      </addColumn>
-      -->
+        oldColumnName="scope_code"/>
     </changeSet>
 </databaseChangeLog>
