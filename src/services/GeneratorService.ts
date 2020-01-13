@@ -1,4 +1,5 @@
 import moment from 'moment';
+import uuidv4 from 'uuid/v4';
 import { AutoWired, Container } from 'typescript-ioc';
 
 import { createThrottle } from '../common/throttle';
@@ -75,7 +76,7 @@ export class GeneratorService {
             console.log(`Could not find the test user account - creating a new test account.`);
             user = await userService.create({
                 displayName: TEST_USER_DISPLAY_NAME,
-                siteminderId: null, // Ignore, we won't have one
+                siteminderId: uuidv4(), // TODO: Can't ignore unless we drop the constraint, but we won't have one, use a random value for now...
                 userAuthId: TEST_USER_AUTH_ID, // 7 chars, same as IDIR
                 defaultLocationId: '65b2e8fb-0d64-4f63-853c-76d8d359760e', // GUID Set a default location for the user
                 systemAccountInd: 1, // Is the user a system user
@@ -129,7 +130,7 @@ export class GeneratorService {
             const newUserEntity = await userService.create({
                 displayName: `${sheriff.firstName} ${sheriff.lastName}`,
                 systemAccountInd: 0,
-                siteminderId: '',
+                siteminderId: uuidv4(), // TODO: Can't ignore unless we drop the constraint, but we won't have one, use a random value for now...
                 userAuthId: '',
                 defaultLocationId: sheriff.homeLocationId,
                 sheriffId: sheriff.id,
