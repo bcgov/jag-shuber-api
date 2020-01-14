@@ -4,6 +4,7 @@ import { UserRole } from './UserRole';
 export interface User {
     id?:string; // GUID app_user_id
     siteminderId?:string;
+    userAuthId?:string;
     displayName?:string; // Display name for the user
     // type?:string; // This isn't in the database table TODO: deprecate?
     defaultLocationId?: string; // GUID Set a default location for the user

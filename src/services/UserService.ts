@@ -33,9 +33,6 @@ export class UserService extends DatabaseService<User> {
         revision_count: 'revisionCount'
     };
 
-    @Inject
-    private sheriffService!: SheriffService;
-
     constructor() {
         super('app_user', 'app_user_id');
     }
@@ -45,6 +42,8 @@ export class UserService extends DatabaseService<User> {
     }
 
     async getAll(locationId?: string) {
+        const sheriffService = Container.get(SheriffService);
+
         const query = super.getSelectQuery();
         // TODO: What if the location is on the sheriff, and not the user
         if (locationId) {
@@ -55,7 +54,7 @@ export class UserService extends DatabaseService<User> {
 
         const results = rows.map(async entity => {
             if (entity.sheriffId) {
-                const sheriffEntity = await this.sheriffService.getById(entity.sheriffId);
+                const sheriffEntity = await sheriffService.getById(entity.sheriffId);
                 if (sheriffEntity) {
                     entity.sheriff = sheriffEntity as Sheriff;
                 }
@@ -67,6 +66,8 @@ export class UserService extends DatabaseService<User> {
     }
 
     async queryAll(params: UserQuery) {
+        const sheriffService = Container.get(SheriffService);
+
         const query = super.getSelectQuery();
         // TODO: What if the location is on the sheriff, and not the user
         if (params.locationId) {
@@ -102,7 +103,7 @@ export class UserService extends DatabaseService<User> {
 
         const results = rows.map(async entity => {
             if (entity.sheriffId) {
-                const sheriffEntity = await this.sheriffService.getById(entity.sheriffId);
+                const sheriffEntity = await sheriffService.getById(entity.sheriffId);
                 if (sheriffEntity) {
                     entity.sheriff = sheriffEntity as Sheriff;
                 }

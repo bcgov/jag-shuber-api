@@ -1,9 +1,12 @@
+
 import moment from 'moment';
+import { AutoWired, Inject, Container } from 'typescript-ioc';
+
+import { SYSTEM_USER_DISPLAY_NAME} from '../common/authentication';
 import { DatabaseService } from '../infrastructure/DatabaseService';
 import { UserService } from './UserService';
 import { Sheriff } from '../models/Sheriff';
 import { User } from '../models/User';
-import { AutoWired, Inject, Container } from 'typescript-ioc';
 
 @AutoWired
 export class SheriffService extends DatabaseService<Sheriff> {
@@ -28,12 +31,26 @@ export class SheriffService extends DatabaseService<Sheriff> {
     }
 
     async getAll(locationId?: string) {
+        const userService = Container.get(UserService);
+
         const query = super.getSelectQuery();
+        // TODO: What if the location is on the sheriff, and not the user
         if (locationId) {
             query.where(`home_location_id='${locationId}' OR current_location_id='${locationId}'`);
         };
         const rows = await this.executeQuery<Sheriff>(query.toString());
-        return rows;
+
+        const results = rows.map(async entity => {
+            if (entity.id) {
+                const userEntity = await userService.getBySheriffId(entity.id);
+                if (userEntity) {
+                    entity.user = userEntity as User;
+                }
+            }
+            return entity;
+        });
+
+        return Promise.all(results);
     }
 
     /**
@@ -54,15 +71,25 @@ export class SheriffService extends DatabaseService<Sheriff> {
             if (sheriff && sheriff.id) {
                 user = userService.getBySheriffId(sheriff.id);
                 if (!user) {
-                    user = await userService.create({
-                        sheriffId: sheriff.id,
-                        displayName: `${sheriff.firstName} ${sheriff.lastName}`
-                    });
+                    const newUser = {} as User;
+
+                    if (entity && entity.user) {
+                        user.sheriffId = sheriff.id,
+                        user.displayName = `${sheriff.firstName} ${sheriff.lastName}`
+                        user.siteminderId = entity.user.siteminderId;
+                        user.userAuthId = entity.user.userAuthId;
+                        user.createdBy = SYSTEM_USER_DISPLAY_NAME; // TODO: Replace with currentUser
+                        user.createdDtm = (user.createdDtm) ? moment(user.createdDtm).toISOString() : moment(new Date()).toISOString();
+                        user.updatedBy = SYSTEM_USER_DISPLAY_NAME; // TODO: Replace with currentUser
+                        user.updatedDtm = moment(new Date()).toISOString();
+                    }
+
+                    user = userService.create(newUser);
                 }
             }
         });
 
-        return rows[0];
+        return { ...rows[0], user };
     }
 
     /**
@@ -72,23 +99,28 @@ export class SheriffService extends DatabaseService<Sheriff> {
     async update(entity: Partial<Sheriff>): Promise<Sheriff> {
         this.validateSheriff(entity);
 
+        let user;
+
         await this.db.transaction(async ({ client, getService }) => {
             const userService = getService<UserService>(UserService);
-            if (entity && entity.id) {
-                let user = await userService.getBySheriffId(entity.id);
+            if (entity && entity.id && entity.user) {
+                user = await userService.getBySheriffId(entity.id);
                 // Update the user display name
+                user.siteminderId = entity.user.siteminderId;
+                user.userAuthId = entity.user.userAuthId;
                 user.displayName = `${entity.firstName} ${entity.lastName}`;
+                user.createdBy = SYSTEM_USER_DISPLAY_NAME; // TODO: Replace with currentUser
                 user.createdDtm = (user.createdDtm) ? moment(user.createdDtm).toISOString() : moment(new Date()).toISOString();
-                user.updatedBy = 'DEV - Backend';
+                user.updatedBy = SYSTEM_USER_DISPLAY_NAME; // TODO: Replace with currentUser
                 user.updatedDtm = moment(new Date()).toISOString();
 
-                await userService.update(user);
+                user = await userService.update(user);
             }
         });
 
         const query = this.getUpdateQuery(entity);
         const rows = await this.executeQuery<Sheriff>(query.toString());
-        return rows[0];
+        return { ...rows[0], user };
     }
 
     private validateSheriff(entity: Partial<Sheriff>) {
