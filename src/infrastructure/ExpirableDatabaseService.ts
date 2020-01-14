@@ -12,8 +12,8 @@ export interface EffectiveQueryOptions {
 
 @AutoWired
 export default abstract class ExpirableDatabaseService<T> extends DatabaseService<T>{
-    private effectiveField = "effective_date";
-    private expiryField = "expiry_date";
+    protected effectiveField = "effective_date";
+    protected expiryField = "expiry_date";
 
     protected getEffectiveSelectQuery(options: EffectiveQueryOptions = {}): PostgresSelect {
         const {

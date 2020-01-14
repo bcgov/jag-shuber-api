@@ -27,5 +27,3 @@ app.listen(PORT).on('listening', async () => {
     // TODO: Only if in dev!
     await generator.getOrCreateTestUser();
 }); 
-
-

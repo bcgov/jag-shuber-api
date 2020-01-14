@@ -2,6 +2,7 @@ import ExpirableDatabaseService from '../infrastructure/ExpirableDatabaseService
 import { LeaveCode } from '../models/LeaveCode';
 import { AutoWired } from 'typescript-ioc';
 
+
 @AutoWired
 export class LeaveCodeService extends ExpirableDatabaseService<LeaveCode> {
     fieldMap = {
@@ -13,5 +14,4 @@ export class LeaveCodeService extends ExpirableDatabaseService<LeaveCode> {
     constructor() {
         super('leave_code', 'leave_code');
     }
-
 }

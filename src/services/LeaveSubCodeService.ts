@@ -1,6 +1,7 @@
+import { AutoWired } from 'typescript-ioc';
 import ExpirableDatabaseService, { EffectiveQueryOptions } from '../infrastructure/ExpirableDatabaseService';
 import { LeaveSubCode } from '../models/LeaveSubCode';
-import { AutoWired } from 'typescript-ioc';
+import { PostgresInsert } from 'squel';
 
 @AutoWired
 export class LeaveSubCodeService extends ExpirableDatabaseService<LeaveSubCode> {
@@ -20,5 +21,22 @@ export class LeaveSubCodeService extends ExpirableDatabaseService<LeaveSubCode> 
     
         const rows = await this.executeQuery<LeaveSubCode>(query.toString());
         return rows;    
+    }
+
+    protected getInsertQuery(entity: Partial<LeaveSubCode>): PostgresInsert {
+        const query = this.db.insertQuery(this.tableName) // Ignore the PK, we don't use a UUID here
+            .returning(this.getReturningFields());
+        this.setQueryFields(query, entity, true);
+
+        // Take the Field Map keys and map properties from the object
+        const objectPropName = this.fieldMap[this.effectiveField];
+        const propValue = entity[objectPropName];
+
+        if (!propValue) {
+            // If the effective date field was not provided
+            // Set it to NOW
+            query.set(this.effectiveField, this.squel.str('NOW()'));
+        }
+        return query;
     }
 }
