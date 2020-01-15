@@ -16,7 +16,7 @@ import { ApiScope } from '../models/ApiScope';
  * Import the default system scopes configuration. These scopes, which are embedded in the user token, are required by the
  * frontend application and control which plugins, parts of the user interface, and which APIs a user can have access to.
  */
-import { defaultFrontendScopes, defaultApiScopes } from '../common/systemScopes';
+import { defaultFrontendScopes, defaultFrontendScopePermissions, defaultApiScopes } from '../common/systemScopes';
 
 import {
     FAKEMINDER_IDIR, FAKEMINDER_GUID,
@@ -27,6 +27,8 @@ import {
 } from '../common/authentication';
 import { SheriffService } from './SheriffService';
 import { Sheriff } from '../models/Sheriff';
+import { FrontendScopePermission } from '../models/FrontendScopePermission';
+import { FrontendScopePermissionService } from './FrontendScopePermissionService';
 
 const MAX_RECORDS_PER_BATCH = 3;
 
@@ -60,6 +62,38 @@ export class GeneratorService {
         });
 
         await Promise.all(ops);
+    }
+
+    /**
+     * Re-generate any FrontendScopes that are required by and missing in the system.
+     * Default scopes are defined in src/common/systemScopes.ts
+     */
+    public async generateFrontendScopePermissions() {
+        const scopeService = Container.get(FrontendScopeService);
+        const scopePermissionService = Container.get(FrontendScopePermissionService);
+
+        const frontendScopes = await scopeService.getAll();
+        if (!(frontendScopes && frontendScopes.length > 0)) return;
+
+        const outerOps = frontendScopes.map(async (scope: FrontendScope) => {
+            const scopeEntity = await scopeService.getByScopeCode(scope.scopeCode);
+            if (scopeEntity) {
+                const innerOps = defaultFrontendScopePermissions
+                    .filter(permissssion => permissssion.frontendScopeCode === scope.scopeCode)
+                    .map(async (permission: FrontendScopePermission) => {
+                        if (!(await scopePermissionService.getByCode(permission.permissionCode))) {
+                            const newPermission = permission;
+                            newPermission.frontendScopeId = scope.id; 
+                            return await scopePermissionService.create(newPermission);
+                        }
+                    });
+                
+        
+                await Promise.all(innerOps);
+            }
+        });
+
+        await Promise.all(outerOps);
     }
 
     /**

@@ -15,6 +15,8 @@ app.listen(PORT).on('listening', async () => {
     await generator.generateApiScopes();
     // Generate Frontend Scopes - all system scopes must be present in the DB
     await generator.generateFrontendScopes();
+    // Generate Frontend Scope Permissions - all system permissions must be present in the DB
+    await generator.generateFrontendScopePermissions();
 
     /**
      * Sheriffs in the system were built before we added in user functionality. As result, sheriffs currently being
