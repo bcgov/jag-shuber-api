@@ -382,7 +382,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         frontendScopeCode: 'SA_SPECIAL',
         permissionCode: 'SA_DELETE_USER',
         displayName: 'Delete User',
-        description: '', // Scope description
+        description: 'User can delete users - the default behavior is to expire', // Scope description
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -394,7 +394,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         frontendScopeCode: 'SA_SPECIAL',
         permissionCode: 'SA_DELETE_USER_ROLE',
         displayName: 'Delete User Role',
-        description: '', // Scope description
+        description: 'User can delete user roles - the default behavior is to expire', // Scope description
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -487,6 +487,31 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         updatedDtm: updatedDtm,
         revisionCount: 0
     },
+    // ADMIN_PLUGIN_COURTROOMS
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_COURTROOMS',
+        permissionCode: 'MANAGE_ALL',
+        displayName: 'Manage All Locations',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_COURTROOMS',
+        permissionCode: 'MANAGE_OWN',
+        displayName: 'Manage Own Locations',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
     // ADMIN_PAGE_USERS
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
@@ -506,6 +531,118 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         permissionCode: 'EDIT_USER',
         displayName: 'Edit User',
         description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    }
+];
+
+/**
+ * IMPORTANT! DO NOT REMOVE! This is the default SYSTEM role.
+ */
+export const defaultRoles = [
+    {
+        roleName: 'System',
+        roleCode: 'SYSTEM',
+        // systemCodeInd: '', TODO: This is in the model we may want to implement it later
+        description: 'Users with this role are able to define system plugins and APIs',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        roleName: 'Setup Users',
+        roleCode: 'SYSTEM',
+        // systemCodeInd: '', TODO: This is in the model we may want to implement it later
+        description: 'Assigned to the SA user, this role grants master access to users and roles',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    }
+];
+
+/**
+ * IMPORTANT! DO NOT REMOVE! These role scopes MUST EXIST IN THE SYSTEM.
+ */
+export const defaultSystemFrontendScopes = [
+    {
+        roleCode: 'SYSTEM',
+        scopeCode: 'SA_SPECIAL',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        roleCode: 'SYSTEM',
+        scopeCode: 'ADMIN_PLUGIN_API_SCOPES',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        roleCode: 'SYSTEM',
+        scopeCode: 'ADMIN_PLUGIN_FRONTEND_SCOPES',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        roleCode: 'SYSTEM',
+        scopeCode: 'ADMIN_PLUGIN_ROLES',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        roleCode: 'SYSTEM',
+        scopeCode: 'ADMIN_PLUGIN_USERS',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        roleCode: 'SYSTEM',
+        scopeCode: 'ADMIN_PLUGIN_USER_ROLES',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    }
+];
+
+/**
+ * IMPORTANT! DO NOT REMOVE! These role scopes MUST EXIST IN THE SYSTEM.
+ */
+export const defaultSystemApiScopes = [
+    {
+        roleCode: 'SYSTEM',
+        scopeCode: 'system:scopes:ui', // Not part of the model, just a reference field for our builder
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        roleCode: 'SYSTEM',
+        scopeCode: 'system:scopes:api', // Not part of the model, just a reference field for our builder
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,

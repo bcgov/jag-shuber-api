@@ -3,6 +3,8 @@ import { RoleApiScope } from '../models/RoleApiScope';
 import { AutoWired, Container } from 'typescript-ioc';
 
 import { ApiScopeService } from './ApiScopeService';
+import { stringify } from 'querystring';
+import { ApiScope } from '../models/ApiScope';
 
 @AutoWired
 export class RoleApiScopeService extends DatabaseService<RoleApiScope> {
@@ -44,5 +46,11 @@ export class RoleApiScopeService extends DatabaseService<RoleApiScope> {
             row.scope = await apiScopeService.getById(row.scopeId);
             return row;
         }) as RoleApiScope[]);
+    }
+
+    async hasScope(scope: ApiScope): Promise<boolean> {
+        if (!scope) return false;
+        const rows = await this.getWhereFieldEquals('scopeId', scope.id);
+        return (rows && rows.length > 0);
     }
 }

@@ -16,19 +16,30 @@ import { ApiScope } from '../models/ApiScope';
  * Import the default system scopes configuration. These scopes, which are embedded in the user token, are required by the
  * frontend application and control which plugins, parts of the user interface, and which APIs a user can have access to.
  */
-import { defaultFrontendScopes, defaultFrontendScopePermissions, defaultApiScopes } from '../common/systemScopes';
+import { 
+    defaultFrontendScopes, 
+    defaultFrontendScopePermissions, 
+    defaultApiScopes,
+    defaultRoles,
+    defaultSystemFrontendScopes,
+    defaultSystemApiScopes
+} from '../common/generatorData';
 
 import {
-    FAKEMINDER_IDIR, FAKEMINDER_GUID,
-    SA_SITEMINDER_ID, SA_AUTH_ID,
-    DEV_SA_SITEMINDER_ID, DEV_SA_AUTH_ID,
     TEST_USER_AUTH_ID, TEST_USER_DISPLAY_NAME,
     SYSTEM_USER_DISPLAY_NAME
 } from '../common/authentication';
+
 import { SheriffService } from './SheriffService';
 import { Sheriff } from '../models/Sheriff';
 import { FrontendScopePermission } from '../models/FrontendScopePermission';
 import { FrontendScopePermissionService } from './FrontendScopePermissionService';
+import { RoleService } from './RoleService';
+import { RoleFrontendScopeService } from './RoleFrontendScopeService';
+import { RoleApiScopeService } from './RoleApiScopeService';
+import { Role } from '../models/Role';
+import { RoleApiScope } from '../models/RoleApiScope';
+import { RoleFrontendScope } from '../models/RoleFrontendScope';
 
 const MAX_RECORDS_PER_BATCH = 3;
 
@@ -97,6 +108,60 @@ export class GeneratorService {
     }
 
     /**
+     * Re-generate any built-in roles that are required by and missing in the system.
+     * Default scopes are defined in src/common/systemScopes.ts
+     */
+    public async generateSystemRolesAndScopes() {
+        const roleService = Container.get(RoleService) as RoleService;
+        const roleFrontendScopeService = Container.get(RoleFrontendScopeService) as RoleFrontendScopeService;
+        const roleApiScopeService = Container.get(RoleApiScopeService) as RoleApiScopeService;
+        const frontendScopeService = Container.get(FrontendScopeService) as FrontendScopeService;
+        const apiScopeService = Container.get(FrontendScopeService) as FrontendScopeService;
+        
+        const roleOps = defaultRoles.map(async (role: Role) => {
+            if (!(await roleService.getByCode(role.roleCode))) {
+                return await roleService.create(role);
+            }
+        });
+
+        await Promise.all(roleOps);
+
+        const fsOps = defaultSystemFrontendScopes.map(async (roleScope: any) => {
+            const { roleCode, scopeCode } = roleScope;
+            const scope = await frontendScopeService.getByScopeCode(scopeCode) as FrontendScope;
+            if (scope && !(await roleFrontendScopeService.hasScope(scope))) {
+                const role = await roleService.getByCode(roleCode) as Role;
+                const newRoleScope = {
+                    roleId: role.id,
+                    scopeId: scope.id,
+                    ...roleScope
+                } as RoleFrontendScope;
+
+                return await roleFrontendScopeService.create(newRoleScope);
+            }
+        });
+
+        await Promise.all(fsOps);
+
+        const asOps = defaultSystemApiScopes.map(async (roleScope: any) => {
+            const { roleCode, scopeCode } = roleScope;
+            const scope = await apiScopeService.getByScopeCode(scopeCode) as ApiScope;
+            if (scope && !(await roleApiScopeService.hasScope(scope))) {
+                const role = await roleService.getByCode(roleCode) as Role;
+                const newRoleScope = {
+                    roleId: role.id,
+                    scopeId: scope.id,
+                    ...roleScope
+                } as RoleApiScope;
+                
+                return await roleApiScopeService.create(newRoleScope);
+            }
+        });
+
+        await Promise.all(asOps);
+    }
+
+    /**
      * Get or create the test user. The test user is only used when developing locally, where a Siteminder user does not
      * exist (unless configured using FakeMinder or some other mock implementation) and is granted full access to
      * frontend plugins and components, user interface features, and all API routes / OAuth scopes.
@@ -137,8 +202,6 @@ export class GeneratorService {
         const sheriffService = Container.get(SheriffService);
         const userService = Container.get(UserService);
         const rows = await sheriffService.getAll();
-
-        const rowCount = rows.length;
 
         // Something doesn't like it when 
         const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
@@ -182,6 +245,4 @@ export class GeneratorService {
             console.log(`Error generating user for sheriff_id: ${sheriff.id}`)
         }    
     }
-
-    
 }

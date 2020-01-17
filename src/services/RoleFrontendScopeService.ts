@@ -3,6 +3,7 @@ import { RoleFrontendScope } from '../models/RoleFrontendScope';
 import { AutoWired, Container } from 'typescript-ioc';
 
 import { FrontendScopeService } from './FrontendScopeService';
+import { FrontendScope } from '../models/FrontendScope';
 
 @AutoWired
 export class RoleFrontendScopeService extends DatabaseService<RoleFrontendScope> {
@@ -44,5 +45,11 @@ export class RoleFrontendScopeService extends DatabaseService<RoleFrontendScope>
             row.scope = await frontendScopeService.getById(row.scopeId);
             return row;
         }) as RoleFrontendScope[]);
+    }
+
+    async hasScope(scope: FrontendScope): Promise<boolean> {
+        if (!scope) return false;
+        const rows = await this.getWhereFieldEquals('scopeId', scope.id);
+        return (rows && rows.length > 0);
     }
 }

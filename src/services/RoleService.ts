@@ -40,4 +40,13 @@ export class RoleService extends DatabaseService<Role> {
 
         return undefined;
     }
+
+    async getByCode(code: string) {
+        const query = this.getSelectQuery()
+            .where(`app_role_code='${code}'`)
+            .limit(1);
+
+        const rows = await this.executeQuery<Role>(query.toString());
+        return rows[0];
+    }
 }
