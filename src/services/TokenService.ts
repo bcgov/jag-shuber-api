@@ -85,9 +85,8 @@ export class TokenService {
                 isSuperAdmin = (DEV_SA_AUTH_ID && user.userAuthId && (user.userAuthId === DEV_SA_AUTH_ID));
             }
         }
-
-        if (isSuperAdmin) {
-            // If we're in DEV grant all scopes to the user
+        if (isSuperAdmin || isDev && !DEV_SA_SITEMINDER_ID && !DEV_SA_AUTH_ID) {
+            // If the user is the SA or we're in DEV grant all scopes to the user
             authScopes = await this.buildSuperAdminAuthScopes();
             appScopes = await this.buildSuperAdminAppScopes();
         } else {
