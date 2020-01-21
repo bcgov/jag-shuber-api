@@ -4,8 +4,8 @@
     <!-- Changsets -->
     <changeSet author="Ron Garcia" id="add-unique-constraints-user-table">
       <!-- UKs -->
-      <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user" columnNames="siteminder_id" constraintName="uk_user_siteminderid"/>
-      <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user" columnNames="user_auth_id" constraintName="uk_user_authid"/>
+      <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user" columnNames="siteminder_id" constraintName="uk_app_user_siteminderid"/>
+      <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user" columnNames="user_auth_id" constraintName="uk_app_user_authid"/>
    
     </changeSet>
     
