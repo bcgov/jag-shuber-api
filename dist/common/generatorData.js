@@ -1,27 +1,26 @@
-import moment from 'moment';
-import { FrontendScope } from '../models/FrontendScope';
-import { ApiScope } from '../models/ApiScope';
-
-import { SYSTEM_USER_DISPLAY_NAME } from './authentication';
-import { FrontendScopePermission } from '../models/FrontendScopePermission';
-
-const createdDtm = moment(new Date()).toISOString();
-const updatedDtm = moment(new Date()).toISOString();
-const createdBy = SYSTEM_USER_DISPLAY_NAME;
-const updatedBy = SYSTEM_USER_DISPLAY_NAME;
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var moment_1 = __importDefault(require("moment"));
+var authentication_1 = require("./authentication");
+var createdDtm = moment_1.default(new Date()).toISOString();
+var updatedDtm = moment_1.default(new Date()).toISOString();
+var createdBy = authentication_1.SYSTEM_USER_DISPLAY_NAME;
+var updatedBy = authentication_1.SYSTEM_USER_DISPLAY_NAME;
 /**
  * IMPORTANT! DO NOT REMOVE! These scopes MUST EXIST IN THE SYSTEM to allow frontend application components to display
  * and are populated into the database automatically if they don't exist. See authentication.ts, located in the same
  * folder and add each ApiScope.scopeCode value to the Scopes interface to link an application route's security scope
  * to an ApiScope that can be assigned to system users using the frontend application's user interface.
  */
-export const defaultApiScopes: ApiScope[] = [
+exports.defaultApiScopes = [
     {
-        scopeName: 'Admin Sheriff Leaves', // Human-friendly scope name
-        scopeCode: 'admin:sheriff:leaves', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Admin Sheriff Leaves',
+        scopeCode: 'admin:sheriff:leaves',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -29,10 +28,10 @@ export const defaultApiScopes: ApiScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Sheriff Locations', // Human-friendly scope name
-        scopeCode: 'admin:sheriff:locations', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Admin Sheriff Locations',
+        scopeCode: 'admin:sheriff:locations',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -40,10 +39,10 @@ export const defaultApiScopes: ApiScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Sheriff Training', // Human-friendly scope name
-        scopeCode: 'admin:sheriff:training', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Admin Sheriff Training',
+        scopeCode: 'admin:sheriff:training',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -51,10 +50,10 @@ export const defaultApiScopes: ApiScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin User Roles', // Human-friendly scope name
-        scopeCode: 'admin:user:roles', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Admin User Roles',
+        scopeCode: 'admin:user:roles',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -62,10 +61,10 @@ export const defaultApiScopes: ApiScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Users', // Human-friendly scope name
-        scopeCode: 'admin:users', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Admin Users',
+        scopeCode: 'admin:users',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -73,10 +72,10 @@ export const defaultApiScopes: ApiScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Add Sheriffs', // Human-friendly scope name
-        scopeCode: 'sheriffs:add', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Add Sheriffs',
+        scopeCode: 'sheriffs:add',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -84,10 +83,10 @@ export const defaultApiScopes: ApiScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Deactivate Sheriffs', // Human-friendly scope name
-        scopeCode: 'sheriffs:deactivate', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Deactivate Sheriffs',
+        scopeCode: 'sheriffs:deactivate',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -95,10 +94,10 @@ export const defaultApiScopes: ApiScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Delete Sheriffs', // Human-friendly scope name
-        scopeCode: 'sheriffs:delete', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Delete Sheriffs',
+        scopeCode: 'sheriffs:delete',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -106,10 +105,10 @@ export const defaultApiScopes: ApiScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Edit Sheriffs', // Human-friendly scope name
-        scopeCode: 'sheriffs:edit', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Edit Sheriffs',
+        scopeCode: 'sheriffs:edit',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -117,10 +116,10 @@ export const defaultApiScopes: ApiScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'View + Search Sheriffs', // Human-friendly scope name
-        scopeCode: 'sheriffs:view', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'View + Search Sheriffs',
+        scopeCode: 'sheriffs:view',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -128,10 +127,10 @@ export const defaultApiScopes: ApiScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'System Locations', // Human-friendly scope name
-        scopeCode: 'system:locations', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'System Locations',
+        scopeCode: 'system:locations',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -139,10 +138,10 @@ export const defaultApiScopes: ApiScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'System API Scopes', // Human-friendly scope name
-        scopeCode: 'system:scopes:api', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'System API Scopes',
+        scopeCode: 'system:scopes:api',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -150,10 +149,10 @@ export const defaultApiScopes: ApiScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'System UI Components', // Human-friendly scope name
-        scopeCode: 'system:scopes:ui', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'System UI Components',
+        scopeCode: 'system:scopes:ui',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -161,10 +160,10 @@ export const defaultApiScopes: ApiScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'System Assignment Types', // Human-friendly scope name
-        scopeCode: 'system:types:assignments', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'System Assignment Types',
+        scopeCode: 'system:types:assignments',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -172,10 +171,10 @@ export const defaultApiScopes: ApiScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'System Leave Types', // Human-friendly scope name
-        scopeCode: 'system:types:leaves', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'System Leave Types',
+        scopeCode: 'system:types:leaves',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -183,10 +182,10 @@ export const defaultApiScopes: ApiScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'System Training Types', // Human-friendly scope name
-        scopeCode: 'system:types:training', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'System Training Types',
+        scopeCode: 'system:types:training',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -194,19 +193,18 @@ export const defaultApiScopes: ApiScope[] = [
         revisionCount: 0
     }
 ];
-
 /**
  * IMPORTANT! DO NOT REMOVE! These scopes MUST EXIST IN THE SYSTEM to allow frontend application components to display
  * and are populated into the database automatically if they don't exist.
  */
-export const defaultFrontendScopes: FrontendScope[] = [
-   /**
-    * @scope SA_ALL_LOCATIONS
-    */
+exports.defaultFrontendScopes = [
+    /**
+     * @scope SA_ALL_LOCATIONS
+     */
     {
-        scopeName: 'Special / Super Admin', // Human-friendly scope name
-        scopeCode: 'SA_SPECIAL', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
+        scopeName: 'Special / Super Admin',
+        scopeCode: 'SA_SPECIAL',
+        systemScopeInd: true,
         description: 'Special privileges for the Super Admin user',
         createdBy: createdBy,
         updatedBy: updatedBy,
@@ -215,10 +213,10 @@ export const defaultFrontendScopes: FrontendScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Users Page', // Human-friendly scope name
-        scopeCode: 'ADMIN_PAGE_USERS', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Admin Users Page',
+        scopeCode: 'ADMIN_PAGE_USERS',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -226,10 +224,10 @@ export const defaultFrontendScopes: FrontendScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin API Scopes Plugin', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_API_SCOPES', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Admin API Scopes Plugin',
+        scopeCode: 'ADMIN_PLUGIN_API_SCOPES',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -237,10 +235,10 @@ export const defaultFrontendScopes: FrontendScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Frontend Scopes Plugin', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_FRONTEND_SCOPES', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Admin Frontend Scopes Plugin',
+        scopeCode: 'ADMIN_PLUGIN_FRONTEND_SCOPES',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -248,10 +246,10 @@ export const defaultFrontendScopes: FrontendScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Courtrooms Plugin', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_COURTROOMS', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Admin Courtrooms Plugin',
+        scopeCode: 'ADMIN_PLUGIN_COURTROOMS',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -259,10 +257,10 @@ export const defaultFrontendScopes: FrontendScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Court Roles Plugin', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_COURT_ROLES', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Admin Court Roles Plugin',
+        scopeCode: 'ADMIN_PLUGIN_COURT_ROLES',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -270,10 +268,10 @@ export const defaultFrontendScopes: FrontendScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Jail Roles Plugin', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_JAIL_ROLES', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Admin Jail Roles Plugin',
+        scopeCode: 'ADMIN_PLUGIN_JAIL_ROLES',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -281,10 +279,10 @@ export const defaultFrontendScopes: FrontendScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Escort Runs Plugin', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_ESCORT_TYPES', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Admin Escort Runs Plugin',
+        scopeCode: 'ADMIN_PLUGIN_ESCORT_TYPES',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -292,10 +290,10 @@ export const defaultFrontendScopes: FrontendScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Other Assignments Plugin', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_OTHER_TYPES', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Admin Other Assignments Plugin',
+        scopeCode: 'ADMIN_PLUGIN_OTHER_TYPES',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -303,10 +301,10 @@ export const defaultFrontendScopes: FrontendScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Leave Types Plugin', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_LEAVE_TYPES', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Admin Leave Types Plugin',
+        scopeCode: 'ADMIN_PLUGIN_LEAVE_TYPES',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -314,10 +312,10 @@ export const defaultFrontendScopes: FrontendScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Roles Plugin', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_ROLES', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Admin Roles Plugin',
+        scopeCode: 'ADMIN_PLUGIN_ROLES',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -325,10 +323,10 @@ export const defaultFrontendScopes: FrontendScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Training Types Plugin', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Admin Training Types Plugin',
+        scopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -336,10 +334,10 @@ export const defaultFrontendScopes: FrontendScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin User Roles Plugin', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_USER_ROLES', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Admin User Roles Plugin',
+        scopeCode: 'ADMIN_PLUGIN_USER_ROLES',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -347,10 +345,10 @@ export const defaultFrontendScopes: FrontendScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Sheriff Profile Identification Plugin', // Human-friendly scope name
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_IDENT', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Sheriff Profile Identification Plugin',
+        scopeCode: 'SHERIFF_PROFILE_PLUGIN_IDENT',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -358,10 +356,10 @@ export const defaultFrontendScopes: FrontendScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Sheriff Profile Leaves Plugin', // Human-friendly scope name
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_LEAVES', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Sheriff Profile Leaves Plugin',
+        scopeCode: 'SHERIFF_PROFILE_PLUGIN_LEAVES',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -369,10 +367,10 @@ export const defaultFrontendScopes: FrontendScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Sheriff Profile Location Plugin', // Human-friendly scope name
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_LOCATION', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Sheriff Profile Location Plugin',
+        scopeCode: 'SHERIFF_PROFILE_PLUGIN_LOCATION',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -380,10 +378,10 @@ export const defaultFrontendScopes: FrontendScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Sheriff Profile Roles Plugin', // Human-friendly scope name
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_ROLES', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Sheriff Profile Roles Plugin',
+        scopeCode: 'SHERIFF_PROFILE_PLUGIN_ROLES',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -391,10 +389,10 @@ export const defaultFrontendScopes: FrontendScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Sheriff Profile Training Plugin', // Human-friendly scope name
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_TRAINING', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: '', // Scope description
+        scopeName: 'Sheriff Profile Training Plugin',
+        scopeCode: 'SHERIFF_PROFILE_PLUGIN_TRAINING',
+        systemScopeInd: true,
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -402,19 +400,18 @@ export const defaultFrontendScopes: FrontendScope[] = [
         revisionCount: 0
     }
 ];
-
 /**
  * IMPORTANT! DO NOT REMOVE! These scopes MUST EXIST IN THE SYSTEM to allow frontend application components to display
  * and are populated into the database automatically if they don't exist.
  */
-export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
+exports.defaultFrontendScopePermissions = [
     // Special privileges
     {
-        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeId: null,
         frontendScopeCode: 'SA_SPECIAL',
         permissionCode: 'ALL_LOCATIONS',
         displayName: 'All Locations',
-        description: 'If a plugin\'s data is scoped by location, provide an "All Locations" option from the current location', // Scope description
+        description: 'If a plugin\'s data is scoped by location, provide an "All Locations" option from the current location',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -422,11 +419,11 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         revisionCount: 0
     },
     {
-        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeId: null,
         frontendScopeCode: 'SA_SPECIAL',
         permissionCode: 'SA_DELETE_USER',
         displayName: 'Delete User',
-        description: 'User can delete users - the default behavior is to expire', // Scope description
+        description: 'User can delete users - the default behavior is to expire',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -434,11 +431,11 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         revisionCount: 0
     },
     {
-        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeId: null,
         frontendScopeCode: 'SA_SPECIAL',
         permissionCode: 'SA_DELETE_USER_ROLE',
         displayName: 'Delete User Role',
-        description: 'User can delete user roles - the default behavior is to expire', // Scope description
+        description: 'User can delete user roles - the default behavior is to expire',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -447,11 +444,11 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     // SHERIFF_PROFILE_PLUGIN_<TYPE>
     {
-        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeId: null,
         frontendScopeCode: 'SHERIFF_PROFILE_PLUGIN_IDENT',
         permissionCode: 'EDIT_BADGE',
         displayName: 'Can Edit Badge Number',
-        description: '', // Scope description
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -459,11 +456,11 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         revisionCount: 0
     },
     {
-        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeId: null,
         frontendScopeCode: 'SHERIFF_PROFILE_PLUGIN_IDENT',
         permissionCode: 'EDIT_RANK',
         displayName: 'Can Edit Sheriff Rank',
-        description: 'User can edit a sheriff\'s rank', // Scope description
+        description: 'User can edit a sheriff\'s rank',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -471,11 +468,11 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         revisionCount: 0
     },
     {
-        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeId: null,
         frontendScopeCode: 'SHERIFF_PROFILE_PLUGIN_LOCATION',
         permissionCode: 'EDIT_HOME_LOC',
         displayName: 'Can Edit Home Location',
-        description: 'User can edit a sheriff\'s home location', // Scope description
+        description: 'User can edit a sheriff\'s home location',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -483,11 +480,11 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         revisionCount: 0
     },
     {
-        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeId: null,
         frontendScopeCode: 'SHERIFF_PROFILE_PLUGIN_LOCATION',
         permissionCode: 'EDIT_CUR_LOC',
         displayName: 'Can Edit Current Location',
-        description: 'User can edit a sheriff\'s current location', // Scope description
+        description: 'User can edit a sheriff\'s current location',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -495,11 +492,11 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         revisionCount: 0
     },
     {
-        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeId: null,
         frontendScopeCode: 'SHERIFF_PROFILE_PLUGIN_LEAVES',
         permissionCode: 'MANAGE_LEAVES_DATA',
         displayName: 'Manage Leaves Data',
-        description: '', // Scope description
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -507,11 +504,11 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         revisionCount: 0
     },
     {
-        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeId: null,
         frontendScopeCode: 'SHERIFF_PROFILE_PLUGIN_TRAINING',
         permissionCode: 'MANAGE_TRAINING_DATA',
         displayName: 'Manage Training Data',
-        description: '', // Scope description
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -520,11 +517,11 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     // ADMIN_PLUGIN_USER_ROLES
     {
-        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeId: null,
         frontendScopeCode: 'ADMIN_PLUGIN_USER_ROLES',
         permissionCode: 'EXPIRE_USER_ROLE',
         displayName: 'Expire User Role',
-        description: '', // Scope description
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -533,11 +530,11 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     // ADMIN_PLUGIN_COURTROOMS
     {
-        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeId: null,
         frontendScopeCode: 'ADMIN_PLUGIN_COURTROOMS',
         permissionCode: 'MANAGE_ALL',
         displayName: 'Manage All Locations',
-        description: '', // Scope description
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -545,11 +542,11 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         revisionCount: 0
     },
     {
-        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeId: null,
         frontendScopeCode: 'ADMIN_PLUGIN_COURTROOMS',
         permissionCode: 'MANAGE_OWN',
         displayName: 'Manage Own Locations',
-        description: '', // Scope description
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -558,11 +555,11 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     // ADMIN_PAGE_USERS
     {
-        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeId: null,
         frontendScopeCode: 'ADMIN_PAGE_USERS',
         permissionCode: 'ADD_USER',
         displayName: 'Add User',
-        description: '', // Scope description
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -570,11 +567,11 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         revisionCount: 0
     },
     {
-        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeId: null,
         frontendScopeCode: 'ADMIN_PAGE_USERS',
         permissionCode: 'EDIT_USER',
         displayName: 'Edit User',
-        description: '', // Scope description
+        description: '',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -582,11 +579,10 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         revisionCount: 0
     }
 ];
-
 /**
  * IMPORTANT! DO NOT REMOVE! This is the default SYSTEM role.
  */
-export const defaultRoles = [
+exports.defaultRoles = [
     {
         roleName: 'System',
         roleCode: 'SYSTEM',
@@ -610,11 +606,10 @@ export const defaultRoles = [
         revisionCount: 0
     }
 ];
-
 /**
  * IMPORTANT! DO NOT REMOVE! These role scopes MUST EXIST IN THE SYSTEM.
  */
-export const defaultSystemFrontendScopes = [
+exports.defaultSystemFrontendScopes = [
     {
         roleCode: 'SYSTEM',
         scopeCode: 'SA_SPECIAL',
@@ -670,14 +665,13 @@ export const defaultSystemFrontendScopes = [
         revisionCount: 0
     }
 ];
-
 /**
  * IMPORTANT! DO NOT REMOVE! These role scopes MUST EXIST IN THE SYSTEM.
  */
-export const defaultSystemApiScopes = [
+exports.defaultSystemApiScopes = [
     {
         roleCode: 'SYSTEM',
-        scopeCode: 'system:scopes:ui', // Not part of the model, just a reference field for our builder
+        scopeCode: 'system:scopes:ui',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -686,7 +680,7 @@ export const defaultSystemApiScopes = [
     },
     {
         roleCode: 'SYSTEM',
-        scopeCode: 'system:scopes:api', // Not part of the model, just a reference field for our builder
+        scopeCode: 'system:scopes:api',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -694,3 +688,4 @@ export const defaultSystemApiScopes = [
         revisionCount: 0
     }
 ];
+//# sourceMappingURL=../../src/dist/common/generatorData.js.map

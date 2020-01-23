@@ -29,5 +29,5 @@ app.listen(PORT).on('listening', async () => {
 
     // Create the test user account
     // TODO: Only if in dev!
-    await generator.getOrCreateTestUser();
+    await generator.getOrCreateDevUser();
 }); 

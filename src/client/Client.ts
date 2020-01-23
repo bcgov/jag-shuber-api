@@ -630,11 +630,11 @@ export default class Client {
             return response;
         });
     }    
-    public async GetSheriffs( locationId:string ):Promise<Array<Sheriff>>{
+    public async GetSheriffs( locationId:string ):Promise<any>{
         const params = { 
             "locationId":locationId 
         };
-        return this.tryRequest<Array<Sheriff>>(async () => {
+        return this.tryRequest<any>(async () => {
             const response: superAgent.Response = await this.agent.get(`/sheriffs`)
                 .query(params)
             return response;

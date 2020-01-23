@@ -14,19 +14,19 @@ exports.FAKEMINDER_GUID = "SOMEGUIDGOESHERE";
  * It is / will be used to seed access privileges for the built-in super admin user, and to associate it with a specific
  * CA Siteminder user ID and corresponding IDIR, which is configured using OpenShift.
  */
-exports.SA_SITEMINDER_ID = process.env.SA_SITEMINDER_ID || null; // Super-Admin User's Siteminder User ID (Prod)
-exports.SA_AUTH_ID = process.env.SA_IDIR || null; // Super-Admin's IDIR (Prod)
+exports.SA_SITEMINDER_ID = process.env.SYS_SA_SITEMINDER_ID || null; // Super-Admin User's Siteminder User ID (Prod)
+exports.SA_AUTH_ID = process.env.SYS_SA_AUTH_ID || null; // Super-Admin's IDIR (Prod)
 /**
  * These are the same as the SA_SITEMINDER_ID and SA_AUTH_ID env vars, except they control which user is granted
  * full access rights to the system in a development environment.
  */
-exports.DEV_SA_SITEMINDER_ID = process.env.DEV_SA_SITEMINDER_ID || null; // Super-Admin User's Siteminder User ID (Dev)
-exports.DEV_SA_AUTH_ID = process.env.DEV_SA_IDIR || null; // Super-Admin's IDIR (Dev)
+exports.DEV_SA_SITEMINDER_ID = process.env.SYS_DEV_SA_SITEMINDER_ID || null; // Super-Admin User's Siteminder User ID (Dev)
+exports.DEV_SA_AUTH_ID = process.env.SYS_DEV_SA_AUTH_ID || null; // Super-Admin's IDIR (Dev)
 /**
  * This is used to configure a fake IDIR account name for local development purposes.
  */
-exports.TEST_USER_DISPLAY_NAME = 'Test User'; // Test User Display Name
-exports.TEST_USER_AUTH_ID = 'TESTUSR'; // Test User Auth ID (substitute for IDIR)
+exports.DEV_USER_DISPLAY_NAME = 'Test User'; // Test User Display Name
+exports.DEV_USER_AUTH_ID = 'TESTUSR'; // Test User Auth ID (substitute for IDIR)
 /**
  * System user display name. Just a value to use when the application updates a database record, and the action is not
  * attributable to a user, for whatever reason.

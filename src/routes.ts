@@ -62,6 +62,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "id": { "dataType": "string" },
             "siteminderId": { "dataType": "string" },
+            "userAuthId": { "dataType": "string" },
             "displayName": { "dataType": "string" },
             "defaultLocationId": { "dataType": "string" },
             "systemAccountInd": { "dataType": "double" },
@@ -197,6 +198,7 @@ const models: TsoaRoute.Models = {
         "properties": {
             "id": { "dataType": "string" },
             "frontendScopeId": { "dataType": "string" },
+            "frontendScopeCode": { "dataType": "string" },
             "permissionCode": { "dataType": "string" },
             "displayName": { "dataType": "string" },
             "description": { "dataType": "string" },

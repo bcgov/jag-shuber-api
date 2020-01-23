@@ -137,7 +137,7 @@ export default class Client {
     GetLocationById(id: string): Promise<Location>;
     UpdateLocation(id: string, model: Location): Promise<Location>;
     DeleteLocation(id: string): Promise<void>;
-    GetSheriffs(locationId: string): Promise<Array<Sheriff>>;
+    GetSheriffs(locationId: string): Promise<any>;
     CreateSheriff(model: Sheriff): Promise<Sheriff>;
     GetSheriffById(id: string): Promise<Sheriff>;
     UpdateSheriff(id: string, model: Sheriff): Promise<Sheriff>;

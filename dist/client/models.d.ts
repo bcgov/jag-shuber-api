@@ -1,6 +1,7 @@
 export interface User {
     id?: string;
     siteminderId?: string;
+    userAuthId?: string;
     displayName?: string;
     defaultLocationId?: string;
     systemAccountInd?: number;
@@ -118,6 +119,7 @@ export interface RolePermission {
 export interface FrontendScopePermission {
     id?: string;
     frontendScopeId?: string;
+    frontendScopeCode?: string;
     permissionCode?: string;
     displayName?: string;
     description?: string;

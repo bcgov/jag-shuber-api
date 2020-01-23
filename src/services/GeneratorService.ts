@@ -26,7 +26,7 @@ import {
 } from '../common/generatorData';
 
 import {
-    TEST_USER_AUTH_ID, TEST_USER_DISPLAY_NAME,
+    DEV_USER_AUTH_ID, DEV_USER_DISPLAY_NAME,
     SYSTEM_USER_DISPLAY_NAME
 } from '../common/authentication';
 
@@ -162,21 +162,21 @@ export class GeneratorService {
     }
 
     /**
-     * Get or create the test user. The test user is only used when developing locally, where a Siteminder user does not
+     * Get or create the dev user. The dev user is only used when developing locally, where a Siteminder user does not
      * exist (unless configured using FakeMinder or some other mock implementation) and is granted full access to
      * frontend plugins and components, user interface features, and all API routes / OAuth scopes.
      */
-    public async getOrCreateTestUser(): Promise<User | undefined> {
+    public async getOrCreateDevUser(): Promise<User | undefined> {
         // No admin user was found using the token, check to see if the test user account exists
-        console.log(`Check to see if the test user account exists`);
+        console.log(`Check to see if the dev user account exists`);
         const userService = Container.get(UserService);
-        let user = await userService.getByToken({ siteminderId: null, userId: TEST_USER_AUTH_ID });
+        let user = await userService.getByToken({ siteminderId: null, userId: DEV_USER_AUTH_ID });
         if (!user) {
-            console.log(`Could not find the test user account - creating a new test account.`);
+            console.log(`Could not find the dev user account - creating a new test account.`);
             user = await userService.create({
-                displayName: TEST_USER_DISPLAY_NAME,
+                displayName: DEV_USER_DISPLAY_NAME,
                 siteminderId: uuidv4(), // TODO: Can't ignore unless we drop the constraint, but we won't have one, use a random value for now...
-                userAuthId: TEST_USER_AUTH_ID, // 7 chars, same as IDIR
+                userAuthId: DEV_USER_AUTH_ID, // 7 chars, same as IDIR
                 defaultLocationId: '65b2e8fb-0d64-4f63-853c-76d8d359760e', // GUID Set a default location for the user
                 systemAccountInd: 1, // Is the user a system user
                 sheriffId: null, // If the user is a sheriff, this needs to be populated

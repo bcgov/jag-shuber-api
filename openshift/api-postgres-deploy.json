@@ -189,6 +189,38 @@
                                 ],
                                 "env": [
                                     {
+                                        "name": "SYS_PRODUCTION_MODE",
+                                        "value": "${SYS_PRODUCTION_MODE}"
+                                    },
+                                    {
+                                        "name": "SYS_GRANT_ALL_SCOPES",
+                                        "value": "${SYS_GRANT_ALL_SCOPES}"
+                                    },
+                                    {
+                                        "name": "SYS_USE_SITEMINDER",
+                                        "value": "${SYS_USE_SITEMINDER}"
+                                    },
+                                    {
+                                        "name": "SYS_AUTH_ID_SM_HEADER_KEY",
+                                        "value": "${SYS_AUTH_ID_SM_HEADER_KEY}"
+                                    },
+                                    {
+                                        "name": "SYS_SITEMINDER_ID",
+                                        "value": "${SYS_SA_SITEMINDER_ID}"
+                                    },
+                                    {
+                                        "name": "SYS_SA_AUTH_ID",
+                                        "value": "${SYS_USE_SITEMINDER}"
+                                    },
+                                    {
+                                        "name": "SYS_DEV_SA_SITEMINDER_ID",
+                                        "value": "${SYS_DEV_SA_SITEMINDER_ID}"
+                                    },
+                                    {
+                                        "name": "SYS_DEV_SA_AUTH_ID",
+                                        "value": "${SYS_DEV_SA_AUTH_ID}"
+                                    },
+                                    {
                                         "name": "API_DATABASE_SCHEMA",
                                         "value": "${API_DATABASE_SCHEMA}"
                                     },
@@ -531,6 +563,63 @@
         }
     ],
     "parameters": [
+        {
+            "name": "SYS_PRODUCTION_MODE",
+            "displayName": "Production Mode",
+            "description": "Enables production mode. This primarily changes how auth is handled and the SA system user. The value can be 'true' or 'false'.",
+            "required": false,
+            "value":"true"
+        },
+        {
+            "name": "SYS_GRANT_ALL_SCOPES",
+            "displayName": "Grant All Auth Scopes",
+            "description": "Grant all users the 'Super Administrator' role. The value can be 'true' or 'false'.",
+            "required": false,
+            "value":"false"
+        },
+        {
+            "name": "SYS_USE_SITEMINDER",
+            "displayName": "Use Siteminder",
+            "description": "Warning! ONLY disable this if Siteminder is disabled as the auth handler for the GET token API call. Production Mode must be set to 'false' for this to work.",
+            "required": false,
+            "value":"true"
+        },
+        {
+            "name": "SYS_AUTH_ID_SM_HEADER_KEY",
+            "displayName": "Auth ID",
+            "description": "Override the Siteminder header key used to map Siteminder users to application users. By default, it is smgov_useridentifier.",
+            "required": false,
+            "value":"smgov_useridentifier"
+        },
+        {
+            "name": "SYS_SA_SITEMINDER_ID",
+            "displayName": "Super Admin Siteminder ID",
+            "description": "The Siteminder ID of the user who is assigned the 'Super Administrator' role in PRODUCTION.",
+            "required": false,
+            "value":""
+        },
+        {
+            "name": "SYS_SA_AUTH_ID",
+            "displayName": "Super Admin IDIR",
+            "description": "The IDIR of the user who is assigned the 'Super Administrator' role in PRODUCTION.",
+            "required": false,
+            "value":""
+        },
+        {
+            "name": "SYS_DEV_SA_SITEMINDER_ID",
+            "displayName": "Super Admin Siteminder ID (Dev)",
+            "description": "The Siteminder ID of the user who is assigned the 'Super Administrator' role when in DEV or TEST.",
+            "required": false,
+            "value":""
+        },
+        {
+            "name": "SYS_DEV_SA_AUTH_ID",
+            "displayName": "Super Admin IDIR (Dev)",
+            "description": "The IDIR of the user who is assigned the 'Super Administrator' role when in DEV or TEST.",
+            "required": false,
+            "value":""
+        },
+
         {
             "name": "API_IMAGE_NAMESPACE",
             "displayName": "Api ImageStream Project",
