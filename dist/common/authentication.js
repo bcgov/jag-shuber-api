@@ -38,7 +38,7 @@ exports.SYSTEM_USER_DISPLAY_NAME = 'System User';
 exports.SITEMINDER_HEADER_USERGUID = 'smgov_userguid';
 exports.SITEMINDER_HEADER_USERDISPLAYNAME = 'smgov_userdisplayname';
 exports.SITEMINDER_HEADER_USERTYPE = 'smgov_usertype';
-exports.SITEMINDER_HEADER_USERIDENTIFIER = 'smgov_useridentifier';
+exports.SITEMINDER_HEADER_USERIDENTIFIER = process.env.SYS_AUTH_ID_SM_HEADER_KEY || 'smgov_useridentifier';
 exports.DEFAULT_SCOPES = ['default'];
 exports.TOKEN_COOKIE_NAME = "app_token";
 /**

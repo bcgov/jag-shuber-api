@@ -34,7 +34,7 @@ export declare const SYSTEM_USER_DISPLAY_NAME = "System User";
 export declare const SITEMINDER_HEADER_USERGUID = "smgov_userguid";
 export declare const SITEMINDER_HEADER_USERDISPLAYNAME = "smgov_userdisplayname";
 export declare const SITEMINDER_HEADER_USERTYPE = "smgov_usertype";
-export declare const SITEMINDER_HEADER_USERIDENTIFIER = "smgov_useridentifier";
+export declare const SITEMINDER_HEADER_USERIDENTIFIER: string;
 export declare const DEFAULT_SCOPES: Scope[];
 export declare const TOKEN_COOKIE_NAME = "app_token";
 /**
