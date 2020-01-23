@@ -205,7 +205,7 @@
                                         "value": "${SYS_AUTH_ID_SM_HEADER_KEY}"
                                     },
                                     {
-                                        "name": "SYS_SITEMINDER_ID",
+                                        "name": "SYS_SA_SITEMINDER_ID",
                                         "value": "${SYS_SA_SITEMINDER_ID}"
                                     },
                                     {
