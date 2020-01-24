@@ -708,9 +708,61 @@ export default class Client {
             return response;
         });
     }    
+    public async CreateJailRoleCode( model:JailRoleCode ):Promise<JailRoleCode>{
+        return this.tryRequest<JailRoleCode>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/codes/jailroles`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async UpdateJailRoleCode( id:string , model:JailRoleCode ):Promise<JailRoleCode>{
+        return this.tryRequest<JailRoleCode>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/codes/jailroles/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async ExpireJailRoleCode( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/codes/jailroles/${id}`)
+            return response;
+        });
+    }    
+    public async DeleteJailRoleCode( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/codes/jailroles/${id}`)
+            return response;
+        });
+    }    
     public async GetOtherAssignCodes():Promise<Array<OtherAssignCode>>{
         return this.tryRequest<Array<OtherAssignCode>>(async () => {
             const response: superAgent.Response = await this.agent.get(`/codes/otherassign`)
+            return response;
+        });
+    }    
+    public async CreateOtherAssignCode( model:OtherAssignCode ):Promise<OtherAssignCode>{
+        return this.tryRequest<OtherAssignCode>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/codes/otherassign`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async UpdateOtherAssignCode( id:string , model:OtherAssignCode ):Promise<OtherAssignCode>{
+        return this.tryRequest<OtherAssignCode>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/codes/otherassign/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async ExpireOtherAssignCode( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/codes/otherassign/${id}`)
+            return response;
+        });
+    }    
+    public async DeleteOtherAssignCode( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/codes/otherassign/${id}`)
             return response;
         });
     }    
@@ -1029,6 +1081,32 @@ export default class Client {
     public async GetCourtRoleCodes():Promise<Array<CourtRoleCode>>{
         return this.tryRequest<Array<CourtRoleCode>>(async () => {
             const response: superAgent.Response = await this.agent.get(`/codes/courtroles`)
+            return response;
+        });
+    }    
+    public async CreateCourtRoleCode( model:CourtRoleCode ):Promise<CourtRoleCode>{
+        return this.tryRequest<CourtRoleCode>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/codes/courtroles`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async UpdateCourtRoleCode( id:string , model:CourtRoleCode ):Promise<CourtRoleCode>{
+        return this.tryRequest<CourtRoleCode>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/codes/courtroles/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async ExpireCourtRoleCode( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/codes/courtroles/${id}`)
+            return response;
+        });
+    }    
+    public async DeleteCourtRoleCode( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/codes/courtroles/${id}`)
             return response;
         });
     }    

@@ -1680,6 +1680,80 @@ var Client = /** @class */ (function () {
             });
         });
     };
+    Client.prototype.CreateJailRoleCode = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/codes/jailroles")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.UpdateJailRoleCode = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/codes/jailroles/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.ExpireJailRoleCode = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/codes/jailroles/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.DeleteJailRoleCode = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/codes/jailroles/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
     Client.prototype.GetOtherAssignCodes = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
@@ -1689,6 +1763,80 @@ var Client = /** @class */ (function () {
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/codes/otherassign")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.CreateOtherAssignCode = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/codes/otherassign")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.UpdateOtherAssignCode = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/codes/otherassign/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.ExpireOtherAssignCode = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/codes/otherassign/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.DeleteOtherAssignCode = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/codes/otherassign/" + id)];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];
@@ -2564,6 +2712,80 @@ var Client = /** @class */ (function () {
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.get("/codes/courtroles")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.CreateCourtRoleCode = function (model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/codes/courtroles")
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.UpdateCourtRoleCode = function (id, model) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.put("/codes/courtroles/" + id)
+                                        .send(model)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.ExpireCourtRoleCode = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/codes/courtroles/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.DeleteCourtRoleCode = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.delete("/codes/courtroles/" + id)];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];
