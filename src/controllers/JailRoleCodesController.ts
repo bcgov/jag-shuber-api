@@ -18,4 +18,24 @@ export class JailRoleCodesController extends ControllerBase<JailRoleCode, JailRo
         return this.service.getAll();
     }
 
+    @Post()
+    public createJailRoleCode(@Body() model: JailRoleCode) {
+        return super.create(model);
+    }
+
+    @Put('{id}')
+    public updateJailRoleCode(@Path() id: string, @Body() model: JailRoleCode) {
+        return super.update(id, model);
+    }
+
+    @Post('{id}')
+    public expireJailRoleCode(@Path() id: string) {
+        return this.service.expire(id);
+    }
+
+    @Delete('{id}')
+    public deleteJailRoleCode(@Path() id: string) {
+        return this.service.expire(id);
+    }
+
 }

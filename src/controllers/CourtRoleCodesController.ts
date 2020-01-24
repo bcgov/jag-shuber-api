@@ -18,4 +18,24 @@ export class CourtRoleCodesController extends ControllerBase<CourtRoleCode, Cour
         return super.getAll();
     }
 
+    @Post()
+    public createCourtRoleCode(@Body() model: CourtRoleCode) {
+        return super.create(model);
+    }
+
+    @Put('{id}')
+    public updateCourtRoleCode(@Path() id: string, @Body() model: CourtRoleCode) {
+        return super.update(id, model);
+    }
+
+    @Post('{id}')
+    public expireCourtRoleCode(@Path() id: string) {
+        return this.service.expire(id);
+    }
+
+    @Delete('{id}')
+    public deleteCourtRoleCode(@Path() id: string) {
+        return this.service.expire(id);
+    }
+
 }
