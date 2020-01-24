@@ -18,4 +18,24 @@ export class OtherAssignCodesController extends ControllerBase<OtherAssignCode, 
         return this.service.getAll();
     }
 
+    @Post()
+    public createOtherAssignCode(@Body() model: OtherAssignCode) {
+        return super.create(model);
+    }
+
+    @Put('{id}')
+    public updateOtherAssignCode(@Path() id: string, @Body() model: OtherAssignCode) {
+        return super.update(id, model);
+    }
+
+    @Post('{id}')
+    public expireOtherAssignCode(@Path() id: string) {
+        return this.service.expire(id);
+    }
+
+    @Delete('{id}')
+    public deleteOtherAssignCode(@Path() id: string) {
+        return this.service.expire(id);
+    }
+
 }
