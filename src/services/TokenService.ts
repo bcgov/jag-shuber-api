@@ -75,13 +75,27 @@ export class TokenService {
             // Prefer siteminder ID if it's available
             isSuperAdmin = (SA_SITEMINDER_ID && user.siteminderId && (user.siteminderId === SA_SITEMINDER_ID));
             if (!isSuperAdmin && SA_AUTH_ID) {
-                isSuperAdmin = (SA_AUTH_ID && user.userAuthId && (user.userAuthId === SA_AUTH_ID));
+                // Is the SA_AUTH_ID a comma-separated list of IDIRs?
+                const isList = SA_AUTH_ID.match(/,/g);
+                if (isList) {
+                    const saIds = SA_AUTH_ID.split(',').map(id => id.trim());
+                    isSuperAdmin = (SA_AUTH_ID && user.userAuthId && (saIds.find(user.userAuthId) !== undefined));
+                } else {
+                    isSuperAdmin = (SA_AUTH_ID && user.userAuthId && (user.userAuthId === SA_AUTH_ID));
+                }
             }
         } else {
             // Prefer siteminder ID if it's available
             isSuperAdmin = (DEV_SA_SITEMINDER_ID && user.siteminderId && (user.siteminderId === DEV_SA_SITEMINDER_ID));
             if (!isSuperAdmin && DEV_SA_AUTH_ID) {
-                isSuperAdmin = (DEV_SA_AUTH_ID && user.userAuthId && (user.userAuthId === DEV_SA_AUTH_ID));
+                // Is the SA_AUTH_ID a comma-separated list of IDIRs?
+                const isList = DEV_SA_AUTH_ID.match(/,/g);
+                if (isList) {
+                    const saIds = DEV_SA_AUTH_ID.split(',').map(id => id.trim());
+                    isSuperAdmin = (DEV_SA_AUTH_ID && user.userAuthId && (saIds.find(user.userAuthId) !== undefined));
+                } else {
+                    isSuperAdmin = (DEV_SA_AUTH_ID && user.userAuthId && (user.userAuthId === DEV_SA_AUTH_ID));
+                }
             }
         }
         
