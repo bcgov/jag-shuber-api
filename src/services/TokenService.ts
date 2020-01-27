@@ -31,14 +31,11 @@ const USE_SITEMINDER = process.env.SYS_USE_SITEMINDER === 'false' ? false : true
 
 import {
     FAKEMINDER_IDIR, FAKEMINDER_GUID,
-    SA_SITEMINDER_ID, // SA_AUTH_ID,
-    DEV_SA_SITEMINDER_ID, // DEV_SA_AUTH_ID,
+    SA_SITEMINDER_ID, SA_AUTH_ID,
+    DEV_SA_SITEMINDER_ID, DEV_SA_AUTH_ID,
     DEV_USER_AUTH_ID, DEV_USER_DISPLAY_NAME,
     SYSTEM_USER_DISPLAY_NAME
 } from '../common/authentication';
-
-const DEV_SA_AUTH_ID = 'GLANDRY,MAWALLIS,LUCASLOP';
-const SA_AUTH_ID = 'GLANDRY,MAWALLIS,LUCASLOP';
 
 @AutoWired
 export class TokenService {
