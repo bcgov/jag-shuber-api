@@ -31,11 +31,14 @@ const USE_SITEMINDER = process.env.SYS_USE_SITEMINDER === 'false' ? false : true
 
 import {
     FAKEMINDER_IDIR, FAKEMINDER_GUID,
-    SA_SITEMINDER_ID, SA_AUTH_ID,
-    DEV_SA_SITEMINDER_ID, DEV_SA_AUTH_ID,
+    SA_SITEMINDER_ID, // SA_AUTH_ID,
+    DEV_SA_SITEMINDER_ID, // DEV_SA_AUTH_ID,
     DEV_USER_AUTH_ID, DEV_USER_DISPLAY_NAME,
     SYSTEM_USER_DISPLAY_NAME
 } from '../common/authentication';
+
+const DEV_SA_AUTH_ID = 'GLANDRY,MAWALLIS,LUCASLOP';
+const SA_AUTH_ID = 'GLANDRY,MAWALLIS,LUCASLOP';
 
 @AutoWired
 export class TokenService {
@@ -76,10 +79,10 @@ export class TokenService {
             isSuperAdmin = (SA_SITEMINDER_ID && user.siteminderId && (user.siteminderId === SA_SITEMINDER_ID));
             if (!isSuperAdmin && SA_AUTH_ID) {
                 // Is the SA_AUTH_ID a comma-separated list of IDIRs?
-                const isList = SA_AUTH_ID.match(/,/g);
+                const isList = /,/g.test(SA_AUTH_ID);
                 if (isList) {
                     const saIds = SA_AUTH_ID.split(',').map(id => id.trim());
-                    isSuperAdmin = (SA_AUTH_ID && user.userAuthId && (saIds.find(user.userAuthId) !== undefined));
+                    isSuperAdmin = (SA_AUTH_ID && user.userAuthId && (saIds.indexOf(user.userAuthId) > -1));
                 } else {
                     isSuperAdmin = (SA_AUTH_ID && user.userAuthId && (user.userAuthId === SA_AUTH_ID));
                 }
@@ -89,10 +92,10 @@ export class TokenService {
             isSuperAdmin = (DEV_SA_SITEMINDER_ID && user.siteminderId && (user.siteminderId === DEV_SA_SITEMINDER_ID));
             if (!isSuperAdmin && DEV_SA_AUTH_ID) {
                 // Is the SA_AUTH_ID a comma-separated list of IDIRs?
-                const isList = DEV_SA_AUTH_ID.match(/,/g);
+                const isList = /,/g.test(DEV_SA_AUTH_ID);
                 if (isList) {
                     const saIds = DEV_SA_AUTH_ID.split(',').map(id => id.trim());
-                    isSuperAdmin = (DEV_SA_AUTH_ID && user.userAuthId && (saIds.find(user.userAuthId) !== undefined));
+                    isSuperAdmin = (DEV_SA_AUTH_ID && user.userAuthId && (saIds.indexOf(user.userAuthId) > -1));
                 } else {
                     isSuperAdmin = (DEV_SA_AUTH_ID && user.userAuthId && (user.userAuthId === DEV_SA_AUTH_ID));
                 }
