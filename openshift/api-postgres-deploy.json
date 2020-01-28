@@ -221,6 +221,10 @@
                                         "value": "${SYS_DEV_SA_AUTH_ID}"
                                     },
                                     {
+                                        "name": "SYS_DEFAULT_LOCATION",
+                                        "value": "${SYS_DEFAULT_LOCATION}"
+                                    },
+                                    {
                                         "name": "API_DATABASE_SCHEMA",
                                         "value": "${API_DATABASE_SCHEMA}"
                                     },
@@ -602,6 +606,13 @@
             "name": "SYS_SA_AUTH_ID",
             "displayName": "Super Admin IDIR",
             "description": "The IDIR of the user who is assigned the 'Super Administrator' role in PRODUCTION.",
+            "required": false,
+            "value":""
+        },
+        {
+            "name": "SYS_DEFAULT_LOCATION",
+            "displayName": "Default Location for Generated Users",
+            "description": "A fallback default location. Used for system generated users in the event that they don't have a default location assigned.",
             "required": false,
             "value":""
         },

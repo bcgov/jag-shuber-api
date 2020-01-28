@@ -30,6 +30,9 @@ import {
     SYSTEM_USER_DISPLAY_NAME
 } from '../common/authentication';
 
+const DEFAULT_LOCATION = process.env.SYS_DEFAULT_LOCATION; // A default location CODE (GUID is useless since it's different across different environments and we don't know what they are until they're generated)
+// for new sheriffs and users if none are defined. Used internally and under the hood by TokenService and GeneratorService.
+
 import { SheriffService } from './SheriffService';
 import { Sheriff } from '../models/Sheriff';
 import { FrontendScopePermission } from '../models/FrontendScopePermission';
@@ -40,6 +43,7 @@ import { RoleApiScopeService } from './RoleApiScopeService';
 import { Role } from '../models/Role';
 import { RoleApiScope } from '../models/RoleApiScope';
 import { RoleFrontendScope } from '../models/RoleFrontendScope';
+import { LocationService } from './LocationService';
 
 const MAX_RECORDS_PER_BATCH = 3;
 
@@ -172,12 +176,14 @@ export class GeneratorService {
         const userService = Container.get(UserService);
         let user = await userService.getByToken({ siteminderId: null, userId: DEV_USER_AUTH_ID });
         if (!user) {
+            const locationService = Container.get(LocationService);
+            const locationId = locationService.getByCode(DEFAULT_LOCATION);
             console.log(`Could not find the dev user account - creating a new test account.`);
             user = await userService.create({
                 displayName: DEV_USER_DISPLAY_NAME,
                 siteminderId: uuidv4(), // TODO: Can't ignore unless we drop the constraint, but we won't have one, use a random value for now...
                 userAuthId: DEV_USER_AUTH_ID, // 7 chars, same as IDIR
-                defaultLocationId: null, // GUID TODO: Set a default location for the user and make it configurable via OpenShift
+                defaultLocationId: locationId, // GUID TODO: Set a default location for the user and make it configurable via OpenShift
                 systemAccountInd: 1, // Is the user a system user
                 sheriffId: null, // If the user is a sheriff, this needs to be populated
                 createdBy: SYSTEM_USER_DISPLAY_NAME,
@@ -228,7 +234,7 @@ export class GeneratorService {
                 displayName: `${sheriff.firstName} ${sheriff.lastName}`,
                 systemAccountInd: 0,
                 siteminderId: uuidv4(), // TODO: Can't ignore unless we drop the constraint, but we won't have one, use a random value for now...
-                userAuthId: '',
+                userAuthId: '', // TODO: This is where we can load in auth ids for sheriffs
                 defaultLocationId: sheriff.homeLocationId,
                 sheriffId: sheriff.id,
                 createdBy: SYSTEM_USER_DISPLAY_NAME,

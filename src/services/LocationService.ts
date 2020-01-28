@@ -15,4 +15,13 @@ export class LocationService extends DatabaseService<Location> {
     constructor() {
         super('location', 'location_id');
     }
+
+    async getByCode(code: string) {
+        const query = this.getSelectQuery()
+            .where(`location_cd='${code}'`)
+            .limit(1);
+
+        const rows = await this.executeQuery<Location>(query.toString());
+        return rows[0];
+    }
 }

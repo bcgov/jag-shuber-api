@@ -29,6 +29,9 @@ const PRODUCTION_MODE = process.env.SYS_PRODUCTION_MODE === 'true' ? true : fals
 const GRANT_ALL_SCOPES = process.env.SYS_GRANT_ALL_SCOPES === 'false' ? false : true
 const USE_SITEMINDER = process.env.SYS_USE_SITEMINDER === 'false' ? false : true
 
+const DEFAULT_LOCATION = process.env.SYS_DEFAULT_LOCATION; // A default location CODE (GUID is useless since it's different across different environments and we don't know what they are until they're generated)
+// for new sheriffs and users if none are defined. Used internally and under the hood by TokenService and GeneratorService.
+
 import {
     FAKEMINDER_IDIR, FAKEMINDER_GUID,
     SA_SITEMINDER_ID, SA_AUTH_ID,
@@ -36,6 +39,7 @@ import {
     DEV_USER_AUTH_ID, DEV_USER_DISPLAY_NAME,
     SYSTEM_USER_DISPLAY_NAME
 } from '../common/authentication';
+import { LocationService } from './LocationService';
 
 @AutoWired
 export class TokenService {
@@ -275,13 +279,15 @@ export class TokenService {
         const userService = Container.get(UserService);
         let user = await userService.getByToken(tokenPayload);
         if (!user) {
+            const locationService = Container.get(LocationService);
+            const locationId = locationService.getByCode(DEFAULT_LOCATION);
             console.log(`Could not find the test user's account - creating a new test account.`);
             user = await userService.create({
                 displayName: tokenPayload.displayName,
                 siteminderId: tokenPayload.guid,
                 userAuthId: tokenPayload.userId,
                 // TODO: Ability to configure this would be useful...
-                defaultLocationId: null, // GUID TODO: Set a default location for the user and make it configurable via OpenShift
+                defaultLocationId: locationId, // GUID TODO: Set a default location for the user and make it configurable via OpenShift
                 systemAccountInd: 0, // Is the user a system user
                 sheriffId: null, // If the user is a sheriff, this needs to be populated
                 createdBy: SYSTEM_USER_DISPLAY_NAME,
