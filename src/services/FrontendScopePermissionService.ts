@@ -21,7 +21,6 @@ export class FrontendScopePermissionService extends DatabaseService<FrontendScop
         super('frontend_scope_permission', 'frontend_scope_permission_id');
     }
 
-    // TODO: This is more of a findBy...
     async getByScopeId(scopeId: string): Promise<FrontendScopePermission[]> {
         const rows = await this.getWhereFieldEquals('frontendScopeId', scopeId);
         return rows;
