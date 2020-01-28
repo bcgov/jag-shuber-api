@@ -281,7 +281,7 @@ export class TokenService {
                 siteminderId: tokenPayload.guid,
                 userAuthId: tokenPayload.userId,
                 // TODO: Ability to configure this would be useful...
-                defaultLocationId: '65b2e8fb-0d64-4f63-853c-76d8d359760e', // GUID Set a default location for the user
+                defaultLocationId: null, // GUID TODO: Set a default location for the user and make it configurable via OpenShift
                 systemAccountInd: 0, // Is the user a system user
                 sheriffId: null, // If the user is a sheriff, this needs to be populated
                 createdBy: SYSTEM_USER_DISPLAY_NAME,

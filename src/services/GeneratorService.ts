@@ -177,7 +177,7 @@ export class GeneratorService {
                 displayName: DEV_USER_DISPLAY_NAME,
                 siteminderId: uuidv4(), // TODO: Can't ignore unless we drop the constraint, but we won't have one, use a random value for now...
                 userAuthId: DEV_USER_AUTH_ID, // 7 chars, same as IDIR
-                defaultLocationId: '65b2e8fb-0d64-4f63-853c-76d8d359760e', // GUID Set a default location for the user
+                defaultLocationId: null, // GUID TODO: Set a default location for the user and make it configurable via OpenShift
                 systemAccountInd: 1, // Is the user a system user
                 sheriffId: null, // If the user is a sheriff, this needs to be populated
                 createdBy: SYSTEM_USER_DISPLAY_NAME,
