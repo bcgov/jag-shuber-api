@@ -120,7 +120,7 @@ export class GeneratorService {
         const roleFrontendScopeService = Container.get(RoleFrontendScopeService) as RoleFrontendScopeService;
         const roleApiScopeService = Container.get(RoleApiScopeService) as RoleApiScopeService;
         const frontendScopeService = Container.get(FrontendScopeService) as FrontendScopeService;
-        const apiScopeService = Container.get(FrontendScopeService) as FrontendScopeService;
+        const apiScopeService = Container.get(ApiScopeService) as ApiScopeService;
         
         const roleOps = defaultRoles.map(async (role: Role) => {
             if (!(await roleService.getByCode(role.roleCode))) {
