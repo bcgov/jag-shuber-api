@@ -169,7 +169,11 @@ export class TokenService {
             console.log(`Building auth scopes for ${user.displayName} [${user.id}]`);
             console.log(user);
             authScopes = await this.buildUserAuthScopes(user.id);
+            console.log('Auth scopes:');
+            console.log(authScopes);
             appScopes = await this.buildUserAppScopes(user.id);
+            console.log('App scopes:');
+            console.log(appScopes);
         }
 
         return { authScopes, appScopes };
