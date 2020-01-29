@@ -177,7 +177,7 @@ export class GeneratorService {
         let user = await userService.getByToken({ siteminderId: null, userId: DEV_USER_AUTH_ID });
         if (!user) {
             const locationService = Container.get(LocationService);
-            const locationId = locationService.getByCode(DEFAULT_LOCATION);
+            const locationId = await locationService.getByCode(DEFAULT_LOCATION);
             console.log(`Could not find the dev user account - creating a new test account.`);
             user = await userService.create({
                 displayName: DEV_USER_DISPLAY_NAME,
@@ -234,7 +234,7 @@ export class GeneratorService {
                 displayName: `${sheriff.firstName} ${sheriff.lastName}`,
                 systemAccountInd: 0,
                 siteminderId: uuidv4(), // TODO: Can't ignore unless we drop the constraint, but we won't have one, use a random value for now...
-                userAuthId: '', // TODO: This is where we can load in auth ids for sheriffs
+                userAuthId: null, // TODO: This is where we can load in auth ids for sheriffs
                 defaultLocationId: null, // TODO: This field is basically useless, location is on the sheriff
                 sheriffId: sheriff.id,
                 createdBy: SYSTEM_USER_DISPLAY_NAME,
