@@ -156,14 +156,15 @@ export class TokenService {
         const isSuperAdmin = TokenService.isSuperAdmin(user);
         
         if (!isProductionMode || (isSuperAdmin || grantAllScopes)) {
-            if (!isProductionMode) console.log('PRODUCTION_MODE is disabled in OpenShift');
-            if (grantAllScopes) console.log('GRANT_ALL_SCOPES is enabled in OpenShift');
-            if (isSuperAdmin) console.log('User is configured as the Super Admin, granting all scopes');
+            if (grantAllScopes) console.log('GRANT_ALL_SCOPES is enabled, granting all scopes to all users');
+            if (!isProductionMode) console.log(`PRODUCTION_MODE is disabled, granting all scopes to ${user.displayName}`);
+            if (isSuperAdmin) console.log(`The current user is a Super Admin, granting all scopes to ${user.displayName}`);
+
             // If the user is the SA or GRANT_ALL_SCOPES is true grant all scopes to the user
             authScopes = await this.buildSuperAdminAuthScopes();
             appScopes = await this.buildSuperAdminAppScopes();
         } else {
-            console.log('Building auth scopes for user:');
+            console.log(`Building auth scopes for ${user.displayName} [${user.id}]`);
             console.log(user);
             authScopes = await this.buildUserAuthScopes(user.id);
             appScopes = await this.buildUserAppScopes(user.id);
@@ -305,18 +306,21 @@ export class TokenService {
         if (!isProductionMode && !(tokenPayload && tokenPayload.userId)) {
             console.warn(`No siteminder token provided. In production this will throw an error. The message you're seeing is because you're in dev.`);
             user = await generatorService.getOrCreateDevUser();
-        } else if (!isProductionMode && useSiteMinder) { 
+        } else if (!isProductionMode && useSiteMinder) {
+            console.log('USE_SITEMINDER is enabled, but we are not in PRODUCTION_MODE');
             // If we're developing locally, and TokenController.getToken HAS siteminder specified as the auth handler
             // the siteminder token will be provided by FakeMinder in which case the token payload will look like:
             // { displayName: "Name, Your", guid: "SOMEGUIDGOESHERE", type: "user", userId: "yname" }
             if ((tokenPayload.guid === FAKEMINDER_GUID) || (tokenPayload.userId === FAKEMINDER_IDIR)) {
+                console.log('The token payload is a FakeMinder token GUID or Auth ID (IDIR), get or create the built-in DEV user');
                 user = await generatorService.getOrCreateDevUser();
             } else {
+                console.log('The current user is not the built-in dev user (eg. perhaps we are running a test), get or create a siteminder authorized user');
                 // If this application is deployed to the BC Gov DEV environment, TokenController.getToken WILL have siteminder 
                 // specified as the auth handler and the token payload will look like:
                 // { displayName: "<DISPLAYNAME>", guid: "<SITEMINDER_ID>", type: "<INTERNAL | EXTERNAL>", userId: "<YOUR_IDIR>" }
                 user = await this.getOrCreateSiteminderAuthorizedUser(tokenPayload);
-            }   
+            }  
         }
 
         return user;
@@ -335,7 +339,7 @@ export class TokenService {
         if (!user) {
             const locationService = Container.get(LocationService);
             const locationId = locationService.getByCode(DEFAULT_LOCATION);
-            console.log(`Could not find the test user's account - creating a new test account.`);
+            console.log(`Could not find the test user's account - creating a new test account`);
             user = await userService.create({
                 displayName: tokenPayload.displayName,
                 siteminderId: tokenPayload.guid,
