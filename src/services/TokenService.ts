@@ -139,14 +139,15 @@ export class TokenService {
     }
 
     async buildUserScopes(user) {
+        let authScopes;
+        let appScopes;
+
         if (!user) {
             console.log("Uh oh, we shouldn't be building user scopes for a user that doesn't exist!");
-            return;
+            return { authScopes, appScopes };
         }
 
         const isSuperAdmin = TokenService.isSuperAdmin(user);
-        let authScopes;
-        let appScopes;
         
         if (!PRODUCTION_MODE || (isSuperAdmin || GRANT_ALL_SCOPES)) {
             if (!PRODUCTION_MODE) console.log('PRODUCTION_MODE is disabled in OpenShift');
