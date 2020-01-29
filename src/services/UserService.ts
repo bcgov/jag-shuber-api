@@ -125,7 +125,11 @@ export class UserService extends DatabaseService<User> {
 
     async getByToken(tokenPayload: TokenPayload) {
         const {  guid, userId, type } = tokenPayload;
-        if ((!guid || guid === '') && (!userId || userId === '')) {
+        // TODO: Get rid of GUID!
+        /*if ((!guid || guid === '') && (!userId || userId === '')) {
+            return;
+        }*/
+        if (!userId || userId === '') {
             return;
         }
 
