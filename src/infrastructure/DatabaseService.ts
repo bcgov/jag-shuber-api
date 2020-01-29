@@ -89,6 +89,7 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
                 }
             }
             console.log('Error during DB Query:', `${returnError!.message}\r\n${returnError!.detail}`);
+            console.log(error);
             throw returnError;
         }
     }
