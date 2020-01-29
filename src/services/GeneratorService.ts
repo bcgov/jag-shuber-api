@@ -30,7 +30,7 @@ import {
     SYSTEM_USER_DISPLAY_NAME
 } from '../common/authentication';
 
-const DEFAULT_LOCATION = process.env.SYS_DEFAULT_LOCATION; // A default location CODE (GUID is useless since it's different across different environments and we don't know what they are until they're generated)
+const DEFAULT_LOCATION = process.env.SYS_DEFAULT_LOCATION || 'VIC'; // A default location CODE (GUID is useless since it's different across different environments and we don't know what they are until they're generated)
 // for new sheriffs and users if none are defined. Used internally and under the hood by TokenService and GeneratorService.
 
 import { SheriffService } from './SheriffService';
@@ -193,6 +193,8 @@ export class GeneratorService {
                 revisionCount:0
             } as User);
             console.log(`Using user account: ${user.displayName} [${user.id}]`);
+        } else {
+            console.log(`Dev user account exists`);
         }
 
         return user;
@@ -230,12 +232,13 @@ export class GeneratorService {
         const userService = Container.get(UserService);
 
         try {
+            const userLocation = sheriff.homeLocationId || DEFAULT_LOCATION
             const newUserEntity = await userService.create({
                 displayName: `${sheriff.firstName} ${sheriff.lastName}`,
                 systemAccountInd: 0,
                 siteminderId: uuidv4(), // TODO: Can't ignore unless we drop the constraint, but we won't have one, use a random value for now...
                 userAuthId: '', // TODO: This is where we can load in auth ids for sheriffs
-                defaultLocationId: sheriff.homeLocationId,
+                defaultLocationId: userLocation, // TODO: Location is on sheriff, this is just a fallback - it will be set to ALL_LOCATIONS or something like that
                 sheriffId: sheriff.id,
                 createdBy: SYSTEM_USER_DISPLAY_NAME,
                 updatedBy: SYSTEM_USER_DISPLAY_NAME,

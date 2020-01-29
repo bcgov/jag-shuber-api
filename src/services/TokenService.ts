@@ -48,11 +48,21 @@ export class TokenService {
      * @param tokenPayload
      */
     async generateToken(tokenPayload: TokenPayload): Promise<any> {
-        // Token payload is the request's user object
-        // We don't care what that is right now just hard code
-        // in a user for now userId is for 'Test User'
-        let user;
+        const user = this.getTokenUser(tokenPayload);
 
+        const { authScopes, appScopes } = await this.buildUserScopes(user);
+
+        const token = await createToken({
+            scopes: authScopes as Scope[],
+            appScopes: appScopes as { [key: string]: string[] | boolean }[],
+            ...tokenPayload
+        });
+
+        return token;
+    }
+
+    async getTokenUser(tokenPayload: TokenPayload) {
+        let user;
         if (PRODUCTION_MODE) {
             // If we're NOT in DEV mode, we require a siteminder token
             if (!(tokenPayload && tokenPayload.userId)) {
@@ -68,40 +78,53 @@ export class TokenService {
 
         if (!user) throw `No user found, cannot continue, exiting.`;
 
-        let authScopes;
-        let appScopes;
+        return user;
+    }
 
-        // TODO: Build super admin roles if user is configured as the super admin in the OpenShift configuration
-        let isSuperAdmin = false;
-        // Allow for different SA configuration in PROD and DEV
-        // TODO: We can look into this in more detail later...
-        if (PRODUCTION_MODE) {
-            // Prefer siteminder ID if it's available
-            isSuperAdmin = (SA_SITEMINDER_ID && user.siteminderId && (user.siteminderId === SA_SITEMINDER_ID));
-            if (!isSuperAdmin && SA_AUTH_ID) {
-                // Is the SA_AUTH_ID a comma-separated list of IDIRs?
-                const isList = /,/g.test(SA_AUTH_ID);
-                if (isList) {
-                    const saIds = SA_AUTH_ID.split(',').map(id => id.trim());
-                    isSuperAdmin = (SA_AUTH_ID && user.userAuthId && (saIds.indexOf(user.userAuthId) > -1));
-                } else {
-                    isSuperAdmin = (SA_AUTH_ID && user.userAuthId && (user.userAuthId === SA_AUTH_ID));
-                }
-            }
-        } else {
-            // Prefer siteminder ID if it's available
-            isSuperAdmin = (DEV_SA_SITEMINDER_ID && user.siteminderId && (user.siteminderId === DEV_SA_SITEMINDER_ID));
-            if (!isSuperAdmin && DEV_SA_AUTH_ID) {
-                // Is the SA_AUTH_ID a comma-separated list of IDIRs?
-                const isList = /,/g.test(DEV_SA_AUTH_ID);
-                if (isList) {
-                    const saIds = DEV_SA_AUTH_ID.split(',').map(id => id.trim());
-                    isSuperAdmin = (DEV_SA_AUTH_ID && user.userAuthId && (saIds.indexOf(user.userAuthId) > -1));
-                } else {
-                    isSuperAdmin = (DEV_SA_AUTH_ID && user.userAuthId && (user.userAuthId === DEV_SA_AUTH_ID));
-                }
+    static isSuperAdmin(user): boolean {
+        return (PRODUCTION_MODE) 
+            ? TokenService.isProdSuperAdmin(user)
+            : TokenService.isDevSuperAdmin(user)
+    }
+
+    static isDevSuperAdmin(user): boolean {
+        // Prefer siteminder ID if it's available
+        let isSuperAdmin = (DEV_SA_SITEMINDER_ID && user.siteminderId && (user.siteminderId === DEV_SA_SITEMINDER_ID));
+        if (!isSuperAdmin && DEV_SA_AUTH_ID) {
+            // Is the SA_AUTH_ID a comma-separated list of IDIRs?
+            const isList = /,/g.test(DEV_SA_AUTH_ID);
+            if (isList) {
+                const saIds = DEV_SA_AUTH_ID.split(',').map(id => id.trim());
+                isSuperAdmin = (DEV_SA_AUTH_ID && user.userAuthId && (saIds.indexOf(user.userAuthId) > -1));
+            } else {
+                isSuperAdmin = (DEV_SA_AUTH_ID && user.userAuthId && (user.userAuthId === DEV_SA_AUTH_ID));
             }
         }
+
+        return isSuperAdmin;
+    }
+
+    static isProdSuperAdmin(user): boolean {
+        // Prefer siteminder ID if it's available
+        let isSuperAdmin = (SA_SITEMINDER_ID && user.siteminderId && (user.siteminderId === SA_SITEMINDER_ID));
+        if (!isSuperAdmin && SA_AUTH_ID) {
+            // Is the SA_AUTH_ID a comma-separated list of IDIRs?
+            const isList = /,/g.test(SA_AUTH_ID);
+            if (isList) {
+                const saIds = SA_AUTH_ID.split(',').map(id => id.trim());
+                isSuperAdmin = (SA_AUTH_ID && user.userAuthId && (saIds.indexOf(user.userAuthId) > -1));
+            } else {
+                isSuperAdmin = (SA_AUTH_ID && user.userAuthId && (user.userAuthId === SA_AUTH_ID));
+            }
+        }
+
+        return isSuperAdmin;
+    }
+
+    async buildUserScopes(user) {
+        const isSuperAdmin = TokenService.isSuperAdmin(user);
+        let authScopes;
+        let appScopes;
         
         if (!PRODUCTION_MODE || (isSuperAdmin || GRANT_ALL_SCOPES)) {
             // If the user is the SA or GRANT_ALL_SCOPES is true grant all scopes to the user
@@ -112,13 +135,7 @@ export class TokenService {
             appScopes = await this.buildUserAppScopes(user.id);
         }
 
-        const token = await createToken({
-            scopes: authScopes as Scope[],
-            appScopes: appScopes as { [key: string]: string[] | boolean }[],
-            ...tokenPayload
-        });
-
-        return token;
+        return { authScopes, appScopes };
     }
 
     /**
