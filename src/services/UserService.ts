@@ -135,7 +135,8 @@ export class UserService extends DatabaseService<User> {
             
         // Siteminder ID may be NULL or undefined in the token ONLY if in DEV env, with the siteminder
         // security definition on TokenController.getToken disabled (which allows us to debug the backend app)
-        query = (guid && guid !== '') ? query.where(`siteminder_id='${guid}'`) : query; // TODO: Why does this extra NULL check not work? query.where(`siteminder_id=NULL`)
+        // Just disable the siteminder guid check all together we're not using it any more TODO: Get rid of GUID!
+        // query = (guid && guid !== '') ? query.where(`siteminder_id='${guid}'`) : query; // TODO: Why does this extra NULL check not work? query.where(`siteminder_id=NULL`)
         query = (userId && userId !== '') ? query.where(`user_auth_id='${userId}'`): query;
         query = query.limit(1);
 
