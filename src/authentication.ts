@@ -77,8 +77,7 @@ export function deleteTokenCookie(request: Request) {
  */
 function getTokenPayloadFromHeaders(request: Request): TokenPayload {
     const { headers = {} } = request;
-    console.log(request);
-    console.log(request.headers);
+    
     return {
         guid: headers[SITEMINDER_HEADER_USERGUID],
         displayName: headers[SITEMINDER_HEADER_USERDISPLAYNAME],
