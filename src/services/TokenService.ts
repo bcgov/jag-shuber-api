@@ -86,6 +86,8 @@ export class TokenService {
 
             const userService = Container.get(UserService);
             user = await userService.getByToken(tokenPayload);
+
+            if (user) console.log(`User exists! Display Name: ${user.displayName}, Auth ID: ${user.userAuthId}`);
         } else if (!PRODUCTION_MODE) {
             // We're in DEV mode
             user = await this.getOrCreateDevUser(tokenPayload);
@@ -137,15 +139,24 @@ export class TokenService {
     }
 
     async buildUserScopes(user) {
+        if (!user) {
+            console.log("Uh oh, we shouldn't be building user scopes for a user that doesn't exist!");
+            return;
+        }
+
         const isSuperAdmin = TokenService.isSuperAdmin(user);
         let authScopes;
         let appScopes;
         
         if (!PRODUCTION_MODE || (isSuperAdmin || GRANT_ALL_SCOPES)) {
+            if (!PRODUCTION_MODE) console.log('PRODUCTION_MODE is disabled in OpenShift');
+            if (GRANT_ALL_SCOPES) console.log('GRANT_ALL_SCOPES is enabled in OpenShift');
+            if (isSuperAdmin) console.log('User is configured as the Super Admin, granting all scopes');
             // If the user is the SA or GRANT_ALL_SCOPES is true grant all scopes to the user
             authScopes = await this.buildSuperAdminAuthScopes();
             appScopes = await this.buildSuperAdminAppScopes();
         } else {
+            console.log('Building user auth scopes');
             authScopes = await this.buildUserAuthScopes(user.id);
             appScopes = await this.buildUserAppScopes(user.id);
         }
