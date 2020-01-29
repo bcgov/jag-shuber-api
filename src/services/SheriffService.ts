@@ -69,22 +69,23 @@ export class SheriffService extends DatabaseService<Sheriff> {
         await this.db.transaction(async ({ client, getService }) => {
             const userService = getService<UserService>(UserService);
             if (sheriff && sheriff.id) {
-                user = userService.getBySheriffId(sheriff.id);
+                user = await userService.getBySheriffId(sheriff.id);
                 if (!user) {
                     const newUser = {} as User;
 
                     if (entity && entity.user) {
-                        user.sheriffId = sheriff.id,
-                        user.displayName = `${sheriff.firstName} ${sheriff.lastName}`
-                        user.siteminderId = entity.user.siteminderId;
-                        user.userAuthId = entity.user.userAuthId;
-                        user.createdBy = SYSTEM_USER_DISPLAY_NAME; // TODO: Replace with currentUser
-                        user.createdDtm = (user.createdDtm) ? moment(user.createdDtm).toISOString() : moment(new Date()).toISOString();
-                        user.updatedBy = SYSTEM_USER_DISPLAY_NAME; // TODO: Replace with currentUser
-                        user.updatedDtm = moment(new Date()).toISOString();
+                        newUser.sheriffId = sheriff.id;
+                        newUser.displayName = `${sheriff.firstName} ${sheriff.lastName}`;
+                        newUser.siteminderId = entity.user.siteminderId || null;
+                        newUser.userAuthId = entity.user.userAuthId || null;
+                        newUser.systemAccountInd = entity.user.systemAccountInd || 0;
+                        newUser.createdBy = SYSTEM_USER_DISPLAY_NAME; // TODO: Replace with currentUser
+                        newUser.createdDtm = (entity.user.createdDtm) ? moment(entity.user.createdDtm).toISOString() : moment(new Date()).toISOString();
+                        newUser.updatedBy = SYSTEM_USER_DISPLAY_NAME; // TODO: Replace with currentUser
+                        newUser.updatedDtm = moment(new Date()).toISOString();
                     }
 
-                    user = userService.create(newUser);
+                    user = await userService.create(newUser);
                 }
             }
         });
@@ -105,12 +106,14 @@ export class SheriffService extends DatabaseService<Sheriff> {
             const userService = getService<UserService>(UserService);
             if (entity && entity.id && entity.user) {
                 user = await userService.getBySheriffId(entity.id);
+
                 // Update the user display name
-                user.siteminderId = entity.user.siteminderId;
-                user.userAuthId = entity.user.userAuthId;
                 user.displayName = `${entity.firstName} ${entity.lastName}`;
+                user.siteminderId = entity.user.siteminderId || null;
+                user.userAuthId = entity.user.userAuthId || null;
+                user.systemAccountInd = entity.user.systemAccountInd || 0;
                 user.createdBy = SYSTEM_USER_DISPLAY_NAME; // TODO: Replace with currentUser
-                user.createdDtm = (user.createdDtm) ? moment(user.createdDtm).toISOString() : moment(new Date()).toISOString();
+                user.createdDtm = (entity.user.createdDtm) ? moment(entity.user.createdDtm).toISOString() : moment(new Date()).toISOString();
                 user.updatedBy = SYSTEM_USER_DISPLAY_NAME; // TODO: Replace with currentUser
                 user.updatedDtm = moment(new Date()).toISOString();
 

@@ -11,9 +11,6 @@ app.listen(PORT).on('listening', async () => {
     console.log(`Sheriff Scheduling API started on port ${PORT}...`);
     console.log(`DATE: ${new Date().toString()}`);
 
-    console.log('Using environment configuration:');
-    console.log(process.env);
-
     // Generate API Scopes - all system scopes must be present in the DB
     await generator.generateApiScopes();
     // Generate Frontend Scopes - all system scopes must be present in the DB
