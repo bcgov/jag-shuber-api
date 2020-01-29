@@ -45,10 +45,9 @@ export class UserService extends DatabaseService<User> {
         const sheriffService = Container.get(SheriffService);
 
         const query = super.getSelectQuery();
-        // TODO: What if the location is on the sheriff, and not the user
+        query.join(sheriffService.dbTableName, undefined, `${this.dbTableName}.sheriff_id=${sheriffService.dbTableName}.sheriff_id`);
         if (locationId) {
-            query.where(`default_location_id='${locationId}'`);
-            // query.where(`home_location_id='${locationId}' OR current_location_id='${locationId}'`);
+            query.where(`${this.dbTableName}.default_location_id='${locationId}' OR ${sheriffService.dbTableName}.home_location_id='${locationId}' OR ${sheriffService.dbTableName}.current_location_id='${locationId}'`);
         };
         const rows = await this.executeQuery<User>(query.toString());
 
@@ -69,9 +68,9 @@ export class UserService extends DatabaseService<User> {
         const sheriffService = Container.get(SheriffService);
 
         const query = super.getSelectQuery();
-        // TODO: What if the location is on the sheriff, and not the user
+        query.join(sheriffService.dbTableName, undefined, `${this.dbTableName}.sheriff_id=s${sheriffService.dbTableName}.sheriff_id`);
         if (params.locationId) {
-            query.where(`home_location_id='${params.locationId}' OR current_location_id='${params.locationId}'`);
+            query.where(`${this.dbTableName}.default_location_id='${params.locationId}' OR ${sheriffService.dbTableName}.home_location_id='${params.locationId}' OR ${sheriffService.dbTableName}.current_location_id='${params.locationId}'`);
         };
 
         if (params.homeLocationId) {
