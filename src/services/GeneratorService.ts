@@ -235,7 +235,7 @@ export class GeneratorService {
                 systemAccountInd: 0,
                 siteminderId: uuidv4(), // TODO: Can't ignore unless we drop the constraint, but we won't have one, use a random value for now...
                 userAuthId: '', // TODO: This is where we can load in auth ids for sheriffs
-                defaultLocationId: sheriff.homeLocationId,
+                defaultLocationId: null, // TODO: This field is basically useless, location is on the sheriff
                 sheriffId: sheriff.id,
                 createdBy: SYSTEM_USER_DISPLAY_NAME,
                 updatedBy: SYSTEM_USER_DISPLAY_NAME,
