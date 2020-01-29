@@ -12,6 +12,7 @@ describe('Token API', () => {
     beforeAll(async (done) => {
         done();
     });
+    
 
     it('get token should with no siteminder headers should return not authorized', async () => {
         api = TestUtils.getClient();
