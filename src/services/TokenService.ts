@@ -26,7 +26,7 @@ import { FrontendScopePermission } from '../models/FrontendScopePermission';
 import { RoleFrontendScopePermission } from '../models/RoleFrontendScopePermission';
 
 const PRODUCTION_MODE = process.env.SYS_PRODUCTION_MODE === 'true' ? true : false
-const GRANT_ALL_SCOPES = process.env.SYS_GRANT_ALL_SCOPES === 'false' ? false : true
+const GRANT_ALL_SCOPES = process.env.SYS_GRANT_ALL_SCOPES === 'true' ? true : false
 const USE_SITEMINDER = process.env.SYS_USE_SITEMINDER === 'false' ? false : true
 
 const DEFAULT_LOCATION = process.env.SYS_DEFAULT_LOCATION; // A default location CODE (GUID is useless since it's different across different environments and we don't know what they are until they're generated)
@@ -63,7 +63,7 @@ export class TokenService {
      * @param tokenPayload
      */
     async generateToken(tokenPayload: TokenPayload): Promise<any> {
-        const user = this.getTokenUser(tokenPayload);
+        const user = await this.getTokenUser(tokenPayload);
 
         const { authScopes, appScopes } = await this.buildUserScopes(user);
 
@@ -77,8 +77,9 @@ export class TokenService {
     }
 
     async getTokenUser(tokenPayload: TokenPayload) {
+        const isProductionMode = PRODUCTION_MODE;
         let user;
-        if (PRODUCTION_MODE) {
+        if (isProductionMode) {
             // If we're NOT in DEV mode, we require a siteminder token
             if (!(tokenPayload && tokenPayload.userId)) {
                 throw `No siteminder token provided.`;
@@ -88,7 +89,7 @@ export class TokenService {
             user = await userService.getByToken(tokenPayload);
 
             if (user) console.log(`User exists! Display Name: ${user.displayName}, Auth ID: ${user.userAuthId}`);
-        } else if (!PRODUCTION_MODE) {
+        } else if (!isProductionMode) {
             // We're in DEV mode
             user = await this.getOrCreateDevUser(tokenPayload);
         }
@@ -99,7 +100,9 @@ export class TokenService {
     }
 
     static isSuperAdmin(user): boolean {
-        return (PRODUCTION_MODE) 
+        const isProductionMode = PRODUCTION_MODE;
+
+        return (isProductionMode) 
             ? TokenService.isProdSuperAdmin(user)
             : TokenService.isDevSuperAdmin(user)
     }
@@ -139,6 +142,9 @@ export class TokenService {
     }
 
     async buildUserScopes(user) {
+        const isProductionMode = PRODUCTION_MODE;
+        const grantAllScopes = GRANT_ALL_SCOPES;
+
         let authScopes;
         let appScopes;
 
@@ -149,15 +155,16 @@ export class TokenService {
 
         const isSuperAdmin = TokenService.isSuperAdmin(user);
         
-        if (!PRODUCTION_MODE || (isSuperAdmin || GRANT_ALL_SCOPES)) {
-            if (!PRODUCTION_MODE) console.log('PRODUCTION_MODE is disabled in OpenShift');
-            if (GRANT_ALL_SCOPES) console.log('GRANT_ALL_SCOPES is enabled in OpenShift');
+        if (!isProductionMode || (isSuperAdmin || grantAllScopes)) {
+            if (!isProductionMode) console.log('PRODUCTION_MODE is disabled in OpenShift');
+            if (grantAllScopes) console.log('GRANT_ALL_SCOPES is enabled in OpenShift');
             if (isSuperAdmin) console.log('User is configured as the Super Admin, granting all scopes');
             // If the user is the SA or GRANT_ALL_SCOPES is true grant all scopes to the user
             authScopes = await this.buildSuperAdminAuthScopes();
             appScopes = await this.buildSuperAdminAppScopes();
         } else {
-            console.log('Building user auth scopes');
+            console.log('Building auth scopes for user:');
+            console.log(user);
             authScopes = await this.buildUserAuthScopes(user.id);
             appScopes = await this.buildUserAppScopes(user.id);
         }
@@ -287,15 +294,18 @@ export class TokenService {
     }
 
     private async getOrCreateDevUser(tokenPayload: TokenPayload): Promise<User> {
+        const isProductionMode = PRODUCTION_MODE;
+        const useSiteMinder = USE_SITEMINDER;
+        
         let user: User;
 
         const generatorService = Container.get(GeneratorService);
         // If we're developing locally, and TokenController.getToken DOES NOT HAVE siteminder specified as the auth handler 
         // we won't have a token / siteminder user to work with so use the built-in TESTUSR dummy account 
-        if (!PRODUCTION_MODE && !(tokenPayload && tokenPayload.userId)) {
+        if (!isProductionMode && !(tokenPayload && tokenPayload.userId)) {
             console.warn(`No siteminder token provided. In production this will throw an error. The message you're seeing is because you're in dev.`);
             user = await generatorService.getOrCreateDevUser();
-        } else if (!PRODUCTION_MODE && USE_SITEMINDER) { 
+        } else if (!isProductionMode && useSiteMinder) { 
             // If we're developing locally, and TokenController.getToken HAS siteminder specified as the auth handler
             // the siteminder token will be provided by FakeMinder in which case the token payload will look like:
             // { displayName: "Name, Your", guid: "SOMEGUIDGOESHERE", type: "user", userId: "yname" }
