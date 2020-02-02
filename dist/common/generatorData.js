@@ -596,7 +596,7 @@ exports.defaultRoles = [
     },
     {
         roleName: 'Setup Users',
-        roleCode: 'SYSTEM',
+        roleCode: 'SETUP',
         // systemCodeInd: '', TODO: This is in the model we may want to implement it later
         description: 'Assigned to the SA user, this role grants master access to users and roles',
         createdBy: createdBy,
@@ -638,7 +638,7 @@ exports.defaultSystemFrontendScopes = [
         revisionCount: 0
     },
     {
-        roleCode: 'SYSTEM',
+        roleCode: 'SETUP',
         scopeCode: 'ADMIN_PLUGIN_ROLES',
         createdBy: createdBy,
         updatedBy: updatedBy,
@@ -647,7 +647,7 @@ exports.defaultSystemFrontendScopes = [
         revisionCount: 0
     },
     {
-        roleCode: 'SYSTEM',
+        roleCode: 'SETUP',
         scopeCode: 'ADMIN_PLUGIN_USERS',
         createdBy: createdBy,
         updatedBy: updatedBy,
@@ -656,7 +656,7 @@ exports.defaultSystemFrontendScopes = [
         revisionCount: 0
     },
     {
-        roleCode: 'SYSTEM',
+        roleCode: 'SETUP',
         scopeCode: 'ADMIN_PLUGIN_USER_ROLES',
         createdBy: createdBy,
         updatedBy: updatedBy,
@@ -681,6 +681,96 @@ exports.defaultSystemApiScopes = [
     {
         roleCode: 'SYSTEM',
         scopeCode: 'system:scopes:api',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        roleCode: 'SETUP',
+        scopeCode: 'admin:users',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        roleCode: 'SETUP',
+        scopeCode: 'admin:user:roles',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        roleCode: 'SETUP',
+        scopeCode: 'sheriffs:add',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        roleCode: 'SETUP',
+        scopeCode: 'sheriffs:deactivate',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        roleCode: 'SETUP',
+        scopeCode: 'sheriffs:delete',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        roleCode: 'SETUP',
+        scopeCode: 'sheriffs:edit',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        roleCode: 'SETUP',
+        scopeCode: 'sheriffs:view',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        roleCode: 'SETUP',
+        scopeCode: 'system:types:assignment',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        roleCode: 'SETUP',
+        scopeCode: 'system:types:leaves',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        roleCode: 'SETUP',
+        scopeCode: 'system:types:training',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
