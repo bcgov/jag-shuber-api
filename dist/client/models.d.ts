@@ -173,12 +173,26 @@ export interface Courtroom {
 export interface JailRoleCode {
     code?: string;
     description?: string;
+    effectiveDate?: string;
     expiryDate?: string;
+    locationId?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
 }
 export interface OtherAssignCode {
     code?: string;
     description?: string;
+    effectiveDate?: string;
     expiryDate?: string;
+    locationId?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
 }
 export interface WorkSectionCode {
     code?: string;
@@ -195,6 +209,11 @@ export interface EscortRun {
     id?: string;
     title?: string;
     locationId?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
 }
 export interface Shift {
     id?: string;
@@ -274,9 +293,16 @@ export interface LeaveSubCode {
     expiryDate?: string;
 }
 export interface CourtRoleCode {
+    id?: string;
     code?: string;
     description?: string;
-    expiryDate?: string;
+    effectiveDate?: string;
+    locationId?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
 }
 export interface GenderCode {
     code?: string;

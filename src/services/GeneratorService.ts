@@ -7,10 +7,16 @@ import { createThrottle } from '../common/throttle';
 import { ApiScopeService } from './ApiScopeService';
 import { FrontendScopeService } from './FrontendScopeService';
 import { UserService } from './UserService';
+import { CourtRoleCodeService } from './CourtRoleCodeService';
+import { JailRoleCodeService } from './JailRoleCodeService';
+import { OtherAssignCodeService } from './OtherAssignCodeService';
 
 import { User } from '../models/User';
 import { FrontendScope } from '../models/FrontendScope';
 import { ApiScope } from '../models/ApiScope';
+import { CourtRoleCode } from '../models/CourtRoleCode';
+import { JailRoleCode } from '../models/JailRoleCode';
+import { OtherAssignCode } from '../models/OtherAssignCode';
 
 /**
  * Import the default system scopes configuration. These scopes, which are embedded in the user token, are required by the
@@ -22,7 +28,10 @@ import {
     defaultApiScopes,
     defaultRoles,
     defaultSystemFrontendScopes,
-    defaultSystemApiScopes
+    defaultSystemApiScopes,
+    defaultCourtRoleCodes,
+    defaultJailRoleCodes,
+    defaultOtherAssignCodes
 } from '../common/generatorData';
 
 import {
@@ -211,7 +220,6 @@ export class GeneratorService {
         const userService = Container.get(UserService);
         const rows = await sheriffService.getAll();
 
-        // Something doesn't like it when 
         const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
         const ops = rows.map(sheriffEntity => throttle(async() => {
             // TODO: Set a limit, we'll need to throttle this or something... 
@@ -253,5 +261,128 @@ export class GeneratorService {
         } catch (err) {
             console.log(`Error generating user for sheriff_id: ${sheriff.id}`)
         }    
+    }
+
+    /**
+     * Re-generate any built-in codes that are required by and missing in the system.
+     */
+    public async generateCourtRoleCodes() {
+        const codeService = Container.get(CourtRoleCodeService) as CourtRoleCodeService;
+        const locationService = Container.get(LocationService) as LocationService;
+
+        const locations = await locationService.getAll();
+
+        const codeOps = defaultCourtRoleCodes.map(async (code: CourtRoleCode) => {
+            const hasCode = await codeService.getByCodeAndLocation(code.code, null);
+            if (!(hasCode)) {
+                code.id = uuidv4();
+                code.locationId = null
+                return await codeService.create(code) as CourtRoleCode;
+            }
+        });
+
+        await Promise.all(codeOps);
+
+        const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
+        const ops = locations.map(location => throttle(async() => {
+            // TODO: Set a limit, we'll need to throttle this or something... 
+            // Increate the number of records and this starts to blow up, probably too much memory.
+            if (location.id) {
+                const codeOps = defaultCourtRoleCodes.map(async (code: CourtRoleCode) => {
+                    const hasCode = await codeService.getByCodeAndLocation(code.code, location.id);
+                    if (!(hasCode)) {
+                        code.id = uuidv4();
+                        code.locationId = location.id;
+                        return await codeService.create(code) as CourtRoleCode;
+                    }
+                });
+
+                await Promise.all(codeOps);
+            }
+        }));
+
+        await Promise.all(ops);
+    }
+
+    /**
+     * Re-generate any built-in codes that are required by and missing in the system.
+     */
+    public async generateJailRoleCodes() {
+        const codeService = Container.get(JailRoleCodeService) as JailRoleCodeService;
+        const locationService = Container.get(LocationService) as LocationService;
+
+        const locations = await locationService.getAll();
+
+        const codeOps = defaultJailRoleCodes.map(async (code: JailRoleCode) => {
+            const hasCode = await codeService.getByCodeAndLocation(code.code, null);
+            if (!(hasCode)) {
+                code.id = uuidv4();
+                code.locationId = null;
+                return await codeService.create(code) as JailRoleCode;
+            }
+        });
+
+        await Promise.all(codeOps);
+
+        const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
+        const ops = locations.map(location => throttle(async() => {
+            // TODO: Set a limit, we'll need to throttle this or something... 
+            // Increate the number of records and this starts to blow up, probably too much memory.
+            if (location.id) {
+                const codeOps = defaultJailRoleCodes.map(async (code: JailRoleCode) => {
+                    const hasCode = await codeService.getByCodeAndLocation(code.code, location.id);
+                    if (!(hasCode)) {
+                        code.id = uuidv4();
+                        code.locationId = location.id;
+                        return await codeService.create(code) as JailRoleCode;
+                    }
+                });
+
+                await Promise.all(codeOps);
+            }
+        }));
+
+        await Promise.all(ops);
+    }
+
+    /**
+     * Re-generate any built-in codes that are required by and missing in the system.
+     */
+    public async generateOtherAssignCodes() {
+        const codeService = Container.get(OtherAssignCodeService) as OtherAssignCodeService;
+        const locationService = Container.get(LocationService) as LocationService;
+
+        const locations = await locationService.getAll();
+
+        const codeOps = defaultOtherAssignCodes.map(async (code: OtherAssignCode) => {
+            const hasCode = await codeService.getByCodeAndLocation(code.code, null);
+            if (!(hasCode)) {
+                code.id = uuidv4();
+                code.locationId = null;
+                return await codeService.create(code) as OtherAssignCode;
+            }
+        });
+
+        await Promise.all(codeOps);
+
+        const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
+        const ops = locations.map(location => throttle(async() => {
+            // TODO: Set a limit, we'll need to throttle this or something... 
+            // Increate the number of records and this starts to blow up, probably too much memory.
+            if (location.id) {
+                const codeOps = defaultOtherAssignCodes.map(async (code: OtherAssignCode) => {
+                    const hasCode = await codeService.getByCodeAndLocation(code.code, location.id);
+                    if (!(hasCode)) {
+                        code.id = uuidv4();
+                        code.locationId = location.id;
+                        return await codeService.create(code) as OtherAssignCode;
+                    }
+                });
+
+                await Promise.all(codeOps);
+            }
+        }));
+
+        await Promise.all(ops);
     }
 }

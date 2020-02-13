@@ -20,6 +20,11 @@ app.listen(PORT).on('listening', async () => {
     // Generate system roles and scopes
     await generator.generateSystemRolesAndScopes();
 
+    // Generate assignment type codes
+    await generator.generateCourtRoleCodes()
+    await generator.generateJailRoleCodes()
+    await generator.generateOtherAssignCodes()
+
     /**
      * Sheriffs in the system were built before we added in user functionality. As result, sheriffs currently being
      * loaded into the system via Liquibase don't have user accounts. We will need to create user accounts for any

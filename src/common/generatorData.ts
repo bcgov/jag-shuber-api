@@ -784,3 +784,210 @@ export const defaultSystemApiScopes = [
         revisionCount: 0
     }
 ];
+
+/**
+ * IMPORTANT! DO NOT REMOVE! These are default CourtRoleCodes for all locations.
+ */
+export const defaultCourtRoleCodes = [
+    {
+        code: 'CORONERINQUEST',
+        description: 'Coroner\'s Inquest',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        code: 'SEARCHGATE',
+        description: 'Search Gate',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        code: 'ROVER',
+        description: 'Rover',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        code: 'SUPERVISOR',
+        description: 'Supervisor',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        code: 'VIDEO',
+        description: 'Video',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    }
+];
+
+/**
+ * IMPORTANT! DO NOT REMOVE! These are default JailRoleCodes for all locations.
+ */
+export const defaultJailRoleCodes = [
+    {
+        code: 'CONTROL',
+        description: 'Control',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        code: 'DEPUTYSERGEANT',
+        description: 'Deputy Sergeant',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        code: 'JAILFLOOR',
+        description: 'Jail Floor',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        code: 'RECORDS',
+        description: 'Records',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        code: 'PRETRIAL',
+        description: 'Pre Trial',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        code: 'SUPERVISOR',
+        description: 'Supervisor',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    }
+];
+
+/**
+ * IMPORTANT! DO NOT REMOVE! These are default OtherAssignCodes for all locations.
+ */
+export const defaultOtherAssignCodes = [
+    {
+        code: 'TRAVEL',
+        description: 'Travel',  
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        code: 'VEHICLEMAINT',
+        description: 'Vehicle Maintenance',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        code: 'PROVTRAININGOFFICER',
+        description: 'Provincial Training Officer',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        code: 'INTEL',
+        description: 'Intel',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        code: 'SIR',
+        description: 'SIR / Investigation',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        code: 'CPICJUSTIN',
+        description: 'CPIC / Justin',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        code: 'DNA',
+        description: 'DNA Samples',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        code: 'JURYSELECT',
+        description: 'Jury Selection',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        code: 'JURYDELIB',
+        description: 'Jury Deliberation',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        code: 'DOCUMENTS',
+        description: 'Documents',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    }
+]

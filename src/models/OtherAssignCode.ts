@@ -1,5 +1,13 @@
 export interface OtherAssignCode{
-    code:string;
-    description:string;
-    expiryDate?: string;
+    id?:string;
+    code?:string;
+    description?:string;
+    locationId?:string;
+    effectiveDate?:string;
+    expiryDate?:string;
+    createdBy?:string;
+    updatedBy?:string;
+    createdDtm?:string;
+    updatedDtm?:string;
+    revisionCount?:number;
 }
