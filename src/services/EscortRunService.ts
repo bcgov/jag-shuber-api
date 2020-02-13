@@ -7,7 +7,12 @@ export class EscortRunService extends DatabaseService<EscortRun> {
     fieldMap = {
         escort_run_id: 'id',
         title: 'title',
-        location_id: 'locationId',
+        created_by: 'createdBy',
+        updated_by: 'updatedBy',
+        created_dtm: 'createdDtm',
+        updated_dtm: 'updatedDtm',
+        revision_count: 'revisionCount',
+        location_id: 'locationId'
     };
 
     constructor() {

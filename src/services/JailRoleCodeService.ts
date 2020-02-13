@@ -6,13 +6,53 @@ import { PostgresInsert } from 'squel';
 @AutoWired
 export class JailRoleCodeService extends ExpirableDatabaseService<JailRoleCode> {
     fieldMap = {
+        jail_role_id: 'id',
         jail_role_code: 'code',
         description: 'description',
-        expiry_date: 'expiryDate'
+        effective_date: 'effectiveDate',
+        expiry_date: 'expiryDate',
+        created_by: 'createdBy',
+        updated_by: 'updatedBy',
+        created_dtm: 'createdDtm',
+        updated_dtm: 'updatedDtm',
+        revision_count: 'revisionCount',
+        location_id: 'locationId'
     };
 
     constructor() {
-        super('jail_role_code', 'jail_role_code');
+        super('jail_role_code', 'jail_role_id');
+    }
+
+    async getAll(locationId?: string) {
+        const query = super.getSelectQuery();
+        if (locationId) {
+            query.where(`location_id='${locationId}'`);
+        } else {
+            query.where(`location_id IS NULL`);
+        };
+        const rows = await this.executeQuery<JailRoleCode>(query.toString());
+        return rows;
+    }
+
+    async getByCode(code: string) {
+        const query = this.getSelectQuery()
+            .where(`jail_role_code='${code}'`)
+            .limit(1);
+
+        const rows = await this.executeQuery<JailRoleCode>(query.toString());
+        return rows[0];
+    }
+
+    async getByCodeAndLocation(code: string, locationId?: string) {
+        let query = this.getSelectQuery()
+            .where(`jail_role_code='${code}'`)
+
+        query = (locationId !== null) 
+            ? query.where(`location_id='${locationId}'`) 
+            : query.where(`location_id IS NULL`)
+
+        const rows = await this.executeQuery<JailRoleCode>(query.toString());
+        return rows[0];
     }
 
     protected getInsertQuery(entity: Partial<JailRoleCode>): PostgresInsert {

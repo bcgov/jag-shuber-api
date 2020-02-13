@@ -264,14 +264,28 @@ const models: TsoaRoute.Models = {
         "properties": {
             "code": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
+            "effectiveDate": { "dataType": "string" },
             "expiryDate": { "dataType": "string" },
+            "locationId": { "dataType": "string" },
+            "createdBy": { "dataType": "string" },
+            "updatedBy": { "dataType": "string" },
+            "createdDtm": { "dataType": "string" },
+            "updatedDtm": { "dataType": "string" },
+            "revisionCount": { "dataType": "double" },
         },
     },
     "OtherAssignCode": {
         "properties": {
             "code": { "dataType": "string", "required": true },
             "description": { "dataType": "string", "required": true },
+            "effectiveDate": { "dataType": "string" },
             "expiryDate": { "dataType": "string" },
+            "locationId": { "dataType": "string" },
+            "createdBy": { "dataType": "string" },
+            "updatedBy": { "dataType": "string" },
+            "createdDtm": { "dataType": "string" },
+            "updatedDtm": { "dataType": "string" },
+            "revisionCount": { "dataType": "double" },
         },
     },
     "WorkSectionCode": {
@@ -293,7 +307,12 @@ const models: TsoaRoute.Models = {
         "properties": {
             "id": { "dataType": "string" },
             "title": { "dataType": "string", "required": true },
-            "locationId": { "dataType": "string", "required": true },
+            "locationId": { "dataType": "string" },
+            "createdBy": { "dataType": "string" },
+            "updatedBy": { "dataType": "string" },
+            "createdDtm": { "dataType": "string" },
+            "updatedDtm": { "dataType": "string" },
+            "revisionCount": { "dataType": "double" },
         },
     },
     "Shift": {
@@ -397,9 +416,16 @@ const models: TsoaRoute.Models = {
     },
     "CourtRoleCode": {
         "properties": {
-            "code": { "dataType": "string", "required": true },
-            "description": { "dataType": "string", "required": true },
-            "expiryDate": { "dataType": "string" },
+            "id": { "dataType": "string" },
+            "code": { "dataType": "string" },
+            "description": { "dataType": "string" },
+            "effectiveDate": { "dataType": "string" },
+            "locationId": { "dataType": "string" },
+            "createdBy": { "dataType": "string" },
+            "updatedBy": { "dataType": "string" },
+            "createdDtm": { "dataType": "string" },
+            "updatedDtm": { "dataType": "string" },
+            "revisionCount": { "dataType": "double" },
         },
     },
     "GenderCode": {
