@@ -262,8 +262,9 @@ const models: TsoaRoute.Models = {
     },
     "JailRoleCode": {
         "properties": {
-            "code": { "dataType": "string", "required": true },
-            "description": { "dataType": "string", "required": true },
+            "id": { "dataType": "string" },
+            "code": { "dataType": "string" },
+            "description": { "dataType": "string" },
             "effectiveDate": { "dataType": "string" },
             "expiryDate": { "dataType": "string" },
             "locationId": { "dataType": "string" },
@@ -276,11 +277,12 @@ const models: TsoaRoute.Models = {
     },
     "OtherAssignCode": {
         "properties": {
-            "code": { "dataType": "string", "required": true },
-            "description": { "dataType": "string", "required": true },
+            "id": { "dataType": "string" },
+            "code": { "dataType": "string" },
+            "description": { "dataType": "string" },
+            "locationId": { "dataType": "string" },
             "effectiveDate": { "dataType": "string" },
             "expiryDate": { "dataType": "string" },
-            "locationId": { "dataType": "string" },
             "createdBy": { "dataType": "string" },
             "updatedBy": { "dataType": "string" },
             "createdDtm": { "dataType": "string" },
