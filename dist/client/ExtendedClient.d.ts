@@ -2,6 +2,9 @@ import * as SA from 'superagent';
 import Client from './Client';
 import { Assignment, Location, Courtroom, Duty, DutyRecurrence, Region, EscortRun, Sheriff, Shift, DutyImportDefaultsRequest, MultipleShiftUpdateRequest, Leave, SheriffDuty, SheriffDutyAutoAssignRequest, User, Role, UserRole, ApiScope, RoleApiScope, FrontendScope, FrontendScopePermission, RoleFrontendScope, RolePermission } from './models';
 import { DateType } from '../common/types';
+import { OtherAssignCode } from '../models/OtherAssignCode';
+import { JailRoleCode } from '../models/JailRoleCode';
+import { CourtRoleCode } from '../models/CourtRoleCode';
 export declare type SuperAgentRequestInterceptor = (req: SA.SuperAgentRequest) => SA.SuperAgentRequest;
 export default class ExtendedClient extends Client {
     private _requestInterceptor?;
@@ -19,6 +22,9 @@ export default class ExtendedClient extends Client {
     GetSheriffs(locationId?: string): Promise<Sheriff[]>;
     GetCourtroomById(id: string): Promise<Courtroom>;
     GetCourtrooms(locationId?: string): Promise<Courtroom[]>;
+    GetCourtRoleCodes(locationId?: string): Promise<CourtRoleCode[]>;
+    GetJailRoleCodes(locationId?: string): Promise<JailRoleCode[]>;
+    GetOtherAssignCodes(locationId?: string): Promise<OtherAssignCode[]>;
     GetAssignmentById(id: string): Promise<Assignment>;
     GetAssignments(locationId?: string, startDate?: DateType, endDate?: DateType): Promise<Assignment[]>;
     GetEscortRuns(locationId?: string): Promise<EscortRun[]>;

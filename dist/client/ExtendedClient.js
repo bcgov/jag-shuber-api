@@ -240,6 +240,18 @@ var ExtendedClient = /** @class */ (function (_super) {
         if (locationId === void 0) { locationId = ""; }
         return _super.prototype.GetCourtrooms.call(this, locationId);
     };
+    ExtendedClient.prototype.GetCourtRoleCodes = function (locationId) {
+        if (locationId === void 0) { locationId = ""; }
+        return _super.prototype.GetCourtRoleCodes.call(this, locationId);
+    };
+    ExtendedClient.prototype.GetJailRoleCodes = function (locationId) {
+        if (locationId === void 0) { locationId = ""; }
+        return _super.prototype.GetJailRoleCodes.call(this, locationId);
+    };
+    ExtendedClient.prototype.GetOtherAssignCodes = function (locationId) {
+        if (locationId === void 0) { locationId = ""; }
+        return _super.prototype.GetOtherAssignCodes.call(this, locationId);
+    };
     ExtendedClient.prototype.GetAssignmentById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
