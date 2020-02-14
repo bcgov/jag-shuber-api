@@ -14,8 +14,8 @@ export class JailRoleCodesController extends ControllerBase<JailRoleCode, JailRo
     protected serviceInstance!: JailRoleCodeService;
 
     @Get()
-    public getJailRoleCodes() {
-        return this.service.getAll();
+    public getJailRoleCodes(@Query() locationId?: string) {
+        return this.service.getAll(locationId);
     }
 
     @Post()

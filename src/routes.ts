@@ -2536,6 +2536,7 @@ export function RegisterRoutes(router: any) {
         authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
+                locationId: { "in": "query", "name": "locationId", "dataType": "string" },
             };
 
             let validatedArgs: any[] = [];
@@ -2671,6 +2672,7 @@ export function RegisterRoutes(router: any) {
         authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
+                locationId: { "in": "query", "name": "locationId", "dataType": "string" },
             };
 
             let validatedArgs: any[] = [];
@@ -4027,6 +4029,7 @@ export function RegisterRoutes(router: any) {
         authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
+                locationId: { "in": "query", "name": "locationId", "dataType": "string" },
             };
 
             let validatedArgs: any[] = [];

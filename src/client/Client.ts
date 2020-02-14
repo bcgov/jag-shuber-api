@@ -702,9 +702,13 @@ export default class Client {
             return response;
         });
     }    
-    public async GetJailRoleCodes():Promise<Array<JailRoleCode>>{
+    public async GetJailRoleCodes( locationId:string ):Promise<Array<JailRoleCode>>{
+        const params = { 
+            "locationId":locationId 
+        };
         return this.tryRequest<Array<JailRoleCode>>(async () => {
             const response: superAgent.Response = await this.agent.get(`/codes/jailroles`)
+                .query(params)
             return response;
         });
     }    
@@ -734,9 +738,13 @@ export default class Client {
             return response;
         });
     }    
-    public async GetOtherAssignCodes():Promise<Array<OtherAssignCode>>{
+    public async GetOtherAssignCodes( locationId:string ):Promise<Array<OtherAssignCode>>{
+        const params = { 
+            "locationId":locationId 
+        };
         return this.tryRequest<Array<OtherAssignCode>>(async () => {
             const response: superAgent.Response = await this.agent.get(`/codes/otherassign`)
+                .query(params)
             return response;
         });
     }    
@@ -1078,9 +1086,13 @@ export default class Client {
             return response;
         });
     }    
-    public async GetCourtRoleCodes():Promise<Array<CourtRoleCode>>{
+    public async GetCourtRoleCodes( locationId:string ):Promise<Array<CourtRoleCode>>{
+        const params = { 
+            "locationId":locationId 
+        };
         return this.tryRequest<Array<CourtRoleCode>>(async () => {
             const response: superAgent.Response = await this.agent.get(`/codes/courtroles`)
+                .query(params)
             return response;
         });
     }    
