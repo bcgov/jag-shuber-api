@@ -35,6 +35,9 @@ import { decodeJwt } from '../common/tokenUtils';
 import { DateType } from '../common/types';
 import { getDateString } from '../common/dateUtils';
 import { ERROR_DEPRECATED_DELETE_DUTYRECURRENCE, ERROR_DEPRECATED_DELETE_ASSIGNMENT } from '../common/Messages';
+import { OtherAssignCode } from '../models/OtherAssignCode';
+import { JailRoleCode } from '../models/JailRoleCode';
+import { CourtRoleCode } from '../models/CourtRoleCode';
 
 export type SuperAgentRequestInterceptor = (req: SA.SuperAgentRequest) => SA.SuperAgentRequest
 
@@ -133,6 +136,17 @@ export default class ExtendedClient extends Client {
         return super.GetCourtrooms(locationId);
     }
 
+    GetCourtRoleCodes(locationId: string = ""): Promise<CourtRoleCode[]> {
+        return super.GetCourtRoleCodes(locationId);
+    }
+
+    GetJailRoleCodes(locationId: string = ""): Promise<JailRoleCode[]> {
+        return super.GetJailRoleCodes(locationId);
+    }
+
+    GetOtherAssignCodes(locationId: string = ""): Promise<OtherAssignCode[]> {
+        return super.GetOtherAssignCodes(locationId);
+    }
 
     async GetAssignmentById(id: string): Promise<Assignment> {
         return await this.nullOn404(
