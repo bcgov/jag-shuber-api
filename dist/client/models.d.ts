@@ -171,6 +171,7 @@ export interface Courtroom {
     locationId?: string;
 }
 export interface JailRoleCode {
+    id?: string;
     code?: string;
     description?: string;
     effectiveDate?: string;
@@ -183,11 +184,12 @@ export interface JailRoleCode {
     revisionCount?: number;
 }
 export interface OtherAssignCode {
+    id?: string;
     code?: string;
     description?: string;
+    locationId?: string;
     effectiveDate?: string;
     expiryDate?: string;
-    locationId?: string;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;
