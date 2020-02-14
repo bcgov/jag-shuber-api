@@ -1662,15 +1662,20 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.GetJailRoleCodes = function () {
+    Client.prototype.GetJailRoleCodes = function (locationId) {
         return __awaiter(this, void 0, void 0, function () {
+            var params;
             var _this = this;
             return __generator(this, function (_a) {
+                params = {
+                    "locationId": locationId
+                };
                 return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.get("/codes/jailroles")];
+                                case 0: return [4 /*yield*/, this.agent.get("/codes/jailroles")
+                                        .query(params)];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];
@@ -1754,15 +1759,20 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.GetOtherAssignCodes = function () {
+    Client.prototype.GetOtherAssignCodes = function (locationId) {
         return __awaiter(this, void 0, void 0, function () {
+            var params;
             var _this = this;
             return __generator(this, function (_a) {
+                params = {
+                    "locationId": locationId
+                };
                 return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.get("/codes/otherassign")];
+                                case 0: return [4 /*yield*/, this.agent.get("/codes/otherassign")
+                                        .query(params)];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];
@@ -2703,15 +2713,20 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.GetCourtRoleCodes = function () {
+    Client.prototype.GetCourtRoleCodes = function (locationId) {
         return __awaiter(this, void 0, void 0, function () {
+            var params;
             var _this = this;
             return __generator(this, function (_a) {
+                params = {
+                    "locationId": locationId
+                };
                 return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.get("/codes/courtroles")];
+                                case 0: return [4 /*yield*/, this.agent.get("/codes/courtroles")
+                                        .query(params)];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];

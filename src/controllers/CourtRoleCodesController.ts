@@ -14,8 +14,8 @@ export class CourtRoleCodesController extends ControllerBase<CourtRoleCode, Cour
     protected serviceInstance!: CourtRoleCodeService;
 
     @Get()
-    public getCourtRoleCodes() {
-        return super.getAll();
+    public getCourtRoleCodes(@Query() locationId?: string) {
+        return this.service.getAll(locationId);
     }
 
     @Post()

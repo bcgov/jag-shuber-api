@@ -14,8 +14,8 @@ export class OtherAssignCodesController extends ControllerBase<OtherAssignCode, 
     protected serviceInstance!: OtherAssignCodeService;
 
     @Get()
-    public getOtherAssignCodes() {
-        return this.service.getAll();
+    public getOtherAssignCodes(@Query() locationId?: string) {
+        return this.service.getAll(locationId);
     }
 
     @Post()

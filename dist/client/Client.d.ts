@@ -147,12 +147,12 @@ export default class Client {
     GetCourtroomById(id: string): Promise<Courtroom>;
     UpdateCourtroom(id: string, model: Courtroom): Promise<Courtroom>;
     DeleteCourtroom(id: string): Promise<void>;
-    GetJailRoleCodes(): Promise<Array<JailRoleCode>>;
+    GetJailRoleCodes(locationId: string): Promise<Array<JailRoleCode>>;
     CreateJailRoleCode(model: JailRoleCode): Promise<JailRoleCode>;
     UpdateJailRoleCode(id: string, model: JailRoleCode): Promise<JailRoleCode>;
     ExpireJailRoleCode(id: string): Promise<void>;
     DeleteJailRoleCode(id: string): Promise<void>;
-    GetOtherAssignCodes(): Promise<Array<OtherAssignCode>>;
+    GetOtherAssignCodes(locationId: string): Promise<Array<OtherAssignCode>>;
     CreateOtherAssignCode(model: OtherAssignCode): Promise<OtherAssignCode>;
     UpdateOtherAssignCode(id: string, model: OtherAssignCode): Promise<OtherAssignCode>;
     ExpireOtherAssignCode(id: string): Promise<void>;
@@ -202,7 +202,7 @@ export default class Client {
     UpdateLeaveSubCode(id: string, model: LeaveSubCode): Promise<LeaveSubCode>;
     ExpireLeaveSubCode(id: string): Promise<void>;
     DeleteLeaveSubCode(id: string): Promise<void>;
-    GetCourtRoleCodes(): Promise<Array<CourtRoleCode>>;
+    GetCourtRoleCodes(locationId: string): Promise<Array<CourtRoleCode>>;
     CreateCourtRoleCode(model: CourtRoleCode): Promise<CourtRoleCode>;
     UpdateCourtRoleCode(id: string, model: CourtRoleCode): Promise<CourtRoleCode>;
     ExpireCourtRoleCode(id: string): Promise<void>;
