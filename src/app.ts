@@ -62,9 +62,9 @@ app
     .use(async (ctx, next) => {
         try {
             await next();
-        } catch (err) {
-            ctx.status = err.status || 500;
-            ctx.body = err;
+        } catch (error) {
+            ctx.status = error.status || 500;
+            ctx.body = error;
         }
     })
     .use(morgan(':method :status :url :req[smgov_userguid] - :response-time ms'))

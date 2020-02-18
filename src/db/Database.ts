@@ -80,9 +80,9 @@ export class Database {
             const result = await doWork(transactionContext);
             await client.query("COMMIT");
             return result;
-        } catch (e) {
+        } catch (error) {
             await client.query("ROLLBACK");
-            throw e;
+            throw error;
         } finally {
             client.release();
         }

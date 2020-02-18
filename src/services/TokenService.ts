@@ -339,13 +339,13 @@ export class TokenService {
      */
     private async getOrCreateSiteminderAuthorizedUser(tokenPayload: TokenPayload): Promise<User | undefined> {
         // No admin user was found using the token, check to see if the test user account exists
-        console.log(`Check to see if the test user account exists`);
+        console.log(`TokenServiceException: Check to see if the siteminder user's account exists`);
         const userService = Container.get(UserService);
         let user = await userService.getByToken(tokenPayload);
         if (!user) {
             const locationService = Container.get(LocationService);
             const locationId = locationService.getByCode(DEFAULT_LOCATION);
-            console.log(`Could not find the test user's account - creating a new test account`);
+            console.log(`TokenServiceException: Could not find the siteminder user's account - creating a new siteminder user account`);
             user = await userService.create({
                 displayName: tokenPayload.displayName,
                 siteminderId: tokenPayload.guid,

@@ -23,13 +23,19 @@ export class OtherAssignCodeService extends ExpirableDatabaseService<OtherAssign
         super('other_assign_code', 'other_assign_id');
     }
 
-    async getAll(locationId?: string) {
+    async getAll(locationId?: string, includeProvincial?: boolean) {
+        includeProvincial = includeProvincial || true
         const query = super.getSelectQuery();
         if (locationId) {
-            query.where(`location_id='${locationId}'`);
+            if (includeProvincial) {
+                query.where(`location_id='${locationId}' OR location_id IS NULL`);
+            } else {
+                query.where(`location_id='${locationId}'`);
+            }
         } else {
             query.where(`location_id IS NULL`);
         };
+        query.order(`location_id IS NOT NULL, code`)
         const rows = await this.executeQuery<OtherAssignCode>(query.toString());
         return rows;
     }
@@ -56,9 +62,9 @@ export class OtherAssignCodeService extends ExpirableDatabaseService<OtherAssign
     }
 
     protected getInsertQuery(entity: Partial<OtherAssignCode>): PostgresInsert {
-        const query = this.db.insertQuery(this.tableName) // Ignore the PK, we don't use a UUID here
+        const query = this.db.insertQuery(this.tableName, this.primaryKey)
             .returning(this.getReturningFields());
-        this.setQueryFields(query, entity, true);
+        this.setQueryFields(query, entity);
 
         // Take the Field Map keys and map properties from the object
         const objectPropName = this.fieldMap[this.effectiveField];

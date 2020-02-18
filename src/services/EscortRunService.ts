@@ -19,11 +19,19 @@ export class EscortRunService extends DatabaseService<EscortRun> {
         super('escort_run', 'escort_run_id');
     }
 
-    async getAll(locationId?: string) {
+    async getAll(locationId?: string, includeProvincial?: boolean) {
+        includeProvincial = includeProvincial || true
         const query = super.getSelectQuery();
         if (locationId) {
-            query.where(`location_id='${locationId}'`);
+            if (includeProvincial) {
+                query.where(`location_id='${locationId}' OR location_id IS NULL`);
+            } else {
+                query.where(`location_id='${locationId}'`);
+            }
+        } else {
+            query.where(`location_id IS NULL`);
         };
+        query.order(`location_id IS NOT NULL, title`)
         const rows = await this.executeQuery<EscortRun>(query.toString());
         return rows;
     }
