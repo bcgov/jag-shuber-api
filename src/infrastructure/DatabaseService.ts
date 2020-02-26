@@ -75,7 +75,7 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
                 // Error codes can be found here: https://www.postgresql.org/docs/9.6/static/errcodes-appendix.html
                 if (error.code === "23505") {
                     const matches = error.detail.match(DatabaseError.PG_ERROR_23505_REGEX);
-                    if (matches.length > 0) {
+                    if (matches && matches.length > 0) {
                         const field = matches[1];
                         const value = matches[2];
                         const message = "Already Exists";
