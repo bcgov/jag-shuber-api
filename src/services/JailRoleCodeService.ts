@@ -9,14 +9,14 @@ export class JailRoleCodeService extends ExpirableDatabaseService<JailRoleCode> 
         jail_role_id: 'id',
         jail_role_code: 'code',
         description: 'description',
+        location_id: 'locationId',
         effective_date: 'effectiveDate',
         expiry_date: 'expiryDate',
         created_by: 'createdBy',
         updated_by: 'updatedBy',
         created_dtm: 'createdDtm',
         updated_dtm: 'updatedDtm',
-        revision_count: 'revisionCount',
-        location_id: 'locationId'
+        revision_count: 'revisionCount'
     };
 
     constructor() {
