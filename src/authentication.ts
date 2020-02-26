@@ -77,6 +77,9 @@ export function deleteTokenCookie(request: Request) {
  */
 function getTokenPayloadFromHeaders(request: Request): TokenPayload {
     const { headers = {} } = request;
+
+    console.log('CA SITEMINDER HEADERS');
+    console.log(headers);
     
     return {
         guid: headers[SITEMINDER_HEADER_USERGUID],
