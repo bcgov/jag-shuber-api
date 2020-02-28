@@ -6,7 +6,7 @@ import { UserService, UserQuery } from '../services/UserService';
 import { User } from '../models/User';
 
 @Route('User')
-@Security('jwt', ['admin:users'])
+@Security('jwt')
 @AutoWired
 export class UserController extends ControllerBase<any, UserService> {
     @Inject
@@ -25,22 +25,24 @@ export class UserController extends ControllerBase<any, UserService> {
         return user;
     }
 
+    @Security('jwt', ['users:read'])
     @Get()
     public getUsers(
         @Query() locationId?: string) {
         return this.service.getAll(locationId);
     }
 
+    @Security('jwt', ['users:read'])
     @Get('search')
     public queryUsers(
         @Query() firstName?: string,
         @Query() lastName?: string,
         @Query() badgeNo?: number,
         @Query() sheriffRankCode?: string,
-        @Query() locationId?: string, 
-        @Query() currentLocationId?: string, 
+        @Query() locationId?: string,
+        @Query() currentLocationId?: string,
         @Query() homeLocationId?: string) {
-        
+
         const query: UserQuery = {
             firstName,
             lastName,
@@ -54,21 +56,25 @@ export class UserController extends ControllerBase<any, UserService> {
         return this.service.queryAll(query);
     }
 
+    @Security('jwt', ['users:read'])
     @Get('{id}')
     public getUserById(id: string) {
         return super.getById(id);
     }
 
+    @Security('jwt', ['users:manage'])
     @Post()
     public createUser(@Body() model: User) {
         return super.create(model);
     }
 
+    @Security('jwt', ['users:manage'])
     @Put('{id}')
     public updateUser(@Path() id: string, @Body() model: User) {
         return super.update(id,model);
     }
 
+    @Security('jwt', ['users:manage'])
     @Delete('{id}')
     public deleteUser(@Path() id:string) {
         return super.delete(id);

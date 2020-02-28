@@ -133,8 +133,10 @@ export interface FrontendScopeApi {
     id?: string;
     frontendScopeId?: string;
     frontendScope?: FrontendScope;
+    frontendScopeCode?: string;
     apiScopeId?: string;
     apiScope?: ApiScope;
+    apiScopeCode?: string;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;

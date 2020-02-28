@@ -19,5 +19,5 @@ export const defaultFrontendScopeApis: FrontendScopeApi[] = [
         createdDtm: createdDtm,
         updatedDtm: updatedDtm,
         revisionCount: 0
-    },
+    }
 ];
