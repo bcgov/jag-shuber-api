@@ -18,7 +18,7 @@ export class FrontendScopeService extends DatabaseService<FrontendScope> {
     };
 
     constructor() {
-        super('frontend_scope', 'frontend_scope_id');
+        super('auth_frontend_scope', 'frontend_scope_id');
     }
 
     async getByScopeCode(code: string) {

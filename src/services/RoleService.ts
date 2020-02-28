@@ -8,9 +8,9 @@ import { RoleApiScopeService } from './RoleApiScopeService';
 @AutoWired
 export class RoleService extends DatabaseService<Role> {
     fieldMap = {
-        app_role_id: 'id',
-        app_role_name: 'roleName',
-        app_role_code: 'roleCode',
+        role_id: 'id',
+        role_name: 'roleName',
+        role_code: 'roleCode',
         description: 'description',
         created_by: 'createdBy',
         updated_by: 'updatedBy',
@@ -20,7 +20,7 @@ export class RoleService extends DatabaseService<Role> {
     };
 
     constructor() {
-        super('app_role', 'app_role_id');
+        super('auth_role', 'role_id');
     }
 
     async getById(id: string): Promise<Role | undefined> {
@@ -43,7 +43,7 @@ export class RoleService extends DatabaseService<Role> {
 
     async getByCode(code: string) {
         const query = this.getSelectQuery()
-            .where(`app_role_code='${code}'`)
+            .where(`role_code='${code}'`)
             .limit(1);
 
         const rows = await this.executeQuery<Role>(query.toString());

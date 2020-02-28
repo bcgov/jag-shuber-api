@@ -1,7 +1,7 @@
 export interface SheriffDuty{
-    id?:string;
-    sheriffId?:string;
-    dutyId?:string;
-    startDateTime:string;
-    endDateTime:string;
+    id?: string;
+    sheriffId?: string;
+    dutyId?: string;
+    startDateTime: string;
+    endDateTime: string;
 }

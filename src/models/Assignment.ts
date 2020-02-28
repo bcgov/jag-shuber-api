@@ -7,10 +7,10 @@ export interface Assignment {
     locationId: string;
     courtroomId?: string;
     courtRoleId?: string;
-    escortRunId?:string;
-    jailRoleCode?:string;
-    otherAssignCode?:string;
-    dutyRecurrences?:DutyRecurrence[]
+    escortRunId?: string;
+    jailRoleCode?: string;
+    otherAssignCode?: string;
+    dutyRecurrences?: DutyRecurrence[]
     startDateTime?: string,
     endDateTime?: string,
 }

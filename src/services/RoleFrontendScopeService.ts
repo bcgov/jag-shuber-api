@@ -8,8 +8,8 @@ import { FrontendScope } from '../models/FrontendScope';
 @AutoWired
 export class RoleFrontendScopeService extends DatabaseService<RoleFrontendScope> {
     fieldMap = {
-        app_role_frontend_scope_id: 'id',
-        app_role_id: 'roleId',
+        role_frontend_scope_id: 'id',
+        role_id: 'roleId',
         // frontend_scope_string: 'scopeString',
         frontend_scope_id: 'scopeId',
         created_by: 'createdBy',
@@ -20,7 +20,7 @@ export class RoleFrontendScopeService extends DatabaseService<RoleFrontendScope>
     };
 
     constructor() {
-        super('app_role_frontend_scope', 'app_role_frontend_scope_id');
+        super('auth_role_frontend_scope', 'role_frontend_scope_id');
     }
 
     async getById(id: string): Promise<RoleFrontendScope | undefined> {
