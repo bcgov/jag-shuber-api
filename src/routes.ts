@@ -537,7 +537,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/User',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["users:read"] }]),
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 locationId: { "in": "query", "name": "locationId", "dataType": "string" },
@@ -564,7 +564,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/User/search',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["users:read"] }]),
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 firstName: { "in": "query", "name": "firstName", "dataType": "string" },
@@ -597,7 +597,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/User/:id',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["users:read"] }]),
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -706,7 +706,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/UserRole/me',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["roles:read"] }]),
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
             };
@@ -732,7 +732,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/UserRole',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["roles:read"] }]),
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 locationId: { "in": "query", "name": "locationId", "dataType": "string" },
@@ -761,7 +761,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/UserRole/:id',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["roles:read"] }]),
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -897,7 +897,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/Role',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["roles:read"] }]),
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
             };
@@ -923,7 +923,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/Role/:id',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["roles:read"] }]),
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1032,7 +1032,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/RolePermission',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["roles:read"] }]),
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
             };
@@ -1058,7 +1058,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/RolePermission/:id',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["roles:read"] }]),
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1167,7 +1167,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/ApiScope',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["system:scopes"] }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["system:scopes:read"] }]),
         async (context, next) => {
             const args = {
             };
@@ -1193,7 +1193,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/ApiScope/:id',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["system:scopes"] }]),
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["system:scopes:read"] }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1707,7 +1707,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/RoleApiScope',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["roles:read"] }]),
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
             };
@@ -1733,7 +1733,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/RoleApiScope/:id',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["roles:read"] }]),
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
@@ -1842,7 +1842,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/RoleFrontendScope',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["roles:read"] }]),
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
             };
@@ -1868,7 +1868,7 @@ export function RegisterRoutes(router: any) {
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/RoleFrontendScope/:id',
-        authenticateMiddleware([{ "name": "jwt", "scopes": ["roles:read"] }]),
+        authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
                 id: { "in": "path", "name": "id", "required": true, "dataType": "string" },

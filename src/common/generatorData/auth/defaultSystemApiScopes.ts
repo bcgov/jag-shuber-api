@@ -51,7 +51,7 @@ export const defaultSystemApiScopes = [
     },
     {
         roleCode: 'SYSTEM',
-        scopeCode: 'system:users:readonly', // Not part of the model, just a reference field for our builder
+        scopeCode: 'system:scopes:read', // Not part of the model, just a reference field for our builder
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -60,43 +60,7 @@ export const defaultSystemApiScopes = [
     },
     {
         roleCode: 'SYSTEM',
-        scopeCode: 'system:sheriffs:readonly', // Not part of the model, just a reference field for our builder
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        roleCode: 'SYSTEM',
-        scopeCode: 'system:locations:readonly', // Not part of the model, just a reference field for our builder
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        roleCode: 'SYSTEM',
-        scopeCode: 'system:locations:readonly', // Not part of the model, just a reference field for our builder
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        roleCode: 'SYSTEM',
-        scopeCode: 'system:scopes:readonly', // Not part of the model, just a reference field for our builder
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        roleCode: 'SYSTEM',
-        scopeCode: 'system:types:readonly', // Not part of the model, just a reference field for our builder
+        scopeCode: 'system:types:read', // Not part of the model, just a reference field for our builder
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,

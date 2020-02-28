@@ -12,13 +12,11 @@ export class RoleFrontendScopeController extends ControllerBase<any, RoleFronten
     @Inject
     protected serviceInstance!: RoleFrontendScopeService;
 
-    @Security('jwt', ['roles:read'])
     @Get()
     public getRoleFrontendScopes(){
         return super.getAll();
     }
 
-    @Security('jwt', ['roles:read'])
     @Get('{id}')
     public getRoleFrontendScopeById(id: string){
         return super.getById(id);

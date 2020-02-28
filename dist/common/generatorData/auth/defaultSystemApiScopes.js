@@ -52,42 +52,6 @@ exports.defaultSystemApiScopes = [
     },
     {
         roleCode: 'SYSTEM',
-        scopeCode: 'system:users:readonly',
-        createdBy: index_1.createdBy,
-        updatedBy: index_1.updatedBy,
-        createdDtm: index_1.createdDtm,
-        updatedDtm: index_1.updatedDtm,
-        revisionCount: 0
-    },
-    {
-        roleCode: 'SYSTEM',
-        scopeCode: 'system:sheriffs:readonly',
-        createdBy: index_1.createdBy,
-        updatedBy: index_1.updatedBy,
-        createdDtm: index_1.createdDtm,
-        updatedDtm: index_1.updatedDtm,
-        revisionCount: 0
-    },
-    {
-        roleCode: 'SYSTEM',
-        scopeCode: 'system:locations:readonly',
-        createdBy: index_1.createdBy,
-        updatedBy: index_1.updatedBy,
-        createdDtm: index_1.createdDtm,
-        updatedDtm: index_1.updatedDtm,
-        revisionCount: 0
-    },
-    {
-        roleCode: 'SYSTEM',
-        scopeCode: 'system:locations:readonly',
-        createdBy: index_1.createdBy,
-        updatedBy: index_1.updatedBy,
-        createdDtm: index_1.createdDtm,
-        updatedDtm: index_1.updatedDtm,
-        revisionCount: 0
-    },
-    {
-        roleCode: 'SYSTEM',
         scopeCode: 'system:scopes:readonly',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,

@@ -18,13 +18,11 @@ export class RoleController extends ControllerBase<any, RoleService> {
     @Inject
     protected serviceInstance!: RoleService;
 
-    @Security('jwt', ['roles:read'])
     @Get()
     public getRoles(){
         return super.getAll();
     }
 
-    @Security('jwt', ['roles:read'])
     @Get('{id}')
     public getRoleById(id: string){
         return super.getById(id);

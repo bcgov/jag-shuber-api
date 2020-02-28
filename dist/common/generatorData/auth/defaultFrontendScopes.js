@@ -32,7 +32,7 @@ exports.defaultFrontendScopes = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin API Scopes Plugin',
+        scopeName: 'Admin API Scopes',
         scopeCode: 'ADMIN_PLUGIN_API_SCOPES',
         systemScopeInd: true,
         description: '',
@@ -43,7 +43,7 @@ exports.defaultFrontendScopes = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Frontend Scopes Plugin',
+        scopeName: 'Admin Frontend Scopes',
         scopeCode: 'ADMIN_PLUGIN_FRONTEND_SCOPES',
         systemScopeInd: true,
         description: '',
@@ -54,7 +54,7 @@ exports.defaultFrontendScopes = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Courtrooms Plugin',
+        scopeName: 'Admin Courtrooms',
         scopeCode: 'ADMIN_PLUGIN_COURTROOMS',
         systemScopeInd: true,
         description: '',
@@ -65,7 +65,7 @@ exports.defaultFrontendScopes = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Court Roles Plugin',
+        scopeName: 'Admin Court Roles',
         scopeCode: 'ADMIN_PLUGIN_COURT_ROLES',
         systemScopeInd: true,
         description: '',
@@ -76,7 +76,7 @@ exports.defaultFrontendScopes = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Jail Roles Plugin',
+        scopeName: 'Admin Jail Roles',
         scopeCode: 'ADMIN_PLUGIN_JAIL_ROLES',
         systemScopeInd: true,
         description: '',
@@ -87,7 +87,7 @@ exports.defaultFrontendScopes = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Escort Runs Plugin',
+        scopeName: 'Admin Escort Runs',
         scopeCode: 'ADMIN_PLUGIN_ESCORT_TYPES',
         systemScopeInd: true,
         description: '',
@@ -98,7 +98,7 @@ exports.defaultFrontendScopes = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Other Assignments Plugin',
+        scopeName: 'Admin Other Assignments',
         scopeCode: 'ADMIN_PLUGIN_OTHER_TYPES',
         systemScopeInd: true,
         description: '',
@@ -109,7 +109,7 @@ exports.defaultFrontendScopes = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Leave Types Plugin',
+        scopeName: 'Admin Leave Types',
         scopeCode: 'ADMIN_PLUGIN_LEAVE_TYPES',
         systemScopeInd: true,
         description: '',
@@ -120,7 +120,7 @@ exports.defaultFrontendScopes = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Roles Plugin',
+        scopeName: 'Admin Roles',
         scopeCode: 'ADMIN_PLUGIN_ROLES',
         systemScopeInd: true,
         description: '',
@@ -131,7 +131,7 @@ exports.defaultFrontendScopes = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Training Types Plugin',
+        scopeName: 'Admin Training Types',
         scopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES',
         systemScopeInd: true,
         description: '',
@@ -142,7 +142,7 @@ exports.defaultFrontendScopes = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin User Roles Plugin',
+        scopeName: 'Admin User Roles',
         scopeCode: 'ADMIN_PLUGIN_USER_ROLES',
         systemScopeInd: true,
         description: '',
@@ -153,7 +153,7 @@ exports.defaultFrontendScopes = [
         revisionCount: 0
     },
     {
-        scopeName: 'Sheriff Profile Identification Plugin',
+        scopeName: 'Sheriff Profile Identification',
         scopeCode: 'SHERIFF_PROFILE_PLUGIN_IDENT',
         systemScopeInd: true,
         description: '',
@@ -164,7 +164,7 @@ exports.defaultFrontendScopes = [
         revisionCount: 0
     },
     {
-        scopeName: 'Sheriff Profile Leaves Plugin',
+        scopeName: 'Sheriff Profile Leaves',
         scopeCode: 'SHERIFF_PROFILE_PLUGIN_LEAVES',
         systemScopeInd: true,
         description: '',
@@ -175,7 +175,7 @@ exports.defaultFrontendScopes = [
         revisionCount: 0
     },
     {
-        scopeName: 'Sheriff Profile Location Plugin',
+        scopeName: 'Sheriff Profile Location',
         scopeCode: 'SHERIFF_PROFILE_PLUGIN_LOCATION',
         systemScopeInd: true,
         description: '',
@@ -186,7 +186,7 @@ exports.defaultFrontendScopes = [
         revisionCount: 0
     },
     {
-        scopeName: 'Sheriff Profile Roles Plugin',
+        scopeName: 'Sheriff Profile Roles',
         scopeCode: 'SHERIFF_PROFILE_PLUGIN_ROLES',
         systemScopeInd: true,
         description: '',
@@ -197,7 +197,7 @@ exports.defaultFrontendScopes = [
         revisionCount: 0
     },
     {
-        scopeName: 'Sheriff Profile Training Plugin',
+        scopeName: 'Sheriff Profile Training',
         scopeCode: 'SHERIFF_PROFILE_PLUGIN_TRAINING',
         systemScopeInd: true,
         description: '',
