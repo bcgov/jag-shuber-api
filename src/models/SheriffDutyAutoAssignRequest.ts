@@ -1,4 +1,4 @@
 export interface SheriffDutyAutoAssignRequest{
-    locationId:string;
-    date?:string;
+    locationId: string;
+    date?: string;
 }

@@ -1,6 +1,6 @@
 import * as superAgent from "superagent";
 import { TypedEvent } from '../common/TypedEvent';
-import { User, UserRole, Role, RolePermission, ApiScope, FrontendScope, FrontendScopePermission, RoleApiScope, RoleFrontendScope, Assignment, Region, Location, Sheriff, Courtroom, JailRoleCode, OtherAssignCode, WorkSectionCode, SheriffRankCode, EscortRun, Shift, MultipleShiftUpdateRequest, ShiftCopyOptions, DutyRecurrence, Duty, DutyImportDefaultsRequest, SheriffDuty, SheriffDutyAutoAssignRequest, Leave, LeaveCancelReasonCode, LeaveCode, LeaveSubCode, CourtRoleCode, GenderCode } from "./models";
+import { User, UserRole, Role, RolePermission, ApiScope, FrontendScope, FrontendScopePermission, FrontendScopeApi, RoleApiScope, RoleFrontendScope, Assignment, Region, Location, Sheriff, Courtroom, JailRoleCode, OtherAssignCode, WorkSectionCode, SheriffRankCode, EscortRun, Shift, MultipleShiftUpdateRequest, ShiftCopyOptions, DutyRecurrence, Duty, DutyImportDefaultsRequest, SheriffDuty, SheriffDutyAutoAssignRequest, Leave, LeaveCancelReasonCode, LeaveCode, LeaveSubCode, CourtRoleCode, GenderCode } from "./models";
 export default class Client {
     private _agent;
     private _previousToken;
@@ -111,6 +111,11 @@ export default class Client {
     GetFrontendScopePermissionById(id: string): Promise<any>;
     UpdateFrontendScopePermission(id: string, model: FrontendScopePermission): Promise<any>;
     DeleteFrontendScopePermission(id: string): Promise<void>;
+    GetFrontendScopeApis(): Promise<Array<any>>;
+    CreateFrontendScopeApi(model: FrontendScopeApi): Promise<any>;
+    GetFrontendScopeApiById(id: string): Promise<any>;
+    UpdateFrontendScopeApi(id: string, model: FrontendScopeApi): Promise<any>;
+    DeleteFrontendScopeApi(id: string): Promise<void>;
     GetRoleApiScopes(): Promise<Array<any>>;
     CreateRoleApiScope(model: RoleApiScope): Promise<any>;
     GetRoleApiScopeById(id: string): Promise<any>;

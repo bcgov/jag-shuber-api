@@ -1,4 +1,4 @@
 export  interface DutyImportDefaultsRequest{
-    locationId:string;
-    date?:string;
+    locationId: string;
+    date?: string;
 }

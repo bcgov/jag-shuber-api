@@ -6,9 +6,9 @@ import { UserRole } from '../models/UserRole';
 @AutoWired
 export class UserRoleService extends ExpirableDatabaseService<UserRole> {
     fieldMap = {
-        app_user_role_id: 'id',
-        app_user_id: 'userId',
-        app_role_id: 'roleId',
+        user_role_id: 'id',
+        user_id: 'userId',
+        role_id: 'roleId',
         location_id: 'locationId',
         effective_date: 'effectiveDate',
         expiry_date: 'expiryDate',
@@ -20,7 +20,7 @@ export class UserRoleService extends ExpirableDatabaseService<UserRole> {
     };
 
     constructor() {
-        super('app_user_role', 'app_user_role_id');
+        super('auth_user_role', 'user_role_id');
     }
 
     async getAll(locationId?: string, options?: EffectiveQueryOptions): Promise<UserRole[]> {
@@ -29,9 +29,9 @@ export class UserRoleService extends ExpirableDatabaseService<UserRole> {
         if (locationId) {
             query.where(`location_id='${locationId}'`);
         };
-    
+
         const rows = await this.executeQuery<UserRole>(query.toString());
-        return rows;    
+        return rows;
     }
 
     async getByUserId(userId: string) {

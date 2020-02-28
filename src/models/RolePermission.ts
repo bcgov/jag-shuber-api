@@ -9,18 +9,18 @@ import { RoleFrontendScope } from './RoleFrontendScope';
  * Scoped permissions for API routes and frontend components.
  */
 export interface RolePermission {
-    id?:string; // GUID
-    roleId?:string; // GUID
+    id?: string; // GUID
+    roleId?: string; // GUID
     // roleScope: RoleScope // TODO: frontend | api ?
-    roleApiScopeId?:string; // GUID
+    roleApiScopeId?: string; // GUID
     roleApiScope?: RoleApiScope // TODO: not sure if I need this...
-    roleFrontendScopeId?:string; // GUID
-    roleFrontendScope?:RoleFrontendScope // TODO: not sure if I need this...
-    apiScopePermissionId?:string;
-    frontendScopePermissionId?:string;
-    createdBy?:string;
-    updatedBy?:string;
-    createdDtm?:string;
-    updatedDtm?:string;
-    revisionCount?:number;
+    roleFrontendScopeId?: string; // GUID
+    roleFrontendScope?: RoleFrontendScope // TODO: not sure if I need this...
+    apiScopePermissionId?: string;
+    frontendScopePermissionId?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
 }

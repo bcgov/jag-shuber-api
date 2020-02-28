@@ -19,7 +19,7 @@ export interface UserQuery {
 export class UserService extends DatabaseService<User> {
     // TODO: Some of these fields are covered in the base classes
     fieldMap = {
-        app_user_id: 'id',
+        user_id: 'id',
         siteminder_id: 'siteminderId',
         user_auth_id: 'userAuthId',
         display_name: 'displayName',
@@ -34,7 +34,7 @@ export class UserService extends DatabaseService<User> {
     };
 
     constructor() {
-        super('app_user', 'app_user_id');
+        super('auth_user', 'user_id');
     }
 
     getCurrentUser(){
@@ -135,7 +135,7 @@ export class UserService extends DatabaseService<User> {
         const userService = Container.get(UserService);
 
         let query = userService.getSelectQuery()
-            
+
         // Siteminder ID may be NULL or undefined in the token ONLY if in DEV env, with the siteminder
         // security definition on TokenController.getToken disabled (which allows us to debug the backend app)
         // Just disable the siteminder guid check all together we're not using it any more TODO: Get rid of GUID!

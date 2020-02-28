@@ -1,5 +1,5 @@
 export interface WorkSectionCode{
-    code:string;
-    description:string;
+    code: string;
+    description: string;
     expiryDate?: string;
 }

@@ -1,6 +1,6 @@
 export interface Region{
-    id?:string;
-    code?:string;
-    name:string;
-    location?:any;
+    id?: string;
+    code?: string;
+    name: string;
+    location?: any;
 }

@@ -129,6 +129,18 @@ export interface FrontendScopePermission {
     updatedDtm?: string;
     revisionCount?: number;
 }
+export interface FrontendScopeApi {
+    id?: string;
+    frontendScopeId?: string;
+    frontendScope?: FrontendScope;
+    apiScopeId?: string;
+    apiScope?: ApiScope;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
 export interface DutyRecurrence {
     id?: string;
     startTime?: string;
