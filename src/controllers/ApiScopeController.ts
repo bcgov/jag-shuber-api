@@ -6,7 +6,7 @@ import { ApiScopeService } from '../services/ApiScopeService';
 import { ApiScope } from '../models/ApiScope';
 
 @Route('ApiScope')
-@Security('jwt', ['system:scopes:api'])
+@Security('jwt', ['system:scopes'])
 @AutoWired
 export class ApiScopeController extends ControllerBase<any, ApiScopeService> {
     @Inject

@@ -48,7 +48,7 @@ export const TOKEN_COOKIE_NAME = "app_token";
 
 /**
  * Define OAuth scopes that are applied to application routes using tsoa's @Security decorator.
- * eg. @Security('jwt', ['system:scopes:api']) Note! These scopes configure how tsoa will generate routes.ts.
+ * eg. @Security('jwt', ['system:scopes']) Note! These scopes configure how tsoa will generate routes.ts.
  *
  * This is distinct from the related but separate read-only System Scopes entries that are automatically populated
  * into the application's database. In order to assign a scope defined here to a user, a corresponding system scope
@@ -58,22 +58,19 @@ export const TOKEN_COOKIE_NAME = "app_token";
  export interface Scopes {
     default: 'default',
     none: 'none',
-    admin_users: 'admin:users',
-    admin_user_roles: 'admin:user:roles',
-    admin_sheriff_leaves: 'admin:sheriff:leaves',
-    admin_sheriff_locations: 'admin:sheriff:locations',
-    admin_sheriff_training: 'admin:sheriff:training',
-    sheriffs_add: 'sheriffs:add',
-    sheriffs_deactivate: 'sheriffs:deactivate',
-    sheriffs_delete: 'sheriffs:delete',
-    sheriffs_edit: 'sheriffs:edit',
-    sheriffs_view: 'sheriffs:view',
+    users_manage: 'users:manage',
+    users_read: 'users:read',
+    roles_manage: 'roles:manage',
+    roles_read: 'roles:read',
+    sheriffs_manage: 'sheriffs:manage',
+    sheriffs_update: 'sheriffs:update',
+    sheriffs_read: 'sheriffs:read',
     system_locations: 'system:locations',
-    system_scopes_api: 'system:scopes:api',
-    system_scopes_ui: 'system:scopes:ui',
-    system_types_assignment: 'system:types:assignment',
-    system_types_leaves: 'system:types:leaves',
-    system_types_training: 'system:types:training'
+    system_locations_read: 'system:locations:read',
+    system_scopes: 'system:scopes',
+    system_scopes_read: 'system:scopes:read',
+    system_types: 'system:types',
+    system_types_read: 'system:types:read'
 }
 
 /**
