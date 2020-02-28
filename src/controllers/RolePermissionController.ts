@@ -12,13 +12,11 @@ export class RolePermissionController extends ControllerBase<any, RolePermission
     @Inject
     protected serviceInstance!: RolePermissionService;
 
-    @Security('jwt', ['roles:read'])
     @Get()
     public getRolePermissions(){
         return super.getAll();
     }
 
-    @Security('jwt', ['roles:read'])
     @Get('{id}')
     public getRolePermissionById(id: string){
         return super.getById(id);

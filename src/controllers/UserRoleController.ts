@@ -12,19 +12,16 @@ export class UserRoleController extends ControllerBase<any, UserRoleService> {
     @Inject
     protected serviceInstance!: UserRoleService;
 
-    @Security('jwt', ['roles:read'])
     @Get('me')
     public getCurrentUserRoles(){
         return super.getAll();
     }
 
-    @Security('jwt', ['roles:read'])
     @Get()
     public getUserRoles(@Query() locationId?: string, @Query() startDate?: string, @Query() endDate?: string) {
         return this.service.getAll(undefined, { startDate, endDate });
     }
 
-    @Security('jwt', ['roles:read'])
     @Get('{id}')
     public getUserRoleById(id: string) {
         return super.getById(id);

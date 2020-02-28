@@ -25,14 +25,12 @@ export class UserController extends ControllerBase<any, UserService> {
         return user;
     }
 
-    @Security('jwt', ['users:read'])
     @Get()
     public getUsers(
         @Query() locationId?: string) {
         return this.service.getAll(locationId);
     }
 
-    @Security('jwt', ['users:read'])
     @Get('search')
     public queryUsers(
         @Query() firstName?: string,
@@ -56,7 +54,6 @@ export class UserController extends ControllerBase<any, UserService> {
         return this.service.queryAll(query);
     }
 
-    @Security('jwt', ['users:read'])
     @Get('{id}')
     public getUserById(id: string) {
         return super.getById(id);

@@ -50,14 +50,9 @@ export interface Scopes {
     default: 'default';
     none: 'none';
     users_manage: 'users:manage';
-    users_read: 'users:read';
     roles_manage: 'roles:manage';
-    roles_read: 'roles:read';
     sheriffs_manage: 'sheriffs:manage';
     sheriffs_update: 'sheriffs:update';
-    sheriffs_read: 'sheriffs:read';
-    system_locations: 'system:locations';
-    system_locations_read: 'system:locations:read';
     system_scopes: 'system:scopes';
     system_scopes_read: 'system:scopes:read';
     system_types: 'system:types';

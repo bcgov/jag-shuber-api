@@ -21,32 +21,10 @@ export const defaultApiScopes: ApiScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'View + Search Users', // Human-friendly scope name
-        scopeCode: 'users:read', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: 'Read-Only Access for Users', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
         scopeName: 'Manage Roles', // Human-friendly scope name
         scopeCode: 'roles:manage', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
         description: 'Manage Users and User Roles', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'View + Search Roles', // Human-friendly scope name
-        scopeCode: 'roles:read', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: 'Read-Only Access for Roles', // Scope description
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -76,39 +54,6 @@ export const defaultApiScopes: ApiScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'View + Search Sheriffs', // Human-friendly scope name
-        scopeCode: 'sheriffs:read', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: 'Read-Only Access for Sheriffs', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Manage System Locations', // Human-friendly scope name
-        scopeCode: 'system:locations', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: 'System Locations', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
-        scopeName: 'Get System Locations', // Human-friendly scope name
-        scopeCode: 'system:locations:read', // Code type for the scope
-        systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: 'Read-Only Access for System Locations', // Scope description
-        createdBy: createdBy,
-        updatedBy: updatedBy,
-        createdDtm: createdDtm,
-        updatedDtm: updatedDtm,
-        revisionCount: 0
-    },
-    {
         scopeName: 'Manage System Scopes', // Human-friendly scope name
         scopeCode: 'system:scopes', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
@@ -123,7 +68,7 @@ export const defaultApiScopes: ApiScope[] = [
         scopeName: 'Get System Scopes', // Human-friendly scope name
         scopeCode: 'system:scopes:read', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: 'Read-Only Access for API System API and UI Scopes', // Scope description
+        description: 'Read-Only Access for System API and UI Scopes', // Scope description
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -134,7 +79,7 @@ export const defaultApiScopes: ApiScope[] = [
         scopeName: 'Manage System Types', // Human-friendly scope name
         scopeCode: 'system:types', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: 'API Assignment, Leave and Training Types', // Scope description
+        description: 'System Assignment, Leave and Training Types', // Scope description
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,
@@ -145,7 +90,7 @@ export const defaultApiScopes: ApiScope[] = [
         scopeName: 'Get System Types', // Human-friendly scope name
         scopeCode: 'system:types:read', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
-        description: 'Read-Only Access for API Assignment, Leave and Training Types', // Scope description
+        description: 'Read-Only Access for Assignment, Leave and Training Types', // Scope description
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,

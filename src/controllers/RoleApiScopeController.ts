@@ -12,13 +12,11 @@ export class RoleApiScopeController extends ControllerBase<any, RoleApiScopeServ
     @Inject
     protected serviceInstance!: RoleApiScopeService;
 
-    @Security('jwt', ['roles:read'])
     @Get()
     public getRoleApiScopes(){
         return super.getAll();
     }
 
-    @Security('jwt', ['roles:read'])
     @Get('{id}')
     public getRoleApiScopeById(id: string){
         return super.getById(id);
