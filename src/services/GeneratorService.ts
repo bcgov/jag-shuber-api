@@ -22,9 +22,10 @@ import { OtherAssignCode } from '../models/OtherAssignCode';
  * Import the default system scopes configuration. These scopes, which are embedded in the user token, are required by the
  * frontend application and control which plugins, parts of the user interface, and which APIs a user can have access to.
  */
-import { 
-    defaultFrontendScopes, 
-    defaultFrontendScopePermissions, 
+import {
+    defaultFrontendScopes,
+    defaultFrontendScopePermissions,
+    defaultFrontendScopeApis,
     defaultApiScopes,
     defaultRoles,
     defaultSystemFrontendScopes,
@@ -107,12 +108,12 @@ export class GeneratorService {
                     .map(async (permission: FrontendScopePermission) => {
                         if (!(await scopePermissionService.getByCode(permission.permissionCode))) {
                             const newPermission = permission;
-                            newPermission.frontendScopeId = scope.id; 
+                            newPermission.frontendScopeId = scope.id;
                             return await scopePermissionService.create(newPermission);
                         }
                     });
-                
-        
+
+
                 await Promise.all(innerOps);
             }
         });
@@ -130,7 +131,7 @@ export class GeneratorService {
         const roleApiScopeService = Container.get(RoleApiScopeService) as RoleApiScopeService;
         const frontendScopeService = Container.get(FrontendScopeService) as FrontendScopeService;
         const apiScopeService = Container.get(ApiScopeService) as ApiScopeService;
-        
+
         const roleOps = defaultRoles.map(async (role: Role) => {
             if (!(await roleService.getByCode(role.roleCode))) {
                 return await roleService.create(role);
@@ -166,7 +167,7 @@ export class GeneratorService {
                     scopeId: scope.id,
                     ...roleScope
                 } as RoleApiScope;
-                
+
                 return await roleApiScopeService.create(newRoleScope);
             }
         });
@@ -222,13 +223,13 @@ export class GeneratorService {
 
         const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
         const ops = rows.map(sheriffEntity => throttle(async() => {
-            // TODO: Set a limit, we'll need to throttle this or something... 
+            // TODO: Set a limit, we'll need to throttle this or something...
             // Increate the number of records and this starts to blow up, probably too much memory.
             if (sheriffEntity.id) {
                 const userEntity = await userService.getBySheriffId(sheriffEntity.id);
                 if (!userEntity) {
                     console.log(`Generating user for sheriff_id: ${sheriffEntity.id}`);
-                    await this.generateUserForSheriff(sheriffEntity);   
+                    await this.generateUserForSheriff(sheriffEntity);
                 }
             }
         }));
@@ -257,10 +258,10 @@ export class GeneratorService {
 
             console.log(`Generated user "${newUserEntity.id}" for sheriff_id: ${newUserEntity.sheriffId}, name: ${newUserEntity.displayName}`);
             return newUserEntity;
-        
+
         } catch (err) {
             console.log(`Error generating user for sheriff_id: ${sheriff.id}`)
-        }    
+        }
     }
 
     /**
@@ -285,7 +286,7 @@ export class GeneratorService {
 
         const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
         const ops = locations.map(location => throttle(async() => {
-            // TODO: Set a limit, we'll need to throttle this or something... 
+            // TODO: Set a limit, we'll need to throttle this or something...
             // Increate the number of records and this starts to blow up, probably too much memory.
             if (location.id) {
                 const codeOps = defaultCourtRoleCodes.map(async (code: CourtRoleCode) => {
@@ -326,7 +327,7 @@ export class GeneratorService {
 
         const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
         const ops = locations.map(location => throttle(async() => {
-            // TODO: Set a limit, we'll need to throttle this or something... 
+            // TODO: Set a limit, we'll need to throttle this or something...
             // Increate the number of records and this starts to blow up, probably too much memory.
             if (location.id) {
                 const codeOps = defaultJailRoleCodes.map(async (code: JailRoleCode) => {
@@ -367,7 +368,7 @@ export class GeneratorService {
 
         const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
         const ops = locations.map(location => throttle(async() => {
-            // TODO: Set a limit, we'll need to throttle this or something... 
+            // TODO: Set a limit, we'll need to throttle this or something...
             // Increate the number of records and this starts to blow up, probably too much memory.
             if (location.id) {
                 const codeOps = defaultOtherAssignCodes.map(async (code: OtherAssignCode) => {
