@@ -7,6 +7,7 @@ import { ApiScopeService } from './ApiScopeService';
 
 import { FrontendScope } from '../models/FrontendScope';
 import { ApiScope } from '../models/ApiScope';
+import { CourtRoleCode } from '../models/CourtRoleCode';
 import { stringify } from 'querystring';
 
 @AutoWired
@@ -32,16 +33,14 @@ export class FrontendScopeApiService extends DatabaseService<FrontendScopeApi> {
 
         // Attach FrontendScope by default for convenience
         const frontendScopeService = Container.get(FrontendScopeService);
-        if (rows && rows.length > 0) {
-            let row = rows[0];
-            row.frontendScope = await frontendScopeService.getById(row.frontendScopeId);
-        }
-
         // Attach ApiScope by default for convenience
         const apiScopeService = Container.get(ApiScopeService);
         if (rows && rows.length > 0) {
             let row = rows[0];
+            row.frontendScope = await frontendScopeService.getById(row.frontendScopeId);
             row.apiScope = await apiScopeService.getById(row.apiScopeId);
+
+            return row;
         }
 
         return undefined;
@@ -57,6 +56,16 @@ export class FrontendScopeApiService extends DatabaseService<FrontendScopeApi> {
             row.apiScopeId = await apiScopeService.getById(row.apiScopeId);
             return row;
         }) as FrontendScopeApi[]);
+    }
+
+    async getByFrontendAndApiScope(frontendScope: FrontendScope, apiScope: ApiScope): Promise<boolean> {
+        if (!frontendScope || !apiScope) return false;
+        const query = this.getSelectQuery()
+            .where(`frontend_scope_id = '${frontendScope.id}'`)
+            .where(`api_scope_id = '${apiScope.id}'`);
+
+        const rows = await this.executeQuery<FrontendScopeApi>(query.toString());
+        return (rows && rows.length > 0);
     }
 
     async hasFrontendScope(frontendScope: FrontendScope): Promise<boolean> {

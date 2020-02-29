@@ -33,6 +33,8 @@ export class RoleApiScopeService extends DatabaseService<RoleApiScope> {
         if (rows && rows.length > 0) {
             let row = rows[0];
             row.scope = await apiScopeService.getById(row.scopeId);
+
+            return row;
         }
 
         return undefined;
