@@ -52,8 +52,8 @@ export class FrontendScopeApiService extends DatabaseService<FrontendScopeApi> {
         const frontendScopeService = Container.get(FrontendScopeService);
         const apiScopeService = Container.get(ApiScopeService);
         return Promise.all(rows.map(async (row) => {
-            row.frontendScopeId = await frontendScopeService.getById(row.frontendScopeId);
-            row.apiScopeId = await apiScopeService.getById(row.apiScopeId);
+            row.frontendScope = await frontendScopeService.getById(row.frontendScopeId);
+            row.apiScope = await apiScopeService.getById(row.apiScopeId);
             return row;
         }) as FrontendScopeApi[]);
     }
