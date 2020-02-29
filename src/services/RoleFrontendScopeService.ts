@@ -32,6 +32,8 @@ export class RoleFrontendScopeService extends DatabaseService<RoleFrontendScope>
         if (rows && rows.length > 0) {
             let row = rows[0];
             row.scope = await frontendScopeService.getById(row.scopeId);
+
+            return row;
         }
 
         return undefined;

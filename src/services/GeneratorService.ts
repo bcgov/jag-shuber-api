@@ -6,6 +6,7 @@ import { createThrottle } from '../common/throttle';
 
 import { ApiScopeService } from './ApiScopeService';
 import { FrontendScopeService } from './FrontendScopeService';
+import { FrontendScopeApiService } from './FrontendScopeApiService';
 import { UserService } from './UserService';
 import { CourtRoleCodeService } from './CourtRoleCodeService';
 import { JailRoleCodeService } from './JailRoleCodeService';
@@ -13,6 +14,7 @@ import { OtherAssignCodeService } from './OtherAssignCodeService';
 
 import { User } from '../models/User';
 import { FrontendScope } from '../models/FrontendScope';
+import { FrontendScopeApi } from '../models/FrontendScopeApi';
 import { ApiScope } from '../models/ApiScope';
 import { CourtRoleCode } from '../models/CourtRoleCode';
 import { JailRoleCode } from '../models/JailRoleCode';
@@ -61,7 +63,7 @@ const MAX_RECORDS_PER_BATCH = 3;
 export class GeneratorService {
     /**
      * Re-generate any ApiScopes that are required by and missing in the system.
-     * Default scopes are defined in src/common/systemScopes.ts
+     * Default scopes are defined in src/common/generatorData
      */
     public async generateApiScopes() {
         const scopeService = Container.get(ApiScopeService);
@@ -76,7 +78,7 @@ export class GeneratorService {
 
     /**
      * Re-generate any FrontendScopes that are required by and missing in the system.
-     * Default scopes are defined in src/common/systemScopes.ts
+     * Default scopes are defined in src/common/generatorData
      */
     public async generateFrontendScopes() {
         const scopeService = Container.get(FrontendScopeService);
@@ -91,7 +93,7 @@ export class GeneratorService {
 
     /**
      * Re-generate any FrontendScopes that are required by and missing in the system.
-     * Default scopes are defined in src/common/systemScopes.ts
+     * Default scopes are defined in src/common/generatorData
      */
     public async generateFrontendScopePermissions() {
         const scopeService = Container.get(FrontendScopeService);
@@ -104,7 +106,7 @@ export class GeneratorService {
             const scopeEntity = await scopeService.getByScopeCode(scope.scopeCode);
             if (scopeEntity) {
                 const innerOps = defaultFrontendScopePermissions
-                    .filter(permissssion => permissssion.frontendScopeCode === scope.scopeCode)
+                    .filter(permission => permission.frontendScopeCode === scope.scopeCode)
                     .map(async (permission: FrontendScopePermission) => {
                         if (!(await scopePermissionService.getByCode(permission.permissionCode))) {
                             const newPermission = permission;
@@ -122,8 +124,49 @@ export class GeneratorService {
     }
 
     /**
+     * Re-generate any FrontendScopeApis that are required by and missing in the system.
+     * Default scopes are defined in src/common/generatorData
+     */
+    public async generateFrontendScopeApis() {
+        const scopeApiService = Container.get(FrontendScopeApiService);
+
+        const frontendScopeService = Container.get(FrontendScopeService);
+        const apiScopeService = Container.get(ApiScopeService);
+
+        const frontendScopes = await frontendScopeService.getAll();
+        if (!(frontendScopes && frontendScopes.length > 0)) return;
+
+        const outerOps = frontendScopes.map(async (scope: FrontendScope) => {
+            const scopeEntity = await frontendScopeService.getByScopeCode(scope.scopeCode);
+
+            if (scopeEntity) {
+                const innerOps = defaultFrontendScopeApis
+                    .filter(frontendScopeApi => frontendScopeApi.frontendScopeCode === scope.scopeCode)
+                    .map(async (api: FrontendScopeApi) => {
+                        // Get 
+                        const frontendScope = await frontendScopeService.getByScopeCode(api.frontendScopeCode);
+                        const apiScope = await apiScopeService.getByScopeCode(api.apiScopeCode);
+
+                        const scopeApi = await scopeApiService.getByFrontendAndApiScope(frontendScope, apiScope);
+                        if (!scopeApi) {
+                            const newApi = api;
+                            newApi.frontendScopeId = frontendScope.id;
+                            newApi.apiScopeId = apiScope.id;
+                            return await scopeApiService.create(newApi);
+                        }
+                    });
+
+
+                await Promise.all(innerOps);
+            }
+        });
+
+        await Promise.all(outerOps);
+    }
+
+    /**
      * Re-generate any built-in roles that are required by and missing in the system.
-     * Default scopes are defined in src/common/systemScopes.ts
+     * Default scopes are defined in src/common/generatorData
      */
     public async generateSystemRolesAndScopes() {
         const roleService = Container.get(RoleService) as RoleService;

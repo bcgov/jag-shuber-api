@@ -18,6 +18,8 @@ app.listen(PORT).on('listening', async () => {
         await generator.generateFrontendScopes();
         // Generate Frontend Scope Permissions - all system permissions must be present in the DB
         await generator.generateFrontendScopePermissions();
+        // Generate Frontend Scope Api refs
+        await generator.generateFrontendScopeApis();
         // Generate system roles and scopes
         await generator.generateSystemRolesAndScopes();
 
@@ -39,5 +41,5 @@ app.listen(PORT).on('listening', async () => {
     } catch (error) {
         throw error;
     }
-    
-}); 
+
+});

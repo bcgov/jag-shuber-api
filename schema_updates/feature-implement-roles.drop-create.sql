@@ -24,7 +24,7 @@ DROP TABLE IF EXISTS shersched.app_role;
 CREATE TABLE shersched.auth_role (
 	role_id uuid NOT NULL,
 	role_name varchar(128) NOT NULL,
-	description varchar(200) NOT NULL,
+	description varchar(200) NULL,
 	created_by varchar(32) NOT NULL,
 	updated_by varchar(32) NOT NULL,
 	created_dtm timestamptz NOT NULL,
