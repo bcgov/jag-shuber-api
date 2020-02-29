@@ -5,6 +5,20 @@ import { AutoWired, Container } from 'typescript-ioc';
 import { FrontendScopeService } from './FrontendScopeService';
 import { FrontendScope } from '../models/FrontendScope';
 
+import { FrontendScopeApiService } from './FrontendScopeApiService';
+import { FrontendScopeApi } from '../models/FrontendScopeApi';
+
+import { RoleApiScopeService } from './RoleApiScopeService';
+import { RoleApiScope } from '../models/RoleApiScope';
+
+import { ApiScopeService } from './ApiScopeService';
+import { ApiScope } from '../models/ApiScope';
+
+import {
+    DEV_USER_AUTH_ID, DEV_USER_DISPLAY_NAME,
+    SYSTEM_USER_DISPLAY_NAME
+} from '../common/authentication';
+
 @AutoWired
 export class RoleFrontendScopeService extends DatabaseService<RoleFrontendScope> {
     fieldMap = {
@@ -53,5 +67,187 @@ export class RoleFrontendScopeService extends DatabaseService<RoleFrontendScope>
         if (!scope) return false;
         const rows = await this.getWhereFieldEquals('scopeId', scope.id);
         return (rows && rows.length > 0);
+    }
+
+    /**
+     * Override DatabaseService's create method..
+     * @param entity
+     */
+    async create(entity: Partial<RoleFrontendScope>): Promise<RoleFrontendScope> {
+        this.validateRoleFrontendScope(entity);
+
+        return await this.db.transaction(async ({ client, getService }) => {
+            const query = this.getInsertQuery(entity);
+            const rows = await this.executeQuery<RoleFrontendScope>(query.toString());
+            
+            const roleFrontendScope: RoleFrontendScope = rows[0] as RoleFrontendScope;
+            const frontendScopeId = roleFrontendScope.scopeId;
+            const roleId = roleFrontendScope.roleId;
+
+            // Add the API scopes required for the frontend scope (component / plugin)
+            // What scopes are required? Get the APIs required for the frontend scope
+            const apiScopeService = getService<ApiScopeService>(ApiScopeService);
+            const roleApiScopeService = getService<RoleApiScopeService>(RoleApiScopeService);
+            const frontendScopeApiService = getService<FrontendScopeApiService>(FrontendScopeApiService);
+            const frontendScopeApis: FrontendScopeApi[] =await frontendScopeApiService.getByFrontendScopeId(frontendScopeId);
+
+            // Create roleApiScopes
+            // Loop over each frontend scope's required apis, and load the apiScopes
+            const apiScopes = await Promise.all(frontendScopeApis.map(async (frontendScopeApi: FrontendScopeApi) => {
+                // We could use a list of IDs, but loading up the scopes ensures that they are actually available,
+                // as there is no direct linkage between RoleApiScopes and FrontendScopeApis
+                let apiScope: ApiScope;
+                if (frontendScopeApi.apiScopeId && !frontendScopeApi.apiScope) {
+                    apiScope = await apiScopeService.getById(frontendScopeApi.apiScopeId);
+                } else if (frontendScopeApi.apiScopeId && frontendScopeApi.apiScope) {
+                    apiScope = frontendScopeApi.apiScope
+                }
+
+                return apiScope;
+            })) as ApiScope[];
+
+            
+            // Grab all roleApiScopes belonging to the role
+            const roleApiScopes = await roleApiScopeService.getByRoleId(roleId);
+            await Promise.all(apiScopes.map(async (apiScope: ApiScope) => {
+                // If a roleApiScope doesn't exist for the specified apiScope, create one
+                const roleHasApiScope = roleApiScopes.find((roleApiScope: RoleApiScope) => roleApiScope.scopeId === apiScope.id);
+                if (!roleHasApiScope) {
+                    return await roleApiScopeService.create({
+                        roleId: roleId,
+                        scopeId: apiScope.id,
+                        // TODO: Update these with current user
+                        createdBy: SYSTEM_USER_DISPLAY_NAME,
+                        updatedBy: SYSTEM_USER_DISPLAY_NAME,
+                        createdDtm: new Date().toISOString(),
+                        updatedDtm: new Date().toISOString(),
+                        revisionCount: 0
+                        
+                    }) as RoleApiScope;
+                }
+
+                return apiScope;
+            }));
+
+            return roleFrontendScope;
+        });
+    }
+
+    /**
+     * Override DatabaseService's update method.
+     * @param entity
+     */
+    async update(entity: Partial<RoleFrontendScope>): Promise<RoleFrontendScope> {
+        this.validateRoleFrontendScope(entity);
+
+        return await this.db.transaction(async ({ client, getService }) => {
+            const query = this.getUpdateQuery(entity);
+            const rows = await this.executeQuery<RoleFrontendScope>(query.toString());
+
+            // Add, update, or delete the API scopes required for the frontend scope (component / plugin)
+            // What scopes are required? Get the APIs required for the frontend scope
+            const roleFrontendScope: RoleFrontendScope = rows[0] as RoleFrontendScope;
+            const frontendScopeId = roleFrontendScope.scopeId;
+            const roleId = roleFrontendScope.roleId;
+
+            // Add the API scopes required for the frontend scope (component / plugin)
+            // What scopes are required? Get the APIs required for the frontend scope
+            const apiScopeService = getService<ApiScopeService>(ApiScopeService);
+            const roleApiScopeService = getService<RoleApiScopeService>(RoleApiScopeService);
+            const frontendScopeApiService = getService<FrontendScopeApiService>(FrontendScopeApiService);
+            const frontendScopeApis: FrontendScopeApi[] = await frontendScopeApiService.getByFrontendScopeId(frontendScopeId);
+
+            // Create roleApiScopes
+            // Loop over each frontend scope's required apis, and load the apiScopes
+            const apiScopes = await Promise.all(frontendScopeApis.map(async (frontendScopeApi: FrontendScopeApi) => {
+                // We could use a list of IDs, but loading up the scopes ensures that they are actually available,
+                // as there is no direct linkage between RoleApiScopes and FrontendScopeApis
+                let apiScope: ApiScope;
+                if (frontendScopeApi.apiScopeId && !frontendScopeApi.apiScope) {
+                    apiScope = await apiScopeService.getById(frontendScopeApi.apiScopeId);
+                } else if (frontendScopeApi.apiScopeId && frontendScopeApi.apiScope) {
+                    apiScope = frontendScopeApi.apiScope
+                }
+
+                return apiScope;
+            })) as ApiScope[];
+            
+            // Grab all roleApiScopes belonging to the role
+            const roleApiScopes = await roleApiScopeService.getByRoleId(roleId);
+            await Promise.all(apiScopes.map(async (apiScope: ApiScope) => {
+                // If a roleApiScope doesn't exist for the specified apiScope, create one
+                const roleHasApiScope = roleApiScopes.find((roleApiScope: RoleApiScope) => roleApiScope.scopeId === apiScope.id);
+                if (!roleHasApiScope) {
+                    return await roleApiScopeService.create({
+                        roleId: roleId,
+                        scopeId: apiScope.id,
+                        // TODO: Update these with current user
+                        createdBy: SYSTEM_USER_DISPLAY_NAME,
+                        updatedBy: SYSTEM_USER_DISPLAY_NAME,
+                        createdDtm: new Date().toISOString(),
+                        updatedDtm: new Date().toISOString(),
+                        revisionCount: 0
+                        
+                    }) as RoleApiScope;
+                }
+
+                return apiScope;
+            }));
+
+            return roleFrontendScope;
+        });
+    }
+
+    /**
+     * Override DatabaseService's delete method.
+     * @param id
+     */
+    async delete(id: string): Promise<void> {
+        return await this.db.transaction(async ({ client, getService }) => {
+            // Add, update, or delete the API scopes required for the frontend scope (component / plugin)
+            // What scopes are required? Get the APIs required for the frontend scope
+            const roleFrontendScope: RoleFrontendScope = await this.getById(id) as RoleFrontendScope;
+            const frontendScopeId = roleFrontendScope.scopeId;
+            const roleId = roleFrontendScope.roleId;
+
+            // Add the API scopes required for the frontend scope (component / plugin)
+            // What scopes are required? Get the APIs required for the frontend scope
+            const apiScopeService = getService<ApiScopeService>(ApiScopeService);
+            const roleApiScopeService = getService<RoleApiScopeService>(RoleApiScopeService);
+            const frontendScopeApiService = getService<FrontendScopeApiService>(FrontendScopeApiService);
+            const frontendScopeApis: FrontendScopeApi[] = await frontendScopeApiService.getByFrontendScopeId(frontendScopeId);
+
+            // Create roleApiScopes
+            // Loop over each frontend scope's required apis, and load the apiScopes
+            const apiScopes = await Promise.all(frontendScopeApis.map(async (frontendScopeApi: FrontendScopeApi) => {
+                // We could use a list of IDs, but loading up the scopes ensures that they are actually available,
+                // as there is no direct linkage between RoleApiScopes and FrontendScopeApis
+                let apiScope: ApiScope;
+                if (frontendScopeApi.apiScopeId && !frontendScopeApi.apiScope) {
+                    apiScope = await apiScopeService.getById(frontendScopeApi.apiScopeId);
+                } else if (frontendScopeApi.apiScopeId && frontendScopeApi.apiScope) {
+                    apiScope = frontendScopeApi.apiScope
+                }
+
+                return apiScope;
+            })) as ApiScope[];
+            
+            // Grab all roleApiScopes belonging to the role
+            const roleApiScopes = await roleApiScopeService.getByRoleId(roleId);
+            await Promise.all(apiScopes.map(async (apiScope: ApiScope) => {
+                // If a roleApiScope doesn't exist for the specified apiScope, create one
+                const roleApiScope = roleApiScopes.find((roleApiScope: RoleApiScope) => roleApiScope.scopeId === apiScope.id);
+                if (roleApiScope) {
+                    return await roleApiScopeService.delete(roleApiScope.id);
+                }
+            }));
+
+            const query = this.getDeleteQuery(id);
+            await this.executeQuery(query.toString());
+        });
+    }
+
+    private validateRoleFrontendScope(entity: Partial<RoleFrontendScope>) {
+        return true;
     }
 }
