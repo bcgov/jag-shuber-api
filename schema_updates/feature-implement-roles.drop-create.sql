@@ -214,3 +214,6 @@ ALTER TABLE shersched.auth_role_permission ADD CONSTRAINT fk_frontend_permission
 
 CREATE TRIGGER trg_biu_role_permission_stamp before
 INSERT OR UPDATE ON shersched.auth_role_permission FOR each row EXECUTE PROCEDURE shersched.tab_stamp();
+
+/* Don't forget to clean this stuff up!!! */
+ALTER TABLE shersched.auth_role ADD system_role_ind smallint NULL;
