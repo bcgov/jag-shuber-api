@@ -11,6 +11,7 @@ export class RoleService extends DatabaseService<Role> {
         role_id: 'id',
         role_name: 'roleName',
         role_code: 'roleCode',
+        system_role_ind: 'systemRoleInd',
         description: 'description',
         created_by: 'createdBy',
         updated_by: 'updatedBy',
@@ -21,6 +22,13 @@ export class RoleService extends DatabaseService<Role> {
 
     constructor() {
         super('auth_role', 'role_id');
+    }
+
+    async getAll() {
+        const query = super.getSelectQuery();
+        query.order(`system_role_ind = '1' DESC, role_code`)
+        const rows = await this.executeQuery<Role>(query.toString());
+        return rows;
     }
 
     async getById(id: string): Promise<Role | undefined> {

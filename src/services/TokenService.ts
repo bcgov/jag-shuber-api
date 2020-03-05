@@ -10,6 +10,8 @@ import { FrontendScopePermissionService } from './FrontendScopePermissionService
 import { UserService } from './UserService';
 import { UserRoleService } from './UserRoleService';
 import { RoleService } from './RoleService';
+import { RoleApiScopeService } from './RoleApiScopeService';
+import { RoleFrontendScopeService } from './RoleFrontendScopeService';
 import { RolePermissionService } from './RolePermissionService';
 
 import { Scope, Scopes } from '../common/authentication'
@@ -17,6 +19,7 @@ import { Scope, Scopes } from '../common/authentication'
 import { AppScopePermission } from '../models/AppScope';
 import { User } from '../models/User';
 import { UserRole } from '../models/UserRole';
+import { Role } from '../models/Role';
 import { RoleFrontendScope } from '../models/RoleFrontendScope';
 import { RoleApiScope } from '../models/RoleApiScope';
 import { FrontendScope } from '../models/FrontendScope';
@@ -32,11 +35,12 @@ const USE_SITEMINDER = process.env.SYS_USE_SITEMINDER === 'false' ? false : true
 const DEFAULT_LOCATION = process.env.SYS_DEFAULT_LOCATION; // A default location CODE (GUID is useless since it's different across different environments and we don't know what they are until they're generated)
 // for new sheriffs and users if none are defined. Used internally and under the hood by TokenService and GeneratorService.
 
+const SYSADMIN_ROLE_CODE = 'SYSADMIN';
+
 import {
     FAKEMINDER_IDIR, FAKEMINDER_GUID,
-    SA_SITEMINDER_ID, SA_AUTH_ID,
-    DEV_SA_SITEMINDER_ID, DEV_SA_AUTH_ID,
-    DEV_USER_AUTH_ID, DEV_USER_DISPLAY_NAME,
+    SA_AUTH_ID,
+    DEV_SA_AUTH_ID,
     SYSTEM_USER_DISPLAY_NAME
 } from '../common/authentication';
 import { LocationService } from './LocationService';
@@ -102,17 +106,12 @@ export class TokenService {
     }
 
     static isSuperAdmin(user): boolean {
-        const isProductionMode = PRODUCTION_MODE;
-
-        return (isProductionMode) 
-            ? TokenService.isProdSuperAdmin(user)
-            : TokenService.isDevSuperAdmin(user)
+        return (TokenService.isDevSuperAdmin(user) || TokenService.isMasterSuperAdmin(user));
     }
 
     static isDevSuperAdmin(user): boolean {
-        // Prefer siteminder ID if it's available
-        let isSuperAdmin = (DEV_SA_SITEMINDER_ID && user.siteminderId && (user.siteminderId === DEV_SA_SITEMINDER_ID));
-        if (!isSuperAdmin && DEV_SA_AUTH_ID) {
+        let isSuperAdmin = false;
+        if (DEV_SA_AUTH_ID) {
             // Is the SA_AUTH_ID a comma-separated list of IDIRs?
             const isList = /,/g.test(DEV_SA_AUTH_ID);
             if (isList) {
@@ -126,10 +125,9 @@ export class TokenService {
         return isSuperAdmin;
     }
 
-    static isProdSuperAdmin(user): boolean {
-        // Prefer siteminder ID if it's available
-        let isSuperAdmin = (SA_SITEMINDER_ID && user.siteminderId && (user.siteminderId === SA_SITEMINDER_ID));
-        if (!isSuperAdmin && SA_AUTH_ID) {
+    static isMasterSuperAdmin(user): boolean {
+        let isSuperAdmin = false;
+        if (SA_AUTH_ID) {
             // Is the SA_AUTH_ID a comma-separated list of IDIRs?
             const isList = /,/g.test(SA_AUTH_ID);
             if (isList) {
@@ -156,15 +154,16 @@ export class TokenService {
         }
 
         const isSuperAdmin = TokenService.isSuperAdmin(user);
+        const isDevSuperAdmin = TokenService.isDevSuperAdmin(user);
         
         if (!isProductionMode || (isSuperAdmin || grantAllScopes)) {
             if (grantAllScopes) console.log('GRANT_ALL_SCOPES is enabled, granting all scopes to all users');
             if (!isProductionMode) console.log(`PRODUCTION_MODE is disabled, granting all scopes to ${user.displayName}`);
             if (isSuperAdmin) console.log(`The current user is a Super Admin, granting all scopes to ${user.displayName}`);
 
-            // If the user is the SA or GRANT_ALL_SCOPES is true grant all scopes to the user
-            authScopes = await this.buildSuperAdminAuthScopes();
-            appScopes = await this.buildSuperAdminAppScopes();
+            // If the user is the SA or GRANT_ALL_SCOPES is true grant all regular scopes to the user
+            authScopes = await this.buildSuperAdminAuthScopes(isDevSuperAdmin);
+            appScopes = await this.buildSuperAdminAppScopes(isDevSuperAdmin);
         } else {
             console.log(`Building auth scopes for ${user.displayName} [${user.id}]`);
             console.log(user);
@@ -257,24 +256,62 @@ export class TokenService {
         return scopes;
     }
 
-    private async buildSuperAdminAuthScopes() {
+    private async buildSuperAdminAuthScopes(isDevSuperAdmin?: boolean) {
         const apiScopeService = Container.get(ApiScopeService);
-        // Grant all to dev user
-        const authScopes = await apiScopeService.getAll();
-        return authScopes.reduce((scopes, scope) => {
-            scopes.push(scope.scopeCode as Scope);
-            return scopes;
-        }, ['default'] as Scope[]);
-    }
+        
+        let excludedScopes: string[] = [];
+        if (!isDevSuperAdmin) {
+            // Filter out dev role scopes
+            const roleService = Container.get(RoleService);
+            const roleApiScopeService = Container.get(RoleApiScopeService);
+            const role = await roleService.getByCode(SYSADMIN_ROLE_CODE)
 
-    private async buildSuperAdminAppScopes() {
+            const roleApiScopes = await roleApiScopeService.getAll()
+            excludedScopes = roleApiScopes
+                .map((roleApiScope: RoleApiScope) => {
+                    return (roleApiScope.roleId === role.id)
+                        ? roleApiScope.scopeId
+                        : undefined
+                })
+                .filter((roleApiScope) => roleApiScope) as string[];
+        }
+        
+        const authScopes = await apiScopeService.getAll();
+        return authScopes
+            .filter((scope) => excludedScopes.indexOf(scope.id) === -1)
+            .reduce((scopes, scope) => {
+                scopes.push(scope.scopeCode as Scope);
+                return scopes;
+            }, ['default'] as Scope[]);
+    }
+    
+    private async buildSuperAdminAppScopes(isDevSuperAdmin?: boolean) {
         const frontendScopeService = Container.get(FrontendScopeService);
-        // Grant all to dev user
+
+        let excludedScopes: string[] = [];
+        if (!isDevSuperAdmin) {
+            // Filter out dev role scopes
+            const roleService = Container.get(RoleService);
+            const roleFrontendScopeService = Container.get(RoleFrontendScopeService) as RoleFrontendScopeService;
+            const role = await roleService.getByCode(SYSADMIN_ROLE_CODE)
+
+            const roleFrontendScopes = await roleFrontendScopeService.getAll() || [];
+            excludedScopes = roleFrontendScopes
+                .map((roleFrontendScope: RoleFrontendScope) => {
+                    return (roleFrontendScope.roleId === role.id)
+                        ? roleFrontendScope.scopeId
+                        : undefined
+                })
+                .filter((roleFrontendScope) => roleFrontendScope) as string[];
+        }
+        
         const appScopes = await frontendScopeService.getAll();
-        return appScopes.reduce((scopes, scope) => {
-            scopes[scope.scopeCode] = true;
-            return scopes;
-        }, {} as { [key: string]: any });
+        return appScopes
+            .filter((scope) => excludedScopes.indexOf(scope.id) === -1)
+            .reduce((scopes, scope) => {
+                scopes[scope.scopeCode] = true;
+                return scopes;
+            }, {} as { [key: string]: any });
     }
 
     /**
