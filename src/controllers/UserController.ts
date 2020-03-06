@@ -13,16 +13,10 @@ export class UserController extends ControllerBase<any, UserService> {
     protected serviceInstance!: UserService;
 
     @Get('me')
-    public getCurrentUser(): User {
-        const { token: {
-            guid = '',
-            displayName = '',
-            type = '',
-            userId = ''
-        } = {} } = this.currentUser;
+    public getCurrentUser() {
+        const { token } = this.currentUser;
         // const user: User = { guid, displayName, type, userId };
-        const user: User = {};
-        return user;
+        return this.service.getByToken(token);
     }
 
     @Get()
@@ -56,6 +50,8 @@ export class UserController extends ControllerBase<any, UserService> {
 
     @Get('{id}')
     public getUserById(id: string) {
+        // TODO: This is a quick n' dirty hack to grab the current user... need to fix these routes
+        if (id === 'me') return this.getCurrentUser()
         return super.getById(id);
     }
 
