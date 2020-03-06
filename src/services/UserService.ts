@@ -37,10 +37,6 @@ export class UserService extends DatabaseService<User> {
         super('auth_user', 'user_id');
     }
 
-    getCurrentUser(){
-        return this.currentUser;
-    }
-
     async getAll(locationId?: string) {
         const sheriffService = Container.get(SheriffService);
 
@@ -133,6 +129,7 @@ export class UserService extends DatabaseService<User> {
         }
 
         const userService = Container.get(UserService);
+        const sheriffService = Container.get(SheriffService);
 
         let query = userService.getSelectQuery()
 
@@ -144,7 +141,16 @@ export class UserService extends DatabaseService<User> {
         query = query.limit(1);
 
         const rows = await this.executeQuery<User>(query.toString());
-        return rows[0];
+
+        const entity = rows[0];
+        if (entity.sheriffId) {
+            const sheriffEntity = await sheriffService.getById(entity.sheriffId);
+            if (sheriffEntity) {
+                entity.sheriff = sheriffEntity as Sheriff;
+            }
+        }
+
+        return entity
     }
 
     /**
