@@ -151,7 +151,7 @@ const models: TsoaRoute.Models = {
             "id": { "dataType": "string" },
             "roleName": { "dataType": "string" },
             "roleCode": { "dataType": "string" },
-            "systemCodeInd": { "dataType": "double" },
+            "systemRoleInd": { "dataType": "double" },
             "description": { "dataType": "string" },
             "createdBy": { "dataType": "string" },
             "updatedBy": { "dataType": "string" },

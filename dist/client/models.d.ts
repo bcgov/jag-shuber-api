@@ -77,7 +77,7 @@ export interface Role {
     id?: string;
     roleName?: string;
     roleCode?: string;
-    systemCodeInd?: number;
+    systemRoleInd?: number;
     description?: string;
     createdBy?: string;
     updatedBy?: string;

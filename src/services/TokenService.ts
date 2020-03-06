@@ -353,7 +353,7 @@ export class TokenService {
             console.log('USE_SITEMINDER is enabled, but we are not in PRODUCTION_MODE');
             // If we're developing locally, and TokenController.getToken HAS siteminder specified as the auth handler
             // the siteminder token will be provided by FakeMinder in which case the token payload will look like:
-            // { displayName: "Name, Your", guid: "SOMEGUIDGOESHERE", type: "user", userId: "yname" }
+            // { displayName: "Test, Joe", guid: "SOMEGUIDGOESHERE", type: "user", userId: "TESTUSR" }
             if ((tokenPayload.guid === FAKEMINDER_GUID) || (tokenPayload.userId === FAKEMINDER_IDIR)) {
                 console.log('The token payload is a FakeMinder token GUID or Auth ID (IDIR), get or create the built-in DEV user');
                 user = await generatorService.getOrCreateDevUser();

@@ -6,8 +6,8 @@ var index_1 = require("../index");
  */
 exports.defaultSystemApiScopes = [
     {
-        roleCode: 'SETUP',
-        scopeCode: 'users:manage',
+        roleCode: 'BASIC',
+        scopeCode: 'system:scopes:read',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
         createdDtm: index_1.createdDtm,
@@ -15,53 +15,8 @@ exports.defaultSystemApiScopes = [
         revisionCount: 0
     },
     {
-        roleCode: 'SETUP',
-        scopeCode: 'roles:manage',
-        createdBy: index_1.createdBy,
-        updatedBy: index_1.updatedBy,
-        createdDtm: index_1.createdDtm,
-        updatedDtm: index_1.updatedDtm,
-        revisionCount: 0
-    },
-    {
-        roleCode: 'SETUP',
-        scopeCode: 'sheriffs:manage',
-        createdBy: index_1.createdBy,
-        updatedBy: index_1.updatedBy,
-        createdDtm: index_1.createdDtm,
-        updatedDtm: index_1.updatedDtm,
-        revisionCount: 0
-    },
-    {
-        roleCode: 'SETUP',
-        scopeCode: 'system:scopes',
-        createdBy: index_1.createdBy,
-        updatedBy: index_1.updatedBy,
-        createdDtm: index_1.createdDtm,
-        updatedDtm: index_1.updatedDtm,
-        revisionCount: 0
-    },
-    {
-        roleCode: 'SETUP',
-        scopeCode: 'system:types',
-        createdBy: index_1.createdBy,
-        updatedBy: index_1.updatedBy,
-        createdDtm: index_1.createdDtm,
-        updatedDtm: index_1.updatedDtm,
-        revisionCount: 0
-    },
-    {
-        roleCode: 'SYSTEM',
-        scopeCode: 'system:scopes:readonly',
-        createdBy: index_1.createdBy,
-        updatedBy: index_1.updatedBy,
-        createdDtm: index_1.createdDtm,
-        updatedDtm: index_1.updatedDtm,
-        revisionCount: 0
-    },
-    {
-        roleCode: 'SYSTEM',
-        scopeCode: 'system:types:readonly',
+        roleCode: 'BASIC',
+        scopeCode: 'system:types:read',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
         createdDtm: index_1.createdDtm,

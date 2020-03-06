@@ -3,7 +3,7 @@ export declare const JWT_AUTH_ERROR: Error;
 /**
  * FakeMinder stuff, just for local development
  */
-export declare const FAKEMINDER_IDIR = "yname";
+export declare const FAKEMINDER_IDIR = "TESTUSR";
 export declare const FAKEMINDER_GUID = "SOMEGUIDGOESHERE";
 /**
  * These env vars are used to configure which user is granted full access rights to the system in a production environment.
