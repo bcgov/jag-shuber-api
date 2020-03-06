@@ -7,7 +7,7 @@ exports.JWT_AUTH_ERROR = new Error(SCOPE_ASSERTION_MESSAGE);
 /**
  * FakeMinder stuff, just for local development
  */
-exports.FAKEMINDER_IDIR = "yname";
+exports.FAKEMINDER_IDIR = "TESTUSR";
 exports.FAKEMINDER_GUID = "SOMEGUIDGOESHERE";
 /**
  * These env vars are used to configure which user is granted full access rights to the system in a production environment.

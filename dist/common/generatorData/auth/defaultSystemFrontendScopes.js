@@ -6,7 +6,7 @@ var index_1 = require("../index");
  */
 exports.defaultSystemFrontendScopes = [
     {
-        roleCode: 'SYSTEM',
+        roleCode: 'SYSADMIN',
         scopeCode: 'SA_SPECIAL',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
@@ -15,7 +15,7 @@ exports.defaultSystemFrontendScopes = [
         revisionCount: 0
     },
     {
-        roleCode: 'SYSTEM',
+        roleCode: 'SYSADMIN',
         scopeCode: 'ADMIN_PLUGIN_API_SCOPES',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
@@ -24,35 +24,8 @@ exports.defaultSystemFrontendScopes = [
         revisionCount: 0
     },
     {
-        roleCode: 'SYSTEM',
+        roleCode: 'SYSADMIN',
         scopeCode: 'ADMIN_PLUGIN_FRONTEND_SCOPES',
-        createdBy: index_1.createdBy,
-        updatedBy: index_1.updatedBy,
-        createdDtm: index_1.createdDtm,
-        updatedDtm: index_1.updatedDtm,
-        revisionCount: 0
-    },
-    {
-        roleCode: 'SETUP',
-        scopeCode: 'ADMIN_PLUGIN_ROLES',
-        createdBy: index_1.createdBy,
-        updatedBy: index_1.updatedBy,
-        createdDtm: index_1.createdDtm,
-        updatedDtm: index_1.updatedDtm,
-        revisionCount: 0
-    },
-    {
-        roleCode: 'SETUP',
-        scopeCode: 'ADMIN_PLUGIN_USERS',
-        createdBy: index_1.createdBy,
-        updatedBy: index_1.updatedBy,
-        createdDtm: index_1.createdDtm,
-        updatedDtm: index_1.updatedDtm,
-        revisionCount: 0
-    },
-    {
-        roleCode: 'SETUP',
-        scopeCode: 'ADMIN_PLUGIN_USER_ROLES',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
         createdDtm: index_1.createdDtm,

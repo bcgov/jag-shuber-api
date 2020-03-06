@@ -8,7 +8,7 @@ export const JWT_AUTH_ERROR = new Error(SCOPE_ASSERTION_MESSAGE);
 /**
  * FakeMinder stuff, just for local development
  */
-export const FAKEMINDER_IDIR = "yname";
+export const FAKEMINDER_IDIR = "TESTUSR";
 export const FAKEMINDER_GUID = "SOMEGUIDGOESHERE";
 
 /**
