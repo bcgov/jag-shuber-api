@@ -36,5 +36,16 @@ export const defaultRoles = [
         createdDtm: createdDtm,
         updatedDtm: updatedDtm,
         revisionCount: 0
+    },
+    {
+        roleName: 'Administrator',
+        roleCode: 'ADMIN',
+        systemRoleInd: 1, // Denotes that the role cannot be deleted by any user
+        description: 'Administrator level access. Full permissions except the ability to delete code types, or configure components and apis.',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
     }
 ];

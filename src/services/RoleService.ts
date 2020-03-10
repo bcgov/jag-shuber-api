@@ -54,7 +54,19 @@ export class RoleService extends DatabaseService<Role> {
             .where(`role_code='${code}'`)
             .limit(1);
 
-        const rows = await this.executeQuery<Role>(query.toString());
+        let rows = await this.executeQuery<Role>(query.toString());
+        
+        // Attach roleFrontendScopes and roleApiScopes by default for convenience
+        const roleFrontendScopeService = Container.get(RoleFrontendScopeService);
+        const roleApiScopeService = Container.get(RoleApiScopeService);
+        if (rows && rows.length > 0) {
+            rows = await Promise.all(rows.map(async (row: Role) => {
+                row.roleFrontendScopes = await roleFrontendScopeService.getByRoleId(row.id);
+                row.roleApiScopes = await roleApiScopeService.getByRoleId(row.id);
+                return row;
+            }));
+        }
+
         return rows[0];
     }
 }
