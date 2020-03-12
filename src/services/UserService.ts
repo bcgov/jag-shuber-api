@@ -142,6 +142,8 @@ export class UserService extends DatabaseService<User> {
 
         const rows = await this.executeQuery<User>(query.toString());
 
+        if (!rows[0]) return;
+
         const entity = rows[0];
         if (entity.sheriffId) {
             const sheriffEntity = await sheriffService.getById(entity.sheriffId);

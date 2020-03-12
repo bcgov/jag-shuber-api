@@ -265,7 +265,7 @@ export class TokenService {
 
                             if (cur.scope && cur.scope.scopeCode) {
                                 const permissions = await this.buildRoleFrontendScopePermissions(cur, cur.scope)
-                                scopeCodes[cur.scope.scopeCode as string] = (permissions instanceof Array && permissions.length > 0) ? permissions : true;
+                                scopeCodes[cur.scope.scopeCode as string] = (permissions instanceof Array && permissions.length > 0) ? permissions : null;
                             }
                             return scopeCodes;
                         }, Promise.resolve([]))
@@ -330,7 +330,7 @@ export class TokenService {
 
                         if (cur.scope && cur.scope.scopeCode) {
                             const permissions = await this.buildRoleFrontendScopePermissions(cur, cur.scope)
-                            scopeCodes[cur.scope.scopeCode as string] = (permissions instanceof Array && permissions.length > 0) ? permissions : true;
+                            scopeCodes[cur.scope.scopeCode as string] = (permissions instanceof Array && permissions.length > 0) ? permissions : null;
                         }
                         return scopeCodes;
                     }, Promise.resolve([]))
