@@ -172,8 +172,8 @@ export class TokenService {
                 if (DEV_USER_TEST_ROLES.indexOf(SYSADMIN_ROLE_CODE) > -1) {
                     console.log(`The current user is a Super Admin, granting all scopes to ${user.displayName}`);
                     // If the user is the SA or GRANT_ALL_SCOPES is true grant all regular scopes to the user
-                    authScopes = await this.buildSuperAdminAuthScopes(isDevSuperAdmin);
-                    appScopes = await this.buildSuperAdminAppScopes(isDevSuperAdmin);     
+                    authScopes = await this.buildSuperAdminAuthScopes(true);
+                    appScopes = await this.buildSuperAdminAppScopes(true);     
                 } else {
                     authScopes = await this.buildDevAuthScopes(user.id, DEV_USER_TEST_ROLES);
                     console.log('Auth scopes:');
