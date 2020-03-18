@@ -150,6 +150,16 @@ export const defaultFrontendScopeApis: FrontendScopeApi[] = [
         updatedDtm: updatedDtm,
         revisionCount: 0
     },
+    {
+        id: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_ROLES', // Code type for the scope, only used when generating scopes
+        apiScopeCode: 'system:scopes:read', // Code type for the scope, only used when generating scopes
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
     /**
     * @api
     */
@@ -166,7 +176,7 @@ export const defaultFrontendScopeApis: FrontendScopeApi[] = [
     {
         id: null, // TODO: We will assign this when we map over the scope
         frontendScopeCode: 'ADMIN_PLUGIN_USER_ROLES', // Code type for the scope, only used when generating scopes
-        apiScopeCode: 'roles:manage', // Code type for the scope, only used when generating scopes
+        apiScopeCode: 'system:scopes:read', // Code type for the scope, only used when generating scopes
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,

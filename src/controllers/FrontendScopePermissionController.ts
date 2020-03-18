@@ -14,19 +14,19 @@ export class FrontendScopePermissionController extends ControllerBase<any, Front
 
     @Security('jwt', ['system:scopes:read'])
     @Get()
-    public getFrontendScopePermissions(){
+    public getFrontendScopePermissions() {
         return super.getAll();
     }
 
     @Security('jwt', ['system:scopes:read'])
     @Get('{id}')
-    public getFrontendScopePermissionById(id: string){
+    public getFrontendScopePermissionById(id: string) {
         return super.getById(id);
     }
 
     @Security('jwt', ['system:scopes'])
     @Post()
-    public createFrontendScopePermission(@Body() model: FrontendScopePermission){
+    public createFrontendScopePermission(@Body() model: FrontendScopePermission) {
         return super.create(model);
     }
 
@@ -38,7 +38,7 @@ export class FrontendScopePermissionController extends ControllerBase<any, Front
 
     @Security('jwt', ['system:scopes'])
     @Delete('{id}')
-    public deleteFrontendScopePermission(@Path() id:string){
+    public deleteFrontendScopePermission(@Path() id:string) {
         return super.delete(id);
     }
 }

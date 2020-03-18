@@ -13,18 +13,18 @@ export class RolePermissionController extends ControllerBase<any, RolePermission
     protected serviceInstance!: RolePermissionService;
 
     @Get()
-    public getRolePermissions(){
+    public getRolePermissions() {
         return super.getAll();
     }
 
     @Get('{id}')
-    public getRolePermissionById(id: string){
+    public getRolePermissionById(id: string) {
         return super.getById(id);
     }
 
     @Security('jwt', ['roles:manage'])
     @Post()
-    public createRolePermission(@Body() model: RolePermission){
+    public createRolePermission(@Body() model: RolePermission) {
         return super.create(model);
     }
 
@@ -36,7 +36,7 @@ export class RolePermissionController extends ControllerBase<any, RolePermission
 
     @Security('jwt', ['roles:manage'])
     @Delete('{id}')
-    public deleteRolePermission(@Path() id:string){
+    public deleteRolePermission(@Path() id:string) {
         return super.delete(id);
     }
 }
