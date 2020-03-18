@@ -13,18 +13,18 @@ export class RoleFrontendScopeController extends ControllerBase<any, RoleFronten
     protected serviceInstance!: RoleFrontendScopeService;
 
     @Get()
-    public getRoleFrontendScopes(){
+    public getRoleFrontendScopes() {
         return super.getAll();
     }
 
     @Get('{id}')
-    public getRoleFrontendScopeById(id: string){
+    public getRoleFrontendScopeById(id: string) {
         return super.getById(id);
     }
 
     @Security('jwt', ['roles:manage'])
     @Post()
-    public createRoleFrontendScope(@Body() model: RoleFrontendScope){
+    public createRoleFrontendScope(@Body() model: RoleFrontendScope) {
         return super.create(model);
     }
 
@@ -36,7 +36,7 @@ export class RoleFrontendScopeController extends ControllerBase<any, RoleFronten
 
     @Security('jwt', ['roles:manage'])
     @Delete('{id}')
-    public deleteRoleFrontendScope(@Path() id:string){
+    public deleteRoleFrontendScope(@Path() id:string) {
         return super.delete(id);
     }
 }

@@ -13,7 +13,7 @@ export class UserRoleController extends ControllerBase<any, UserRoleService> {
     protected serviceInstance!: UserRoleService;
 
     @Get('me')
-    public getCurrentUserRoles(){
+    public getCurrentUserRoles() {
         return super.getAll();
     }
 

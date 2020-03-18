@@ -13,18 +13,18 @@ export class RoleApiScopeController extends ControllerBase<any, RoleApiScopeServ
     protected serviceInstance!: RoleApiScopeService;
 
     @Get()
-    public getRoleApiScopes(){
+    public getRoleApiScopes() {
         return super.getAll();
     }
 
     @Get('{id}')
-    public getRoleApiScopeById(id: string){
+    public getRoleApiScopeById(id: string) {
         return super.getById(id);
     }
 
     @Security('jwt', ['roles:manage'])
     @Post()
-    public createRoleApiScope(@Body() model: RoleApiScope){
+    public createRoleApiScope(@Body() model: RoleApiScope) {
         return super.create(model);
     }
 
@@ -36,7 +36,7 @@ export class RoleApiScopeController extends ControllerBase<any, RoleApiScopeServ
 
     @Security('jwt', ['roles:manage'])
     @Delete('{id}')
-    public deleteRoleApiScope(@Path() id:string){
+    public deleteRoleApiScope(@Path() id:string) {
         return super.delete(id);
     }
 }

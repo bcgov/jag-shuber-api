@@ -13,17 +13,17 @@ export class LocationController extends ControllerBase<Location,LocationService>
     protected serviceInstance!:LocationService;
 
     @Get()
-    public getLocations(){
+    public getLocations() {
         return super.getAll();
     }
 
     @Get('{id}')
-    public getLocationById(id: string){
+    public getLocationById(id: string) {
         return super.getById(id);
     }
 
     @Post()
-    public createLocation(@Body() model: Location){
+    public createLocation(@Body() model: Location) {
         return super.create(model);
     }
 
@@ -33,7 +33,7 @@ export class LocationController extends ControllerBase<Location,LocationService>
     }
 
     @Delete('{id}')
-    public deleteLocation(@Path() id:string){
+    public deleteLocation(@Path() id:string) {
         return super.delete(id);
     }
 }
