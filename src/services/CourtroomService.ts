@@ -7,7 +7,7 @@ export class CourtroomService extends ExpirableDatabaseService<Courtroom> {
     fieldMap = {
         courtroom_id: 'id',
         location_id: 'locationId',
-        courtroom_cd: 'code',
+        courtroom_code: 'code',
         courtroom_name: 'name',
         description: 'description', // For future use
         effective_date: 'effectiveDate',
