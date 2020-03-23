@@ -75,6 +75,13 @@ export default abstract class ExpirableDatabaseService<T> extends DatabaseServic
         return query;
     }
 
+    protected getUnexpireQuery(id: string): PostgresUpdate {
+        const query = this.db.updateQuery(this.tableName)
+            .set(this.expiryField, null)
+            .where(`${this.primaryKey}='${id}'`);
+        return query;
+    }
+
     async getAllEffective(options?: EffectiveQueryOptions): Promise<T[]> {
         const query = this.getEffectiveSelectQuery(options);
         const rows = await this.executeQuery<T>(query.toString());
@@ -86,6 +93,11 @@ export default abstract class ExpirableDatabaseService<T> extends DatabaseServic
             expiryDate = moment().toISOString();
         }
         const query = this.getExpireQuery(id, expiryDate);
+        await this.executeQuery(query.toString());
+    }
+
+    async unexpire(id: string): Promise<void> {
+        const query = this.getUnexpireQuery(id);
         await this.executeQuery(query.toString());
     }
 }

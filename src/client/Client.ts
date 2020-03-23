@@ -735,6 +735,18 @@ export default class Client {
             return response;
         });
     }    
+    public async ExpireCourtroom( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/courtrooms/${id}/expire`)
+            return response;
+        });
+    }    
+    public async UnexpireCourtroom( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/courtrooms/${id}/unexpire`)
+            return response;
+        });
+    }    
     public async GetJailRoleCodes( locationId:string ):Promise<Array<JailRoleCode>>{
         const params = { 
             "locationId":locationId 
@@ -752,16 +764,22 @@ export default class Client {
             return response;
         });
     }    
+    public async ExpireJailRoleCode( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/codes/jailroles/${id}/expire`)
+            return response;
+        });
+    }    
+    public async UnexpireJailRoleCode( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/codes/jailroles/${id}/unexpire`)
+            return response;
+        });
+    }    
     public async UpdateJailRoleCode( id:string , model:JailRoleCode ):Promise<JailRoleCode>{
         return this.tryRequest<JailRoleCode>(async () => {
             const response: superAgent.Response = await this.agent.put(`/codes/jailroles/${id}`)
                 .send(model)
-            return response;
-        });
-    }    
-    public async ExpireJailRoleCode( id:string ):Promise<void>{
-        return this.tryRequest<void>(async () => {
-            const response: superAgent.Response = await this.agent.post(`/codes/jailroles/${id}`)
             return response;
         });
     }    
@@ -788,16 +806,22 @@ export default class Client {
             return response;
         });
     }    
+    public async ExpireOtherAssignCode( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/codes/otherassign/${id}/expire`)
+            return response;
+        });
+    }    
+    public async UnexpireOtherAssignCode( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/codes/otherassign/${id}/unexpire`)
+            return response;
+        });
+    }    
     public async UpdateOtherAssignCode( id:string , model:OtherAssignCode ):Promise<OtherAssignCode>{
         return this.tryRequest<OtherAssignCode>(async () => {
             const response: superAgent.Response = await this.agent.put(`/codes/otherassign/${id}`)
                 .send(model)
-            return response;
-        });
-    }    
-    public async ExpireOtherAssignCode( id:string ):Promise<void>{
-        return this.tryRequest<void>(async () => {
-            const response: superAgent.Response = await this.agent.post(`/codes/otherassign/${id}`)
             return response;
         });
     }    
@@ -852,6 +876,18 @@ export default class Client {
     public async DeleteEscortRun( id:string ):Promise<void>{
         return this.tryRequest<void>(async () => {
             const response: superAgent.Response = await this.agent.delete(`/escort-runs/${id}`)
+            return response;
+        });
+    }    
+    public async ExpireEscortRun( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/escort-runs/${id}/expire`)
+            return response;
+        });
+    }    
+    public async UnexpireEscortRun( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/escort-runs/${id}/unexpire`)
             return response;
         });
     }    
@@ -1136,16 +1172,22 @@ export default class Client {
             return response;
         });
     }    
+    public async ExpireCourtRoleCode( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/codes/courtroles/${id}/expire`)
+            return response;
+        });
+    }    
+    public async UnexpireCourtRoleCode( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/codes/courtroles/${id}/unexpire`)
+            return response;
+        });
+    }    
     public async UpdateCourtRoleCode( id:string , model:CourtRoleCode ):Promise<CourtRoleCode>{
         return this.tryRequest<CourtRoleCode>(async () => {
             const response: superAgent.Response = await this.agent.put(`/codes/courtroles/${id}`)
                 .send(model)
-            return response;
-        });
-    }    
-    public async ExpireCourtRoleCode( id:string ):Promise<void>{
-        return this.tryRequest<void>(async () => {
-            const response: superAgent.Response = await this.agent.post(`/codes/courtroles/${id}`)
             return response;
         });
     }    

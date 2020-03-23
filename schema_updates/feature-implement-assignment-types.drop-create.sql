@@ -1,5 +1,4 @@
-/*
-TODO: RUN THESE FIRST AND ONLY ON INITIAL MIGRATION
+-- TODO: RUN THESE FIRST AND ONLY ON INITIAL MIGRATION
 -- fk_dty_asn
 -- fk_dtyrc_asn
 -- fk_shft_asn
@@ -8,10 +7,8 @@ ALTER TABLE shersched.duty DROP CONSTRAINT fk_dty_asn;
 ALTER TABLE shersched.duty DROP CONSTRAINT fk_dty_dtyrc;
 ALTER TABLE shersched.duty_recurrence DROP CONSTRAINT fk_dtyrc_asn;
 ALTER TABLE shersched.shift DROP CONSTRAINT fk_shft_asn;
-*/
 
-/*
-TODO: ONLY TRUNCATE IF WE NEED TO
+-- TODO: ONLY TRUNCATE IF WE NEED TO
 
 TRUNCATE TABLE shersched."assignment" CONTINUE IDENTITY CASCADE;
 -- TRUNCATE TABLE shersched.courtroom CONTINUE IDENTITY CASCADE;
@@ -21,37 +18,36 @@ TRUNCATE TABLE shersched.other_assign_code CONTINUE IDENTITY CASCADE;
 TRUNCATE TABLE shersched.duty_recurrence CONTINUE IDENTITY CASCADE;
 TRUNCATE TABLE shersched.duty CONTINUE IDENTITY CASCADE;
 TRUNCATE TABLE shersched.shift CONTINUE IDENTITY CASCADE;
-*/
 
-/* 
-Just here for reference, these are the changes to assignment...
+-- Just here for reference, these are the changes to assignment...
 ALTER TABLE shersched."assignment" ALTER COLUMN created_by TYPE varchar(64) USING created_by::varchar;
 ALTER TABLE shersched."assignment" ALTER COLUMN other_assign_code TYPE varchar(64) USING other_assign_code::varchar;
 ALTER TABLE shersched."assignment" ALTER COLUMN jail_role_code TYPE varchar(64) USING jail_role_code::varchar;
 ALTER TABLE shersched."assignment" ALTER COLUMN court_role_code TYPE varchar(64) USING court_role_code::varchar;
 ALTER TABLE shersched."assignment" ALTER COLUMN work_section_code TYPE varchar(64) USING work_section_code::varchar;
-*/
 
 DROP TABLE IF EXISTS shersched."assignment";
--- DROP TABLE IF EXISTS shersched.courtroom;
+DROP TABLE IF EXISTS shersched.courtroom;
 DROP TABLE IF EXISTS shersched.court_role_code;
 DROP TABLE IF EXISTS shersched.jail_role_code;
 DROP TABLE IF EXISTS shersched.other_assign_code;
 DROP TABLE IF EXISTS shersched.escort_run;
 
-/*
 CREATE TABLE IF NOT EXISTS shersched.courtroom (
 	courtroom_id uuid NOT NULL,
-	courtroom_cd varchar(32) NOT NULL,
-	courtroom_name varchar(100) NOT NULL,
 	location_id uuid NOT NULL,
-	created_by varchar(32) NOT NULL,
-	updated_by varchar(32) NOT NULL,
+	courtroom_code varchar(32) NULL,
+	courtroom_name varchar(100) NULL,
+	description varchar(200) NULL,
+	effective_date date NULL,
+	expiry_date date NULL,
+	created_by varchar(32) NULL,
+	updated_by varchar(32) NULL,
 	created_dtm timestamptz NOT NULL,
 	updated_dtm timestamptz NOT NULL,
 	revision_count numeric(10) NOT NULL,
 	CONSTRAINT pk_courtroom PRIMARY KEY (courtroom_id),
-	CONSTRAINT uk_location_courtroom_code UNIQUE (location_id, courtroom_cd)	
+	CONSTRAINT uk_location_courtroom_code UNIQUE (location_id, courtroom_code)
 );
 CREATE INDEX ix_courtroom_name ON shersched.courtroom USING btree (courtroom_name);
 
@@ -65,17 +61,17 @@ insert
 update
     on
     shersched.courtroom for each row execute procedure shersched.tab_stamp();
-*/
 
 CREATE TABLE IF NOT EXISTS shersched.court_role_code (
 	court_role_id uuid NOT NULL,
-	court_role_code varchar(32) NOT NULL,
-	description varchar(200) NOT NULL,
 	location_id uuid NULL,
-	effective_date date NOT NULL,
+	court_role_code varchar(32) NULL,
+	court_role_name varchar(100) NULL,
+	description varchar(200) NULL,
+	effective_date date NULL,
 	expiry_date date NULL,
-	created_by varchar(32) NOT NULL,
-	updated_by varchar(32) NOT NULL,
+	created_by varchar(32) NULL,
+	updated_by varchar(32) NULL,
 	created_dtm timestamptz NOT NULL,
 	updated_dtm timestamptz NOT NULL,
 	revision_count numeric(10) NOT NULL,
@@ -99,13 +95,14 @@ update
 
 CREATE TABLE IF NOT EXISTS shersched.jail_role_code (
 	jail_role_id uuid NOT NULL,
-	jail_role_code varchar(32) NOT NULL,
-	description varchar(200) NOT NULL,
 	location_id uuid NULL,
-	effective_date date NOT NULL,
+	jail_role_code varchar(32) NULL,
+	jail_role_name varchar(100) NULL,
+	description varchar(200) NULL,
+	effective_date date NULL,
 	expiry_date date NULL,
-	created_by varchar(32) NOT NULL,
-	updated_by varchar(32) NOT NULL,
+	created_by varchar(32) NULL,
+	updated_by varchar(32) NULL,
 	created_dtm timestamptz NOT NULL,
 	updated_dtm timestamptz NOT NULL,
 	revision_count numeric(10) NOT NULL,
@@ -129,14 +126,19 @@ update
 
 CREATE TABLE IF NOT EXISTS shersched.escort_run (
 	escort_run_id uuid NOT NULL,
-	title varchar(100) NOT NULL,
 	location_id uuid NULL,
-	created_by varchar(32) NOT NULL,
-	updated_by varchar(32) NOT NULL,
+	title varchar(100) NOT NULL,
+	escort_run_code varchar(32) NULL,
+	escort_run_name varchar(100) NULL,
+	description varchar(200) NULL,
+	effective_date date NULL,
+	expiry_date date NULL,
+	created_by varchar(32) NULL,
+	updated_by varchar(32) NULL,
 	created_dtm timestamptz NOT NULL,
 	updated_dtm timestamptz NOT NULL,
 	revision_count numeric(10) NOT NULL,
-	CONSTRAINT pk_esrn PRIMARY KEY (escort_run_id)
+	CONSTRAINT pk_escort_run PRIMARY KEY (escort_run_id)
 );
 CREATE INDEX ix_escort_run_location ON shersched.escort_run USING btree (location_id);
 
@@ -153,17 +155,18 @@ update
 
 CREATE TABLE IF NOT EXISTS shersched.other_assign_code (
 	other_assign_id uuid NOT NULL,
-	other_assign_code varchar(32) NOT NULL,
-	description varchar(200) NOT NULL,
 	location_id uuid NULL,
-	effective_date date NOT NULL,
+	other_assign_code varchar(32) NULL,
+	other_assign_name varchar(100) NULL,
+	description varchar(200) NULL,
+	effective_date date NULL,
 	expiry_date date NULL,
-	created_by varchar(32) NOT NULL,
-	updated_by varchar(32) NOT NULL,
+	created_by varchar(32) NULL,
+	updated_by varchar(32) NULL,
 	created_dtm timestamptz NOT NULL,
 	updated_dtm timestamptz NOT NULL,
 	revision_count numeric(10) NOT NULL,
-	
+
 	CONSTRAINT pk_other_assign_id PRIMARY KEY (other_assign_id)
 );
 
@@ -187,22 +190,22 @@ update
 
 -- DROP TABLE shersched.leave_sub_code;
 
-/* 
+/*
 CREATE TABLE IF NOT EXISTS shersched.leave_sub_code (
 	leave_code varchar(64) NOT NULL,
 	leave_sub_code varchar(64) NOT NULL,
-	description varchar(200) NOT NULL,
-	effective_date date NOT NULL,
+	description varchar(200) NULL,
+	effective_date date NULL,
 	expiry_date date NULL,
-	created_by varchar(32) NOT NULL,
-	updated_by varchar(32) NOT NULL,
+	created_by varchar(32) NULL,
+	updated_by varchar(32) NULL,
 	created_dtm timestamptz NOT NULL,
 	updated_dtm timestamptz NOT NULL,
 	revision_count numeric(10) NOT NULL,
 	CONSTRAINT pk_lvsbcd PRIMARY KEY (leave_code, leave_sub_code)
 );
 
-ALTER TABLE shersched.leave_sub_code ADD CONSTRAINT fk_lvsbcd_lvcd FOREIGN KEY (leave_code) REFERENCES leave_code(leave_code); 
+ALTER TABLE shersched.leave_sub_code ADD CONSTRAINT fk_lvsbcd_lvcd FOREIGN KEY (leave_code) REFERENCES leave_code(leave_code);
 
 -- DROP TRIGGER trg_biu_lvsbcd_stamp ON shersched.leave_sub_code;
 
@@ -217,7 +220,7 @@ update
 CREATE TABLE IF NOT EXISTS shersched."assignment" (
 	assignment_id uuid NOT NULL,
 	title varchar(100) NULL,
-	work_section_code varchar(32) NOT NULL,
+	work_section_code varchar(32) NULL,
 	location_id uuid NOT NULL,
 	courtroom_id uuid NULL,
 	court_role_code varchar(32) NULL,
@@ -227,10 +230,10 @@ CREATE TABLE IF NOT EXISTS shersched."assignment" (
 	jail_role_id uuid NULL,
 	other_assign_id uuid NULL,
 	escort_run_id uuid NULL,
-	effective_date date NOT NULL DEFAULT now(),
+	effective_date date NULL DEFAULT now(),
 	expiry_date date NULL,
-	created_by varchar(32) NOT NULL,
-	updated_by varchar(32) NOT NULL,
+	created_by varchar(32) NULL,
+	updated_by varchar(32) NULL,
 	created_dtm timestamptz NOT NULL,
 	updated_dtm timestamptz NOT NULL,
 	revision_count numeric(10) NOT NULL,

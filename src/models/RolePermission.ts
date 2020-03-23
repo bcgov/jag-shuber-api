@@ -1,7 +1,7 @@
 import { RoleApiScope } from './RoleApiScope';
 import { RoleFrontendScope } from './RoleFrontendScope';
 
-// It doesn't look like tsoa supports this:
+// It doesn't look like tsoa supports this: 
 // "Note that type aliases are only supported for string literal types like type status = 'Happy' | 'Sad'"
 // type RoleScope = RoleApiScope | RoleFrontendScope;
 
