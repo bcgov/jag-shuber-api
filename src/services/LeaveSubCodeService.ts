@@ -23,8 +23,16 @@ export class LeaveSubCodeService extends ExpirableDatabaseService<LeaveSubCode> 
         super('leave_sub_code', 'leave_sub_code');
     }
 
-    async getAll(options?: EffectiveQueryOptions): Promise<LeaveSubCode[]> {
+    /* async getAll(options?: EffectiveQueryOptions): Promise<LeaveSubCode[]> {
         const query = super.getEffectiveSelectQuery(options);
+    
+        const rows = await this.executeQuery<LeaveSubCode>(query.toString());
+        return rows;    
+    } */
+
+    // Handle filtering on the frontend, like with our other code types
+    async getAll(options?: EffectiveQueryOptions): Promise<LeaveSubCode[]> {
+        const query = super.getSelectQuery();
     
         const rows = await this.executeQuery<LeaveSubCode>(query.toString());
         return rows;    
