@@ -28,6 +28,16 @@ export class CourtroomController extends ControllerBase<Courtroom, CourtroomServ
         return super.create(model);
     }
 
+    @Post('{id}/expire')
+    public expireCourtroom(@Path() id: string) {
+        return this.service.expire(id);
+    }
+
+    @Post('{id}/unexpire')
+    public unexpireCourtroom(@Path() id: string) {
+        return this.service.expire(id);
+    }
+
 
     @Put('{id}')
     public updateCourtroom(@Path() id: string, @Body() model: Courtroom) {

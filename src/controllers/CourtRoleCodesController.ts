@@ -23,14 +23,19 @@ export class CourtRoleCodesController extends ControllerBase<CourtRoleCode, Cour
         return super.create(model);
     }
 
+    @Post('{id}/expire')
+    public expireCourtRoleCode(@Path() id: string) {
+        return this.service.expire(id);
+    }
+
+    @Post('{id}/unexpire')
+    public unexpireCourtRoleCode(@Path() id: string) {
+        return this.service.unexpire(id);
+    }
+
     @Put('{id}')
     public updateCourtRoleCode(@Path() id: string, @Body() model: CourtRoleCode) {
         return super.update(id, model);
-    }
-
-    @Post('{id}')
-    public expireCourtRoleCode(@Path() id: string) {
-        return this.service.expire(id);
     }
 
     @Delete('{id}')

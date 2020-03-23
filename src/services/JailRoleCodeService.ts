@@ -7,9 +7,10 @@ import { PostgresInsert } from 'squel';
 export class JailRoleCodeService extends ExpirableDatabaseService<JailRoleCode> {
     fieldMap = {
         jail_role_id: 'id',
-        jail_role_code: 'code',
-        description: 'description',
         location_id: 'locationId',
+        jail_role_code: 'code',
+        jail_role_name: 'name',
+        description: 'description', // For future use
         effective_date: 'effectiveDate',
         expiry_date: 'expiryDate',
         created_by: 'createdBy',

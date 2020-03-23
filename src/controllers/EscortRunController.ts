@@ -28,6 +28,16 @@ export class EscortRunController extends ControllerBase<EscortRun, EscortRunServ
         return super.create(model);
     }
 
+    @Post('{id}/expire')
+    public expireEscortRun(@Path() id: string) {
+        return this.service.expire(id);
+    }
+
+    @Post('{id}/unexpire')
+    public unexpireEscortRun(@Path() id: string) {
+        return this.service.unexpire(id);
+    }
+
 
     @Put('{id}')
     public updateEscortRun(@Path() id: string, @Body() model: EscortRun) {

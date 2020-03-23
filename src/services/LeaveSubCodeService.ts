@@ -9,7 +9,13 @@ export class LeaveSubCodeService extends ExpirableDatabaseService<LeaveSubCode> 
         leave_code: 'code',
         leave_sub_code: 'subCode',
         description: 'description',
-        expiry_date: 'expiryDate'
+        effective_date: 'effectiveDate',
+        expiry_date: 'expiryDate',
+        created_by: 'createdBy',
+        updated_by: 'updatedBy',
+        created_dtm: 'createdDtm',
+        updated_dtm: 'updatedDtm',
+        revision_count: 'revisionCount'
     };
 
     constructor() {

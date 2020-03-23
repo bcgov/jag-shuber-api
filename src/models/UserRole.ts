@@ -1,7 +1,7 @@
 import { Role } from './Role';
 
 export interface UserRole {
-    id?: string; // GUID user_role_id
+    id?: string; // GUID app_user_role_id
     userId?: string; // GUID
     roleId?: string; // GUID
     role?: Role;

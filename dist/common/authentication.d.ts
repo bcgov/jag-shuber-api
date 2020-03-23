@@ -23,6 +23,7 @@ export declare const DEV_SA_AUTH_ID: string;
  */
 export declare const DEV_USER_DISPLAY_NAME = "Test User";
 export declare const DEV_USER_AUTH_ID = "TESTUSR";
+export declare const DEV_USER_TEST_ROLES: string[];
 /**
  * System user display name. Just a value to use when the application updates a database record, and the action is not
  * attributable to a user, for whatever reason.

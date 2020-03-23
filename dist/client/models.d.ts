@@ -77,7 +77,7 @@ export interface Role {
     id?: string;
     roleName?: string;
     roleCode?: string;
-    systemRoleInd?: number;
+    systemCodeInd?: number;
     description?: string;
     createdBy?: string;
     updatedBy?: string;
@@ -180,17 +180,26 @@ export interface Location {
 }
 export interface Courtroom {
     id?: string;
+    locationId?: string;
     code?: string;
     name?: string;
-    locationId?: string;
-}
-export interface JailRoleCode {
-    id?: string;
-    code?: string;
     description?: string;
     effectiveDate?: string;
     expiryDate?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
+export interface JailRoleCode {
+    id?: string;
     locationId?: string;
+    code?: string;
+    name?: string;
+    description?: string;
+    effectiveDate?: string;
+    expiryDate?: string;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;
@@ -199,9 +208,10 @@ export interface JailRoleCode {
 }
 export interface OtherAssignCode {
     id?: string;
-    code?: string;
-    description?: string;
     locationId?: string;
+    code?: string;
+    name?: string;
+    description?: string;
     effectiveDate?: string;
     expiryDate?: string;
     createdBy?: string;
@@ -223,8 +233,13 @@ export interface SheriffRankCode {
 }
 export interface EscortRun {
     id?: string;
-    title?: string;
     locationId?: string;
+    title?: string;
+    code?: string;
+    name?: string;
+    description?: string;
+    effectiveDate?: string;
+    expiryDate?: string;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;
@@ -310,10 +325,12 @@ export interface LeaveSubCode {
 }
 export interface CourtRoleCode {
     id?: string;
+    locationId?: string;
     code?: string;
+    name?: string;
     description?: string;
     effectiveDate?: string;
-    locationId?: string;
+    expiryDate?: string;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;

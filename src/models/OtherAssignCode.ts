@@ -1,8 +1,9 @@
 export interface OtherAssignCode{
     id?: string;
-    code?: string;
-    description?: string;
     locationId?: string;
+    code?: string;
+    name?: string;
+    description?: string; // TODO: For future use
     effectiveDate?: string;
     expiryDate?: string;
     createdBy?: string;

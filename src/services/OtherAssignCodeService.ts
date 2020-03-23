@@ -7,16 +7,17 @@ import { PostgresInsert } from 'squel';
 export class OtherAssignCodeService extends ExpirableDatabaseService<OtherAssignCode> {
     fieldMap = {
         other_assign_id: 'id',
+        location_id: 'locationId',
         other_assign_code: 'code',
-        description: 'description',
+        other_assign_name: 'name',
+        description: 'description', // For future use
         effective_date: 'effectiveDate',
         expiry_date: 'expiryDate',
         created_by: 'createdBy',
         updated_by: 'updatedBy',
         created_dtm: 'createdDtm',
         updated_dtm: 'updatedDtm',
-        revision_count: 'revisionCount',
-        location_id: 'locationId'
+        revision_count: 'revisionCount'
     };
 
     constructor() {
