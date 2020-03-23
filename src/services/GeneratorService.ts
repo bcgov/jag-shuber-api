@@ -327,7 +327,8 @@ export class GeneratorService {
 
         await Promise.all(codeOps);
 
-        const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
+        // Uncomment this to test custom assignment type generation
+        /* const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
         const ops = locations.map(location => throttle(async() => {
             // TODO: Set a limit, we'll need to throttle this or something...
             // Increate the number of records and this starts to blow up, probably too much memory.
@@ -345,7 +346,7 @@ export class GeneratorService {
             }
         }));
 
-        await Promise.all(ops);
+        await Promise.all(ops); */
     }
 
     /**
@@ -368,7 +369,8 @@ export class GeneratorService {
 
         await Promise.all(codeOps);
 
-        const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
+        // Uncomment this to test custom assignment type generation
+        /* const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
         const ops = locations.map(location => throttle(async() => {
             // TODO: Set a limit, we'll need to throttle this or something...
             // Increate the number of records and this starts to blow up, probably too much memory.
@@ -386,7 +388,7 @@ export class GeneratorService {
             }
         }));
 
-        await Promise.all(ops);
+        await Promise.all(ops); */
     }
 
     /**
@@ -409,7 +411,8 @@ export class GeneratorService {
 
         await Promise.all(codeOps);
 
-        const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
+        // Uncomment this to test custom assignment type generation
+        /* const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
         const ops = locations.map(location => throttle(async() => {
             // TODO: Set a limit, we'll need to throttle this or something...
             // Increate the number of records and this starts to blow up, probably too much memory.
@@ -427,6 +430,6 @@ export class GeneratorService {
             }
         }));
 
-        await Promise.all(ops);
+        await Promise.all(ops); */
     }
 }
