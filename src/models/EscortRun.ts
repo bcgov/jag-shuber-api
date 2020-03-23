@@ -7,6 +7,7 @@ export interface EscortRun {
     description?: string; // TODO: For future use
     effectiveDate?: string;
     expiryDate?: string;
+    sortOrder?: number;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;

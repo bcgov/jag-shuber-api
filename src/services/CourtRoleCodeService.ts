@@ -13,6 +13,7 @@ export class CourtRoleCodeService extends ExpirableDatabaseService<CourtRoleCode
         description: 'description', // For future use
         effective_date: 'effectiveDate',
         expiry_date: 'expiryDate',
+        sort_order: 'sortOrder',
         created_by: 'createdBy',
         updated_by: 'updatedBy',
         created_dtm: 'createdDtm',
@@ -54,8 +55,8 @@ export class CourtRoleCodeService extends ExpirableDatabaseService<CourtRoleCode
         let query = this.getSelectQuery()
             .where(`court_role_code='${code}'`)
 
-        query = (locationId !== null) 
-            ? query.where(`location_id='${locationId}'`) 
+        query = (locationId !== null)
+            ? query.where(`location_id='${locationId}'`)
             : query.where(`location_id IS NULL`)
 
         const rows = await this.executeQuery<CourtRoleCode>(query.toString());
