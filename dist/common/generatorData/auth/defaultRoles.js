@@ -37,6 +37,17 @@ exports.defaultRoles = [
         createdDtm: index_1.createdDtm,
         updatedDtm: index_1.updatedDtm,
         revisionCount: 0
+    },
+    {
+        roleName: 'Administrator',
+        roleCode: 'ADMIN',
+        systemRoleInd: 1,
+        description: 'Administrator level access. Full permissions except the ability to delete code types, or configure components and apis.',
+        createdBy: index_1.createdBy,
+        updatedBy: index_1.updatedBy,
+        createdDtm: index_1.createdDtm,
+        updatedDtm: index_1.updatedDtm,
+        revisionCount: 0
     }
 ];
 //# sourceMappingURL=../../../../src/dist/common/generatorData/auth/defaultRoles.js.map

@@ -152,15 +152,19 @@ export default class Client {
     GetCourtroomById(id: string): Promise<Courtroom>;
     UpdateCourtroom(id: string, model: Courtroom): Promise<Courtroom>;
     DeleteCourtroom(id: string): Promise<void>;
+    ExpireCourtroom(id: string): Promise<void>;
+    UnexpireCourtroom(id: string): Promise<void>;
     GetJailRoleCodes(locationId: string): Promise<Array<JailRoleCode>>;
     CreateJailRoleCode(model: JailRoleCode): Promise<JailRoleCode>;
-    UpdateJailRoleCode(id: string, model: JailRoleCode): Promise<JailRoleCode>;
     ExpireJailRoleCode(id: string): Promise<void>;
+    UnexpireJailRoleCode(id: string): Promise<void>;
+    UpdateJailRoleCode(id: string, model: JailRoleCode): Promise<JailRoleCode>;
     DeleteJailRoleCode(id: string): Promise<void>;
     GetOtherAssignCodes(locationId: string): Promise<Array<OtherAssignCode>>;
     CreateOtherAssignCode(model: OtherAssignCode): Promise<OtherAssignCode>;
-    UpdateOtherAssignCode(id: string, model: OtherAssignCode): Promise<OtherAssignCode>;
     ExpireOtherAssignCode(id: string): Promise<void>;
+    UnexpireOtherAssignCode(id: string): Promise<void>;
+    UpdateOtherAssignCode(id: string, model: OtherAssignCode): Promise<OtherAssignCode>;
     DeleteOtherAssignCode(id: string): Promise<void>;
     GetWorkSectionCodes(): Promise<Array<WorkSectionCode>>;
     GetSheriffRankCodes(): Promise<Array<SheriffRankCode>>;
@@ -169,6 +173,8 @@ export default class Client {
     GetEscortRunById(id: string): Promise<EscortRun>;
     UpdateEscortRun(id: string, model: EscortRun): Promise<EscortRun>;
     DeleteEscortRun(id: string): Promise<void>;
+    ExpireEscortRun(id: string): Promise<void>;
+    UnexpireEscortRun(id: string): Promise<void>;
     GetShifts(locationId: string): Promise<Array<Shift>>;
     CreateShift(model: Shift): Promise<Shift>;
     GetShiftById(id: string): Promise<Shift>;
@@ -209,8 +215,9 @@ export default class Client {
     DeleteLeaveSubCode(id: string): Promise<void>;
     GetCourtRoleCodes(locationId: string): Promise<Array<CourtRoleCode>>;
     CreateCourtRoleCode(model: CourtRoleCode): Promise<CourtRoleCode>;
-    UpdateCourtRoleCode(id: string, model: CourtRoleCode): Promise<CourtRoleCode>;
     ExpireCourtRoleCode(id: string): Promise<void>;
+    UnexpireCourtRoleCode(id: string): Promise<void>;
+    UpdateCourtRoleCode(id: string, model: CourtRoleCode): Promise<CourtRoleCode>;
     DeleteCourtRoleCode(id: string): Promise<void>;
     GetGenderCodes(): Promise<Array<GenderCode>>;
 }
