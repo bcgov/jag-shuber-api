@@ -13,6 +13,7 @@ export class OtherAssignCodeService extends ExpirableDatabaseService<OtherAssign
         description: 'description', // For future use
         effective_date: 'effectiveDate',
         expiry_date: 'expiryDate',
+        sort_order: 'sortOrder',
         created_by: 'createdBy',
         updated_by: 'updatedBy',
         created_dtm: 'createdDtm',
@@ -54,8 +55,8 @@ export class OtherAssignCodeService extends ExpirableDatabaseService<OtherAssign
         let query = this.getSelectQuery()
             .where(`other_assign_code='${code}'`)
 
-        query = (locationId !== null) 
-            ? query.where(`location_id='${locationId}'`) 
+        query = (locationId !== null)
+            ? query.where(`location_id='${locationId}'`)
             : query.where(`location_id IS NULL`)
 
         const rows = await this.executeQuery<OtherAssignCode>(query.toString());

@@ -186,6 +186,7 @@ export interface Courtroom {
     description?: string;
     effectiveDate?: string;
     expiryDate?: string;
+    sortOrder?: number;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;
@@ -200,6 +201,7 @@ export interface JailRoleCode {
     description?: string;
     effectiveDate?: string;
     expiryDate?: string;
+    sortOrder?: number;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;
@@ -214,6 +216,7 @@ export interface OtherAssignCode {
     description?: string;
     effectiveDate?: string;
     expiryDate?: string;
+    sortOrder?: number;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;
@@ -240,6 +243,7 @@ export interface EscortRun {
     description?: string;
     effectiveDate?: string;
     expiryDate?: string;
+    sortOrder?: number;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;
@@ -331,6 +335,7 @@ export interface CourtRoleCode {
     description?: string;
     effectiveDate?: string;
     expiryDate?: string;
+    sortOrder?: number;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;
