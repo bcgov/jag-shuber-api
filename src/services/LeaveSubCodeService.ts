@@ -11,6 +11,7 @@ export class LeaveSubCodeService extends ExpirableDatabaseService<LeaveSubCode> 
         description: 'description',
         effective_date: 'effectiveDate',
         expiry_date: 'expiryDate',
+        sort_order: 'sortOrder',
         created_by: 'createdBy',
         updated_by: 'updatedBy',
         created_dtm: 'createdDtm',
