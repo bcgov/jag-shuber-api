@@ -26,7 +26,7 @@ export class OtherAssignCodeService extends ExpirableDatabaseService<OtherAssign
     }
 
     async getAll(locationId?: string, includeProvincial?: boolean) {
-        includeProvincial = includeProvincial || true
+        includeProvincial = includeProvincial || true;
         const query = super.getSelectQuery();
         if (locationId) {
             if (includeProvincial) {
@@ -36,8 +36,9 @@ export class OtherAssignCodeService extends ExpirableDatabaseService<OtherAssign
             }
         } else {
             query.where(`location_id IS NULL`);
-        };
-        query.order(`location_id IS NOT NULL, code`)
+        }
+
+        query.order(`location_id IS NOT NULL, sort_order`);
         const rows = await this.executeQuery<OtherAssignCode>(query.toString());
         return rows;
     }
@@ -57,7 +58,7 @@ export class OtherAssignCodeService extends ExpirableDatabaseService<OtherAssign
 
         query = (locationId !== null)
             ? query.where(`location_id='${locationId}'`)
-            : query.where(`location_id IS NULL`)
+            : query.where(`location_id IS NULL`);
 
         const rows = await this.executeQuery<OtherAssignCode>(query.toString());
         return rows[0];

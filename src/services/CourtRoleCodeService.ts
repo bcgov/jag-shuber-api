@@ -26,7 +26,7 @@ export class CourtRoleCodeService extends ExpirableDatabaseService<CourtRoleCode
     }
 
     async getAll(locationId?: string, includeProvincial?: boolean) {
-        includeProvincial = includeProvincial || true
+        includeProvincial = includeProvincial || true;
         const query = super.getSelectQuery();
         if (locationId) {
             if (includeProvincial) {
@@ -36,8 +36,9 @@ export class CourtRoleCodeService extends ExpirableDatabaseService<CourtRoleCode
             }
         } else {
             query.where(`location_id IS NULL`);
-        };
-        query.order(`location_id IS NOT NULL, code`)
+        }
+
+        query.order(`location_id IS NOT NULL, sort_order`);
         const rows = await this.executeQuery<CourtRoleCode>(query.toString());
         return rows;
     }
@@ -53,11 +54,11 @@ export class CourtRoleCodeService extends ExpirableDatabaseService<CourtRoleCode
 
     async getByCodeAndLocation(code: string, locationId?: string) {
         let query = this.getSelectQuery()
-            .where(`court_role_code='${code}'`)
+            .where(`court_role_code='${code}'`);
 
         query = (locationId !== null)
             ? query.where(`location_id='${locationId}'`)
-            : query.where(`location_id IS NULL`)
+            : query.where(`location_id IS NULL`);
 
         const rows = await this.executeQuery<CourtRoleCode>(query.toString());
         return rows[0];
