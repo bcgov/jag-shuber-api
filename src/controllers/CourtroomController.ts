@@ -35,7 +35,7 @@ export class CourtroomController extends ControllerBase<Courtroom, CourtroomServ
 
     @Post('{id}/unexpire')
     public unexpireCourtroom(@Path() id: string) {
-        return this.service.expire(id);
+        return this.service.unexpire(id);
     }
 
 

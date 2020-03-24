@@ -40,7 +40,7 @@ export class CourtRoleCodesController extends ControllerBase<CourtRoleCode, Cour
 
     @Delete('{id}')
     public deleteCourtRoleCode(@Path() id: string) {
-        return this.service.expire(id);
+        return this.service.delete(id);
     }
 
 }
