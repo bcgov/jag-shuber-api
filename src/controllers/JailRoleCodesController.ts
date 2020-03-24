@@ -40,7 +40,7 @@ export class JailRoleCodesController extends ControllerBase<JailRoleCode, JailRo
 
     @Delete('{id}')
     public deleteJailRoleCode(@Path() id: string) {
-        return this.service.expire(id);
+        return this.service.delete(id);
     }
 
 }

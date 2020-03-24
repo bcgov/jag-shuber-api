@@ -30,7 +30,7 @@ export class OtherAssignCodesController extends ControllerBase<OtherAssignCode, 
 
     @Post('{id}/unexpire')
     public unexpireOtherAssignCode(@Path() id: string) {
-        return this.service.expire(id);
+        return this.service.unexpire(id);
     }
 
     @Put('{id}')
@@ -40,7 +40,7 @@ export class OtherAssignCodesController extends ControllerBase<OtherAssignCode, 
 
     @Delete('{id}')
     public deleteOtherAssignCode(@Path() id: string) {
-        return this.service.expire(id);
+        return this.service.delete(id);
     }
 
 }
