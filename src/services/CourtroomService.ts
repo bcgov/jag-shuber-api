@@ -28,7 +28,9 @@ export class CourtroomService extends ExpirableDatabaseService<Courtroom> {
         const query = super.getSelectQuery();
         if (locationId) {
             query.where(`location_id='${locationId}'`);
-        };
+        }
+
+        query.order(`location_id IS NOT NULL, sort_order`);
         const rows = await this.executeQuery<Courtroom>(query.toString());
         return rows;
     }

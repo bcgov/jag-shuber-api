@@ -26,7 +26,7 @@ export class EscortRunService extends ExpirableDatabaseService<EscortRun> {
     }
 
     async getAll(locationId?: string, includeProvincial?: boolean) {
-        includeProvincial = includeProvincial || true
+        includeProvincial = includeProvincial || true;
         const query = super.getSelectQuery();
         if (locationId) {
             if (includeProvincial) {
@@ -36,8 +36,9 @@ export class EscortRunService extends ExpirableDatabaseService<EscortRun> {
             }
         } else {
             query.where(`location_id IS NULL`);
-        };
-        query.order(`location_id IS NOT NULL, title`)
+        }
+
+        query.order(`location_id IS NOT NULL, sort_order`);
         const rows = await this.executeQuery<EscortRun>(query.toString());
         return rows;
     }
