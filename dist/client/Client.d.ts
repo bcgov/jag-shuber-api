@@ -212,8 +212,9 @@ export default class Client {
     CreateLeaveSubCode(model: LeaveSubCode): Promise<LeaveSubCode>;
     GetLeaveSubCodeById(id: string): Promise<LeaveSubCode>;
     UpdateLeaveSubCode(id: string, model: LeaveSubCode): Promise<LeaveSubCode>;
-    ExpireLeaveSubCode(id: string): Promise<void>;
     DeleteLeaveSubCode(id: string): Promise<void>;
+    ExpireLeaveSubCode(id: string): Promise<void>;
+    UnexpireLeaveSubCode(id: string): Promise<void>;
     GetCourtRoleCodes(locationId: string): Promise<Array<CourtRoleCode>>;
     CreateCourtRoleCode(model: CourtRoleCode): Promise<CourtRoleCode>;
     ExpireCourtRoleCode(id: string): Promise<void>;
