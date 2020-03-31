@@ -47,6 +47,6 @@ export class LeaveSubTypeCodesController extends ControllerBase<LeaveSubCode, Le
 
     @Delete('{id}')
     public deleteLeaveSubCode(@Path() id: string) {
-        return this.service.expire(id);
+        return this.service.delete(id);
     }
 }
