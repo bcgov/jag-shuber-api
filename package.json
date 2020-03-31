@@ -31,13 +31,6 @@
       "quiet": true,
       "delay": 2000
     }
-
-
-
-
-
-
-    
   },
   "scripts": {
     "start": "export TZ=Etc/UTC && node ./dist/index.js",
@@ -56,6 +49,7 @@
     "oc:dev": "nodemon --ignore node_modules/ dist/index.js --inspect=$DEBUG_PORT"
   },
   "dependencies": {
+    "@koa/multer": "^2.0.2",
     "jsonwebtoken": "^8.3.0",
     "jwt-decode": "^2.2.0",
     "koa": "^2.5.0",
@@ -64,6 +58,7 @@
     "koa-router": "^7.4.0",
     "moment": "^2.22.1",
     "moment-timezone": "^0.5.17",
+    "multer": "^1.4.2",
     "pg": "^7.4.1",
     "squel": "^5.12.1",
     "superagent": "^3.8.3",

@@ -1,9 +1,14 @@
-import { Body, Delete, Get, Path, Post, Put, Query, Route } from 'tsoa';
+import * as koa from 'koa';
+import { Body, Delete, Get, Path, Post, Put, Query, Route, Request, Response } from 'tsoa';
 import ControllerBase from '../infrastructure/ControllerBase';
 import { Security } from '../authentication';
 import { Inject, AutoWired } from 'typescript-ioc';
 import { UserService, UserQuery } from '../services/UserService';
 import { User } from '../models/User';
+
+import multer from 'multer';
+
+const upload = multer({ dest: 'uploads/' }); // note you can pass `multer` options here
 
 @Route('User')
 @Security('jwt')
@@ -71,5 +76,28 @@ export class UserController extends ControllerBase<any, UserService> {
     @Delete('{id}')
     public deleteUser(@Path() id:string) {
         return super.delete(id);
+    }
+
+    @Security('jwt', ['users:manage'])
+    @Post('{id}/image')
+    public uploadUserImage(@Path() id: string, @Request() request: koa.Request) {
+        let imgUpload = upload.single('avatar');
+        const ctx = request.ctx;
+        const { req, res } = ctx;
+        console.log('ctx.request.files', ctx.files);
+        console.log('ctx.files', ctx.files);
+        console.log('ctx.request.body', ctx.body);
+
+        imgUpload(req, res, function (err) {
+            if (err instanceof multer.MulterError) {
+              // A Multer error occurred when uploading!
+              debugger;
+            } else if (err) {
+              // An unknown error occurred when uploading!
+              debugger;
+            }
+        
+            // Everything went fine
+        });
     }
 }

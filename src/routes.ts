@@ -439,17 +439,32 @@ const models: TsoaRoute.Models = {
     },
     "LeaveCode": {
         "properties": {
-            "code": { "dataType": "string", "required": true },
-            "description": { "dataType": "string", "required": true },
+            "code": { "dataType": "string" },
+            "subCode": { "dataType": "string" },
+            "description": { "dataType": "string" },
+            "effectiveDate": { "dataType": "string" },
             "expiryDate": { "dataType": "string" },
+            "sortOrder": { "dataType": "double" },
+            "createdBy": { "dataType": "string" },
+            "updatedBy": { "dataType": "string" },
+            "createdDtm": { "dataType": "string" },
+            "updatedDtm": { "dataType": "string" },
+            "revisionCount": { "dataType": "double" },
         },
     },
     "LeaveSubCode": {
         "properties": {
             "code": { "dataType": "string", "required": true },
             "subCode": { "dataType": "string", "required": true },
-            "description": { "dataType": "string", "required": true },
+            "description": { "dataType": "string" },
+            "effectiveDate": { "dataType": "string" },
             "expiryDate": { "dataType": "string" },
+            "sortOrder": { "dataType": "double" },
+            "createdBy": { "dataType": "string" },
+            "updatedBy": { "dataType": "string" },
+            "createdDtm": { "dataType": "string" },
+            "updatedDtm": { "dataType": "string" },
+            "revisionCount": { "dataType": "double" },
         },
     },
     "CourtRoleCode": {
@@ -725,6 +740,34 @@ export function RegisterRoutes(router: any) {
             const controller = Container.get(UserController) as UserController;
 
             const promise = controller.deleteUser.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.post('/v1/User/:id/image',
+        authenticateMiddleware([{ "name": "jwt", "scopes": ["users:manage"] }]),
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(UserController) as UserController;
+
+            const promise = controller.uploadUserImage.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/UserRole/me',
