@@ -30,14 +30,19 @@ export class LeaveSubTypeCodesController extends ControllerBase<LeaveSubCode, Le
         return super.create(model);
     }
 
+    @Post('{id}/expire')
+    public expireLeaveSubCode(@Path() id: string) {
+        return this.service.expire(id);
+    }
+
+    @Post('{id}/unexpire')
+    public unexpireLeaveSubCode(@Path() id: string) {
+        return this.service.unexpire(id);
+    }
+
     @Put('{id}')
     public updateLeaveSubCode(@Path() id: string, @Body() model: LeaveSubCode) {
         return super.update(id, model);
-    }
-
-    @Post('{id}')
-    public expireLeaveSubCode(@Path() id: string) {
-        return this.service.expire(id);
     }
 
     @Delete('{id}')

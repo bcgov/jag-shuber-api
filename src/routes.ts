@@ -4322,6 +4322,60 @@ export function RegisterRoutes(router: any) {
             const promise = controller.createLeaveSubCode.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
+    router.post('/v1/codes/leave-sub-type/:id/expire',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(LeaveSubTypeCodesController) as LeaveSubTypeCodesController;
+
+            const promise = controller.expireLeaveSubCode.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.post('/v1/codes/leave-sub-type/:id/unexpire',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(LeaveSubTypeCodesController) as LeaveSubTypeCodesController;
+
+            const promise = controller.unexpireLeaveSubCode.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
     router.put('/v1/codes/leave-sub-type/:id',
         authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
@@ -4348,33 +4402,6 @@ export function RegisterRoutes(router: any) {
             const controller = Container.get(LeaveSubTypeCodesController) as LeaveSubTypeCodesController;
 
             const promise = controller.updateLeaveSubCode.apply(controller, validatedArgs);
-            return promiseHandler(controller, promise, context, next);
-        });
-    router.post('/v1/codes/leave-sub-type/:id',
-        authenticateMiddleware([{ "name": "jwt" }]),
-        async (context, next) => {
-            const args = {
-                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
-            };
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, context);
-            } catch (error) {
-                context.status = error.status || 500;
-                context.body = error;
-                return next();
-            }
-
-            // Create the currentUser from the context and bind it to the ioc container
-            const currentUserProvider: Provider = {
-                get: () => new CurrentUser(context.request.user)
-            }
-            Container.bind(CurrentUser).provider(currentUserProvider);
-            // Using the typescript-ioc container, retrieve controller
-            const controller = Container.get(LeaveSubTypeCodesController) as LeaveSubTypeCodesController;
-
-            const promise = controller.expireLeaveSubCode.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
     router.delete('/v1/codes/leave-sub-type/:id',

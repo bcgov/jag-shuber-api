@@ -1149,15 +1149,21 @@ export default class Client {
             return response;
         });
     }    
-    public async ExpireLeaveSubCode( id:string ):Promise<void>{
-        return this.tryRequest<void>(async () => {
-            const response: superAgent.Response = await this.agent.post(`/codes/leave-sub-type/${id}`)
-            return response;
-        });
-    }    
     public async DeleteLeaveSubCode( id:string ):Promise<void>{
         return this.tryRequest<void>(async () => {
             const response: superAgent.Response = await this.agent.delete(`/codes/leave-sub-type/${id}`)
+            return response;
+        });
+    }    
+    public async ExpireLeaveSubCode( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/codes/leave-sub-type/${id}/expire`)
+            return response;
+        });
+    }    
+    public async UnexpireLeaveSubCode( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/codes/leave-sub-type/${id}/unexpire`)
             return response;
         });
     }    
