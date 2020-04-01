@@ -28,6 +28,8 @@ import { RolePermission } from '../models/RolePermission';
 import { FrontendScopePermission } from '../models/FrontendScopePermission';
 import { RoleFrontendScopePermission } from '../models/RoleFrontendScopePermission';
 
+import { DEV_USER_AUTH_ID, DEV_USER_TEST_ROLES } from '../common/authentication';
+
 const PRODUCTION_MODE = process.env.SYS_PRODUCTION_MODE === 'true' ? true : false
 const GRANT_ALL_SCOPES = process.env.SYS_GRANT_ALL_SCOPES === 'true' ? true : false
 const USE_SITEMINDER = process.env.SYS_USE_SITEMINDER === 'false' ? false : true
@@ -67,8 +69,8 @@ export class TokenService {
      * @param tokenPayload
      */
     async generateToken(tokenPayload: TokenPayload): Promise<any> {
-        console.log('generating auth token');
-        console.log(tokenPayload);
+        // console.log('generating auth token');
+        // console.log(tokenPayload);
         const user = await this.getTokenUser(tokenPayload);
 
         const { authScopes, appScopes } = await this.buildUserScopes(user);
@@ -158,12 +160,34 @@ export class TokenService {
         
         if (!isProductionMode || (isSuperAdmin || grantAllScopes)) {
             if (grantAllScopes) console.log('GRANT_ALL_SCOPES is enabled, granting all scopes to all users');
-            if (!isProductionMode) console.log(`PRODUCTION_MODE is disabled, granting all scopes to ${user.displayName}`);
-            if (isSuperAdmin) console.log(`The current user is a Super Admin, granting all scopes to ${user.displayName}`);
 
-            // If the user is the SA or GRANT_ALL_SCOPES is true grant all regular scopes to the user
-            authScopes = await this.buildSuperAdminAuthScopes(isDevSuperAdmin);
-            appScopes = await this.buildSuperAdminAppScopes(isDevSuperAdmin);
+            if (!isProductionMode) console.log(`PRODUCTION_MODE is disabled, granting all scopes to ${user.displayName}`);
+            
+            // Are we using the test user account?
+            if (user.userAuthId === DEV_USER_AUTH_ID) {
+                // If so allow use the configured TEST ROLE
+                console.log(`Granting test scopes to ${user.displayName}`);
+                console.log(`Building auth scopes for ${user.displayName} [${user.id}]`);
+                console.log(user);
+                if (DEV_USER_TEST_ROLES.indexOf(SYSADMIN_ROLE_CODE) > -1) {
+                    console.log(`The current user is a Super Admin, granting all scopes to ${user.displayName}`);
+                    // If the user is the SA or GRANT_ALL_SCOPES is true grant all regular scopes to the user
+                    authScopes = await this.buildSuperAdminAuthScopes(true);
+                    appScopes = await this.buildSuperAdminAppScopes(true);     
+                } else {
+                    authScopes = await this.buildDevAuthScopes(user.id, DEV_USER_TEST_ROLES);
+                    console.log('Auth scopes:');
+                    console.log(authScopes);
+                    appScopes = await this.buildDevAppScopes(user.id, DEV_USER_TEST_ROLES);
+                    console.log('App scopes:');
+                    console.log(appScopes);
+                }
+            } else if (isSuperAdmin) {
+                console.log(`The current user is a Super Admin, granting all scopes to ${user.displayName}`);
+                // If the user is the SA or GRANT_ALL_SCOPES is true grant all regular scopes to the user
+                authScopes = await this.buildSuperAdminAuthScopes(isDevSuperAdmin);
+                appScopes = await this.buildSuperAdminAppScopes(isDevSuperAdmin);          
+            }
         } else {
             console.log(`Building auth scopes for ${user.displayName} [${user.id}]`);
             console.log(user);
@@ -182,7 +206,7 @@ export class TokenService {
      * Builds a list of OAuth app scopes that are passed to the frontend application using the authorization token.
      * @param userId
      */
-    private async buildUserAuthScopes(userId: string): Promise<Scope[]> {
+    private async buildUserAuthScopes(userId: string, roles?: string[]): Promise<Scope[]> {
         const userRoleService = Container.get(UserRoleService);
         const userRoles = await userRoleService.getByUserId(userId);
 
@@ -222,7 +246,7 @@ export class TokenService {
      * Builds a list of user app scopes that are passed to the frontend application using the authorization token.
      * @param userId
      */
-    private async buildUserAppScopes(userId: string): Promise<any> {
+    private async buildUserAppScopes(userId: string, roles?: string[]): Promise<any> {
         const userRoleService = Container.get(UserRoleService);
         const userRoles = await userRoleService.getByUserId(userId);
 
@@ -241,7 +265,7 @@ export class TokenService {
 
                             if (cur.scope && cur.scope.scopeCode) {
                                 const permissions = await this.buildRoleFrontendScopePermissions(cur, cur.scope)
-                                scopeCodes[cur.scope.scopeCode as string] = (permissions instanceof Array && permissions.length > 0) ? permissions : true;
+                                scopeCodes[cur.scope.scopeCode as string] = (permissions instanceof Array && permissions.length > 0) ? permissions : null;
                             }
                             return scopeCodes;
                         }, Promise.resolve([]))
@@ -249,6 +273,70 @@ export class TokenService {
 
                 userRoleScopes = Object.assign({}, userRoleScopes, roleScopes);
             }
+
+            return userRoleScopes;
+        }, Promise.resolve({}));
+
+        return scopes;
+    }
+
+    /**
+     * Builds a list of OAuth app scopes that are passed to the frontend application using the authorization token.
+     * @param userId
+     */
+    private async buildDevAuthScopes(userId: string, roles?: string[]): Promise<Scope[]> {
+        const roleService = Container.get(RoleService);
+
+        const scopes = await roles.reduce(async (asyncUserScopeCodes: Promise<Scope[]>, roleCode: string) => {
+            let results = await asyncUserScopeCodes;
+            const role = await roleService.getByCode(roleCode);
+            // RoleFrontendScopes and RoleApiScopes will be populated
+            // Let's loop over the RoleApiScopes
+            const roleScopeCodes: Scope[] = (role && role.roleApiScopes)
+                ? role.roleApiScopes
+                    .reduce((scopeCodes: Scope[], cur: RoleApiScope) => {
+                        if (cur.scope && cur.scope.scopeCode) {
+                            scopeCodes.push(cur.scope.scopeCode as Scope);
+                        }
+                        return scopeCodes;
+                    }, [])
+
+                : [];
+
+            if (roleScopeCodes.length > 0) {
+                return results.concat(roleScopeCodes as Scope[]);
+            }
+
+            return asyncUserScopeCodes;
+        }, Promise.resolve(['default'] as Scope[]));
+
+        return scopes;
+    }
+
+    /**
+     * Builds a list of user app scopes that are passed to the frontend application using the authorization token.
+     * @param userId
+     */
+    private async buildDevAppScopes(userId: string, roles?: string[]): Promise<any> {
+        const roleService = Container.get(RoleService);
+
+        const scopes = await roles.reduce(async (asyncUserScopeCodes: Promise<{[key: string]: AppScopePermission[] | boolean }[]>, roleCode: string) => {
+            let userRoleScopes = await asyncUserScopeCodes;
+            const role = await roleService.getByCode(roleCode);
+            const roleScopes: { [key: string]: string[] }[] = (role && role.roleFrontendScopes)
+                ?  await role.roleFrontendScopes
+                    .reduce(async (asyncScopeCodes: Promise<string[]>, cur: RoleFrontendScope) => {
+                        let scopeCodes = await asyncScopeCodes;
+
+                        if (cur.scope && cur.scope.scopeCode) {
+                            const permissions = await this.buildRoleFrontendScopePermissions(cur, cur.scope)
+                            scopeCodes[cur.scope.scopeCode as string] = (permissions instanceof Array && permissions.length > 0) ? permissions : null;
+                        }
+                        return scopeCodes;
+                    }, Promise.resolve([]))
+                : [];
+
+            userRoleScopes = Object.assign({}, userRoleScopes, roleScopes);
 
             return userRoleScopes;
         }, Promise.resolve({}));

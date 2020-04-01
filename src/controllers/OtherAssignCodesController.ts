@@ -23,19 +23,24 @@ export class OtherAssignCodesController extends ControllerBase<OtherAssignCode, 
         return super.create(model);
     }
 
+    @Post('{id}/expire')
+    public expireOtherAssignCode(@Path() id: string) {
+        return this.service.expire(id);
+    }
+
+    @Post('{id}/unexpire')
+    public unexpireOtherAssignCode(@Path() id: string) {
+        return this.service.unexpire(id);
+    }
+
     @Put('{id}')
     public updateOtherAssignCode(@Path() id: string, @Body() model: OtherAssignCode) {
         return super.update(id, model);
     }
 
-    @Post('{id}')
-    public expireOtherAssignCode(@Path() id: string) {
-        return this.service.expire(id);
-    }
-
     @Delete('{id}')
     public deleteOtherAssignCode(@Path() id: string) {
-        return this.service.expire(id);
+        return this.service.delete(id);
     }
 
 }

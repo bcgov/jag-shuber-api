@@ -6,7 +6,7 @@ import { FrontendScope } from './FrontendScope';
  * for our current needs.
  */
 export interface RoleFrontendScope {
-    id?: string; // GUID role_frontend_scope_id
+    id?: string; // GUID app_role_frontend_scope_id
     roleId?: string; // GUID
     scopeId?: string; // GUID
     scope?: FrontendScope;

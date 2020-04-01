@@ -134,8 +134,8 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
         frontendScopeCode: 'ADMIN_PLUGIN_COURTROOMS',
-        permissionCode: 'MANAGE_ALL',
-        displayName: 'Manage All Locations',
+        permissionCode: 'MANAGE_OWN',
+        displayName: 'Manage Own',
         description: '', // Scope description
         createdBy: createdBy,
         updatedBy: updatedBy,
@@ -146,8 +146,329 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
         frontendScopeCode: 'ADMIN_PLUGIN_COURTROOMS',
+        permissionCode: 'MANAGE_ALL',
+        displayName: 'Manage All',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_COURTROOMS',
+        permissionCode: 'DELETE',
+        displayName: 'Delete',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    // ADMIN_PLUGIN_COURT_ROLES
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_COURT_ROLES',
         permissionCode: 'MANAGE_OWN',
-        displayName: 'Manage Own Locations',
+        displayName: 'Manage Own',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_COURT_ROLES',
+        permissionCode: 'MANAGE_ALL',
+        displayName: 'Manage All',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_COURT_ROLES',
+        permissionCode: 'DELETE',
+        displayName: 'Delete',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    // ADMIN_PLUGIN_JAIL_ROLES
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_JAIL_ROLES',
+        permissionCode: 'MANAGE_OWN',
+        displayName: 'Manage Own',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_JAIL_ROLES',
+        permissionCode: 'MANAGE_ALL',
+        displayName: 'Manage All',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_JAIL_ROLES',
+        permissionCode: 'DELETE',
+        displayName: 'Delete',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    // ADMIN_PLUGIN_ESCORT_TYPES
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_ESCORT_TYPES',
+        permissionCode: 'MANAGE_OWN',
+        displayName: 'Manage Own',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_ESCORT_TYPES',
+        permissionCode: 'MANAGE_ALL',
+        displayName: 'Manage All',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_ESCORT_TYPES',
+        permissionCode: 'DELETE',
+        displayName: 'Delete',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    // ADMIN_PLUGIN_OTHER_TYPES
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_OTHER_TYPES',
+        permissionCode: 'MANAGE_OWN',
+        displayName: 'Manage Own',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_OTHER_TYPES',
+        permissionCode: 'MANAGE_ALL',
+        displayName: 'Manage All',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_OTHER_TYPES',
+        permissionCode: 'DELETE',
+        displayName: 'Delete',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    // ADMIN_PLUGIN_LEAVE_TYPES
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_LEAVE_TYPES',
+        permissionCode: 'MANAGE_OWN',
+        displayName: 'Manage Own',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_LEAVE_TYPES',
+        permissionCode: 'MANAGE_ALL',
+        displayName: 'Manage All',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_LEAVE_TYPES',
+        permissionCode: 'DELETE',
+        displayName: 'Delete',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    // ADMIN_PLUGIN_TRAINING_TYPES
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES',
+        permissionCode: 'MANAGE_OWN',
+        displayName: 'Manage Own',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES',
+        permissionCode: 'MANAGE_ALL',
+        displayName: 'Manage All',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES',
+        permissionCode: 'DELETE',
+        displayName: 'Delete',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    // ADMIN_PLUGIN_TRAINING_TYPES
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES',
+        permissionCode: 'MANAGE_OWN',
+        displayName: 'Manage Own',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES',
+        permissionCode: 'MANAGE_ALL',
+        displayName: 'Manage All',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES',
+        permissionCode: 'DELETE',
+        displayName: 'Delete',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    // ADMIN_PLUGIN_ROLES
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_ROLES',
+        permissionCode: 'MANAGE',
+        displayName: 'Manage',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_ROLES',
+        permissionCode: 'DELETE',
+        displayName: 'Delete',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    // ADMIN_PLUGIN_USER_ROLES
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_USER_ROLES',
+        permissionCode: 'MANAGE',
+        displayName: 'Manage',
+        description: '', // Scope description
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        frontendScopeId: null, // TODO: We will assign this when we map over the scope
+        frontendScopeCode: 'ADMIN_PLUGIN_USER_ROLES',
+        permissionCode: 'DELETE',
+        displayName: 'Delete',
         description: '', // Scope description
         createdBy: createdBy,
         updatedBy: updatedBy,

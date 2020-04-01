@@ -14,19 +14,19 @@ export class FrontendScopeApiController extends ControllerBase<any, FrontendScop
 
     @Security('jwt', ['system:scopes:read'])
     @Get()
-    public getFrontendScopeApis(){
+    public getFrontendScopeApis() {
         return super.getAll();
     }
 
     @Security('jwt', ['system:scopes:read'])
     @Get('{id}')
-    public getFrontendScopeApiById(id: string){
+    public getFrontendScopeApiById(id: string) {
         return super.getById(id);
     }
 
     @Security('jwt', ['system:scopes'])
     @Post()
-    public createFrontendScopeApi(@Body() model: FrontendScopeApi){
+    public createFrontendScopeApi(@Body() model: FrontendScopeApi) {
         return super.create(model);
     }
 
@@ -38,7 +38,7 @@ export class FrontendScopeApiController extends ControllerBase<any, FrontendScop
 
     @Security('jwt', ['system:scopes'])
     @Delete('{id}')
-    public deleteFrontendScopeApi(@Path() id:string){
+    public deleteFrontendScopeApi(@Path() id:string) {
         return super.delete(id);
     }
 }

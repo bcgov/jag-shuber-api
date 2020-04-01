@@ -149,6 +149,16 @@ exports.defaultFrontendScopeApis = [
         updatedDtm: index_1.updatedDtm,
         revisionCount: 0
     },
+    {
+        id: null,
+        frontendScopeCode: 'ADMIN_PLUGIN_ROLES',
+        apiScopeCode: 'system:scopes:read',
+        createdBy: index_1.createdBy,
+        updatedBy: index_1.updatedBy,
+        createdDtm: index_1.createdDtm,
+        updatedDtm: index_1.updatedDtm,
+        revisionCount: 0
+    },
     /**
     * @api
     */
@@ -165,7 +175,7 @@ exports.defaultFrontendScopeApis = [
     {
         id: null,
         frontendScopeCode: 'ADMIN_PLUGIN_USER_ROLES',
-        apiScopeCode: 'roles:manage',
+        apiScopeCode: 'system:scopes:read',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
         createdDtm: index_1.createdDtm,

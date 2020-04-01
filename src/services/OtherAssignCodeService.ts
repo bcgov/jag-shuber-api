@@ -7,16 +7,18 @@ import { PostgresInsert } from 'squel';
 export class OtherAssignCodeService extends ExpirableDatabaseService<OtherAssignCode> {
     fieldMap = {
         other_assign_id: 'id',
+        location_id: 'locationId',
         other_assign_code: 'code',
-        description: 'description',
+        other_assign_name: 'name',
+        description: 'description', // For future use
         effective_date: 'effectiveDate',
         expiry_date: 'expiryDate',
+        sort_order: 'sortOrder',
         created_by: 'createdBy',
         updated_by: 'updatedBy',
         created_dtm: 'createdDtm',
         updated_dtm: 'updatedDtm',
-        revision_count: 'revisionCount',
-        location_id: 'locationId'
+        revision_count: 'revisionCount'
     };
 
     constructor() {
@@ -24,7 +26,7 @@ export class OtherAssignCodeService extends ExpirableDatabaseService<OtherAssign
     }
 
     async getAll(locationId?: string, includeProvincial?: boolean) {
-        includeProvincial = includeProvincial || true
+        includeProvincial = includeProvincial || true;
         const query = super.getSelectQuery();
         if (locationId) {
             if (includeProvincial) {
@@ -34,8 +36,9 @@ export class OtherAssignCodeService extends ExpirableDatabaseService<OtherAssign
             }
         } else {
             query.where(`location_id IS NULL`);
-        };
-        query.order(`location_id IS NOT NULL, code`)
+        }
+
+        query.order(`location_id IS NOT NULL, sort_order`);
         const rows = await this.executeQuery<OtherAssignCode>(query.toString());
         return rows;
     }
@@ -53,9 +56,9 @@ export class OtherAssignCodeService extends ExpirableDatabaseService<OtherAssign
         let query = this.getSelectQuery()
             .where(`other_assign_code='${code}'`)
 
-        query = (locationId !== null) 
-            ? query.where(`location_id='${locationId}'`) 
-            : query.where(`location_id IS NULL`)
+        query = (locationId !== null)
+            ? query.where(`location_id='${locationId}'`)
+            : query.where(`location_id IS NULL`);
 
         const rows = await this.executeQuery<OtherAssignCode>(query.toString());
         return rows[0];

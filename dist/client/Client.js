@@ -388,6 +388,24 @@ var Client = /** @class */ (function () {
             });
         });
     };
+    Client.prototype.UploadUserImage = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/User/" + id + "/image")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
     Client.prototype.GetCurrentUserRoles = function () {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
@@ -1754,6 +1772,42 @@ var Client = /** @class */ (function () {
             });
         });
     };
+    Client.prototype.ExpireCourtroom = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/courtrooms/" + id + "/expire")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.UnexpireCourtroom = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/courtrooms/" + id + "/unexpire")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
     Client.prototype.GetJailRoleCodes = function (locationId) {
         return __awaiter(this, void 0, void 0, function () {
             var params;
@@ -1796,6 +1850,42 @@ var Client = /** @class */ (function () {
             });
         });
     };
+    Client.prototype.ExpireJailRoleCode = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/codes/jailroles/" + id + "/expire")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.UnexpireJailRoleCode = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/codes/jailroles/" + id + "/unexpire")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
     Client.prototype.UpdateJailRoleCode = function (id, model) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
@@ -1806,24 +1896,6 @@ var Client = /** @class */ (function () {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.put("/codes/jailroles/" + id)
                                         .send(model)];
-                                case 1:
-                                    response = _a.sent();
-                                    return [2 /*return*/, response];
-                            }
-                        });
-                    }); })];
-            });
-        });
-    };
-    Client.prototype.ExpireJailRoleCode = function (id) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
-                        var response;
-                        return __generator(this, function (_a) {
-                            switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.post("/codes/jailroles/" + id)];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];
@@ -1893,6 +1965,42 @@ var Client = /** @class */ (function () {
             });
         });
     };
+    Client.prototype.ExpireOtherAssignCode = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/codes/otherassign/" + id + "/expire")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.UnexpireOtherAssignCode = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/codes/otherassign/" + id + "/unexpire")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
     Client.prototype.UpdateOtherAssignCode = function (id, model) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
@@ -1903,24 +2011,6 @@ var Client = /** @class */ (function () {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.put("/codes/otherassign/" + id)
                                         .send(model)];
-                                case 1:
-                                    response = _a.sent();
-                                    return [2 /*return*/, response];
-                            }
-                        });
-                    }); })];
-            });
-        });
-    };
-    Client.prototype.ExpireOtherAssignCode = function (id) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
-                        var response;
-                        return __generator(this, function (_a) {
-                            switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.post("/codes/otherassign/" + id)];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];
@@ -2072,6 +2162,42 @@ var Client = /** @class */ (function () {
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.delete("/escort-runs/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.ExpireEscortRun = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/escort-runs/" + id + "/expire")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.UnexpireEscortRun = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/escort-runs/" + id + "/unexpire")];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];
@@ -2769,24 +2895,6 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.ExpireLeaveSubCode = function (id) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
-                        var response;
-                        return __generator(this, function (_a) {
-                            switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.post("/codes/leave-sub-type/" + id)];
-                                case 1:
-                                    response = _a.sent();
-                                    return [2 /*return*/, response];
-                            }
-                        });
-                    }); })];
-            });
-        });
-    };
     Client.prototype.DeleteLeaveSubCode = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
@@ -2796,6 +2904,42 @@ var Client = /** @class */ (function () {
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.delete("/codes/leave-sub-type/" + id)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.ExpireLeaveSubCode = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/codes/leave-sub-type/" + id + "/expire")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.UnexpireLeaveSubCode = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/codes/leave-sub-type/" + id + "/unexpire")];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];
@@ -2847,6 +2991,42 @@ var Client = /** @class */ (function () {
             });
         });
     };
+    Client.prototype.ExpireCourtRoleCode = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/codes/courtroles/" + id + "/expire")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.UnexpireCourtRoleCode = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/codes/courtroles/" + id + "/unexpire")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
     Client.prototype.UpdateCourtRoleCode = function (id, model) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
@@ -2857,24 +3037,6 @@ var Client = /** @class */ (function () {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.put("/codes/courtroles/" + id)
                                         .send(model)];
-                                case 1:
-                                    response = _a.sent();
-                                    return [2 /*return*/, response];
-                            }
-                        });
-                    }); })];
-            });
-        });
-    };
-    Client.prototype.ExpireCourtRoleCode = function (id) {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
-                        var response;
-                        return __generator(this, function (_a) {
-                            switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.post("/codes/courtroles/" + id)];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];

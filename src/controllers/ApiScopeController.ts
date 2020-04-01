@@ -14,19 +14,19 @@ export class ApiScopeController extends ControllerBase<any, ApiScopeService> {
 
     @Security('jwt', ['system:scopes:read'])
     @Get()
-    public getApiScopes(){
+    public getApiScopes() {
         return super.getAll();
     }
 
     @Security('jwt', ['system:scopes:read'])
     @Get('{id}')
-    public getApiScopeById(id: string){
+    public getApiScopeById(id: string) {
         return super.getById(id);
     }
 
     @Security('jwt', ['system:scopes'])
     @Post()
-    public createApiScope(@Body() model: ApiScope){
+    public createApiScope(@Body() model: ApiScope) {
         return super.create(model);
     }
 
@@ -38,7 +38,7 @@ export class ApiScopeController extends ControllerBase<any, ApiScopeService> {
 
     @Security('jwt', ['system:scopes'])
     @Delete('{id}')
-    public deleteApiScope(@Path() id:string){
+    public deleteApiScope(@Path() id:string) {
         return super.delete(id);
     }
 }
