@@ -50,6 +50,7 @@ import { ShiftController } from './controllers/ShiftController';
 import { DutyRecurrenceController } from './controllers/DutyRecurrenceController';
 import { DutyController } from './controllers/DutyController';
 import { SheriffDutyController } from './controllers/SheriffDutyController';
+import { SheriffLocationController } from './controllers/SheriffLocationController';
 import { LeaveController } from './controllers/LeaveController';
 import { LeaveCancelCodesController } from './controllers/LeaveCancelCodesController';
 import { LeaveTypeCodesController } from './controllers/LeaveTypeCodesController';
@@ -393,6 +394,20 @@ const models: TsoaRoute.Models = {
         "properties": {
             "locationId": { "dataType": "string", "required": true },
             "date": { "dataType": "string" },
+        },
+    },
+    "SheriffLocation": {
+        "properties": {
+            "id": { "dataType": "string" },
+            "sheriffId": { "dataType": "string", "required": true },
+            "locationId": { "dataType": "string", "required": true },
+            "startDate": { "dataType": "string", "required": true },
+            "endDate": { "dataType": "string" },
+            "startTime": { "dataType": "string" },
+            "endTime": { "dataType": "string" },
+            "isPartial": { "dataType": "double", "required": true },
+            "comment": { "dataType": "string" },
+            "cancelDate": { "dataType": "string" },
         },
     },
     "Leave": {
@@ -3824,6 +3839,141 @@ export function RegisterRoutes(router: any) {
             const controller = Container.get(SheriffDutyController) as SheriffDutyController;
 
             const promise = controller.autoAssignSheriffDuties.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/SheriffLocation',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(SheriffLocationController) as SheriffLocationController;
+
+            const promise = controller.getSheriffLocations.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.get('/v1/SheriffLocation/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(SheriffLocationController) as SheriffLocationController;
+
+            const promise = controller.getSheriffLocationById.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.post('/v1/SheriffLocation',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                model: { "in": "body", "name": "model", "required": true, "ref": "SheriffLocation" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(SheriffLocationController) as SheriffLocationController;
+
+            const promise = controller.createSheriffLocation.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.put('/v1/SheriffLocation/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+                model: { "in": "body", "name": "model", "required": true, "ref": "SheriffLocation" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(SheriffLocationController) as SheriffLocationController;
+
+            const promise = controller.updateSheriffLocation.apply(controller, validatedArgs);
+            return promiseHandler(controller, promise, context, next);
+        });
+    router.delete('/v1/SheriffLocation/:id',
+        authenticateMiddleware([{ "name": "jwt" }]),
+        async (context, next) => {
+            const args = {
+                id: { "in": "path", "name": "id", "required": true, "dataType": "string" },
+            };
+
+            let validatedArgs: any[] = [];
+            try {
+                validatedArgs = getValidatedArgs(args, context);
+            } catch (error) {
+                context.status = error.status || 500;
+                context.body = error;
+                return next();
+            }
+
+            // Create the currentUser from the context and bind it to the ioc container
+            const currentUserProvider: Provider = {
+                get: () => new CurrentUser(context.request.user)
+            }
+            Container.bind(CurrentUser).provider(currentUserProvider);
+            // Using the typescript-ioc container, retrieve controller
+            const controller = Container.get(SheriffLocationController) as SheriffLocationController;
+
+            const promise = controller.deleteSheriffLocation.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/leaves',
