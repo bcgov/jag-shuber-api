@@ -6,9 +6,9 @@ import { Inject, AutoWired } from 'typescript-ioc';
 import { UserService, UserQuery } from '../services/UserService';
 import { User } from '../models/User';
 
-import multer from 'multer';
+// import multer from 'multer';
 
-const upload = multer({ dest: 'uploads/' }); // note you can pass `multer` options here
+// const upload = multer({ dest: 'uploads/' }); // note you can pass `multer` options here
 
 @Route('User')
 @Security('jwt')
@@ -81,7 +81,7 @@ export class UserController extends ControllerBase<any, UserService> {
     @Security('jwt', ['users:manage'])
     @Post('{id}/image')
     public uploadUserImage(@Path() id: string, @Request() request: koa.Request) {
-        let imgUpload = upload.single('avatar');
+        /* let imgUpload = upload.single('avatar');
         const ctx = request.ctx;
         const { req, res } = ctx;
         console.log('ctx.request.files', ctx.files);
@@ -96,8 +96,8 @@ export class UserController extends ControllerBase<any, UserService> {
               // An unknown error occurred when uploading!
               debugger;
             }
-        
+
             // Everything went fine
-        });
+        }); */
     }
 }
