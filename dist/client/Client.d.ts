@@ -1,6 +1,6 @@
 import * as superAgent from "superagent";
 import { TypedEvent } from '../common/TypedEvent';
-import { User, UserRole, Role, RolePermission, ApiScope, FrontendScope, FrontendScopePermission, FrontendScopeApi, RoleApiScope, RoleFrontendScope, Assignment, Region, Location, Sheriff, Courtroom, JailRoleCode, OtherAssignCode, WorkSectionCode, SheriffRankCode, EscortRun, Shift, MultipleShiftUpdateRequest, ShiftCopyOptions, DutyRecurrence, Duty, DutyImportDefaultsRequest, SheriffDuty, SheriffDutyAutoAssignRequest, Leave, LeaveCancelReasonCode, LeaveCode, LeaveSubCode, CourtRoleCode, GenderCode } from "./models";
+import { User, UserRole, Role, RolePermission, ApiScope, FrontendScope, FrontendScopePermission, FrontendScopeApi, RoleApiScope, RoleFrontendScope, Assignment, Region, Location, Sheriff, Courtroom, JailRoleCode, OtherAssignCode, WorkSectionCode, SheriffRankCode, EscortRun, Shift, MultipleShiftUpdateRequest, ShiftCopyOptions, DutyRecurrence, Duty, DutyImportDefaultsRequest, SheriffDuty, SheriffDutyAutoAssignRequest, SheriffLocation, Leave, LeaveCancelReasonCode, LeaveCode, LeaveSubCode, CourtRoleCode, GenderCode } from "./models";
 export default class Client {
     private _agent;
     private _previousToken;
@@ -201,6 +201,11 @@ export default class Client {
     UpdateSheriffDuty(id: string, model: SheriffDuty): Promise<SheriffDuty>;
     DeleteSheriffDuty(id: string): Promise<void>;
     AutoAssignSheriffDuties(model: SheriffDutyAutoAssignRequest): Promise<Array<SheriffDuty>>;
+    GetSheriffLocations(): Promise<Array<SheriffLocation>>;
+    CreateSheriffLocation(model: SheriffLocation): Promise<SheriffLocation>;
+    GetSheriffLocationById(id: string): Promise<SheriffLocation>;
+    UpdateSheriffLocation(id: string, model: SheriffLocation): Promise<SheriffLocation>;
+    DeleteSheriffLocation(id: string): Promise<void>;
     GetLeaves(): Promise<Array<Leave>>;
     CreateLeave(model: Leave): Promise<Leave>;
     GetLeaveById(id: string): Promise<Leave>;

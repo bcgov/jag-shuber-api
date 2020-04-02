@@ -297,6 +297,18 @@ export interface SheriffDutyAutoAssignRequest {
     locationId?: string;
     date?: string;
 }
+export interface SheriffLocation {
+    id?: string;
+    sheriffId?: string;
+    locationId?: string;
+    startDate?: string;
+    endDate?: string;
+    startTime?: string;
+    endTime?: string;
+    isPartial?: number;
+    comment?: string;
+    cancelDate?: string;
+}
 export interface Leave {
     id?: string;
     sheriffId?: string;
