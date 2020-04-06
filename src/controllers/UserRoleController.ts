@@ -19,7 +19,9 @@ export class UserRoleController extends ControllerBase<any, UserRoleService> {
 
     @Get()
     public getUserRoles(@Query() locationId?: string, @Query() startDate?: string, @Query() endDate?: string) {
-        return this.service.getAll(undefined, { startDate, endDate });
+        // We could do something like this if we wanted to filter on other fields, but right now we don't need this functionality
+        // return this.service.getAll(undefined, { startDate, endDate }); 
+        return this.service.getAll(undefined);
     }
 
     @Get('{id}')
