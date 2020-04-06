@@ -74,7 +74,7 @@ export class UserRoleController extends ControllerBase<any, UserRoleService> {
     }
 
     @Security('jwt', ['roles:manage'])
-    @Post()
+    @Post('/delete')
     public deleteUserRoles(@Body() ids:string[]) {
         if (ids.length > 0) {
             ids.forEach(id => super.delete(id));
