@@ -183,7 +183,8 @@ export class GeneratorService {
 
         await Promise.all(roleOps);
 
-        const fsOps = defaultSystemFrontendScopes.map(async (roleScope: any) => {
+        const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
+        const fsOps = defaultSystemFrontendScopes.map((roleScope: any) => throttle(async() => {
             const { roleCode, scopeCode } = roleScope;
             const scope = await frontendScopeService.getByScopeCode(scopeCode) as FrontendScope;
             if (scope && !(await roleFrontendScopeService.hasScope(scope))) {
@@ -196,11 +197,11 @@ export class GeneratorService {
 
                 return await roleFrontendScopeService.create(newRoleScope);
             }
-        });
+        }));
 
         await Promise.all(fsOps);
 
-        const asOps = defaultSystemApiScopes.map(async (roleScope: any) => {
+        const asOps = defaultSystemApiScopes.map((roleScope: any) => throttle(async() => {
             const { roleCode, scopeCode } = roleScope;
             const scope = await apiScopeService.getByScopeCode(scopeCode) as ApiScope;
             if (scope && !(await roleApiScopeService.hasScope(scope))) {
@@ -213,7 +214,7 @@ export class GeneratorService {
 
                 return await roleApiScopeService.create(newRoleScope);
             }
-        });
+        }));
 
         await Promise.all(asOps);
     }
@@ -292,6 +293,8 @@ export class GeneratorService {
                 userAuthId: null, // TODO: This is where we can load in auth ids for sheriffs
                 defaultLocationId: null, // TODO: This field is basically useless, location is on the sheriff
                 sheriffId: sheriff.id,
+                effectiveDate: new Date().toISOString(),
+                expiryDate: null,
                 createdBy: SYSTEM_USER_DISPLAY_NAME,
                 updatedBy: SYSTEM_USER_DISPLAY_NAME,
                 createdDtm: new Date().toISOString(),

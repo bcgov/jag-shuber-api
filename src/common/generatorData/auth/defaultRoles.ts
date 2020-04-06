@@ -37,11 +37,13 @@ export const defaultRoles = [
         updatedDtm: updatedDtm,
         revisionCount: 0
     },
+    // This is the built-in administrator role - if it doesn't exist, create one so there's a starting template for an Administrator
+    // This is separate from the built-in super-user roles
     {
         roleName: 'Administrator',
         roleCode: 'ADMIN',
-        systemRoleInd: 1, // Denotes that the role cannot be deleted by any user
-        description: 'Administrator level access. Full permissions except the ability to delete code types, or configure components and apis.',
+        systemRoleInd: 0, // Denotes that the role cannot be deleted by any user
+        description: 'Administrator level access template. Full permissions except the ability to delete code types, or configure components and apis.',
         createdBy: createdBy,
         updatedBy: updatedBy,
         createdDtm: createdDtm,

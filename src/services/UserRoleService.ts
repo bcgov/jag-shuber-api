@@ -23,8 +23,8 @@ export class UserRoleService extends ExpirableDatabaseService<UserRole> {
         super('auth_user_role', 'user_role_id');
     }
 
-    async getAll(locationId?: string, options?: EffectiveQueryOptions): Promise<UserRole[]> {
-        const query = super.getEffectiveSelectQuery(options);
+    async getAll(locationId?: string): Promise<UserRole[]> {
+        const query = super.getSelectQuery();
 
         if (locationId) {
             query.where(`location_id='${locationId}'`);
