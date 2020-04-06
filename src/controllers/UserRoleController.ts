@@ -40,6 +40,28 @@ export class UserRoleController extends ControllerBase<any, UserRoleService> {
     }
 
     @Security('jwt', ['roles:manage'])
+    @Post('{id}/unexpire')
+    public unexpireUserRole(@Path() id:string) {
+        return this.service.unexpire(id);
+    }
+
+    @Security('jwt', ['roles:manage'])
+    @Post('/expire')
+    public expireUserRoles(@Body() ids:string[]) {
+        if (ids.length > 0) {
+            ids.forEach(id => this.service.expire(id));
+        }
+    }
+
+    @Security('jwt', ['roles:manage'])
+    @Post('/unexpire')
+    public unexpireUserRoles(@Body() ids:string[]) {
+        if (ids.length > 0) {
+            ids.forEach(id => this.service.unexpire(id));
+        }
+    }
+
+    @Security('jwt', ['roles:manage'])
     @Put('{id}')
     public updateUserRole(@Path() id: string, @Body() model: UserRole) {
         return super.update(id,model);
@@ -49,5 +71,13 @@ export class UserRoleController extends ControllerBase<any, UserRoleService> {
     @Delete('{id}')
     public deleteUserRole(@Path() id:string) {
         return super.delete(id);
+    }
+
+    @Security('jwt', ['roles:manage'])
+    @Post()
+    public deleteUserRoles(@Body() ids:string[]) {
+        if (ids.length > 0) {
+            ids.forEach(id => super.delete(id));
+        }
     }
 }

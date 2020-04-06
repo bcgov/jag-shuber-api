@@ -66,6 +66,32 @@ export class UserController extends ControllerBase<any, UserService> {
         return super.create(model);
     }
 
+    @Post('{id}/expire')
+    public expireUser(@Path() id: string) {
+        return this.service.expire(id);
+    }
+
+    @Post('{id}/unexpire')
+    public unexpireUser(@Path() id: string) {
+        return this.service.unexpire(id);
+    }
+
+    @Security('jwt', ['users:manage'])
+    @Post('/expire')
+    public expireUsers(@Body() ids:string[]) {
+        if (ids.length > 0) {
+            ids.forEach(id => this.service.expire(id));
+        }
+    }
+
+    @Security('jwt', ['users:manage'])
+    @Post('/unexpire')
+    public unexpireUsers(@Body() ids:string[]) {
+        if (ids.length > 0) {
+            ids.forEach(id => this.service.unexpire(id));
+        }
+    }
+
     @Security('jwt', ['users:manage'])
     @Put('{id}')
     public updateUser(@Path() id: string, @Body() model: User) {
@@ -76,6 +102,14 @@ export class UserController extends ControllerBase<any, UserService> {
     @Delete('{id}')
     public deleteUser(@Path() id:string) {
         return super.delete(id);
+    }
+
+    @Security('jwt', ['users:manage'])
+    @Post('/delete')
+    public deleteUsers(@Body() ids:string[]) {
+        if (ids.length > 0) {
+            ids.forEach(id => super.delete(id));
+        }
     }
 
     @Security('jwt', ['users:manage'])
