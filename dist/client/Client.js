@@ -542,7 +542,7 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.DeleteUserRoles = function (ids) {
+    Client.prototype.CreateUserRole = function (model) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
@@ -551,7 +551,7 @@ var Client = /** @class */ (function () {
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.post("/UserRole")
-                                        .send(ids)];
+                                        .send(model)];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];
@@ -680,6 +680,25 @@ var Client = /** @class */ (function () {
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.post("/UserRole/unexpire")
+                                        .send(ids)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.DeleteUserRoles = function (ids) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/UserRole/delete")
                                         .send(ids)];
                                 case 1:
                                     response = _a.sent();

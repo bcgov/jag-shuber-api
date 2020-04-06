@@ -306,10 +306,10 @@ export default class Client {
             return response;
         });
     }    
-    public async DeleteUserRoles( ids:Array<string> ):Promise<void>{
-        return this.tryRequest<void>(async () => {
+    public async CreateUserRole( model:UserRole ):Promise<any>{
+        return this.tryRequest<any>(async () => {
             const response: superAgent.Response = await this.agent.post(`/UserRole`)
-                .send(ids)
+                .send(model)
             return response;
         });
     }    
@@ -354,6 +354,13 @@ export default class Client {
     public async UnexpireUserRoles( ids:Array<string> ):Promise<void>{
         return this.tryRequest<void>(async () => {
             const response: superAgent.Response = await this.agent.post(`/UserRole/unexpire`)
+                .send(ids)
+            return response;
+        });
+    }    
+    public async DeleteUserRoles( ids:Array<string> ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/UserRole/delete`)
                 .send(ids)
             return response;
         });

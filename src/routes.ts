@@ -1177,7 +1177,7 @@ export function RegisterRoutes(router: any) {
             const promise = controller.deleteUserRole.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
-    router.post('/v1/UserRole',
+    router.post('/v1/UserRole/delete',
         authenticateMiddleware([{ "name": "jwt", "scopes": ["roles:manage"] }]),
         async (context, next) => {
             const args = {
