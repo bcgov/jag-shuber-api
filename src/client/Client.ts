@@ -250,6 +250,39 @@ export default class Client {
             return response;
         });
     }    
+    public async ExpireUser( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/User/${id}/expire`)
+            return response;
+        });
+    }    
+    public async UnexpireUser( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/User/${id}/unexpire`)
+            return response;
+        });
+    }    
+    public async ExpireUsers( ids:Array<string> ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/User/expire`)
+                .send(ids)
+            return response;
+        });
+    }    
+    public async UnexpireUsers( ids:Array<string> ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/User/unexpire`)
+                .send(ids)
+            return response;
+        });
+    }    
+    public async DeleteUsers( ids:Array<string> ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/User/delete`)
+                .send(ids)
+            return response;
+        });
+    }    
     public async UploadUserImage( id:string ):Promise<void>{
         return this.tryRequest<void>(async () => {
             const response: superAgent.Response = await this.agent.post(`/User/${id}/image`)
@@ -274,10 +307,10 @@ export default class Client {
             return response;
         });
     }    
-    public async CreateUserRole( model:UserRole ):Promise<any>{
-        return this.tryRequest<any>(async () => {
+    public async DeleteUserRoles( ids:Array<string> ):Promise<void>{
+        return this.tryRequest<void>(async () => {
             const response: superAgent.Response = await this.agent.post(`/UserRole`)
-                .send(model)
+                .send(ids)
             return response;
         });
     }    
@@ -303,6 +336,26 @@ export default class Client {
     public async ExpireUserRole( id:string ):Promise<void>{
         return this.tryRequest<void>(async () => {
             const response: superAgent.Response = await this.agent.post(`/UserRole/${id}/expire`)
+            return response;
+        });
+    }    
+    public async UnexpireUserRole( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/UserRole/${id}/unexpire`)
+            return response;
+        });
+    }    
+    public async ExpireUserRoles( ids:Array<string> ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/UserRole/expire`)
+                .send(ids)
+            return response;
+        });
+    }    
+    public async UnexpireUserRoles( ids:Array<string> ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/UserRole/unexpire`)
+                .send(ids)
             return response;
         });
     }    

@@ -388,6 +388,99 @@ var Client = /** @class */ (function () {
             });
         });
     };
+    Client.prototype.ExpireUser = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/User/" + id + "/expire")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.UnexpireUser = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/User/" + id + "/unexpire")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.ExpireUsers = function (ids) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/User/expire")
+                                        .send(ids)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.UnexpireUsers = function (ids) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/User/unexpire")
+                                        .send(ids)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.DeleteUsers = function (ids) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/User/delete")
+                                        .send(ids)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
     Client.prototype.UploadUserImage = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
@@ -449,7 +542,7 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.CreateUserRole = function (model) {
+    Client.prototype.DeleteUserRoles = function (ids) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             return __generator(this, function (_a) {
@@ -458,7 +551,7 @@ var Client = /** @class */ (function () {
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.post("/UserRole")
-                                        .send(model)];
+                                        .send(ids)];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];
@@ -532,6 +625,62 @@ var Client = /** @class */ (function () {
                         return __generator(this, function (_a) {
                             switch (_a.label) {
                                 case 0: return [4 /*yield*/, this.agent.post("/UserRole/" + id + "/expire")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.UnexpireUserRole = function (id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/UserRole/" + id + "/unexpire")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.ExpireUserRoles = function (ids) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/UserRole/expire")
+                                        .send(ids)];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
+    Client.prototype.UnexpireUserRoles = function (ids) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/UserRole/unexpire")
+                                        .send(ids)];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];
