@@ -87,7 +87,7 @@ export default class Client {
     UploadUserImage(id: string): Promise<void>;
     GetCurrentUserRoles(): Promise<Array<any>>;
     GetUserRoles(locationId: string, startDate: string, endDate: string): Promise<Array<UserRole>>;
-    DeleteUserRoles(ids: Array<string>): Promise<void>;
+    CreateUserRole(model: UserRole): Promise<any>;
     GetUserRoleById(id: string): Promise<any>;
     UpdateUserRole(id: string, model: UserRole): Promise<any>;
     DeleteUserRole(id: string): Promise<void>;
@@ -95,6 +95,7 @@ export default class Client {
     UnexpireUserRole(id: string): Promise<void>;
     ExpireUserRoles(ids: Array<string>): Promise<void>;
     UnexpireUserRoles(ids: Array<string>): Promise<void>;
+    DeleteUserRoles(ids: Array<string>): Promise<void>;
     GetRoles(): Promise<Array<any>>;
     CreateRole(model: Role): Promise<any>;
     GetRoleById(id: string): Promise<any>;
