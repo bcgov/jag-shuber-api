@@ -120,8 +120,8 @@ exports.defaultFrontendScopes = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Roles',
-        scopeCode: 'ADMIN_PLUGIN_ROLES',
+        scopeName: 'Admin Training Types',
+        scopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES',
         systemScopeInd: true,
         description: '',
         createdBy: index_1.createdBy,
@@ -131,8 +131,8 @@ exports.defaultFrontendScopes = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Training Types',
-        scopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES',
+        scopeName: 'Admin Roles',
+        scopeCode: 'ADMIN_PLUGIN_ROLES',
         systemScopeInd: true,
         description: '',
         createdBy: index_1.createdBy,
