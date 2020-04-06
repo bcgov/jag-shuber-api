@@ -121,8 +121,8 @@ export const defaultFrontendScopes: FrontendScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Roles', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_ROLES', // Code type for the scope
+        scopeName: 'Admin Training Types', // Human-friendly scope name
+        scopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
         description: '', // Scope description
         createdBy: createdBy,
@@ -132,8 +132,8 @@ export const defaultFrontendScopes: FrontendScope[] = [
         revisionCount: 0
     },
     {
-        scopeName: 'Admin Training Types', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES', // Code type for the scope
+        scopeName: 'Admin Roles', // Human-friendly scope name
+        scopeCode: 'ADMIN_PLUGIN_ROLES', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
         description: '', // Scope description
         createdBy: createdBy,
