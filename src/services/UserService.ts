@@ -1,5 +1,5 @@
 import { TokenPayload } from '../common/authentication';
-import { DatabaseService } from '../infrastructure/DatabaseService';
+import ExpirableDatabaseService from '../infrastructure/ExpirableDatabaseService';
 import { SheriffService } from './SheriffService';
 import { User } from '../models/User';
 import { AutoWired, Inject, Container } from 'typescript-ioc';
@@ -16,7 +16,7 @@ export interface UserQuery {
 }
 
 @AutoWired
-export class UserService extends DatabaseService<User> {
+export class UserService extends ExpirableDatabaseService<User> {
     // TODO: Some of these fields are covered in the base classes
     fieldMap = {
         user_id: 'id',
@@ -26,6 +26,8 @@ export class UserService extends DatabaseService<User> {
         default_location_id: 'defaultLocationId',
         system_account_ind: 'systemAccountInd',
         sheriff_id: 'sheriffId',
+        effective_date: 'effectiveDate',
+        expiry_date: 'expiryDate',
         created_by: 'createdBy',
         updated_by: 'updatedBy',
         created_dtm: 'createdDtm',
