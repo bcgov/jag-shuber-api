@@ -79,10 +79,13 @@ export class SheriffService extends DatabaseService<Sheriff> {
                         newUser.siteminderId = entity.user.siteminderId || null;
                         newUser.userAuthId = entity.user.userAuthId || null;
                         newUser.systemAccountInd = entity.user.systemAccountInd || 0;
+                        newUser.effectiveDate = entity.user.effectiveDate || null;
+                        newUser.expiryDate = entity.user.expiryDate || null;
                         newUser.createdBy = SYSTEM_USER_DISPLAY_NAME; // TODO: Replace with currentUser
+                        // The DB trigger should handle this
                         newUser.createdDtm = (entity.user.createdDtm) ? moment(entity.user.createdDtm).toISOString() : moment(new Date()).toISOString();
                         newUser.updatedBy = SYSTEM_USER_DISPLAY_NAME; // TODO: Replace with currentUser
-                        newUser.updatedDtm = moment(new Date()).toISOString();
+                        // newUser.updatedDtm = moment(new Date()).toISOString();
                     }
 
                     user = await userService.create(newUser);
@@ -112,9 +115,13 @@ export class SheriffService extends DatabaseService<Sheriff> {
                 user.siteminderId = entity.user.siteminderId || null;
                 user.userAuthId = entity.user.userAuthId || null;
                 user.systemAccountInd = entity.user.systemAccountInd || 0;
+                user.effectiveDate = entity.user.effectiveDate || null;
+                user.expiryDate = entity.user.expiryDate || null;
                 user.createdBy = SYSTEM_USER_DISPLAY_NAME; // TODO: Replace with currentUser
+                // The DB trigger should handle this
                 user.createdDtm = (entity.user.createdDtm) ? moment(entity.user.createdDtm).toISOString() : moment(new Date()).toISOString();
                 user.updatedBy = SYSTEM_USER_DISPLAY_NAME; // TODO: Replace with currentUser
+                // The DB trigger should handle this
                 user.updatedDtm = moment(new Date()).toISOString();
 
                 user = await userService.update(user);
