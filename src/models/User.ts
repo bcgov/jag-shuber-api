@@ -11,6 +11,8 @@ export interface User {
     systemAccountInd?: number; // Is the user a system user
     sheriffId?: string; // If the user is a sheriff, this needs to be populated
     sheriff?: Sheriff;
+    effectiveDate?: string;
+    expiryDate?: string;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;
