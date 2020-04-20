@@ -29,7 +29,7 @@ export const defaultRoles = [
     {
         roleName: 'Basic',
         roleCode: 'BASIC',
-        systemRoleInd: 1, // Denotes that the role cannot be deleted by any user
+        systemRoleInd: 0, // Denotes that the role cannot be deleted by any user
         description: 'This is the lowest possible level of system access. Without this you will not be able to view the application at all.',
         createdBy: createdBy,
         updatedBy: updatedBy,
