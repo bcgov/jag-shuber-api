@@ -27,14 +27,14 @@ export class SheriffLocationService extends ExpirableDatabaseService<SheriffLoca
         const query = super.getSelectQuery();
         if (locationId) {
             if (includeProvincial) {
-                query.where(`location_id='${locationId}' OR location_id IS NULL`);
+                query.where(`current_location_id='${locationId}' OR current_location_id IS NULL`);
             } else {
-                query.where(`location_id='${locationId}'`);
+                query.where(`current_location_id='${locationId}'`);
             }
         } else {
-            query.where(`location_id IS NULL`);
+            query.where(`current_location_id IS NULL`);
         };
-        query.order(`location_id IS NOT NULL, locationId`)
+        query.order(`current_location_id IS NOT NULL, locationId`)
         const rows = await this.executeQuery<SheriffLocation>(query.toString());
         return rows;
     }
