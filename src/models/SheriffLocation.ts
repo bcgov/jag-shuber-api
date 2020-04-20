@@ -4,9 +4,6 @@ export interface SheriffLocation{
     locationId: string;
     startDate: string;
     endDate?: string;
-    startTime?: string;
-    endTime?: string;
-    isPartial: number;
     comment?: string;
     cancelDate?: string;
 }
