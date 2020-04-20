@@ -6,9 +6,8 @@ import { PostgresInsert } from 'squel';
 @AutoWired
 export class SheriffLocationService extends ExpirableDatabaseService<SheriffLocation> {
     fieldMap = {
-        court_role_id: 'id',
-        court_role_code: 'code',
-        description: 'description',
+        sheriff_location_id: 'id',
+        sheriff_id: 'sheriffId',
         location_id: 'locationId',
         effective_date: 'effectiveDate',
         expiry_date: 'expiryDate',
@@ -35,7 +34,7 @@ export class SheriffLocationService extends ExpirableDatabaseService<SheriffLoca
         } else {
             query.where(`location_id IS NULL`);
         };
-        query.order(`location_id IS NOT NULL, code`)
+        query.order(`location_id IS NOT NULL, locationId`)
         const rows = await this.executeQuery<SheriffLocation>(query.toString());
         return rows;
     }
