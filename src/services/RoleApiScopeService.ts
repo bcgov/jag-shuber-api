@@ -50,9 +50,14 @@ export class RoleApiScopeService extends DatabaseService<RoleApiScope> {
         }) as RoleApiScope[]);
     }
 
-    async hasScope(scope: ApiScope): Promise<boolean> {
-        if (!scope) return false;
-        const rows = await this.getWhereFieldEquals('scopeId', scope.id);
+    async hasScope(scopeId: string): Promise<boolean> {
+        if (!scopeId) return false;
+        const rows = await this.getWhereFieldEquals('scopeId', scopeId);
         return (rows && rows.length > 0);
+    }
+
+    async getByScopeId(scopeId: string): Promise<RoleApiScope[]> {
+        const rows = await this.getWhereFieldEquals('scopeId', scopeId);
+        return rows;
     }
 }

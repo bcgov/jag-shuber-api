@@ -73,12 +73,27 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
             DatabaseError.decorate(returnError);
             if (isDatabaseError(returnError)) {
                 // Error codes can be found here: https://www.postgresql.org/docs/9.6/static/errcodes-appendix.html
+                if (error.code === "23503") {
+                    const matches = error.detail.match(DatabaseError.PG_ERROR_23505_REGEX);
+                    if (matches && matches.length > 0) {
+                        const field = matches[1];
+                        const value = matches[2];
+                        const message = "Foreign Key Violation";
+                        const fieldErrors: FieldErrors = {};
+                        fieldErrors[this.fieldMap[field]] = {
+                            message,
+                            value
+                        }
+                        returnError = new ValidateError(fieldErrors, "ValidationError");
+                    }
+                }
+
                 if (error.code === "23505") {
                     const matches = error.detail.match(DatabaseError.PG_ERROR_23505_REGEX);
                     if (matches && matches.length > 0) {
                         const field = matches[1];
                         const value = matches[2];
-                        const message = "Already Exists";
+                        const message = "Unique Key Violation";
                         const fieldErrors: FieldErrors = {};
                         fieldErrors[this.fieldMap[field]] = {
                             message,
@@ -216,6 +231,7 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
 
     async delete(id: string): Promise<void> {
         const query = this.getDeleteQuery(id);
+        console.log(query.toString());
         await this.executeQuery(query.toString());
     }
 

@@ -28,7 +28,7 @@ import { RolePermission } from '../models/RolePermission';
 import { FrontendScopePermission } from '../models/FrontendScopePermission';
 import { RoleFrontendScopePermission } from '../models/RoleFrontendScopePermission';
 
-import { DEV_USER_AUTH_ID, DEV_USER_TEST_ROLES } from '../common/authentication';
+import { DEV_USER_AUTH_ID, DEV_USER_TEST_ROLES, USER_DEFAULT_ROLES } from '../common/authentication';
 
 const PRODUCTION_MODE = process.env.SYS_PRODUCTION_MODE === 'true' ? true : false
 const GRANT_ALL_SCOPES = process.env.SYS_GRANT_ALL_SCOPES === 'true' ? true : false
@@ -38,6 +38,9 @@ const DEFAULT_LOCATION = process.env.SYS_DEFAULT_LOCATION; // A default location
 // for new sheriffs and users if none are defined. Used internally and under the hood by TokenService and GeneratorService.
 
 const SYSADMIN_ROLE_CODE = 'SYSADMIN';
+
+const USE_DEV_USER = true; // Use this to force the system to use the DEV user when testing auth scopes locally. Set to false if not in use!
+const FORCE_PRODUCTION_MODE = true; // Use this to force production mode, which is needed to test auth scopes locally; set to undefined if not in use!
 
 import {
     FAKEMINDER_IDIR, FAKEMINDER_GUID,
@@ -85,9 +88,13 @@ export class TokenService {
     }
 
     async getTokenUser(tokenPayload: TokenPayload) {
-        const isProductionMode = PRODUCTION_MODE;
+        const isProductionMode = FORCE_PRODUCTION_MODE || PRODUCTION_MODE;
         let user;
         if (isProductionMode) {
+            if (USE_DEV_USER) {
+                // Override the siteminder token, use the dev user
+                tokenPayload.userId = DEV_USER_AUTH_ID;
+            }
             // If we're NOT in DEV mode, we require a siteminder token
             if (!(tokenPayload && tokenPayload.userId)) {
                 throw `No siteminder token provided.`;
@@ -96,7 +103,9 @@ export class TokenService {
             const userService = Container.get(UserService);
             user = await userService.getByToken(tokenPayload);
 
-            if (user) console.log(`User exists! Display Name: ${user.displayName}, Auth ID: ${user.userAuthId}`);
+            if (user) {
+                console.log(`User exists! Display Name: ${user.displayName}, Auth ID: ${user.userAuthId}`);
+            }
         } else if (!isProductionMode) {
             // We're in DEV mode
             user = await this.getOrCreateDevUser(tokenPayload);
@@ -144,7 +153,7 @@ export class TokenService {
     }
 
     async buildUserScopes(user) {
-        const isProductionMode = PRODUCTION_MODE;
+        const isProductionMode = FORCE_PRODUCTION_MODE || PRODUCTION_MODE;
         const grantAllScopes = GRANT_ALL_SCOPES;
 
         let authScopes;
@@ -175,10 +184,10 @@ export class TokenService {
                     authScopes = await this.buildSuperAdminAuthScopes(true);
                     appScopes = await this.buildSuperAdminAppScopes(true);     
                 } else {
-                    authScopes = await this.buildDevAuthScopes(user.id, DEV_USER_TEST_ROLES);
+                    authScopes = await this.buildAuthScopes(user.id, DEV_USER_TEST_ROLES);
                     console.log('Auth scopes:');
                     console.log(authScopes);
-                    appScopes = await this.buildDevAppScopes(user.id, DEV_USER_TEST_ROLES);
+                    appScopes = await this.buildAppScopes(user.id, DEV_USER_TEST_ROLES);
                     console.log('App scopes:');
                     console.log(appScopes);
                 }
@@ -189,13 +198,32 @@ export class TokenService {
                 appScopes = await this.buildSuperAdminAppScopes(isDevSuperAdmin);          
             }
         } else {
+            console.log('---------------------------------------------------------');
             console.log(`Building auth scopes for ${user.displayName} [${user.id}]`);
             console.log(user);
-            authScopes = await this.buildUserAuthScopes(user.id);
-            console.log('Auth scopes:');
+            
+            // Build any default user scopes
+            authScopes = await this.buildAuthScopes(user.id, USER_DEFAULT_ROLES) || [];
+            console.log('Adding default user auth scopes:');
             console.log(authScopes);
-            appScopes = await this.buildUserAppScopes(user.id);
-            console.log('App scopes:');
+            appScopes = await this.buildAppScopes(user.id, USER_DEFAULT_ROLES);
+            console.log('Adding default user app scopes:');
+            console.log(appScopes);
+
+            // Build configured user scopes - these are added to the defaults
+            const configuredAuthScopes = await this.buildUserAuthScopes(user.id) || [];
+            console.log('Adding configured user auth scopes:');
+            console.log(configuredAuthScopes);
+            authScopes = authScopes.concat(configuredAuthScopes);
+            
+            const configuredAppScopes = await this.buildUserAppScopes(user.id) || {};
+            console.log('Adding configured user app scopes:');
+            console.log(configuredAppScopes);
+            appScopes = { ...appScopes,  ...configuredAppScopes };
+
+            console.log('All assigned auth scopes:');
+            console.log(authScopes);
+            console.log('All assigned app scopes:');
             console.log(appScopes);
         }
 
@@ -284,7 +312,7 @@ export class TokenService {
      * Builds a list of OAuth app scopes that are passed to the frontend application using the authorization token.
      * @param userId
      */
-    private async buildDevAuthScopes(userId: string, roles?: string[]): Promise<Scope[]> {
+    private async buildAuthScopes(userId: string, roles?: string[]): Promise<Scope[]> {
         const roleService = Container.get(RoleService);
 
         const scopes = await roles.reduce(async (asyncUserScopeCodes: Promise<Scope[]>, roleCode: string) => {
@@ -317,7 +345,7 @@ export class TokenService {
      * Builds a list of user app scopes that are passed to the frontend application using the authorization token.
      * @param userId
      */
-    private async buildDevAppScopes(userId: string, roles?: string[]): Promise<any> {
+    private async buildAppScopes(userId: string, roles?: string[]): Promise<any> {
         const roleService = Container.get(RoleService);
 
         const scopes = await roles.reduce(async (asyncUserScopeCodes: Promise<{[key: string]: AppScopePermission[] | boolean }[]>, roleCode: string) => {
