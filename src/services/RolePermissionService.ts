@@ -21,7 +21,7 @@ export class RolePermissionService extends DatabaseService<RolePermission> {
         revision_count: 'revisionCount'
     };
 
-    constructor() {
+    constructor()   {
         super('auth_role_permission', 'role_permission_id');
     }
 

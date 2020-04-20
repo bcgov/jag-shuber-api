@@ -1,6 +1,6 @@
 {
     "verbose": false,
-    "exec": "node --inspect=9232 -r ts-node/register ./src/index.ts",
+    "exec": "node --inspect-brk=9232 -r ts-node/register ./src/index.ts",
     "watch": [
         "./src/"
     ],

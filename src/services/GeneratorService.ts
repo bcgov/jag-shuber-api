@@ -56,6 +56,8 @@ import { Role } from '../models/Role';
 import { RoleApiScope } from '../models/RoleApiScope';
 import { RoleFrontendScope } from '../models/RoleFrontendScope';
 import { LocationService } from './LocationService';
+import { RolePermissionService } from './RolePermissionService';
+import { RolePermission } from '../models/RolePermission';
 
 const MAX_RECORDS_PER_BATCH = 3;
 
@@ -173,47 +175,134 @@ export class GeneratorService {
         const roleFrontendScopeService = Container.get(RoleFrontendScopeService) as RoleFrontendScopeService;
         const roleApiScopeService = Container.get(RoleApiScopeService) as RoleApiScopeService;
         const frontendScopeService = Container.get(FrontendScopeService) as FrontendScopeService;
+        const frontendScopePermissionService = Container.get(FrontendScopePermissionService) as FrontendScopePermissionService;
+        const rolePermissionService = Container.get(RolePermissionService) as RolePermissionService;
         const apiScopeService = Container.get(ApiScopeService) as ApiScopeService;
 
         const roleOps = defaultRoles.map(async (role: Role) => {
             if (!(await roleService.getByCode(role.roleCode))) {
+                console.log(`Generating missing default role: ${role.roleCode}`);
                 return await roleService.create(role);
             }
         });
 
         await Promise.all(roleOps);
 
-        const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
-        const fsOps = defaultSystemFrontendScopes.map((roleScope: any) => throttle(async() => {
-            const { roleCode, scopeCode } = roleScope;
-            const scope = await frontendScopeService.getByScopeCode(scopeCode) as FrontendScope;
-            if (scope && !(await roleFrontendScopeService.hasScope(scope))) {
-                const role = await roleService.getByCode(roleCode) as Role;
+        const fsThrottle = createThrottle(MAX_RECORDS_PER_BATCH);
+        const fsOps = defaultSystemFrontendScopes.map((defaultRoleScope: any) => fsThrottle(async() => {
+            const { roleCode, scopeCode } = defaultRoleScope;
+            
+            const role: Role = await roleService.getByCode(roleCode) as Role;
+            const scope: FrontendScope = await frontendScopeService.getByScopeCode(scopeCode) as FrontendScope;
+
+            let roleScope: RoleFrontendScope;
+            const hasRoleScope = await roleFrontendScopeService.hasScope(scope.id);
+            if (hasRoleScope) {
+                const roleScopes = await roleFrontendScopeService.getByScopeId(scope.id);
+                roleScope = roleScopes[0];
+            }
+
+            if (scope && !roleScope) {
+                console.log(`Generating missing default scope [${scopeCode}] for role [${role.roleCode}]`);
+                
                 const newRoleScope = {
                     roleId: role.id,
                     scopeId: scope.id,
-                    ...roleScope
+                    ...defaultRoleScope
                 } as RoleFrontendScope;
 
-                return await roleFrontendScopeService.create(newRoleScope);
+                roleScope = await roleFrontendScopeService.create(newRoleScope);
             }
+
+            return roleScope;
         }));
 
         await Promise.all(fsOps);
 
-        const asOps = defaultSystemApiScopes.map((roleScope: any) => throttle(async() => {
-            const { roleCode, scopeCode } = roleScope;
-            const scope = await apiScopeService.getByScopeCode(scopeCode) as ApiScope;
-            if (scope && !(await roleApiScopeService.hasScope(scope))) {
-                const role = await roleService.getByCode(roleCode) as Role;
+        const fsOuterThrottle = createThrottle(1);
+        const fsInnerThrottle = createThrottle(MAX_RECORDS_PER_BATCH);
+        const fsInnerOps = defaultSystemFrontendScopes.map((defaultRoleScope: any) => fsOuterThrottle(async() => {
+            const { roleCode, scopeCode } = defaultRoleScope;
+            
+            const role: Role = await roleService.getByCode(roleCode) as Role;
+            const scope: FrontendScope = await frontendScopeService.getByScopeCode(scopeCode) as FrontendScope;
+
+            let roleScope: RoleFrontendScope;
+            const hasRoleScope = await roleFrontendScopeService.hasScope(scope.id);
+            if (hasRoleScope) {
+                const roleScopes = await roleFrontendScopeService.getByScopeId(scope.id);
+                roleScope = roleScopes[0];
+            }
+
+            // For each frontend scope, generate role permissions
+            if (!scope.id) {
+                console.warn(`Could not find any permissions for frontend scope [${scope.scopeCode}]`);
+            } else {
+                const frontendScopePermissions = frontendScopePermissionService.getByScopeId(scope.id);
+                
+                
+                const fspOps = (await frontendScopePermissions).map((scopePermission: any) => fsInnerThrottle(async() => {
+                    const rolePermissions = await rolePermissionService.getByRoleFrontendScopeId(roleScope.id);
+                    if (rolePermissions) {
+                        // console.log(`Found the following role permissions for frontend scope [${scope.scopeCode}]`);
+                        // console.log(rolePermissions);    
+                    }
+
+                    let rolePermission: RoleFrontendScope;
+                    const hasRolePermission = rolePermissions.find((rp: RolePermission) => rp.frontendScopePermissionId === scopePermission.id);
+
+                    if (!hasRolePermission) {
+                        console.log(`Generating missing default permission [${scopePermission.permissionCode}] for [${scope.scopeCode}] for role [${role.roleCode}]`);
+                        const newRolePermission = {
+                            roleId: role.id,
+                            roleApiScopeId: null,
+                            roleFrontendScopeId: roleScope.id,
+                            apiScopePermissionId: null,
+                            frontendScopePermissionId: scopePermission.id,
+                            createdBy: scopePermission.createdBy,
+                            updatedBy: scopePermission.updatedBy,
+                            createdDtm: new Date(scopePermission.createdDtm).toISOString(),
+                            updatedDtm: new Date(scopePermission.updatedDtm).toISOString(),
+                            revisionCount: scopePermission.revisionCount
+                        } as RolePermission;
+
+                        rolePermission = await rolePermissionService.create(newRolePermission);
+                    }
+
+                    return rolePermission;
+                }));
+
+                await Promise.all(fspOps);
+            }
+        }));
+
+        await Promise.all(fsInnerOps);
+        
+        const asThrottle = createThrottle(MAX_RECORDS_PER_BATCH);
+        const asOps = defaultSystemApiScopes.map((defaultRoleScope: any) => asThrottle(async() => {
+            const { roleCode, scopeCode } = defaultRoleScope;
+
+            const role: Role = await roleService.getByCode(roleCode) as Role;
+            const scope: ApiScope = await apiScopeService.getByScopeCode(scopeCode) as ApiScope;
+            
+            let roleScope: RoleApiScope;
+            const hasRoleScope = await roleApiScopeService.hasScope(scope.id);
+            if (hasRoleScope) {
+                const roleScopes = await roleApiScopeService.getByScopeId(scope.id);
+                roleScope = roleScopes[0];
+            }
+            
+            if (scope && !roleScope) {
                 const newRoleScope = {
                     roleId: role.id,
                     scopeId: scope.id,
-                    ...roleScope
+                    ...defaultRoleScope
                 } as RoleApiScope;
 
-                return await roleApiScopeService.create(newRoleScope);
+                roleScope = await roleApiScopeService.create(newRoleScope);
             }
+
+            return roleScope;
         }));
 
         await Promise.all(asOps);
