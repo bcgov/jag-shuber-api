@@ -8,7 +8,7 @@ export class SheriffLocationService extends ExpirableDatabaseService<SheriffLoca
     fieldMap = {
         sheriff_location_id: 'id',
         sheriff_id: 'sheriffId',
-        location_id: 'locationId',
+        current_location_id: 'locationId',
         effective_date: 'effectiveDate',
         expiry_date: 'expiryDate',
         created_by: 'createdBy',
