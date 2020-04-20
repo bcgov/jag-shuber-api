@@ -7,6 +7,8 @@ import { ValidateError, FieldErrors } from 'tsoa';
 import { Inject, AutoWired } from 'typescript-ioc';
 import { DatabaseRecordMetadata, DatabaseMetadataFieldMap } from './DatabaseRecordMetadata';
 
+import { CurrentUser } from '../infrastructure/CurrentUser';
+
 export type DatabaseResult<T> = { rows: T[] }
 
 @AutoWired
@@ -33,6 +35,9 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
     get dbTableName(): string {
         return this.tableName;
     }
+
+    protected createdByField = "created_by";
+    protected updatedByField = "updated_by";
 
     getAliasedFieldMap(alias: string) {
         return Object.keys(this.fieldMap).reduce((newFields, key) => {
@@ -146,13 +151,37 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
     }
 
     protected getInsertQuery(entity: Partial<T>): PostgresInsert {
+        // Take the Field Map keys and map properties from the object
+        // const createdByPropName = this.fieldMap[this.createdByField];
+        // const createdByPropValue = entity[createdByPropName];
+        // const updatedByPropName = this.fieldMap[this.updatedByField];
+        // const updatedByPropValue = entity[createdByPropName];
+
+        const { displayName } = this.currentUser() as CurrentUser;
+
+        const createdByPropName = this.fieldMap[this.createdByField];
+        entity[createdByPropName] = displayName;
+        const updatedByPropName = this.fieldMap[this.updatedByField];
+        entity[updatedByPropName] = displayName;
+
         const query = this.db.insertQuery(this.tableName, this.primaryKey)
             .returning(this.getReturningFields());
+
         this.setQueryFields(query, entity);
+        
         return query;
     }
 
     protected getUpdateQuery(entity: Partial<T>): PostgresUpdate {
+        // Take the Field Map keys and map properties from the object
+        // const updatedByPropName = this.fieldMap[this.updatedByField];
+        // const updatedByPropValue = entity[createdByPropName];
+
+        const { displayName } = this.currentUser() as CurrentUser;
+
+        const updatedByPropName = this.fieldMap[this.updatedByField];
+        entity[updatedByPropName] = displayName;
+
         const query = this.db.updateQuery(this.tableName);
 
         // Map object properties into object

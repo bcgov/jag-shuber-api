@@ -1,7 +1,10 @@
 import { AutoWired } from 'typescript-ioc';
 import ExpirableDatabaseService, { EffectiveQueryOptions } from '../infrastructure/ExpirableDatabaseService';
+import { CurrentUser } from '../infrastructure/CurrentUser';
 import { LeaveSubCode } from '../models/LeaveSubCode';
 import { PostgresInsert } from 'squel';
+
+
 
 @AutoWired
 export class LeaveSubCodeService extends ExpirableDatabaseService<LeaveSubCode> {
@@ -39,8 +42,22 @@ export class LeaveSubCodeService extends ExpirableDatabaseService<LeaveSubCode> 
     }
 
     protected getInsertQuery(entity: Partial<LeaveSubCode>): PostgresInsert {
+        // Take the Field Map keys and map properties from the object
+        // const createdByPropName = this.fieldMap[this.createdByField];
+        // const createdByPropValue = entity[createdByPropName];
+        // const updatedByPropName = this.fieldMap[this.updatedByField];
+        // const updatedByPropValue = entity[createdByPropName];
+
+        const { displayName } = this.currentUser() as CurrentUser;
+
+        const createdByPropName = this.fieldMap[this.createdByField];
+        entity[createdByPropName] = displayName;
+        const updatedByPropName = this.fieldMap[this.updatedByField];
+        entity[updatedByPropName] = displayName;
+
         const query = this.db.insertQuery(this.tableName) // Ignore the PK, we don't use a UUID here
             .returning(this.getReturningFields());
+
         this.setQueryFields(query, entity, true);
 
         // Take the Field Map keys and map properties from the object
