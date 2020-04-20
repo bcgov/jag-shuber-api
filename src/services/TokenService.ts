@@ -39,8 +39,8 @@ const DEFAULT_LOCATION = process.env.SYS_DEFAULT_LOCATION; // A default location
 
 const SYSADMIN_ROLE_CODE = 'SYSADMIN';
 
-const USE_DEV_USER = true; // Use this to force the system to use the DEV user when testing auth scopes locally. Set to false if not in use!
-const FORCE_PRODUCTION_MODE = true; // Use this to force production mode, which is needed to test auth scopes locally; set to undefined if not in use!
+const USE_DEV_USER = false; // Use this to force the system to use the DEV user when testing auth scopes locally. Set to false if not in use!
+const FORCE_PRODUCTION_MODE = undefined; // Use this to force production mode, which is needed to test auth scopes locally; set to undefined if not in use!
 
 import {
     FAKEMINDER_IDIR, FAKEMINDER_GUID,
