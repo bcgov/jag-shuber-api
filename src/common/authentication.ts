@@ -38,7 +38,7 @@ export const DEV_USER_AUTH_ID = 'TESTUSR'; // Test User Auth ID (substitute for 
 // export const DEV_USER_TEST_ROLES = ['SYSADMIN'];
 export const DEV_USER_TEST_ROLES = ['ADMIN']; // TODO: Build these in! TESTASSIGN | TESTAUTH | TESTLEAVES
 
-export const USER_DEFAULT_ROLES = ['BASIC']; // Set the DEFAULT USER ROLES - THESE ROLES ARE ASSIGNED TO ALL USERS THAT ARE PROVISIONED SYSTEM ACCESS!
+export const USER_DEFAULT_ROLES = []; // Set the DEFAULT USER ROLES - THESE ROLES ARE ASSIGNED TO ALL USERS THAT ARE PROVISIONED SYSTEM ACCESS!
 
 /**
  * System user display name. Just a value to use when the application updates a database record, and the action is not
