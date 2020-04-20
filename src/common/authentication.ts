@@ -8,7 +8,7 @@ export const JWT_AUTH_ERROR = new Error(SCOPE_ASSERTION_MESSAGE);
 /**
  * FakeMinder stuff, just for local development
  */
-export const FAKEMINDER_IDIR = "ROBBOOTH";
+export const FAKEMINDER_IDIR = "";
 export const FAKEMINDER_GUID = "SOMEGUIDGOESHERE";
 
 /**
@@ -18,17 +18,20 @@ export const FAKEMINDER_GUID = "SOMEGUIDGOESHERE";
  */
 export const SA_SITEMINDER_ID = process.env.SYS_SA_SITEMINDER_ID || null; // Super-Admin User's Siteminder User ID (Prod)
 export const SA_AUTH_ID = process.env.SYS_SA_AUTH_ID || null; // Super-Admin's IDIR (Prod)
+
 /**
  * These are the same as the SA_SITEMINDER_ID and SA_AUTH_ID env vars, except they control which user is granted
  * full access rights to the system in a development environment.
  */
 export const DEV_SA_SITEMINDER_ID = process.env.SYS_DEV_SA_SITEMINDER_ID || null; // Super-Admin User's Siteminder User ID (Dev)
 export const DEV_SA_AUTH_ID = process.env.SYS_DEV_SA_AUTH_ID || null; // Super-Admin's IDIR (Dev)
+
 /**
  * This is used to configure a fake IDIR account name for local development purposes.
  */
 export const DEV_USER_DISPLAY_NAME = 'Test User'; // Test User Display Name
-export const DEV_USER_AUTH_ID = 'ROBBOOTH'; // Test User Auth ID (substitute for IDIR)
+export const DEV_USER_AUTH_ID = ''; // Test User Auth ID (substitute for IDIR)
+
 // The Role to Assign to Test User, only valid if using the configured DEV_USER_AUTH_ID user account.
 // Use this to test different roles that may have been entered into the database.
 // The field below refers to the DEV_USER_TEST_ROLES role code or the desired role.
@@ -36,6 +39,7 @@ export const DEV_USER_AUTH_ID = 'ROBBOOTH'; // Test User Auth ID (substitute for
 export const DEV_USER_TEST_ROLES = ['SYSADMIN']; // TODO: Build these in! TESTASSIGN | TESTAUTH | TESTLEAVES
 
 export const USER_DEFAULT_ROLES = ['BASIC']; // Set the DEFAULT USER ROLES - THESE ROLES ARE ASSIGNED TO ALL USERS THAT ARE PROVISIONED SYSTEM ACCESS!
+
 /**
  * System user display name. Just a value to use when the application updates a database record, and the action is not
  * attributable to a user, for whatever reason.
