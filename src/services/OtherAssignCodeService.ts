@@ -1,5 +1,6 @@
 import { OtherAssignCode } from '../models/OtherAssignCode';
 import ExpirableDatabaseService from '../infrastructure/ExpirableDatabaseService';
+import { CurrentUser } from '../infrastructure/CurrentUser';
 import { AutoWired } from 'typescript-ioc';
 import { PostgresInsert } from 'squel';
 
@@ -65,8 +66,22 @@ export class OtherAssignCodeService extends ExpirableDatabaseService<OtherAssign
     }
 
     protected getInsertQuery(entity: Partial<OtherAssignCode>): PostgresInsert {
+        // Take the Field Map keys and map properties from the object
+        // const createdByPropName = this.fieldMap[this.createdByField];
+        // const createdByPropValue = entity[createdByPropName];
+        // const updatedByPropName = this.fieldMap[this.updatedByField];
+        // const updatedByPropValue = entity[createdByPropName];
+
+        const { displayName } = this.currentUser() as CurrentUser;
+
+        const createdByPropName = this.fieldMap[this.createdByField];
+        entity[createdByPropName] = displayName;
+        const updatedByPropName = this.fieldMap[this.updatedByField];
+        entity[updatedByPropName] = displayName;
+
         const query = this.db.insertQuery(this.tableName, this.primaryKey)
             .returning(this.getReturningFields());
+
         this.setQueryFields(query, entity);
 
         // Take the Field Map keys and map properties from the object
