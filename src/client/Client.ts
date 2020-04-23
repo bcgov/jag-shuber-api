@@ -54,6 +54,7 @@ import {
     DutyImportDefaultsRequest,
     SheriffDuty,
     SheriffDutyAutoAssignRequest,
+    SheriffLocation,
     Leave,
     LeaveCancelReasonCode,
     LeaveCode,
@@ -1131,6 +1132,38 @@ export default class Client {
         return this.tryRequest<Array<SheriffDuty>>(async () => {
             const response: superAgent.Response = await this.agent.post(`/SheriffDuty/auto-assign`)
                 .send(model)
+            return response;
+        });
+    }    
+    public async GetSheriffLocations():Promise<Array<SheriffLocation>>{
+        return this.tryRequest<Array<SheriffLocation>>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/SheriffLocation`)
+            return response;
+        });
+    }    
+    public async CreateSheriffLocation( model:SheriffLocation ):Promise<SheriffLocation>{
+        return this.tryRequest<SheriffLocation>(async () => {
+            const response: superAgent.Response = await this.agent.post(`/SheriffLocation`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async GetSheriffLocationById( id:string ):Promise<SheriffLocation>{
+        return this.tryRequest<SheriffLocation>(async () => {
+            const response: superAgent.Response = await this.agent.get(`/SheriffLocation/${id}`)
+            return response;
+        });
+    }    
+    public async UpdateSheriffLocation( id:string , model:SheriffLocation ):Promise<SheriffLocation>{
+        return this.tryRequest<SheriffLocation>(async () => {
+            const response: superAgent.Response = await this.agent.put(`/SheriffLocation/${id}`)
+                .send(model)
+            return response;
+        });
+    }    
+    public async DeleteSheriffLocation( id:string ):Promise<void>{
+        return this.tryRequest<void>(async () => {
+            const response: superAgent.Response = await this.agent.delete(`/SheriffLocation/${id}`)
             return response;
         });
     }    

@@ -18,6 +18,7 @@ export POSTGRES_APP_PASS=password
 export POSTGRES_CATALOG=appdb
 export POSTGRES_SCHEMA=shersched
 
+echo "jdbc:postgresql://$POSTGRES_URL:$POSTGRES_PORT/$POSTGRES_DATABASE" 
 
 java -jar /usr/local/opt/liquibase/libexec/liquibase.jar \
      --driver=org.postgresql.Driver \

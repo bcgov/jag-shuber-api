@@ -24,6 +24,7 @@ export { ShiftController } from './ShiftController';
 export { DutyRecurrenceController } from './DutyRecurrenceController';
 export { DutyController } from './DutyController';
 export { SheriffDutyController } from './SheriffDutyController';
+export { SheriffLocationController } from './SheriffLocationController';
 export { LeaveController } from './LeaveController';
 export { LeaveCancelCodesController } from './LeaveCancelCodesController';
 export { LeaveTypeCodesController } from './LeaveTypeCodesController';
