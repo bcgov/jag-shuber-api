@@ -1,4 +1,4 @@
-import { Body, Delete, Get, Path, Post, Put, Route } from 'tsoa';
+import { Body, Delete, Get, Path, Post, Put, Query, Route } from 'tsoa';
 import ControllerBase from '../infrastructure/ControllerBase';
 import { SheriffLocation } from '../models/SheriffLocation';
 import { SheriffLocationService } from '../services/SheriffLocationService';
@@ -15,8 +15,8 @@ export class SheriffLocationController extends ControllerBase<SheriffLocation, S
     protected serviceInstance!: SheriffLocationService;
 
     @Get()
-    public getSheriffLocations() {
-        return super.getAll();
+    public getSheriffLocations(@Query() locationId?: string) {
+        return this.service.getAll(locationId);
     }
 
     @Get('{id}')

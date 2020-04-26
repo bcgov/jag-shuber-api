@@ -38,6 +38,9 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
 
     protected createdByField = "created_by";
     protected updatedByField = "updated_by";
+    protected createdDtmField = "created_dtm";
+    protected updatedDtmField = "updated_dtm";
+    protected revisionCountField = "revision_count";
 
     getAliasedFieldMap(alias: string) {
         return Object.keys(this.fieldMap).reduce((newFields, key) => {
