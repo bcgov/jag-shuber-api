@@ -1,5 +1,6 @@
 import { SheriffLocation } from '../models/SheriffLocation';
 import ExpirableDatabaseService from '../infrastructure/ExpirableDatabaseService';
+import { CurrentUser } from '../infrastructure/CurrentUser';
 import { AutoWired } from 'typescript-ioc';
 import { PostgresInsert } from 'squel';
 
@@ -9,8 +10,9 @@ export class SheriffLocationService extends ExpirableDatabaseService<SheriffLoca
         sheriff_location_id: 'id',
         sheriff_id: 'sheriffId',
         current_location_id: 'locationId',
-        effective_date: 'effectiveDate',
-        expiry_date: 'expiryDate',
+        start_date: 'startDate',
+        end_date: 'endDate',
+        partial_day_ind: 'isPartial',
         created_by: 'createdBy',
         updated_by: 'updatedBy',
         created_dtm: 'createdDtm',
@@ -18,21 +20,24 @@ export class SheriffLocationService extends ExpirableDatabaseService<SheriffLoca
         revision_count: 'revisionCount'
     };
 
+    protected effectiveField = "start_date";
+    protected expiryField = "end_date";
+
     constructor() {
         super('sheriff_location', 'sheriff_location_id');
     }
 
     async getAll(locationId?: string, includeProvincial?: boolean) {
-        includeProvincial = includeProvincial || true
+        includeProvincial = includeProvincial || false
         const query = super.getSelectQuery();
         if (locationId) {
             if (includeProvincial) {
-                query.where(`current_location_id='${locationId}' OR current_location_id IS NULL`);
+                // query.where(`current_location_id='${locationId}' OR current_location_id IS NULL`);
             } else {
                 query.where(`current_location_id='${locationId}'`);
             }
         } else {
-            query.where(`current_location_id IS NULL`);
+            // query.where(`current_location_id IS NULL`);
         };
         query.order(`current_location_id IS NOT NULL, current_location_id`)
         const rows = await this.executeQuery<SheriffLocation>(query.toString());
@@ -40,8 +45,30 @@ export class SheriffLocationService extends ExpirableDatabaseService<SheriffLoca
     }
 
     protected getInsertQuery(entity: Partial<SheriffLocation>): PostgresInsert {
+        // Take the Field Map keys and map properties from the object
+        // const createdByPropName = this.fieldMap[this.createdByField];
+        // const createdByPropValue = entity[createdByPropName];
+        // const updatedByPropName = this.fieldMap[this.updatedByField];
+        // const updatedByPropValue = entity[createdByPropName];
+
+        const { displayName } = this.currentUser() as CurrentUser;
+
+        const createdByPropName = this.fieldMap[this.createdByField];
+        entity[createdByPropName] = displayName;
+        const updatedByPropName = this.fieldMap[this.updatedByField];
+        entity[updatedByPropName] = displayName;
+
+        const createdDtm = new Date().toISOString();
+        const createdDtmPropName = this.fieldMap[this.createdDtmField];
+        entity[createdDtmPropName] = createdDtm;
+        const updatedDtmPropName = this.fieldMap[this.updatedDtmField];
+        entity[updatedDtmPropName] = createdDtm;
+        const revisionCountPropName = this.fieldMap[this.revisionCountField];
+        entity[revisionCountPropName] = 0;
+
         const query = this.db.insertQuery(this.tableName, this.primaryKey)
             .returning(this.getReturningFields());
+        
         this.setQueryFields(query, entity);
 
         // Take the Field Map keys and map properties from the object
