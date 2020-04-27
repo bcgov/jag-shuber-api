@@ -9,6 +9,9 @@ import {
     SITEMINDER_HEADER_USERDISPLAYNAME,
     SITEMINDER_HEADER_USERIDENTIFIER,
     SITEMINDER_HEADER_USERTYPE,
+    SITEMINDER_HEADER_USER,
+    SITEMINDER_HEADER_UNIVERSALID,
+    SITEMINDER_HEADER_COOKIE,
     TokenPayload,
     DEFAULT_SCOPES,
     TOKEN_COOKIE_NAME
@@ -77,16 +80,30 @@ export function deleteTokenCookie(request: Request) {
  */
 function getTokenPayloadFromHeaders(request: Request): TokenPayload {
     const { headers = {} } = request;
-
-    console.log('CA SITEMINDER HEADERS');
-    console.log(headers);
     
-    return {
+    const payload = {
         guid: headers[SITEMINDER_HEADER_USERGUID],
         displayName: headers[SITEMINDER_HEADER_USERDISPLAYNAME],
         userId: headers[SITEMINDER_HEADER_USERIDENTIFIER],
         type: headers[SITEMINDER_HEADER_USERTYPE]
     }
+
+    
+    const debugOutput = {
+        [SITEMINDER_HEADER_USERDISPLAYNAME]: headers[SITEMINDER_HEADER_USERDISPLAYNAME],
+        [SITEMINDER_HEADER_USERTYPE]: headers[SITEMINDER_HEADER_USERTYPE],
+        [SITEMINDER_HEADER_USERGUID]: headers[SITEMINDER_HEADER_USERGUID],
+        [SITEMINDER_HEADER_USERIDENTIFIER]: headers[SITEMINDER_HEADER_USERIDENTIFIER],
+        [SITEMINDER_HEADER_USER]: headers[SITEMINDER_HEADER_USER],
+        [SITEMINDER_HEADER_UNIVERSALID]: headers[SITEMINDER_HEADER_UNIVERSALID],
+        [SITEMINDER_HEADER_COOKIE]: headers[SITEMINDER_HEADER_COOKIE]
+    }
+
+    console.log('CA SITEMINDER Headers');
+    console.log(debugOutput);
+    // console.log(headers);
+
+    return payload;
 }
 
 /**

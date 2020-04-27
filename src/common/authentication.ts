@@ -49,10 +49,13 @@ export const SYSTEM_USER_DISPLAY_NAME = 'System User';
 /**
  * Configure siteminder headers.
  */
-export const SITEMINDER_HEADER_USERGUID = 'smgov_userguid';
 export const SITEMINDER_HEADER_USERDISPLAYNAME = 'smgov_userdisplayname';
 export const SITEMINDER_HEADER_USERTYPE = 'smgov_usertype';
-export const SITEMINDER_HEADER_USERIDENTIFIER = process.env.SYS_AUTH_ID_SM_HEADER_KEY || 'smgov_useridentifier';
+export const SITEMINDER_HEADER_USERGUID = 'smgov_userguid';
+export const SITEMINDER_HEADER_USERIDENTIFIER = process.env.SYS_AUTH_ID_SM_HEADER_KEY || 'smgov_useridentifier'; // GUID
+export const SITEMINDER_HEADER_USER = 'sm_user'; // 'IDIR\\<USERNAME>'
+export const SITEMINDER_HEADER_UNIVERSALID = 'sm_universalid'; // <USERNAME>
+export const SITEMINDER_HEADER_COOKIE = 'cookie';
 
 export const DEFAULT_SCOPES: Scope[] = ['default'];
 export const TOKEN_COOKIE_NAME = "app_token";
