@@ -34,7 +34,11 @@ export class UserRoleService extends ExpirableDatabaseService<UserRole> {
         return rows;
     }
 
+    /**
+     * Primarily / exclusively used by TokenService
+     * @param userId
+     */
     async getByUserId(userId: string) {
-        return await this.getWhereFieldEquals('userId', userId);
+        return await this.getEffectiveWhereFieldEquals('userId', userId);
     }
 }

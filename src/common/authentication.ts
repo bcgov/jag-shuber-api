@@ -30,7 +30,7 @@ export const DEV_SA_AUTH_ID = process.env.SYS_DEV_SA_AUTH_ID || null; // Super-A
  * This is used to configure a fake IDIR account name for local development purposes.
  */
 export const DEV_USER_DISPLAY_NAME = 'Test User'; // Test User Display Name
-export const DEV_USER_AUTH_ID = 'TESTUSR'; // Test User Auth ID (substitute for IDIR)
+export const DEV_USER_AUTH_ID = 'TESTUSR'; // Test User Auth ID (substitute for IDIR), RESET TO TESTUSR WHEN NOT IN USE!
 
 // The Role to Assign to Test User, only valid if using the configured DEV_USER_AUTH_ID user account.
 // Use this to test different roles that may have been entered into the database.

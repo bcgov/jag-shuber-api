@@ -88,6 +88,14 @@ export default abstract class ExpirableDatabaseService<T> extends DatabaseServic
         return rows.map((s: T) => this.filterNullValues(s));
     };
 
+    async getEffectiveWhereFieldEquals(fieldName: string, value: string | number, options?: EffectiveQueryOptions): Promise<T[]> {
+        const query = this.getEffectiveSelectQuery(options)
+            .where(`${this.columnMap[fieldName]}='${value}'`);
+        
+        const rows = await this.executeQuery<T>(query.toString());
+        return rows;
+    }
+
     async expire(id: string, expiryDate?: string): Promise<void> {
         if (!expiryDate) {
             expiryDate = moment().toISOString();
