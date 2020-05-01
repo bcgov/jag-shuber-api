@@ -122,8 +122,12 @@ export default class Client {
      * @memberof Client
      */
     protected async ensureToken(): Promise<void> {
+        console.log('Ensuring token exists...')
         let token = retreiveCookieValue(TOKEN_COOKIE_NAME, this.agent);
-        // if there is no token, we will go out and retreive one
+
+        console.log('Token retrieved from cookie:');
+        console.log(token);
+        // If there is no token, we will go out and retreive one
         if (token == undefined) {
             try{
                 console.log('Fetching new token');
@@ -1135,9 +1139,13 @@ export default class Client {
             return response;
         });
     }    
-    public async GetSheriffLocations():Promise<Array<SheriffLocation>>{
+    public async GetSheriffLocations( locationId:string ):Promise<Array<SheriffLocation>>{
+        const params = { 
+            "locationId":locationId 
+        };
         return this.tryRequest<Array<SheriffLocation>>(async () => {
             const response: superAgent.Response = await this.agent.get(`/SheriffLocation`)
+                .query(params)
             return response;
         });
     }    

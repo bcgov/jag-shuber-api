@@ -210,7 +210,7 @@ export default class Client {
     UpdateSheriffDuty(id: string, model: SheriffDuty): Promise<SheriffDuty>;
     DeleteSheriffDuty(id: string): Promise<void>;
     AutoAssignSheriffDuties(model: SheriffDutyAutoAssignRequest): Promise<Array<SheriffDuty>>;
-    GetSheriffLocations(): Promise<Array<SheriffLocation>>;
+    GetSheriffLocations(locationId: string): Promise<Array<SheriffLocation>>;
     CreateSheriffLocation(model: SheriffLocation): Promise<SheriffLocation>;
     GetSheriffLocationById(id: string): Promise<SheriffLocation>;
     UpdateSheriffLocation(id: string, model: SheriffLocation): Promise<SheriffLocation>;

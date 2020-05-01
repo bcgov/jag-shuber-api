@@ -72,10 +72,12 @@ export class TokenService {
      * @param tokenPayload
      */
     async generateToken(tokenPayload: TokenPayload): Promise<any> {
-        // console.log('generating auth token');
+        console.log('Generating auth token...');
         // console.log(tokenPayload);
+        console.log('Getting token user');
         const user = await this.getTokenUser(tokenPayload);
-
+        console.log('User found: ' + user.displayName);
+        
         const { authScopes, appScopes } = await this.buildUserScopes(user);
 
         const token = await createToken({

@@ -30,7 +30,7 @@ exports.defaultRoles = [
     {
         roleName: 'Basic',
         roleCode: 'BASIC',
-        systemRoleInd: 1,
+        systemRoleInd: 0,
         description: 'This is the lowest possible level of system access. Without this you will not be able to view the application at all.',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,

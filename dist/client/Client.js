@@ -136,7 +136,10 @@ var Client = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
+                        console.log('Ensuring token exists...');
                         token = cookieUtils_1.retreiveCookieValue(authentication_1.TOKEN_COOKIE_NAME, this.agent);
+                        console.log('Token retrieved from cookie:');
+                        console.log(token);
                         if (!(token == undefined)) return [3 /*break*/, 4];
                         _a.label = 1;
                     case 1:
@@ -2855,15 +2858,20 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.GetSheriffLocations = function () {
+    Client.prototype.GetSheriffLocations = function (locationId) {
         return __awaiter(this, void 0, void 0, function () {
+            var params;
             var _this = this;
             return __generator(this, function (_a) {
+                params = {
+                    "locationId": locationId
+                };
                 return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
                         return __generator(this, function (_a) {
                             switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.get("/SheriffLocation")];
+                                case 0: return [4 /*yield*/, this.agent.get("/SheriffLocation")
+                                        .query(params)];
                                 case 1:
                                     response = _a.sent();
                                     return [2 /*return*/, response];

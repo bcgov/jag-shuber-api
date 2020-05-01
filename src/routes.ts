@@ -70,6 +70,8 @@ const models: TsoaRoute.Models = {
             "systemAccountInd": { "dataType": "double" },
             "sheriffId": { "dataType": "string" },
             "sheriff": { "ref": "Sheriff" },
+            "effectiveDate": { "dataType": "string" },
+            "expiryDate": { "dataType": "string" },
             "createdBy": { "dataType": "string" },
             "updatedBy": { "dataType": "string" },
             "createdDtm": { "dataType": "string" },
@@ -422,8 +424,7 @@ const models: TsoaRoute.Models = {
             "locationId": { "dataType": "string", "required": true },
             "startDate": { "dataType": "string", "required": true },
             "endDate": { "dataType": "string" },
-            "comment": { "dataType": "string" },
-            "cancelDate": { "dataType": "string" },
+            "isPartial": { "dataType": "double", "required": true },
         },
     },
     "Leave": {
@@ -4312,6 +4313,7 @@ export function RegisterRoutes(router: any) {
         authenticateMiddleware([{ "name": "jwt" }]),
         async (context, next) => {
             const args = {
+                locationId: { "in": "query", "name": "locationId", "dataType": "string" },
             };
 
             let validatedArgs: any[] = [];

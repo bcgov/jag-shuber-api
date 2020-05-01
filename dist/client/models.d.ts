@@ -7,6 +7,8 @@ export interface User {
     systemAccountInd?: number;
     sheriffId?: string;
     sheriff?: Sheriff;
+    effectiveDate?: string;
+    expiryDate?: string;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;
@@ -303,8 +305,7 @@ export interface SheriffLocation {
     locationId?: string;
     startDate?: string;
     endDate?: string;
-    comment?: string;
-    cancelDate?: string;
+    isPartial?: number;
 }
 export interface Leave {
     id?: string;

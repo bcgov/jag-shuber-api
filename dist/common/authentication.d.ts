@@ -3,7 +3,7 @@ export declare const JWT_AUTH_ERROR: Error;
 /**
  * FakeMinder stuff, just for local development
  */
-export declare const FAKEMINDER_IDIR = "TESTUSR";
+export declare const FAKEMINDER_IDIR = "";
 export declare const FAKEMINDER_GUID = "SOMEGUIDGOESHERE";
 /**
  * These env vars are used to configure which user is granted full access rights to the system in a production environment.
@@ -24,6 +24,7 @@ export declare const DEV_SA_AUTH_ID: string;
 export declare const DEV_USER_DISPLAY_NAME = "Test User";
 export declare const DEV_USER_AUTH_ID = "TESTUSR";
 export declare const DEV_USER_TEST_ROLES: string[];
+export declare const USER_DEFAULT_ROLES: any[];
 /**
  * System user display name. Just a value to use when the application updates a database record, and the action is not
  * attributable to a user, for whatever reason.
@@ -32,10 +33,13 @@ export declare const SYSTEM_USER_DISPLAY_NAME = "System User";
 /**
  * Configure siteminder headers.
  */
-export declare const SITEMINDER_HEADER_USERGUID = "smgov_userguid";
 export declare const SITEMINDER_HEADER_USERDISPLAYNAME = "smgov_userdisplayname";
 export declare const SITEMINDER_HEADER_USERTYPE = "smgov_usertype";
+export declare const SITEMINDER_HEADER_USERGUID = "smgov_userguid";
 export declare const SITEMINDER_HEADER_USERIDENTIFIER: string;
+export declare const SITEMINDER_HEADER_USER = "sm_user";
+export declare const SITEMINDER_HEADER_UNIVERSALID = "sm_universalid";
+export declare const SITEMINDER_HEADER_COOKIE = "cookie";
 export declare const DEFAULT_SCOPES: Scope[];
 export declare const TOKEN_COOKIE_NAME = "app_token";
 /**

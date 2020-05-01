@@ -87,7 +87,6 @@ function getTokenPayloadFromHeaders(request: Request): TokenPayload {
         userId: headers[SITEMINDER_HEADER_USERIDENTIFIER],
         type: headers[SITEMINDER_HEADER_USERTYPE]
     }
-
     
     const debugOutput = {
         [SITEMINDER_HEADER_USERDISPLAYNAME]: headers[SITEMINDER_HEADER_USERDISPLAYNAME],
@@ -120,8 +119,11 @@ export async function koaAuthentication(request: Request, securityName: string, 
     const securityType: SecurityType = securityName as any;
     const scopes: Scope[] = securityScopes as any;
     if (securityType === 'siteminder') {
+        console.log('Using SiteMinder authentication');
+        console.log('Getting token payload from headers...')
         const siteminderHeaders = getTokenPayloadFromHeaders(request);
         if (siteminderHeaders && siteminderHeaders.guid) {
+            
             return siteminderHeaders;
         } else {
             throw SITEMINDER_AUTH_ERROR
@@ -130,8 +132,12 @@ export async function koaAuthentication(request: Request, securityName: string, 
 
     if (securityType === 'jwt') {
         const token = request.ctx.cookies.get(TOKEN_COOKIE_NAME);
+        console.log('Using JWT authentication');
+        console.log(request.ctx.cookies.get(TOKEN_COOKIE_NAME));
         const payload = await verifyToken(token);
+        console.log('Asserting user has required scopes...')
         assertAllScopes(payload, scopes);
+        console.log('JWT token has been verified - continue');
         return payload;
     }
 
