@@ -17,7 +17,7 @@ export const JWT_SECRET: string = process.env.JWT_SECRET || "d3vS3cr37";
 export async function createToken(payload: TokenPayload, secret: string = JWT_SECRET, signOptions?: jwt.SignOptions): Promise<string | undefined> {
     if (payload) {
         console.log('Creating JWT token');
-        console.log('RUNNING IN PATCH MODE SET EXPIRY TO 5s TO ATTEMPT TO CLEAR SESSION ON BROWSER CLOSE');
+        console.log('RUNNING IN PATCH MODE SET EXPIRY TO 30s TO ATTEMPT TO CLEAR SESSION ON BROWSER CLOSE');
         return jwt.sign({
             scopes: [],
             appScopes: [],
@@ -28,7 +28,7 @@ export async function createToken(payload: TokenPayload, secret: string = JWT_SE
             audience: 'jag-shuber-client',
             // Test expiry
             // expiresIn: '30m',
-            expiresIn: '5s',
+            expiresIn: '30s',
             ...signOptions
         })
     }
