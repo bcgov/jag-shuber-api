@@ -28,7 +28,7 @@ export async function createToken(payload: TokenPayload, secret: string = JWT_SE
             audience: 'jag-shuber-client',
             // Test expiry
             // expiresIn: '30m',
-            expiresIn: '30s',
+            expiresIn: '10m',
             ...signOptions
         })
     }
