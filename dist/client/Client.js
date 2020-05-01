@@ -68,6 +68,7 @@ var superAgent = __importStar(require("superagent"));
 var authentication_1 = require("../common/authentication");
 var TypedEvent_1 = require("../common/TypedEvent");
 var cookieUtils_1 = require("../common/cookieUtils");
+var tokenUtils_1 = require("../common/tokenUtils");
 var Client = /** @class */ (function () {
     function Client(_agent) {
         if (_agent === void 0) { _agent = superAgent.agent(); }
@@ -139,7 +140,7 @@ var Client = /** @class */ (function () {
                         console.log('Ensuring token exists...');
                         token = cookieUtils_1.retreiveCookieValue(authentication_1.TOKEN_COOKIE_NAME, this.agent);
                         console.log('Token retrieved from cookie:');
-                        console.log(token);
+                        console.log(tokenUtils_1.decodeJwt(token));
                         if (!(token == undefined)) return [3 /*break*/, 4];
                         _a.label = 1;
                     case 1:

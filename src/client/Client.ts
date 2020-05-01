@@ -24,6 +24,7 @@ import * as superAgent from "superagent";
 import { TOKEN_COOKIE_NAME } from '../common/authentication';
 import { TypedEvent } from '../common/TypedEvent';
 import { retreiveCookieValue } from '../common/cookieUtils';
+import { decodeJwt } from '../common/tokenUtils';
 import { 
 
     User,
@@ -126,7 +127,7 @@ export default class Client {
         let token = retreiveCookieValue(TOKEN_COOKIE_NAME, this.agent);
 
         console.log('Token retrieved from cookie:');
-        console.log(token);
+        console.log(decodeJwt(token));
         // If there is no token, we will go out and retreive one
         if (token == undefined) {
             try{
