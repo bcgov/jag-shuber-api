@@ -30,19 +30,17 @@ export class TokenController extends Controller {
         return { token };
     }
 
-    @Security('jwt')
-    @Post('extendsession')
+    /* @Post('extendsession')
     public async extendSession(@Request() request: KoaRequest): Promise<any> {
         let token = getTokenCookie(request);
         if (token) {
             extendTokenCookieExpiry(request, token);
         }
-    }
+    } */
 
-    @Security('jwt')
+    // @Security('jwt')
     @Post('delete')
     public async logout(@Request() request: KoaRequest): Promise<any> {
         deleteTokenCookie(request);
     }
-
 }
