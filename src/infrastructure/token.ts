@@ -1,5 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 import { TokenPayload } from '../common/authentication';
+import { decodeJwt } from '../common/tokenUtils';
 
 export const JWT_SECRET: string = process.env.JWT_SECRET || "d3vS3cr37";
 
@@ -17,7 +18,6 @@ export const JWT_SECRET: string = process.env.JWT_SECRET || "d3vS3cr37";
 export async function createToken(payload: TokenPayload, secret: string = JWT_SECRET, signOptions?: jwt.SignOptions): Promise<string | undefined> {
     if (payload) {
         console.log('Creating JWT token');
-        console.log('RUNNING IN PATCH MODE SET EXPIRY TO CUSTOM SETTING TO ATTEMPT TO CLEAR SESSION ON BROWSER CLOSE');
         return jwt.sign({
             scopes: [],
             appScopes: [],
@@ -58,7 +58,7 @@ export async function verifyToken(token: string, secret: string = JWT_SECRET): P
                 reject(err)
             } else {
                 console.log('Token decoded:');
-                console.log(token);
+                console.log(decodeJwt(token));
                 resolve(decoded as TokenPayload);
             }
         });
