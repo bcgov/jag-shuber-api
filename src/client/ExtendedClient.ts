@@ -17,6 +17,7 @@ import {
     MultipleShiftUpdateRequest,
     Leave,
     SheriffDuty,
+    SheriffLocation,
     SheriffDutyAutoAssignRequest,
     User,
     Role,
@@ -123,6 +124,10 @@ export default class ExtendedClient extends Client {
     }
     GetSheriffs(locationId: string = ""): Promise<Sheriff[]> {
         return super.GetSheriffs(locationId);
+    }
+
+    GetSheriffLocations(locationId: string = ""): Promise<SheriffLocation[]> {
+        return super.GetSheriffLocations(locationId);
     }
 
 
