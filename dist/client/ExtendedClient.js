@@ -225,6 +225,10 @@ var ExtendedClient = /** @class */ (function (_super) {
         if (locationId === void 0) { locationId = ""; }
         return _super.prototype.GetSheriffs.call(this, locationId);
     };
+    ExtendedClient.prototype.GetSheriffLocations = function (locationId) {
+        if (locationId === void 0) { locationId = ""; }
+        return _super.prototype.GetSheriffLocations.call(this, locationId);
+    };
     ExtendedClient.prototype.GetCourtroomById = function (id) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;

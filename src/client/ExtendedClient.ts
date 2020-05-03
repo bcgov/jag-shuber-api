@@ -122,6 +122,7 @@ export default class ExtendedClient extends Client {
             () => super.GetSheriffById(id)
         );
     }
+    
     GetSheriffs(locationId: string = ""): Promise<Sheriff[]> {
         return super.GetSheriffs(locationId);
     }
