@@ -71,6 +71,7 @@ export default class Client {
      */
     protected tryRequest<T>(worker: () => Promise<superAgent.Response>): Promise<T>;
     GetToken(): Promise<any>;
+    ExtendSession(): Promise<any>;
     Logout(): Promise<any>;
     GetCurrentUser(): Promise<User>;
     GetUsers(locationId: string): Promise<any>;

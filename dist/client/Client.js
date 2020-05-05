@@ -235,6 +235,24 @@ var Client = /** @class */ (function () {
             });
         });
     };
+    Client.prototype.ExtendSession = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var _this = this;
+            return __generator(this, function (_a) {
+                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
+                        var response;
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, this.agent.post("/token/extendsession")];
+                                case 1:
+                                    response = _a.sent();
+                                    return [2 /*return*/, response];
+                            }
+                        });
+                    }); })];
+            });
+        });
+    };
     Client.prototype.Logout = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {

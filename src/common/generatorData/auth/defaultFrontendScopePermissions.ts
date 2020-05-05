@@ -44,10 +44,10 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         updatedDtm: updatedDtm,
         revisionCount: 0
     },
-    // SHERIFF_PROFILE_PLUGIN_<TYPE>
+    // SHERIFF_PROFILE_<TYPE>
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'SHERIFF_PROFILE_PLUGIN_IDENT',
+        frontendScopeCode: 'SHERIFF_PROFILE_IDENT',
         permissionCode: 'EDIT_BADGE',
         displayName: 'Can Edit Badge Number',
         description: '', // Scope description
@@ -59,7 +59,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'SHERIFF_PROFILE_PLUGIN_IDENT',
+        frontendScopeCode: 'SHERIFF_PROFILE_IDENT',
         permissionCode: 'EDIT_RANK',
         displayName: 'Can Edit Sheriff Rank',
         description: 'User can edit a sheriff\'s rank', // Scope description
@@ -71,7 +71,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'SHERIFF_PROFILE_PLUGIN_LOCATION',
+        frontendScopeCode: 'SHERIFF_PROFILE_LOCATION',
         permissionCode: 'EDIT_HOME_LOC',
         displayName: 'Can Edit Home Location',
         description: 'User can edit a sheriff\'s home location', // Scope description
@@ -83,7 +83,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'SHERIFF_PROFILE_PLUGIN_LOCATION',
+        frontendScopeCode: 'SHERIFF_PROFILE_LOCATION',
         permissionCode: 'EDIT_CUR_LOC',
         displayName: 'Can Edit Current Location',
         description: 'User can edit a sheriff\'s current location', // Scope description
@@ -95,7 +95,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'SHERIFF_PROFILE_PLUGIN_LEAVES',
+        frontendScopeCode: 'SHERIFF_PROFILE_LEAVES',
         permissionCode: 'MANAGE_LEAVES_DATA',
         displayName: 'Manage Leaves Data',
         description: '', // Scope description
@@ -107,7 +107,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'SHERIFF_PROFILE_PLUGIN_TRAINING',
+        frontendScopeCode: 'SHERIFF_PROFILE_TRAINING',
         permissionCode: 'MANAGE_TRAINING_DATA',
         displayName: 'Manage Training Data',
         description: '', // Scope description
@@ -117,10 +117,10 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         updatedDtm: updatedDtm,
         revisionCount: 0
     },
-    // ADMIN_PLUGIN_USER_ROLES
+    // ADMIN_USER_ROLES
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_USER_ROLES',
+        frontendScopeCode: 'ADMIN_USER_ROLES',
         permissionCode: 'EXPIRE_USER_ROLE',
         displayName: 'Expire User Role',
         description: '', // Scope description
@@ -130,10 +130,10 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         updatedDtm: updatedDtm,
         revisionCount: 0
     },
-    // ADMIN_PLUGIN_COURTROOMS
+    // ADMIN_COURTROOMS
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_COURTROOMS',
+        frontendScopeCode: 'ADMIN_COURTROOMS',
         permissionCode: 'MANAGE_OWN',
         displayName: 'Manage Own',
         description: '', // Scope description
@@ -145,7 +145,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_COURTROOMS',
+        frontendScopeCode: 'ADMIN_COURTROOMS',
         permissionCode: 'MANAGE_ALL',
         displayName: 'Manage All',
         description: '', // Scope description
@@ -157,7 +157,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_COURTROOMS',
+        frontendScopeCode: 'ADMIN_COURTROOMS',
         permissionCode: 'DELETE',
         displayName: 'Delete',
         description: '', // Scope description
@@ -167,10 +167,10 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         updatedDtm: updatedDtm,
         revisionCount: 0
     },
-    // ADMIN_PLUGIN_COURT_ROLES
+    // ADMIN_COURT_ROLES
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_COURT_ROLES',
+        frontendScopeCode: 'ADMIN_COURT_ROLES',
         permissionCode: 'MANAGE_OWN',
         displayName: 'Manage Own',
         description: '', // Scope description
@@ -182,7 +182,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_COURT_ROLES',
+        frontendScopeCode: 'ADMIN_COURT_ROLES',
         permissionCode: 'MANAGE_ALL',
         displayName: 'Manage All',
         description: '', // Scope description
@@ -194,7 +194,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_COURT_ROLES',
+        frontendScopeCode: 'ADMIN_COURT_ROLES',
         permissionCode: 'DELETE',
         displayName: 'Delete',
         description: '', // Scope description
@@ -204,10 +204,10 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         updatedDtm: updatedDtm,
         revisionCount: 0
     },
-    // ADMIN_PLUGIN_JAIL_ROLES
+    // ADMIN_JAIL_ROLES
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_JAIL_ROLES',
+        frontendScopeCode: 'ADMIN_JAIL_ROLES',
         permissionCode: 'MANAGE_OWN',
         displayName: 'Manage Own',
         description: '', // Scope description
@@ -219,7 +219,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_JAIL_ROLES',
+        frontendScopeCode: 'ADMIN_JAIL_ROLES',
         permissionCode: 'MANAGE_ALL',
         displayName: 'Manage All',
         description: '', // Scope description
@@ -231,7 +231,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_JAIL_ROLES',
+        frontendScopeCode: 'ADMIN_JAIL_ROLES',
         permissionCode: 'DELETE',
         displayName: 'Delete',
         description: '', // Scope description
@@ -241,10 +241,10 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         updatedDtm: updatedDtm,
         revisionCount: 0
     },
-    // ADMIN_PLUGIN_ESCORT_TYPES
+    // ADMIN_ESCORT_TYPES
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_ESCORT_TYPES',
+        frontendScopeCode: 'ADMIN_ESCORT_TYPES',
         permissionCode: 'MANAGE_OWN',
         displayName: 'Manage Own',
         description: '', // Scope description
@@ -256,7 +256,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_ESCORT_TYPES',
+        frontendScopeCode: 'ADMIN_ESCORT_TYPES',
         permissionCode: 'MANAGE_ALL',
         displayName: 'Manage All',
         description: '', // Scope description
@@ -268,7 +268,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_ESCORT_TYPES',
+        frontendScopeCode: 'ADMIN_ESCORT_TYPES',
         permissionCode: 'DELETE',
         displayName: 'Delete',
         description: '', // Scope description
@@ -278,10 +278,10 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         updatedDtm: updatedDtm,
         revisionCount: 0
     },
-    // ADMIN_PLUGIN_OTHER_TYPES
+    // ADMIN_OTHER_TYPES
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_OTHER_TYPES',
+        frontendScopeCode: 'ADMIN_OTHER_TYPES',
         permissionCode: 'MANAGE_OWN',
         displayName: 'Manage Own',
         description: '', // Scope description
@@ -293,7 +293,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_OTHER_TYPES',
+        frontendScopeCode: 'ADMIN_OTHER_TYPES',
         permissionCode: 'MANAGE_ALL',
         displayName: 'Manage All',
         description: '', // Scope description
@@ -305,7 +305,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_OTHER_TYPES',
+        frontendScopeCode: 'ADMIN_OTHER_TYPES',
         permissionCode: 'DELETE',
         displayName: 'Delete',
         description: '', // Scope description
@@ -315,10 +315,10 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         updatedDtm: updatedDtm,
         revisionCount: 0
     },
-    // ADMIN_PLUGIN_LEAVE_TYPES
+    // ADMIN_LEAVE_TYPES
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_LEAVE_TYPES',
+        frontendScopeCode: 'ADMIN_LEAVE_TYPES',
         permissionCode: 'MANAGE_OWN',
         displayName: 'Manage Own',
         description: '', // Scope description
@@ -330,7 +330,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_LEAVE_TYPES',
+        frontendScopeCode: 'ADMIN_LEAVE_TYPES',
         permissionCode: 'MANAGE_ALL',
         displayName: 'Manage All',
         description: '', // Scope description
@@ -342,7 +342,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_LEAVE_TYPES',
+        frontendScopeCode: 'ADMIN_LEAVE_TYPES',
         permissionCode: 'DELETE',
         displayName: 'Delete',
         description: '', // Scope description
@@ -352,10 +352,10 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         updatedDtm: updatedDtm,
         revisionCount: 0
     },
-    // ADMIN_PLUGIN_TRAINING_TYPES
+    // ADMIN_TRAINING_TYPES
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES',
+        frontendScopeCode: 'ADMIN_TRAINING_TYPES',
         permissionCode: 'MANAGE_OWN',
         displayName: 'Manage Own',
         description: '', // Scope description
@@ -367,7 +367,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES',
+        frontendScopeCode: 'ADMIN_TRAINING_TYPES',
         permissionCode: 'MANAGE_ALL',
         displayName: 'Manage All',
         description: '', // Scope description
@@ -379,7 +379,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES',
+        frontendScopeCode: 'ADMIN_TRAINING_TYPES',
         permissionCode: 'DELETE',
         displayName: 'Delete',
         description: '', // Scope description
@@ -389,10 +389,10 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         updatedDtm: updatedDtm,
         revisionCount: 0
     },
-    // ADMIN_PLUGIN_TRAINING_TYPES
+    // ADMIN_TRAINING_TYPES
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES',
+        frontendScopeCode: 'ADMIN_TRAINING_TYPES',
         permissionCode: 'MANAGE_OWN',
         displayName: 'Manage Own',
         description: '', // Scope description
@@ -404,7 +404,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES',
+        frontendScopeCode: 'ADMIN_TRAINING_TYPES',
         permissionCode: 'MANAGE_ALL',
         displayName: 'Manage All',
         description: '', // Scope description
@@ -416,7 +416,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES',
+        frontendScopeCode: 'ADMIN_TRAINING_TYPES',
         permissionCode: 'DELETE',
         displayName: 'Delete',
         description: '', // Scope description
@@ -426,10 +426,10 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         updatedDtm: updatedDtm,
         revisionCount: 0
     },
-    // ADMIN_PLUGIN_ROLES
+    // ADMIN_ROLES
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_ROLES',
+        frontendScopeCode: 'ADMIN_ROLES',
         permissionCode: 'MANAGE',
         displayName: 'Manage',
         description: '', // Scope description
@@ -441,7 +441,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_ROLES',
+        frontendScopeCode: 'ADMIN_ROLES',
         permissionCode: 'DELETE',
         displayName: 'Delete',
         description: '', // Scope description
@@ -451,10 +451,10 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
         updatedDtm: updatedDtm,
         revisionCount: 0
     },
-    // ADMIN_PLUGIN_USER_ROLES
+    // ADMIN_USER_ROLES
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_USER_ROLES',
+        frontendScopeCode: 'ADMIN_USER_ROLES',
         permissionCode: 'MANAGE',
         displayName: 'Manage',
         description: '', // Scope description
@@ -466,7 +466,7 @@ export const defaultFrontendScopePermissions: FrontendScopePermission[] = [
     },
     {
         frontendScopeId: null, // TODO: We will assign this when we map over the scope
-        frontendScopeCode: 'ADMIN_PLUGIN_USER_ROLES',
+        frontendScopeCode: 'ADMIN_USER_ROLES',
         permissionCode: 'DELETE',
         displayName: 'Delete',
         description: '', // Scope description

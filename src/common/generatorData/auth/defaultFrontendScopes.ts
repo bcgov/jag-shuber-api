@@ -34,7 +34,7 @@ export const defaultFrontendScopes: FrontendScope[] = [
     },
     {
         scopeName: 'Admin API Scopes', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_API_SCOPES', // Code type for the scope
+        scopeCode: 'ADMIN_API_SCOPES', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
         description: '', // Scope description
         createdBy: createdBy,
@@ -45,7 +45,7 @@ export const defaultFrontendScopes: FrontendScope[] = [
     },
     {
         scopeName: 'Admin Frontend Scopes', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_FRONTEND_SCOPES', // Code type for the scope
+        scopeCode: 'ADMIN_FRONTEND_SCOPES', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
         description: '', // Scope description
         createdBy: createdBy,
@@ -56,7 +56,7 @@ export const defaultFrontendScopes: FrontendScope[] = [
     },
     {
         scopeName: 'Admin Courtrooms', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_COURTROOMS', // Code type for the scope
+        scopeCode: 'ADMIN_COURTROOMS', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
         description: '', // Scope description
         createdBy: createdBy,
@@ -67,7 +67,7 @@ export const defaultFrontendScopes: FrontendScope[] = [
     },
     {
         scopeName: 'Admin Court Roles', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_COURT_ROLES', // Code type for the scope
+        scopeCode: 'ADMIN_COURT_ROLES', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
         description: '', // Scope description
         createdBy: createdBy,
@@ -78,7 +78,7 @@ export const defaultFrontendScopes: FrontendScope[] = [
     },
     {
         scopeName: 'Admin Jail Roles', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_JAIL_ROLES', // Code type for the scope
+        scopeCode: 'ADMIN_JAIL_ROLES', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
         description: '', // Scope description
         createdBy: createdBy,
@@ -89,7 +89,7 @@ export const defaultFrontendScopes: FrontendScope[] = [
     },
     {
         scopeName: 'Admin Escort Runs', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_ESCORT_TYPES', // Code type for the scope
+        scopeCode: 'ADMIN_ESCORT_TYPES', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
         description: '', // Scope description
         createdBy: createdBy,
@@ -100,7 +100,7 @@ export const defaultFrontendScopes: FrontendScope[] = [
     },
     {
         scopeName: 'Admin Other Assignments', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_OTHER_TYPES', // Code type for the scope
+        scopeCode: 'ADMIN_OTHER_TYPES', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
         description: '', // Scope description
         createdBy: createdBy,
@@ -111,7 +111,7 @@ export const defaultFrontendScopes: FrontendScope[] = [
     },
     {
         scopeName: 'Admin Leave Types', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_LEAVE_TYPES', // Code type for the scope
+        scopeCode: 'ADMIN_LEAVE_TYPES', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
         description: '', // Scope description
         createdBy: createdBy,
@@ -122,7 +122,7 @@ export const defaultFrontendScopes: FrontendScope[] = [
     },
     {
         scopeName: 'Admin Training Types', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES', // Code type for the scope
+        scopeCode: 'ADMIN_TRAINING_TYPES', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
         description: '', // Scope description
         createdBy: createdBy,
@@ -133,7 +133,7 @@ export const defaultFrontendScopes: FrontendScope[] = [
     },
     {
         scopeName: 'Admin Roles', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_ROLES', // Code type for the scope
+        scopeCode: 'ADMIN_ROLES', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
         description: '', // Scope description
         createdBy: createdBy,
@@ -144,7 +144,7 @@ export const defaultFrontendScopes: FrontendScope[] = [
     },
     {
         scopeName: 'Admin User Roles', // Human-friendly scope name
-        scopeCode: 'ADMIN_PLUGIN_USER_ROLES', // Code type for the scope
+        scopeCode: 'ADMIN_USER_ROLES', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
         description: '', // Scope description
         createdBy: createdBy,
@@ -155,7 +155,7 @@ export const defaultFrontendScopes: FrontendScope[] = [
     },
     {
         scopeName: 'Sheriff Profile Identification', // Human-friendly scope name
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_IDENT', // Code type for the scope
+        scopeCode: 'SHERIFF_PROFILE_IDENT', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
         description: '', // Scope description
         createdBy: createdBy,
@@ -166,7 +166,7 @@ export const defaultFrontendScopes: FrontendScope[] = [
     },
     {
         scopeName: 'Sheriff Profile Leaves', // Human-friendly scope name
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_LEAVES', // Code type for the scope
+        scopeCode: 'SHERIFF_PROFILE_LEAVES', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
         description: '', // Scope description
         createdBy: createdBy,
@@ -177,7 +177,7 @@ export const defaultFrontendScopes: FrontendScope[] = [
     },
     {
         scopeName: 'Sheriff Profile Location', // Human-friendly scope name
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_LOCATION', // Code type for the scope
+        scopeCode: 'SHERIFF_PROFILE_LOCATION', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
         description: '', // Scope description
         createdBy: createdBy,
@@ -188,7 +188,7 @@ export const defaultFrontendScopes: FrontendScope[] = [
     },
     {
         scopeName: 'Sheriff Profile Roles', // Human-friendly scope name
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_ROLES', // Code type for the scope
+        scopeCode: 'SHERIFF_PROFILE_ROLES', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
         description: '', // Scope description
         createdBy: createdBy,
@@ -199,7 +199,7 @@ export const defaultFrontendScopes: FrontendScope[] = [
     },
     {
         scopeName: 'Sheriff Profile Training', // Human-friendly scope name
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_TRAINING', // Code type for the scope
+        scopeCode: 'SHERIFF_PROFILE_TRAINING', // Code type for the scope
         systemScopeInd: true, // Is the scope required by the SYSTEM
         description: '', // Scope description
         createdBy: createdBy,

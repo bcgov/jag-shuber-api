@@ -24,7 +24,7 @@ exports.defaultFrontendScopeApis = [
     */
     {
         id: null,
-        frontendScopeCode: 'ADMIN_PLUGIN_API_SCOPES',
+        frontendScopeCode: 'ADMIN_API_SCOPES',
         apiScopeCode: 'system:scopes',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
@@ -37,7 +37,7 @@ exports.defaultFrontendScopeApis = [
     */
     {
         id: null,
-        frontendScopeCode: 'ADMIN_PLUGIN_FRONTEND_SCOPES',
+        frontendScopeCode: 'ADMIN_FRONTEND_SCOPES',
         apiScopeCode: 'system:scopes',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
@@ -50,7 +50,7 @@ exports.defaultFrontendScopeApis = [
     */
     {
         id: null,
-        frontendScopeCode: 'ADMIN_PLUGIN_COURTROOMS',
+        frontendScopeCode: 'ADMIN_COURTROOMS',
         apiScopeCode: 'system:types',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
@@ -63,7 +63,7 @@ exports.defaultFrontendScopeApis = [
     */
     {
         id: null,
-        frontendScopeCode: 'ADMIN_PLUGIN_COURT_ROLES',
+        frontendScopeCode: 'ADMIN_COURT_ROLES',
         apiScopeCode: 'system:types',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
@@ -76,7 +76,7 @@ exports.defaultFrontendScopeApis = [
     */
     {
         id: null,
-        frontendScopeCode: 'ADMIN_PLUGIN_JAIL_ROLES',
+        frontendScopeCode: 'ADMIN_JAIL_ROLES',
         apiScopeCode: 'system:types',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
@@ -89,7 +89,7 @@ exports.defaultFrontendScopeApis = [
     */
     {
         id: null,
-        frontendScopeCode: 'ADMIN_PLUGIN_ESCORT_TYPES',
+        frontendScopeCode: 'ADMIN_ESCORT_TYPES',
         apiScopeCode: 'system:types',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
@@ -102,7 +102,7 @@ exports.defaultFrontendScopeApis = [
     */
     {
         id: null,
-        frontendScopeCode: 'ADMIN_PLUGIN_OTHER_TYPES',
+        frontendScopeCode: 'ADMIN_OTHER_TYPES',
         apiScopeCode: 'system:types',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
@@ -115,7 +115,7 @@ exports.defaultFrontendScopeApis = [
     */
     {
         id: null,
-        frontendScopeCode: 'ADMIN_PLUGIN_LEAVE_TYPES',
+        frontendScopeCode: 'ADMIN_LEAVE_TYPES',
         apiScopeCode: 'system:types',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
@@ -128,7 +128,7 @@ exports.defaultFrontendScopeApis = [
     */
     {
         id: null,
-        frontendScopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES',
+        frontendScopeCode: 'ADMIN_TRAINING_TYPES',
         apiScopeCode: 'system:types',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
@@ -141,7 +141,7 @@ exports.defaultFrontendScopeApis = [
     */
     {
         id: null,
-        frontendScopeCode: 'ADMIN_PLUGIN_ROLES',
+        frontendScopeCode: 'ADMIN_ROLES',
         apiScopeCode: 'roles:manage',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
@@ -151,7 +151,7 @@ exports.defaultFrontendScopeApis = [
     },
     {
         id: null,
-        frontendScopeCode: 'ADMIN_PLUGIN_ROLES',
+        frontendScopeCode: 'ADMIN_ROLES',
         apiScopeCode: 'system:scopes:read',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
@@ -164,7 +164,7 @@ exports.defaultFrontendScopeApis = [
     */
     {
         id: null,
-        frontendScopeCode: 'ADMIN_PLUGIN_USER_ROLES',
+        frontendScopeCode: 'ADMIN_USER_ROLES',
         apiScopeCode: 'users:manage',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
@@ -174,7 +174,7 @@ exports.defaultFrontendScopeApis = [
     },
     {
         id: null,
-        frontendScopeCode: 'ADMIN_PLUGIN_USER_ROLES',
+        frontendScopeCode: 'ADMIN_USER_ROLES',
         apiScopeCode: 'system:scopes:read',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
@@ -187,7 +187,7 @@ exports.defaultFrontendScopeApis = [
     */
     {
         id: null,
-        frontendScopeCode: 'SHERIFF_PROFILE_PLUGIN_IDENT',
+        frontendScopeCode: 'SHERIFF_PROFILE_IDENT',
         apiScopeCode: 'sheriffs:manage',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
@@ -200,7 +200,7 @@ exports.defaultFrontendScopeApis = [
     */
     {
         id: null,
-        frontendScopeCode: 'SHERIFF_PROFILE_PLUGIN_LEAVES',
+        frontendScopeCode: 'SHERIFF_PROFILE_LEAVES',
         apiScopeCode: 'sheriffs:manage',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
@@ -213,7 +213,7 @@ exports.defaultFrontendScopeApis = [
     */
     {
         id: null,
-        frontendScopeCode: 'SHERIFF_PROFILE_PLUGIN_LOCATION',
+        frontendScopeCode: 'SHERIFF_PROFILE_LOCATION',
         apiScopeCode: 'sheriffs:manage',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
@@ -226,7 +226,7 @@ exports.defaultFrontendScopeApis = [
     */
     {
         id: null,
-        frontendScopeCode: 'SHERIFF_PROFILE_PLUGIN_ROLES',
+        frontendScopeCode: 'SHERIFF_PROFILE_ROLES',
         apiScopeCode: 'sheriffs:manage',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
@@ -236,7 +236,7 @@ exports.defaultFrontendScopeApis = [
     },
     {
         id: null,
-        frontendScopeCode: 'SHERIFF_PROFILE_PLUGIN_ROLES',
+        frontendScopeCode: 'SHERIFF_PROFILE_ROLES',
         apiScopeCode: 'roles:manage',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
@@ -249,7 +249,7 @@ exports.defaultFrontendScopeApis = [
     */
     {
         id: null,
-        frontendScopeCode: 'SHERIFF_PROFILE_PLUGIN_TRAINING',
+        frontendScopeCode: 'SHERIFF_PROFILE_TRAINING',
         apiScopeCode: 'sheriffs:manage',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,

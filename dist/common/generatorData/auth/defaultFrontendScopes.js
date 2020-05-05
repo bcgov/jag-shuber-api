@@ -33,7 +33,7 @@ exports.defaultFrontendScopes = [
     },
     {
         scopeName: 'Admin API Scopes',
-        scopeCode: 'ADMIN_PLUGIN_API_SCOPES',
+        scopeCode: 'ADMIN_API_SCOPES',
         systemScopeInd: true,
         description: '',
         createdBy: index_1.createdBy,
@@ -44,7 +44,7 @@ exports.defaultFrontendScopes = [
     },
     {
         scopeName: 'Admin Frontend Scopes',
-        scopeCode: 'ADMIN_PLUGIN_FRONTEND_SCOPES',
+        scopeCode: 'ADMIN_FRONTEND_SCOPES',
         systemScopeInd: true,
         description: '',
         createdBy: index_1.createdBy,
@@ -55,7 +55,7 @@ exports.defaultFrontendScopes = [
     },
     {
         scopeName: 'Admin Courtrooms',
-        scopeCode: 'ADMIN_PLUGIN_COURTROOMS',
+        scopeCode: 'ADMIN_COURTROOMS',
         systemScopeInd: true,
         description: '',
         createdBy: index_1.createdBy,
@@ -66,7 +66,7 @@ exports.defaultFrontendScopes = [
     },
     {
         scopeName: 'Admin Court Roles',
-        scopeCode: 'ADMIN_PLUGIN_COURT_ROLES',
+        scopeCode: 'ADMIN_COURT_ROLES',
         systemScopeInd: true,
         description: '',
         createdBy: index_1.createdBy,
@@ -77,7 +77,7 @@ exports.defaultFrontendScopes = [
     },
     {
         scopeName: 'Admin Jail Roles',
-        scopeCode: 'ADMIN_PLUGIN_JAIL_ROLES',
+        scopeCode: 'ADMIN_JAIL_ROLES',
         systemScopeInd: true,
         description: '',
         createdBy: index_1.createdBy,
@@ -88,7 +88,7 @@ exports.defaultFrontendScopes = [
     },
     {
         scopeName: 'Admin Escort Runs',
-        scopeCode: 'ADMIN_PLUGIN_ESCORT_TYPES',
+        scopeCode: 'ADMIN_ESCORT_TYPES',
         systemScopeInd: true,
         description: '',
         createdBy: index_1.createdBy,
@@ -99,7 +99,7 @@ exports.defaultFrontendScopes = [
     },
     {
         scopeName: 'Admin Other Assignments',
-        scopeCode: 'ADMIN_PLUGIN_OTHER_TYPES',
+        scopeCode: 'ADMIN_OTHER_TYPES',
         systemScopeInd: true,
         description: '',
         createdBy: index_1.createdBy,
@@ -110,7 +110,7 @@ exports.defaultFrontendScopes = [
     },
     {
         scopeName: 'Admin Leave Types',
-        scopeCode: 'ADMIN_PLUGIN_LEAVE_TYPES',
+        scopeCode: 'ADMIN_LEAVE_TYPES',
         systemScopeInd: true,
         description: '',
         createdBy: index_1.createdBy,
@@ -121,7 +121,7 @@ exports.defaultFrontendScopes = [
     },
     {
         scopeName: 'Admin Training Types',
-        scopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES',
+        scopeCode: 'ADMIN_TRAINING_TYPES',
         systemScopeInd: true,
         description: '',
         createdBy: index_1.createdBy,
@@ -132,7 +132,7 @@ exports.defaultFrontendScopes = [
     },
     {
         scopeName: 'Admin Roles',
-        scopeCode: 'ADMIN_PLUGIN_ROLES',
+        scopeCode: 'ADMIN_ROLES',
         systemScopeInd: true,
         description: '',
         createdBy: index_1.createdBy,
@@ -143,7 +143,7 @@ exports.defaultFrontendScopes = [
     },
     {
         scopeName: 'Admin User Roles',
-        scopeCode: 'ADMIN_PLUGIN_USER_ROLES',
+        scopeCode: 'ADMIN_USER_ROLES',
         systemScopeInd: true,
         description: '',
         createdBy: index_1.createdBy,
@@ -154,7 +154,7 @@ exports.defaultFrontendScopes = [
     },
     {
         scopeName: 'Sheriff Profile Identification',
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_IDENT',
+        scopeCode: 'SHERIFF_PROFILE_IDENT',
         systemScopeInd: true,
         description: '',
         createdBy: index_1.createdBy,
@@ -165,7 +165,7 @@ exports.defaultFrontendScopes = [
     },
     {
         scopeName: 'Sheriff Profile Leaves',
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_LEAVES',
+        scopeCode: 'SHERIFF_PROFILE_LEAVES',
         systemScopeInd: true,
         description: '',
         createdBy: index_1.createdBy,
@@ -176,7 +176,7 @@ exports.defaultFrontendScopes = [
     },
     {
         scopeName: 'Sheriff Profile Location',
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_LOCATION',
+        scopeCode: 'SHERIFF_PROFILE_LOCATION',
         systemScopeInd: true,
         description: '',
         createdBy: index_1.createdBy,
@@ -187,7 +187,7 @@ exports.defaultFrontendScopes = [
     },
     {
         scopeName: 'Sheriff Profile Roles',
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_ROLES',
+        scopeCode: 'SHERIFF_PROFILE_ROLES',
         systemScopeInd: true,
         description: '',
         createdBy: index_1.createdBy,
@@ -198,7 +198,7 @@ exports.defaultFrontendScopes = [
     },
     {
         scopeName: 'Sheriff Profile Training',
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_TRAINING',
+        scopeCode: 'SHERIFF_PROFILE_TRAINING',
         systemScopeInd: true,
         description: '',
         createdBy: index_1.createdBy,

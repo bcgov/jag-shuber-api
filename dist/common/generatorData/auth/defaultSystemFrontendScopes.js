@@ -16,7 +16,7 @@ exports.defaultSystemFrontendScopes = [
     },
     {
         roleCode: 'SYSADMIN',
-        scopeCode: 'ADMIN_PLUGIN_API_SCOPES',
+        scopeCode: 'ADMIN_API_SCOPES',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
         createdDtm: index_1.createdDtm,
@@ -25,7 +25,7 @@ exports.defaultSystemFrontendScopes = [
     },
     {
         roleCode: 'SYSADMIN',
-        scopeCode: 'ADMIN_PLUGIN_FRONTEND_SCOPES',
+        scopeCode: 'ADMIN_FRONTEND_SCOPES',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
         createdDtm: index_1.createdDtm,
@@ -44,7 +44,7 @@ exports.defaultSystemFrontendScopes = [
     },
     {
         roleCode: 'ADMIN',
-        scopeCode: 'ADMIN_PLUGIN_COURTROOMS',
+        scopeCode: 'ADMIN_COURTROOMS',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
         createdDtm: index_1.createdDtm,
@@ -53,7 +53,7 @@ exports.defaultSystemFrontendScopes = [
     },
     {
         roleCode: 'ADMIN',
-        scopeCode: 'ADMIN_PLUGIN_COURT_ROLES',
+        scopeCode: 'ADMIN_COURT_ROLES',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
         createdDtm: index_1.createdDtm,
@@ -62,7 +62,7 @@ exports.defaultSystemFrontendScopes = [
     },
     {
         roleCode: 'ADMIN',
-        scopeCode: 'ADMIN_PLUGIN_JAIL_ROLES',
+        scopeCode: 'ADMIN_JAIL_ROLES',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
         createdDtm: index_1.createdDtm,
@@ -71,7 +71,7 @@ exports.defaultSystemFrontendScopes = [
     },
     {
         roleCode: 'ADMIN',
-        scopeCode: 'ADMIN_PLUGIN_ESCORT_TYPES',
+        scopeCode: 'ADMIN_ESCORT_TYPES',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
         createdDtm: index_1.createdDtm,
@@ -80,7 +80,7 @@ exports.defaultSystemFrontendScopes = [
     },
     {
         roleCode: 'ADMIN',
-        scopeCode: 'ADMIN_PLUGIN_OTHER_TYPES',
+        scopeCode: 'ADMIN_OTHER_TYPES',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
         createdDtm: index_1.createdDtm,
@@ -89,7 +89,7 @@ exports.defaultSystemFrontendScopes = [
     },
     {
         roleCode: 'ADMIN',
-        scopeCode: 'ADMIN_PLUGIN_LEAVE_TYPES',
+        scopeCode: 'ADMIN_LEAVE_TYPES',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
         createdDtm: index_1.createdDtm,
@@ -98,7 +98,7 @@ exports.defaultSystemFrontendScopes = [
     },
     {
         roleCode: 'ADMIN',
-        scopeCode: 'ADMIN_PLUGIN_TRAINING_TYPES',
+        scopeCode: 'ADMIN_TRAINING_TYPES',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
         createdDtm: index_1.createdDtm,
@@ -107,7 +107,7 @@ exports.defaultSystemFrontendScopes = [
     },
     {
         roleCode: 'ADMIN',
-        scopeCode: 'ADMIN_PLUGIN_ROLES',
+        scopeCode: 'ADMIN_ROLES',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
         createdDtm: index_1.createdDtm,
@@ -116,7 +116,7 @@ exports.defaultSystemFrontendScopes = [
     },
     {
         roleCode: 'ADMIN',
-        scopeCode: 'ADMIN_PLUGIN_USER_ROLES',
+        scopeCode: 'ADMIN_USER_ROLES',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
         createdDtm: index_1.createdDtm,
@@ -125,7 +125,7 @@ exports.defaultSystemFrontendScopes = [
     },
     {
         roleCode: 'ADMIN',
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_IDENT',
+        scopeCode: 'SHERIFF_PROFILE_IDENT',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
         createdDtm: index_1.createdDtm,
@@ -134,7 +134,7 @@ exports.defaultSystemFrontendScopes = [
     },
     {
         roleCode: 'ADMIN',
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_LEAVES',
+        scopeCode: 'SHERIFF_PROFILE_LEAVES',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
         createdDtm: index_1.createdDtm,
@@ -143,7 +143,7 @@ exports.defaultSystemFrontendScopes = [
     },
     {
         roleCode: 'ADMIN',
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_LOCATION',
+        scopeCode: 'SHERIFF_PROFILE_LOCATION',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
         createdDtm: index_1.createdDtm,
@@ -152,7 +152,7 @@ exports.defaultSystemFrontendScopes = [
     },
     {
         roleCode: 'ADMIN',
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_ROLES',
+        scopeCode: 'SHERIFF_PROFILE_ROLES',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
         createdDtm: index_1.createdDtm,
@@ -161,7 +161,7 @@ exports.defaultSystemFrontendScopes = [
     },
     {
         roleCode: 'ADMIN',
-        scopeCode: 'SHERIFF_PROFILE_PLUGIN_TRAINING',
+        scopeCode: 'SHERIFF_PROFILE_TRAINING',
         createdBy: index_1.createdBy,
         updatedBy: index_1.updatedBy,
         createdDtm: index_1.createdDtm,
