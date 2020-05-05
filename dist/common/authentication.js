@@ -50,6 +50,7 @@ exports.SITEMINDER_HEADER_UNIVERSALID = 'sm_universalid'; // <USERNAME>
 exports.SITEMINDER_HEADER_COOKIE = 'cookie';
 exports.DEFAULT_SCOPES = ['default'];
 exports.TOKEN_COOKIE_NAME = "app_token";
+exports.SMSESSION_COOKIE_NAME = "SMSESSION";
 /**
  * Checks a TokenPayload for the given scope
  *

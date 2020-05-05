@@ -42,6 +42,7 @@ export declare const SITEMINDER_HEADER_UNIVERSALID = "sm_universalid";
 export declare const SITEMINDER_HEADER_COOKIE = "cookie";
 export declare const DEFAULT_SCOPES: Scope[];
 export declare const TOKEN_COOKIE_NAME = "app_token";
+export declare const SMSESSION_COOKIE_NAME = "SMSESSION";
 /**
  * Define OAuth scopes that are applied to application routes using tsoa's @Security decorator.
  * eg. @Security('jwt', ['system:scopes']) Note! These scopes configure how tsoa will generate routes.ts.

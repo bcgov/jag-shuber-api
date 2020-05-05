@@ -59,6 +59,7 @@ export const SITEMINDER_HEADER_COOKIE = 'cookie';
 
 export const DEFAULT_SCOPES: Scope[] = ['default'];
 export const TOKEN_COOKIE_NAME = "app_token";
+export const SMSESSION_COOKIE_NAME = "SMSESSION";
 
 /**
  * Define OAuth scopes that are applied to application routes using tsoa's @Security decorator.
