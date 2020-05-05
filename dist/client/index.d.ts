@@ -2,6 +2,7 @@ export { default as Client } from './ExtendedClient';
 export * from './models';
 export * from '../common/TimeUtils';
 export * from '../common/TypedEvent';
+export * from '../common/cookieUtils';
 export * from '../common/tokenUtils';
 export * from '../common/authentication';
 export * from '../common/dateUtils';
