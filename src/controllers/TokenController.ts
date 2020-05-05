@@ -15,17 +15,17 @@ export class TokenController extends Controller {
     @Security('siteminder')
     public async getToken(@Request() request: KoaRequest): Promise<any> {
         // The request user is returned from siteminder, and used to populate the JWT token we use for role access
-        /* let token = getTokenCookie(request);
+        let token = getTokenCookie(request);
         if (!token) {
             // The request user is returned from siteminder, and used to populate the JWT token we use for role access
             token = await this.service.generateToken(request.user);
             setTokenCookie(request, token);
-        } */
+        }
 
         // Just generate a new token every time...
         // The request user is returned from siteminder, and used to populate the JWT token we use for role access
-        let token = await this.service.generateToken(request.user);
-        setTokenCookie(request, token);
+        // let token = await this.service.generateToken(request.user);
+        // setTokenCookie(request, token);
 
         return { token };
     }
