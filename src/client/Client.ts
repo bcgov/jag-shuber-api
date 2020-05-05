@@ -115,6 +115,9 @@ export default class Client {
     }
 
     /**
+     * @deprecated
+     * This will not work as is, we need an alternate method of ensuring the token...
+     * 
      * Ensures that a application token currently exists and fetches a new one
      * if the old one has expired or is not present.
      *
@@ -123,20 +126,21 @@ export default class Client {
      * @memberof Client
      */
     protected async ensureToken(): Promise<void> {
-        console.log('Ensuring token exists...')
+        console.log('Ensuring token exists...');
+        console.log('Trace...');
+        console.trace();
         let token = retreiveCookieValue(TOKEN_COOKIE_NAME, this.agent);
 
         console.log('Token retrieved from cookie:');
         console.log(decodeJwt(token));
-        // If there is no token, we will go out and retreive one
-        if (token == undefined) {
-            try{
+        /* if (token == undefined) {
+            try {
                 console.log('Fetching new token');
                 await this.GetToken();
-            }catch(e){                
+            } catch(e) {                
                 console.error("Couldn't fetch token",e);
             }
-        }
+        } */
     }
 
     /**
