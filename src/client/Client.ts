@@ -21,7 +21,7 @@ ______                 _   _         _             ___  ___            _  _   __
 Client is generated from swagger.json file
 */
 import * as superAgent from "superagent";
-import { TOKEN_COOKIE_NAME } from '../common/authentication';
+import { TOKEN_COOKIE_NAME, SMSESSION_COOKIE_NAME } from '../common/authentication';
 import { TypedEvent } from '../common/TypedEvent';
 import { retreiveCookieValue } from '../common/cookieUtils';
 import { decodeJwt } from '../common/tokenUtils';
@@ -124,16 +124,21 @@ export default class Client {
      */
     protected async ensureToken(): Promise<void> {
         console.log('Ensuring token exists...')
+        
+        let smsessionCookie = retreiveCookieValue(SMSESSION_COOKIE_NAME, this.agent);
+        console.log('DUMP SMSESSION Cookie value');
+        console.log(smsessionCookie);
+
         let token = retreiveCookieValue(TOKEN_COOKIE_NAME, this.agent);
 
         console.log('Token retrieved from cookie:');
         console.log(decodeJwt(token));
         // If there is no token, we will go out and retreive one
         if (token == undefined) {
-            try{
+            try {
                 console.log('Fetching new token');
                 await this.GetToken();
-            }catch(e){                
+            } catch(e) {                
                 console.error("Couldn't fetch token",e);
             }
         }

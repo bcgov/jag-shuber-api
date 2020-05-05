@@ -133,11 +133,14 @@ var Client = /** @class */ (function () {
      */
     Client.prototype.ensureToken = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var token, e_1;
+            var smsessionCookie, token, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         console.log('Ensuring token exists...');
+                        smsessionCookie = cookieUtils_1.retreiveCookieValue(authentication_1.SMSESSION_COOKIE_NAME, this.agent);
+                        console.log('DUMP SMSESSION Cookie value');
+                        console.log(smsessionCookie);
                         token = cookieUtils_1.retreiveCookieValue(authentication_1.TOKEN_COOKIE_NAME, this.agent);
                         console.log('Token retrieved from cookie:');
                         console.log(tokenUtils_1.decodeJwt(token));
