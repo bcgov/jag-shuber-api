@@ -14,6 +14,7 @@ var ExtendedClient_1 = require("./ExtendedClient");
 exports.Client = ExtendedClient_1.default;
 __export(require("../common/TimeUtils"));
 __export(require("../common/TypedEvent"));
+__export(require("../common/cookieUtils"));
 __export(require("../common/tokenUtils"));
 __export(require("../common/authentication"));
 __export(require("../common/dateUtils"));
