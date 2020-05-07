@@ -16,6 +16,12 @@ Wade@Epoch MINGW64 /c/jag-shuber-api/docker (master)
 $ ./manage start
 ```
 
+By default the API is started with the `TESTUSR` setup as the SA account.  If you want to start the API with a different account set as SA run the following:
+```
+Wade@Epoch MINGW64 /c/jag-shuber-api/docker (master)
+$ ./manage start SYS_SA_AUTH_ID=WBARNES
+```
+
 ## Restore a backup of the database
 
 Create a `/c/jag-shuber-api/docker/tmp` folder if it does not exist.
