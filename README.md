@@ -4,6 +4,10 @@ This project represents the API for the Sheriff Scheduling (Code Named 'Shuber')
 ## Project Architecture
 The architecture notes for this project and be found in the [Project Docs](./docs/index.md).
 
+## Running Locally in Docker
+
+Refer to the [Running the sheriff-scheduling API in Docker](./docker/README.md) docuemntation for details.
+
 ## API Client Installation
 
 This API includes a Typescript / Javascript client within the repo that can be added to your project via
