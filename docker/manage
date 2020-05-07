@@ -137,6 +137,7 @@ build-api() {
 
   echoGreen "\n\nBuilding api ...\n"
   ${S2I_EXE} build \
+    --copy \
     -s 'file://../.s2i/bin' \
     '../' \
     "${BASE_IMAGE}" \
