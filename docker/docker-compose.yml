@@ -1,0 +1,37 @@
+version: "3"
+services:
+  api:
+    image: api:latest
+    environment:
+      - API_DATABASE_SCHEMA=${API_DATABASE_SCHEMA}
+      - PGHOST=${PGHOST}
+      - PGUSER=${PGUSER}
+      - PGPASSWORD=${PGPASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+      - PGDATABASE=${PGDATABASE}
+      - POSTGRES_EXT_SCHEMA=${POSTGRES_EXT_SCHEMA}
+    networks:
+      - sheriff-scheduling
+    ports:
+      - 8081:8080
+
+  postgres:
+    image: registry.access.redhat.com/rhscl/postgresql-10-rhel7:latest
+    environment:
+      - POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE}
+      - POSTGRESQL_USER=${POSTGRESQL_USER}
+      - POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD}
+      - POSTGRESQL_ADMIN_PASSWORD=${POSTGRESQL_ADMIN_PASSWORD}
+    networks:
+      - sheriff-scheduling
+    ports:
+      - 5432:5432
+    volumes:
+      - sheriff-scheduling-data:/var/lib/pgsql/data
+      - ./tmp:/tmp2
+
+volumes:
+  sheriff-scheduling-data:
+
+networks:
+  sheriff-scheduling:

@@ -1,0 +1,186 @@
+#!/bin/bash
+export DOCKERHOST=${APPLICATION_URL-$(docker run --rm --net=host eclipse/che-ip)}
+export MSYS_NO_PATHCONV=1
+set -e
+
+S2I_EXE=s2i
+if [ -z $(type -P "$S2I_EXE") ]; then
+  echo -e "The ${S2I_EXE} executable is needed and not on your path."
+  echo -e "It can be downloaded from here: https://github.com/openshift/source-to-image/releases"
+  echo -e "Make sure you extract the binary and place it in a directory on your path."
+  exit 1
+fi
+
+SCRIPT_HOME="$( cd "$( dirname "$0" )" && pwd )"
+
+# =================================================================================================================
+# Usage:
+# -----------------------------------------------------------------------------------------------------------------
+
+usage() {
+  cat <<-EOF
+
+  Usage: $0 [command] [options]
+
+  Commands:
+
+  build - Build the docker images for the project.
+          You need to do this first, since the builds require a combination of Docker images.
+
+  up/start - Creates the application container from the built images
+             and starts the services based on the docker-compose.yml file.
+
+             You can pass in a list of containers to start.
+             By default all containers will be started.
+
+  stop - Stops the services.
+         This is a non-destructive process.  The volumes and containers
+         are not deleted so they will be reused the next time you run start.
+
+  down/rm - Brings down the services and removes the volumes (storage) and containers.
+
+EOF
+exit 1
+}
+
+# -----------------------------------------------------------------------------------------------------------------
+# Functions:
+# -----------------------------------------------------------------------------------------------------------------
+function echoGreen (){
+  _msg="${@}"
+  _green='\e[32m'
+  _nc='\e[0m' # No Color
+  echo -e "${_green}${_msg}${_nc}"
+}
+
+configureEnvironment () {
+
+  if [ -f .env ]; then
+    while read line; do
+      if [[ ! "$line" =~ ^\# ]] && [[ "$line" =~ .*= ]]; then
+        export $line
+      fi
+    done < .env
+  fi
+
+  for arg in $@; do
+    case "$arg" in
+      *=*)
+        export ${arg}
+        ;;
+    esac
+  done
+
+  export COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME:-"sheriff-scheduling"}
+
+  # postgres
+  export POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE:-appdb}
+  export POSTGRESQL_USER=${POSTGRESQL_USER:-userUNT}
+  export POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD:-user-password}
+  export POSTGRESQL_ADMIN_PASSWORD=${POSTGRESQL_ADMIN_PASSWORD:-admin-password}
+
+  # api
+  export API_DATABASE_SCHEMA=${API_DATABASE_SCHEMA:-shersched}
+  export PGHOST=${PGHOST:-postgres}
+  export PGUSER=${PGUSER:-shersched}
+  export PGPASSWORD=${PGPASSWORD:-n05dmkFjio1GCUVY}
+  export JWT_SECRET=${JWT_SECRET:-bL8B0eUfB3hF3RGvdS7jEX0qPEodE1tHfB0iCYHkUlXDvrm60daAaMD1GfsaQvuYmbtXX8jtvPOx78NeAfRNQdE4lrHhiT03LNNw}
+  export PGDATABASE=${PGDATABASE:-${POSTGRESQL_DATABASE}}
+  export POSTGRES_EXT_SCHEMA=${POSTGRES_EXT_SCHEMA:-extensions}
+}
+
+getStartupParams() {
+  CONTAINERS=""
+  ARGS=""
+  if [ "$COMMAND" == "start" ]; then
+    ARGS+="--force-recreate"
+  fi
+
+  for arg in $@; do
+    case "$arg" in
+      *=*)
+        # Skip it
+        ;;
+     -*)
+        ARGS+=" $arg";;
+      *)
+        CONTAINERS+=" $arg";;
+    esac
+  done
+
+  if [ -z "$CONTAINERS" ]; then
+    CONTAINERS="$DEFAULT_CONTAINERS"
+  fi
+
+  echo ${ARGS} ${CONTAINERS}
+}
+
+build() {
+  # Build all containers in the docker-compose file
+  build-api
+}
+
+build-api() {
+  BASE_IMAGE="jag-shuber-api-builder:latest"
+
+  echoGreen "\n\nBuilding api-builder ...\n"
+  docker build \
+    -t "${BASE_IMAGE}" \
+    -f '../openshift/templates/api-builder/Dockerfile' '../openshift/templates/api-builder'
+
+  echoGreen "\n\nBuilding api ...\n"
+  ${S2I_EXE} build \
+    -s 'file://../.s2i/bin' \
+    '../' \
+    "${BASE_IMAGE}" \
+    'api'
+}
+
+deleteVolumes() {
+  _projectName=${COMPOSE_PROJECT_NAME:-docker}
+
+  echo "Stopping and removing any running containers ..."
+  docker-compose rm -svf >/dev/null
+
+  _pattern="^${_projectName}_\|^docker_"
+  _volumes=$(docker volume ls -q | grep ${_pattern})
+
+  if [ ! -z "${_volumes}" ]; then
+    echo "Removing project volumes ..."
+    echo ${_volumes} |  xargs docker volume rm
+  else
+    echo "No project volumes exist."
+  fi
+}
+
+# =================================================================================================================
+
+pushd ${SCRIPT_HOME} >/dev/null
+COMMAND=$1
+shift || true
+
+case "$COMMAND" in
+  start|up)
+    _startupParams=$(getStartupParams $@)
+    configureEnvironment $@
+    docker-compose up -d ${_startupParams}
+    docker-compose logs -f
+    ;;
+  stop)
+    configureEnvironment $@
+    docker-compose stop
+    ;;
+  rm|down)
+    configureEnvironment $@
+    deleteVolumes
+    ;;
+  build)
+    _startupParams=$(getStartupParams $@)
+    configureEnvironment $@
+    build ${_startupParams}
+    ;;
+  *)
+    usage
+esac
+
+popd >/dev/null
