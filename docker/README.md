@@ -53,13 +53,34 @@ appdb=# \q
 bash-4.2$ exit
 ```
 
-## Stop without deleting data
+### Restart the API
+
+Now that you've restored a copy of the database you need to restart the API;
+```
+Wade@Epoch MINGW64 /c/jag-shuber-api/docker (master)
+$ ./manage stop
+Stopping sheriff-scheduling_postgres_1 ... done
+Stopping sheriff-scheduling_api_1      ... done
+```
+
+```
+Wade@Epoch MINGW64 /c/jag-shuber-api/docker (master)
+$ ./manage start
+Recreating sheriff-scheduling_api_1      ... done
+Recreating sheriff-scheduling_postgres_1 ... done
+Attaching to sheriff-scheduling_postgres_1, sheriff-scheduling_api_1
+api_1       | Environment:
+api_1       |   DEV_MODE=false
+...
+```
+
+## Stoping without deleting data
 ```
 Wade@Epoch MINGW64 /c/jag-shuber-api/docker (master)
 $ ./manage stop
 ```
 
-## Cleanup / Reset
+## Cleanup / Reseting data
 ```
 Wade@Epoch MINGW64 /c/jag-shuber-api/docker (master)
 $ ./manage down
