@@ -1,6 +1,6 @@
 # Running the sheriff-scheduling API in Docker
 
-This is the API Docker portion of the sheriff-scheduling appliaction.  The Frontend portion of the application is in the sheriff-scheduling Frontend repository.
+This is the API Docker portion of the sheriff-scheduling application.  The Frontend portion of the application is in the sheriff-scheduling Frontend repository.
 
 See the docker folder of the sheriff-scheduling Frontend repository for details.
 
@@ -27,20 +27,30 @@ $ ./manage start SYS_SA_AUTH_ID=WBARNES
 Create a `/c/jag-shuber-api/docker/tmp` folder if it does not exist.
 Place a backup archive in that folder.
 
-### Connect to the running database container
+### Using the `restore` command (Recommended)
+
+This is the recommended approach to restore a backup in order to initialize/reset the API.  The `restore` command automates the process of resetting the API's database and restoring a fresh copy from backup, allowing you to easily initialize or reset the API during development and testing.
+```
+Wade@Epoch MINGW64 /c/jag-shuber-api/docker (master)
+$ ./manage restore postgres-appdb_2020-03-06_13-42-56.sql.gz
+```
+
+### Manually (if you are having issues with the `restore` command)
+
+#### 1) Connect to the running database container
 ```
 Wade@Epoch MINGW64 /c/jag-shuber-api/docker (master)
 $ winpty docker exec -it sheriff-scheduling_postgres_1 bash
 ```
 
-### Restore the database
+#### 2) Restore the database
 ```
 bash-4.2$ psql -ac "CREATE USER shersched WITH PASSWORD 'n05dmkFjio1GCUVY';"
 bash-4.2$ psql -ac "GRANT ALL ON DATABASE ${POSTGRESQL_DATABASE} TO shersched;"
 bash-4.2$ gunzip -c /tmp2/postgres-appdb_2020-03-06_13-42-56.sql.gz | psql -v -x -h 127.0.0.1 -d appdb
 ```
 
-### Test the restore
+#### 3) Test the restore
 ```
 bash-4.2$ psql -d ${POSTGRESQL_DATABASE}
 appdb=# select count(*) from shersched.duty;
@@ -53,7 +63,7 @@ appdb=# \q
 bash-4.2$ exit
 ```
 
-### Restart the API
+#### 4) Restart the API
 
 Now that you've restored a copy of the database you need to restart the API;
 ```
