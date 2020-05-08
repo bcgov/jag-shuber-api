@@ -26,6 +26,13 @@ usage() {
   build - Build the docker images for the project.
           You need to do this first, since the builds require a combination of Docker images.
 
+  restore - Restore a database backup into the container.
+            Place the backup in $(pwd)/tmp.
+            Create the folder if it does not exist.
+            
+            Example:
+              $0 restore postgres-appdb_2020-03-06_13-42-56.sql.gz
+
   up/start - Creates the application container from the built images
              and starts the services based on the docker-compose.yml file.
 
