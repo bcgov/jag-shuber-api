@@ -25,6 +25,9 @@ usage() {
 
   build - Build the docker images for the project.
           You need to do this first, since the builds require a combination of Docker images.
+          Use --no-cache to build (rebuild) without using cached images.
+          Example:
+            $0 build --no-cache
 
   restore - Restore a database backup into the container.
             Place the backup in $(pwd)/tmp.
@@ -130,7 +133,7 @@ getStartupParams() {
 
 build() {
   # Build all containers in the docker-compose file
-  build-api
+  build-api ${@}
 }
 
 build-api() {
@@ -138,6 +141,7 @@ build-api() {
 
   echoGreen "\n\nBuilding api-builder ...\n"
   docker build \
+    ${@} \
     -t "${BASE_IMAGE}" \
     -f '../openshift/templates/api-builder/Dockerfile' '../openshift/templates/api-builder'
 
