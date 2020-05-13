@@ -305,6 +305,8 @@ export interface SheriffLocation {
     locationId?: string;
     startDate?: string;
     endDate?: string;
+    startTime?: string;
+    endTime?: string;
     isPartial?: number;
 }
 export interface Leave {

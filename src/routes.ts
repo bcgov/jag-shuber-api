@@ -424,6 +424,8 @@ const models: TsoaRoute.Models = {
             "locationId": { "dataType": "string", "required": true },
             "startDate": { "dataType": "string", "required": true },
             "endDate": { "dataType": "string" },
+            "startTime": { "dataType": "string", "required": true },
+            "endTime": { "dataType": "string" },
             "isPartial": { "dataType": "double", "required": true },
         },
     },
