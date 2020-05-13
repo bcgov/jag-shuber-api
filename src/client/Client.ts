@@ -91,7 +91,7 @@ export default class Client {
     constructor(private _agent:superAgent.SuperAgent<any> = superAgent.agent()){
     }
 
-    /**ftkj
+    /**
      * Returns the underlying SuperAgent instance being used for requests
      *
      * @readonly
@@ -132,6 +132,7 @@ export default class Client {
         let token = retreiveCookieValue(TOKEN_COOKIE_NAME, this.agent);
 
         console.log('Token retrieved from cookie:');
+        
         console.log(decodeJwt(token));
         // If there is no token, we will go out and retreive one
         if (token == undefined) {
@@ -151,8 +152,8 @@ export default class Client {
      * @param {string} [tokenString]
      * @memberof Client
      */
-    protected handleNewToken(token?:string){
-        if(token !== this._previousToken){
+    protected handleNewToken(token?:string) {
+        if (token !== this._previousToken) {
             this._previousToken = token;
             this.onTokenChanged.emit(token);
         }
@@ -188,12 +189,21 @@ export default class Client {
     public async GetToken():Promise<any>{
         // For getting the token, we need to bypass the tryRequest as 
         // it will ensure token which will call this method again
-        try{
+        try {
             const response: superAgent.Response = await this.agent.get(`/token`)
-            const { token:tokenString } = this.handleResponse<{ token: string }>(response);
-            this.handleNewToken(tokenString);
-            return tokenString;
-        }catch(e){
+
+            // Note: handleResponse can return null, if there's no response.body
+            const parsed = this.handleResponse<{ token: string }>(response);
+
+            if (parsed) {
+                const { token:tokenString } = parsed
+                this.handleNewToken(tokenString);
+
+                return tokenString;
+            }
+
+            this.handleNewToken();
+        } catch(e) {
             this.handleNewToken();
             throw e;
         }
