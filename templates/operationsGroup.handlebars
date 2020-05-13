@@ -106,6 +106,7 @@ export default class {{operationGroup.operationsGroupName}} {
         let token = retreiveCookieValue(TOKEN_COOKIE_NAME, this.agent);
 
         console.log('Token retrieved from cookie:');
+        
         console.log(decodeJwt(token));
         // If there is no token, we will go out and retreive one
         if (token == undefined) {
@@ -125,8 +126,8 @@ export default class {{operationGroup.operationsGroupName}} {
      * @param {string} [tokenString]
      * @memberof Client
      */
-    protected handleNewToken(token?:string){
-        if(token !== this._previousToken){
+    protected handleNewToken(token?:string) {
+        if (token !== this._previousToken) {
             this._previousToken = token;
             this.onTokenChanged.emit(token);
         }
@@ -172,7 +173,7 @@ export default class {{operationGroup.operationsGroupName}} {
         {{#equal operationName "GetToken"}}
         // For getting the token, we need to bypass the tryRequest as 
         // it will ensure token which will call this method again
-        try{
+        try {
             const response: superAgent.Response = await this.agent.{{httpVerb}}(`{{{toInterpolatedString url}}}`)
                     {{#some operationParams "op=>(!op.inBody && !op.inPath)"}}
                     .query(params)
@@ -180,10 +181,19 @@ export default class {{operationGroup.operationsGroupName}} {
                     {{#filterList operationParams "op=>op.inBody"}}
                     .send({{paramDisplayName}})
                     {{/filterList}}
-            const { token:tokenString } = this.handleResponse<{ token: string }>(response);
-            this.handleNewToken(tokenString);
-            return tokenString;
-        }catch(e){
+
+            // Note: handleResponse can return null, if there's no response.body
+            const parsed = this.handleResponse<{ token: string }>(response);
+
+            if (parsed) {
+                const { token:tokenString } = parsed
+                this.handleNewToken(tokenString);
+
+                return tokenString;
+            }
+
+            this.handleNewToken();
+        } catch(e) {
             this.handleNewToken();
             throw e;
         }
