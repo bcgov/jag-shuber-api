@@ -91,7 +91,7 @@ export default class Client {
     constructor(private _agent:superAgent.SuperAgent<any> = superAgent.agent()){
     }
 
-    /**
+    /**ftkj
      * Returns the underlying SuperAgent instance being used for requests
      *
      * @readonly

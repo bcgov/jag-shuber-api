@@ -12,6 +12,8 @@ export class SheriffLocationService extends ExpirableDatabaseService<SheriffLoca
         current_location_id: 'locationId',
         start_date: 'startDate',
         end_date: 'endDate',
+        start_time: 'startTime',
+        end_time: 'endTime',
         partial_day_ind: 'isPartial',
         created_by: 'createdBy',
         updated_by: 'updatedBy',
