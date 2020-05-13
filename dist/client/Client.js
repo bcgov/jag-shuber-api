@@ -218,17 +218,24 @@ var Client = /** @class */ (function () {
     };
     Client.prototype.GetToken = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var response, tokenString, e_2;
+            var response, parsed, tokenString, e_2;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, this.agent.get("/token")];
+                        return [4 /*yield*/, this.agent.get("/token")
+                            // Note: handleResponse can return null, if there's no response.body
+                        ];
                     case 1:
                         response = _a.sent();
-                        tokenString = this.handleResponse(response).token;
-                        this.handleNewToken(tokenString);
-                        return [2 /*return*/, tokenString];
+                        parsed = this.handleResponse(response);
+                        if (parsed) {
+                            tokenString = parsed.token;
+                            this.handleNewToken(tokenString);
+                            return [2 /*return*/, tokenString];
+                        }
+                        this.handleNewToken();
+                        return [3 /*break*/, 3];
                     case 2:
                         e_2 = _a.sent();
                         this.handleNewToken();
