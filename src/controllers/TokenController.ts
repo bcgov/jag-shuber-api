@@ -1,6 +1,6 @@
 import { Body, Delete, Get, Path, Post, Put, Query, Request, Route, Controller } from 'tsoa';
 import { TokenService } from '../services/TokenService';
-import { Security, setTokenCookie, getTokenCookie, extendTokenCookieExpiry, deleteTokenCookie } from '../authentication';
+import { Security, getTokenCookie, extendTokenCookieExpiry, deleteTokenCookie } from '../authentication';
 import { Request as KoaRequest } from 'koa';
 import { AutoWired, Inject } from 'typescript-ioc';
 
@@ -18,15 +18,8 @@ export class TokenController extends Controller {
         let token = getTokenCookie(request);
         if (!token) {
             // The request user is returned from siteminder, and used to populate the JWT token we use for role access
-            token = await this.service.generateToken(request.user);
-            setTokenCookie(request, token);
+          token = await this.service.generateToken(request.user);
         }
-
-        // Just generate a new token every time...
-        // The request user is returned from siteminder, and used to populate the JWT token we use for role access
-        // let token = await this.service.generateToken(request.user);
-        // setTokenCookie(request, token);
-
         return { token };
     }
 
