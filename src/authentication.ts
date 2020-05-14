@@ -51,22 +51,6 @@ export function getTokenCookie(request: Request): string {
     return request.header.authorization;
 }
 
-export function extendTokenCookieExpiry(request: Request, token: string) {
-    request.ctx.cookies.set(TOKEN_COOKIE_NAME, getTokenCookie(request), {
-        overwrite: true,
-        httpOnly: false,
-        expires: moment().subtract(1, 'hour').toDate()
-    })
-}
-
-export function deleteTokenCookie(request: Request) {
-    request.ctx.cookies.set(TOKEN_COOKIE_NAME, getTokenCookie(request), {
-        overwrite: true,
-        httpOnly: false,
-        expires: moment().subtract(1, 'hour').toDate()
-    })
-}
-
 /**
  * Parses a TokenPayload from siteminder headers if they are present
  * @param {Request} request
