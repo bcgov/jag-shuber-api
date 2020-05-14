@@ -129,13 +129,9 @@ export default class Client {
         console.log('DUMP SMSESSION Cookie value');
         console.log(smsessionCookie);
 
-        let token = retreiveCookieValue(TOKEN_COOKIE_NAME, this.agent);
-
-        console.log('Token retrieved from cookie:');
-        
-        console.log(decodeJwt(token));
+        let token = null;
         // If there is no token, we will go out and retreive one
-        if (token == undefined) {
+        if (token) {
             try {
                 console.log('Fetching new token');
                 await this.GetToken();
