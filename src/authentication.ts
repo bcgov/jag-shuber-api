@@ -98,9 +98,9 @@ export async function koaAuthentication(request: Request, securityName: string, 
     const securityType: SecurityType = securityName as any;
     const scopes: Scope[] = securityScopes as any;
     if (securityType === 'siteminder') {
-        console.log('-------------------------------------');
-        console.log('Using SiteMinder authentication');
-        console.log('Getting token payload from headers...')
+        // console.log('-------------------------------------');
+        // console.log('Using SiteMinder authentication');
+        // console.log('Getting token payload from headers...')
         const siteminderHeaders = getTokenPayloadFromHeaders(request);
         
         if (siteminderHeaders && siteminderHeaders.guid) {
@@ -111,14 +111,14 @@ export async function koaAuthentication(request: Request, securityName: string, 
     }
 
     if (securityType === 'jwt') {
-        console.log('-------------------------------------');
+        // console.log('-------------------------------------');
         const token = request.header.authorization;
-        console.log('Using JWT authentication');
+        // console.log('Using JWT authentication');
 
         const payload = await verifyToken(token);
-        console.log('JWT token has been verified - continue');
+        // console.log('JWT token has been verified - continue');
 
-        console.log('Asserting user has required scopes...')
+        // console.log('Asserting user has required scopes...')
         assertAllScopes(payload, scopes);
 
         return payload;
