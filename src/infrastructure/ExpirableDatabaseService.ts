@@ -39,7 +39,7 @@ export default abstract class ExpirableDatabaseService<T> extends DatabaseServic
 
         // Add on the where for the effective date
         let clause = this.squel.expr()
-            .and(`DATE('${startDate}') > ${expiryFieldStr}`);
+            .and(`DATE('${startDate}') <= ${expiryFieldStr}`);
 
         return clause;
     }
