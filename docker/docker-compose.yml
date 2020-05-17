@@ -19,6 +19,9 @@ services:
       - SYS_DEV_SA_SITEMINDER_ID=${SYS_SA_SITEMINDER_ID}
       - SYS_DEV_SA_AUTH_ID=${SYS_SA_AUTH_ID}
       - SYS_DEFAULT_LOCATION=${SYS_DEFAULT_LOCATION}
+
+      - PG_ADMIN_USER=postgres
+      - PG_ADMIN_PASSWORD=${POSTGRESQL_ADMIN_PASSWORD}
     networks:
       - sheriff-scheduling
     ports:
