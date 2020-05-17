@@ -134,7 +134,7 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
     /**
      * Returns a {PostgresSelect} object that will by default select all records
      * from the table and map the fields using the services fieldMap.
-     * 
+     *
      * If an [id] is specified then it will be used to add a where clause keying on
      * the record id
      *
@@ -144,7 +144,7 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
      * @memberof DatabaseService
      */
     protected getSelectQuery(id?: string, tableAlias?: string): PostgresSelect {
-        const query = this.squel.select({ autoQuoteAliasNames: true })
+        const query = this.squel.select({ autoQuoteAliasNames: true, tableAliasQuoteCharacter: "" })
             .from(this.tableName, tableAlias)
             .fields(tableAlias ? this.getAliasedFieldMap(tableAlias) : this.getAliasedFieldMap(this.tableName));
         if (id) {
@@ -171,7 +171,7 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
             .returning(this.getReturningFields());
 
         this.setQueryFields(query, entity);
-        
+
         return query;
     }
 
@@ -244,7 +244,7 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
     async getWhereFieldEquals(fieldName: string, value: string | number): Promise<T[]> {
         const query = this.getSelectQuery()
             .where(`${this.columnMap[fieldName]}='${value}'`);
-        
+
         const rows = await this.executeQuery<T>(query.toString());
         return rows;
     }
