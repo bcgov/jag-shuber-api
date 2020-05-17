@@ -9,7 +9,7 @@ export class SheriffLocationService extends ExpirableDatabaseService<SheriffLoca
     fieldMap = {
         sheriff_location_id: 'id',
         sheriff_id: 'sheriffId',
-        current_location_id: 'locationId',
+        location_id: 'locationId',
         start_date: 'startDate',
         end_date: 'endDate',
         start_time: 'startTime',
@@ -22,26 +22,19 @@ export class SheriffLocationService extends ExpirableDatabaseService<SheriffLoca
         revision_count: 'revisionCount'
     };
 
-    protected effectiveField = "start_date";
-    protected expiryField = "end_date";
+    protected effectiveField = 'start_date';
+    protected expiryField = 'end_date';
 
     constructor() {
         super('sheriff_location', 'sheriff_location_id');
     }
 
-    async getAll(locationId?: string, includeProvincial?: boolean) {
-        includeProvincial = includeProvincial || false
+    async getAll(locationId?: string) {
         const query = super.getSelectQuery();
-        if (locationId) {
-            if (includeProvincial) {
-                // query.where(`current_location_id='${locationId}' OR current_location_id IS NULL`);
-            } else {
-                query.where(`current_location_id='${locationId}'`);
-            }
-        } else {
-            // query.where(`current_location_id IS NULL`);
-        };
-        query.order(`current_location_id IS NOT NULL, current_location_id`)
+
+        query.where(this.getActiveWhereClause());
+        query.order(`location_id IS NOT NULL, location_id`);
+
         const rows = await this.executeQuery<SheriffLocation>(query.toString());
         return rows;
     }
@@ -70,7 +63,7 @@ export class SheriffLocationService extends ExpirableDatabaseService<SheriffLoca
 
         const query = this.db.insertQuery(this.tableName, this.primaryKey)
             .returning(this.getReturningFields());
-        
+
         this.setQueryFields(query, entity);
 
         // Take the Field Map keys and map properties from the object

@@ -44,20 +44,20 @@ export async function createToken(payload: TokenPayload, secret: string = JWT_SE
  */
 export async function verifyToken(token: string, secret: string = JWT_SECRET): Promise<TokenPayload> {
     return await new Promise((resolve, reject) => {
-        console.log('Verifying token...');
+        // console.log('Verifying token...');
         if (!token) {
-            console.log('Verifying token failed, no token provided');
+            // console.log('Verifying token failed, no token provided');
             reject(new Error("No token provided"))
         }
 
         jwt.verify(token, secret, (err: any, decoded: any) => {
             if (err) {
-                console.log('Verifying token failed');
-                console.log(err);
+                // console.log('Verifying token failed');
+                // console.log(err);
                 reject(err)
             } else {
-                console.log('Token decoded:');
-                console.log(decodeJwt(token));
+                // console.log('Token decoded:');
+                // console.log(decodeJwt(token));
                 resolve(decoded as TokenPayload);
             }
         });

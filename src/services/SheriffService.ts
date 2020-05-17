@@ -1,10 +1,13 @@
-
 import moment from 'moment';
+import squel from 'squel';
+
 import { AutoWired, Inject, Container } from 'typescript-ioc';
 
 import { SYSTEM_USER_DISPLAY_NAME} from '../common/authentication';
 import { DatabaseService } from '../infrastructure/DatabaseService';
 import { UserService } from './UserService';
+import { SheriffLocationService } from './SheriffLocationService';
+
 import { Sheriff } from '../models/Sheriff';
 import { User } from '../models/User';
 
@@ -17,9 +20,8 @@ export class SheriffService extends DatabaseService<Sheriff> {
         last_name: 'lastName',
         image_url: 'imageUrl',
         home_location_id: 'homeLocationId',
-        current_location_id:'currentLocationId',
         sheriff_rank_code: 'rankCode',
-        alias:'alias',
+        alias: 'alias',
         gender_code: 'genderCode'
     };
 
@@ -30,14 +32,68 @@ export class SheriffService extends DatabaseService<Sheriff> {
         super('sheriff', 'sheriff_id');
     }
 
+    public joinOnSheriffs(
+        query: squel.PostgresSelect,
+        dbTableName: string,
+        dbTableJoinCol: string = 'sheriff_id',
+        homeLocSheriffsAlias: string = 'home_loc_sheriffs',
+        currLocSheriffsAlias: string = 'curr_loc_sheriffs',
+        currLocSheriffLocationsAlias: string = 'curr_loc_sheriff_locations'
+
+    ) {
+        const sheriffLocationService = Container.get(SheriffLocationService);
+
+        query
+            // Left join on matching sheriffs, we can use these matches to filter matches by home location
+            .left_join(
+                this.dbTableName,
+                homeLocSheriffsAlias,
+                `${homeLocSheriffsAlias}.sheriff_id=${dbTableName}.${dbTableJoinCol}`
+            )
+            // Join on matching sheriffs, we will filter these matches by current location
+            .left_join(
+                this.dbTableName,
+                currLocSheriffsAlias,
+                `${currLocSheriffsAlias}.sheriff_id=${dbTableName}.${dbTableJoinCol}`
+            )
+            .left_join(
+                sheriffLocationService.dbTableName,
+                currLocSheriffLocationsAlias,
+                `${currLocSheriffLocationsAlias}.sheriff_id=${currLocSheriffsAlias}.sheriff_id`
+            );
+
+        return query;
+    }
+
     async getAll(locationId?: string) {
+        const homeLocSheriffsAlias: string = 'home_loc_sheriffs';
+        // const currLocSheriffsAlias: string = 'curr_loc_sheriffs';
+        const currLocSheriffLocationsAlias: string = 'curr_loc_sheriff_locations';
+
         const userService = Container.get(UserService);
 
         const query = super.getSelectQuery();
-        // TODO: What if the location is on the sheriff, and not the user
+
         if (locationId) {
-            query.where(`home_location_id='${locationId}' OR current_location_id='${locationId}'`);
-        };
+            query.field(`${currLocSheriffLocationsAlias}.location_id`, 'currentLocationId');
+
+            this.joinOnSheriffs(query, this.dbTableName, this.primaryKey);
+            // Only include results that match the given location
+            query.where(`${homeLocSheriffsAlias}.home_location_id='${locationId}' OR ${currLocSheriffLocationsAlias}.location_id='${locationId}'`);
+            // Results are returned for all user locations that aren't expired
+            // We could have used a subquery to determine the currentLocationId,
+            // but joining is faster, so we have to make sure that we only return
+            // the record that corresponds to the user's current location
+            const currentDate = moment().toISOString();
+            query.where(
+                squel.expr()
+                    .and(`${this.dbTableName}.home_location_id='${locationId}'`)
+                    .or(`${currLocSheriffLocationsAlias}.start_date <= Date('${currentDate}')`)
+                    .and(`${currLocSheriffLocationsAlias}.end_date >= Date('${currentDate}')`)
+
+            );
+        }
+        
         const rows = await this.executeQuery<Sheriff>(query.toString());
 
         const results = rows.map(async entity => {

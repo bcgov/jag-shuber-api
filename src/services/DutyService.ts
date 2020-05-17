@@ -71,8 +71,8 @@ export class DutyService extends DatabaseService<Duty> {
             query.where(`end_dtm<=Date('${moment(endDate).toISOString()}')`);
         };
 
-        console.log('debug duty query, there is something that is not working right, maybe it is timezone related');
-        console.log(query.toString());
+        // console.log('debug duty query, there is something that is not working right, maybe it is timezone related');
+        // console.log(query.toString());
         const duties = await this.executeQuery<Duty>(query.toString());
         const dutyIds = duties.map(a => a.id) as string[];
         const sheriffDuties = await this.standardSheriffDutyService.getAllForDuties(dutyIds);
