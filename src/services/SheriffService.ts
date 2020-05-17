@@ -74,26 +74,25 @@ export class SheriffService extends DatabaseService<Sheriff> {
 
         const query = super.getSelectQuery();
 
-        query.field(`${currLocSheriffLocationsAlias}.location_id`, 'currentLocationId');
-        this.joinOnSheriffs(query, this.dbTableName, this.primaryKey);
-
         if (locationId) {
+            query.field(`${currLocSheriffLocationsAlias}.location_id`, 'currentLocationId');
+
+            this.joinOnSheriffs(query, this.dbTableName, this.primaryKey);
             // Only include results that match the given location
             query.where(`${homeLocSheriffsAlias}.home_location_id='${locationId}' OR ${currLocSheriffLocationsAlias}.location_id='${locationId}'`);
+            // Results are returned for all user locations that aren't expired
+            // We could have used a subquery to determine the currentLocationId,
+            // but joining is faster, so we have to make sure that we only return
+            // the record that corresponds to the user's current location
+            const currentDate = moment().toISOString();
+            query.where(
+                squel.expr()
+                    .and(`${this.dbTableName}.home_location_id='${locationId}'`)
+                    .or(`${currLocSheriffLocationsAlias}.start_date <= Date('${currentDate}')`)
+                    .and(`${currLocSheriffLocationsAlias}.end_date >= Date('${currentDate}')`)
+
+            );
         }
-
-        // Results are returned for all user locations that aren't expired
-        // We could have used a subquery to determine the currentLocationId,
-        // but joining is faster, so we have to make sure that we only return
-        // the record that corresponds to the user's current location
-        const currentDate = moment().toISOString();
-        query.where(
-            squel.expr()
-                .and(`${this.dbTableName}.home_location_id='${locationId}'`)
-                .or(`${currLocSheriffLocationsAlias}.start_date <= Date('${currentDate}')`)
-                .and(`${currLocSheriffLocationsAlias}.end_date >= Date('${currentDate}')`)
-
-        );
         
         const rows = await this.executeQuery<Sheriff>(query.toString());
 
