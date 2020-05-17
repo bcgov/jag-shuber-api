@@ -68,7 +68,6 @@ var superAgent = __importStar(require("superagent"));
 var authentication_1 = require("../common/authentication");
 var TypedEvent_1 = require("../common/TypedEvent");
 var cookieUtils_1 = require("../common/cookieUtils");
-var tokenUtils_1 = require("../common/tokenUtils");
 var Client = /** @class */ (function () {
     function Client(_agent) {
         if (_agent === void 0) { _agent = superAgent.agent(); }
@@ -137,25 +136,20 @@ var Client = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        console.log('Ensuring token exists...');
                         smsessionCookie = cookieUtils_1.retreiveCookieValue(authentication_1.SMSESSION_COOKIE_NAME, this.agent);
-                        console.log('DUMP SMSESSION Cookie value');
-                        console.log(smsessionCookie);
                         token = cookieUtils_1.retreiveCookieValue(authentication_1.TOKEN_COOKIE_NAME, this.agent);
-                        console.log('Token retrieved from cookie:');
-                        console.log(tokenUtils_1.decodeJwt(token));
                         if (!(token == undefined)) return [3 /*break*/, 4];
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 4]);
-                        console.log('Fetching new token');
+                        // console.log('Fetching new token');
                         return [4 /*yield*/, this.GetToken()];
                     case 2:
+                        // console.log('Fetching new token');
                         _a.sent();
                         return [3 /*break*/, 4];
                     case 3:
                         e_1 = _a.sent();
-                        console.error("Couldn't fetch token", e_1);
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
                 }
