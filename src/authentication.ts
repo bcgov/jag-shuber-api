@@ -58,7 +58,7 @@ export function getTokenCookie(request: Request): string {
  */
 function getTokenPayloadFromHeaders(request: Request): TokenPayload {
     const { headers = {} } = request;
-    
+
     const payload = {
         guid: headers[SITEMINDER_HEADER_USERGUID],
         displayName: headers[SITEMINDER_HEADER_USERDISPLAYNAME],
@@ -66,7 +66,7 @@ function getTokenPayloadFromHeaders(request: Request): TokenPayload {
         type: headers[SITEMINDER_HEADER_USERTYPE],
         [SITEMINDER_HEADER_COOKIE]: headers[SITEMINDER_HEADER_COOKIE]
     }
-    
+
     const debugOutput = {
         [SITEMINDER_HEADER_USERDISPLAYNAME]: headers[SITEMINDER_HEADER_USERDISPLAYNAME],
         [SITEMINDER_HEADER_USERTYPE]: headers[SITEMINDER_HEADER_USERTYPE],
@@ -102,7 +102,7 @@ export async function koaAuthentication(request: Request, securityName: string, 
         // console.log('Using SiteMinder authentication');
         // console.log('Getting token payload from headers...')
         const siteminderHeaders = getTokenPayloadFromHeaders(request);
-        
+
         if (siteminderHeaders && siteminderHeaders.guid) {
             return siteminderHeaders;
         } else {
