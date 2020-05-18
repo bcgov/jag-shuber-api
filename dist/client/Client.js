@@ -68,7 +68,6 @@ var superAgent = __importStar(require("superagent"));
 var authentication_1 = require("../common/authentication");
 var TypedEvent_1 = require("../common/TypedEvent");
 var cookieUtils_1 = require("../common/cookieUtils");
-var tokenUtils_1 = require("../common/tokenUtils");
 var Client = /** @class */ (function () {
     function Client(_agent) {
         if (_agent === void 0) { _agent = superAgent.agent(); }
@@ -137,25 +136,20 @@ var Client = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        console.log('Ensuring token exists...');
                         smsessionCookie = cookieUtils_1.retreiveCookieValue(authentication_1.SMSESSION_COOKIE_NAME, this.agent);
-                        console.log('DUMP SMSESSION Cookie value');
-                        console.log(smsessionCookie);
                         token = cookieUtils_1.retreiveCookieValue(authentication_1.TOKEN_COOKIE_NAME, this.agent);
-                        console.log('Token retrieved from cookie:');
-                        console.log(tokenUtils_1.decodeJwt(token));
                         if (!(token == undefined)) return [3 /*break*/, 4];
                         _a.label = 1;
                     case 1:
                         _a.trys.push([1, 3, , 4]);
-                        console.log('Fetching new token');
+                        // console.log('Fetching new token');
                         return [4 /*yield*/, this.GetToken()];
                     case 2:
+                        // console.log('Fetching new token');
                         _a.sent();
                         return [3 /*break*/, 4];
                     case 3:
                         e_1 = _a.sent();
-                        console.error("Couldn't fetch token", e_1);
                         return [3 /*break*/, 4];
                     case 4: return [2 /*return*/];
                 }
@@ -241,37 +235,6 @@ var Client = /** @class */ (function () {
                         this.handleNewToken();
                         throw e_2;
                     case 3: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    Client.prototype.ExtendSession = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var _this = this;
-            return __generator(this, function (_a) {
-                return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
-                        var response;
-                        return __generator(this, function (_a) {
-                            switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.agent.post("/token/extendsession")];
-                                case 1:
-                                    response = _a.sent();
-                                    return [2 /*return*/, response];
-                            }
-                        });
-                    }); })];
-            });
-        });
-    };
-    Client.prototype.Logout = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.agent.post("/token/delete")];
-                    case 1:
-                        _a.sent();
-                        this.handleNewToken();
-                        return [2 /*return*/];
                 }
             });
         });

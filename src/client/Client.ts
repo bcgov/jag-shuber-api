@@ -123,20 +123,24 @@ export default class Client {
      * @memberof Client
      */
     protected async ensureToken(): Promise<void> {
-        console.log('Ensuring token exists...')
+        // console.log('Ensuring token exists...')
         
         let smsessionCookie = retreiveCookieValue(SMSESSION_COOKIE_NAME, this.agent);
-        console.log('DUMP SMSESSION Cookie value');
-        console.log(smsessionCookie);
+        // console.log('DUMP SMSESSION Cookie value');
+        // console.log(smsessionCookie);
 
-        let token = null;
+        let token = retreiveCookieValue(TOKEN_COOKIE_NAME, this.agent);
+
+        // console.log('Token retrieved from cookie:');
+        
+        // console.log(decodeJwt(token));
         // If there is no token, we will go out and retreive one
-        if (token) {
+        if (token == undefined) {
             try {
-                console.log('Fetching new token');
+                // console.log('Fetching new token');
                 await this.GetToken();
             } catch(e) {                
-                console.error("Couldn't fetch token",e);
+                // console.error("Couldn't fetch token",e);
             }
         }
     }
@@ -203,16 +207,6 @@ export default class Client {
             this.handleNewToken();
             throw e;
         }
-    }    
-    public async ExtendSession():Promise<any>{
-        return this.tryRequest<any>(async () => {
-            const response: superAgent.Response = await this.agent.post(`/token/extendsession`)
-            return response;
-        });
-    }    
-    public async Logout():Promise<any>{
-        await this.agent.post(`/token/delete`)
-        this.handleNewToken();
     }    
     public async GetCurrentUser():Promise<User>{
         return this.tryRequest<User>(async () => {
