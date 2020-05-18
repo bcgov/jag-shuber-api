@@ -7,7 +7,9 @@ export interface EffectiveQueryOptions {
     startDate?: string;
     endDate?: string;
     includeExpired?: boolean;
-    fieldAlias?:string;
+    fieldAlias?: string;
+    effectiveField?: string;
+    expiryField?: string;
 }
 
 @AutoWired
@@ -26,26 +28,47 @@ export default abstract class ExpirableDatabaseService<T> extends DatabaseServic
         return query;
     }
 
+    public getActiveWhereClause(options: EffectiveQueryOptions = {}) {
+        const {
+            startDate = moment().toISOString(),
+            fieldAlias = undefined,
+            expiryField =  this.expiryField
+        } = options;
+
+        const expiryFieldStr = fieldAlias ? `${fieldAlias}.${expiryField}` : expiryField;
+
+        // Add on the where for the effective date
+        let clause = this.squel.expr()
+            .and(`DATE('${startDate}') <= ${expiryFieldStr}`);
+
+        return clause;
+    }
+
     public getEffectiveWhereClause(options: EffectiveQueryOptions = {}) {
         const {
             startDate = moment().toISOString(),
             includeExpired = false,
-            fieldAlias = undefined
+            fieldAlias = undefined,
+            effectiveField = this.effectiveField,
+            expiryField =  this.expiryField
         } = options;
+
         const {
             endDate = startDate
         } = options;
+
         let clause = this.squel.expr();
+
         if (!includeExpired) {
-            const effectiveField = fieldAlias ? `${fieldAlias}.${this.effectiveField}` : this.effectiveField;
-            const expiryField = fieldAlias ? `${fieldAlias}.${this.expiryField}` : this.expiryField;
+            const effectiveFieldStr = fieldAlias ? `${fieldAlias}.${effectiveField}` : effectiveField;
+            const expiryFieldStr = fieldAlias ? `${fieldAlias}.${expiryField}` : expiryField;
             // Add on the where for the effective date
             clause = this.squel.expr()
-                .and(`DATE('${endDate}') >= ${effectiveField}`)
+                .and(`DATE('${endDate}') >= ${effectiveFieldStr}`)
                 .and(
                     this.squel.expr()
                         .or(`${expiryField} IS NULL`)
-                        .or(`Date('${startDate}') < ${expiryField}`)
+                        .or(`Date('${startDate}') < ${expiryFieldStr}`)
                 );
         }
         return clause;
@@ -91,7 +114,7 @@ export default abstract class ExpirableDatabaseService<T> extends DatabaseServic
     async getEffectiveWhereFieldEquals(fieldName: string, value: string | number, options?: EffectiveQueryOptions): Promise<T[]> {
         const query = this.getEffectiveSelectQuery(options)
             .where(`${this.columnMap[fieldName]}='${value}'`);
-        
+
         const rows = await this.executeQuery<T>(query.toString());
         return rows;
     }

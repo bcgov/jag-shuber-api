@@ -44,9 +44,12 @@ export class UserService extends ExpirableDatabaseService<User> {
 
         const query = super.getSelectQuery();
         query.join(sheriffService.dbTableName, undefined, `${this.dbTableName}.sheriff_id=${sheriffService.dbTableName}.sheriff_id`);
-        if (locationId) {
+
+        // TODO: This has to change!
+        /* if (locationId) {
             query.where(`${this.dbTableName}.default_location_id='${locationId}' OR ${sheriffService.dbTableName}.home_location_id='${locationId}' OR ${sheriffService.dbTableName}.current_location_id='${locationId}'`);
-        };
+        }; */
+
         const rows = await this.executeQuery<User>(query.toString());
 
         const results = rows.map(async entity => {
@@ -66,7 +69,7 @@ export class UserService extends ExpirableDatabaseService<User> {
         const sheriffService = Container.get(SheriffService);
 
         const query = super.getSelectQuery();
-        query.join(sheriffService.dbTableName, undefined, `${this.dbTableName}.sheriff_id=s${sheriffService.dbTableName}.sheriff_id`);
+        query.join(sheriffService.dbTableName, undefined, `${this.dbTableName}.sheriff_id=${sheriffService.dbTableName}.sheriff_id`);
         if (params.locationId) {
             query.where(`${this.dbTableName}.default_location_id='${params.locationId}' OR ${sheriffService.dbTableName}.home_location_id='${params.locationId}' OR ${sheriffService.dbTableName}.current_location_id='${params.locationId}'`);
         };
@@ -75,9 +78,11 @@ export class UserService extends ExpirableDatabaseService<User> {
             query.where(`home_location_id='${params.homeLocationId}'`);
         };
 
-        if (params.currentLocationId) {
+        // TODO: This has to change to use some sort of sub query
+        //  that figures out what the sheriff's current location actually is
+        /* if (params.currentLocationId) {
             query.where(`current_location_id='${params.currentLocationId}'`);
-        };
+        }; */
 
         // TODO: Search on the sheriff too!
         if (params.firstName) {

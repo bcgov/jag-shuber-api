@@ -39,22 +39,6 @@ export function Security(securityType: SecurityType, scopes: Scope[] = DEFAULT_S
     return TSOASecurity(securityType, scopes);
 }
 
-/**
- * Sets the Token Cookie
- *
- * @export
- * @param {Request} request
- * @param {string} token
- */
-export function setTokenCookie(request: Request, token: string) {
-    request.ctx.cookies.set(TOKEN_COOKIE_NAME, token, {
-        // signed: true,
-        // secure: true,
-        overwrite: true,
-        httpOnly: false,
-        maxAge: 30 * 60 * 1000
-    });
-}
 
 /**
  * Gets the Token string from the Cookie
@@ -64,23 +48,7 @@ export function setTokenCookie(request: Request, token: string) {
  * @returns {string}
  */
 export function getTokenCookie(request: Request): string {
-    return request.ctx.cookies.get(TOKEN_COOKIE_NAME)
-}
-
-export function extendTokenCookieExpiry(request: Request, token: string) {
-    request.ctx.cookies.set(TOKEN_COOKIE_NAME, getTokenCookie(request), {
-        overwrite: true,
-        httpOnly: false,
-        expires: moment().subtract(1, 'hour').toDate()
-    })
-}
-
-export function deleteTokenCookie(request: Request) {
-    request.ctx.cookies.set(TOKEN_COOKIE_NAME, getTokenCookie(request), {
-        overwrite: true,
-        httpOnly: false,
-        expires: moment().subtract(1, 'hour').toDate()
-    })
+    return request.header.authorization;
 }
 
 /**
@@ -90,7 +58,7 @@ export function deleteTokenCookie(request: Request) {
  */
 function getTokenPayloadFromHeaders(request: Request): TokenPayload {
     const { headers = {} } = request;
-    
+
     const payload = {
         guid: headers[SITEMINDER_HEADER_USERGUID],
         displayName: headers[SITEMINDER_HEADER_USERDISPLAYNAME],
@@ -98,7 +66,7 @@ function getTokenPayloadFromHeaders(request: Request): TokenPayload {
         type: headers[SITEMINDER_HEADER_USERTYPE],
         [SITEMINDER_HEADER_COOKIE]: headers[SITEMINDER_HEADER_COOKIE]
     }
-    
+
     const debugOutput = {
         [SITEMINDER_HEADER_USERDISPLAYNAME]: headers[SITEMINDER_HEADER_USERDISPLAYNAME],
         [SITEMINDER_HEADER_USERTYPE]: headers[SITEMINDER_HEADER_USERTYPE],
@@ -130,11 +98,11 @@ export async function koaAuthentication(request: Request, securityName: string, 
     const securityType: SecurityType = securityName as any;
     const scopes: Scope[] = securityScopes as any;
     if (securityType === 'siteminder') {
-        console.log('-------------------------------------');
-        console.log('Using SiteMinder authentication');
-        console.log('Getting token payload from headers...')
+        // console.log('-------------------------------------');
+        // console.log('Using SiteMinder authentication');
+        // console.log('Getting token payload from headers...')
         const siteminderHeaders = getTokenPayloadFromHeaders(request);
-        
+
         if (siteminderHeaders && siteminderHeaders.guid) {
             return siteminderHeaders;
         } else {
@@ -143,15 +111,14 @@ export async function koaAuthentication(request: Request, securityName: string, 
     }
 
     if (securityType === 'jwt') {
-        console.log('-------------------------------------');
-        const token = request.ctx.cookies.get(TOKEN_COOKIE_NAME);
-        console.log('Using JWT authentication');
-        console.log(request.ctx.cookies.get(TOKEN_COOKIE_NAME));
+        // console.log('-------------------------------------');
+        const token = request.header.authorization;
+        // console.log('Using JWT authentication');
 
         const payload = await verifyToken(token);
-        console.log('JWT token has been verified - continue');
+        // console.log('JWT token has been verified - continue');
 
-        console.log('Asserting user has required scopes...')
+        // console.log('Asserting user has required scopes...')
         assertAllScopes(payload, scopes);
 
         return payload;

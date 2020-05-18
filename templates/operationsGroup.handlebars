@@ -1,21 +1,21 @@
 /*
- ______  ______  ______  ______  ______  ______  ______  ______  ______  ______  ______ 
+ ______  ______  ______  ______  ______  ______  ______  ______  ______  ______  ______
 |______||______||______||______||______||______||______||______||______||______||______|
-  ___          _                  _____                                 _             _ 
+  ___          _                  _____                                 _             _
  / _ \        | |                |  __ \                               | |           | |
 / /_\ \ _   _ | |_  ___          | |  \/  ___  _ __    ___  _ __  __ _ | |_  ___   __| |
 |  _  || | | || __|/ _ \         | | __  / _ \| '_ \  / _ \| '__|/ _` || __|/ _ \ / _` |
 | | | || |_| || |_| (_) |        | |_\ \|  __/| | | ||  __/| |  | (_| || |_|  __/| (_| |
 \_| |_/ \__,_| \__|\___/          \____/ \___||_| |_| \___||_|   \__,_| \__|\___| \__,_|
-______                 _   _         _             ___  ___            _  _   __        
-|  _  \               | \ | |       | |            |  \/  |           | |(_) / _|       
-| | | | ___           |  \| |  ___  | |_           | .  . |  ___    __| | _ | |_  _   _ 
+______                 _   _         _             ___  ___            _  _   __
+|  _  \               | \ | |       | |            |  \/  |           | |(_) / _|
+| | | | ___           |  \| |  ___  | |_           | .  . |  ___    __| | _ | |_  _   _
 | | | |/ _ \          | . ` | / _ \ | __|          | |\/| | / _ \  / _` || ||  _|| | | |
 | |/ /| (_) |         | |\  || (_) || |_           | |  | || (_) || (_| || || |  | |_| |
 |___/  \___/          \_| \_/ \___/  \__|          \_|  |_/ \___/  \__,_||_||_|   \__, |
                                                                                    __/ |
-                                                                                  |___/ 
- ______  ______  ______  ______  ______  ______  ______  ______  ______  ______  ______ 
+                                                                                  |___/
+ ______  ______  ______  ______  ______  ______  ______  ______  ______  ______  ______
 |______||______||______||______||______||______||______||______||______||______||______|
 
 Client is generated from swagger.json file
@@ -26,10 +26,10 @@ import { TypedEvent } from '../common/TypedEvent';
 import { retreiveCookieValue } from '../common/cookieUtils';
 import { decodeJwt } from '../common/tokenUtils';
 {{#if imports.types}}
-import { 
+import {
     {{#joinList imports.types}}
 
-    {{this}}{{/joinList}} 
+    {{this}}{{/joinList}}
 } from "{{imports.path}}"
 {{/if}}
 
@@ -53,7 +53,7 @@ export default class {{operationGroup.operationsGroupName}} {
     public get onTokenChanged() : TypedEvent<string|undefined> {
         return this._tokenChangedEvent;
     }
-    
+
     /**
      * A hook to allow errors occured to be processed further before being thrown
      * out of the api client. This is useful for modifying validation errors etc.
@@ -61,7 +61,7 @@ export default class {{operationGroup.operationsGroupName}} {
      * @memberof Client
      */
     public errorProcessor: (error:any) => Error = (e)=>e;
-    
+
     constructor(private _agent:superAgent.SuperAgent<any> = superAgent.agent()){
     }
 
@@ -97,24 +97,24 @@ export default class {{operationGroup.operationsGroupName}} {
      * @memberof Client
      */
     protected async ensureToken(): Promise<void> {
-        console.log('Ensuring token exists...')
-        
+        // console.log('Ensuring token exists...')
+
         let smsessionCookie = retreiveCookieValue(SMSESSION_COOKIE_NAME, this.agent);
-        console.log('DUMP SMSESSION Cookie value');
-        console.log(smsessionCookie);
+        // console.log('DUMP SMSESSION Cookie value');
+        // console.log(smsessionCookie);
 
         let token = retreiveCookieValue(TOKEN_COOKIE_NAME, this.agent);
 
-        console.log('Token retrieved from cookie:');
-        
-        console.log(decodeJwt(token));
+        // console.log('Token retrieved from cookie:');
+
+        // console.log(decodeJwt(token));
         // If there is no token, we will go out and retreive one
         if (token == undefined) {
             try {
-                console.log('Fetching new token');
+                // console.log('Fetching new token');
                 await this.GetToken();
-            } catch(e) {                
-                console.error("Couldn't fetch token",e);
+            } catch(e) {
+                // console.error("Couldn't fetch token",e);
             }
         }
     }
@@ -135,8 +135,8 @@ export default class {{operationGroup.operationsGroupName}} {
 
     /**
      * All operations in the client are routed through this method which
-     * is responsible for issuing and handling responses in a way which 
-     * errors can be captured and processed within the client. 
+     * is responsible for issuing and handling responses in a way which
+     * errors can be captured and processed within the client.
      * This method also ensures that a client token exists before issuing the
      * request.
      *
@@ -164,20 +164,20 @@ export default class {{operationGroup.operationsGroupName}} {
     public async {{operationName}}({{#joinList operationParams}} {{paramDisplayName}}:{{paramType}} {{/joinList}}):Promise<{{responsesType}}>{
         {{#if operationParams}}
             {{#some operationParams "op=>(!op.inBody && !op.inPath)"}}
-        const params = { 
+        const params = {
             {{#joinList this ",\n" "op=>(!op.inBody && !op.inPath)"}}
-            "{{paramName}}":{{paramDisplayName}}{{/joinList}} 
+            "{{paramName}}":{{paramDisplayName}}{{/joinList}}
         };
             {{/some}}
         {{/if}}
         {{#equal operationName "GetToken"}}
-        // For getting the token, we need to bypass the tryRequest as 
+        // For getting the token, we need to bypass the tryRequest as
         // it will ensure token which will call this method again
         try {
             const response: superAgent.Response = await this.agent.{{httpVerb}}(`{{{toInterpolatedString url}}}`)
                     {{#some operationParams "op=>(!op.inBody && !op.inPath)"}}
                     .query(params)
-                    {{/some}}        
+                    {{/some}}
                     {{#filterList operationParams "op=>op.inBody"}}
                     .send({{paramDisplayName}})
                     {{/filterList}}
@@ -202,7 +202,7 @@ export default class {{operationGroup.operationsGroupName}} {
         await this.agent.{{httpVerb}}(`{{{toInterpolatedString url}}}`)
                 {{#some operationParams "op=>(!op.inBody && !op.inPath)"}}
                 .query(params)
-                {{/some}}        
+                {{/some}}
                 {{#filterList operationParams "op=>op.inBody"}}
                 .send({{paramDisplayName}})
                 {{/filterList}}
@@ -212,14 +212,14 @@ export default class {{operationGroup.operationsGroupName}} {
             const response: superAgent.Response = await this.agent.{{httpVerb}}(`{{{toInterpolatedString url}}}`)
                 {{#some operationParams "op=>(!op.inBody && !op.inPath)"}}
                 .query(params)
-                {{/some}}        
+                {{/some}}
                 {{#filterList operationParams "op=>op.inBody"}}
                 .send({{paramDisplayName}})
                 {{/filterList}}
             return response;
         });
-            {{/equal}}            
+            {{/equal}}
         {{/equal}}
-    }    
+    }
     {{/each}}
 }

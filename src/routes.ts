@@ -1,21 +1,21 @@
 /*
- ______  ______  ______  ______  ______  ______  ______  ______  ______  ______  ______ 
+ ______  ______  ______  ______  ______  ______  ______  ______  ______  ______  ______
 |______||______||______||______||______||______||______||______||______||______||______|
-  ___          _                  _____                                 _             _ 
+  ___          _                  _____                                 _             _
  / _ \        | |                |  __ \                               | |           | |
 / /_\ \ _   _ | |_  ___          | |  \/  ___  _ __    ___  _ __  __ _ | |_  ___   __| |
 |  _  || | | || __|/ _ \         | | __  / _ \| '_ \  / _ \| '__|/ _` || __|/ _ \ / _` |
 | | | || |_| || |_| (_) |        | |_\ \|  __/| | | ||  __/| |  | (_| || |_|  __/| (_| |
 \_| |_/ \__,_| \__|\___/          \____/ \___||_| |_| \___||_|   \__,_| \__|\___| \__,_|
-______                 _   _         _             ___  ___            _  _   __        
-|  _  \               | \ | |       | |            |  \/  |           | |(_) / _|       
-| | | | ___           |  \| |  ___  | |_           | .  . |  ___    __| | _ | |_  _   _ 
+______                 _   _         _             ___  ___            _  _   __
+|  _  \               | \ | |       | |            |  \/  |           | |(_) / _|
+| | | | ___           |  \| |  ___  | |_           | .  . |  ___    __| | _ | |_  _   _
 | | | |/ _ \          | . ` | / _ \ | __|          | |\/| | / _ \  / _` || ||  _|| | | |
 | |/ /| (_) |         | |\  || (_) || |_           | |  | || (_) || (_| || || |  | |_| |
 |___/  \___/          \_| \_/ \___/  \__|          \_|  |_/ \___/  \__,_||_||_|   \__, |
                                                                                    __/ |
-                                                                                  |___/ 
- ______  ______  ______  ______  ______  ______  ______  ______  ______  ______  ______ 
+                                                                                  |___/
+ ______  ______  ______  ______  ______  ______  ______  ______  ______  ______  ______
 |______||______||______||______||______||______||______||______||______||______||______|
 
 Routes are generated from models and controllers
@@ -424,7 +424,7 @@ const models: TsoaRoute.Models = {
             "locationId": { "dataType": "string", "required": true },
             "startDate": { "dataType": "string", "required": true },
             "endDate": { "dataType": "string" },
-            "startTime": { "dataType": "string", "required": true },
+            "startTime": { "dataType": "string" },
             "endTime": { "dataType": "string" },
             "isPartial": { "dataType": "double", "required": true },
         },
@@ -534,60 +534,6 @@ export function RegisterRoutes(router: any) {
             const controller = Container.get(TokenController) as TokenController;
 
             const promise = controller.getToken.apply(controller, validatedArgs);
-            return promiseHandler(controller, promise, context, next);
-        });
-    router.post('/v1/token/extendsession',
-        authenticateMiddleware([{ "name": "jwt" }]),
-        async (context, next) => {
-            const args = {
-                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
-            };
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, context);
-            } catch (error) {
-                context.status = error.status || 500;
-                context.body = error;
-                return next();
-            }
-
-            // Create the currentUser from the context and bind it to the ioc container
-            const currentUserProvider: Provider = {
-                get: () => new CurrentUser(context.request.user)
-            }
-            Container.bind(CurrentUser).provider(currentUserProvider);
-            // Using the typescript-ioc container, retrieve controller
-            const controller = Container.get(TokenController) as TokenController;
-
-            const promise = controller.extendSession.apply(controller, validatedArgs);
-            return promiseHandler(controller, promise, context, next);
-        });
-    router.post('/v1/token/delete',
-        authenticateMiddleware([{ "name": "jwt" }]),
-        async (context, next) => {
-            const args = {
-                request: { "in": "request", "name": "request", "required": true, "dataType": "object" },
-            };
-
-            let validatedArgs: any[] = [];
-            try {
-                validatedArgs = getValidatedArgs(args, context);
-            } catch (error) {
-                context.status = error.status || 500;
-                context.body = error;
-                return next();
-            }
-
-            // Create the currentUser from the context and bind it to the ioc container
-            const currentUserProvider: Provider = {
-                get: () => new CurrentUser(context.request.user)
-            }
-            Container.bind(CurrentUser).provider(currentUserProvider);
-            // Using the typescript-ioc container, retrieve controller
-            const controller = Container.get(TokenController) as TokenController;
-
-            const promise = controller.logout.apply(controller, validatedArgs);
             return promiseHandler(controller, promise, context, next);
         });
     router.get('/v1/User/me',
