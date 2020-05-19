@@ -82,14 +82,6 @@ export default class ExtendedClient extends Client {
         return super.handleResponse<T>(response);
     }
 
-    protected async ensureToken() {
-        try {
-            await super.ensureToken();
-        } catch (err) {
-            console.error(`Error fetching api token: '${err && err.message ? err.message : err}'`);
-        }
-    }
-
     protected processError(err): Error {
         let apiError = new ApiError(err);
         return apiError;
@@ -122,7 +114,7 @@ export default class ExtendedClient extends Client {
             () => super.GetSheriffById(id)
         );
     }
-    
+
     GetSheriffs(locationId: string = ""): Promise<Sheriff[]> {
         return super.GetSheriffs(locationId);
     }

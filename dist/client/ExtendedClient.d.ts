@@ -13,7 +13,6 @@ export default class ExtendedClient extends Client {
     private interceptRequest;
     requestInterceptor: SuperAgentRequestInterceptor | undefined;
     protected handleResponse<T>(response: SA.Response): T;
-    protected ensureToken(): Promise<void>;
     protected processError(err: any): Error;
     private nullOn404;
     GetRegionById(id: string): Promise<Region>;
