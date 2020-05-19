@@ -65,9 +65,7 @@ ______                 _   _         _             ___  ___            _  _   __
 Client is generated from swagger.json file
 */
 var superAgent = __importStar(require("superagent"));
-var authentication_1 = require("../common/authentication");
 var TypedEvent_1 = require("../common/TypedEvent");
-var cookieUtils_1 = require("../common/cookieUtils");
 var Client = /** @class */ (function () {
     function Client(_agent) {
         if (_agent === void 0) { _agent = superAgent.agent(); }
@@ -123,40 +121,6 @@ var Client = /** @class */ (function () {
         return response.body;
     };
     /**
-     * Ensures that a application token currently exists and fetches a new one
-     * if the old one has expired or is not present.
-     *
-     * @protected
-     * @returns {Promise<void>}
-     * @memberof Client
-     */
-    Client.prototype.ensureToken = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var smsessionCookie, token, e_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        smsessionCookie = cookieUtils_1.retreiveCookieValue(authentication_1.SMSESSION_COOKIE_NAME, this.agent);
-                        token = cookieUtils_1.retreiveCookieValue(authentication_1.TOKEN_COOKIE_NAME, this.agent);
-                        if (!(token == undefined)) return [3 /*break*/, 4];
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        // console.log('Fetching new token');
-                        return [4 /*yield*/, this.GetToken()];
-                    case 2:
-                        // console.log('Fetching new token');
-                        _a.sent();
-                        return [3 /*break*/, 4];
-                    case 3:
-                        e_1 = _a.sent();
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
-                }
-            });
-        });
-    };
-    /**
      * Takes a token and handles emitting events if the token has changed
      *
      * @protected
@@ -188,15 +152,12 @@ var Client = /** @class */ (function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 3, , 4]);
-                        return [4 /*yield*/, this.ensureToken()];
-                    case 1:
-                        _a.sent();
+                        _a.trys.push([0, 2, , 3]);
                         return [4 /*yield*/, worker()];
-                    case 2:
+                    case 1:
                         response = _a.sent();
                         return [2 /*return*/, this.handleResponse(response)];
-                    case 3:
+                    case 2:
                         error_1 = _a.sent();
                         if (this.errorProcessor) {
                             throw this.errorProcessor(error_1);
@@ -204,15 +165,15 @@ var Client = /** @class */ (function () {
                         else {
                             throw error_1;
                         }
-                        return [3 /*break*/, 4];
-                    case 4: return [2 /*return*/];
+                        return [3 /*break*/, 3];
+                    case 3: return [2 /*return*/];
                 }
             });
         });
     };
     Client.prototype.GetToken = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var response, parsed, tokenString, e_2;
+            var response, parsed, tokenString, e_1;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -231,9 +192,9 @@ var Client = /** @class */ (function () {
                         this.handleNewToken();
                         return [3 /*break*/, 3];
                     case 2:
-                        e_2 = _a.sent();
+                        e_1 = _a.sent();
                         this.handleNewToken();
-                        throw e_2;
+                        throw e_1;
                     case 3: return [2 /*return*/];
                 }
             });

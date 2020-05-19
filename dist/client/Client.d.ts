@@ -40,15 +40,6 @@ export default class Client {
      */
     protected handleResponse<T>(response: superAgent.Response): T;
     /**
-     * Ensures that a application token currently exists and fetches a new one
-     * if the old one has expired or is not present.
-     *
-     * @protected
-     * @returns {Promise<void>}
-     * @memberof Client
-     */
-    protected ensureToken(): Promise<void>;
-    /**
      * Takes a token and handles emitting events if the token has changed
      *
      * @protected
