@@ -36,64 +36,88 @@ export class SheriffService extends DatabaseService<Sheriff> {
         query: squel.PostgresSelect,
         dbTableName: string,
         dbTableJoinCol: string = 'sheriff_id',
-        homeLocSheriffsAlias: string = 'home_loc_sheriffs',
-        currLocSheriffsAlias: string = 'curr_loc_sheriffs',
-        currLocSheriffLocationsAlias: string = 'curr_loc_sheriff_locations'
+        sheriffsAlias: string = 's',
+        sheriffLocationsAlias: string = 'sl'
 
     ) {
         const sheriffLocationService = Container.get(SheriffLocationService);
 
         query
-            // Left join on matching sheriffs, we can use these matches to filter matches by home location
-            .left_join(
-                this.dbTableName,
-                homeLocSheriffsAlias,
-                `${homeLocSheriffsAlias}.sheriff_id=${dbTableName}.${dbTableJoinCol}`
-            )
-            // Join on matching sheriffs, we will filter these matches by current location
-            .left_join(
-                this.dbTableName,
-                currLocSheriffsAlias,
-                `${currLocSheriffsAlias}.sheriff_id=${dbTableName}.${dbTableJoinCol}`
-            )
             .left_join(
                 sheriffLocationService.dbTableName,
-                currLocSheriffLocationsAlias,
-                `${currLocSheriffLocationsAlias}.sheriff_id=${currLocSheriffsAlias}.sheriff_id`
+                sheriffLocationsAlias,
+                `${sheriffLocationsAlias}.sheriff_id=${sheriffsAlias}.sheriff_id`
             );
 
         return query;
     }
 
     async getAll(locationId?: string) {
-        const homeLocSheriffsAlias: string = 'home_loc_sheriffs';
-        // const currLocSheriffsAlias: string = 'curr_loc_sheriffs';
-        const currLocSheriffLocationsAlias: string = 'curr_loc_sheriff_locations';
+        const sheriffsAlias: string = 's';
+        const sheriffLocationsAlias: string = 'sl';
 
         const userService = Container.get(UserService);
 
-        const query = super.getSelectQuery();
+        const query = squel.select({ autoQuoteAliasNames: true, tableAliasQuoteCharacter: "" });
+        query.fields(this.getAliasedFieldMap('all_sheriffs'));
+        query.field(`all_sheriffs.location_id`, 'currentLocationId');
 
         if (locationId) {
-            query.field(`${currLocSheriffLocationsAlias}.location_id`, 'currentLocationId');
+            const currentMoment = moment();
 
-            this.joinOnSheriffs(query, this.dbTableName, this.primaryKey);
-            // Only include results that match the given location
-            query.where(`${homeLocSheriffsAlias}.home_location_id='${locationId}' OR ${currLocSheriffLocationsAlias}.location_id='${locationId}'`);
-            // Results are returned for all user locations that aren't expired
-            // We could have used a subquery to determine the currentLocationId,
-            // but joining is faster, so we have to make sure that we only return
-            // the record that corresponds to the user's current location
-            const currentDate = moment().toISOString();
-            query.where(
-                squel.expr()
-                    .and(`${this.dbTableName}.home_location_id='${locationId}'`)
-                    .or(`${currLocSheriffLocationsAlias}.start_date <= Date('${currentDate}')`)
-                    .and(`${currLocSheriffLocationsAlias}.end_date >= Date('${currentDate}')`)
+            const homeSheriffsQuery = this.squel
+                .select({ autoQuoteAliasNames: true, tableAliasQuoteCharacter: "" })
+                    .from(this.tableName, 's')
+                    .field(`s.sheriff_id`)
+                    .field(`s.badge_no`)
+                    .field(`s.first_name`)
+                    .field(`s.last_name`)
+                    .field(`s.image_url`)
+                    .field(`s.home_location_id`)
+                    .field(`NULL AS location_id`)
+                    .field(`s.sheriff_rank_code`)
+                    .field(`s.alias`)
+                    .field(`s.gender_code`);
 
-            );
+            homeSheriffsQuery.where(`s.home_location_id='${locationId}'`);
+
+            const loanedSheriffsQuery = this.squel
+                .select({ autoQuoteAliasNames: true, tableAliasQuoteCharacter: "" })
+                    .from(this.tableName, 's')
+                    .field(`s.sheriff_id`)
+                    .field(`s.badge_no`)
+                    .field(`s.first_name`)
+                    .field(`s.last_name`)
+                    .field(`s.image_url`)
+                    .field(`s.home_location_id`)
+                    .field(`sl.location_id`)
+                    .field(`s.sheriff_rank_code`)
+                    .field(`s.alias`)
+                    .field(`s.gender_code`);
+
+            this.joinOnSheriffs(loanedSheriffsQuery, this.dbTableName, this.primaryKey);
+            loanedSheriffsQuery.where(`Date('${currentMoment.toISOString()}') BETWEEN ${sheriffLocationsAlias}.start_date AND ${sheriffLocationsAlias}.end_date`);
+            loanedSheriffsQuery.order(`${sheriffLocationsAlias}.start_date`);
+            loanedSheriffsQuery.order(`${sheriffLocationsAlias}.start_time`);
+
+            query.from(homeSheriffsQuery.union(loanedSheriffsQuery), 'all_sheriffs');
         }
-        
+
+        query
+            .group(`all_sheriffs.sheriff_id`)
+            .group(`all_sheriffs.badge_no`)
+            .group(`all_sheriffs.first_name`)
+            .group(`all_sheriffs.last_name`)
+            .group(`all_sheriffs.image_url`)
+            .group(`all_sheriffs.home_location_id`)
+            .group(`all_sheriffs.location_id`)
+            .group(`all_sheriffs.sheriff_rank_code`)
+            .group(`all_sheriffs.alias`)
+            .group(`all_sheriffs.gender_code`)
+            .order(`all_sheriffs.last_name`, true)
+            .order(`all_sheriffs.first_name`, true)
+            .order(`all_sheriffs.location_id`, false);
+
         const rows = await this.executeQuery<Sheriff>(query.toString());
 
         const results = rows.map(async entity => {
