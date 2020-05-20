@@ -62,46 +62,46 @@ export class SheriffService extends DatabaseService<Sheriff> {
         query.fields(this.getAliasedFieldMap('all_sheriffs'));
         query.field(`all_sheriffs.location_id`, 'currentLocationId');
 
+        const currentMoment = moment();
+
+        const homeSheriffsQuery = this.squel
+            .select({ autoQuoteAliasNames: true, tableAliasQuoteCharacter: "" })
+                .from(this.tableName, 's')
+                .field(`s.sheriff_id`)
+                .field(`s.badge_no`)
+                .field(`s.first_name`)
+                .field(`s.last_name`)
+                .field(`s.image_url`)
+                .field(`s.home_location_id`)
+                .field(`NULL AS location_id`)
+                .field(`s.sheriff_rank_code`)
+                .field(`s.alias`)
+                .field(`s.gender_code`);
+
         if (locationId) {
-            const currentMoment = moment();
-
-            const homeSheriffsQuery = this.squel
-                .select({ autoQuoteAliasNames: true, tableAliasQuoteCharacter: "" })
-                    .from(this.tableName, 's')
-                    .field(`s.sheriff_id`)
-                    .field(`s.badge_no`)
-                    .field(`s.first_name`)
-                    .field(`s.last_name`)
-                    .field(`s.image_url`)
-                    .field(`s.home_location_id`)
-                    .field(`NULL AS location_id`)
-                    .field(`s.sheriff_rank_code`)
-                    .field(`s.alias`)
-                    .field(`s.gender_code`);
-
             homeSheriffsQuery.where(`s.home_location_id='${locationId}'`);
-
-            const loanedSheriffsQuery = this.squel
-                .select({ autoQuoteAliasNames: true, tableAliasQuoteCharacter: "" })
-                    .from(this.tableName, 's')
-                    .field(`s.sheriff_id`)
-                    .field(`s.badge_no`)
-                    .field(`s.first_name`)
-                    .field(`s.last_name`)
-                    .field(`s.image_url`)
-                    .field(`s.home_location_id`)
-                    .field(`sl.location_id`)
-                    .field(`s.sheriff_rank_code`)
-                    .field(`s.alias`)
-                    .field(`s.gender_code`);
-
-            this.joinOnSheriffs(loanedSheriffsQuery, this.dbTableName, this.primaryKey);
-            loanedSheriffsQuery.where(`Date('${currentMoment.toISOString()}') BETWEEN ${sheriffLocationsAlias}.start_date AND ${sheriffLocationsAlias}.end_date`);
-            loanedSheriffsQuery.order(`${sheriffLocationsAlias}.start_date`);
-            loanedSheriffsQuery.order(`${sheriffLocationsAlias}.start_time`);
-
-            query.from(homeSheriffsQuery.union(loanedSheriffsQuery), 'all_sheriffs');
         }
+
+        const loanedSheriffsQuery = this.squel
+            .select({ autoQuoteAliasNames: true, tableAliasQuoteCharacter: "" })
+                .from(this.tableName, 's')
+                .field(`s.sheriff_id`)
+                .field(`s.badge_no`)
+                .field(`s.first_name`)
+                .field(`s.last_name`)
+                .field(`s.image_url`)
+                .field(`s.home_location_id`)
+                .field(`sl.location_id`)
+                .field(`s.sheriff_rank_code`)
+                .field(`s.alias`)
+                .field(`s.gender_code`);
+
+        this.joinOnSheriffs(loanedSheriffsQuery, this.dbTableName, this.primaryKey);
+        loanedSheriffsQuery.where(`Date('${currentMoment.toISOString()}') BETWEEN ${sheriffLocationsAlias}.start_date AND ${sheriffLocationsAlias}.end_date`);
+        loanedSheriffsQuery.order(`${sheriffLocationsAlias}.start_date`);
+        loanedSheriffsQuery.order(`${sheriffLocationsAlias}.start_time`);
+
+        query.from(homeSheriffsQuery.union(loanedSheriffsQuery), 'all_sheriffs');
 
         query
             .group(`all_sheriffs.sheriff_id`)
