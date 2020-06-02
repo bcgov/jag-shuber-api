@@ -110,17 +110,17 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
                 }, "Invalid Court Assignment")
             }
         } else if (entity.workSectionId === "JAIL") {
-            if (entity.jailRoleCode == undefined) {
+            if (entity.jailRoleId == undefined) {
                 throw new ValidateError({
-                    'model.jailRoleCode': {
+                    'model.jailRoleId': {
                         message: "Jail Role must be set for Jail assignments"
                     }
                 }, "Invalid Jail Assignment")
             }
         } else if (entity.workSectionId === "OTHER") {
-            if (entity.otherAssignCode == undefined) {
+            if (entity.otherAssignId == undefined) {
                 throw new ValidateError({
-                    'model.otherAssignCode': {
+                    'model.otherAssignId': {
                         message: "Assignment Type must be set for Other assignments"
                     }
                 }, "Invalid Other Assignment")
