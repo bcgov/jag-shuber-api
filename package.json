@@ -49,7 +49,6 @@
     "oc:dev": "nodemon --ignore node_modules/ dist/index.js --inspect=$DEBUG_PORT"
   },
   "dependencies": {
-    "@koa/multer": "^2.0.2",
     "jsonwebtoken": "^8.3.0",
     "jwt-decode": "^2.2.0",
     "koa": "^2.5.0",
