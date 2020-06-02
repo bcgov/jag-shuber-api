@@ -25,12 +25,14 @@ export default abstract class ExpirableDatabaseService<T> extends DatabaseServic
         const query = this.getSelectQuery();
 
         query.where(this.getEffectiveWhereClause(options));
+        console.log('getEffectiveSelectQuery');
+        console.log(query.toString());
         return query;
     }
 
     public getActiveWhereClause(options: EffectiveQueryOptions = {}) {
         const {
-            startDate = moment().toISOString(),
+            startDate = moment().startOf('day').toISOString(),
             fieldAlias = undefined,
             expiryField =  this.expiryField
         } = options;
@@ -46,15 +48,12 @@ export default abstract class ExpirableDatabaseService<T> extends DatabaseServic
 
     public getEffectiveWhereClause(options: EffectiveQueryOptions = {}) {
         const {
-            startDate = moment().toISOString(),
+            startDate = moment().startOf('day').toISOString(),
+            endDate = moment().endOf('day').toISOString(),
             includeExpired = false,
             fieldAlias = undefined,
             effectiveField = this.effectiveField,
             expiryField =  this.expiryField
-        } = options;
-
-        const {
-            endDate = startDate
         } = options;
 
         let clause = this.squel.expr();

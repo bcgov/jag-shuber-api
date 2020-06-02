@@ -35,6 +35,9 @@ export class SheriffLocationService extends ExpirableDatabaseService<SheriffLoca
         query.where(this.getActiveWhereClause());
         query.order(`location_id IS NOT NULL, location_id`);
 
+        console.log('SheriffLocationService.getAll');
+        console.log(query.toString());
+
         const rows = await this.executeQuery<SheriffLocation>(query.toString());
         return rows;
     }
