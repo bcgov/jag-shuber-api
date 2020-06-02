@@ -160,7 +160,10 @@ export interface Assignment {
     locationId?: string;
     courtroomId?: string;
     courtRoleId?: string;
+    jailRoleId?: string;
     escortRunId?: string;
+    otherAssignId?: string;
+    courtRoleCode?: string;
     jailRoleCode?: string;
     otherAssignCode?: string;
     dutyRecurrences?: Array<DutyRecurrence>;
