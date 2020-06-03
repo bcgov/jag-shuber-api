@@ -56,6 +56,15 @@ exports.defaultSystemApiScopes = [
         updatedDtm: index_1.updatedDtm,
         revisionCount: 0
     },
+    {
+        roleCode: 'ADMIN',
+        scopeCode: 'system:scopes',
+        createdBy: index_1.createdBy,
+        updatedBy: index_1.updatedBy,
+        createdDtm: index_1.createdDtm,
+        updatedDtm: index_1.updatedDtm,
+        revisionCount: 0
+    },
     /**
     * @api
     */

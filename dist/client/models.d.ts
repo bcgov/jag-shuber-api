@@ -1,3 +1,21 @@
+export interface Location {
+    id?: string;
+    code?: string;
+    name?: string;
+    parentLocationId?: string;
+    regionId?: string;
+}
+export interface SheriffLocation {
+    id?: string;
+    sheriffId?: string;
+    locationId?: string;
+    location?: Location;
+    startDate?: string;
+    endDate?: string;
+    startTime?: string;
+    endTime?: string;
+    isPartial?: number;
+}
 export interface User {
     id?: string;
     siteminderId?: string;
@@ -23,7 +41,9 @@ export interface Sheriff {
     badgeNo?: string;
     imageUrl?: string;
     homeLocationId?: string;
+    homeLocation?: Location;
     currentLocationId?: string;
+    currentLocation?: SheriffLocation;
     rankCode?: string;
     alias?: string;
     genderCode?: string;
@@ -176,13 +196,6 @@ export interface Region {
     name?: string;
     location?: any;
 }
-export interface Location {
-    id?: string;
-    code?: string;
-    name?: string;
-    parentLocationId?: string;
-    regionId?: string;
-}
 export interface Courtroom {
     id?: string;
     locationId?: string;
@@ -301,16 +314,6 @@ export interface DutyImportDefaultsRequest {
 export interface SheriffDutyAutoAssignRequest {
     locationId?: string;
     date?: string;
-}
-export interface SheriffLocation {
-    id?: string;
-    sheriffId?: string;
-    locationId?: string;
-    startDate?: string;
-    endDate?: string;
-    startTime?: string;
-    endTime?: string;
-    isPartial?: number;
 }
 export interface Leave {
     id?: string;

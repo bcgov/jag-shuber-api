@@ -55,6 +55,15 @@ export const defaultSystemApiScopes = [
         updatedDtm: updatedDtm,
         revisionCount: 0
     },
+    {
+        roleCode: 'ADMIN',
+        scopeCode: 'system:scopes', // Code type for the scope, only used when generating scopes
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
     /**
     * @api
     */

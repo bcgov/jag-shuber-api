@@ -1,14 +1,20 @@
 import moment from 'moment';
-import squel from 'squel';
+import { PostgresSelect, select } from 'squel';
 
 import { AutoWired, Inject, Container } from 'typescript-ioc';
 
 import { SYSTEM_USER_DISPLAY_NAME} from '../common/authentication';
+
 import { DatabaseService } from '../infrastructure/DatabaseService';
+import { EffectiveQueryOptions } from '../infrastructure/ExpirableDatabaseService';
+
 import { UserService } from './UserService';
 import { SheriffLocationService } from './SheriffLocationService';
+import { LocationService } from './LocationService';
 
 import { Sheriff } from '../models/Sheriff';
+import { SheriffLocation } from '../models/SheriffLocation';
+import { Location } from '../models/Location';
 import { User } from '../models/User';
 
 @AutoWired
@@ -32,8 +38,144 @@ export class SheriffService extends DatabaseService<Sheriff> {
         super('sheriff', 'sheriff_id');
     }
 
+    protected effectiveField = "effective_date";
+    protected expiryField = "expiry_date";
+
+    protected getEffectiveSelectQuery(options: EffectiveQueryOptions = {}): PostgresSelect {
+        const {
+            includeExpired = false
+        } = options;
+        // Get the standard query
+        const query = this.getSelectQuery();
+
+        query.where(this.getEffectiveWhereClause(options));
+        console.log('getEffectiveSelectQuery');
+        console.log(query.toString());
+        return query;
+    }
+
+    public getEffectiveWhereClause(options: EffectiveQueryOptions = {}) {
+        const {
+            startDate = moment().startOf('day').toISOString(),
+            endDate = moment().endOf('day').toISOString(),
+            includeExpired = false,
+            fieldAlias = undefined,
+            effectiveField = this.effectiveField,
+            expiryField =  this.expiryField
+        } = options;
+
+        let clause = this.squel.expr();
+
+        if (!includeExpired) {
+            const effectiveFieldStr = fieldAlias ? `${fieldAlias}.${effectiveField}` : effectiveField;
+            const expiryFieldStr = fieldAlias ? `${fieldAlias}.${expiryField}` : expiryField;
+            // Add on the where for the effective date
+            clause = this.squel.expr()
+                .and(`DATE('${endDate}') >= ${effectiveFieldStr}`)
+                .and(
+                    this.squel.expr()
+                        .or(`${expiryField} IS NULL`)
+                        .or(`Date('${startDate}') < ${expiryFieldStr}`)
+                );
+        }
+        return clause;
+    }
+
+    pickCurrentLocation(sheriffLocations: SheriffLocation[]) {
+        let sheriffLocation: SheriffLocation | undefined = undefined;
+        let matchingLocations: SheriffLocation[] = [];
+
+        // Load up the start and end dates from the sheriffLocations module
+        matchingLocations = (sheriffLocations && sheriffLocations.length > 0)
+            ? sheriffLocations
+                .filter((location) => {
+                    const { startDate, endDate, startTime, endTime } = location as SheriffLocation;
+                    // We need to show sheriffs the sheriff loan in / loan out icons 7 days prior to the actual assignment
+                    const currentMoment = moment().utc().startOf('day');
+                    const startMoment = moment(startDate).utc().startOf('day');
+                    const endMoment = moment(endDate).utc().startOf('day');
+                    const pendingStartOffsetMoment = moment()
+                        .utc().startOf('day').add(1, 'week');
+
+                    const startDateIsSameOrBeforeStart = startMoment.isSameOrBefore(pendingStartOffsetMoment);
+                    const endDateIsSameOrAfterNow = endMoment.isSameOrAfter(currentMoment);
+
+                    return (startDateIsSameOrBeforeStart && endDateIsSameOrAfterNow);
+                })
+            : [];
+
+        if (matchingLocations && matchingLocations[0]) {
+            matchingLocations.sort((a: any, b: any) => b.startDate - a.startDate); // Prioritize partial days
+
+            sheriffLocation = matchingLocations[0];
+
+            /* if (id === '') { */
+            console.log(`${matchingLocations.length} matching locations:`);
+            console.log(matchingLocations);
+
+            if (sheriffLocation) {
+                console.log('sheriff is on loan:');
+                console.log(sheriffLocation);
+            }
+            /* } */
+        }
+
+        return sheriffLocation;
+    }
+
+    async getAll(locationId?: string) {
+        const userService = Container.get(UserService) as UserService;
+        const sheriffLocationService = Container.get(SheriffLocationService) as SheriffLocationService;
+        const locationService = Container.get(LocationService) as LocationService;
+
+        const query = super.getSelectQuery();
+
+        if (locationId) {
+            const currentLocationSheriffs = await this.getSheriffIdsByCurrentLocation(locationId) as string[];
+            const homeLocationSheriffs = await this.getSheriffIdsByHomeLocation(locationId) as string[];
+
+            query.where('sheriff_id IN ?', [...currentLocationSheriffs, ...homeLocationSheriffs]);
+        }
+        
+        const rows = await this.executeQuery<Sheriff>(query.toString());
+
+        console.log('location sheriffs');
+        console.log(rows);
+
+        const results = rows.map(async entity => {
+            const { id, homeLocationId } = entity;
+            const userEntity = await userService.getBySheriffId(id);
+            if (userEntity) {
+                entity.user = userEntity as User;
+            }
+
+            if (entity.homeLocationId) {
+                const homeLocationEntity = await locationService.getById(entity.homeLocationId);
+                if (homeLocationEntity) {
+                    entity.homeLocation = homeLocationEntity;
+                }
+            }
+
+            const sheriffLocationEntities = await sheriffLocationService.getBySheriffId(id);
+            const sheriffLocationEntity = this.pickCurrentLocation(sheriffLocationEntities);
+            if (sheriffLocationEntity) {
+                entity.currentLocation = sheriffLocationEntity;
+                entity.currentLocationId = sheriffLocationEntity.locationId;
+                const currentLocationEntity = await locationService.getById(sheriffLocationEntity.locationId);
+                if (currentLocationEntity) {
+                    entity.currentLocation.location = currentLocationEntity;
+                }
+            }
+            
+
+            return entity;
+        });
+
+        return Promise.all(results);
+    }
+
     public joinOnSheriffs(
-        query: squel.PostgresSelect,
+        query: PostgresSelect,
         dbTableName: string,
         dbTableJoinCol: string = 'sheriff_id',
         sheriffsAlias: string = 's',
@@ -52,85 +194,47 @@ export class SheriffService extends DatabaseService<Sheriff> {
         return query;
     }
 
-    async getAll(locationId?: string) {
+    async getSheriffIdsByCurrentLocation(locationId: string) {
         const sheriffsAlias: string = 's';
         const sheriffLocationsAlias: string = 'sl';
 
-        const userService = Container.get(UserService);
+        const query = this.squel
+            .select({ autoQuoteAliasNames: true, tableAliasQuoteCharacter: "" })
+                .from(this.tableName, sheriffsAlias)
+                .field(`${sheriffsAlias}.sheriff_id`)
+                .field(`${sheriffLocationsAlias}.location_id`)
 
-        const query = squel.select({ autoQuoteAliasNames: true, tableAliasQuoteCharacter: "" });
-        query.fields(this.getAliasedFieldMap('all_sheriffs'));
-        query.field(`all_sheriffs.location_id`, 'currentLocationId');
+        this.joinOnSheriffs(query, this.dbTableName, this.primaryKey);
+        query.where(`${sheriffLocationsAlias}.location_id = '${locationId}'`);
+        
+        query.order(`${sheriffLocationsAlias}.start_date`);
+        query.order(`${sheriffLocationsAlias}.start_time`);
 
-        const currentMoment = moment();
+        const rows = await this.executeQuery<any>(query.toString());
+        const ids = rows.reduce((acc: string[], curr: any) => {
+            acc.push(curr.sheriff_id);
+            return acc;
+        }, [] as string[]);
 
-        const homeSheriffsQuery = this.squel
+        return ids;
+    }
+
+    async getSheriffIdsByHomeLocation(locationId: string) {
+       const query = this.squel
             .select({ autoQuoteAliasNames: true, tableAliasQuoteCharacter: "" })
                 .from(this.tableName, 's')
                 .field(`s.sheriff_id`)
-                .field(`s.badge_no`)
-                .field(`s.first_name`)
-                .field(`s.last_name`)
-                .field(`s.image_url`)
-                .field(`s.home_location_id`)
-                .field(`NULL AS location_id`)
-                .field(`s.sheriff_rank_code`)
-                .field(`s.alias`)
-                .field(`s.gender_code`);
+                .field(`s.home_location_id`, 'location_id')
 
-        if (locationId) {
-            homeSheriffsQuery.where(`s.home_location_id='${locationId}'`);
-        }
+        query.where(`s.home_location_id='${locationId}'`);
 
-        const loanedSheriffsQuery = this.squel
-            .select({ autoQuoteAliasNames: true, tableAliasQuoteCharacter: "" })
-                .from(this.tableName, 's')
-                .field(`s.sheriff_id`)
-                .field(`s.badge_no`)
-                .field(`s.first_name`)
-                .field(`s.last_name`)
-                .field(`s.image_url`)
-                .field(`s.home_location_id`)
-                .field(`sl.location_id`)
-                .field(`s.sheriff_rank_code`)
-                .field(`s.alias`)
-                .field(`s.gender_code`);
+        const rows = await this.executeQuery<any>(query.toString());
+        const ids = rows.reduce((acc: string[], curr: any) => {
+            acc.push(curr.sheriff_id);
+            return acc;
+        }, [] as string[]);
 
-        this.joinOnSheriffs(loanedSheriffsQuery, this.dbTableName, this.primaryKey);
-        loanedSheriffsQuery.where(`Date('${currentMoment.toISOString()}') BETWEEN ${sheriffLocationsAlias}.start_date AND ${sheriffLocationsAlias}.end_date`);
-        loanedSheriffsQuery.order(`${sheriffLocationsAlias}.start_date`);
-        loanedSheriffsQuery.order(`${sheriffLocationsAlias}.start_time`);
-
-        query.from(homeSheriffsQuery.union(loanedSheriffsQuery), 'all_sheriffs');
-
-        query
-            .group(`all_sheriffs.sheriff_id`)
-            .group(`all_sheriffs.badge_no`)
-            .group(`all_sheriffs.first_name`)
-            .group(`all_sheriffs.last_name`)
-            .group(`all_sheriffs.image_url`)
-            .group(`all_sheriffs.home_location_id`)
-            .group(`all_sheriffs.location_id`)
-            .group(`all_sheriffs.sheriff_rank_code`)
-            .group(`all_sheriffs.alias`)
-            .group(`all_sheriffs.gender_code`)
-            .order(`all_sheriffs.last_name`, true)
-            .order(`all_sheriffs.first_name`, true)
-            .order(`all_sheriffs.location_id`, false);
-
-        const rows = await this.executeQuery<Sheriff>(query.toString());
-
-        const results = rows.map(async entity => {
-            if (entity.id) {
-                const userEntity = await userService.getBySheriffId(entity.id);
-                if (userEntity) {
-                    entity.user = userEntity as User;
-                }
-            }
-            return entity;
-        });
-
-        return Promise.all(results);
+        return ids;
     }
 
     /**
