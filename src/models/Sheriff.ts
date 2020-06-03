@@ -1,4 +1,6 @@
 import { User } from './User';
+import { SheriffLocation } from './SheriffLocation';
+import { Location } from './Location';
 
 export interface Sheriff {
     id?: string;
@@ -7,7 +9,9 @@ export interface Sheriff {
     badgeNo: string;
     imageUrl?: string;
     homeLocationId: string;
+    homeLocation?: Location;
     currentLocationId?: string;
+    currentLocation?: SheriffLocation;
     rankCode: string;
     alias?: string;
     genderCode?: string;

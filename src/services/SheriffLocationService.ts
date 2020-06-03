@@ -42,6 +42,11 @@ export class SheriffLocationService extends ExpirableDatabaseService<SheriffLoca
         return rows;
     }
 
+    async getBySheriffId(sheriffId: string): Promise<SheriffLocation[]> {
+        const rows = await this.getWhereFieldEquals('sheriffId', sheriffId);
+        return rows;
+    }
+
     protected getInsertQuery(entity: Partial<SheriffLocation>): PostgresInsert {
         // Take the Field Map keys and map properties from the object
         // const createdByPropName = this.fieldMap[this.createdByField];

@@ -34,6 +34,24 @@ export const defaultSystemFrontendScopes = [
     // Templated scopes for the ADMIN user - ADMIN is separate from the built-in super-user roles
     {
         roleCode: 'ADMIN',
+        scopeCode: 'ADMIN_API_SCOPES',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        roleCode: 'ADMIN',
+        scopeCode: 'ADMIN_FRONTEND_SCOPES',
+        createdBy: createdBy,
+        updatedBy: updatedBy,
+        createdDtm: createdDtm,
+        updatedDtm: updatedDtm,
+        revisionCount: 0
+    },
+    {
+        roleCode: 'ADMIN',
         scopeCode: 'ADMIN_PAGE_USERS',
         createdBy: createdBy,
         updatedBy: updatedBy,

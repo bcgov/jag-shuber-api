@@ -60,6 +60,28 @@ import { GenderCodesController } from './controllers/GenderCodesController';
 import { koaAuthentication } from './authentication';
 
 const models: TsoaRoute.Models = {
+    "Location": {
+        "properties": {
+            "id": { "dataType": "string" },
+            "code": { "dataType": "string", "required": true },
+            "name": { "dataType": "string", "required": true },
+            "parentLocationId": { "dataType": "string" },
+            "regionId": { "dataType": "string", "required": true },
+        },
+    },
+    "SheriffLocation": {
+        "properties": {
+            "id": { "dataType": "string" },
+            "sheriffId": { "dataType": "string", "required": true },
+            "locationId": { "dataType": "string", "required": true },
+            "location": { "ref": "Location" },
+            "startDate": { "dataType": "string", "required": true },
+            "endDate": { "dataType": "string" },
+            "startTime": { "dataType": "string" },
+            "endTime": { "dataType": "string" },
+            "isPartial": { "dataType": "double", "required": true },
+        },
+    },
     "User": {
         "properties": {
             "id": { "dataType": "string" },
@@ -88,7 +110,9 @@ const models: TsoaRoute.Models = {
             "badgeNo": { "dataType": "string", "required": true },
             "imageUrl": { "dataType": "string" },
             "homeLocationId": { "dataType": "string", "required": true },
+            "homeLocation": { "ref": "Location" },
             "currentLocationId": { "dataType": "string" },
+            "currentLocation": { "ref": "SheriffLocation" },
             "rankCode": { "dataType": "string", "required": true },
             "alias": { "dataType": "string" },
             "genderCode": { "dataType": "string" },
@@ -263,15 +287,6 @@ const models: TsoaRoute.Models = {
             "location": { "dataType": "any" },
         },
     },
-    "Location": {
-        "properties": {
-            "id": { "dataType": "string" },
-            "code": { "dataType": "string", "required": true },
-            "name": { "dataType": "string", "required": true },
-            "parentLocationId": { "dataType": "string" },
-            "regionId": { "dataType": "string", "required": true },
-        },
-    },
     "Courtroom": {
         "properties": {
             "id": { "dataType": "string" },
@@ -415,18 +430,6 @@ const models: TsoaRoute.Models = {
         "properties": {
             "locationId": { "dataType": "string", "required": true },
             "date": { "dataType": "string" },
-        },
-    },
-    "SheriffLocation": {
-        "properties": {
-            "id": { "dataType": "string" },
-            "sheriffId": { "dataType": "string", "required": true },
-            "locationId": { "dataType": "string", "required": true },
-            "startDate": { "dataType": "string", "required": true },
-            "endDate": { "dataType": "string" },
-            "startTime": { "dataType": "string" },
-            "endTime": { "dataType": "string" },
-            "isPartial": { "dataType": "double", "required": true },
         },
     },
     "Leave": {
