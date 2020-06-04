@@ -25,8 +25,6 @@ export default abstract class ExpirableDatabaseService<T> extends DatabaseServic
         const query = this.getSelectQuery();
 
         query.where(this.getEffectiveWhereClause(options));
-        console.log('getEffectiveSelectQuery');
-        console.log(query.toString());
         return query;
     }
 

@@ -2720,6 +2720,8 @@ export function RegisterRoutes(router: any) {
         async (context, next) => {
             const args = {
                 locationId: { "in": "query", "name": "locationId", "dataType": "string" },
+                startDate: { "in": "query", "name": "startDate", "dataType": "string" },
+                endDate: { "in": "query", "name": "endDate", "dataType": "string" },
             };
 
             let validatedArgs: any[] = [];
