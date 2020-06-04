@@ -115,8 +115,10 @@ export default class ExtendedClient extends Client {
         );
     }
 
-    GetSheriffs(locationId: string = ""): Promise<Sheriff[]> {
-        return super.GetSheriffs(locationId);
+    GetSheriffs(locationId: string = "", startDate?: DateType, endDate?: DateType): Promise<Sheriff[]> {
+        const startMoment = moment(startDate);
+        const endMoment = endDate ? moment(endDate) : moment(startMoment);
+        return super.GetSheriffs(locationId, startMoment.toISOString(), endMoment.toISOString());
     }
 
     GetSheriffLocations(locationId: string = ""): Promise<SheriffLocation[]> {

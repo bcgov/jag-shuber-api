@@ -1702,13 +1702,15 @@ var Client = /** @class */ (function () {
             });
         });
     };
-    Client.prototype.GetSheriffs = function (locationId) {
+    Client.prototype.GetSheriffs = function (locationId, startDate, endDate) {
         return __awaiter(this, void 0, void 0, function () {
             var params;
             var _this = this;
             return __generator(this, function (_a) {
                 params = {
-                    "locationId": locationId
+                    "locationId": locationId,
+                    "startDate": startDate,
+                    "endDate": endDate
                 };
                 return [2 /*return*/, this.tryRequest(function () { return __awaiter(_this, void 0, void 0, function () {
                         var response;
