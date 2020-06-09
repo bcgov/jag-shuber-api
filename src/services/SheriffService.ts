@@ -5,10 +5,10 @@ import { AutoWired, Inject, Container } from 'typescript-ioc';
 
 import { SYSTEM_USER_DISPLAY_NAME} from '../common/authentication';
 
-import { DatabaseService } from '../infrastructure/DatabaseService';
 import { EffectiveQueryOptions } from '../infrastructure/ExpirableDatabaseService';
 
 import { UserService } from './UserService';
+import { EffectiveSheriffLocationService } from './EffectiveSheriffLocationService';
 import { SheriffLocationService } from './SheriffLocationService';
 import { LocationService } from './LocationService';
 
@@ -19,7 +19,7 @@ import { User } from '../models/User';
 import { start } from 'repl';
 
 @AutoWired
-export class SheriffService extends DatabaseService<Sheriff> {
+export class SheriffService extends EffectiveSheriffLocationService<Sheriff> {
     fieldMap = {
         sheriff_id: 'id',
         badge_no: 'badgeNo',
@@ -39,55 +39,36 @@ export class SheriffService extends DatabaseService<Sheriff> {
         super('sheriff', 'sheriff_id');
     }
 
-    protected effectiveField = "start_date";
-    protected expiryField = "end_date";
-    protected effectiveTimeField = "start_time";
-    protected expiryTimeField = "end_time";
-
-    /**
-     * Builds where clause for something like:
-     * SELECT 
-	 *  s.sheriff_id, 
-	 *  sl.location_id,
-	 *  DATE(sl.start_date - interval '1 days') as preview_loan_date,
-	 *  sl.start_date,
-	 *  sl.end_date
-     * FROM sheriff AS s INNER JOIN sheriff_location AS sl ON (sl.sheriff_id=s.sheriff_id) 
-     * WHERE 
-     *  (sl.location_id = '<someguid>') 
-     *  AND sl.end_date >= DATE('2020-06-10') -- is it in progress
-     *  AND DATE(sl.start_date - interval '7 days') <= DATE('2020-06-10')
-     * ORDER BY sl.start_date ASC, sl.start_time asc
-     * @param options
-     */
-    private getEffectiveLocationWhereClause(options: EffectiveQueryOptions = {}) {
-        const {
-            startDate = moment().startOf('day').toISOString(),
-            fieldAlias = undefined,
-            effectiveField = this.effectiveField,
-            expiryField =  this.expiryField
-        } = options;
-
-        const previewDays = 7;
-
-        let clause = this.squel.expr();
-
-        const effectiveFieldStr = fieldAlias ? `${fieldAlias}.${effectiveField}` : effectiveField;
-        const expiryFieldStr = fieldAlias ? `${fieldAlias}.${expiryField}` : expiryField;
-
-        // Add on the where for the effective date
-        clause = this.squel.expr()
-            .and(`${expiryFieldStr} >= DATE('${startDate}')`)
-            .and(`DATE(${effectiveFieldStr} - INTERVAL '${previewDays.toString()} days') <= DATE('${startDate}')`)
-        
-        return clause;
-    }
+    protected effectiveField = 'start_date';
+    protected expiryField = 'end_date';
+    protected effectiveTimeField = 'start_time';
+    protected expiryTimeField = 'end_time';
 
     pickCurrentLocation(sheriffLocations: SheriffLocation[]) {
         const sheriffLocation: SheriffLocation | undefined = (sheriffLocations && sheriffLocations.length > 0)
             ? sheriffLocations[0] : undefined;
 
         return sheriffLocation;
+    }
+
+    public joinOnSheriffLocations(
+        query: PostgresSelect,
+        dbTableName: string,
+        dbTableJoinCol: string = 'sheriff_id',
+        sheriffsAlias: string = 's',
+        sheriffLocationsAlias: string = 'sl'
+
+    ) {
+        const sheriffLocationService = Container.get(SheriffLocationService);
+
+        query
+            .join(
+                sheriffLocationService.dbTableName,
+                sheriffLocationsAlias,
+                `${sheriffLocationsAlias}.sheriff_id=${sheriffsAlias}.sheriff_id`
+            );
+
+        return query;
     }
 
     async getAll(locationId?: string, options?: EffectiveQueryOptions) {
@@ -115,8 +96,9 @@ export class SheriffService extends DatabaseService<Sheriff> {
         const rows = await this.executeQuery<Sheriff>(query.toString());
 
         const results = rows.map(async entity => {
-            const { id, homeLocationId } = entity;
+            const { id, homeLocationId, badgeNo } = entity;
             const userEntity = await userService.getBySheriffId(id);
+            
             if (userEntity) {
                 entity.user = userEntity as User;
             }
@@ -146,26 +128,6 @@ export class SheriffService extends DatabaseService<Sheriff> {
         return Promise.all(results);
     }
 
-    public joinOnSheriffLocations(
-        query: PostgresSelect,
-        dbTableName: string,
-        dbTableJoinCol: string = 'sheriff_id',
-        sheriffsAlias: string = 's',
-        sheriffLocationsAlias: string = 'sl'
-
-    ) {
-        const sheriffLocationService = Container.get(SheriffLocationService);
-
-        query
-            .join(
-                sheriffLocationService.dbTableName,
-                sheriffLocationsAlias,
-                `${sheriffLocationsAlias}.sheriff_id=${sheriffsAlias}.sheriff_id`
-            );
-
-        return query;
-    }
-
     async getSheriffIdsByCurrentLocation(locationId: string, options?: EffectiveQueryOptions) {
         const sheriffsAlias: string = 's';
         const sheriffLocationsAlias: string = 'sl';
@@ -184,7 +146,7 @@ export class SheriffService extends DatabaseService<Sheriff> {
         } as EffectiveQueryOptions;
 
         options = options ? Object.assign({}, options, queryOptions): queryOptions;
-        query.where(this.getEffectiveLocationWhereClause(options));
+        query.where(this.getEffectiveWhereClause(options));
 
         query.order(`${sheriffLocationsAlias}.${this.effectiveField}`);
         query.order(`${sheriffLocationsAlias}.${this.effectiveTimeField}`);

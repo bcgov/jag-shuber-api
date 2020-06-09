@@ -1,11 +1,14 @@
-import { SheriffLocation } from '../models/SheriffLocation';
-import ExpirableDatabaseService from '../infrastructure/ExpirableDatabaseService';
-import { CurrentUser } from '../infrastructure/CurrentUser';
 import { AutoWired } from 'typescript-ioc';
 import { PostgresInsert } from 'squel';
 
+import { CurrentUser } from '../infrastructure/CurrentUser';
+import { EffectiveQueryOptions } from '../infrastructure/ExpirableDatabaseService';
+import { EffectiveSheriffLocationService } from './EffectiveSheriffLocationService';
+
+import { SheriffLocation } from '../models/SheriffLocation';
+
 @AutoWired
-export class SheriffLocationService extends ExpirableDatabaseService<SheriffLocation> {
+export class SheriffLocationService extends EffectiveSheriffLocationService<SheriffLocation> {
     fieldMap = {
         sheriff_location_id: 'id',
         sheriff_id: 'sheriffId',
@@ -13,7 +16,7 @@ export class SheriffLocationService extends ExpirableDatabaseService<SheriffLoca
         start_date: 'startDate',
         end_date: 'endDate',
         start_time: 'startTime',
-        end_time: 'endTime',
+        end_time: 'endTime',    
         partial_day_ind: 'isPartial',
         created_by: 'createdBy',
         updated_by: 'updatedBy',
@@ -29,18 +32,23 @@ export class SheriffLocationService extends ExpirableDatabaseService<SheriffLoca
         super('sheriff_location', 'sheriff_location_id');
     }
 
+    // TODO: Not sure if filtering by lcoation ID is necessary
     async getAll(locationId?: string) {
         const query = super.getSelectQuery();
 
         query.where(this.getActiveWhereClause());
-        query.order(`location_id IS NOT NULL, location_id`);
 
         const rows = await this.executeQuery<SheriffLocation>(query.toString());
         return rows;
     }
 
-    async getBySheriffId(sheriffId: string): Promise<SheriffLocation[]> {
-        const rows = await this.getWhereFieldEquals('sheriffId', sheriffId);
+    async getBySheriffId(sheriffId: string, options?: EffectiveQueryOptions): Promise<SheriffLocation[]> {
+        const query = super.getSelectQuery();
+
+        query.where(`sheriff_id='${sheriffId}'`);
+        query.where(this.getEffectiveWhereClause());
+
+        const rows = await this.executeQuery<SheriffLocation>(query.toString());
         return rows;
     }
 
@@ -80,7 +88,7 @@ export class SheriffLocationService extends ExpirableDatabaseService<SheriffLoca
             // Set it to NOW
             query.set(this.effectiveField, this.squel.str('NOW()'));
         }
+        
         return query;
     }
-
 }

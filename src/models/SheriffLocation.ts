@@ -1,6 +1,6 @@
 import { Location } from './Location'
 
-export interface SheriffLocation{
+export interface SheriffLocation {
     id?: string;
     sheriffId: string;
     locationId: string;
