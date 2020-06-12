@@ -8,9 +8,10 @@ import { RoleApiScopeService } from './RoleApiScopeService';
 @AutoWired
 export class RoleService extends DatabaseService<Role> {
     fieldMap = {
-        app_role_id: 'id',
-        app_role_name: 'roleName',
-        app_role_code: 'roleCode',
+        role_id: 'id',
+        role_name: 'roleName',
+        role_code: 'roleCode',
+        system_role_ind: 'systemRoleInd',
         description: 'description',
         created_by: 'createdBy',
         updated_by: 'updatedBy',
@@ -20,7 +21,14 @@ export class RoleService extends DatabaseService<Role> {
     };
 
     constructor() {
-        super('app_role', 'app_role_id');
+        super('auth_role', 'role_id');
+    }
+
+    async getAll() {
+        const query = super.getSelectQuery();
+        query.order(`system_role_ind = '1' DESC, role_code`)
+        const rows = await this.executeQuery<Role>(query.toString());
+        return rows;
     }
 
     async getById(id: string): Promise<Role | undefined> {
@@ -43,10 +51,22 @@ export class RoleService extends DatabaseService<Role> {
 
     async getByCode(code: string) {
         const query = this.getSelectQuery()
-            .where(`app_role_code='${code}'`)
+            .where(`role_code='${code}'`)
             .limit(1);
 
-        const rows = await this.executeQuery<Role>(query.toString());
+        let rows = await this.executeQuery<Role>(query.toString());
+        
+        // Attach roleFrontendScopes and roleApiScopes by default for convenience
+        const roleFrontendScopeService = Container.get(RoleFrontendScopeService);
+        const roleApiScopeService = Container.get(RoleApiScopeService);
+        if (rows && rows.length > 0) {
+            rows = await Promise.all(rows.map(async (row: Role) => {
+                row.roleFrontendScopes = await roleFrontendScopeService.getByRoleId(row.id);
+                row.roleApiScopes = await roleApiScopeService.getByRoleId(row.id);
+                return row;
+            }));
+        }
+
         return rows[0];
     }
 }

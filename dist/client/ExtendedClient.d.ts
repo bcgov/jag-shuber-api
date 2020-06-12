@@ -1,6 +1,6 @@
 import * as SA from 'superagent';
 import Client from './Client';
-import { Assignment, Location, Courtroom, Duty, DutyRecurrence, Region, EscortRun, Sheriff, Shift, DutyImportDefaultsRequest, MultipleShiftUpdateRequest, Leave, SheriffDuty, SheriffDutyAutoAssignRequest, User, Role, UserRole, ApiScope, RoleApiScope, FrontendScope, FrontendScopePermission, RoleFrontendScope, RolePermission } from './models';
+import { Assignment, Location, Courtroom, Duty, DutyRecurrence, Region, EscortRun, Sheriff, Shift, DutyImportDefaultsRequest, MultipleShiftUpdateRequest, Leave, SheriffDuty, SheriffLocation, SheriffDutyAutoAssignRequest, User, Role, UserRole, ApiScope, RoleApiScope, FrontendScope, FrontendScopePermission, RoleFrontendScope, RolePermission } from './models';
 import { DateType } from '../common/types';
 import { OtherAssignCode } from '../models/OtherAssignCode';
 import { JailRoleCode } from '../models/JailRoleCode';
@@ -13,13 +13,13 @@ export default class ExtendedClient extends Client {
     private interceptRequest;
     requestInterceptor: SuperAgentRequestInterceptor | undefined;
     protected handleResponse<T>(response: SA.Response): T;
-    protected ensureToken(): Promise<void>;
     protected processError(err: any): Error;
     private nullOn404;
     GetRegionById(id: string): Promise<Region>;
     GetLocationById(id: string): Promise<Location>;
     GetSheriffById(id: string): Promise<Sheriff>;
     GetSheriffs(locationId?: string): Promise<Sheriff[]>;
+    GetSheriffLocations(locationId?: string): Promise<SheriffLocation[]>;
     GetCourtroomById(id: string): Promise<Courtroom>;
     GetCourtrooms(locationId?: string): Promise<Courtroom[]>;
     GetCourtRoleCodes(locationId?: string): Promise<CourtRoleCode[]>;

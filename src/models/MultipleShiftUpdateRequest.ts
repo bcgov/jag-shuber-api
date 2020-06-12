@@ -1,6 +1,6 @@
 export interface MultipleShiftUpdateRequest {
     shiftIds: string[]
-    sheriffId?: string; 
+    sheriffId?: string;
     startTime?: string;
     endTime?: string;
     workSectionId?: string;

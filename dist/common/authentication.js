@@ -7,7 +7,7 @@ exports.JWT_AUTH_ERROR = new Error(SCOPE_ASSERTION_MESSAGE);
 /**
  * FakeMinder stuff, just for local development
  */
-exports.FAKEMINDER_IDIR = "yname";
+exports.FAKEMINDER_IDIR = "";
 exports.FAKEMINDER_GUID = "SOMEGUIDGOESHERE";
 /**
  * These env vars are used to configure which user is granted full access rights to the system in a production environment.
@@ -26,7 +26,13 @@ exports.DEV_SA_AUTH_ID = process.env.SYS_DEV_SA_AUTH_ID || null; // Super-Admin'
  * This is used to configure a fake IDIR account name for local development purposes.
  */
 exports.DEV_USER_DISPLAY_NAME = 'Test User'; // Test User Display Name
-exports.DEV_USER_AUTH_ID = 'TESTUSR'; // Test User Auth ID (substitute for IDIR)
+exports.DEV_USER_AUTH_ID = 'TESTUSR'; // Test User Auth ID (substitute for IDIR), RESET TO TESTUSR WHEN NOT IN USE!
+// The Role to Assign to Test User, only valid if using the configured DEV_USER_AUTH_ID user account.
+// Use this to test different roles that may have been entered into the database.
+// The field below refers to the DEV_USER_TEST_ROLES role code or the desired role.
+// export const DEV_USER_TEST_ROLES = ['SYSADMIN'];
+exports.DEV_USER_TEST_ROLES = ['ADMIN']; // TODO: Build these in! TESTASSIGN | TESTAUTH | TESTLEAVES
+exports.USER_DEFAULT_ROLES = []; // Set the DEFAULT USER ROLES - THESE ROLES ARE ASSIGNED TO ALL USERS THAT ARE PROVISIONED SYSTEM ACCESS!
 /**
  * System user display name. Just a value to use when the application updates a database record, and the action is not
  * attributable to a user, for whatever reason.
@@ -35,12 +41,16 @@ exports.SYSTEM_USER_DISPLAY_NAME = 'System User';
 /**
  * Configure siteminder headers.
  */
-exports.SITEMINDER_HEADER_USERGUID = 'smgov_userguid';
 exports.SITEMINDER_HEADER_USERDISPLAYNAME = 'smgov_userdisplayname';
 exports.SITEMINDER_HEADER_USERTYPE = 'smgov_usertype';
-exports.SITEMINDER_HEADER_USERIDENTIFIER = process.env.SYS_AUTH_ID_SM_HEADER_KEY || 'smgov_useridentifier';
+exports.SITEMINDER_HEADER_USERGUID = 'smgov_userguid';
+exports.SITEMINDER_HEADER_USERIDENTIFIER = process.env.SYS_AUTH_ID_SM_HEADER_KEY || 'smgov_useridentifier'; // GUID
+exports.SITEMINDER_HEADER_USER = 'sm_user'; // 'IDIR\\<USERNAME>'
+exports.SITEMINDER_HEADER_UNIVERSALID = 'sm_universalid'; // <USERNAME>
+exports.SITEMINDER_HEADER_COOKIE = 'cookie';
 exports.DEFAULT_SCOPES = ['default'];
 exports.TOKEN_COOKIE_NAME = "app_token";
+exports.SMSESSION_COOKIE_NAME = "SMSESSION";
 /**
  * Checks a TokenPayload for the given scope
  *

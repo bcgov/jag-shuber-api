@@ -6,6 +6,7 @@ export { RolePermissionController } from './RolePermissionController';
 export { ApiScopeController } from './ApiScopeController';
 export { FrontendScopeController } from './FrontendScopeController';
 export { FrontendScopePermissionController } from './FrontendScopePermissionController';
+export { FrontendScopeApiController } from './FrontendScopeApiController';
 export { RoleApiScopeController } from './RoleApiScopeController';
 export { RoleFrontendScopeController } from './RoleFrontendScopeController';
 
@@ -23,6 +24,7 @@ export { ShiftController } from './ShiftController';
 export { DutyRecurrenceController } from './DutyRecurrenceController';
 export { DutyController } from './DutyController';
 export { SheriffDutyController } from './SheriffDutyController';
+export { SheriffLocationController } from './SheriffLocationController';
 export { LeaveController } from './LeaveController';
 export { LeaveCancelCodesController } from './LeaveCancelCodesController';
 export { LeaveTypeCodesController } from './LeaveTypeCodesController';

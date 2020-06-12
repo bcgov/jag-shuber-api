@@ -26,5 +26,6 @@ export function retreiveCookieValue(cookieName: string, agent?: SuperAgent<any>)
             token = cookieString.replace(`${cookieName}=`, '');
         }
     }
+    
     return token;
 }

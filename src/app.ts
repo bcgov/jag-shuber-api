@@ -7,7 +7,13 @@ import morgan from 'koa-morgan';
 import {Client} from 'pg';
 
 const app = new Koa();
-app.use(bodyParser());
+// app.use(bodyParser());
+// Increase memory limit for requests so we can save photos
+app.use(bodyParser({ 
+    formLimit: '5mb',
+    jsonLimit: '5mb',
+    textLimit: '5mb' 
+}));
 
 // Construct the Router
 const router = new Router({

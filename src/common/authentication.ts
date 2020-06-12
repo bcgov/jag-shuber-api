@@ -8,7 +8,7 @@ export const JWT_AUTH_ERROR = new Error(SCOPE_ASSERTION_MESSAGE);
 /**
  * FakeMinder stuff, just for local development
  */
-export const FAKEMINDER_IDIR = "yname";
+export const FAKEMINDER_IDIR = "";
 export const FAKEMINDER_GUID = "SOMEGUIDGOESHERE";
 
 /**
@@ -18,17 +18,28 @@ export const FAKEMINDER_GUID = "SOMEGUIDGOESHERE";
  */
 export const SA_SITEMINDER_ID = process.env.SYS_SA_SITEMINDER_ID || null; // Super-Admin User's Siteminder User ID (Prod)
 export const SA_AUTH_ID = process.env.SYS_SA_AUTH_ID || null; // Super-Admin's IDIR (Prod)
+
 /**
  * These are the same as the SA_SITEMINDER_ID and SA_AUTH_ID env vars, except they control which user is granted
  * full access rights to the system in a development environment.
  */
 export const DEV_SA_SITEMINDER_ID = process.env.SYS_DEV_SA_SITEMINDER_ID || null; // Super-Admin User's Siteminder User ID (Dev)
 export const DEV_SA_AUTH_ID = process.env.SYS_DEV_SA_AUTH_ID || null; // Super-Admin's IDIR (Dev)
+
 /**
  * This is used to configure a fake IDIR account name for local development purposes.
  */
 export const DEV_USER_DISPLAY_NAME = 'Test User'; // Test User Display Name
-export const DEV_USER_AUTH_ID = 'TESTUSR'; // Test User Auth ID (substitute for IDIR)
+export const DEV_USER_AUTH_ID = 'TESTUSR'; // Test User Auth ID (substitute for IDIR), RESET TO TESTUSR WHEN NOT IN USE!
+
+// The Role to Assign to Test User, only valid if using the configured DEV_USER_AUTH_ID user account.
+// Use this to test different roles that may have been entered into the database.
+// The field below refers to the DEV_USER_TEST_ROLES role code or the desired role.
+// export const DEV_USER_TEST_ROLES = ['SYSADMIN'];
+export const DEV_USER_TEST_ROLES = ['ADMIN']; // TODO: Build these in! TESTASSIGN | TESTAUTH | TESTLEAVES
+
+export const USER_DEFAULT_ROLES = []; // Set the DEFAULT USER ROLES - THESE ROLES ARE ASSIGNED TO ALL USERS THAT ARE PROVISIONED SYSTEM ACCESS!
+
 /**
  * System user display name. Just a value to use when the application updates a database record, and the action is not
  * attributable to a user, for whatever reason.
@@ -38,17 +49,21 @@ export const SYSTEM_USER_DISPLAY_NAME = 'System User';
 /**
  * Configure siteminder headers.
  */
-export const SITEMINDER_HEADER_USERGUID = 'smgov_userguid';
 export const SITEMINDER_HEADER_USERDISPLAYNAME = 'smgov_userdisplayname';
 export const SITEMINDER_HEADER_USERTYPE = 'smgov_usertype';
-export const SITEMINDER_HEADER_USERIDENTIFIER = process.env.SYS_AUTH_ID_SM_HEADER_KEY || 'smgov_useridentifier';
+export const SITEMINDER_HEADER_USERGUID = 'smgov_userguid';
+export const SITEMINDER_HEADER_USERIDENTIFIER = process.env.SYS_AUTH_ID_SM_HEADER_KEY || 'smgov_useridentifier'; // GUID
+export const SITEMINDER_HEADER_USER = 'sm_user'; // 'IDIR\\<USERNAME>'
+export const SITEMINDER_HEADER_UNIVERSALID = 'sm_universalid'; // <USERNAME>
+export const SITEMINDER_HEADER_COOKIE = 'cookie';
 
 export const DEFAULT_SCOPES: Scope[] = ['default'];
 export const TOKEN_COOKIE_NAME = "app_token";
+export const SMSESSION_COOKIE_NAME = "SMSESSION";
 
 /**
  * Define OAuth scopes that are applied to application routes using tsoa's @Security decorator.
- * eg. @Security('jwt', ['system:scopes:api']) Note! These scopes configure how tsoa will generate routes.ts.
+ * eg. @Security('jwt', ['system:scopes']) Note! These scopes configure how tsoa will generate routes.ts.
  *
  * This is distinct from the related but separate read-only System Scopes entries that are automatically populated
  * into the application's database. In order to assign a scope defined here to a user, a corresponding system scope
@@ -58,22 +73,14 @@ export const TOKEN_COOKIE_NAME = "app_token";
  export interface Scopes {
     default: 'default',
     none: 'none',
-    admin_users: 'admin:users',
-    admin_user_roles: 'admin:user:roles',
-    admin_sheriff_leaves: 'admin:sheriff:leaves',
-    admin_sheriff_locations: 'admin:sheriff:locations',
-    admin_sheriff_training: 'admin:sheriff:training',
-    sheriffs_add: 'sheriffs:add',
-    sheriffs_deactivate: 'sheriffs:deactivate',
-    sheriffs_delete: 'sheriffs:delete',
-    sheriffs_edit: 'sheriffs:edit',
-    sheriffs_view: 'sheriffs:view',
-    system_locations: 'system:locations',
-    system_scopes_api: 'system:scopes:api',
-    system_scopes_ui: 'system:scopes:ui',
-    system_types_assignment: 'system:types:assignment',
-    system_types_leaves: 'system:types:leaves',
-    system_types_training: 'system:types:training'
+    users_manage: 'users:manage',
+    roles_manage: 'roles:manage',
+    sheriffs_manage: 'sheriffs:manage',
+    sheriffs_update: 'sheriffs:update',
+    system_scopes: 'system:scopes',
+    system_scopes_read: 'system:scopes:read',
+    system_types: 'system:types',
+    system_types_read: 'system:types:read'
 }
 
 /**

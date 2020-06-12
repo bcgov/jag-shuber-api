@@ -22,14 +22,14 @@ describe('token service', () => {
         userAuthId: 'LUCASLOP'
     } as User;
 
-    test("isDevSuperAdmin should return true if the user's IDIR is listed in DEV_SA_AUTH_ID", async () => {
+    test("isMasterSuperAdmin should return true if the user's IDIR is listed in DEV_SA_AUTH_ID", async () => {
         console.log(process.env);
-        expect(TokenService.isDevSuperAdmin(devSuperAdminUser)).toEqual(true);
+        expect(TokenService.isMasterSuperAdmin(devSuperAdminUser)).toEqual(true);
     });
 
-    test("isDevSuperAdmin should return false if the user's IDIR is not listed in DEV_SA_AUTH_ID", async () => {
+    test("isMasterSuperAdmin should return false if the user's IDIR is not listed in DEV_SA_AUTH_ID", async () => {
         console.log(process.env);
-        expect(TokenService.isDevSuperAdmin(devSuperAdminUser)).toEqual(false);
+        expect(TokenService.isMasterSuperAdmin(devSuperAdminUser)).toEqual(false);
     });
 
     test("isProdSuperAdmin should return true if the user's IDIR is listed in SA_AUTH_ID", async () => {

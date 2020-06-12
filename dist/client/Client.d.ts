@@ -1,6 +1,6 @@
 import * as superAgent from "superagent";
 import { TypedEvent } from '../common/TypedEvent';
-import { User, UserRole, Role, RolePermission, ApiScope, FrontendScope, FrontendScopePermission, RoleApiScope, RoleFrontendScope, Assignment, Region, Location, Sheriff, Courtroom, JailRoleCode, OtherAssignCode, WorkSectionCode, SheriffRankCode, EscortRun, Shift, MultipleShiftUpdateRequest, ShiftCopyOptions, DutyRecurrence, Duty, DutyImportDefaultsRequest, SheriffDuty, SheriffDutyAutoAssignRequest, Leave, LeaveCancelReasonCode, LeaveCode, LeaveSubCode, CourtRoleCode, GenderCode } from "./models";
+import { User, UserRole, Role, RolePermission, ApiScope, FrontendScope, FrontendScopePermission, FrontendScopeApi, RoleApiScope, RoleFrontendScope, Assignment, Region, Location, Sheriff, Courtroom, JailRoleCode, OtherAssignCode, WorkSectionCode, SheriffRankCode, EscortRun, Shift, MultipleShiftUpdateRequest, ShiftCopyOptions, DutyRecurrence, Duty, DutyImportDefaultsRequest, SheriffDuty, SheriffDutyAutoAssignRequest, SheriffLocation, Leave, LeaveCancelReasonCode, LeaveCode, LeaveSubCode, CourtRoleCode, GenderCode } from "./models";
 export default class Client {
     private _agent;
     private _previousToken;
@@ -40,15 +40,6 @@ export default class Client {
      */
     protected handleResponse<T>(response: superAgent.Response): T;
     /**
-     * Ensures that a application token currently exists and fetches a new one
-     * if the old one has expired or is not present.
-     *
-     * @protected
-     * @returns {Promise<void>}
-     * @memberof Client
-     */
-    protected ensureToken(): Promise<void>;
-    /**
      * Takes a token and handles emitting events if the token has changed
      *
      * @protected
@@ -71,7 +62,6 @@ export default class Client {
      */
     protected tryRequest<T>(worker: () => Promise<superAgent.Response>): Promise<T>;
     GetToken(): Promise<any>;
-    Logout(): Promise<any>;
     GetCurrentUser(): Promise<User>;
     GetUsers(locationId: string): Promise<any>;
     CreateUser(model: User): Promise<any>;
@@ -79,6 +69,12 @@ export default class Client {
     GetUserById(id: string): Promise<any>;
     UpdateUser(id: string, model: User): Promise<any>;
     DeleteUser(id: string): Promise<void>;
+    ExpireUser(id: string): Promise<void>;
+    UnexpireUser(id: string): Promise<void>;
+    ExpireUsers(ids: Array<string>): Promise<void>;
+    UnexpireUsers(ids: Array<string>): Promise<void>;
+    DeleteUsers(ids: Array<string>): Promise<void>;
+    UploadUserImage(id: string): Promise<void>;
     GetCurrentUserRoles(): Promise<Array<any>>;
     GetUserRoles(locationId: string, startDate: string, endDate: string): Promise<Array<UserRole>>;
     CreateUserRole(model: UserRole): Promise<any>;
@@ -86,6 +82,10 @@ export default class Client {
     UpdateUserRole(id: string, model: UserRole): Promise<any>;
     DeleteUserRole(id: string): Promise<void>;
     ExpireUserRole(id: string): Promise<void>;
+    UnexpireUserRole(id: string): Promise<void>;
+    ExpireUserRoles(ids: Array<string>): Promise<void>;
+    UnexpireUserRoles(ids: Array<string>): Promise<void>;
+    DeleteUserRoles(ids: Array<string>): Promise<void>;
     GetRoles(): Promise<Array<any>>;
     CreateRole(model: Role): Promise<any>;
     GetRoleById(id: string): Promise<any>;
@@ -111,6 +111,11 @@ export default class Client {
     GetFrontendScopePermissionById(id: string): Promise<any>;
     UpdateFrontendScopePermission(id: string, model: FrontendScopePermission): Promise<any>;
     DeleteFrontendScopePermission(id: string): Promise<void>;
+    GetFrontendScopeApis(): Promise<Array<any>>;
+    CreateFrontendScopeApi(model: FrontendScopeApi): Promise<any>;
+    GetFrontendScopeApiById(id: string): Promise<any>;
+    UpdateFrontendScopeApi(id: string, model: FrontendScopeApi): Promise<any>;
+    DeleteFrontendScopeApi(id: string): Promise<void>;
     GetRoleApiScopes(): Promise<Array<any>>;
     CreateRoleApiScope(model: RoleApiScope): Promise<any>;
     GetRoleApiScopeById(id: string): Promise<any>;
@@ -147,15 +152,19 @@ export default class Client {
     GetCourtroomById(id: string): Promise<Courtroom>;
     UpdateCourtroom(id: string, model: Courtroom): Promise<Courtroom>;
     DeleteCourtroom(id: string): Promise<void>;
+    ExpireCourtroom(id: string): Promise<void>;
+    UnexpireCourtroom(id: string): Promise<void>;
     GetJailRoleCodes(locationId: string): Promise<Array<JailRoleCode>>;
     CreateJailRoleCode(model: JailRoleCode): Promise<JailRoleCode>;
-    UpdateJailRoleCode(id: string, model: JailRoleCode): Promise<JailRoleCode>;
     ExpireJailRoleCode(id: string): Promise<void>;
+    UnexpireJailRoleCode(id: string): Promise<void>;
+    UpdateJailRoleCode(id: string, model: JailRoleCode): Promise<JailRoleCode>;
     DeleteJailRoleCode(id: string): Promise<void>;
     GetOtherAssignCodes(locationId: string): Promise<Array<OtherAssignCode>>;
     CreateOtherAssignCode(model: OtherAssignCode): Promise<OtherAssignCode>;
-    UpdateOtherAssignCode(id: string, model: OtherAssignCode): Promise<OtherAssignCode>;
     ExpireOtherAssignCode(id: string): Promise<void>;
+    UnexpireOtherAssignCode(id: string): Promise<void>;
+    UpdateOtherAssignCode(id: string, model: OtherAssignCode): Promise<OtherAssignCode>;
     DeleteOtherAssignCode(id: string): Promise<void>;
     GetWorkSectionCodes(): Promise<Array<WorkSectionCode>>;
     GetSheriffRankCodes(): Promise<Array<SheriffRankCode>>;
@@ -164,6 +173,8 @@ export default class Client {
     GetEscortRunById(id: string): Promise<EscortRun>;
     UpdateEscortRun(id: string, model: EscortRun): Promise<EscortRun>;
     DeleteEscortRun(id: string): Promise<void>;
+    ExpireEscortRun(id: string): Promise<void>;
+    UnexpireEscortRun(id: string): Promise<void>;
     GetShifts(locationId: string): Promise<Array<Shift>>;
     CreateShift(model: Shift): Promise<Shift>;
     GetShiftById(id: string): Promise<Shift>;
@@ -189,6 +200,11 @@ export default class Client {
     UpdateSheriffDuty(id: string, model: SheriffDuty): Promise<SheriffDuty>;
     DeleteSheriffDuty(id: string): Promise<void>;
     AutoAssignSheriffDuties(model: SheriffDutyAutoAssignRequest): Promise<Array<SheriffDuty>>;
+    GetSheriffLocations(locationId: string): Promise<Array<SheriffLocation>>;
+    CreateSheriffLocation(model: SheriffLocation): Promise<SheriffLocation>;
+    GetSheriffLocationById(id: string): Promise<SheriffLocation>;
+    UpdateSheriffLocation(id: string, model: SheriffLocation): Promise<SheriffLocation>;
+    DeleteSheriffLocation(id: string): Promise<void>;
     GetLeaves(): Promise<Array<Leave>>;
     CreateLeave(model: Leave): Promise<Leave>;
     GetLeaveById(id: string): Promise<Leave>;
@@ -200,12 +216,14 @@ export default class Client {
     CreateLeaveSubCode(model: LeaveSubCode): Promise<LeaveSubCode>;
     GetLeaveSubCodeById(id: string): Promise<LeaveSubCode>;
     UpdateLeaveSubCode(id: string, model: LeaveSubCode): Promise<LeaveSubCode>;
-    ExpireLeaveSubCode(id: string): Promise<void>;
     DeleteLeaveSubCode(id: string): Promise<void>;
+    ExpireLeaveSubCode(id: string): Promise<void>;
+    UnexpireLeaveSubCode(id: string): Promise<void>;
     GetCourtRoleCodes(locationId: string): Promise<Array<CourtRoleCode>>;
     CreateCourtRoleCode(model: CourtRoleCode): Promise<CourtRoleCode>;
-    UpdateCourtRoleCode(id: string, model: CourtRoleCode): Promise<CourtRoleCode>;
     ExpireCourtRoleCode(id: string): Promise<void>;
+    UnexpireCourtRoleCode(id: string): Promise<void>;
+    UpdateCourtRoleCode(id: string, model: CourtRoleCode): Promise<CourtRoleCode>;
     DeleteCourtRoleCode(id: string): Promise<void>;
     GetGenderCodes(): Promise<Array<GenderCode>>;
 }

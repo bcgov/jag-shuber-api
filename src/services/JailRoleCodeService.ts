@@ -1,5 +1,6 @@
 import { JailRoleCode } from '../models/JailRoleCode';
 import ExpirableDatabaseService from '../infrastructure/ExpirableDatabaseService';
+import { CurrentUser } from '../infrastructure/CurrentUser';
 import { AutoWired } from 'typescript-ioc';
 import { PostgresInsert } from 'squel';
 
@@ -7,16 +8,18 @@ import { PostgresInsert } from 'squel';
 export class JailRoleCodeService extends ExpirableDatabaseService<JailRoleCode> {
     fieldMap = {
         jail_role_id: 'id',
+        location_id: 'locationId',
         jail_role_code: 'code',
-        description: 'description',
+        jail_role_name: 'name',
+        description: 'description', // For future use
         effective_date: 'effectiveDate',
         expiry_date: 'expiryDate',
+        sort_order: 'sortOrder',
         created_by: 'createdBy',
         updated_by: 'updatedBy',
         created_dtm: 'createdDtm',
         updated_dtm: 'updatedDtm',
-        revision_count: 'revisionCount',
-        location_id: 'locationId'
+        revision_count: 'revisionCount'
     };
 
     constructor() {
@@ -24,7 +27,7 @@ export class JailRoleCodeService extends ExpirableDatabaseService<JailRoleCode> 
     }
 
     async getAll(locationId?: string, includeProvincial?: boolean) {
-        includeProvincial = includeProvincial || true
+        includeProvincial = includeProvincial || true;
         const query = super.getSelectQuery();
         if (locationId) {
             if (includeProvincial) {
@@ -34,8 +37,9 @@ export class JailRoleCodeService extends ExpirableDatabaseService<JailRoleCode> 
             }
         } else {
             query.where(`location_id IS NULL`);
-        };
-        query.order(`location_id IS NOT NULL, code`)
+        }
+
+        query.order(`location_id IS NOT NULL, sort_order`);
         const rows = await this.executeQuery<JailRoleCode>(query.toString());
         return rows;
     }
@@ -51,19 +55,33 @@ export class JailRoleCodeService extends ExpirableDatabaseService<JailRoleCode> 
 
     async getByCodeAndLocation(code: string, locationId?: string) {
         let query = this.getSelectQuery()
-            .where(`jail_role_code='${code}'`)
+            .where(`jail_role_code='${code}'`);
 
-        query = (locationId !== null) 
-            ? query.where(`location_id='${locationId}'`) 
-            : query.where(`location_id IS NULL`)
+        query = (locationId !== null)
+            ? query.where(`location_id='${locationId}'`)
+            : query.where(`location_id IS NULL`);
 
         const rows = await this.executeQuery<JailRoleCode>(query.toString());
         return rows[0];
     }
 
     protected getInsertQuery(entity: Partial<JailRoleCode>): PostgresInsert {
+        // Take the Field Map keys and map properties from the object
+        // const createdByPropName = this.fieldMap[this.createdByField];
+        // const createdByPropValue = entity[createdByPropName];
+        // const updatedByPropName = this.fieldMap[this.updatedByField];
+        // const updatedByPropValue = entity[createdByPropName];
+
+        const { displayName } = this.currentUser() as CurrentUser;
+
+        const createdByPropName = this.fieldMap[this.createdByField];
+        entity[createdByPropName] = displayName;
+        const updatedByPropName = this.fieldMap[this.updatedByField];
+        entity[updatedByPropName] = displayName;
+
         const query = this.db.insertQuery(this.tableName, this.primaryKey)
             .returning(this.getReturningFields());
+
         this.setQueryFields(query, entity);
 
         // Take the Field Map keys and map properties from the object

@@ -6,6 +6,7 @@ import { createThrottle } from '../common/throttle';
 
 import { ApiScopeService } from './ApiScopeService';
 import { FrontendScopeService } from './FrontendScopeService';
+import { FrontendScopeApiService } from './FrontendScopeApiService';
 import { UserService } from './UserService';
 import { CourtRoleCodeService } from './CourtRoleCodeService';
 import { JailRoleCodeService } from './JailRoleCodeService';
@@ -13,6 +14,7 @@ import { OtherAssignCodeService } from './OtherAssignCodeService';
 
 import { User } from '../models/User';
 import { FrontendScope } from '../models/FrontendScope';
+import { FrontendScopeApi } from '../models/FrontendScopeApi';
 import { ApiScope } from '../models/ApiScope';
 import { CourtRoleCode } from '../models/CourtRoleCode';
 import { JailRoleCode } from '../models/JailRoleCode';
@@ -22,9 +24,10 @@ import { OtherAssignCode } from '../models/OtherAssignCode';
  * Import the default system scopes configuration. These scopes, which are embedded in the user token, are required by the
  * frontend application and control which plugins, parts of the user interface, and which APIs a user can have access to.
  */
-import { 
-    defaultFrontendScopes, 
-    defaultFrontendScopePermissions, 
+import {
+    defaultFrontendScopes,
+    defaultFrontendScopePermissions,
+    defaultFrontendScopeApis,
     defaultApiScopes,
     defaultRoles,
     defaultSystemFrontendScopes,
@@ -53,6 +56,8 @@ import { Role } from '../models/Role';
 import { RoleApiScope } from '../models/RoleApiScope';
 import { RoleFrontendScope } from '../models/RoleFrontendScope';
 import { LocationService } from './LocationService';
+import { RolePermissionService } from './RolePermissionService';
+import { RolePermission } from '../models/RolePermission';
 
 const MAX_RECORDS_PER_BATCH = 3;
 
@@ -60,7 +65,7 @@ const MAX_RECORDS_PER_BATCH = 3;
 export class GeneratorService {
     /**
      * Re-generate any ApiScopes that are required by and missing in the system.
-     * Default scopes are defined in src/common/systemScopes.ts
+     * Default scopes are defined in src/common/generatorData
      */
     public async generateApiScopes() {
         const scopeService = Container.get(ApiScopeService);
@@ -75,7 +80,7 @@ export class GeneratorService {
 
     /**
      * Re-generate any FrontendScopes that are required by and missing in the system.
-     * Default scopes are defined in src/common/systemScopes.ts
+     * Default scopes are defined in src/common/generatorData
      */
     public async generateFrontendScopes() {
         const scopeService = Container.get(FrontendScopeService);
@@ -90,7 +95,7 @@ export class GeneratorService {
 
     /**
      * Re-generate any FrontendScopes that are required by and missing in the system.
-     * Default scopes are defined in src/common/systemScopes.ts
+     * Default scopes are defined in src/common/generatorData
      */
     public async generateFrontendScopePermissions() {
         const scopeService = Container.get(FrontendScopeService);
@@ -103,16 +108,57 @@ export class GeneratorService {
             const scopeEntity = await scopeService.getByScopeCode(scope.scopeCode);
             if (scopeEntity) {
                 const innerOps = defaultFrontendScopePermissions
-                    .filter(permissssion => permissssion.frontendScopeCode === scope.scopeCode)
+                    .filter(permission => permission.frontendScopeCode === scope.scopeCode)
                     .map(async (permission: FrontendScopePermission) => {
                         if (!(await scopePermissionService.getByCode(permission.permissionCode))) {
                             const newPermission = permission;
-                            newPermission.frontendScopeId = scope.id; 
+                            newPermission.frontendScopeId = scope.id;
                             return await scopePermissionService.create(newPermission);
                         }
                     });
-                
-        
+
+
+                await Promise.all(innerOps);
+            }
+        });
+
+        await Promise.all(outerOps);
+    }
+
+    /**
+     * Re-generate any FrontendScopeApis that are required by and missing in the system.
+     * Default scopes are defined in src/common/generatorData
+     */
+    public async generateFrontendScopeApis() {
+        const scopeApiService = Container.get(FrontendScopeApiService);
+
+        const frontendScopeService = Container.get(FrontendScopeService);
+        const apiScopeService = Container.get(ApiScopeService);
+
+        const frontendScopes = await frontendScopeService.getAll();
+        if (!(frontendScopes && frontendScopes.length > 0)) return;
+
+        const outerOps = frontendScopes.map(async (scope: FrontendScope) => {
+            const scopeEntity = await frontendScopeService.getByScopeCode(scope.scopeCode);
+
+            if (scopeEntity) {
+                const innerOps = defaultFrontendScopeApis
+                    .filter(frontendScopeApi => frontendScopeApi.frontendScopeCode === scope.scopeCode)
+                    .map(async (api: FrontendScopeApi) => {
+                        // Get 
+                        const frontendScope = await frontendScopeService.getByScopeCode(api.frontendScopeCode);
+                        const apiScope = await apiScopeService.getByScopeCode(api.apiScopeCode);
+
+                        const scopeApi = await scopeApiService.getByFrontendAndApiScope(frontendScope, apiScope);
+                        if (!scopeApi) {
+                            const newApi = api;
+                            newApi.frontendScopeId = frontendScope.id;
+                            newApi.apiScopeId = apiScope.id;
+                            return await scopeApiService.create(newApi);
+                        }
+                    });
+
+
                 await Promise.all(innerOps);
             }
         });
@@ -122,54 +168,142 @@ export class GeneratorService {
 
     /**
      * Re-generate any built-in roles that are required by and missing in the system.
-     * Default scopes are defined in src/common/systemScopes.ts
+     * Default scopes are defined in src/common/generatorData
      */
     public async generateSystemRolesAndScopes() {
         const roleService = Container.get(RoleService) as RoleService;
         const roleFrontendScopeService = Container.get(RoleFrontendScopeService) as RoleFrontendScopeService;
         const roleApiScopeService = Container.get(RoleApiScopeService) as RoleApiScopeService;
         const frontendScopeService = Container.get(FrontendScopeService) as FrontendScopeService;
+        const frontendScopePermissionService = Container.get(FrontendScopePermissionService) as FrontendScopePermissionService;
+        const rolePermissionService = Container.get(RolePermissionService) as RolePermissionService;
         const apiScopeService = Container.get(ApiScopeService) as ApiScopeService;
-        
+
         const roleOps = defaultRoles.map(async (role: Role) => {
             if (!(await roleService.getByCode(role.roleCode))) {
+                console.log(`Generating missing default role: ${role.roleCode}`);
                 return await roleService.create(role);
             }
         });
 
         await Promise.all(roleOps);
 
-        const fsOps = defaultSystemFrontendScopes.map(async (roleScope: any) => {
-            const { roleCode, scopeCode } = roleScope;
-            const scope = await frontendScopeService.getByScopeCode(scopeCode) as FrontendScope;
-            if (scope && !(await roleFrontendScopeService.hasScope(scope))) {
-                const role = await roleService.getByCode(roleCode) as Role;
+        const fsThrottle = createThrottle(MAX_RECORDS_PER_BATCH);
+        const fsOps = defaultSystemFrontendScopes.map((defaultRoleScope: any) => fsThrottle(async() => {
+            const { roleCode, scopeCode } = defaultRoleScope;
+            
+            const role: Role = await roleService.getByCode(roleCode) as Role;
+            const scope: FrontendScope = await frontendScopeService.getByScopeCode(scopeCode) as FrontendScope;
+
+            let roleScope: RoleFrontendScope;
+            const hasRoleScope = await roleFrontendScopeService.hasScope(scope.id);
+            if (hasRoleScope) {
+                const roleScopes = await roleFrontendScopeService.getByScopeId(scope.id);
+                roleScope = roleScopes[0];
+            }
+
+            if (scope && !roleScope) {
+                console.log(`Generating missing default scope [${scopeCode}] for role [${role.roleCode}]`);
+                
                 const newRoleScope = {
                     roleId: role.id,
                     scopeId: scope.id,
-                    ...roleScope
+                    ...defaultRoleScope
                 } as RoleFrontendScope;
 
-                return await roleFrontendScopeService.create(newRoleScope);
+                roleScope = await roleFrontendScopeService.create(newRoleScope);
             }
-        });
+
+            return roleScope;
+        }));
 
         await Promise.all(fsOps);
 
-        const asOps = defaultSystemApiScopes.map(async (roleScope: any) => {
-            const { roleCode, scopeCode } = roleScope;
-            const scope = await apiScopeService.getByScopeCode(scopeCode) as ApiScope;
-            if (scope && !(await roleApiScopeService.hasScope(scope))) {
-                const role = await roleService.getByCode(roleCode) as Role;
+        const fsOuterThrottle = createThrottle(1);
+        const fsInnerThrottle = createThrottle(MAX_RECORDS_PER_BATCH);
+        const fsInnerOps = defaultSystemFrontendScopes.map((defaultRoleScope: any) => fsOuterThrottle(async() => {
+            const { roleCode, scopeCode } = defaultRoleScope;
+            
+            const role: Role = await roleService.getByCode(roleCode) as Role;
+            const scope: FrontendScope = await frontendScopeService.getByScopeCode(scopeCode) as FrontendScope;
+
+            let roleScope: RoleFrontendScope;
+            const hasRoleScope = await roleFrontendScopeService.hasScope(scope.id);
+            if (hasRoleScope) {
+                const roleScopes = await roleFrontendScopeService.getByScopeId(scope.id);
+                roleScope = roleScopes[0];
+            }
+
+            // For each frontend scope, generate role permissions
+            if (!scope.id) {
+                console.warn(`Could not find any permissions for frontend scope [${scope.scopeCode}]`);
+            } else {
+                const frontendScopePermissions = frontendScopePermissionService.getByScopeId(scope.id);
+                
+                
+                const fspOps = (await frontendScopePermissions).map((scopePermission: any) => fsInnerThrottle(async() => {
+                    const rolePermissions = await rolePermissionService.getByRoleFrontendScopeId(roleScope.id);
+                    if (rolePermissions) {
+                        // console.log(`Found the following role permissions for frontend scope [${scope.scopeCode}]`);
+                        // console.log(rolePermissions);    
+                    }
+
+                    let rolePermission: RoleFrontendScope;
+                    const hasRolePermission = rolePermissions.find((rp: RolePermission) => rp.frontendScopePermissionId === scopePermission.id);
+
+                    if (!hasRolePermission) {
+                        console.log(`Generating missing default permission [${scopePermission.permissionCode}] for [${scope.scopeCode}] for role [${role.roleCode}]`);
+                        const newRolePermission = {
+                            roleId: role.id,
+                            roleApiScopeId: null,
+                            roleFrontendScopeId: roleScope.id,
+                            apiScopePermissionId: null,
+                            frontendScopePermissionId: scopePermission.id,
+                            createdBy: scopePermission.createdBy,
+                            updatedBy: scopePermission.updatedBy,
+                            createdDtm: new Date(scopePermission.createdDtm).toISOString(),
+                            updatedDtm: new Date(scopePermission.updatedDtm).toISOString(),
+                            revisionCount: scopePermission.revisionCount
+                        } as RolePermission;
+
+                        rolePermission = await rolePermissionService.create(newRolePermission);
+                    }
+
+                    return rolePermission;
+                }));
+
+                await Promise.all(fspOps);
+            }
+        }));
+
+        await Promise.all(fsInnerOps);
+        
+        const asThrottle = createThrottle(MAX_RECORDS_PER_BATCH);
+        const asOps = defaultSystemApiScopes.map((defaultRoleScope: any) => asThrottle(async() => {
+            const { roleCode, scopeCode } = defaultRoleScope;
+
+            const role: Role = await roleService.getByCode(roleCode) as Role;
+            const scope: ApiScope = await apiScopeService.getByScopeCode(scopeCode) as ApiScope;
+            
+            let roleScope: RoleApiScope;
+            const hasRoleScope = await roleApiScopeService.hasScope(scope.id);
+            if (hasRoleScope) {
+                const roleScopes = await roleApiScopeService.getByScopeId(scope.id);
+                roleScope = roleScopes[0];
+            }
+            
+            if (scope && !roleScope) {
                 const newRoleScope = {
                     roleId: role.id,
                     scopeId: scope.id,
-                    ...roleScope
+                    ...defaultRoleScope
                 } as RoleApiScope;
-                
-                return await roleApiScopeService.create(newRoleScope);
+
+                roleScope = await roleApiScopeService.create(newRoleScope);
             }
-        });
+
+            return roleScope;
+        }));
 
         await Promise.all(asOps);
     }
@@ -222,13 +356,13 @@ export class GeneratorService {
 
         const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
         const ops = rows.map(sheriffEntity => throttle(async() => {
-            // TODO: Set a limit, we'll need to throttle this or something... 
+            // TODO: Set a limit, we'll need to throttle this or something...
             // Increate the number of records and this starts to blow up, probably too much memory.
             if (sheriffEntity.id) {
                 const userEntity = await userService.getBySheriffId(sheriffEntity.id);
                 if (!userEntity) {
                     console.log(`Generating user for sheriff_id: ${sheriffEntity.id}`);
-                    await this.generateUserForSheriff(sheriffEntity);   
+                    await this.generateUserForSheriff(sheriffEntity);
                 }
             }
         }));
@@ -248,6 +382,8 @@ export class GeneratorService {
                 userAuthId: null, // TODO: This is where we can load in auth ids for sheriffs
                 defaultLocationId: null, // TODO: This field is basically useless, location is on the sheriff
                 sheriffId: sheriff.id,
+                effectiveDate: new Date().toISOString(),
+                expiryDate: null,
                 createdBy: SYSTEM_USER_DISPLAY_NAME,
                 updatedBy: SYSTEM_USER_DISPLAY_NAME,
                 createdDtm: new Date().toISOString(),
@@ -257,10 +393,10 @@ export class GeneratorService {
 
             console.log(`Generated user "${newUserEntity.id}" for sheriff_id: ${newUserEntity.sheriffId}, name: ${newUserEntity.displayName}`);
             return newUserEntity;
-        
+
         } catch (err) {
             console.log(`Error generating user for sheriff_id: ${sheriff.id}`)
-        }    
+        }
     }
 
     /**
@@ -283,9 +419,10 @@ export class GeneratorService {
 
         await Promise.all(codeOps);
 
-        const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
+        // Uncomment this to test custom assignment type generation
+        /* const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
         const ops = locations.map(location => throttle(async() => {
-            // TODO: Set a limit, we'll need to throttle this or something... 
+            // TODO: Set a limit, we'll need to throttle this or something...
             // Increate the number of records and this starts to blow up, probably too much memory.
             if (location.id) {
                 const codeOps = defaultCourtRoleCodes.map(async (code: CourtRoleCode) => {
@@ -301,7 +438,7 @@ export class GeneratorService {
             }
         }));
 
-        await Promise.all(ops);
+        await Promise.all(ops); */
     }
 
     /**
@@ -324,9 +461,10 @@ export class GeneratorService {
 
         await Promise.all(codeOps);
 
-        const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
+        // Uncomment this to test custom assignment type generation
+        /* const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
         const ops = locations.map(location => throttle(async() => {
-            // TODO: Set a limit, we'll need to throttle this or something... 
+            // TODO: Set a limit, we'll need to throttle this or something...
             // Increate the number of records and this starts to blow up, probably too much memory.
             if (location.id) {
                 const codeOps = defaultJailRoleCodes.map(async (code: JailRoleCode) => {
@@ -342,7 +480,7 @@ export class GeneratorService {
             }
         }));
 
-        await Promise.all(ops);
+        await Promise.all(ops); */
     }
 
     /**
@@ -365,9 +503,10 @@ export class GeneratorService {
 
         await Promise.all(codeOps);
 
-        const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
+        // Uncomment this to test custom assignment type generation
+        /* const throttle = createThrottle(MAX_RECORDS_PER_BATCH);
         const ops = locations.map(location => throttle(async() => {
-            // TODO: Set a limit, we'll need to throttle this or something... 
+            // TODO: Set a limit, we'll need to throttle this or something...
             // Increate the number of records and this starts to blow up, probably too much memory.
             if (location.id) {
                 const codeOps = defaultOtherAssignCodes.map(async (code: OtherAssignCode) => {
@@ -383,6 +522,6 @@ export class GeneratorService {
             }
         }));
 
-        await Promise.all(ops);
+        await Promise.all(ops); */
     }
 }

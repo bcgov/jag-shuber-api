@@ -7,6 +7,8 @@ import { ValidateError, FieldErrors } from 'tsoa';
 import { Inject, AutoWired } from 'typescript-ioc';
 import { DatabaseRecordMetadata, DatabaseMetadataFieldMap } from './DatabaseRecordMetadata';
 
+import { CurrentUser } from '../infrastructure/CurrentUser';
+
 export type DatabaseResult<T> = { rows: T[] }
 
 @AutoWired
@@ -33,6 +35,12 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
     get dbTableName(): string {
         return this.tableName;
     }
+
+    protected createdByField = "created_by";
+    protected updatedByField = "updated_by";
+    protected createdDtmField = "created_dtm";
+    protected updatedDtmField = "updated_dtm";
+    protected revisionCountField = "revision_count";
 
     getAliasedFieldMap(alias: string) {
         return Object.keys(this.fieldMap).reduce((newFields, key) => {
@@ -73,12 +81,27 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
             DatabaseError.decorate(returnError);
             if (isDatabaseError(returnError)) {
                 // Error codes can be found here: https://www.postgresql.org/docs/9.6/static/errcodes-appendix.html
-                if (error.code === "23505") {
+                if (error.code === "23503") {
                     const matches = error.detail.match(DatabaseError.PG_ERROR_23505_REGEX);
-                    if (matches.length > 0) {
+                    if (matches && matches.length > 0) {
                         const field = matches[1];
                         const value = matches[2];
-                        const message = "Already Exists";
+                        const message = "Foreign Key Violation";
+                        const fieldErrors: FieldErrors = {};
+                        fieldErrors[this.fieldMap[field]] = {
+                            message,
+                            value
+                        }
+                        returnError = new ValidateError(fieldErrors, "ValidationError");
+                    }
+                }
+
+                if (error.code === "23505") {
+                    const matches = error.detail.match(DatabaseError.PG_ERROR_23505_REGEX);
+                    if (matches && matches.length > 0) {
+                        const field = matches[1];
+                        const value = matches[2];
+                        const message = "Unique Key Violation";
                         const fieldErrors: FieldErrors = {};
                         fieldErrors[this.fieldMap[field]] = {
                             message,
@@ -111,7 +134,7 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
     /**
      * Returns a {PostgresSelect} object that will by default select all records
      * from the table and map the fields using the services fieldMap.
-     * 
+     *
      * If an [id] is specified then it will be used to add a where clause keying on
      * the record id
      *
@@ -121,7 +144,7 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
      * @memberof DatabaseService
      */
     protected getSelectQuery(id?: string, tableAlias?: string): PostgresSelect {
-        const query = this.squel.select({ autoQuoteAliasNames: true })
+        const query = this.squel.select({ autoQuoteAliasNames: true, tableAliasQuoteCharacter: "" })
             .from(this.tableName, tableAlias)
             .fields(tableAlias ? this.getAliasedFieldMap(tableAlias) : this.getAliasedFieldMap(this.tableName));
         if (id) {
@@ -131,13 +154,37 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
     }
 
     protected getInsertQuery(entity: Partial<T>): PostgresInsert {
+        // Take the Field Map keys and map properties from the object
+        // const createdByPropName = this.fieldMap[this.createdByField];
+        // const createdByPropValue = entity[createdByPropName];
+        // const updatedByPropName = this.fieldMap[this.updatedByField];
+        // const updatedByPropValue = entity[createdByPropName];
+
+        const { displayName } = this.currentUser() as CurrentUser;
+
+        const createdByPropName = this.fieldMap[this.createdByField];
+        entity[createdByPropName] = displayName;
+        const updatedByPropName = this.fieldMap[this.updatedByField];
+        entity[updatedByPropName] = displayName;
+
         const query = this.db.insertQuery(this.tableName, this.primaryKey)
             .returning(this.getReturningFields());
+
         this.setQueryFields(query, entity);
+
         return query;
     }
 
     protected getUpdateQuery(entity: Partial<T>): PostgresUpdate {
+        // Take the Field Map keys and map properties from the object
+        // const updatedByPropName = this.fieldMap[this.updatedByField];
+        // const updatedByPropValue = entity[createdByPropName];
+
+        const { displayName } = this.currentUser() as CurrentUser;
+
+        const updatedByPropName = this.fieldMap[this.updatedByField];
+        entity[updatedByPropName] = displayName;
+
         const query = this.db.updateQuery(this.tableName);
 
         // Map object properties into object
@@ -197,7 +244,7 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
     async getWhereFieldEquals(fieldName: string, value: string | number): Promise<T[]> {
         const query = this.getSelectQuery()
             .where(`${this.columnMap[fieldName]}='${value}'`);
-        
+
         const rows = await this.executeQuery<T>(query.toString());
         return rows;
     }
@@ -216,6 +263,7 @@ export abstract class DatabaseService<T> extends ServiceBase<T> {
 
     async delete(id: string): Promise<void> {
         const query = this.getDeleteQuery(id);
+        console.log(query.toString());
         await this.executeQuery(query.toString());
     }
 

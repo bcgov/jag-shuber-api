@@ -1,0 +1,227 @@
+#!/bin/bash
+export DOCKERHOST=${APPLICATION_URL-$(docker run --rm --net=host eclipse/che-ip)}
+export MSYS_NO_PATHCONV=1
+
+S2I_EXE=s2i
+if [ -z $(type -P "$S2I_EXE") ]; then
+  echo -e "The ${S2I_EXE} executable is needed and not on your path."
+  echo -e "It can be downloaded from here: https://github.com/openshift/source-to-image/releases"
+  echo -e "Make sure you extract the binary and place it in a directory on your path."
+  exit 1
+fi
+
+SCRIPT_HOME="$( cd "$( dirname "$0" )" && pwd )"
+
+# =================================================================================================================
+# Usage:
+# -----------------------------------------------------------------------------------------------------------------
+
+usage() {
+  cat <<-EOF
+
+  Usage: $0 [command] [options]
+
+  Commands:
+
+  build - Build the docker images for the project.
+          You need to do this first, since the builds require a combination of Docker images.
+          Use --no-cache to build (rebuild) without using cached images.
+          Example:
+            $0 build --no-cache
+
+  restore - Restore a database backup into the container.
+            Place the backup in $(pwd)/tmp.
+            Create the folder if it does not exist.
+            
+            Example:
+              $0 restore postgres-appdb_2020-03-06_13-42-56.sql.gz
+
+  up/start - Creates the application container from the built images
+             and starts the services based on the docker-compose.yml file.
+
+             You can pass in a list of containers to start.
+             By default all containers will be started.
+
+  stop - Stops the services.
+         This is a non-destructive process.  The volumes and containers
+         are not deleted so they will be reused the next time you run start.
+
+  down/rm - Brings down the services and removes the volumes (storage) and containers.
+
+EOF
+exit 1
+}
+
+# -----------------------------------------------------------------------------------------------------------------
+# Functions:
+# -----------------------------------------------------------------------------------------------------------------
+function echoGreen (){
+  _msg="${@}"
+  _green='\e[32m'
+  _nc='\e[0m' # No Color
+  echo -e "${_green}${_msg}${_nc}"
+}
+
+configureEnvironment () {
+
+  if [ -f .env ]; then
+    while read line; do
+      if [[ ! "$line" =~ ^\# ]] && [[ "$line" =~ .*= ]]; then
+        export $line
+      fi
+    done < .env
+  fi
+
+  for arg in $@; do
+    case "$arg" in
+      *=*)
+        export ${arg}
+        ;;
+    esac
+  done
+
+  export COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME:-"sheriff-scheduling"}
+
+  # postgres
+  export POSTGRESQL_DATABASE=${POSTGRESQL_DATABASE:-appdb}
+  export POSTGRESQL_USER=${POSTGRESQL_USER:-userUNT}
+  export POSTGRESQL_PASSWORD=${POSTGRESQL_PASSWORD:-user-password}
+  export POSTGRESQL_ADMIN_PASSWORD=${POSTGRESQL_ADMIN_PASSWORD:-admin-password}
+
+  # api
+  export API_DATABASE_SCHEMA=${API_DATABASE_SCHEMA:-shersched}
+  export PGHOST=${PGHOST:-postgres}
+  export PGUSER=${PGUSER:-shersched}
+  export PGPASSWORD=${PGPASSWORD:-n05dmkFjio1GCUVY}
+  export JWT_SECRET=${JWT_SECRET:-bL8B0eUfB3hF3RGvdS7jEX0qPEodE1tHfB0iCYHkUlXDvrm60daAaMD1GfsaQvuYmbtXX8jtvPOx78NeAfRNQdE4lrHhiT03LNNw}
+  export PGDATABASE=${PGDATABASE:-${POSTGRESQL_DATABASE}}
+  export POSTGRES_EXT_SCHEMA=${POSTGRES_EXT_SCHEMA:-extensions}
+  export SYS_PRODUCTION_MODE=${SYS_PRODUCTION_MODE:-true}
+  export SYS_GRANT_ALL_SCOPES=${SYS_GRANT_ALL_SCOPES:-false}
+  export SYS_USE_SITEMINDER=${SYS_USE_SITEMINDER:-true}
+  export SYS_AUTH_ID_SM_HEADER_KEY=${SYS_AUTH_ID_SM_HEADER_KEY:-sm_universalid}
+  export SYS_SA_SITEMINDER_ID=${SYS_SA_SITEMINDER_ID}
+  export SYS_SA_AUTH_ID=${SYS_SA_AUTH_ID:-TESTUSR}
+  export SYS_DEFAULT_LOCATION=${SYS_DEFAULT_LOCATION:-VIC}
+}
+
+getStartupParams() {
+  CONTAINERS=""
+  ARGS=""
+  if [ "$COMMAND" == "start" ]; then
+    ARGS+="--force-recreate"
+  fi
+
+  for arg in $@; do
+    case "$arg" in
+      *=*)
+        # Skip it
+        ;;
+     -*)
+        ARGS+=" $arg";;
+      *)
+        CONTAINERS+=" $arg";;
+    esac
+  done
+
+  if [ -z "$CONTAINERS" ]; then
+    CONTAINERS="$DEFAULT_CONTAINERS"
+  fi
+
+  echo ${ARGS} ${CONTAINERS}
+}
+
+build() {
+  # Build all containers in the docker-compose file
+  build-api ${@}
+}
+
+build-api() {
+  BASE_IMAGE="jag-shuber-api-builder:latest"
+
+  echoGreen "\n\nBuilding api-builder ...\n"
+  docker build \
+    ${@} \
+    -t "${BASE_IMAGE}" \
+    -f '../openshift/templates/api-builder/Dockerfile' '../openshift/templates/api-builder'
+
+  echoGreen "\n\nBuilding api ...\n"
+  ${S2I_EXE} build \
+    --copy \
+    -s 'file://../.s2i/bin' \
+    '../' \
+    "${BASE_IMAGE}" \
+    'api'
+}
+
+deleteVolumes() {
+  _projectName=${COMPOSE_PROJECT_NAME:-docker}
+
+  echo "Stopping and removing any running containers ..."
+  docker-compose rm -svf >/dev/null
+
+  _pattern="^${_projectName}_\|^docker_"
+  _volumes=$(docker volume ls -q | grep ${_pattern})
+
+  if [ ! -z "${_volumes}" ]; then
+    echo "Removing project volumes ..."
+    echo ${_volumes} |  xargs docker volume rm
+  else
+    echo "No project volumes exist."
+  fi
+}
+
+restoreDatabase() {
+  backupFileName=${1}
+
+  deleteVolumes
+  docker-compose up -d postgres
+  
+  # Wait for the database container to start
+  sleep 10
+
+  docker exec sheriff-scheduling_postgres_1 psql -ac "CREATE USER shersched WITH PASSWORD 'n05dmkFjio1GCUVY';"
+  docker exec sheriff-scheduling_postgres_1 psql -ac "GRANT ALL ON DATABASE ${POSTGRESQL_DATABASE} TO shersched;"
+  
+  cmd="gunzip -c /tmp2/${backupFileName} | psql -v -x -h 127.0.0.1 -d ${POSTGRESQL_DATABASE}"
+  docker exec sheriff-scheduling_postgres_1 bash -c "${cmd}"
+
+  docker-compose stop
+}
+# =================================================================================================================
+
+pushd ${SCRIPT_HOME} >/dev/null
+COMMAND=$1
+shift || true
+
+case "$COMMAND" in
+  start|up)
+    _startupParams=$(getStartupParams $@)
+    configureEnvironment $@
+    docker-compose up -d ${_startupParams}
+    docker-compose logs -f
+    ;;
+  stop)
+    configureEnvironment $@
+    docker-compose stop
+    ;;
+  rm|down)
+    configureEnvironment $@
+    deleteVolumes
+    ;;
+  build)
+    _startupParams=$(getStartupParams $@)
+    configureEnvironment $@
+    build ${_startupParams}
+    ;;
+
+  restore)
+    _startupParams=$(getStartupParams $@)
+    configureEnvironment $@
+    restoreDatabase ${_startupParams}
+    ;;
+  *)
+    usage
+esac
+
+popd >/dev/null

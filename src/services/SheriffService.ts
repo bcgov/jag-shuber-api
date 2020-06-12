@@ -1,10 +1,13 @@
-
 import moment from 'moment';
+import squel from 'squel';
+
 import { AutoWired, Inject, Container } from 'typescript-ioc';
 
 import { SYSTEM_USER_DISPLAY_NAME} from '../common/authentication';
 import { DatabaseService } from '../infrastructure/DatabaseService';
 import { UserService } from './UserService';
+import { SheriffLocationService } from './SheriffLocationService';
+
 import { Sheriff } from '../models/Sheriff';
 import { User } from '../models/User';
 
@@ -17,9 +20,8 @@ export class SheriffService extends DatabaseService<Sheriff> {
         last_name: 'lastName',
         image_url: 'imageUrl',
         home_location_id: 'homeLocationId',
-        current_location_id:'currentLocationId',
         sheriff_rank_code: 'rankCode',
-        alias:'alias',
+        alias: 'alias',
         gender_code: 'genderCode'
     };
 
@@ -30,14 +32,92 @@ export class SheriffService extends DatabaseService<Sheriff> {
         super('sheriff', 'sheriff_id');
     }
 
+    public joinOnSheriffs(
+        query: squel.PostgresSelect,
+        dbTableName: string,
+        dbTableJoinCol: string = 'sheriff_id',
+        sheriffsAlias: string = 's',
+        sheriffLocationsAlias: string = 'sl'
+
+    ) {
+        const sheriffLocationService = Container.get(SheriffLocationService);
+
+        query
+            .left_join(
+                sheriffLocationService.dbTableName,
+                sheriffLocationsAlias,
+                `${sheriffLocationsAlias}.sheriff_id=${sheriffsAlias}.sheriff_id`
+            );
+
+        return query;
+    }
+
     async getAll(locationId?: string) {
+        const sheriffsAlias: string = 's';
+        const sheriffLocationsAlias: string = 'sl';
+
         const userService = Container.get(UserService);
 
-        const query = super.getSelectQuery();
-        // TODO: What if the location is on the sheriff, and not the user
+        const query = squel.select({ autoQuoteAliasNames: true, tableAliasQuoteCharacter: "" });
+        query.fields(this.getAliasedFieldMap('all_sheriffs'));
+        query.field(`all_sheriffs.location_id`, 'currentLocationId');
+
+        const currentMoment = moment();
+
+        const homeSheriffsQuery = this.squel
+            .select({ autoQuoteAliasNames: true, tableAliasQuoteCharacter: "" })
+                .from(this.tableName, 's')
+                .field(`s.sheriff_id`)
+                .field(`s.badge_no`)
+                .field(`s.first_name`)
+                .field(`s.last_name`)
+                .field(`s.image_url`)
+                .field(`s.home_location_id`)
+                .field(`NULL AS location_id`)
+                .field(`s.sheriff_rank_code`)
+                .field(`s.alias`)
+                .field(`s.gender_code`);
+
         if (locationId) {
-            query.where(`home_location_id='${locationId}' OR current_location_id='${locationId}'`);
-        };
+            homeSheriffsQuery.where(`s.home_location_id='${locationId}'`);
+        }
+
+        const loanedSheriffsQuery = this.squel
+            .select({ autoQuoteAliasNames: true, tableAliasQuoteCharacter: "" })
+                .from(this.tableName, 's')
+                .field(`s.sheriff_id`)
+                .field(`s.badge_no`)
+                .field(`s.first_name`)
+                .field(`s.last_name`)
+                .field(`s.image_url`)
+                .field(`s.home_location_id`)
+                .field(`sl.location_id`)
+                .field(`s.sheriff_rank_code`)
+                .field(`s.alias`)
+                .field(`s.gender_code`);
+
+        this.joinOnSheriffs(loanedSheriffsQuery, this.dbTableName, this.primaryKey);
+        loanedSheriffsQuery.where(`Date('${currentMoment.toISOString()}') BETWEEN ${sheriffLocationsAlias}.start_date AND ${sheriffLocationsAlias}.end_date`);
+        loanedSheriffsQuery.order(`${sheriffLocationsAlias}.start_date`);
+        loanedSheriffsQuery.order(`${sheriffLocationsAlias}.start_time`);
+
+        query.from(homeSheriffsQuery.union(loanedSheriffsQuery), 'all_sheriffs');
+
+        query
+            .group(`all_sheriffs.sheriff_id`)
+            .group(`all_sheriffs.badge_no`)
+            .group(`all_sheriffs.first_name`)
+            .group(`all_sheriffs.last_name`)
+            .group(`all_sheriffs.image_url`)
+            .group(`all_sheriffs.home_location_id`)
+            .group(`all_sheriffs.location_id`)
+            .group(`all_sheriffs.sheriff_rank_code`)
+            .group(`all_sheriffs.alias`)
+            .group(`all_sheriffs.gender_code`)
+            .order(`all_sheriffs.last_name`, true)
+            .order(`all_sheriffs.first_name`, true)
+            .order(`all_sheriffs.location_id`, false);
+
         const rows = await this.executeQuery<Sheriff>(query.toString());
 
         const results = rows.map(async entity => {
@@ -79,10 +159,13 @@ export class SheriffService extends DatabaseService<Sheriff> {
                         newUser.siteminderId = entity.user.siteminderId || null;
                         newUser.userAuthId = entity.user.userAuthId || null;
                         newUser.systemAccountInd = entity.user.systemAccountInd || 0;
+                        newUser.effectiveDate = entity.user.effectiveDate || null;
+                        newUser.expiryDate = entity.user.expiryDate || null;
                         newUser.createdBy = SYSTEM_USER_DISPLAY_NAME; // TODO: Replace with currentUser
+                        // The DB trigger should handle this
                         newUser.createdDtm = (entity.user.createdDtm) ? moment(entity.user.createdDtm).toISOString() : moment(new Date()).toISOString();
                         newUser.updatedBy = SYSTEM_USER_DISPLAY_NAME; // TODO: Replace with currentUser
-                        newUser.updatedDtm = moment(new Date()).toISOString();
+                        // newUser.updatedDtm = moment(new Date()).toISOString();
                     }
 
                     user = await userService.create(newUser);
@@ -112,9 +195,13 @@ export class SheriffService extends DatabaseService<Sheriff> {
                 user.siteminderId = entity.user.siteminderId || null;
                 user.userAuthId = entity.user.userAuthId || null;
                 user.systemAccountInd = entity.user.systemAccountInd || 0;
+                user.effectiveDate = entity.user.effectiveDate || null;
+                user.expiryDate = entity.user.expiryDate || null;
                 user.createdBy = SYSTEM_USER_DISPLAY_NAME; // TODO: Replace with currentUser
+                // The DB trigger should handle this
                 user.createdDtm = (entity.user.createdDtm) ? moment(entity.user.createdDtm).toISOString() : moment(new Date()).toISOString();
                 user.updatedBy = SYSTEM_USER_DISPLAY_NAME; // TODO: Replace with currentUser
+                // The DB trigger should handle this
                 user.updatedDtm = moment(new Date()).toISOString();
 
                 user = await userService.update(user);

@@ -1,5 +1,6 @@
 import * as jwt from 'jsonwebtoken';
 import { TokenPayload } from '../common/authentication';
+import { decodeJwt } from '../common/tokenUtils';
 
 export const JWT_SECRET: string = process.env.JWT_SECRET || "d3vS3cr37";
 
@@ -16,6 +17,7 @@ export const JWT_SECRET: string = process.env.JWT_SECRET || "d3vS3cr37";
  */
 export async function createToken(payload: TokenPayload, secret: string = JWT_SECRET, signOptions?: jwt.SignOptions): Promise<string | undefined> {
     if (payload) {
+        console.log('Creating JWT token');
         return jwt.sign({
             scopes: [],
             appScopes: [],
@@ -24,7 +26,8 @@ export async function createToken(payload: TokenPayload, secret: string = JWT_SE
             algorithm: 'HS256',
             issuer: 'jag-shuber-api',
             audience: 'jag-shuber-client',
-            expiresIn: '30m',
+            // TODO: Make token expiry configurable
+            expiresIn: '30m', 
             ...signOptions
         })
     }
@@ -41,14 +44,20 @@ export async function createToken(payload: TokenPayload, secret: string = JWT_SE
  */
 export async function verifyToken(token: string, secret: string = JWT_SECRET): Promise<TokenPayload> {
     return await new Promise((resolve, reject) => {
+        // console.log('Verifying token...');
         if (!token) {
+            // console.log('Verifying token failed, no token provided');
             reject(new Error("No token provided"))
         }
 
         jwt.verify(token, secret, (err: any, decoded: any) => {
             if (err) {
+                // console.log('Verifying token failed');
+                // console.log(err);
                 reject(err)
             } else {
+                // console.log('Token decoded:');
+                // console.log(decodeJwt(token));
                 resolve(decoded as TokenPayload);
             }
         });

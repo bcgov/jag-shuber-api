@@ -18,7 +18,7 @@ export class FrontendScopePermissionService extends DatabaseService<FrontendScop
     };
 
     constructor() {
-        super('frontend_scope_permission', 'frontend_scope_permission_id');
+        super('auth_frontend_scope_permission', 'frontend_scope_permission_id');
     }
 
     async getByScopeId(scopeId: string): Promise<FrontendScopePermission[]> {

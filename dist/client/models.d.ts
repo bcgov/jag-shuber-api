@@ -7,6 +7,8 @@ export interface User {
     systemAccountInd?: number;
     sheriffId?: string;
     sheriff?: Sheriff;
+    effectiveDate?: string;
+    expiryDate?: string;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;
@@ -129,6 +131,20 @@ export interface FrontendScopePermission {
     updatedDtm?: string;
     revisionCount?: number;
 }
+export interface FrontendScopeApi {
+    id?: string;
+    frontendScopeId?: string;
+    frontendScope?: FrontendScope;
+    frontendScopeCode?: string;
+    apiScopeId?: string;
+    apiScope?: ApiScope;
+    apiScopeCode?: string;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
 export interface DutyRecurrence {
     id?: string;
     startTime?: string;
@@ -166,17 +182,28 @@ export interface Location {
 }
 export interface Courtroom {
     id?: string;
+    locationId?: string;
     code?: string;
     name?: string;
-    locationId?: string;
-}
-export interface JailRoleCode {
-    id?: string;
-    code?: string;
     description?: string;
     effectiveDate?: string;
     expiryDate?: string;
+    sortOrder?: number;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
+}
+export interface JailRoleCode {
+    id?: string;
     locationId?: string;
+    code?: string;
+    name?: string;
+    description?: string;
+    effectiveDate?: string;
+    expiryDate?: string;
+    sortOrder?: number;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;
@@ -185,11 +212,13 @@ export interface JailRoleCode {
 }
 export interface OtherAssignCode {
     id?: string;
-    code?: string;
-    description?: string;
     locationId?: string;
+    code?: string;
+    name?: string;
+    description?: string;
     effectiveDate?: string;
     expiryDate?: string;
+    sortOrder?: number;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;
@@ -209,8 +238,14 @@ export interface SheriffRankCode {
 }
 export interface EscortRun {
     id?: string;
-    title?: string;
     locationId?: string;
+    title?: string;
+    code?: string;
+    name?: string;
+    description?: string;
+    effectiveDate?: string;
+    expiryDate?: string;
+    sortOrder?: number;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;
@@ -264,6 +299,16 @@ export interface SheriffDutyAutoAssignRequest {
     locationId?: string;
     date?: string;
 }
+export interface SheriffLocation {
+    id?: string;
+    sheriffId?: string;
+    locationId?: string;
+    startDate?: string;
+    endDate?: string;
+    startTime?: string;
+    endTime?: string;
+    isPartial?: number;
+}
 export interface Leave {
     id?: string;
     sheriffId?: string;
@@ -285,21 +330,39 @@ export interface LeaveCancelReasonCode {
 }
 export interface LeaveCode {
     code?: string;
+    subCode?: string;
     description?: string;
+    effectiveDate?: string;
     expiryDate?: string;
+    sortOrder?: number;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
 }
 export interface LeaveSubCode {
     code?: string;
     subCode?: string;
     description?: string;
+    effectiveDate?: string;
     expiryDate?: string;
+    sortOrder?: number;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
 }
 export interface CourtRoleCode {
     id?: string;
+    locationId?: string;
     code?: string;
+    name?: string;
     description?: string;
     effectiveDate?: string;
-    locationId?: string;
+    expiryDate?: string;
+    sortOrder?: number;
     createdBy?: string;
     updatedBy?: string;
     createdDtm?: string;

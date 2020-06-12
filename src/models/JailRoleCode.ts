@@ -1,13 +1,15 @@
 export interface JailRoleCode {
     id?: string;
+    locationId?: string;
     code?: string;
-    description?: string;
-    effectiveDate?:string;
-    expiryDate?:string;
-    locationId?:string;
-    createdBy?:string;
-    updatedBy?:string;
-    createdDtm?:string;
-    updatedDtm?:string;
-    revisionCount?:number;
+    name?: string;
+    description?: string; // TODO: For future use
+    effectiveDate?: string;
+    expiryDate?: string;
+    sortOrder?: number;
+    createdBy?: string;
+    updatedBy?: string;
+    createdDtm?: string;
+    updatedDtm?: string;
+    revisionCount?: number;
 }

@@ -6,34 +6,37 @@ import { RolePermissionService } from '../services/RolePermissionService';
 import { RolePermission } from '../models/RolePermission';
 
 @Route('RolePermission')
-@Security('jwt', ['admin:user:roles'])
+@Security('jwt')
 @AutoWired
 export class RolePermissionController extends ControllerBase<any, RolePermissionService> {
     @Inject
     protected serviceInstance!: RolePermissionService;
 
     @Get()
-    public getRolePermissions(){
+    public getRolePermissions() {
         return super.getAll();
     }
 
     @Get('{id}')
-    public getRolePermissionById(id: string){
+    public getRolePermissionById(id: string) {
         return super.getById(id);
     }
 
+    @Security('jwt', ['roles:manage'])
     @Post()
-    public createRolePermission(@Body() model: RolePermission){
+    public createRolePermission(@Body() model: RolePermission) {
         return super.create(model);
     }
 
+    @Security('jwt', ['roles:manage'])
     @Put('{id}')
     public updateRolePermission(@Path() id: string, @Body() model: RolePermission) {
         return super.update(id,model);
     }
 
+    @Security('jwt', ['roles:manage'])
     @Delete('{id}')
-    public deleteRolePermission(@Path() id:string){
+    public deleteRolePermission(@Path() id:string) {
         return super.delete(id);
     }
 }

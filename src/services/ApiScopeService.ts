@@ -18,7 +18,7 @@ export class ApiScopeService extends DatabaseService<ApiScope> {
     };
 
     constructor() {
-        super('api_scope', 'api_scope_id');
+        super('auth_api_scope', 'api_scope_id');
     }
 
     async getByScopeCode(code: string) {

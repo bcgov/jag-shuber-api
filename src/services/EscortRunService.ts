@@ -1,18 +1,24 @@
 import { EscortRun } from '../models/EscortRun';
-import { DatabaseService } from '../infrastructure/DatabaseService';
+import ExpirableDatabaseService from '../infrastructure/ExpirableDatabaseService';
 import { AutoWired } from 'typescript-ioc';
 
 @AutoWired
-export class EscortRunService extends DatabaseService<EscortRun> {
+export class EscortRunService extends ExpirableDatabaseService<EscortRun> {
     fieldMap = {
         escort_run_id: 'id',
-        title: 'title',
+        location_id: 'locationId',
+        title: 'title', // TODO: Deprecate this in favor of name
+        escort_run_code: 'code',
+        escort_run_name: 'name',
+        description: 'description', // For future use
+        effective_date: 'effectiveDate',
+        expiry_date: 'expiryDate',
+        sort_order: 'sortOrder',
         created_by: 'createdBy',
         updated_by: 'updatedBy',
         created_dtm: 'createdDtm',
         updated_dtm: 'updatedDtm',
-        revision_count: 'revisionCount',
-        location_id: 'locationId'
+        revision_count: 'revisionCount'
     };
 
     constructor() {
@@ -20,7 +26,7 @@ export class EscortRunService extends DatabaseService<EscortRun> {
     }
 
     async getAll(locationId?: string, includeProvincial?: boolean) {
-        includeProvincial = includeProvincial || true
+        includeProvincial = includeProvincial || true;
         const query = super.getSelectQuery();
         if (locationId) {
             if (includeProvincial) {
@@ -30,8 +36,9 @@ export class EscortRunService extends DatabaseService<EscortRun> {
             }
         } else {
             query.where(`location_id IS NULL`);
-        };
-        query.order(`location_id IS NOT NULL, title`)
+        }
+
+        query.order(`location_id IS NOT NULL, sort_order`);
         const rows = await this.executeQuery<EscortRun>(query.toString());
         return rows;
     }

@@ -9,8 +9,8 @@ import { ApiScope } from '../models/ApiScope';
 @AutoWired
 export class RoleApiScopeService extends DatabaseService<RoleApiScope> {
     fieldMap = {
-        app_role_api_scope_id: 'id',
-        app_role_id: 'roleId',
+        role_api_scope_id: 'id',
+        role_id: 'roleId',
         // api_scope_string: 'scopeString',
         api_scope_id: 'scopeId',
         created_by: 'createdBy',
@@ -21,7 +21,7 @@ export class RoleApiScopeService extends DatabaseService<RoleApiScope> {
     };
 
     constructor() {
-        super('app_role_api_scope', 'app_role_api_scope_id');
+        super('auth_role_api_scope', 'role_api_scope_id');
     }
 
     async getById(id: string): Promise<RoleApiScope | undefined> {
@@ -33,6 +33,8 @@ export class RoleApiScopeService extends DatabaseService<RoleApiScope> {
         if (rows && rows.length > 0) {
             let row = rows[0];
             row.scope = await apiScopeService.getById(row.scopeId);
+
+            return row;
         }
 
         return undefined;
@@ -48,9 +50,14 @@ export class RoleApiScopeService extends DatabaseService<RoleApiScope> {
         }) as RoleApiScope[]);
     }
 
-    async hasScope(scope: ApiScope): Promise<boolean> {
-        if (!scope) return false;
-        const rows = await this.getWhereFieldEquals('scopeId', scope.id);
+    async hasScope(scopeId: string): Promise<boolean> {
+        if (!scopeId) return false;
+        const rows = await this.getWhereFieldEquals('scopeId', scopeId);
         return (rows && rows.length > 0);
+    }
+
+    async getByScopeId(scopeId: string): Promise<RoleApiScope[]> {
+        const rows = await this.getWhereFieldEquals('scopeId', scopeId);
+        return rows;
     }
 }

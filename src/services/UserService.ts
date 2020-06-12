@@ -1,5 +1,5 @@
 import { TokenPayload } from '../common/authentication';
-import { DatabaseService } from '../infrastructure/DatabaseService';
+import ExpirableDatabaseService from '../infrastructure/ExpirableDatabaseService';
 import { SheriffService } from './SheriffService';
 import { User } from '../models/User';
 import { AutoWired, Inject, Container } from 'typescript-ioc';
@@ -16,16 +16,18 @@ export interface UserQuery {
 }
 
 @AutoWired
-export class UserService extends DatabaseService<User> {
+export class UserService extends ExpirableDatabaseService<User> {
     // TODO: Some of these fields are covered in the base classes
     fieldMap = {
-        app_user_id: 'id',
+        user_id: 'id',
         siteminder_id: 'siteminderId',
         user_auth_id: 'userAuthId',
         display_name: 'displayName',
         default_location_id: 'defaultLocationId',
         system_account_ind: 'systemAccountInd',
         sheriff_id: 'sheriffId',
+        effective_date: 'effectiveDate',
+        expiry_date: 'expiryDate',
         created_by: 'createdBy',
         updated_by: 'updatedBy',
         created_dtm: 'createdDtm',
@@ -34,11 +36,7 @@ export class UserService extends DatabaseService<User> {
     };
 
     constructor() {
-        super('app_user', 'app_user_id');
-    }
-
-    getCurrentUser(){
-        return this.currentUser;
+        super('auth_user', 'user_id');
     }
 
     async getAll(locationId?: string) {
@@ -46,9 +44,12 @@ export class UserService extends DatabaseService<User> {
 
         const query = super.getSelectQuery();
         query.join(sheriffService.dbTableName, undefined, `${this.dbTableName}.sheriff_id=${sheriffService.dbTableName}.sheriff_id`);
-        if (locationId) {
+
+        // TODO: This has to change!
+        /* if (locationId) {
             query.where(`${this.dbTableName}.default_location_id='${locationId}' OR ${sheriffService.dbTableName}.home_location_id='${locationId}' OR ${sheriffService.dbTableName}.current_location_id='${locationId}'`);
-        };
+        }; */
+
         const rows = await this.executeQuery<User>(query.toString());
 
         const results = rows.map(async entity => {
@@ -68,7 +69,7 @@ export class UserService extends DatabaseService<User> {
         const sheriffService = Container.get(SheriffService);
 
         const query = super.getSelectQuery();
-        query.join(sheriffService.dbTableName, undefined, `${this.dbTableName}.sheriff_id=s${sheriffService.dbTableName}.sheriff_id`);
+        query.join(sheriffService.dbTableName, undefined, `${this.dbTableName}.sheriff_id=${sheriffService.dbTableName}.sheriff_id`);
         if (params.locationId) {
             query.where(`${this.dbTableName}.default_location_id='${params.locationId}' OR ${sheriffService.dbTableName}.home_location_id='${params.locationId}' OR ${sheriffService.dbTableName}.current_location_id='${params.locationId}'`);
         };
@@ -77,9 +78,11 @@ export class UserService extends DatabaseService<User> {
             query.where(`home_location_id='${params.homeLocationId}'`);
         };
 
-        if (params.currentLocationId) {
+        // TODO: This has to change to use some sort of sub query
+        //  that figures out what the sheriff's current location actually is
+        /* if (params.currentLocationId) {
             query.where(`current_location_id='${params.currentLocationId}'`);
-        };
+        }; */
 
         // TODO: Search on the sheriff too!
         if (params.firstName) {
@@ -133,9 +136,10 @@ export class UserService extends DatabaseService<User> {
         }
 
         const userService = Container.get(UserService);
+        const sheriffService = Container.get(SheriffService);
 
         let query = userService.getSelectQuery()
-            
+
         // Siteminder ID may be NULL or undefined in the token ONLY if in DEV env, with the siteminder
         // security definition on TokenController.getToken disabled (which allows us to debug the backend app)
         // Just disable the siteminder guid check all together we're not using it any more TODO: Get rid of GUID!
@@ -144,7 +148,18 @@ export class UserService extends DatabaseService<User> {
         query = query.limit(1);
 
         const rows = await this.executeQuery<User>(query.toString());
-        return rows[0];
+
+        if (!rows[0]) return;
+
+        const entity = rows[0];
+        if (entity.sheriffId) {
+            const sheriffEntity = await sheriffService.getById(entity.sheriffId);
+            if (sheriffEntity) {
+                entity.sheriff = sheriffEntity as Sheriff;
+            }
+        }
+
+        return entity
     }
 
     /**
