@@ -1,0 +1,78 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="Lucas Lopatka" id="">
+        <comment></comment>
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_user" remarks="">
+            <column name="user_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <!-- Siteminder integration -->
+            <column name="user_auth_id" type="">
+                <!-- Used for IDIR -->
+                <constraints nullable="false"/>
+            </column>
+            <column name="siteminder_id" type="">
+                <constraints nullable="false"/>
+                <!-- Can be used to map Super User accounts -->
+            </column>
+            <!-- Siteminder account display name -->
+            <column name="display_name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <!-- Table Specific -->
+            <column name="sheriff_id" type="uuid"/>
+            <!-- TODO: Remove this? -->
+            <column name="default_location_id" type="uuid"/>
+            <column name="system_account_ind" type="int4" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <!-- Common, Dates -->
+            <column name="effective_date" type="date">
+                <constraints nullable="true"/>
+            </column>
+            <column name="expiry_date" type="date">
+                <constraints nullable="true"/>
+            </column>
+            <!-- Common, Meta -->
+            <column name="created_by" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_user" columnNames="user_id" constraintName="pk"/>
+        <!-- <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_user" columnNames="" constraintName="uk"/> -->
+        <sql>
+        	GRANT SELECT ON ${POSTGRES_SCHEMA}.auth_user to ${POSTGRES_APP_USER};
+        </sql>
+        <rollback>
+          <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_user"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="Lucas Lopatka" id="stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS stamp ON ${POSTGRES_SCHEMA}.auth_user;
+        	CREATE TRIGGER stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.auth_user
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS stamp ON ${POSTGRES_SCHEMA}.auth_user;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+</databaseChangeLog>

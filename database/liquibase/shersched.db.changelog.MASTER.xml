@@ -4,17 +4,36 @@
   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
-    
+
     <!--
       +=====================================================+
       +  Change History                                     +
       +                                                     +
       +  2018/09/14  C Geisler    Full refactoring of all   +
       +                           Liquibase scripts for     +
-      +                           Initial PROD Release      +                              +
-      +=====================================================+ 
+      +                           Initial PROD Release.     +
+      +=====================================================+
     -->
-    
+
+    <!--
+      +=====================================================+
+      +  Change History                                     +
+      +                                                     +
+      +  2020/06/10  L Lopatka    Replace auth, user, role  +
+      +                           and code table Liquibase  +
+      +                           scripts.
+      +=====================================================+
+    -->
+
+    <!--
+      +=====================================================+
+      +  Change History                                     +
+      +                                                     +
+      +  2020/06/10  L Lopatka    Add sheriff locations     +
+      +                           Liquibase scripts.        +
+      +=====================================================+
+    -->
+
     <!-- empty database -->
     <changeSet author="Carol Geisler" id="structure_00">
     	<tagDatabase tag="00_EmptyDB"/>
@@ -23,13 +42,13 @@
     <!--
       +=====================================================+
       +  DB Environment and Prerequisites                   +
-      +=====================================================+ 
+      +=====================================================+
     -->
 
     <include file="shersched.db.changelog.env-schemas_roles_extensions.xml"/>
     <include file="source/shersched.db.changelog.function-tab_stamp.xml"/>
-    
-    
+
+
     <!--
       +=====================================================+
       +  Tables and Structures                              +
@@ -48,9 +67,9 @@
       +                                                     +
       +  and the supplemental changelog added in the        +
       +  required sequence to this MASTER changelog         +
-      +=====================================================+ 
+      +=====================================================+
     -->
-    
+
     <!-- Code Tables -->
     <include file="structure/shersched.db.changelog.table-work_section_code_WKSCCD.xml"/>
     <include file="structure/shersched.db.changelog.table-court_role_code_CRCD.xml"/>
@@ -60,7 +79,7 @@
     <include file="structure/shersched.db.changelog.table-leave_code_LVCD.xml"/>
     <include file="structure/shersched.db.changelog.table-leave_sub_code_LVSBCD.xml"/>
     <include file="structure/shersched.db.changelog.table-leave_cancel_reason_code_LVCR.xml"/>
-    
+
     <include file="structure/shersched.db.changelog.table-sheriff_rank_code_SHRKCD.xml"/>
     <include file="structure/shersched.db.changelog.table-gender_code_GNDR.xml"/>
 
@@ -68,33 +87,34 @@
     <include file="structure/shersched.db.changelog.table-region_RGN.xml"/>
     <include file="structure/shersched.db.changelog.table-location_LOCN.xml"/>
     <include file="structure/shersched.db.changelog.table-courtroom_CRTR.xml"/>
-    
+
     <!-- Config & Base Data Tables -->
     <include file="structure/shersched.db.changelog.table-sheriff_SHR.xml"/>
     <include file="structure/shersched.db.changelog.table-escort_run_ESRN.xml"/>
     <include file="structure/shersched.db.changelog.table-assignment_ASN.xml"/>
-    
+
     <!-- Authorization Tables -->
-    <include file="structure/shersched.db.changelog.table-api_scope_APSC.xml"/>
+    <!-- TODO: Remove this, it's no longer necessary, just in here for reference -->
+    <!-- <include file="structure/shersched.db.changelog.table-api_scope_APSC.xml"/>
     <include file="structure/shersched.db.changelog.table-app_role_APRL.xml"/>
     <include file="structure/shersched.db.changelog.table-app_role_api_scope_APRLAPSC.xml"/>
     <include file="structure/shersched.db.changelog.table-app_user_USR.xml"/>
-    <include file="structure/shersched.db.changelog.table-app_user_role_APUSRL.xml"/>
-    
+    <include file="structure/shersched.db.changelog.table-app_user_role_APUSRL.xml"/> -->
+
     <!-- Active Application Tables -->
     <include file="structure/shersched.db.changelog.table-duty_recurrence_DTYRC.xml"/>
     <include file="structure/shersched.db.changelog.table-duty_DTY.xml"/>
     <include file="structure/shersched.db.changelog.table-sheriff_duty_SHRDTY.xml"/>
     <include file="structure/shersched.db.changelog.table-shift_SHFT.xml"/>
     <include file="structure/shersched.db.changelog.table-leave_LVE.xml"/>
-    
+
     <!-- Audit Tables -->
     <include file="structure/shersched.db.changelog.table-audit_sheriff_duty_AUD_SHRDTY.xml"/>
 
     <changeSet author="Carol Geisler" id="structure_01">
     	<tagDatabase tag="01_EmptyDB"/>
     </changeSet>
-    
+
     <!--
       +=====================================================+
       +  Data                                               +
@@ -113,7 +133,7 @@
       +                                                     +
       +  and the supplemental changelog added in the        +
       +  required sequence to this MASTER changelog         +
-      +=====================================================+ 
+      +=====================================================+
     -->
 
     <changeSet author="Carol Geisler" id="data_00">
@@ -126,29 +146,29 @@
     <include file="data/shersched.db.changelog.data.prod-court_role_code.xml"/>
     <include file="data/shersched.db.changelog.data.prod-jail_role_code.xml"/>
     <include file="data/shersched.db.changelog.data.prod-other_assign_code.xml"/>
-    
+
     <include file="data/shersched.db.changelog.data.prod-leave_code.xml"/>
     <include file="data/shersched.db.changelog.data.prod-leave_sub_code.xml"/>
     <include file="data/shersched.db.changelog.data.prod-leave_cancel_reason_code.xml"/>
 
     <include file="data/shersched.db.changelog.data.prod-sheriff_rank_code.xml"/>
     <include file="data/shersched.db.changelog.data.prod-gender_code.xml"/>
-    
+
     <!-- Authorization Data -->
-    <!--    Dev changelogs below are tagged with a context of AUTHDEV. 
-    
-            These records were created to populate some preliminary data 
-            into the auth tables to facilitate development and testing. 
-            
-            As the authorization model is refined, prod records should 
-            be defined for API Scopes and App Roles. 
+    <!-- TODO: Remove this, it's no longer necessary, just in here for reference -->
+    <!--    Dev changelogs below are tagged with a context of AUTHDEV.
+    These records were created to populate some preliminary data
+    into the auth tables to facilitate development and testing.
+
+    As the authorization model is refined, prod records should
+    be defined for API Scopes and App Roles.
     -->
-    
-    <include file="data/shersched.db.changelog.data.dev-api_scope.xml"/>
+
+    <!-- <include file="data/shersched.db.changelog.data.dev-api_scope.xml"/>
     <include file="data/shersched.db.changelog.data.dev-app_role.xml"/>
     <include file="data/shersched.db.changelog.data.dev-app_role_api_scope.xml"/>
     <include file="data/shersched.db.changelog.data.dev-app_user.xml"/>
-    <include file="data/shersched.db.changelog.data.dev-app_user_role.xml"/>
+    <include file="data/shersched.db.changelog.data.dev-app_user_role.xml"/> -->
 
 
     <!-- Location Data Changelogs -->
@@ -156,11 +176,11 @@
     <include file="data/shersched.db.changelog.data.prod-region.xml"/>
     <include file="data/shersched.db.changelog.data.prod-location.xml"/>
     <include file="data/shersched.db.changelog.data.prod-courtroom.xml"/>
-    
+
     <!-- Config & Base Data Tables -->
-    <!--    Generated from spreadsheet Location_Data_Prod_Release.xls 
-            Note, these scripts are offered as a starting point, and 
-            may be removed in future data is updated via the application 
+    <!--    Generated from spreadsheet Location_Data_Prod_Release.xls
+            Note, these scripts are offered as a starting point, and
+            may be removed in future data is updated via the application
     -->
     <include file="data/shersched.db.changelog.data.prod-sheriff.xml"/>
     <include file="data/shersched.db.changelog.data.prod-escort_run.xml"/>
@@ -168,7 +188,7 @@
     <include file="data/shersched.db.changelog.data.prod-courtroom_run_add_courtrooms.xml"/>
 
     <!-- START SS-15, SS-71 changes -->
-    <!-- 
+    <!--
       Used while implementing auth, and extending code table functionality (JIRA SS-15, SS-71, etc.)
       Just keeping them in here for reference. We are going to re-do the Liquibase migrations.
     -->
@@ -180,24 +200,23 @@
     <include file="structure/shersched.db.changelog.authorization-fixing-permission-leave-tables.xml"/>
     <include file="structure/shersched.db.changelog.authorization-add-unique-contraints-user.xml"/>
     -->
+
     <!-- Authorization Implementation Tables -->
     <!-- Truncate any existing auth table data, and drop tables and constraints as necessary prior to re-creating schema tables -->
-    <!-- Truncating data is not an issue as these tables were not being used in dev, test, or production prior to SS-15 and SS-71 -->
-    <include file="structure/shersched.db.changelog.reset-auth-tables.xml"/>
+    <!-- Drop create is fine as previously existing user and roles tables were not being used by application -->
+    <include file="structure/shersched.db.changelog.authorization.reset-tables.xml"/>
     <!-- Create authorization tables ORDER IS IMPORTANT DUE TO FK CONSTRAINTS! -->
-    <include file="structure/shersched.db.changelog.authorization.table-app_role.xml"/>
-    <include file="structure/shersched.db.changelog.authorization.table-app_user.xml"/>
-    <include file="structure/shersched.db.changelog.authorization.table-app_user_role.xml"/>
+    <include file="structure/shersched.db.changelog.authorization.table-auth_user.xml"/>
+    <include file="structure/shersched.db.changelog.authorization.table-auth_role.xml"/>
+    <include file="structure/shersched.db.changelog.authorization.table-auth_user_role.xml"/>
+    <include file="structure/shersched.db.changelog.authorization.table-auth_api_scope.xml"/>
+    s<include file="structure/shersched.db.changelog.authorization.table-auth_frontend_scope.xml"/>
+    <include file="structure/shersched.db.changelog.authorization.table-auth_frontend_scope_api.xml"/>
+    <include file="structure/shersched.db.changelog.authorization.table-auth_frontend_scope_permission.xml"/>
+    <include file="structure/shersched.db.changelog.authorization.table-auth_role_frontend_scope.xml"/>
+    <include file="structure/shersched.db.changelog.authorization.table-auth_role_api_scope.xml"/>
+    <include file="structure/shersched.db.changelog.authorization.table-auth_role_permission.xml"/>
 
-    <include file="structure/shersched.db.changelog.authorization.table-api_scope.xml"/>
-    <include file="structure/shersched.db.changelog.authorization.table-app_role_api_scope.xml"/>
-
-    <include file="structure/shersched.db.changelog.authorization.table-frontend_scope.xml"/>
-    <include file="structure/shersched.db.changelog.authorization.table-frontend_scope_permission.xml"/>
-    <include file="structure/shersched.db.changelog.authorization.table-app_role_frontend_scope.xml"/>
-    
-    <include file="structure/shersched.db.changelog.authorization.table-app_role_permission.xml"/>
-    
     <!-- Code Table Implementation Tables -->
     <!-- Alter tables and constraints as necessary prior to re-creating schema tables -->
     <include file="structure/shersched.db.changelog.drop-assignment-table-constraints.xml"/>
@@ -212,10 +231,10 @@
     <!-- Alter code tables -->
     <!-- Create assignment table constraints -->
     <include file="structure/shersched.db.changelog.create-assignment-table-constraints.xml"/>
-    <!-- END SS-15, SS-71 changes -->
+    <!-- END -->
 
     <changeSet author="Carol Geisler" id="data_01">
     	<tagDatabase tag="01_AllBaseData"/>
     </changeSet>
-    
+
 </databaseChangeLog>
