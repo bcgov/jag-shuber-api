@@ -16,19 +16,19 @@
     <changeSet author="Carol Geisler" id="CRTTAB_APRL_1_0">
         <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_role"
         	remarks="APP_ROLE captures the definition of roles within the Sheriff Scheduling application.  App Roles may be linked to App Users and App_Functions to control access to different functionality in the application.">
-            <column name="app_role_id" type="UUID">
+            <column name="app_role_id" type="uuid">
                 <constraints nullable="false"/>
             </column>
-            <column name="app_role_name" type="VARCHAR(32)">
+            <column name="app_role_name" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
-            <column name="description" type="VARCHAR(200)">
+            <column name="description" type="varchar(200)">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_by" type="VARCHAR(32)">
+            <column name="created_by" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_by" type="VARCHAR(32)">
+            <column name="updated_by" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">

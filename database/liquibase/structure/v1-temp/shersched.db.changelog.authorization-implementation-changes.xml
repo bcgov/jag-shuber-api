@@ -15,28 +15,28 @@
     <changeSet author="Ron Garcia" id="CRTTAB_AppRolePerm_1_0">
       <comment>Database changes due to new admin module and new authorization functionality</comment>
       <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_role_permission" remarks="Authorization table">
-          <column name="app_role_permission_id" type="UUID">
+          <column name="app_role_permission_id" type="uuid">
               <constraints nullable="false"/>
           </column>
-          <column name="app_role_id" type="UUID">
+          <column name="app_role_id" type="uuid">
               <constraints nullable="false"/>
           </column>
-          <column name="app_role_frontend_scope_id" type="UUID">
+          <column name="app_role_frontend_scope_id" type="uuid">
               <constraints nullable="false"/>
           </column>
-          <column name="app_role_api_scope_id" type="UUID">
+          <column name="app_role_api_scope_id" type="uuid">
               <constraints nullable="false"/>
           </column>
-          <column name="frontend_scope_permission_id" type="UUID">
+          <column name="frontend_scope_permission_id" type="uuid">
               <constraints nullable="false"/>
           </column>
-          <column name="api_scope_permission_id" type="UUID">
+          <column name="api_scope_permission_id" type="uuid">
               <constraints nullable="false"/>
           </column>
-          <column name="created_by" type="VARCHAR(32)">
+          <column name="created_by" type="varchar(64)">
               <constraints nullable="false"/>
           </column>
-          <column name="updated_by" type="VARCHAR(32)">
+          <column name="updated_by" type="varchar(64)">
               <constraints nullable="false"/>
           </column>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
@@ -61,21 +61,21 @@
     <changeSet author="Ron Garcia" id="CRTTAB_FrontScope_1_0">
       <comment>Database changes due to new admin module and new authorization functionality</comment>
       <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="frontend_scope" remarks="Authorization table">
-        <column name="frontend_scope_id" type="UUID">
+        <column name="frontend_scope_id" type="uuid">
           <constraints nullable="false"/>
         </column>
-        <column name="scope_name" type="VARCHAR(128)">
+        <column name="scope_name" type="varchar(128)">
             <constraints nullable="false"/>
         </column>
-        <column name="scope_code" type="VARCHAR(128)">
+        <column name="scope_code" type="varchar(128)">
             <constraints nullable="false"/>
         </column>
         <column name="system_scope_ind" type="boolean" defaultValueBoolean="false"/>
-        <column name="description" type="VARCHAR(255)"/>
-        <column name="created_by" type="VARCHAR(32)">
+        <column name="description" type="varchar(255)"/>
+        <column name="created_by" type="varchar(64)">
             <constraints nullable="false"/>
         </column>
-        <column name="updated_by" type="VARCHAR(32)">
+        <column name="updated_by" type="varchar(64)">
             <constraints nullable="false"/>
         </column>
         <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
@@ -100,19 +100,19 @@
     <changeSet author="Ron Garcia" id="CRTTAB_AppFrontScope_1_0">
       <comment>Database changes due to new admin module and new authorization functionality</comment>
       <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_role_frontend_scope" remarks="Authorization table">
-        <column name="app_role_frontend_scope_id" type="UUID">
+        <column name="app_role_frontend_scope_id" type="uuid">
           <constraints nullable="false"/>
         </column>
-        <column name="app_role_id" type="UUID">
+        <column name="app_role_id" type="uuid">
           <constraints nullable="false"/>
         </column>
-        <column name="frontend_scope_id" type="UUID">
+        <column name="frontend_scope_id" type="uuid">
           <constraints nullable="false"/>
         </column>
-        <column name="created_by" type="VARCHAR(32)">
+        <column name="created_by" type="varchar(64)">
             <constraints nullable="false"/>
         </column>
-        <column name="updated_by" type="VARCHAR(32)">
+        <column name="updated_by" type="varchar(64)">
             <constraints nullable="false"/>
         </column>
         <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
@@ -139,23 +139,23 @@
     <changeSet author="Ron Garcia" id="CRTTAB_FrontScopePerm_1_0">
       <comment>Database changes due to new admin module and new authorization functionality</comment>
       <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="frontend_scope_permission" remarks="Authorization table">
-          <column name="frontend_scope_permission_id" type="UUID">
+          <column name="frontend_scope_permission_id" type="uuid">
               <constraints nullable="false"/>
           </column>
-          <column name="frontend_scope_id" type="UUID">
+          <column name="frontend_scope_id" type="uuid">
               <constraints nullable="false"/>
           </column>
-          <column name="scope_name" type="VARCHAR(128)">
+          <column name="scope_name" type="varchar(128)">
             <constraints nullable="false"/>
           </column>
-          <column name="scope_code" type="VARCHAR(128)">
+          <column name="scope_code" type="varchar(128)">
               <constraints nullable="false"/>
           </column>
-          <column name="description" type="VARCHAR(255)"/>
-          <column name="created_by" type="VARCHAR(32)">
+          <column name="description" type="varchar(255)"/>
+          <column name="created_by" type="varchar(64)">
               <constraints nullable="false"/>
           </column>
-          <column name="updated_by" type="VARCHAR(32)">
+          <column name="updated_by" type="varchar(64)">
               <constraints nullable="false"/>
           </column>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">

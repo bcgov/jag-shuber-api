@@ -12,10 +12,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="expiry_date" type="date"/>
-            <column name="created_by" type="varchar(32)">
+            <column name="created_by" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_by" type="varchar(32)">
+            <column name="updated_by" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_dtm" type="timestamp with time zone">

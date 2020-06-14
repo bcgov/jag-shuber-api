@@ -205,19 +205,7 @@
     <include file="data/shersched.db.changelog.data.prod-escort_run_add_assignments.xml"/>
     <include file="data/shersched.db.changelog.data.prod-courtroom_run_add_courtrooms.xml"/>
 
-    <!-- START SS-15, SS-71 changes -->
-    <!--
-      Used while implementing auth, and extending code table functionality (JIRA SS-15, SS-71, etc.)
-      Just keeping them in here for reference. We are going to re-do the Liquibase migrations.
-    -->
-    <!-- <include file="structure/shersched.db.changelog.table-api_scope_APSC_AuthorizationImpl.xml"/>
-    <include file="structure/shersched.db.changelog.authorization-implementation-changes.xml"/>
-    <include file="structure/shersched.db.changelog.authorization-fixing-permissions.xml"/>
-    <include file="structure/shersched.db.changelog.authorization-grant-table-permissions.xml"/>
-    <include file="structure/shersched.db.changelog.authorization-rename-frontend-scope-permission-cols.xml"/>
-    <include file="structure/shersched.db.changelog.authorization-fixing-permission-leave-tables.xml"/>
-    <include file="structure/shersched.db.changelog.authorization-add-unique-contraints-user.xml"/>
-    -->
+    <!-- ##### Start v1 -> v2 migration ##### -->
 
     <!-- Authorization Implementation Tables -->
     <!-- Truncate any existing auth table data, and drop tables and constraints as necessary prior to re-creating schema tables -->
@@ -247,19 +235,19 @@
     <!-- Migrate code tables ORDER IS IMPORTANT DUE TO FK CONSTRAINTS! -->
     <include file="structure/shersched.db.changelog.scope-code-tables.migrate-table-assignment.xml"/>
 
+    <!-- Create v2 code type tables -->
     <include file="structure/shersched.db.changelog.assign-types.table-courtroom.xml"/>
     <include file="structure/shersched.db.changelog.assign-types.table-court_role_code.xml"/>
     <include file="structure/shersched.db.changelog.assign-types.table-jail_role_code.xml"/>
     <include file="structure/shersched.db.changelog.assign-types.table-other_assign_code.xml"/>
     <include file="structure/shersched.db.changelog.assign-types.table-escort_run.xml"/>
 
+    <!-- Restore data and clean up -->
     <include file="structure/shersched.db.changelog.assign-types.restore-data.xml"/>
     <include file="structure/shersched.db.changelog.assign-types.delete-temp-tables.xml"/>
-
-    <!-- Alter code tables -->
-    <!-- Create assignment table constraints -->
     <include file="structure/shersched.db.changelog.create-assignment-table-constraints.xml"/>
-    <!-- END -->
+
+    <!-- ##### END v1 -> v2 migration ##### -->
 
     <changeSet author="Carol Geisler" id="data_01">
     	<tagDatabase tag="01_AllBaseData"/>

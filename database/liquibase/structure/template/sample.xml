@@ -20,6 +20,10 @@
             <column name="expiry_date" type="date">
                 <constraints nullable="true"/>
             </column>
+            <!-- Common, Sort Order -->
+            <column name="sort_order" type="numeric(3)">
+                <constraints nullable="true"/>
+            </column>
             <!-- Common, Meta -->
             <column name="created_by" type="varchar(100)">
                 <constraints nullable="false"/>

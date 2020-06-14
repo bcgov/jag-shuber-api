@@ -16,19 +16,19 @@
     <changeSet author="Carol Geisler" id="CRTTAB_APRLAPSC_1_0">
         <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_role_api_scope"
         	remarks="APP_ROLE_API_SCOPE is an XREF table that captures the relationshp between Roles and API scopes.">
-            <column name="app_role_api_scope_id" type="UUID">
+            <column name="app_role_api_scope_id" type="uuid">
                 <constraints nullable="false"/>
             </column>
-            <column name="app_role_id" type="UUID">
+            <column name="app_role_id" type="uuid">
                 <constraints nullable="false"/>
             </column>
-            <column name="api_scope_id" type="UUID">
+            <column name="api_scope_id" type="uuid">
                 <constraints nullable="false"/>
             </column>
-            <column name="created_by" type="VARCHAR(32)">
+            <column name="created_by" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_by" type="VARCHAR(32)">
+            <column name="updated_by" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">

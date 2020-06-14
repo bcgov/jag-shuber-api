@@ -16,24 +16,24 @@
     <changeSet author="Carol Geisler" id="CRTTAB_APUSRL_1_0">
         <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_user_role"
         	remarks="APP_USER_ROLE is an XREF table that captures the relationshp between Users and Roles.">
-            <column name="app_user_role_id" type="UUID">
+            <column name="app_user_role_id" type="uuid">
                 <constraints nullable="false"/>
             </column>
-            <column name="app_user_id" type="UUID">
+            <column name="app_user_id" type="uuid">
                 <constraints nullable="false"/>
             </column>
-            <column name="app_role_id" type="UUID">
+            <column name="app_role_id" type="uuid">
                 <constraints nullable="false"/>
             </column>
             <column defaultValueComputed="now()" name="effective_date" type="date">
                 <constraints nullable="false"/>
             </column>
             <column name="expiry_date" type="date"/>
-            <column name="location_id" type="UUID"/>
-            <column name="created_by" type="VARCHAR(32)">
+            <column name="location_id" type="uuid"/>
+            <column name="created_by" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
-            <column name="updated_by" type="VARCHAR(32)">
+            <column name="updated_by" type="varchar(64)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">

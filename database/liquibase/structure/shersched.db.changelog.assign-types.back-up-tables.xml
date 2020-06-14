@@ -16,12 +16,6 @@
     <!-- TODO: When implementing prod migration we may need to copy the assignment table because we will need its data -->
     <changeSet author="Lucas Lopatka" id="reset-code-tables">
       <sql>
-        DROP TABLE IF EXISTS shersched."assignment";
-        DROP TABLE IF EXISTS shersched.courtroom;
-        DROP TABLE IF EXISTS shersched.court_role_code;
-        DROP TABLE IF EXISTS shersched.jail_role_code;
-        DROP TABLE IF EXISTS shersched.other_assign_code;
-        DROP TABLE IF EXISTS shersched.escort_run;
       </sql>
     </changeSet>
 </databaseChangeLog>
