@@ -40,7 +40,7 @@
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="" columnNames="id" constraintName="pk"/>
         <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="" columnNames="" constraintName="uk"/>
         <sql>
-        	GRANT SELECT ON ${POSTGRES_SCHEMA}. to ${POSTGRES_APP_USER};
+        	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}. to ${POSTGRES_APP_USER};
         </sql>
         <rollback>
           <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName=""/>

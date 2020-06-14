@@ -1,21 +1,21 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-    
+
     <!--
-        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
-        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}"
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}"
     -->
 
     <!-- This ChangeLog contains the changeset(s) to generate the table LEAVE_SUB_CODE
          It includes attributes, constraints, keys, indexes and security in one
-         place. Where possible (i.e. where dependencies between subsequent changes 
+         place. Where possible (i.e. where dependencies between subsequent changes
          allow) updates to this table should be included as additional changesets
          within this changelog -->
 
     <!-- Changsets -->
     <changeSet author="Carol Geisler" id="CRTTAB_LVSBCD_1_0">
     	<comment>Create the Leave Sub Type table to capture sub types of leave being managed in each category.</comment>
-				<createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="leave_sub_code" 
+				<createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="leave_sub_code"
         	remarks="Leave Type Sub Code captures the different types of leave being managed in each category. Initial types are
 				Leave -     STIP (Short Term Illness)
 				Leave -     Annual Leave
@@ -53,13 +53,13 @@
         <addPrimaryKey columnNames="leave_code,leave_sub_code" constraintName="pk_lvsbcd" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="leave_sub_code"/>
         <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="leave_code" baseTableName="leave_sub_code" constraintName="fk_lvsbcd_lvcd" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="leave_code" referencedTableName="leave_code"/>
         <sql>
-        	GRANT SELECT ON ${POSTGRES_SCHEMA}.leave_sub_code to ${POSTGRES_APP_USER};
+        	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.leave_sub_code to ${POSTGRES_APP_USER};
         </sql>
         <rollback>
         	<dropTable  cascadeConstraints="true" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="leave_sub_code"/>
         </rollback>
     </changeSet>
-    
+
     <changeSet author="Carol Geisler" id="ADDTRG_lvsbcd_stamp">
       <sql>
         BEGIN;

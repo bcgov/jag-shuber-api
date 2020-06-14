@@ -42,7 +42,7 @@
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_role_permission" columnNames="role_permission_id" constraintName="pk"/>
         <!-- <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_role_permission" columnNames="" constraintName="uk"/> -->
         <sql>
-        	GRANT SELECT ON ${POSTGRES_SCHEMA}.auth_role_permission to ${POSTGRES_APP_USER};
+        	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.auth_role_permission to ${POSTGRES_APP_USER};
         </sql>
         <rollback>
           <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_role_permission"/>

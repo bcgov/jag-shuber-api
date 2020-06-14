@@ -1,14 +1,14 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-    
+
     <!--
-        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
-        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}"
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}"
     -->
 
     <!-- This ChangeLog contains the changeset(s) to generate the table WORK_SECTION_CODE
          It includes attributes, constraints, keys, indexes and security in one
-         place. Where possible (i.e. where dependencies between subsequent changes 
+         place. Where possible (i.e. where dependencies between subsequent changes
          allow) updates to this table should be included as additional changesets
          within this changelog -->
 
@@ -43,13 +43,13 @@
         </createTable>
         <addPrimaryKey columnNames="work_section_code" constraintName="pk_wksccd" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="work_section_code"/>
         <sql>
-        	GRANT SELECT ON ${POSTGRES_SCHEMA}.work_section_code to ${POSTGRES_APP_USER};
+        	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.work_section_code to ${POSTGRES_APP_USER};
         </sql>
         <rollback>
         	<dropTable  cascadeConstraints="true" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="work_section_code"/>
         </rollback>
     </changeSet>
-    
+
     <changeSet author="Carol Geisler" id="ADDTRG_wksccd_stamp">
       <sql>
         BEGIN;

@@ -28,12 +28,14 @@
             </column>
         </createTable>
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_escort_run" columnNames="escort_run_id" constraintName="pk_esrn"/>
+        <!--
         <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="escort_run" baseColumnNames="location_id" constraintName="fk_esrn_locn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="location_id" referencedTableName="location"/>
         <createIndex indexName="ix_esrn_locn" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_escort_run">
             <column name="location_id"/>
         </createIndex>
+        -->
         <!--sql>
-        	GRANT SELECT, INSERT, UPDATE ON ${POSTGRES_SCHEMA}.run to ${POSTGRES_APP_USER};
+        	GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.run to ${POSTGRES_APP_USER};
         </sql-->
         <sql>
         	GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.escort_run to ${POSTGRES_APP_USER};

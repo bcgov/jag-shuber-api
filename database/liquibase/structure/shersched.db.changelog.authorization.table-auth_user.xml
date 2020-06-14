@@ -53,7 +53,7 @@
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_user" columnNames="user_id" constraintName="pk"/>
         <!-- <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_user" columnNames="" constraintName="uk"/> -->
         <sql>
-        	GRANT SELECT ON ${POSTGRES_SCHEMA}.auth_user to ${POSTGRES_APP_USER};
+        	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.auth_user to ${POSTGRES_APP_USER};
         </sql>
         <rollback>
           <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_user"/>

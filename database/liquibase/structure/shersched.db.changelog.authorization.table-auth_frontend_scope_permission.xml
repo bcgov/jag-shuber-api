@@ -39,7 +39,7 @@
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="frontend_scope_permission" columnNames="frontend_scope_permission_id" constraintName="pk"/>
         <!-- <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="frontend_scope_permission" columnNames="" constraintName="uk"/> -->
         <sql>
-        	GRANT SELECT ON ${POSTGRES_SCHEMA}.frontend_scope_permission to ${POSTGRES_APP_USER};
+        	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.frontend_scope_permission to ${POSTGRES_APP_USER};
         </sql>
         <rollback>
           <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="frontend_scope_permission"/>

@@ -30,7 +30,7 @@
 				</createTable>
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_court_role_code" columnNames="court_role_code" constraintName="pk_crcd"/>
         <sql>
-          GRANT SELECT ON ${POSTGRES_SCHEMA}.court_role_code to ${POSTGRES_APP_USER};
+          GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.court_role_code to ${POSTGRES_APP_USER};
         </sql>
         <rollback>
           <dropTable cascadeConstraints="true" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_court_role_code"/>
