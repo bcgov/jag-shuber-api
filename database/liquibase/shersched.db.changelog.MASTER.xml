@@ -71,42 +71,60 @@
     -->
 
     <!-- Code Tables -->
-    <include file="structure/shersched.db.changelog.table-work_section_code_WKSCCD.xml"/>
-    <include file="structure/shersched.db.changelog.table-court_role_code_CRCD.xml"/>
-    <include file="structure/shersched.db.changelog.table-jail_role_code_JLRLCD.xml"/>
-    <include file="structure/shersched.db.changelog.table-other_assign_code_OTASCD.xml"/>
-
-    <include file="structure/shersched.db.changelog.table-leave_code_LVCD.xml"/>
-    <include file="structure/shersched.db.changelog.table-leave_sub_code_LVSBCD.xml"/>
-    <include file="structure/shersched.db.changelog.table-leave_cancel_reason_code_LVCR.xml"/>
-
-    <include file="structure/shersched.db.changelog.table-sheriff_rank_code_SHRKCD.xml"/>
-    <include file="structure/shersched.db.changelog.table-gender_code_GNDR.xml"/>
 
     <!-- Location Tables -->
     <include file="structure/shersched.db.changelog.table-region_RGN.xml"/>
     <include file="structure/shersched.db.changelog.table-location_LOCN.xml"/>
+
+    <!-- Code Tables - Assignment Types -->
+    <!--
+    These tables will be dropped and re-created as part of v2 changes,
+    which replace unique text string IDs with UUID keys.
+    -->
+
+    <!-- The work section code table, required for other code tables -->
+    <include file="structure/shersched.db.changelog.table-work_section_code_WKSCCD.xml"/>
+
     <include file="structure/shersched.db.changelog.table-courtroom_CRTR.xml"/>
-
-    <!-- Config & Base Data Tables -->
-    <include file="structure/shersched.db.changelog.table-sheriff_SHR.xml"/>
+    <include file="structure/shersched.db.changelog.table-court_role_code_CRCD.xml"/>
+    <include file="structure/shersched.db.changelog.table-jail_role_code_JLRLCD.xml"/>
     <include file="structure/shersched.db.changelog.table-escort_run_ESRN.xml"/>
+    <include file="structure/shersched.db.changelog.table-other_assign_code_OTASCD.xml"/>
+
+    <!-- Code Tables - Leave & Training Tables -->
+    <!-- Leave code table is modified as part of v2 changes -->
+    <include file="structure/shersched.db.changelog.table-leave_code_LVCD.xml"/>
+    <include file="structure/shersched.db.changelog.table-leave_sub_code_LVSBCD.xml"/>
+    <include file="structure/shersched.db.changelog.table-leave_cancel_reason_code_LVCR.xml"/>
+
+    <!-- Misc Codes -->
+    <include file="structure/shersched.db.changelog.table-sheriff_rank_code_SHRKCD.xml"/>
+    <include file="structure/shersched.db.changelog.table-gender_code_GNDR.xml"/>
+
+    <!-- Sheriff-Related Data Tables -->
+    <include file="structure/shersched.db.changelog.table-sheriff_SHR.xml"/>
+    <!--
+    We will add sheriff locations tables, which allow for multiple
+    sheriff locations to be scheduled, as part of v2 changes.
+    -->
+
+    <!-- Schedulings Tables -->
+    <!--
+    These tables will be dropped and re-created as part of v2 changes,
+    which replace unique text string IDs with UUID keys.
+    -->
     <include file="structure/shersched.db.changelog.table-assignment_ASN.xml"/>
-
-    <!-- Authorization Tables -->
-    <!-- TODO: Remove this, it's no longer necessary, just in here for reference -->
-    <!-- <include file="structure/shersched.db.changelog.table-api_scope_APSC.xml"/>
-    <include file="structure/shersched.db.changelog.table-app_role_APRL.xml"/>
-    <include file="structure/shersched.db.changelog.table-app_role_api_scope_APRLAPSC.xml"/>
-    <include file="structure/shersched.db.changelog.table-app_user_USR.xml"/>
-    <include file="structure/shersched.db.changelog.table-app_user_role_APUSRL.xml"/> -->
-
-    <!-- Active Application Tables -->
     <include file="structure/shersched.db.changelog.table-duty_recurrence_DTYRC.xml"/>
     <include file="structure/shersched.db.changelog.table-duty_DTY.xml"/>
     <include file="structure/shersched.db.changelog.table-sheriff_duty_SHRDTY.xml"/>
     <include file="structure/shersched.db.changelog.table-shift_SHFT.xml"/>
     <include file="structure/shersched.db.changelog.table-leave_LVE.xml"/>
+
+    <!-- Authorization Tables -->
+    <!--
+    User, role and access tables have been removed from here,
+    as they have been re-implemented as part of v2 changes.
+    -->
 
     <!-- Audit Tables -->
     <include file="structure/shersched.db.changelog.table-audit_sheriff_duty_AUD_SHRDTY.xml"/>
@@ -210,7 +228,7 @@
     <include file="structure/shersched.db.changelog.authorization.table-auth_role.xml"/>
     <include file="structure/shersched.db.changelog.authorization.table-auth_user_role.xml"/>
     <include file="structure/shersched.db.changelog.authorization.table-auth_api_scope.xml"/>
-    s<include file="structure/shersched.db.changelog.authorization.table-auth_frontend_scope.xml"/>
+    <include file="structure/shersched.db.changelog.authorization.table-auth_frontend_scope.xml"/>
     <include file="structure/shersched.db.changelog.authorization.table-auth_frontend_scope_api.xml"/>
     <include file="structure/shersched.db.changelog.authorization.table-auth_frontend_scope_permission.xml"/>
     <include file="structure/shersched.db.changelog.authorization.table-auth_role_frontend_scope.xml"/>
@@ -218,16 +236,26 @@
     <include file="structure/shersched.db.changelog.authorization.table-auth_role_permission.xml"/>
 
     <!-- Code Table Implementation Tables -->
-    <!-- Alter tables and constraints as necessary prior to re-creating schema tables -->
-    <include file="structure/shersched.db.changelog.drop-assignment-table-constraints.xml"/>
-    <include file="structure/shersched.db.changelog.reset-code-tables.xml"/>
+    <!--
+    We need to back up the data in the assignment type and code type tables. Liquibase does not
+    support temporary tables so we will create real tables and delete them when we're done.
+    -->
+    <include file="structure/shersched.db.changelog.assign-types.create-temp-tables.xml"/>
+    <include file="structure/shersched.db.changelog.assign-types.drop-constraints.xml"/>
+    <include file="structure/shersched.db.changelog.assign-types.backup-code-tables.xml"/>
+
     <!-- Migrate code tables ORDER IS IMPORTANT DUE TO FK CONSTRAINTS! -->
-    <include file="structure/shersched.db.changelog.scope-code-tables.migrate-table-courtroom.xml"/>
-    <include file="structure/shersched.db.changelog.scope-code-tables.migrate-table-court_role_code.xml"/>
-    <include file="structure/shersched.db.changelog.scope-code-tables.migrate-table-jail_role_code.xml"/>
-    <include file="structure/shersched.db.changelog.scope-code-tables.migrate-table-other_assign_code.xml"/>
-    <include file="structure/shersched.db.changelog.scope-code-tables.migrate-table-escort_run.xml"/>
     <include file="structure/shersched.db.changelog.scope-code-tables.migrate-table-assignment.xml"/>
+
+    <include file="structure/shersched.db.changelog.assign-types.table-courtroom.xml"/>
+    <include file="structure/shersched.db.changelog.assign-types.table-court_role_code.xml"/>
+    <include file="structure/shersched.db.changelog.assign-types.table-jail_role_code.xml"/>
+    <include file="structure/shersched.db.changelog.assign-types.table-other_assign_code.xml"/>
+    <include file="structure/shersched.db.changelog.assign-types.table-escort_run.xml"/>
+
+    <include file="structure/shersched.db.changelog.assign-types.restore-data.xml"/>
+    <include file="structure/shersched.db.changelog.assign-types.delete-temp-tables.xml"/>
+
     <!-- Alter code tables -->
     <!-- Create assignment table constraints -->
     <include file="structure/shersched.db.changelog.create-assignment-table-constraints.xml"/>

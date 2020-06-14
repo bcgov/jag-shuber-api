@@ -1,0 +1,51 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="Lucas Lopatka" id="CRTTAB_CRTR_1_0">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_courtroom">
+            <column name="courtroom_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="courtroom_cd" type="varchar(32)" remarks="business key">
+                <constraints nullable="false"/>
+            </column>
+            <column name="courtroom_name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="location_id" type="UUID">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_by" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="varchar(32)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="timestamp with time zone">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_courtroom" columnNames="courtroom_id" constraintName="pk_crtr"/>
+        <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_courtroom" columnNames="location_id,courtroom_cd" constraintName="uk_locn_crtr_cd"/>
+        <createIndex indexName="ix_crtr_rm" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_courtroom">
+            <column name="courtroom_name"/>
+        </createIndex>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="courtroom" baseColumnNames="location_id" constraintName="fk_crtr_locn" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedTableName="location" referencedColumnNames="location_id"/>
+        <!--
+        <sql>
+        	GRANT SELECT ON ${POSTGRES_SCHEMA}.courtroom to ${POSTGRES_APP_USER};
+        </sql>
+        -->
+        <sql>
+        	GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.courtroom to ${POSTGRES_APP_USER};
+        </sql>
+        <rollback>
+        	<dropTable cascadeConstraints="true" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_courtroom"/>
+        </rollback>
+    </changeSet>
+</databaseChangeLog>
