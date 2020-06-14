@@ -1,23 +1,51 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="Lucas Lopatka" id="stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS stamp ON ${POSTGRES_SCHEMA}.assignment;
+        	CREATE TRIGGER stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.assignment
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS stamp ON ${POSTGRES_SCHEMA}.assignment;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
     <changeSet author="Lucas Lopatka" id="">
         <comment></comment>
-        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="" remarks="">
-            <column name="id" type="uuid">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="assignment" remarks="">
+            <column name="assignment_id" type="uuid">
                 <constraints nullable="false"/>
             </column>
             <!-- Table Specific -->
+            <column name="title" type="varchar(100)"/>
+
+            <column name="work_section_code" type="varchar(20)">
+                <constraints nullable="false"/>
+            </column>
+
             <column name="location_id" type="uuid">
-                <constraints nullable="true"/>
+                <constraints nullable="false"/>
             </column>
-            <column name="other_assign_code" type="varchar(64)">
-                <constraints nullable="true"/>
+            <column name="courtroom_id" type="uuid">
+                <constraints nullable="false"/>
             </column>
-            <column name="other_assign_name" type="varchar(128)">
-                <constraints nullable="true"/>
+            <column name="court_role_id" type="uuid">
+                <constraints nullable="false"/>
             </column>
-            <column name="description" type="varchar(200)">
-                <constraints nullable="true"/>
+            <column name="jail_role_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="escort_run_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <column name="other_assign_id" type="uuid">
+                <constraints nullable="false"/>
             </column>
             <!-- Common, Dates -->
             <column name="effective_date" type="date">
@@ -47,29 +75,35 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="" columnNames="id" constraintName="pk"/>
-        <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="" columnNames="" constraintName="uk"/>
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="assignment" columnNames="id" constraintName="pk"/>
+        <!-- <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="assignment" columnNames="" constraintName="uk"/> -->
+
+        <!-- FK Constraints -->
+        <!-- <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="assignment" baseColumnNames="work_section_code" constraintName="fk_asn_wksccd" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="work_section_code" referencedTableName="work_section_code"/> -->
+
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="assignment" baseColumnNames="location_id" constraintName="fk_location_id" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="location_id" referencedTableName="location"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="assignment" baseColumnNames="courtroom_id" constraintName="fk_courtroom_id" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="courtroom_id" referencedTableName="courtroom"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="assignment" baseColumnNames="court_role_id" constraintName="fk_courtrole_id" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="court_role_id" referencedTableName="court_role_code"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="assignment" baseColumnNames="jail_role_id" constraintName="fk_jail_role_id" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="jail_role_id" referencedTableName="jail_role_code"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="assignment" baseColumnNames="escort_run_id" constraintName="fk_escort_run_id" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="escort_run_id" referencedTableName="escort_run"/>
+        <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="assignment" baseColumnNames="other_assign_id" constraintName="fk_other_assign_id" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="other_assign_id" referencedTableName="other_assign_code"/>
+
+        <!-- Indexes -->
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="assignment" indexName="ix_asn_locn">
+             <column name="location_id"/>
+         </createIndex>
+         <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="assignment" indexName="ix_asn_wsc">
+             <column name="work_section_code"/>
+         </createIndex>
+         <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="assignment" indexName="ix_asn_crtr">
+             <column name="courtroom_id"/>
+         </createIndex>
+
         <sql>
-        	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}. to ${POSTGRES_APP_USER};
+            GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.assignment to ${POSTGRES_APP_USER};
         </sql>
         <rollback>
-          <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName=""/>
+            <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="assignment"/>
         </rollback>
-    </changeSet>
-    <changeSet author="Lucas Lopatka" id="stamp">
-      <sql>
-        BEGIN;
-        	DROP TRIGGER IF EXISTS stamp ON ${POSTGRES_SCHEMA}.;
-        	CREATE TRIGGER stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.
-	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
-        COMMIT;
-      </sql>
-      <rollback>
-        <sql>
-          BEGIN;
-          	DROP TRIGGER IF EXISTS stamp ON ${POSTGRES_SCHEMA}.;
-          COMMIT;
-        </sql>
-      </rollback>
     </changeSet>
 </databaseChangeLog>

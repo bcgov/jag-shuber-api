@@ -10,14 +10,14 @@
             <column name="location_id" type="uuid">
                 <constraints nullable="true"/>
             </column>
-            <column name="code" type="uuid">
-                <constraints nullable="false"/>
+            <column name="other_assign_code" type="varchar(64)">
+                <constraints nullable="true"/>
             </column>
-            <column name="name" type="uuid">
-                <constraints nullable="false"/>
+            <column name="other_assign_name" type="varchar(128)">
+                <constraints nullable="true"/>
             </column>
             <column name="description" type="varchar(200)">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <!-- Common, Dates -->
             <column name="effective_date" type="date">
