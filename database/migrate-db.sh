@@ -32,6 +32,7 @@ echo "env: `env | grep PG_`"
 echo "jdbc url: jdbc:postgresql://$PG_HOST:$POSTGRES_SERVICE_PORT/$PG_DATABASE"
 
 liquibase --driver=org.postgresql.Driver \
+         --classpath=postgresql-42.2.14.jar \
          --contexts="$LIQUIBASE_CONTEXTS" \
          --changeLogFile=shersched.db.changelog.MASTER.xml \
          --url="jdbc:postgresql://$PG_HOST:$POSTGRES_SERVICE_PORT/$PG_DATABASE" \
