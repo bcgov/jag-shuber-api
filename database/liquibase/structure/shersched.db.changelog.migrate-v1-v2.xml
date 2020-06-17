@@ -8,6 +8,9 @@
     <!-- Drop create is fine as previously existing user and roles tables were not being used by application -->
     <include file="structure/shersched.db.changelog.migrate-v1-v2.authorization.xml"/>
 
+    <!-- Sheriff Location Implementation Tables -->
+    <include file="structure/v2-sheriff-location/shersched.db.changelog.sheriff-location.table-sheriff_location.xml"/>
+
     <!-- Code Table Implementation Tables -->
     <!--
     We need to back up the data in the assignment type and code type tables. Liquibase does not
