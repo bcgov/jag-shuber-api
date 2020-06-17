@@ -49,6 +49,16 @@
         </createTable>
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courtroom" columnNames="courtroom_id" constraintName="pk"/>
         <!-- <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courtroom" columnNames="" constraintName="uk"/> -->
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courtroom" indexName="ix_courtroom_name">
+            <column name="courtroom_name"/>
+        </createIndex>
+        <sql>
+            CREATE UNIQUE INDEX courtroom_loc_notnull_idx ON ${POSTGRES_SCHEMA}.courtroom (courtroom_code, location_id)
+            WHERE location_id IS NOT NULL;
+
+            CREATE UNIQUE INDEX courtroom_loc_isnull_idx ON ${POSTGRES_SCHEMA}.courtroom (courtroom_code)
+            WHERE location_id IS NULL;
+        </sql>
         <sql>
         	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.courtroom to ${POSTGRES_APP_USER};
         </sql>

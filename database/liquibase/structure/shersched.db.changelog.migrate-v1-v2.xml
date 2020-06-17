@@ -28,23 +28,31 @@
     <include file="structure/shersched.db.changelog.migrate-v1-v2.back-up-tables.xml"/>
 
     <!-- Truncate old tables -->
-    <changeSet author="Lucas Lopatka" id="truncate-code-tables">
+    <changeSet author="Lucas Lopatka" id="truncate-assignment-type-tables">
         <!-- ONLY truncate tables if in DEV or TEST -->
+        <!-- These can be truncated, zap assignments and cascade first -->
         <sql>
-            -- TRUNCATE TABLE shersched."assignment" CONTINUE IDENTITY CASCADE;
-            -- TRUNCATE TABLE shersched.courtroom CONTINUE IDENTITY CASCADE;
-            -- TRUNCATE TABLE shersched.court_role_code CONTINUE IDENTITY CASCADE;
-            -- TRUNCATE TABLE shersched.jail_role_code CONTINUE IDENTITY CASCADE;
-            -- TRUNCATE TABLE shersched.other_assign_code CONTINUE IDENTITY CASCADE;
+            TRUNCATE TABLE ${POSTGRES_SCHEMA}."assignment" CONTINUE IDENTITY CASCADE;
         </sql>
-
         <sql>
-
+            TRUNCATE TABLE ${POSTGRES_SCHEMA}.courtroom CONTINUE IDENTITY CASCADE;
+            TRUNCATE TABLE ${POSTGRES_SCHEMA}.court_role_code CONTINUE IDENTITY CASCADE;
+            TRUNCATE TABLE ${POSTGRES_SCHEMA}.jail_role_code CONTINUE IDENTITY CASCADE;
+            TRUNCATE TABLE ${POSTGRES_SCHEMA}.other_assign_code CONTINUE IDENTITY CASCADE;
+            TRUNCATE TABLE ${POSTGRES_SCHEMA}.escort_run CONTINUE IDENTITY CASCADE;
+        </sql>
+        <!-- We want to avoid truncating these if possible -->
+        <sql>
+            -- TRUNCATE TABLE ${POSTGRES_SCHEMA}.duty_recurrence CONTINUE IDENTITY CASCADE;
+            -- TRUNCATE TABLE ${POSTGRES_SCHEMA}.duty CONTINUE IDENTITY CASCADE;
+            -- TRUNCATE TABLE ${POSTGRES_SCHEMA}.shift CONTINUE IDENTITY CASCADE;
         </sql>
     </changeSet>
 
     <!-- Drop old tables -->
-    <changeSet author="Lucas Lopatka" id="drop-code-tables">
+    <changeSet author="Lucas Lopatka" id="drop-assignment-type-tables">
+        <!-- Drop the assignment table first -->
+        <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="assignment"/>
         <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courtroom"/>
         <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="court_role_code"/>
         <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="jail_role_code"/>
@@ -60,13 +68,15 @@
     <include file="structure/v2-assign-types/shersched.db.changelog.assign-types.table-jail_role_code.xml"/>
     <include file="structure/v2-assign-types/shersched.db.changelog.assign-types.table-other_assign_code.xml"/>
     <include file="structure/v2-assign-types/shersched.db.changelog.assign-types.table-escort_run.xml"/>
-
+    <!-- Add this last, we need the other tables to exist first before we can create the necessary FKs -->
+    <include file="structure/v2-assign-types/shersched.db.changelog.assign-types.table-assignment.xml"/>
 
     <!-- Map data -->
     <include file="structure/shersched.db.changelog.migrate-v1-v2.restore-data.xml"/>
 
     <!-- Drop temp tables -->
-    <changeSet author="Lucas Lopatka" id="drop-code-tables">
+    <changeSet author="Lucas Lopatka" id="drop-assignment-type-temp-tables">
+        <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_assignment"/>
         <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_courtroom"/>
         <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_court_role_code"/>
         <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_jail_role_code"/>

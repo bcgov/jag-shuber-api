@@ -1,5 +1,11 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
     <changeSet author="Lucas Lopatka" id="">
+        <sql>
+            ALTER TABLE ${POSTGRES_SCHEMA}.duty DROP CONSTRAINT fk_dty_asn;
+            ALTER TABLE ${POSTGRES_SCHEMA}.duty DROP CONSTRAINT fk_dty_dtyrc;
+            ALTER TABLE ${POSTGRES_SCHEMA}.duty_recurrence DROP CONSTRAINT fk_dtyrc_asn;
+            ALTER TABLE ${POSTGRES_SCHEMA}.shift DROP CONSTRAINT fk_shft_asn;
+        </sql>
     </changeSet>
 </databaseChangeLog>

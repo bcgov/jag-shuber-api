@@ -55,6 +55,13 @@
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="escort_run" columnNames="escort_run_id" constraintName="pk"/>
         <!-- <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="escort_run" columnNames="" constraintName="uk"/> -->
         <sql>
+            CREATE UNIQUE INDEX escort_run_loc_notnull_idx ON ${POSTGRES_SCHEMA}.escort_run (escort_run_code, location_id)
+            WHERE location_id IS NOT NULL;
+
+            CREATE UNIQUE INDEX escort_run_loc_isnull_idx ON ${POSTGRES_SCHEMA}.escort_run (escort_run_code)
+            WHERE location_id IS NULL;
+        </sql>
+        <sql>
         	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.escort_run to ${POSTGRES_APP_USER};
         </sql>
         <rollback>

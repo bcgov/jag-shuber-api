@@ -43,6 +43,24 @@
         </createTable>
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="" columnNames="id" constraintName="pk"/>
         <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="" columnNames="" constraintName="uk"/>
+        <addForeignKeyConstraint
+            baseTableCatalogName="${POSTGRES_CATALOG}"
+            baseTableSchemaName="${POSTGRES_SCHEMA}"
+            baseTableName=""
+            baseColumnNames=""
+            constraintName=""
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedTableCatalogName="${POSTGRES_CATALOG}"
+            referencedTableSchemaName="${POSTGRES_SCHEMA}"
+            referencedTableName=""
+            referencedColumnNames=""
+        />
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="" indexName="">
+            <column name=""/>
+        </createIndex>
         <sql>
         	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}. to ${POSTGRES_APP_USER};
         </sql>
