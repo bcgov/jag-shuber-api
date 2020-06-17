@@ -23,12 +23,12 @@
     <include file="structure/v1-v2-migration-temp-tables/shersched.db.changelog.temp-table-assignment.xml"/>
     <include file="structure/v1-v2-migration-temp-tables/shersched.db.changelog.temp-table-courtroom.xml"/>
     <include file="structure/v1-v2-migration-temp-tables/shersched.db.changelog.temp-table-court_role_code.xml"/>
-    <include file="structure/v1-v2-migration-temp-tables/shersched.db.changelog.temp-table-jail_roles_code.xml"/>
+    <include file="structure/v1-v2-migration-temp-tables/shersched.db.changelog.temp-table-jail_role_code.xml"/>
     <include file="structure/v1-v2-migration-temp-tables/shersched.db.changelog.temp-table-other_assign_code.xml"/>
     <include file="structure/v1-v2-migration-temp-tables/shersched.db.changelog.temp-table-escort_run.xml"/>
 
     <!-- Back up existing tables -->
-    <include file="structure/shersched.db.changelog.migrate-v1-v2.back-up-tables.xml"/>
+    <include file="structure/shersched.db.changelog.migrate-v1-v2.back-up-data.xml"/>
 
     <!-- Truncate old tables -->
     <changeSet author="Lucas Lopatka" id="v2-truncate-assignment-type-tables">

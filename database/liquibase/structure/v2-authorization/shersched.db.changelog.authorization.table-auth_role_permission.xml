@@ -27,7 +27,7 @@
                 <constraints nullable="false"/>
             </column>
             <column name="updated_by" type="varchar(100)">
-                <constraints nullable="falsse"/>
+                <constraints nullable="false"/>
             </column>
             <column name="created_dtm" type="timestamptz">
                 <constraints nullable="false"/>

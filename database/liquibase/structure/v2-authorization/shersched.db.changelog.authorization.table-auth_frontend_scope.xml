@@ -16,7 +16,7 @@
             <column name="description" type="varchar(200)">
                 <constraints nullable="true"/>
             </column>
-            <column name="system_scope_ind" type="bool" defaultBoolean="false">
+            <column name="system_scope_ind" type="bool" defaultValueBoolean="false">
                 <constraints nullable="false"/>
             </column>
             <!-- Common, Meta -->
