@@ -1,21 +1,21 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-    
+
     <!--
-        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" 
-        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" 
+        catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}"
+        baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}"
     -->
 
     <!-- This ChangeLog contains the changeset(s) to generate the table LEAVE
          It includes attributes, constraints, keys, indexes and security in one
-         place. Where possible (i.e. where dependencies between subsequent changes 
+         place. Where possible (i.e. where dependencies between subsequent changes
          allow) updates to this table should be included as additional changesets
          within this changelog -->
 
     <!-- Changsets -->
     <changeSet author="Carol Geisler" id="CRTTAB_LVCD_1_0">
     	<comment>Create the Leave table to capture planned sheriff leaves of absence.</comment>
-				<createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="leave" 
+				<createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="leave"
         	remarks="Leave captures data related to absence from regular duty for one or more full days.">
             <column name="leave_id" type="UUID">
                 <constraints nullable="false"/>
@@ -62,7 +62,7 @@
         <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="leave_cancel_reason_code" baseTableName="leave" constraintName="fk_lve_lvcr" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="leave_cancel_reason_code" referencedTableName="leave_cancel_reason_code"/>
         <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseColumnNames="sheriff_id" baseTableName="leave" constraintName="fk_lve_shrf" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedColumnNames="sheriff_id" referencedTableName="sheriff"/>
         <!--sql>
-        	GRANT SELECT, INSERT, UPDATE ON ${POSTGRES_SCHEMA}.leave to ${POSTGRES_APP_USER};
+        	GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.leave to ${POSTGRES_APP_USER};
         </sql-->
         <sql>
         	GRANT SELECT, INSERT, UPDATE, DELETE ON ${POSTGRES_SCHEMA}.leave to ${POSTGRES_APP_USER};
@@ -71,7 +71,7 @@
         	<dropTable  cascadeConstraints="true" catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="leave"/>
         </rollback>
     </changeSet>
-    
+
     <changeSet author="Carol Geisler" id="ADDTRG_lve_stamp">
       <sql>
         BEGIN;

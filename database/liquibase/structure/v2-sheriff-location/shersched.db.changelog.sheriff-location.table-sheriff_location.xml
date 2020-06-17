@@ -1,0 +1,105 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="Lucas Lopatka" id="v2-create-table-sheriff_location">
+        <comment></comment>
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff_location" remarks="">
+            <column name="sheriff_location_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <!-- Table Specific -->
+            <column name="sheriff_id" type="uuid">
+                <constraints nullable="true"/>
+            </column>
+            <column name="location_id" type="uuid">
+                <constraints nullable="true"/>
+            </column>
+            <column name="start_date" type="date">
+                <constraints nullable="true"/>
+            </column>
+            <column name="end_date" type="date">
+                <constraints nullable="true"/>
+            </column>
+            <column name="start_time" type="time with timezone">
+                <constraints nullable="true"/>
+            </column>
+            <column name="end_time" type="time with timezone">
+                <constraints nullable="true"/>
+            </column>
+            <column name="partial_day_ind" type="int4" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sort_order" type="numeric(3)">
+                <constraints nullable="true"/>
+            </column>
+            <!-- Common, Meta -->
+            <column name="created_by" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff_location" columnNames="sheriff_location_id" constraintName="pk_sheriff_location"/>
+        <addForeignKeyConstraint
+            baseTableCatalogName="${POSTGRES_CATALOG}"
+            baseTableSchemaName="${POSTGRES_SCHEMA}"
+            baseTableName="sheriff_location"
+            baseColumnNames="sheriff_id"
+            constraintName="fk_sheriff_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedTableCatalogName="${POSTGRES_CATALOG}"
+            referencedTableSchemaName="${POSTGRES_SCHEMA}"
+            referencedTableName="sheriff"
+            referencedColumnNames="sheriff_id"
+        />
+        <addForeignKeyConstraint
+            baseTableCatalogName="${POSTGRES_CATALOG}"
+            baseTableSchemaName="${POSTGRES_SCHEMA}"
+            baseTableName="sheriff_location"
+            baseColumnNames="location_id"
+            constraintName="fk_location_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedTableCatalogName="${POSTGRES_CATALOG}"
+            referencedTableSchemaName="${POSTGRES_SCHEMA}"
+            referencedTableName="location"
+            referencedColumnNames="location_id"
+        />
+        <sql>
+        	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.sheriff_location to ${POSTGRES_APP_USER};
+        </sql>
+        <rollback>
+          <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff_location"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="Lucas Lopatka" id="v2-create-table-sheriff_location-stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS stamp ON ${POSTGRES_SCHEMA}.sheriff_location;
+        	CREATE TRIGGER stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.sheriff_location
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS stamp ON ${POSTGRES_SCHEMA}.sheriff_location;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+</databaseChangeLog>

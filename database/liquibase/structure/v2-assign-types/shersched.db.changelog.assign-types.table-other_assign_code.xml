@@ -1,0 +1,96 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="Lucas Lopatka" id="v2-create-table-other_assign_code">
+        <comment></comment>
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="other_assign_code" remarks="">
+            <column name="other_assign_id" type="uuid">
+                <constraints nullable="false"/>
+            </column>
+            <!-- Table Specific -->
+            <column name="location_id" type="uuid">
+                <constraints nullable="true"/>
+            </column>
+            <column name="other_assign_code" type="varchar(64)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="other_assign_name" type="varchar(128)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="description" type="varchar(200)">
+                <constraints nullable="true"/>
+            </column>
+            <!-- Common, Dates -->
+            <column name="effective_date" type="date">
+                <constraints nullable="true"/>
+            </column>
+            <column name="expiry_date" type="date">
+                <constraints nullable="true"/>
+            </column>
+            <!-- Common, Sort Order -->
+            <column name="sort_order" type="numeric(3)">
+                <constraints nullable="true"/>
+            </column>
+            <!-- Common, Meta -->
+            <column name="created_by" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_by" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_dtm" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_dtm" type="timestamptz">
+                <constraints nullable="false"/>
+            </column>
+            <column name="revision_count" type="numeric(10)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="other_assign_code" columnNames="other_assign_id" constraintName="pk_other_assign_code"/>
+        <addForeignKeyConstraint
+            baseTableCatalogName="${POSTGRES_CATALOG}"
+            baseTableSchemaName="${POSTGRES_SCHEMA}"
+            baseTableName="other_assign_code"
+            baseColumnNames="location_id"
+            constraintName="fk_location_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedTableCatalogName="${POSTGRES_CATALOG}"
+            referencedTableSchemaName="${POSTGRES_SCHEMA}"
+            referencedTableName="location"
+            referencedColumnNames="location_id"
+        />
+        <sql>
+            CREATE UNIQUE INDEX other_assign_code_loc_notnull_idx ON ${POSTGRES_SCHEMA}.other_assign_code (other_assign_code, location_id)
+            WHERE location_id IS NOT NULL;
+
+            CREATE UNIQUE INDEX other_assign_code_loc_isnull_idx ON ${POSTGRES_SCHEMA}.other_assign_code (other_assign_code)
+            WHERE location_id IS NULL;
+        </sql>
+        <sql>
+        	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.other_assign_code to ${POSTGRES_APP_USER};
+        </sql>
+        <rollback>
+          <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="other_assign_code"/>
+        </rollback>
+    </changeSet>
+    <changeSet author="Lucas Lopatka" id="v2-create-table-other_assign_code-stamp">
+      <sql>
+        BEGIN;
+        	DROP TRIGGER IF EXISTS stamp ON ${POSTGRES_SCHEMA}.other_assign_code;
+        	CREATE TRIGGER stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.other_assign_code
+	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
+        COMMIT;
+      </sql>
+      <rollback>
+        <sql>
+          BEGIN;
+          	DROP TRIGGER IF EXISTS stamp ON ${POSTGRES_SCHEMA}.other_assign_code;
+          COMMIT;
+        </sql>
+      </rollback>
+    </changeSet>
+</databaseChangeLog>

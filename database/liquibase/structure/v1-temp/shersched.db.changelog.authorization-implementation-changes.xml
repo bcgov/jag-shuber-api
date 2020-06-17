@@ -1,6 +1,6 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-    
+
     <!-- Changsets -->
     <changeSet author="Ron Garcia" id="authorization-implementation-changes">
       <comment>Database changes due to new admin module and new authorization functionality</comment>
@@ -15,28 +15,28 @@
     <changeSet author="Ron Garcia" id="CRTTAB_AppRolePerm_1_0">
       <comment>Database changes due to new admin module and new authorization functionality</comment>
       <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_role_permission" remarks="Authorization table">
-          <column name="app_role_permission_id" type="UUID">
+          <column name="app_role_permission_id" type="uuid">
               <constraints nullable="false"/>
           </column>
-          <column name="app_role_id" type="UUID">
+          <column name="app_role_id" type="uuid">
               <constraints nullable="false"/>
           </column>
-          <column name="app_role_frontend_scope_id" type="UUID">
+          <column name="app_role_frontend_scope_id" type="uuid">
               <constraints nullable="false"/>
           </column>
-          <column name="app_role_api_scope_id" type="UUID">
+          <column name="app_role_api_scope_id" type="uuid">
               <constraints nullable="false"/>
           </column>
-          <column name="frontend_scope_permission_id" type="UUID">
+          <column name="frontend_scope_permission_id" type="uuid">
               <constraints nullable="false"/>
           </column>
-          <column name="api_scope_permission_id" type="UUID">
+          <column name="api_scope_permission_id" type="uuid">
               <constraints nullable="false"/>
           </column>
-          <column name="created_by" type="VARCHAR(32)">
+          <column name="created_by" type="varchar(64)">
               <constraints nullable="false"/>
           </column>
-          <column name="updated_by" type="VARCHAR(32)">
+          <column name="updated_by" type="varchar(64)">
               <constraints nullable="false"/>
           </column>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
@@ -51,7 +51,7 @@
         </createTable>
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_role_permission" columnNames="app_role_permission_id" constraintName="pk_aprolper"/>
         <sql>
-        	GRANT SELECT ON ${POSTGRES_SCHEMA}.app_role_permission to ${POSTGRES_APP_USER};
+        	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.app_role_permission to ${POSTGRES_APP_USER};
         </sql>
         <rollback>
           <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_role_permission"/>
@@ -61,21 +61,21 @@
     <changeSet author="Ron Garcia" id="CRTTAB_FrontScope_1_0">
       <comment>Database changes due to new admin module and new authorization functionality</comment>
       <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="frontend_scope" remarks="Authorization table">
-        <column name="frontend_scope_id" type="UUID">
+        <column name="frontend_scope_id" type="uuid">
           <constraints nullable="false"/>
         </column>
-        <column name="scope_name" type="VARCHAR(128)">
+        <column name="scope_name" type="varchar(128)">
             <constraints nullable="false"/>
         </column>
-        <column name="scope_code" type="VARCHAR(128)">
+        <column name="scope_code" type="varchar(128)">
             <constraints nullable="false"/>
         </column>
         <column name="system_scope_ind" type="boolean" defaultValueBoolean="false"/>
-        <column name="description" type="VARCHAR(255)"/>
-        <column name="created_by" type="VARCHAR(32)">
+        <column name="description" type="varchar(255)"/>
+        <column name="created_by" type="varchar(64)">
             <constraints nullable="false"/>
         </column>
-        <column name="updated_by" type="VARCHAR(32)">
+        <column name="updated_by" type="varchar(64)">
             <constraints nullable="false"/>
         </column>
         <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
@@ -90,7 +90,7 @@
       </createTable>
       <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="frontend_scope" columnNames="frontend_scope_id" constraintName="pk_frontsc"/>
       <sql>
-        GRANT SELECT ON ${POSTGRES_SCHEMA}.frontend_scope to ${POSTGRES_APP_USER};
+        GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.frontend_scope to ${POSTGRES_APP_USER};
       </sql>
       <rollback>
         <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="frontend_scope"/>
@@ -100,19 +100,19 @@
     <changeSet author="Ron Garcia" id="CRTTAB_AppFrontScope_1_0">
       <comment>Database changes due to new admin module and new authorization functionality</comment>
       <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_role_frontend_scope" remarks="Authorization table">
-        <column name="app_role_frontend_scope_id" type="UUID">
+        <column name="app_role_frontend_scope_id" type="uuid">
           <constraints nullable="false"/>
         </column>
-        <column name="app_role_id" type="UUID">
+        <column name="app_role_id" type="uuid">
           <constraints nullable="false"/>
         </column>
-        <column name="frontend_scope_id" type="UUID">
+        <column name="frontend_scope_id" type="uuid">
           <constraints nullable="false"/>
         </column>
-        <column name="created_by" type="VARCHAR(32)">
+        <column name="created_by" type="varchar(64)">
             <constraints nullable="false"/>
         </column>
-        <column name="updated_by" type="VARCHAR(32)">
+        <column name="updated_by" type="varchar(64)">
             <constraints nullable="false"/>
         </column>
         <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
@@ -129,7 +129,7 @@
       <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="app_role_frontend_scope" baseColumnNames="app_role_id" constraintName="fk_appfrontsc_aprl" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedTableName="app_role" referencedColumnNames="app_role_id"/>
       <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="app_role_frontend_scope" baseColumnNames="frontend_scope_id" constraintName="fk_appfrontsc_frontsc" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedTableName="frontend_scope" referencedColumnNames="frontend_scope_id"/>
       <sql>
-        GRANT SELECT ON ${POSTGRES_SCHEMA}.app_role_frontend_scope to ${POSTGRES_APP_USER};
+        GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.app_role_frontend_scope to ${POSTGRES_APP_USER};
       </sql>
       <rollback>
         <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="app_role_frontend_scope"/>
@@ -139,23 +139,23 @@
     <changeSet author="Ron Garcia" id="CRTTAB_FrontScopePerm_1_0">
       <comment>Database changes due to new admin module and new authorization functionality</comment>
       <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="frontend_scope_permission" remarks="Authorization table">
-          <column name="frontend_scope_permission_id" type="UUID">
+          <column name="frontend_scope_permission_id" type="uuid">
               <constraints nullable="false"/>
           </column>
-          <column name="frontend_scope_id" type="UUID">
+          <column name="frontend_scope_id" type="uuid">
               <constraints nullable="false"/>
           </column>
-          <column name="scope_name" type="VARCHAR(128)">
+          <column name="scope_name" type="varchar(128)">
             <constraints nullable="false"/>
           </column>
-          <column name="scope_code" type="VARCHAR(128)">
+          <column name="scope_code" type="varchar(128)">
               <constraints nullable="false"/>
           </column>
-          <column name="description" type="VARCHAR(255)"/>
-          <column name="created_by" type="VARCHAR(32)">
+          <column name="description" type="varchar(255)"/>
+          <column name="created_by" type="varchar(64)">
               <constraints nullable="false"/>
           </column>
-          <column name="updated_by" type="VARCHAR(32)">
+          <column name="updated_by" type="varchar(64)">
               <constraints nullable="false"/>
           </column>
           <column name="created_dtm" type="TIMESTAMP WITH TIME ZONE">
@@ -171,11 +171,11 @@
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="frontend_scope_permission" columnNames="frontend_scope_permission_id" constraintName="pk_frontscper"/>
         <addForeignKeyConstraint baseTableCatalogName="${POSTGRES_CATALOG}" baseTableSchemaName="${POSTGRES_SCHEMA}" baseTableName="frontend_scope_permission" baseColumnNames="frontend_scope_id" constraintName="fk_frontscper_frontsc" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedTableCatalogName="${POSTGRES_CATALOG}" referencedTableSchemaName="${POSTGRES_SCHEMA}" referencedTableName="frontend_scope" referencedColumnNames="frontend_scope_id"/>
         <sql>
-        	GRANT SELECT ON ${POSTGRES_SCHEMA}.frontend_scope_permission to ${POSTGRES_APP_USER};
+        	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.frontend_scope_permission to ${POSTGRES_APP_USER};
         </sql>
         <rollback>
           <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="frontend_scope_permission"/>
         </rollback>
     </changeSet>
-    
+
 </databaseChangeLog>

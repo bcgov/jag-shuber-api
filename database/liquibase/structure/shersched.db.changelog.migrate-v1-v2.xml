@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <!-- Authorization Implementation Tables -->
+    <!-- Truncate any existing auth table data, and drop tables and constraints as necessary prior to re-creating schema tables -->
+    <!-- Drop create is fine as previously existing user and roles tables were not being used by application -->
+    <include file="structure/shersched.db.changelog.migrate-v1-v2.authorization.xml"/>
+
+    <!-- Sheriff Location Implementation Tables -->
+    <include file="structure/v2-sheriff-location/shersched.db.changelog.sheriff-location.table-sheriff_location.xml"/>
+
+    <!-- Code Table Implementation Tables -->
+    <!--
+    We need to back up the data in the assignment type and code type tables. Liquibase does not
+    support temporary tables so we will create real tables and delete them when we're done.
+    ORDER IS IMPORTANT DUE TO FK CONSTRAINTS!
+    -->
+
+    <!-- Migrate code tables  -->
+    <!-- Create temp tables -->
+    <include file="structure/v1-v2-migration-temp-tables/shersched.db.changelog.temp-table-assignment.xml"/>
+    <include file="structure/v1-v2-migration-temp-tables/shersched.db.changelog.temp-table-courtroom.xml"/>
+    <include file="structure/v1-v2-migration-temp-tables/shersched.db.changelog.temp-table-court_role_code.xml"/>
+    <include file="structure/v1-v2-migration-temp-tables/shersched.db.changelog.temp-table-jail_roles_code.xml"/>
+    <include file="structure/v1-v2-migration-temp-tables/shersched.db.changelog.temp-table-other_assign_code.xml"/>
+    <include file="structure/v1-v2-migration-temp-tables/shersched.db.changelog.temp-table-escort_run.xml"/>
+
+    <!-- Back up existing tables -->
+    <include file="structure/shersched.db.changelog.migrate-v1-v2.back-up-tables.xml"/>
+
+    <!-- Truncate old tables -->
+    <changeSet author="Lucas Lopatka" id="v2-truncate-assignment-type-tables">
+        <!-- ONLY truncate tables if in DEV or TEST -->
+        <!-- These can be truncated, zap assignments and cascade first -->
+        <sql>
+            TRUNCATE TABLE ${POSTGRES_SCHEMA}."assignment" CONTINUE IDENTITY CASCADE;
+        </sql>
+        <sql>
+            TRUNCATE TABLE ${POSTGRES_SCHEMA}.courtroom CONTINUE IDENTITY CASCADE;
+            TRUNCATE TABLE ${POSTGRES_SCHEMA}.court_role_code CONTINUE IDENTITY CASCADE;
+            TRUNCATE TABLE ${POSTGRES_SCHEMA}.jail_role_code CONTINUE IDENTITY CASCADE;
+            TRUNCATE TABLE ${POSTGRES_SCHEMA}.other_assign_code CONTINUE IDENTITY CASCADE;
+            TRUNCATE TABLE ${POSTGRES_SCHEMA}.escort_run CONTINUE IDENTITY CASCADE;
+        </sql>
+        <!-- We want to avoid truncating these if possible -->
+        <sql>
+            -- TRUNCATE TABLE ${POSTGRES_SCHEMA}.duty_recurrence CONTINUE IDENTITY CASCADE;
+            -- TRUNCATE TABLE ${POSTGRES_SCHEMA}.duty CONTINUE IDENTITY CASCADE;
+            -- TRUNCATE TABLE ${POSTGRES_SCHEMA}.shift CONTINUE IDENTITY CASCADE;
+        </sql>
+    </changeSet>
+
+    <!-- Drop old tables -->
+    <changeSet author="Lucas Lopatka" id="v2-drop-assignment-type-tables">
+        <!-- Drop the assignment table first -->
+        <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="assignment"/>
+        <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courtroom"/>
+        <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="court_role_code"/>
+        <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="jail_role_code"/>
+        <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="other_assign_code"/>
+        <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="escort_run"/>
+    </changeSet>
+
+
+    <!-- Create new tables -->
+    <!-- Create v2 code type tables -->
+    <include file="structure/v2-assign-types/shersched.db.changelog.assign-types.table-courtroom.xml"/>
+    <include file="structure/v2-assign-types/shersched.db.changelog.assign-types.table-court_role_code.xml"/>
+    <include file="structure/v2-assign-types/shersched.db.changelog.assign-types.table-jail_role_code.xml"/>
+    <include file="structure/v2-assign-types/shersched.db.changelog.assign-types.table-other_assign_code.xml"/>
+    <include file="structure/v2-assign-types/shersched.db.changelog.assign-types.table-escort_run.xml"/>
+    <!-- Add this last, we need the other tables to exist first before we can create the necessary FKs -->
+    <include file="structure/v2-assign-types/shersched.db.changelog.assign-types.table-assignment.xml"/>
+
+    <!-- Map data -->
+    <include file="structure/shersched.db.changelog.migrate-v1-v2.restore-data.xml"/>
+
+    <!-- Drop temp tables -->
+    <changeSet author="Lucas Lopatka" id="v2-drop-assignment-type-temp-tables">
+        <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_assignment"/>
+        <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_courtroom"/>
+        <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_court_role_code"/>
+        <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_jail_role_code"/>
+        <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_other_assign_code"/>
+        <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_escort_run"/>
+    </changeSet>
+</databaseChangeLog>

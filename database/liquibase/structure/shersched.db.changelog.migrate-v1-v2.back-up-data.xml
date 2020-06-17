@@ -1,0 +1,160 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="Lucas Lopatka" id="v2-back-up-data">
+        <sql>
+            INSERT INTO ${POSTGRES_SCHEMA}.temp_assignment
+            (
+                assignment_id, title, work_section_code, location_id,
+                courtroom_id, court_role_code, jail_role_code, other_assign_code, escort_run_id,
+                effective_date,
+                expiry_date,
+                created_by,
+                updated_by,
+                created_dtm,
+                updated_dtm,
+                revision_count
+            )
+            SELECT (
+                assignment_id, title, work_section_code, location_id,
+                courtroom_id, court_role_code, jail_role_code, other_assign_code, escort_run_id,
+                effective_date,
+                expiry_date,
+                created_by,
+                updated_by,
+                created_dtm,
+                updated_dtm,
+                revision_count
+            )
+            FROM ${POSTGRES_SCHEMA}.assignment
+        </sql>
+        <sql>
+            INSERT_INTO ${POSTGRES_SCHEMA}.temp_courtroom
+            (
+
+                courtroom_id,
+                courtroom_cd,
+                courtroom_name,
+                location_id,
+                created_by,
+                updated_by,
+                created_dtm,
+                updated_dtm,
+                revision_count
+            )
+            SELECT (
+                courtroom_id,
+                courtroom_cd,
+                courtroom_name,
+                location_id,
+                created_by,
+                updated_by,
+                created_dtm,
+                updated_dtm,
+                revision_count
+            )
+            FROM ${POSTGRES_SCHEMA}.courtroom
+        </sql>
+        <sql>
+            INSERT_INTO ${POSTGRES_SCHEMA}.temp_court_role_code
+            (
+                court_role_code,
+                description,
+                effective_date,
+                expiry_date,
+                created_by,
+                updated_by,
+                created_dtm,
+                updated_dtm,
+                revision_count
+            )
+            SELECT (
+                court_role_code,
+                description,
+                effective_date,
+                expiry_date,
+                created_by,
+                updated_by,
+                created_dtm,
+                updated_dtm,
+                revision_count
+            )
+            FROM ${POSTGRES_SCHEMA}.court_role_code
+        </sql>
+        <sql>
+            INSERT_INTO ${POSTGRES_SCHEMA}.temp_jail_role_code
+            (
+                jail_role_code,
+                description,
+                effective_date,
+                expiry_date,
+                created_by,
+                updated_by,
+                created_dtm,
+                updated_dtm,
+                revision_count
+            )
+            SELECT (
+                jail_role_code,
+                description,
+                effective_date,
+                expiry_date,
+                created_by,
+                updated_by,
+                created_dtm,
+                updated_dtm,
+                revision_count
+            )
+            FROM ${POSTGRES_SCHEMA}.jail_role_code
+        </sql>
+        <sql>
+            INSERT_INTO ${POSTGRES_SCHEMA}.temp_escort_run
+            (
+                escort_run_id,
+                title,
+                location_id,
+                created_by,
+                updated_by,
+                created_dtm,
+                updated_dtm,
+                revision_count
+            )
+            SELECT (
+                escort_run_id,
+                title,
+                location_id,
+                created_by,
+                updated_by,
+                created_dtm,
+                updated_dtm,
+                revision_count
+            )
+            FROM ${POSTGRES_SCHEMA}.escort_run
+        </sql>
+        <sql>
+            INSERT_INTO ${POSTGRES_SCHEMA}.temp_other_assign_code
+            (
+                other_assign_code,
+                description,
+                effective_date,
+                expiry_date,
+                created_by,
+                updated_by,
+                created_dtm,
+                updated_dtm,
+                revision_count
+            )
+            SELECT (
+                other_assign_code,
+                description,
+                effective_date,
+                expiry_date,
+                created_by,
+                updated_by,
+                created_dtm,
+                updated_dtm,
+                revision_count
+            )
+            FROM ${POSTGRES_SCHEMA}.other_assign_code
+        </sql>
+    </changeSet>
+</databaseChangeLog>
