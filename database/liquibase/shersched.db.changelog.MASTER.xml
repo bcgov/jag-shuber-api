@@ -205,52 +205,17 @@
     <include file="data/shersched.db.changelog.data.prod-escort_run_add_assignments.xml"/>
     <include file="data/shersched.db.changelog.data.prod-courtroom_run_add_courtrooms.xml"/>
 
-    <!-- ##### Start v1 -> v2 migration ##### -->
-
-    <!-- Authorization Implementation Tables -->
-    <!-- Truncate any existing auth table data, and drop tables and constraints as necessary prior to re-creating schema tables -->
-    <!-- Drop create is fine as previously existing user and roles tables were not being used by application -->
-    <include file="structure/shersched.db.changelog.authorization.reset-tables.xml"/>
-    <!-- Create authorization tables ORDER IS IMPORTANT DUE TO FK CONSTRAINTS! -->
-    <include file="structure/shersched.db.changelog.authorization.table-auth_user.xml"/>
-    <include file="structure/shersched.db.changelog.authorization.table-auth_role.xml"/>
-    <include file="structure/shersched.db.changelog.authorization.table-auth_user_role.xml"/>
-    <include file="structure/shersched.db.changelog.authorization.table-auth_api_scope.xml"/>
-    <include file="structure/shersched.db.changelog.authorization.table-auth_frontend_scope.xml"/>
-    <include file="structure/shersched.db.changelog.authorization.table-auth_frontend_scope_api.xml"/>
-    <include file="structure/shersched.db.changelog.authorization.table-auth_frontend_scope_permission.xml"/>
-    <include file="structure/shersched.db.changelog.authorization.table-auth_role_frontend_scope.xml"/>
-    <include file="structure/shersched.db.changelog.authorization.table-auth_role_api_scope.xml"/>
-    <include file="structure/shersched.db.changelog.authorization.table-auth_role_permission.xml"/>
-
-    <!-- Code Table Implementation Tables -->
-    <!--
-    We need to back up the data in the assignment type and code type tables. Liquibase does not
-    support temporary tables so we will create real tables and delete them when we're done.
-    -->
-    <include file="structure/shersched.db.changelog.assign-types.create-temp-tables.xml"/>
-    <include file="structure/shersched.db.changelog.assign-types.drop-constraints.xml"/>
-    <include file="structure/shersched.db.changelog.assign-types.backup-code-tables.xml"/>
-
-    <!-- Migrate code tables ORDER IS IMPORTANT DUE TO FK CONSTRAINTS! -->
-    <include file="structure/shersched.db.changelog.scope-code-tables.migrate-table-assignment.xml"/>
-
-    <!-- Create v2 code type tables -->
-    <include file="structure/shersched.db.changelog.assign-types.table-courtroom.xml"/>
-    <include file="structure/shersched.db.changelog.assign-types.table-court_role_code.xml"/>
-    <include file="structure/shersched.db.changelog.assign-types.table-jail_role_code.xml"/>
-    <include file="structure/shersched.db.changelog.assign-types.table-other_assign_code.xml"/>
-    <include file="structure/shersched.db.changelog.assign-types.table-escort_run.xml"/>
-
-    <!-- Restore data and clean up -->
-    <include file="structure/shersched.db.changelog.assign-types.restore-data.xml"/>
-    <include file="structure/shersched.db.changelog.assign-types.delete-temp-tables.xml"/>
-    <include file="structure/shersched.db.changelog.create-assignment-table-constraints.xml"/>
-
-    <!-- ##### END v1 -> v2 migration ##### -->
-
     <changeSet author="Carol Geisler" id="data_01">
     	<tagDatabase tag="01_AllBaseData"/>
     </changeSet>
 
+    <!-- ##### Start v1 -> v2 migration ##### -->
+    <include file="structure/shersched.db.changelog.migrate-v1-v2.drop-v1-constraints.xml"/>
+    <include file="structure/shersched.db.changelog.migrate-v1-v2.xml"/>
+    <include file="structure/shersched.db.changelog.migrate-v1-v2.create-v2-constraints.xml"/>
+    <!-- ##### END v1 -> v2 migration ##### -->
+
+    <changeSet author="Lucas Lopatka" id="data_02">
+    	<tagDatabase tag="02_AllBaseData"/>
+    </changeSet>
 </databaseChangeLog>

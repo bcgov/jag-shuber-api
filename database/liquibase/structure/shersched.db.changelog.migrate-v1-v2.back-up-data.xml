@@ -1,0 +1,95 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="Lucas Lopatka" id="reset-code-tables">
+        <sql>
+            SELECT (
+                assignment_id, title, work_section_code, location_id,
+                courtroom_id, court_role_code, jail_role_code, other_assign_code,
+                escort_run_id,
+                effective_date,
+                expiry_date,
+                created_by,
+                updated_by,
+                created_dtm,
+                updated_dtm,
+                revision_count
+            )
+            INTO temp_assignment
+            FROM assignment
+        </sql>
+        <sql>
+            SELECT (
+                courtroom_id,
+                courtroom_cd,
+                courtroom_name,
+                location_id,
+                created_by,
+                updated_by,
+                created_dtm,
+                updated_dtm,
+                revision_count
+            )
+            INTO temp_courtroom
+            FROM courtroom
+        </sql>
+        <sql>
+            SELECT (
+                court_role_code,
+                description,
+                effective_date,
+                expiry_date,
+                created_by,
+                updated_by,
+                created_dtm,
+                updated_dtm,
+                revision_count
+            )
+            INTO temp_court_role_code
+            FROM court_role_code
+        </sql>
+        <sql>
+            SELECT (
+                jail_role_code,
+                description,
+                effective_date,
+                expiry_date,
+                created_by,
+                updated_by,
+                created_dtm,
+                updated_dtm,
+                revision_count
+            )
+            INTO temp_jail_role_code
+            FROM jail_role_code
+        </sql>
+        <sql>
+            SELECT (
+                escort_run_id,
+                title,
+                location_id,
+                created_by,
+                updated_by,
+                created_dtm,
+                updated_dtm,
+                revision_count
+            )
+            INTO temp_escort_run
+            FROM escort_run
+        </sql>
+        <sql>
+            SELECT (
+                other_assign_code,
+                description,
+                effective_date,
+                expiry_date,
+                created_by,
+                updated_by,
+                created_dtm,
+                updated_dtm,
+                revision_count
+            )
+            INTO temp_other_assign_code
+            FROM other_assign_code
+        </sql>
+    </changeSet>
+</databaseChangeLog>

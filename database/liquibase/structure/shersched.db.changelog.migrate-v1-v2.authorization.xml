@@ -1,0 +1,15 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <include file="structure/v2-authorization/shersched.db.changelog.authorization.reset-tables.xml"/>
+    <!-- Create authorization tables ORDER IS IMPORTANT DUE TO FK CONSTRAINTS! -->
+    <include file="structure/v2-authorization/shersched.db.changelog.authorization.table-auth_user.xml"/>
+    <include file="structure/v2-authorization/shersched.db.changelog.authorization.table-auth_role.xml"/>
+    <include file="structure/v2-authorization/shersched.db.changelog.authorization.table-auth_user_role.xml"/>
+    <include file="structure/v2-authorization/shersched.db.changelog.authorization.table-auth_api_scope.xml"/>
+    <include file="structure/v2-authorization/shersched.db.changelog.authorization.table-auth_frontend_scope.xml"/>
+    <include file="structure/v2-authorization/shersched.db.changelog.authorization.table-auth_frontend_scope_api.xml"/>
+    <include file="structure/v2-authorization/shersched.db.changelog.authorization.table-auth_frontend_scope_permission.xml"/>
+    <include file="structure/v2-authorization/shersched.db.changelog.authorization.table-auth_role_frontend_scope.xml"/>
+    <include file="structure/v2-authorization/shersched.db.changelog.authorization.table-auth_role_api_scope.xml"/>
+    <include file="structure/v2-authorization/shersched.db.changelog.authorization.table-auth_role_permission.xml"/>
+</databaseChangeLog>
