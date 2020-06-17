@@ -41,6 +41,66 @@
         </createTable>
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_role_permission" columnNames="role_permission_id" constraintName="pk"/>
         <!-- <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_role_permission" columnNames="" constraintName="uk"/> -->
+        <addForeignKeyConstraint
+            baseTableCatalogName="${POSTGRES_CATALOG}"
+            baseTableSchemaName="${POSTGRES_SCHEMA}"
+            baseTableName="auth_role_permission"
+            baseColumnNames="role_id"
+            constraintName="fk_role_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedTableCatalogName="${POSTGRES_CATALOG}"
+            referencedTableSchemaName="${POSTGRES_SCHEMA}"
+            referencedTableName="auth_role"
+            referencedColumnNames="role_id"
+        />
+        <addForeignKeyConstraint
+            baseTableCatalogName="${POSTGRES_CATALOG}"
+            baseTableSchemaName="${POSTGRES_SCHEMA}"
+            baseTableName="auth_role_permission"
+            baseColumnNames="role_api_scope_id"
+            constraintName="fk_role_api_scope_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedTableCatalogName="${POSTGRES_CATALOG}"
+            referencedTableSchemaName="${POSTGRES_SCHEMA}"
+            referencedTableName="auth_role_api_scope"
+            referencedColumnNames="role_api_scope_id"
+        />
+        <addForeignKeyConstraint
+            baseTableCatalogName="${POSTGRES_CATALOG}"
+            baseTableSchemaName="${POSTGRES_SCHEMA}"
+            baseTableName="auth_role_permission"
+            baseColumnNames="role_frontend_scope_id"
+            constraintName="fk_role_frontend_scope_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedTableCatalogName="${POSTGRES_CATALOG}"
+            referencedTableSchemaName="${POSTGRES_SCHEMA}"
+            referencedTableName="auth_role_frontend_scope"
+            referencedColumnNames="role_frontend_scope_id"
+        />
+        <addForeignKeyConstraint
+            baseTableCatalogName="${POSTGRES_CATALOG}"
+            baseTableSchemaName="${POSTGRES_SCHEMA}"
+            baseTableName="auth_role_permission"
+            baseColumnNames="frontend_scope_permission_id"
+            constraintName="fk_frontend_permission_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedTableCatalogName="${POSTGRES_CATALOG}"
+            referencedTableSchemaName="${POSTGRES_SCHEMA}"
+            referencedTableName="auth_frontend_scope_permission"
+            referencedColumnNames="frontend_scope_permission_id"
+        />
         <sql>
         	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.auth_role_permission to ${POSTGRES_APP_USER};
         </sql>

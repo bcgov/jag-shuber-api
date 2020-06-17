@@ -43,6 +43,60 @@
         </createTable>
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_user_role" columnNames="auth_user_id" constraintName="pk"/>
         <!-- <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_user_role" columnNames="" constraintName="uk"/> -->
+        <addForeignKeyConstraint
+            baseTableCatalogName="${POSTGRES_CATALOG}"
+            baseTableSchemaName="${POSTGRES_SCHEMA}"
+            baseTableName="auth_user_role"
+            baseColumnNames="role_id"
+            constraintName="fk_role_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedTableCatalogName="${POSTGRES_CATALOG}"
+            referencedTableSchemaName="${POSTGRES_SCHEMA}"
+            referencedTableName="auth_role"
+            referencedColumnNames="role_id"
+        />
+        <addForeignKeyConstraint
+            baseTableCatalogName="${POSTGRES_CATALOG}"
+            baseTableSchemaName="${POSTGRES_SCHEMA}"
+            baseTableName="auth_user_role"
+            baseColumnNames="location_id"
+            constraintName="fk_location_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedTableCatalogName="${POSTGRES_CATALOG}"
+            referencedTableSchemaName="${POSTGRES_SCHEMA}"
+            referencedTableName="location"
+            referencedColumnNames="location_id"
+        />
+        <addForeignKeyConstraint
+            baseTableCatalogName="${POSTGRES_CATALOG}"
+            baseTableSchemaName="${POSTGRES_SCHEMA}"
+            baseTableName="auth_user"
+            baseColumnNames="user_id"
+            constraintName="fk_user_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedTableCatalogName="${POSTGRES_CATALOG}"
+            referencedTableSchemaName="${POSTGRES_SCHEMA}"
+            referencedTableName="auth_user"
+            referencedColumnNames="user_id"
+        />
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_user" indexName="ix_role">
+            <column name="role_id"/>
+        </createIndex>
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_user" indexName="ix_location">
+            <column name="location_id"/>
+        </createIndex>
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_user" indexName="ix_user">
+            <column name="user_id"/>
+        </createIndex>
         <sql>
         	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.auth_user_role to ${POSTGRES_APP_USER};
         </sql>

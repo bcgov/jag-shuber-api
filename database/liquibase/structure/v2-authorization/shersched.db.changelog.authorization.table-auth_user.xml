@@ -52,6 +52,21 @@
         </createTable>
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_user" columnNames="user_id" constraintName="pk"/>
         <!-- <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_user" columnNames="" constraintName="uk"/> -->
+        <addForeignKeyConstraint
+            baseTableCatalogName="${POSTGRES_CATALOG}"
+            baseTableSchemaName="${POSTGRES_SCHEMA}"
+            baseTableName="auth_user"
+            baseColumnNames="sheriff_id"
+            constraintName="fk_sheriff_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedTableCatalogName="${POSTGRES_CATALOG}"
+            referencedTableSchemaName="${POSTGRES_SCHEMA}"
+            referencedTableName="sheriff"
+            referencedColumnNames="sheriff_id"
+        />
         <sql>
         	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.auth_user to ${POSTGRES_APP_USER};
         </sql>

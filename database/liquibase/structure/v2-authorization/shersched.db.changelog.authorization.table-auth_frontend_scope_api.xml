@@ -32,6 +32,36 @@
         </createTable>
         <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_frontend_scope_api" columnNames="frontend_scope_api_id" constraintName="pk"/>
         <!-- <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_frontend_scope_api" columnNames="" constraintName="uk"/> -->
+        <addForeignKeyConstraint
+            baseTableCatalogName="${POSTGRES_CATALOG}"
+            baseTableSchemaName="${POSTGRES_SCHEMA}"
+            baseTableName="auth_frontend_scope_api"
+            baseColumnNames="frontend_scope_id"
+            constraintName="fk_frontend_scope_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedTableCatalogName="${POSTGRES_CATALOG}"
+            referencedTableSchemaName="${POSTGRES_SCHEMA}"
+            referencedTableName="auth_frontend_scope"
+            referencedColumnNames="frontend_scope_id"
+        />
+        <addForeignKeyConstraint
+            baseTableCatalogName="${POSTGRES_CATALOG}"
+            baseTableSchemaName="${POSTGRES_SCHEMA}"
+            baseTableName="auth_frontend_scope_api"
+            baseColumnNames="api_scope_id"
+            constraintName="fk_api_scope_id"
+            deferrable="false"
+            initiallyDeferred="false"
+            onDelete="NO ACTION"
+            onUpdate="NO ACTION"
+            referencedTableCatalogName="${POSTGRES_CATALOG}"
+            referencedTableSchemaName="${POSTGRES_SCHEMA}"
+            referencedTableName="auth_api_scope"
+            referencedColumnNames="api_scope_id"
+        />
         <sql>
         	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.auth_frontend_scope_api to ${POSTGRES_APP_USER};
         </sql>
