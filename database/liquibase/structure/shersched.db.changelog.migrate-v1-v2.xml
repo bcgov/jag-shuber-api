@@ -31,7 +31,7 @@
     <include file="structure/shersched.db.changelog.migrate-v1-v2.back-up-tables.xml"/>
 
     <!-- Truncate old tables -->
-    <changeSet author="Lucas Lopatka" id="truncate-assignment-type-tables">
+    <changeSet author="Lucas Lopatka" id="v2-truncate-assignment-type-tables">
         <!-- ONLY truncate tables if in DEV or TEST -->
         <!-- These can be truncated, zap assignments and cascade first -->
         <sql>
@@ -53,7 +53,7 @@
     </changeSet>
 
     <!-- Drop old tables -->
-    <changeSet author="Lucas Lopatka" id="drop-assignment-type-tables">
+    <changeSet author="Lucas Lopatka" id="v2-drop-assignment-type-tables">
         <!-- Drop the assignment table first -->
         <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="assignment"/>
         <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="courtroom"/>
@@ -78,7 +78,7 @@
     <include file="structure/shersched.db.changelog.migrate-v1-v2.restore-data.xml"/>
 
     <!-- Drop temp tables -->
-    <changeSet author="Lucas Lopatka" id="drop-assignment-type-temp-tables">
+    <changeSet author="Lucas Lopatka" id="v2-drop-assignment-type-temp-tables">
         <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_assignment"/>
         <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_courtroom"/>
         <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_court_role_code"/>

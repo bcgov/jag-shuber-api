@@ -1,6 +1,6 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-    <changeSet author="Lucas Lopatka" id="">
+    <changeSet author="Lucas Lopatka" id="v2-create-table-jail_role_code">
         <comment></comment>
         <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="jail_role_code" remarks="">
             <column name="jail_role_id" type="uuid">
@@ -47,8 +47,7 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="jail_role_code" columnNames="jail_role_id" constraintName="pk"/>
-        <!-- <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="jail_role_code" columnNames="" constraintName="uk"/> -->
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="jail_role_code" columnNames="jail_role_id" constraintName="pk_jail_role_code"/>
         <addForeignKeyConstraint
             baseTableCatalogName="${POSTGRES_CATALOG}"
             baseTableSchemaName="${POSTGRES_SCHEMA}"
@@ -78,7 +77,7 @@
           <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="jail_role_code"/>
         </rollback>
     </changeSet>
-    <changeSet author="Lucas Lopatka" id="stamp">
+    <changeSet author="Lucas Lopatka" id="v2-create-table-jail_role_code-stamp">
       <sql>
         BEGIN;
         	DROP TRIGGER IF EXISTS stamp ON ${POSTGRES_SCHEMA}.jail_role_code;
