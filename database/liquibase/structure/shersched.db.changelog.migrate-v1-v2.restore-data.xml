@@ -31,7 +31,7 @@
             INSERT INTO ${POSTGRES_SCHEMA}.courtroom
             (
                 courtroom_id,
-                courtroom_cd AS courtroom_code,
+                courtroom_code,
                 courtroom_name,
                 location_id,
                 created_by,
@@ -42,7 +42,7 @@
             )
             SELECT (
                 courtroom_id,
-                courtroom_cd AS courtroom_code,
+                courtroom_cd,
                 courtroom_name,
                 location_id,
                 created_by,
@@ -57,7 +57,7 @@
             INSERT INTO ${POSTGRES_SCHEMA}.court_role_code
             (
                 court_role_code,
-                description AS court_role_name,
+                court_role_name,
                 effective_date,
                 expiry_date,
                 created_by,
@@ -68,7 +68,7 @@
             )
             SELECT (
                 court_role_code,
-                description AS court_role_name,
+                description,
                 effective_date,
                 expiry_date,
                 created_by,
@@ -83,7 +83,7 @@
             INSERT INTO ${POSTGRES_SCHEMA}.jail_role_code
             (
                 jail_role_code,
-                description AS jail_role_name,
+                jail_role_name,
                 effective_date,
                 expiry_date,
                 created_by,
@@ -94,7 +94,7 @@
             )
             SELECT (
                 jail_role_code,
-                description AS jail_role_name,
+                description,
                 effective_date,
                 expiry_date,
                 created_by,
@@ -133,7 +133,7 @@
             INSERT INTO ${POSTGRES_SCHEMA}.other_assign_code
             (
                 other_assign_code,
-                description AS other_assign_name,
+                other_assign_name,
                 effective_date,
                 expiry_date,
                 created_by,
@@ -144,7 +144,7 @@
             )
             SELECT (
                 other_assign_code,
-                description AS other_assign_name,
+                description,
                 effective_date,
                 expiry_date,
                 created_by,
