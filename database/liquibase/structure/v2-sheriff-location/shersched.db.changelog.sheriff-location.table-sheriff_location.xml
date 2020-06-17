@@ -2,7 +2,7 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
     <changeSet author="Lucas Lopatka" id="">
         <comment></comment>
-        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_frontend_scope" remarks="">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff_location" remarks="">
             <column name="sheriff_location_id" type="uuid">
                 <constraints nullable="false"/>
             </column>
@@ -48,8 +48,8 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
-        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_frontend_scope" columnNames="frontend_scope_id" constraintName="pk"/>
-        <!-- <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_frontend_scope" columnNames="" constraintName="uk"/> -->
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff_location" columnNames="sheriff_location_id" constraintName="pk_sheriff_location"/>
+        <!-- <addUniqueConstraint catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff_location" columnNames="" constraintName="uk"/> -->
         <addForeignKeyConstraint
             baseTableCatalogName="${POSTGRES_CATALOG}"
             baseTableSchemaName="${POSTGRES_SCHEMA}"
@@ -81,24 +81,24 @@
             referencedColumnNames="location_id"
         />
         <sql>
-        	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.auth_frontend_scope to ${POSTGRES_APP_USER};
+        	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.sheriff_location to ${POSTGRES_APP_USER};
         </sql>
         <rollback>
-          <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_frontend_scope"/>
+          <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="sheriff_location"/>
         </rollback>
     </changeSet>
     <changeSet author="Lucas Lopatka" id="stamp">
       <sql>
         BEGIN;
-        	DROP TRIGGER IF EXISTS stamp ON ${POSTGRES_SCHEMA}.auth_frontend_scope;
-        	CREATE TRIGGER stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.auth_frontend_scope
+        	DROP TRIGGER IF EXISTS stamp ON ${POSTGRES_SCHEMA}.sheriff_location;
+        	CREATE TRIGGER stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.sheriff_location
 	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
         COMMIT;
       </sql>
       <rollback>
         <sql>
           BEGIN;
-          	DROP TRIGGER IF EXISTS stamp ON ${POSTGRES_SCHEMA}.auth_frontend_scope;
+          	DROP TRIGGER IF EXISTS stamp ON ${POSTGRES_SCHEMA}.sheriff_location;
           COMMIT;
         </sql>
       </rollback>
