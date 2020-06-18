@@ -37,7 +37,7 @@ services:
     ports:
       - 8081:8080
     command:
-      - ./database/migrate-db.sh
+      - ./database/migrate-db.local.sh
   postgres:
     image: registry.access.redhat.com/rhscl/postgresql-10-rhel7:latest
     environment:
