@@ -39,7 +39,9 @@
             <column name="effective_date" type="date" defaultValueComputed="now()">
                 <constraints nullable="true"/>
             </column>
-            <column name="expiry_date" type="true"/>
+            <column name="expiry_date" type="date">
+                <constraints nullable="true"/>
+            </column>
             <column name="created_by" type="varchar(64)">
                 <constraints nullable="true"/>
             </column>
