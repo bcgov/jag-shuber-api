@@ -14,7 +14,7 @@
                 updated_dtm,
                 revision_count
             )
-            SELECT (
+            SELECT
                 assignment_id, title, work_section_code, location_id,
                 courtroom_id, escort_run_id,
                 effective_date,
@@ -24,7 +24,6 @@
                 created_dtm,
                 updated_dtm,
                 revision_count
-            )
             FROM ${POSTGRES_SCHEMA}.temp_assignment
         </sql>
         <sql>
@@ -40,7 +39,7 @@
                 updated_dtm,
                 revision_count
             )
-            SELECT (
+            SELECT
                 courtroom_id,
                 courtroom_cd,
                 courtroom_name,
@@ -50,12 +49,12 @@
                 created_dtm,
                 updated_dtm,
                 revision_count
-            )
             FROM ${POSTGRES_SCHEMA}.temp_courtroom
         </sql>
         <sql>
             INSERT INTO ${POSTGRES_SCHEMA}.court_role_code
             (
+                court_role_id,
                 court_role_code,
                 court_role_name,
                 effective_date,
@@ -66,7 +65,8 @@
                 updated_dtm,
                 revision_count
             )
-            SELECT (
+            SELECT
+                ${POSTGRES_EXT_SCHEMA}.uuid_generate_v4(),
                 court_role_code,
                 description,
                 effective_date,
@@ -76,12 +76,12 @@
                 created_dtm,
                 updated_dtm,
                 revision_count
-            )
             FROM ${POSTGRES_SCHEMA}.temp_court_role_code
         </sql>
         <sql>
             INSERT INTO ${POSTGRES_SCHEMA}.jail_role_code
             (
+                jail_role_id,
                 jail_role_code,
                 jail_role_name,
                 effective_date,
@@ -92,7 +92,8 @@
                 updated_dtm,
                 revision_count
             )
-            SELECT (
+            SELECT
+                ${POSTGRES_EXT_SCHEMA}.uuid_generate_v4(),
                 jail_role_code,
                 description,
                 effective_date,
@@ -102,7 +103,6 @@
                 created_dtm,
                 updated_dtm,
                 revision_count
-            )
             FROM ${POSTGRES_SCHEMA}.temp_jail_role_code
         </sql>
         <sql>
@@ -117,7 +117,7 @@
                 updated_dtm,
                 revision_count
             )
-            SELECT (
+            SELECT
                 escort_run_id,
                 title,
                 location_id,
@@ -126,12 +126,12 @@
                 created_dtm,
                 updated_dtm,
                 revision_count
-            )
             FROM ${POSTGRES_SCHEMA}.temp_escort_run
         </sql>
         <sql>
             INSERT INTO ${POSTGRES_SCHEMA}.other_assign_code
             (
+                other_assign_id,
                 other_assign_code,
                 other_assign_name,
                 effective_date,
@@ -142,7 +142,8 @@
                 updated_dtm,
                 revision_count
             )
-            SELECT (
+            SELECT
+                ${POSTGRES_EXT_SCHEMA}.uuid_generate_v4(),
                 other_assign_code,
                 description,
                 effective_date,
@@ -152,7 +153,6 @@
                 created_dtm,
                 updated_dtm,
                 revision_count
-            )
             FROM ${POSTGRES_SCHEMA}.temp_other_assign_code
         </sql>
     </changeSet>

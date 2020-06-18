@@ -2,7 +2,7 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
     <changeSet author="Lucas Lopatka" id="v2-create-table-auth_frontend_scope_permission">
         <comment></comment>
-        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="frontend_scope_permission" remarks="">
+        <createTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_frontend_scope_permission" remarks="">
             <column name="frontend_scope_permission_id" type="uuid">
                 <constraints nullable="false"/>
             </column>
@@ -36,7 +36,7 @@
                 <constraints nullable="false"/>s
             </column>
         </createTable>
-        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="frontend_scope_permission" columnNames="frontend_scope_permission_id" constraintName="pk_frontend_scope_permission"/>
+        <addPrimaryKey catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_frontend_scope_permission" columnNames="frontend_scope_permission_id" constraintName="pk_frontend_scope_permission"/>
         <addForeignKeyConstraint
             baseTableCatalogName="${POSTGRES_CATALOG}"
             baseTableSchemaName="${POSTGRES_SCHEMA}"
@@ -53,24 +53,24 @@
             referencedColumnNames="frontend_scope_id"
         />
         <sql>
-        	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.frontend_scope_permission to ${POSTGRES_APP_USER};
+        	GRANT SELECT, INSERT, UPDATE, DELETE ON  ${POSTGRES_SCHEMA}.auth_frontend_scope_permission to ${POSTGRES_APP_USER};
         </sql>
         <rollback>
-          <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="frontend_scope_permission"/>
+          <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_frontend_scope_permission"/>
         </rollback>
     </changeSet>
     <changeSet author="Lucas Lopatka" id="v2-create-table-auth_frontend_scope_permission-stamp">
       <sql>
         BEGIN;
-        	DROP TRIGGER IF EXISTS stamp ON ${POSTGRES_SCHEMA}.frontend_scope_permission;
-        	CREATE TRIGGER stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.frontend_scope_permission
+        	DROP TRIGGER IF EXISTS stamp ON ${POSTGRES_SCHEMA}.auth_frontend_scope_permission;
+        	CREATE TRIGGER stamp BEFORE INSERT OR UPDATE ON ${POSTGRES_SCHEMA}.auth_frontend_scope_permission
 	            FOR EACH ROW EXECUTE PROCEDURE ${POSTGRES_SCHEMA}.tab_stamp();
         COMMIT;
       </sql>
       <rollback>
         <sql>
           BEGIN;
-          	DROP TRIGGER IF EXISTS stamp ON ${POSTGRES_SCHEMA}.frontend_scope_permission;
+          	DROP TRIGGER IF EXISTS stamp ON ${POSTGRES_SCHEMA}.auth_frontend_scope_permission;
           COMMIT;
         </sql>
       </rollback>
