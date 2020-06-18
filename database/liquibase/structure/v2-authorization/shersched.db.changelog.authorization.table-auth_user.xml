@@ -9,10 +9,10 @@
             <!-- Siteminder integration -->
             <column name="user_auth_id" type="varchar(100)">
                 <!-- Used for IDIR -->
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="siteminder_id" type="varchar(100)">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
                 <!-- Can be used to map Super User accounts -->
             </column>
             <!-- Siteminder account display name -->
