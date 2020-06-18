@@ -201,9 +201,11 @@ var ExtendedClient = /** @class */ (function (_super) {
             });
         });
     };
-    ExtendedClient.prototype.GetSheriffs = function (locationId) {
+    ExtendedClient.prototype.GetSheriffs = function (locationId, startDate, endDate) {
         if (locationId === void 0) { locationId = ""; }
-        return _super.prototype.GetSheriffs.call(this, locationId);
+        var startMoment = moment_1.default(startDate);
+        var endMoment = endDate ? moment_1.default(endDate) : moment_1.default(startMoment);
+        return _super.prototype.GetSheriffs.call(this, locationId, startMoment.toISOString(), endMoment.toISOString());
     };
     ExtendedClient.prototype.GetSheriffLocations = function (locationId) {
         if (locationId === void 0) { locationId = ""; }

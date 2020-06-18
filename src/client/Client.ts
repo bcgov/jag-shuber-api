@@ -714,9 +714,11 @@ export default class Client {
             return response;
         });
     }
-    public async GetSheriffs( locationId:string ):Promise<any>{
+    public async GetSheriffs( locationId:string , startDate:string , endDate:string ):Promise<any>{
         const params = {
-            "locationId":locationId
+            "locationId":locationId,
+            "startDate":startDate,
+            "endDate":endDate
         };
         return this.tryRequest<any>(async () => {
             const response: superAgent.Response = await this.agent.get(`/sheriffs`)

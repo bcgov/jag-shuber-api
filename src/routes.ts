@@ -60,6 +60,28 @@ import { GenderCodesController } from './controllers/GenderCodesController';
 import { koaAuthentication } from './authentication';
 
 const models: TsoaRoute.Models = {
+    "Location": {
+        "properties": {
+            "id": { "dataType": "string" },
+            "code": { "dataType": "string", "required": true },
+            "name": { "dataType": "string", "required": true },
+            "parentLocationId": { "dataType": "string" },
+            "regionId": { "dataType": "string", "required": true },
+        },
+    },
+    "SheriffLocation": {
+        "properties": {
+            "id": { "dataType": "string" },
+            "sheriffId": { "dataType": "string", "required": true },
+            "locationId": { "dataType": "string", "required": true },
+            "location": { "ref": "Location" },
+            "startDate": { "dataType": "string", "required": true },
+            "endDate": { "dataType": "string" },
+            "startTime": { "dataType": "string" },
+            "endTime": { "dataType": "string" },
+            "isPartial": { "dataType": "double", "required": true },
+        },
+    },
     "User": {
         "properties": {
             "id": { "dataType": "string" },
@@ -88,7 +110,9 @@ const models: TsoaRoute.Models = {
             "badgeNo": { "dataType": "string", "required": true },
             "imageUrl": { "dataType": "string" },
             "homeLocationId": { "dataType": "string", "required": true },
+            "homeLocation": { "ref": "Location" },
             "currentLocationId": { "dataType": "string" },
+            "currentLocation": { "ref": "SheriffLocation" },
             "rankCode": { "dataType": "string", "required": true },
             "alias": { "dataType": "string" },
             "genderCode": { "dataType": "string" },
@@ -247,7 +271,10 @@ const models: TsoaRoute.Models = {
             "locationId": { "dataType": "string", "required": true },
             "courtroomId": { "dataType": "string" },
             "courtRoleId": { "dataType": "string" },
+            "jailRoleId": { "dataType": "string" },
             "escortRunId": { "dataType": "string" },
+            "otherAssignId": { "dataType": "string" },
+            "courtRoleCode": { "dataType": "string" },
             "jailRoleCode": { "dataType": "string" },
             "otherAssignCode": { "dataType": "string" },
             "dutyRecurrences": { "dataType": "array", "array": { "ref": "DutyRecurrence" } },
@@ -261,15 +288,6 @@ const models: TsoaRoute.Models = {
             "code": { "dataType": "string" },
             "name": { "dataType": "string", "required": true },
             "location": { "dataType": "any" },
-        },
-    },
-    "Location": {
-        "properties": {
-            "id": { "dataType": "string" },
-            "code": { "dataType": "string", "required": true },
-            "name": { "dataType": "string", "required": true },
-            "parentLocationId": { "dataType": "string" },
-            "regionId": { "dataType": "string", "required": true },
         },
     },
     "Courtroom": {
@@ -415,18 +433,6 @@ const models: TsoaRoute.Models = {
         "properties": {
             "locationId": { "dataType": "string", "required": true },
             "date": { "dataType": "string" },
-        },
-    },
-    "SheriffLocation": {
-        "properties": {
-            "id": { "dataType": "string" },
-            "sheriffId": { "dataType": "string", "required": true },
-            "locationId": { "dataType": "string", "required": true },
-            "startDate": { "dataType": "string", "required": true },
-            "endDate": { "dataType": "string" },
-            "startTime": { "dataType": "string" },
-            "endTime": { "dataType": "string" },
-            "isPartial": { "dataType": "double", "required": true },
         },
     },
     "Leave": {
@@ -2714,6 +2720,8 @@ export function RegisterRoutes(router: any) {
         async (context, next) => {
             const args = {
                 locationId: { "in": "query", "name": "locationId", "dataType": "string" },
+                startDate: { "in": "query", "name": "startDate", "dataType": "string" },
+                endDate: { "in": "query", "name": "endDate", "dataType": "string" },
             };
 
             let validatedArgs: any[] = [];

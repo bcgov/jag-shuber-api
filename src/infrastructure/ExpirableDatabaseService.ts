@@ -1,6 +1,6 @@
 import moment from 'moment';
 import { PostgresInsert, PostgresSelect, PostgresUpdate, Expression } from 'squel';
-import { DatabaseService } from "./DatabaseService";
+import { DatabaseService } from './DatabaseService';
 import { AutoWired } from 'typescript-ioc';
 
 export interface EffectiveQueryOptions {
@@ -28,33 +28,14 @@ export default abstract class ExpirableDatabaseService<T> extends DatabaseServic
         return query;
     }
 
-    public getActiveWhereClause(options: EffectiveQueryOptions = {}) {
-        const {
-            startDate = moment().toISOString(),
-            fieldAlias = undefined,
-            expiryField =  this.expiryField
-        } = options;
-
-        const expiryFieldStr = fieldAlias ? `${fieldAlias}.${expiryField}` : expiryField;
-
-        // Add on the where for the effective date
-        let clause = this.squel.expr()
-            .and(`DATE('${startDate}') <= ${expiryFieldStr}`);
-
-        return clause;
-    }
-
     public getEffectiveWhereClause(options: EffectiveQueryOptions = {}) {
         const {
-            startDate = moment().toISOString(),
+            startDate = moment().startOf('day').toISOString(),
+            endDate = moment().endOf('day').toISOString(),
             includeExpired = false,
             fieldAlias = undefined,
             effectiveField = this.effectiveField,
             expiryField =  this.expiryField
-        } = options;
-
-        const {
-            endDate = startDate
         } = options;
 
         let clause = this.squel.expr();

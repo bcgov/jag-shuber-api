@@ -30,8 +30,8 @@ exports.DEV_USER_AUTH_ID = 'TESTUSR'; // Test User Auth ID (substitute for IDIR)
 // The Role to Assign to Test User, only valid if using the configured DEV_USER_AUTH_ID user account.
 // Use this to test different roles that may have been entered into the database.
 // The field below refers to the DEV_USER_TEST_ROLES role code or the desired role.
-// export const DEV_USER_TEST_ROLES = ['SYSADMIN'];
-exports.DEV_USER_TEST_ROLES = ['ADMIN']; // TODO: Build these in! TESTASSIGN | TESTAUTH | TESTLEAVES
+// export const DEV_USER_TEST_ROLES = ['MIN'];
+exports.DEV_USER_TEST_ROLES = ['SYSADMIN']; // TODO: Build these in! TESTASSIGN | TESTAUTH | TESTLEAVES
 exports.USER_DEFAULT_ROLES = []; // Set the DEFAULT USER ROLES - THESE ROLES ARE ASSIGNED TO ALL USERS THAT ARE PROVISIONED SYSTEM ACCESS!
 /**
  * System user display name. Just a value to use when the application updates a database record, and the action is not

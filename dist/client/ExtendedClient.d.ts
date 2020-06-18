@@ -18,7 +18,7 @@ export default class ExtendedClient extends Client {
     GetRegionById(id: string): Promise<Region>;
     GetLocationById(id: string): Promise<Location>;
     GetSheriffById(id: string): Promise<Sheriff>;
-    GetSheriffs(locationId?: string): Promise<Sheriff[]>;
+    GetSheriffs(locationId?: string, startDate?: DateType, endDate?: DateType): Promise<Sheriff[]>;
     GetSheriffLocations(locationId?: string): Promise<SheriffLocation[]>;
     GetCourtroomById(id: string): Promise<Courtroom>;
     GetCourtrooms(locationId?: string): Promise<Courtroom[]>;
