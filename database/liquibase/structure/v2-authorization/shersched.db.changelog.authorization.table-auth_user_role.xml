@@ -14,7 +14,7 @@
                 <constraints nullable="false"/>
             </column>
             <!-- TODO: Remove this? -->
-            <column name="location_id" type="">
+            <column name="location_id" type="uuid">
                 <constraints nullable="true"/>
             </column>
             <!-- Common, Dates -->
@@ -87,13 +87,13 @@
             referencedTableName="auth_user"
             referencedColumnNames="user_id"
         />
-        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_user" indexName="ix_role">
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_user_role" indexName="ix_role">
             <column name="role_id"/>
         </createIndex>
-        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_user" indexName="ix_location">
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_user_role" indexName="ix_location">
             <column name="location_id"/>
         </createIndex>
-        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_user" indexName="ix_user">
+        <createIndex catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="auth_user_role" indexName="ix_user">
             <column name="user_id"/>
         </createIndex>
         <sql>
