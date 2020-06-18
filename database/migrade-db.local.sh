@@ -8,29 +8,27 @@ export POSTGRES_SERVICE_PORT=5432
 
 # Postgres admin user is 'postgres'
 export PG_ADMIN_USER="postgres"
-export PG_DEFAULT_SCHEMA="public"
 
 echo "pwd: `pwd`"
 echo "env: `env | grep POSTGRES_`"
 echo "jdbc url: jdbc:postgresql://$PG_HOST:$POSTGRES_SERVICE_PORT/appdb"
-echo "admin user: $PG_ADMIN_USER | admin password: $PGPASSWORD"
-echo "app user: $PGUSER | app password: $PGPASSWORD"
+echo "admin user: $PG_ADMIN_USER | admin password: $PG_ADMIN_PASSWORD"
+echo "app user: $PG_USER | app password: $PG_PASSWORD"
 
 cd "${SCRIPTDIR}/liquibase/"
 
 # --url="jdbc:postgresql://$PG_HOST:$POSTGRES_SERVICE_PORT/$PG_DATABASE" \
 
-# TODO: WE NEED AN ENVIRONMENT VARIABLE FOR THE PG ADMIN PASSWORD
 liquibase --driver=org.postgresql.Driver \
          --contexts="$LIQUIBASE_CONTEXTS" \
          --changeLogFile=shersched.db.changelog.MASTER.xml \
          --url="jdbc:postgresql://$PG_HOST:$POSTGRES_SERVICE_PORT/appdb" \
          --username=$PG_ADMIN_USER \
-         --password=REPLACE_ME_WITH_THE_PW \
+         --password=$PG_ADMIN_PASSWORD \
          --defaultSchemaName=$PG_DEFAULT_SCHEMA \
          --logLevel=info update \
-         -DPOSTGRES_APP_USER=$PGUSER \
-         -DPOSTGRES_APP_PASS=$PGPASSWORD \
+         -DPOSTGRES_APP_USER=$PG_USER \
+         -DPOSTGRES_APP_PASS=$PG_PASSWORD \
          -DPOSTGRES_CATALOG=appdb \
          -DPOSTGRES_SCHEMA=shersched \
          -DPOSTGRES_EXT_SCHEMA=$POSTGRES_EXT_SCHEMA
