@@ -21,36 +21,36 @@
 
             <!-- New FK fields -->
             <column name="courtroom_id" type="uuid">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="court_role_id" type="uuid">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="jail_role_id" type="uuid">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="escort_run_id" type="uuid">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="other_assign_id" type="uuid">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
 
             <column name="effective_date" type="date" defaultValueComputed="now()">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
-            <column name="expiry_date" type="date"/>
+            <column name="expiry_date" type="true"/>
             <column name="created_by" type="varchar(64)">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="updated_by" type="varchar(64)">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="created_dtm" type="timestamp with time zone">
                 <constraints nullable="false"/>
             </column>
             <column name="updated_dtm" type="timestamp with time zone">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <column name="revision_count" type="numeric(10)">
                 <constraints nullable="false"/>
