@@ -10,7 +10,10 @@
             <column name="location_id" type="uuid">
                 <constraints nullable="true"/>
             </column>
-            <column name="escort_role_code" type="varchar(64)">
+            <column name="escort_run_code" type="varchar(64)">
+                <constraints nullable="true"/>
+            </column>
+            <column name="escort_run_name" type="varchar(128)">
                 <constraints nullable="true"/>
             </column>
             <!-- TODO: Just for backward compatibility, remove this later -->
@@ -18,9 +21,6 @@
                 <constraints nullable="true"/>
             </column>
             <!-- :ENDTODO -->
-            <column name="escort_run_name" type="varchar(128)">
-                <constraints nullable="true"/>
-            </column>
             <column name="description" type="varchar(200)">
                 <constraints nullable="true"/>
             </column>

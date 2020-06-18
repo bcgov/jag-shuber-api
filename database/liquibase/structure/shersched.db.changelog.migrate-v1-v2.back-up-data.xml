@@ -14,7 +14,7 @@
                 updated_dtm,
                 revision_count
             )
-            SELECT (
+            SELECT
                 assignment_id, title, work_section_code, location_id,
                 courtroom_id, court_role_code, jail_role_code, other_assign_code, escort_run_id,
                 effective_date,
@@ -24,11 +24,10 @@
                 created_dtm,
                 updated_dtm,
                 revision_count
-            )
             FROM ${POSTGRES_SCHEMA}.assignment
         </sql>
         <sql>
-            INSERT_INTO ${POSTGRES_SCHEMA}.temp_courtroom
+            INSERT INTO ${POSTGRES_SCHEMA}.temp_courtroom
             (
 
                 courtroom_id,
@@ -41,7 +40,7 @@
                 updated_dtm,
                 revision_count
             )
-            SELECT (
+            SELECT
                 courtroom_id,
                 courtroom_cd,
                 courtroom_name,
@@ -51,11 +50,10 @@
                 created_dtm,
                 updated_dtm,
                 revision_count
-            )
             FROM ${POSTGRES_SCHEMA}.courtroom
         </sql>
         <sql>
-            INSERT_INTO ${POSTGRES_SCHEMA}.temp_court_role_code
+            INSERT INTO ${POSTGRES_SCHEMA}.temp_court_role_code
             (
                 court_role_code,
                 description,
@@ -67,7 +65,7 @@
                 updated_dtm,
                 revision_count
             )
-            SELECT (
+            SELECT
                 court_role_code,
                 description,
                 effective_date,
@@ -77,11 +75,10 @@
                 created_dtm,
                 updated_dtm,
                 revision_count
-            )
             FROM ${POSTGRES_SCHEMA}.court_role_code
         </sql>
         <sql>
-            INSERT_INTO ${POSTGRES_SCHEMA}.temp_jail_role_code
+            INSERT INTO ${POSTGRES_SCHEMA}.temp_jail_role_code
             (
                 jail_role_code,
                 description,
@@ -93,7 +90,7 @@
                 updated_dtm,
                 revision_count
             )
-            SELECT (
+            SELECT
                 jail_role_code,
                 description,
                 effective_date,
@@ -103,11 +100,10 @@
                 created_dtm,
                 updated_dtm,
                 revision_count
-            )
             FROM ${POSTGRES_SCHEMA}.jail_role_code
         </sql>
         <sql>
-            INSERT_INTO ${POSTGRES_SCHEMA}.temp_escort_run
+            INSERT INTO ${POSTGRES_SCHEMA}.temp_escort_run
             (
                 escort_run_id,
                 title,
@@ -118,7 +114,7 @@
                 updated_dtm,
                 revision_count
             )
-            SELECT (
+            SELECT
                 escort_run_id,
                 title,
                 location_id,
@@ -127,11 +123,10 @@
                 created_dtm,
                 updated_dtm,
                 revision_count
-            )
             FROM ${POSTGRES_SCHEMA}.escort_run
         </sql>
         <sql>
-            INSERT_INTO ${POSTGRES_SCHEMA}.temp_other_assign_code
+            INSERT INTO ${POSTGRES_SCHEMA}.temp_other_assign_code
             (
                 other_assign_code,
                 description,
@@ -143,7 +138,7 @@
                 updated_dtm,
                 revision_count
             )
-            SELECT (
+            SELECT
                 other_assign_code,
                 description,
                 effective_date,
@@ -153,7 +148,6 @@
                 created_dtm,
                 updated_dtm,
                 revision_count
-            )
             FROM ${POSTGRES_SCHEMA}.other_assign_code
         </sql>
     </changeSet>

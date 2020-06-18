@@ -7,11 +7,11 @@
                 <constraints nullable="false"/>
             </column>
             <!-- Siteminder integration -->
-            <column name="user_auth_id" type="">
+            <column name="user_auth_id" type="varchar(100)">
                 <!-- Used for IDIR -->
                 <constraints nullable="false"/>
             </column>
-            <column name="siteminder_id" type="">
+            <column name="siteminder_id" type="varchar(100)">
                 <constraints nullable="false"/>
                 <!-- Can be used to map Super User accounts -->
             </column>
