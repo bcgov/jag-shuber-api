@@ -4,12 +4,23 @@ services:
     image: api:latest
     environment:
       - API_DATABASE_SCHEMA=${API_DATABASE_SCHEMA}
+      # TODO: There are like two sets of these...
       - PGHOST=${PGHOST}
+      - PGDATABASE=${PGDATABASE}
       - PGUSER=${PGUSER}
       - PGPASSWORD=${PGPASSWORD}
-      - JWT_SECRET=${JWT_SECRET}
-      - PGDATABASE=${PGDATABASE}
+      # More stuff
+      # - PG_HOST=${PG_HOST}
+      # - PG_DATABASE=${PG_DATABASE}
+      - PG_DATABASE=${PGDATABASE}
+      - PG_USER=${PG_USER}
+      - PG_PASSWORD=${PG_PASSWORD}
+      # - PG_ADMIN_PASSWORD=${PG_ADMIN_PASSWORD}
+      - PG_ADMIN_PASSWORD=${POSTGRESQL_ADMIN_PASSWORD}
+      - PG_DEFAULT_SCHEMA=${PG_DEFAULT_SCHEMA}
+      # Continue
       - POSTGRES_EXT_SCHEMA=${POSTGRES_EXT_SCHEMA}
+      - JWT_SECRET=${JWT_SECRET}
       - SYS_PRODUCTION_MODE=${SYS_PRODUCTION_MODE}
       - SYS_GRANT_ALL_SCOPES=${SYS_GRANT_ALL_SCOPES}
       - SYS_USE_SITEMINDER=${SYS_USE_SITEMINDER}
@@ -21,9 +32,12 @@ services:
       - SYS_DEFAULT_LOCATION=${SYS_DEFAULT_LOCATION}
     networks:
       - sheriff-scheduling
+    depends_on:
+      - postgres
     ports:
       - 8081:8080
-
+    command:
+      - ./database/migrate-db.sh
   postgres:
     image: registry.access.redhat.com/rhscl/postgresql-10-rhel7:latest
     environment:
