@@ -32,7 +32,7 @@ usage() {
   restore - Restore a database backup into the container.
             Place the backup in $(pwd)/tmp.
             Create the folder if it does not exist.
-            
+
             Example:
               $0 restore postgres-appdb_2020-03-06_13-42-56.sql.gz
 
@@ -90,12 +90,19 @@ configureEnvironment () {
 
   # api
   export API_DATABASE_SCHEMA=${API_DATABASE_SCHEMA:-shersched}
+  export POSTGRES_EXT_SCHEMA=${POSTGRES_EXT_SCHEMA:-extensions}
+
+  export PGDATABASE=${PGDATABASE:-${POSTGRESQL_DATABASE}}
   export PGHOST=${PGHOST:-postgres}
   export PGUSER=${PGUSER:-shersched}
   export PGPASSWORD=${PGPASSWORD:-n05dmkFjio1GCUVY}
+
+  export PG_HOST=${PG_HOST:-postgres}
+  export PG_USER=${PG_USER:-shersched}
+  export PG_PASSWORD=${PG_PASSWORD:-n05dmkFjio1GCUVY}
+
   export JWT_SECRET=${JWT_SECRET:-bL8B0eUfB3hF3RGvdS7jEX0qPEodE1tHfB0iCYHkUlXDvrm60daAaMD1GfsaQvuYmbtXX8jtvPOx78NeAfRNQdE4lrHhiT03LNNw}
-  export PGDATABASE=${PGDATABASE:-${POSTGRESQL_DATABASE}}
-  export POSTGRES_EXT_SCHEMA=${POSTGRES_EXT_SCHEMA:-extensions}
+
   export SYS_PRODUCTION_MODE=${SYS_PRODUCTION_MODE:-true}
   export SYS_GRANT_ALL_SCOPES=${SYS_GRANT_ALL_SCOPES:-false}
   export SYS_USE_SITEMINDER=${SYS_USE_SITEMINDER:-true}
@@ -176,13 +183,13 @@ restoreDatabase() {
 
   deleteVolumes
   docker-compose up -d postgres
-  
+
   # Wait for the database container to start
   sleep 10
 
   docker exec sheriff-scheduling_postgres_1 psql -ac "CREATE USER shersched WITH PASSWORD 'n05dmkFjio1GCUVY';"
   docker exec sheriff-scheduling_postgres_1 psql -ac "GRANT ALL ON DATABASE ${POSTGRESQL_DATABASE} TO shersched;"
-  
+
   cmd="gunzip -c /tmp2/${backupFileName} | psql -v -x -h 127.0.0.1 -d ${POSTGRESQL_DATABASE}"
   docker exec sheriff-scheduling_postgres_1 bash -c "${cmd}"
 

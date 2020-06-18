@@ -23,7 +23,7 @@ ENV PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$JAVA_HOME
 # Install liquibase, postgres driver
 ENV LIQUIBASE_ROOT="$HOME/liquibase"
 RUN mkdir $LIQUIBASE_ROOT && \
-    curl -SLo liquibase.tar.gz https://github.com/liquibase/liquibase/releases/download/liquibase-parent-3.5.3/liquibase-3.5.3-bin.tar.gz && \  
+    curl -SLo liquibase.tar.gz https://github.com/liquibase/liquibase/releases/download/liquibase-parent-3.5.3/liquibase-3.5.3-bin.tar.gz && \
     tar -xzf liquibase.tar.gz -C $LIQUIBASE_ROOT && \
     chmod 755 $LIQUIBASE_ROOT/liquibase && \
     curl -SLO https://jdbc.postgresql.org/download/postgresql-42.2.1.jre7.jar && \
