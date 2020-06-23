@@ -99,7 +99,7 @@
                             "failurePolicy": "Abort",
                             "execNewPod": {
                                 "command": [
-                                    "/opt/app-root/src/database/migrate-db.sh"
+                                    "/opt/app-root/src/database/migrate-db.sh > /opt/app-root/src/database/migrate.log 2>&1"
                                 ],
                                 "env": [{
                                         "name": "LIQUIBASE_CONTEXTS",
@@ -143,7 +143,7 @@
                                     {
                                         "name": "API_DATABASE_SCHEMA",
                                         "value": "${API_DATABASE_SCHEMA}"
-                                    }, 
+                                    },
                                     {
                                         "name": "POSTGRES_EXT_SCHEMA",
                                         "value": "${DATABASE_EXTENSIONS_SCHEMA}"
@@ -236,7 +236,7 @@
                                     "name": "POSTGRES_EXT_SCHEMA",
                                     "value": "${DATABASE_EXTENSIONS_SCHEMA}"
                                 }
-                                
+
                             ],
                             "resources": {
                                 "limits": {

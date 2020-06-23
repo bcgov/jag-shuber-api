@@ -79,7 +79,7 @@
                             "failurePolicy": "Retry",
                             "execNewPod": {
                                 "command": [
-                                    "/opt/app-root/src/database/migrate-db.sh"
+                                    "/opt/app-root/src/database/migrate-db.sh > /opt/app-root/src/database/migrate.log 2>&1"
                                 ],
                                 "env": [{
                                         "name": "LIQUIBASE_CONTEXTS",
