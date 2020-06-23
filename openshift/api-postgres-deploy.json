@@ -251,6 +251,15 @@
                                         }
                                     },
                                     {
+                                        "name": "PGADMINPASSWORD",
+                                        "valueFrom": {
+                                            "secretKeyRef": {
+                                                "name": "${DATABASE_SERVICE_NAME}",
+                                                "key": "database-admin-password"
+                                            }
+                                        }
+                                    },
+                                    {
                                         "name": "JWT_SECRET",
                                         "valueFrom": {
                                             "secretKeyRef": {

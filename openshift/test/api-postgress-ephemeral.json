@@ -200,6 +200,15 @@
                                     }
                                 },
                                 {
+                                    "name": "PGADMINPASSWORD",
+                                    "valueFrom": {
+                                        "secretKeyRef": {
+                                            "name": "${DATABASE_SERVICE_NAME}",
+                                            "key": "database-admin-password"
+                                        }
+                                    }
+                                },
+                                {
                                     "name": "PGDATABASE",
                                     "valueFrom": {
                                         "secretKeyRef": {
