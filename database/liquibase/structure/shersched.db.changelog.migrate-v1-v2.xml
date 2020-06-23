@@ -77,6 +77,15 @@
     <!-- Map data -->
     <include file="structure/shersched.db.changelog.migrate-v1-v2.restore-data.xml"/>
 
+    <!-- Add sort order column to leave_sub_code table -->
+    <changeSet author="Lucas Lopatka" id="v2-add-sort_order-column-to-leave_sub_code">
+      <addColumn catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="leave_sub_code">
+        <column name="sort_order" type="numeric(3)">
+            <constraints nullable="true"/>
+        </column>
+      </addColumn>
+    </changeSet>
+
     <!-- Drop temp tables -->
     <changeSet author="Lucas Lopatka" id="v2-drop-assignment-type-temp-tables">
         <dropTable catalogName="${POSTGRES_CATALOG}" schemaName="${POSTGRES_SCHEMA}" tableName="temp_assignment"/>
