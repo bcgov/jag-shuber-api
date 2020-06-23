@@ -84,17 +84,17 @@
                             "failurePolicy": "Abort",
                             "execNewPod": {
                                 "command": [
-                                    "/opt/app-root/src/database/migrate-db.sh"
+                                    "/opt/app-root/src/database/migrate-db.sh > /opt/app-root/src/database/migrate.log 2>&1"
                                 ],
                                 "env": [
                                     {
                                         "name" : "LIQUIBASE_CONTEXTS",
                                         "value": "${API_DATA_CONTEXTS}"
-                                    },                              
+                                    },
                                     {
                                         "name" : "PG_DATABASE",
                                         "value": "${POSTGRESQL_DATABASE}"
-                                    },                                    
+                                    },
                                     {
                                         "name": "PG_ADMIN_PASSWORD",
                                         "valueFrom": {
@@ -288,7 +288,7 @@
                                     },
                                     "periodSeconds": 10,
                                     "successThreshold": 1,
-                                    "timeoutSeconds": 1                                    
+                                    "timeoutSeconds": 1
                                 },
                                 "readinessProbe":{
                                     "failureThreshold":3,
@@ -299,7 +299,7 @@
                                     },
                                     "periodSeconds": 10,
                                     "successThreshold": 1,
-                                    "timeoutSeconds": 1                                    
+                                    "timeoutSeconds": 1
                                 },
                                 "terminationMessagePath": "/dev/termination-log",
                                 "terminationMessagePolicy": "File",
@@ -695,7 +695,7 @@
             "generate": "expression",
             "from": "[a-zA-Z0-9]{100}",
             "required": true
-        },        
+        },
         {
             "name": "API_MEMORY_LIMIT",
             "displayName": "API Memory Limit",
