@@ -41,7 +41,7 @@
                 revision_count
             )
             SELECT
-                ${POSTGRES_EXT_SCHEMA}.uuid_generate_v4(),
+                uuid_generate_v4(),
                 court_role_code,
                 description,
                 effective_date,
@@ -68,7 +68,7 @@
                 revision_count
             )
             SELECT
-                ${POSTGRES_EXT_SCHEMA}.uuid_generate_v4(),
+                uuid_generate_v4(),
                 jail_role_code,
                 description,
                 effective_date,
@@ -118,7 +118,7 @@
                 revision_count
             )
             SELECT
-                ${POSTGRES_EXT_SCHEMA}.uuid_generate_v4(),
+                uuid_generate_v4(),
                 other_assign_code,
                 description,
                 effective_date,
