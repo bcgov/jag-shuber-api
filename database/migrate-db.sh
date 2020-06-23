@@ -13,7 +13,7 @@ export PG_DEFAULT_SCHEMA="public"
 echo "pwd: `pwd`"
 echo "env: `env | grep POSTGRES_`"
 echo "jdbc url: jdbc:postgresql://$PG_HOST:$POSTGRES_SERVICE_PORT/appdb"
-echo "admin user: $PG_ADMIN_USER | admin password: $PGPASSWORD"
+echo "admin user: $PG_ADMIN_USER | admin password: $PGADMINPASSWORD"
 echo "app user: $PGUSER | app password: $PGPASSWORD"
 
 cd "${SCRIPTDIR}/liquibase/"
