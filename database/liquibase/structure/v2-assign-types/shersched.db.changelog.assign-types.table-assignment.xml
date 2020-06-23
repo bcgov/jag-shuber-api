@@ -29,7 +29,7 @@
                 <constraints nullable="true"/>
             </column>
             <column name="other_assign_id" type="uuid">
-                <constraints nullable="false"/>
+                <constraints nullable="true"/>
             </column>
             <!-- Common, Dates -->
             <column name="effective_date" type="date">
