@@ -27,10 +27,6 @@ export class AssignmentService extends ExpirableDatabaseService<Assignment> {
         jail_role_id: 'jailRoleId',
         other_assign_id: 'otherAssignId',
         escort_run_id: 'escortRunId',
-        court_role_code: 'courtRoleCode', // TODO: Phase these out? They don't need to be here any more, we're using IDs
-        jail_role_code: 'jailRoleCode', // TODO: Phase these out? They don't need to be here any more, we're using IDs
-        other_assign_code: 'otherAssignCode', // TODO: Phase these out? They don't need to be here any more, we're using IDs
-        work_section_code: 'workSectionId',
         effective_date: 'startDateTime',
         expiry_date: 'endDateTime'
     };
